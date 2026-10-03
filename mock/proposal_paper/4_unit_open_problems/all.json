@@ -1,0 +1,2615 @@
+{
+  "model": "solar-pro2",
+  "generated_at": "2026-10-03T02:05:57+00:00",
+  "problems": [
+    {
+      "problem_id": "2109.13916v5:2.1:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "2.1 Black Swan and Tail Risk Robustness",
+      "parent_section": "2 Robustness",
+      "section_file": "2.1 Black Swan and Tail Risk Robustness.json",
+      "title": "Black Swan and Tail Risk Robustness",
+      "summary": "Developing ML systems that can withstand rare, high-impact events (Black Swans) and long-tail risks, which current systems struggle with despite extensive training data, remains an open challenge.",
+      "keywords": [
+        "black swan events",
+        "tail risk robustness",
+        "long-tail events",
+        "ml safety"
+      ],
+      "quote": "Long-tail robustness is unusually challenging today and may become even more challenging. Long-tail robustness also requires more than human-level robustness; the 2008 financial crisis and COVID-19 have shown that even groups of humans have great difficulty mitigating and overcoming these rare but extraordinarily impactful long tail events.",
+      "page": 3
+    },
+    {
+      "problem_id": "2109.13916v5:2.1:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "2.1 Black Swan and Tail Risk Robustness",
+      "parent_section": "2 Robustness",
+      "section_file": "2.1 Black Swan and Tail Risk Robustness.json",
+      "title": "Benchmarking Extreme Distribution Shifts",
+      "summary": "Creating benchmarks that stress-test ML systems with extreme, human-challenging distribution shifts and long-tail events, including artificial simulated data capturing structural properties of real-world tail risks, is needed.",
+      "keywords": [
+        "distribution shifts",
+        "benchmarks",
+        "long-tail events",
+        "simulated data"
+      ],
+      "quote": "Researchers could create more environments and benchmarks to stress-test systems, find their breaking points, and determine whether they will function appropriately in potential future scenarios. These benchmarks could include new, unusual, and extreme distribution shifts and long tail events, especially ones that are challenging even for humans.",
+      "page": 3
+    },
+    {
+      "problem_id": "2109.13916v5:2.1:3",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "2.1 Black Swan and Tail Risk Robustness",
+      "parent_section": "2 Robustness",
+      "section_file": "2.1 Black Swan and Tail Risk Robustness.json",
+      "title": "Unusual Data Sources for Robustness",
+      "summary": "Generating highly unusual but helpful data sources through new augmentation techniques or simulated data to improve ML system robustness to rare events is an open research direction.",
+      "keywords": [
+        "data augmentation",
+        "simulated data",
+        "unusual data",
+        "robustness"
+      ],
+      "quote": "The performance of many ML systems is currently largely shaped by data and parameter count, so future research could work on creating highly unusual but helpful data sources. The more experience a system has with unusual future situations, even ones not well represented in typical training data, the more robust it can be.",
+      "page": 4
+    },
+    {
+      "problem_id": "2109.13916v5:2.2:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "2.2 Adversarial Robustness",
+      "parent_section": "2 Robustness",
+      "section_file": "2.2 Adversarial Robustness.json",
+      "title": "Broader Adversarial Robustness Definitions",
+      "summary": "Current research focuses on l-adversarial robustness with small p-norm constraints, but broader definitions are needed to address perceptible attacks or unknown attack specifications.",
+      "keywords": [
+        "adversarial robustness",
+        "robustness definitions",
+        "perceptible attacks",
+        "unknown specifications"
+      ],
+      "quote": "Current research largely focuses on the problem of 'l adversarial robustness,' [125, 30] where an adversary attempts to induce a misclassification but can only perturb inputs subject to a small p-norm constraint. While research on simplified problems helps drive progress, researchers may wish to avoid focusing too heavily on any one particular simplification.",
+      "page": 4
+    },
+    {
+      "problem_id": "2109.13916v5:2.2:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "2.2 Adversarial Robustness",
+      "parent_section": "2 Robustness",
+      "section_file": "2.2 Adversarial Robustness.json",
+      "title": "Black-Box Adversarial Attacks",
+      "summary": "Defending against black-box attacks where adversaries have limited access to the ML system (e.g., zero-query or limited-query attacks) remains underexplored.",
+      "keywords": [
+        "black-box attacks",
+        "limited access",
+        "zero-query attacks",
+        "limited-query attacks"
+      ],
+      "quote": "If a blackbox ML system is not publicly released and can only be queried, it may be possible to practically defend the system against zero-query attacks [189] or limited-query attacks [35].",
+      "page": 4
+    },
+    {
+      "problem_id": "2109.13916v5:2.2:3",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "2.2 Adversarial Robustness",
+      "parent_section": "2 Robustness",
+      "section_file": "2.2 Adversarial Robustness.json",
+      "title": "Multi-Sensor Adversarial Defense",
+      "summary": "Exploiting information from multiple sensors (e.g., in autonomous vehicles) to detect inconsistencies in adversarial inputs is an underexplored defense approach.",
+      "keywords": [
+        "multi-sensor systems",
+        "adversarial defense",
+        "inconsistency detection",
+        "autonomous vehicles"
+      ],
+      "quote": "Real world systems, such as autonomous vehicles, have multiple cameras. Researchers could exploit information from these different sensors and find inconsistencies in adversarial images in order to constrain and box in adversaries [202].",
+      "page": 4
+    },
+    {
+      "problem_id": "2109.13916v5:2.2:4",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "2.2 Adversarial Robustness",
+      "parent_section": "2 Robustness",
+      "section_file": "2.2 Adversarial Robustness.json",
+      "title": "Adaptive Adversarial Defenses",
+      "summary": "Developing dynamic defenses that evolve during test time to counter adaptive adversaries is an open research direction.",
+      "keywords": [
+        "adaptive defenses",
+        "dynamic systems",
+        "test-time evolution",
+        "adaptive adversaries"
+      ],
+      "quote": "Additionally, while existing ML defenses are typically static, future defenses could evolve during test time to combat adaptive adversaries [195].",
+      "page": 4
+    },
+    {
+      "problem_id": "2109.13916v5:2.2:5",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "2.2 Adversarial Robustness",
+      "parent_section": "2 Robustness",
+      "section_file": "2.2 Adversarial Robustness.json",
+      "title": "Adversarially Robust Representations",
+      "summary": "Creating models with adversarially robust representations through data enhancement, architecture design, adversarial training improvements, and robustness certifications is an ongoing challenge.",
+      "keywords": [
+        "robust representations",
+        "data enhancement",
+        "architecture design",
+        "adversarial training",
+        "robustness certifications"
+      ],
+      "quote": "Future research could do more work toward creating models with adversarially robust representations [41].",
+      "page": 4
+    },
+    {
+      "problem_id": "2109.13916v5:2.2:6",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "2.2 Adversarial Robustness",
+      "parent_section": "2 Robustness",
+      "section_file": "2.2 Adversarial Robustness.json",
+      "title": "Unifying Adversarial and Long-Tail Robustness",
+      "summary": "Integrating adversarial robustness with robustness to long-tail or unusual events could improve systems' resilience to both worst-case scenarios.",
+      "keywords": [
+        "adversarial robustness",
+        "long-tail robustness",
+        "unusual events",
+        "worst-case environments"
+      ],
+      "quote": "It may also be possible to unify the areas of adversarial robustness and robustness to long-tail and unusual events.",
+      "page": 4
+    },
+    {
+      "problem_id": "2109.13916v5:2.2:7",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "2.2 Adversarial Robustness",
+      "parent_section": "2 Robustness",
+      "section_file": "2.2 Adversarial Robustness.json",
+      "title": "Adversarial Anomaly Detection",
+      "summary": "Detecting adversarial anomalies or assigning them low confidence scores is a potential research direction for handling unusual adversarial inputs.",
+      "keywords": [
+        "adversarial anomaly detection",
+        "low confidence assignment",
+        "unusual inputs",
+        "adversarial detection"
+      ],
+      "quote": "To study adversarial robustness on unusual inputs, researchers could also try detecting adversarial anomalies [17, 85] or assigning them low confidence [172].",
+      "page": 4
+    },
+    {
+      "problem_id": "2109.13916v5:3.1:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.1 Identifying Hazards and Malicious Use With Anomaly Detection",
+      "parent_section": "3 Monitoring",
+      "section_file": "3.1 Identifying Hazards and Malicious Use With Anomaly Detection.json",
+      "title": "High Recall Anomaly Detection with Low False Alarms",
+      "summary": "Developing anomaly detectors with high recall and low false alarm rates is needed to prevent alarm fatigue and ensure effective monitoring of ML systems.",
+      "keywords": [
+        "anomaly detection",
+        "high recall",
+        "false alarm rate",
+        "alarm fatigue"
+      ],
+      "quote": "For detectors to be useful, research must strive to create detectors with high recall and a low false alarm rate in order to prevent alarm fatigue [42].",
+      "page": 5
+    },
+    {
+      "problem_id": "2109.13916v5:3.1:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.1 Identifying Hazards and Malicious Use With Anomaly Detection",
+      "parent_section": "3 Monitoring",
+      "section_file": "3.1 Identifying Hazards and Malicious Use With Anomaly Detection.json",
+      "title": "Detecting Malicious Anomalous Behavior in ML Systems",
+      "summary": "Research is needed to detect malicious anomalous behavior, especially when adversaries use ML capabilities to evade detection, to prevent misuse for social manipulation, weapons research, or cyberattacks.",
+      "keywords": [
+        "malicious use",
+        "anomaly detection",
+        "adversarial evasion",
+        "social manipulation",
+        "cyberattacks"
+      ],
+      "quote": "However, detecting malicious anomalous behavior could become especially challenging when malicious actors utilize ML capabilities to try to evade detection.",
+      "page": 5
+    },
+    {
+      "problem_id": "2109.13916v5:3.1:3",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.1 Identifying Hazards and Malicious Use With Anomaly Detection",
+      "parent_section": "3 Monitoring",
+      "section_file": "3.1 Identifying Hazards and Malicious Use With Anomaly Detection.json",
+      "title": "Representation Learning for Unseen Anomalies",
+      "summary": "Improving representation learning methods to discover features that reliably identify previously unseen anomalies, such as random noise in large-scale images, remains an open challenge.",
+      "keywords": [
+        "representation learning",
+        "unseen anomalies",
+        "random noise",
+        "large-scale images"
+      ],
+      "quote": "The central challenge is that existing methods for representation learning have difficulty discovering representations that work well for previously unseen anomalies.",
+      "page": 5
+    },
+    {
+      "problem_id": "2109.13916v5:3.1:4",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.1 Identifying Hazards and Malicious Use With Anomaly Detection",
+      "parent_section": "3 Monitoring",
+      "section_file": "3.1 Identifying Hazards and Malicious Use With Anomaly Detection.json",
+      "title": "Anomaly Detection in Dynamic Real-World Settings",
+      "summary": "Developing detectors that handle distribution shifts, environmental changes, and real-world applications like intrusion detection, malware detection, and biosafety requires further study.",
+      "keywords": [
+        "distribution shifts",
+        "real-world settings",
+        "intrusion detection",
+        "malware detection",
+        "biosafety"
+      ],
+      "quote": "there are many newer settings that require more study, such as detecting distribution shifts or changes to the environment [45], as well developing detectors that work in real-world settings such as intrusion detection, malware detection, and biosafety.",
+      "page": 5
+    },
+    {
+      "problem_id": "2109.13916v5:3.1:5",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.1 Identifying Hazards and Malicious Use With Anomaly Detection",
+      "parent_section": "3 Monitoring",
+      "section_file": "3.1 Identifying Hazards and Malicious Use With Anomaly Detection.json",
+      "title": "Explainable Anomaly Detection for Hazard Assessment",
+      "summary": "Creating anomaly detectors that provide explanations for the origin or severity of anomalies is needed to help high-reliability organizations triage and assess potential hazards.",
+      "keywords": [
+        "explainable anomaly detection",
+        "hazard assessment",
+        "triage",
+        "high-reliability organizations"
+      ],
+      "quote": "high reliability organizations require candidate explanations of how an anomaly came to exist [144, 163]. To address this, detectors could help identify the origin or location of an anomaly [14].",
+      "page": 5
+    },
+    {
+      "problem_id": "2109.13916v5:3.2.1:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.2.1 Calibration",
+      "parent_section": "3.2 Representative Model Outputs",
+      "section_file": "3.2.1 Calibration.json",
+      "title": "Improved Calibration on Unseen Testing Data",
+      "summary": "Developing methods to improve model calibration on testing data that is unlike the training data remains a significant challenge.",
+      "keywords": [
+        "model calibration",
+        "unseen data",
+        "uncertainty estimation"
+      ],
+      "quote": "though the greater challenge is calibration on testing data that is unlike the training data",
+      "page": 6
+    },
+    {
+      "problem_id": "2109.13916v5:3.2.1:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.2.1 Calibration",
+      "parent_section": "3.2 Representative Model Outputs",
+      "section_file": "3.2.1 Calibration.json",
+      "title": "Uncertainty Communication via Natural Language",
+      "summary": "Creating systems that can express their uncertainty through natural language, such as decomposed probabilities with contingencies, is an open research direction.",
+      "keywords": [
+        "uncertainty communication",
+        "natural language",
+        "contingency probabilities"
+      ],
+      "quote": "Future systems could communicate their uncertainty with language. For example, they could express decomposed probabilities with contingencies such as 'event A will occur with 60% probability assuming event B also occurs, and with 25% probability if event B does not.'",
+      "page": 6
+    },
+    {
+      "problem_id": "2109.13916v5:3.2.1:3",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.2.1 Calibration",
+      "parent_section": "3.2 Representative Model Outputs",
+      "section_file": "3.2.1 Calibration.json",
+      "title": "Calibrated Confidence for Free-Form Answers",
+      "summary": "Teaching models to assign calibrated confidences to their generated free-form answers (sentences/paragraphs) is an open problem.",
+      "keywords": [
+        "calibrated confidence",
+        "free-form answers",
+        "generative models"
+      ],
+      "quote": "researchers could take models that generate diverse sentence and paragraph answers and teach these models to assign calibrated confidences to their generated free-form answers",
+      "page": 6
+    },
+    {
+      "problem_id": "2109.13916v5:3.2.2:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.2.2 Making Model Outputs Honest and Truthful",
+      "parent_section": "3.2 Representative Model Outputs",
+      "section_file": "3.2.2 Making Model Outputs Honest and Truthful.json",
+      "title": "Model Output Honesty and Faithfulness",
+      "summary": "Current language models generate fabricated explanations and inconsistencies, failing to accurately represent their understanding. Developing methods to ensure models only assert what they truly believe is an open problem.",
+      "keywords": [
+        "model honesty",
+        "faithful explanations",
+        "inconsistency detection",
+        "hallucination detection"
+      ],
+      "quote": "current language models do not accurately represent their understanding and do not provide faithful explanations. They generate empty explanations that are often surprisingly fluent and grammatically correct but nonetheless entirely fabricated.",
+      "page": 6
+    },
+    {
+      "problem_id": "2109.13916v5:3.2.2:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.2.2 Making Model Outputs Honest and Truthful",
+      "parent_section": "3.2 Representative Model Outputs",
+      "section_file": "3.2.2 Making Model Outputs Honest and Truthful.json",
+      "title": "Evaluation of Model Consistency",
+      "summary": "Creating evaluation schemes to detect model inconsistencies, which indicate the model is asserting beliefs it does not hold, is an open research direction.",
+      "keywords": [
+        "consistency evaluation",
+        "model beliefs",
+        "inconsistency detection"
+      ],
+      "quote": "Researchers could create evaluation schemes that catch models being inconsistent [50], as inconsistency implies that they did not assert only what they believe.",
+      "page": 6
+    },
+    {
+      "problem_id": "2109.13916v5:3.2.2:3",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.2.2 Making Model Outputs Honest and Truthful",
+      "parent_section": "3.2 Representative Model Outputs",
+      "section_file": "3.2.2 Making Model Outputs Honest and Truthful.json",
+      "title": "Hallucination Detection in Models",
+      "summary": "Building tools to detect when models hallucinate information, producing false or fabricated content, remains an unsolved challenge.",
+      "keywords": [
+        "hallucination detection",
+        "false information",
+        "fabricated content"
+      ],
+      "quote": "Others could also build tools to detect when models are hallucinating information [118].",
+      "page": 6
+    },
+    {
+      "problem_id": "2109.13916v5:3.2.2:4",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.2.2 Making Model Outputs Honest and Truthful",
+      "parent_section": "3.2 Representative Model Outputs",
+      "section_file": "3.2.2 Making Model Outputs Honest and Truthful.json",
+      "title": "Preventing Worse Answers Despite Better Knowledge",
+      "summary": "Understanding and preventing models from outputting worse answers when they know better answers is an open problem requiring formalization of 'true beliefs' or 'right impressions'.",
+      "keywords": [
+        "model knowledge",
+        "answer quality",
+        "true beliefs",
+        "right impressions"
+      ],
+      "quote": "To prevent models from outputting worse answers when they know better answers, researchers can concretize what it means for models to assert their true beliefs or to give the right impression.",
+      "page": 6
+    },
+    {
+      "problem_id": "2109.13916v5:3.2.2:5",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.2.2 Making Model Outputs Honest and Truthful",
+      "parent_section": "3.2 Representative Model Outputs",
+      "section_file": "3.2.2 Making Model Outputs Honest and Truthful.json",
+      "title": "Training Truthful Models",
+      "summary": "Developing training environments or loss functions that incentivize models to avoid falsehoods, misconceptions, and misinformation is an open research direction.",
+      "keywords": [
+        "truthful models",
+        "training environments",
+        "loss functions",
+        "falsehoods",
+        "misinformation"
+      ],
+      "quote": "to train more truthful models, researchers could create environments [139] or losses that incentivize models not to state falsehoods, repeat misconceptions [123], or spread misinformation.",
+      "page": 6
+    },
+    {
+      "problem_id": "2109.13916v5:3.3.1:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.3.1 Backdoors",
+      "parent_section": "3.3 Hidden Model Functionality",
+      "section_file": "3.3.1 Backdoors.json",
+      "title": "Backdoor Detection Algorithms",
+      "summary": "Developing improved algorithms and techniques to detect backdoors in machine learning models, including those inserted through data poisoning and direct weight manipulation.",
+      "keywords": [
+        "backdoor detection",
+        "machine learning security",
+        "data poisoning",
+        "model vulnerabilities"
+      ],
+      "quote": "researchers could improve backdoor detectors to combat an ever-expanding set of backdoor attacks [98].",
+      "page": 7
+    },
+    {
+      "problem_id": "2109.13916v5:3.3.1:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.3.1 Backdoors",
+      "parent_section": "3.3 Hidden Model Functionality",
+      "section_file": "3.3.1 Backdoors.json",
+      "title": "Adaptive Attack-Defense Competition Simulation",
+      "summary": "Creating simulated adaptive competitions where researchers act as both attackers and auditors to stress-test backdoor detection methods and ground hidden functionality research.",
+      "keywords": [
+        "attack-defense simulation",
+        "adaptive competition",
+        "backdoor stress testing",
+        "hidden functionality"
+      ],
+      "quote": "to stress test them we need to simulate an adaptive competition where researchers take the role of both attackers and auditors.",
+      "page": 7
+    },
+    {
+      "problem_id": "2109.13916v5:3.3.1:3",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.3.1 Backdoors",
+      "parent_section": "3.3 Hidden Model Functionality",
+      "section_file": "3.3.1 Backdoors.json",
+      "title": "Backdoor Model Cleansing Techniques",
+      "summary": "Developing methods to cleanse backdoored models and reconstruct clean datasets from compromised models.",
+      "keywords": [
+        "model cleansing",
+        "dataset reconstruction",
+        "backdoor removal",
+        "model repair"
+      ],
+      "quote": "Researchers could try to cleanse models with backdoors, reconstruct a clean dataset given a model [204, 197]",
+      "page": 7
+    },
+    {
+      "problem_id": "2109.13916v5:3.3.1:4",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.3.1 Backdoors",
+      "parent_section": "3.3 Hidden Model Functionality",
+      "section_file": "3.3.1 Backdoors.json",
+      "title": "Poisoned Training Data Detection",
+      "summary": "Building techniques to identify poisoned training data that could inject backdoors into models during training.",
+      "keywords": [
+        "poisoned data detection",
+        "training data integrity",
+        "backdoor injection prevention",
+        "data auditing"
+      ],
+      "quote": "build techniques to detect poisoned training data.",
+      "page": 7
+    },
+    {
+      "problem_id": "2109.13916v5:3.3.1:5",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.3.1 Backdoors",
+      "parent_section": "3.3 Hidden Model Functionality",
+      "section_file": "3.3.1 Backdoors.json",
+      "title": "Manual Backdoor Injection Mitigation",
+      "summary": "Developing methods to address backdoors manually injected into model weights, beyond those introduced through data poisoning.",
+      "keywords": [
+        "manual backdoor injection",
+        "weight manipulation detection",
+        "model weight security",
+        "direct backdoor mitigation"
+      ],
+      "quote": "Research should also develop methods for addressing backdoors that are manually injected, not just those injected through data poisoning.",
+      "page": 7
+    },
+    {
+      "problem_id": "2109.13916v5:3.3.2:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.3.2 Emergent Hazardous Capabilities",
+      "parent_section": "3.3 Hidden Model Functionality",
+      "section_file": "3.3.2 Emergent Hazardous Capabilities.json",
+      "title": "Detection of Emergent Hazardous Capabilities",
+      "summary": "Developing techniques and tools to inspect models and foresee unexpected jumps in capabilities, especially those that could create or mitigate hazards.",
+      "keywords": [
+        "emergent capabilities",
+        "hazard detection",
+        "model inspection",
+        "capability forecasting"
+      ],
+      "quote": "To protect against emergent capabilities, researchers could create techniques and tools to inspect models and better foresee unexpected jumps in capabilities.",
+      "page": 7
+    },
+    {
+      "problem_id": "2109.13916v5:3.3.2:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.3.2 Emergent Hazardous Capabilities",
+      "parent_section": "3.3 Hidden Model Functionality",
+      "section_file": "3.3.2 Emergent Hazardous Capabilities.json",
+      "title": "Model Scanning for Unobserved Capabilities",
+      "summary": "Large research groups should systematically scan models for numerous potential and as yet unobserved capabilities, focusing on those that could create or directly mitigate hazards.",
+      "keywords": [
+        "model scanning",
+        "unobserved capabilities",
+        "hazard mitigation",
+        "capability screening"
+      ],
+      "quote": "We also suggest that large research groups begin scanning models for numerous potential and as yet unobserved capabilities.",
+      "page": 7
+    },
+    {
+      "problem_id": "2109.13916v5:3.3.2:3",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.3.2 Emergent Hazardous Capabilities",
+      "parent_section": "3.3 Hidden Model Functionality",
+      "section_file": "3.3.2 Emergent Hazardous Capabilities.json",
+      "title": "Testbed for Hazardous Capabilities",
+      "summary": "Creating a continually evolving testbed to screen for potentially hazardous capabilities, such as generating illegal content or executing malicious code.",
+      "keywords": [
+        "testbed",
+        "hazardous capabilities",
+        "illegal content",
+        "malicious code"
+      ],
+      "quote": "One approach is to create a continually evolving testbed to screen for potentially hazardous capabilities, such as the ability to execute malicious user-supplied code, generate illegal or unethical forms of content, or to write convincing but wrong text on arbitrary topics.",
+      "page": 7
+    },
+    {
+      "problem_id": "2109.13916v5:3.3.2:4",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.3.2 Emergent Hazardous Capabilities",
+      "parent_section": "3.3 Hidden Model Functionality",
+      "section_file": "3.3.2 Emergent Hazardous Capabilities.json",
+      "title": "Whitebox Capability Prediction",
+      "summary": "Developing methods to predict a model's capabilities given only its weights, revealing latent capabilities not expressible from standard prompts.",
+      "keywords": [
+        "whitebox analysis",
+        "capability prediction",
+        "latent capabilities",
+        "model weights"
+      ],
+      "quote": "Another more whitebox approach would be to predict a model's capabilities given only its weights, which might reveal latent capabilities that are not obviously expressible from standard prompts.",
+      "page": 7
+    },
+    {
+      "problem_id": "2109.13916v5:3.3.2:5",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.3.2 Emergent Hazardous Capabilities",
+      "parent_section": "3.3 Hidden Model Functionality",
+      "section_file": "3.3.2 Emergent Hazardous Capabilities.json",
+      "title": "Validation of Detection Methods",
+      "summary": "Ensuring detection methods are sufficiently sensitive by implanting hidden functionality to test and guide their development.",
+      "keywords": [
+        "detection validation",
+        "hidden functionality",
+        "sensitivity testing",
+        "method development"
+      ],
+      "quote": "Detection methods will require validation to ensure they are sufficiently sensitive. Researchers could implant hidden functionality to ensure that detection methods can detect known flaws; this can also help guide the development of better methods.",
+      "page": 7
+    },
+    {
+      "problem_id": "2109.13916v5:3.3.2:6",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.3.2 Emergent Hazardous Capabilities",
+      "parent_section": "3.3 Hidden Model Functionality",
+      "section_file": "3.3.2 Emergent Hazardous Capabilities.json",
+      "title": "Quantification and Extrapolation of Future Capabilities",
+      "summary": "Quantifying and extrapolating future model capabilities to anticipate potential risks and failure modes.",
+      "keywords": [
+        "capability quantification",
+        "future extrapolation",
+        "failure modes",
+        "risk anticipation"
+      ],
+      "quote": "Other directions include quantifying and extrapolating future model capabilities [87, 88] and searching for novel failure modes that may be symptoms of unintended functionality.",
+      "page": 7
+    },
+    {
+      "problem_id": "2109.13916v5:3.3.2:7",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "3.3.2 Emergent Hazardous Capabilities",
+      "parent_section": "3.3 Hidden Model Functionality",
+      "section_file": "3.3.2 Emergent Hazardous Capabilities.json",
+      "title": "Prevention and Removal of Hazardous Capabilities",
+      "summary": "Creating training techniques to prevent or remove undesirable capabilities in ML systems, ensuring they are truly absent rather than obfuscated.",
+      "keywords": [
+        "capability prevention",
+        "undesirable capabilities",
+        "training techniques",
+        "capability removal"
+      ],
+      "quote": "Researchers could create training techniques so that undesirable capabilities are not acquired during training or during test-time adaptation.",
+      "page": 7
+    },
+    {
+      "problem_id": "2109.13916v5:4.1:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.1 Objectives Can Be Difficult to Specify",
+      "parent_section": "4 Alignment",
+      "section_file": "4.1 Objectives Can Be Difficult to Specify.json",
+      "title": "Measuring Abstract Human Values",
+      "summary": "Developing methods to measure abstract, complicated, yet fundamental human values such as happiness, good judgment, and meaningful experiences remains an open challenge.",
+      "keywords": [
+        "value learning",
+        "human values",
+        "measurement",
+        "wellbeing"
+      ],
+      "quote": "Researchers will need to confront the challenge of measuring abstract, complicated, yet fundamental human values.",
+      "page": 8
+    },
+    {
+      "problem_id": "2109.13916v5:4.1:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.1 Objectives Can Be Difficult to Specify",
+      "parent_section": "4 Alignment",
+      "section_file": "4.1 Objectives Can Be Difficult to Specify.json",
+      "title": "Modeling Subjective Wellbeing",
+      "summary": "Creating ML models that can accurately represent what people find pleasant, how stimuli affect emotional valence, and other aspects of subjective experience is an open research direction.",
+      "keywords": [
+        "wellbeing modeling",
+        "emotional valence",
+        "subjective experience",
+        "ml models"
+      ],
+      "quote": "Future work could use ML to model what people find pleasant, how stimuli affect internal emotional valence, and other aspects of subjective experience.",
+      "page": 8
+    },
+    {
+      "problem_id": "2109.13916v5:4.1:3",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.1 Objectives Can Be Difficult to Specify",
+      "parent_section": "4 Alignment",
+      "section_file": "4.1 Objectives Can Be Difficult to Specify.json",
+      "title": "Aligning Recommender Systems with Wellbeing",
+      "summary": "Developing recommender systems that align with wellbeing goals rather than engagement metrics is an important open problem.",
+      "keywords": [
+        "recommender systems",
+        "wellbeing alignment",
+        "engagement metrics"
+      ],
+      "quote": "Other work could try to learn how to align specific technologies, such as recommender systems, with wellbeing goals rather than engagement.",
+      "page": 8
+    },
+    {
+      "problem_id": "2109.13916v5:4.1:4",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.1 Objectives Can Be Difficult to Specify",
+      "parent_section": "4 Alignment",
+      "section_file": "4.1 Objectives Can Be Difficult to Specify.json",
+      "title": "Teaching Legal Concepts to Models",
+      "summary": "Enabling models deployed in legal contexts to understand justice and legal principles is a necessary but unsolved challenge.",
+      "keywords": [
+        "legal contexts",
+        "justice modeling",
+        "law understanding",
+        "ml models"
+      ],
+      "quote": "Future models deployed in legal contexts must understand justice, so models should be taught the law [77].",
+      "page": 8
+    },
+    {
+      "problem_id": "2109.13916v5:4.1:5",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.1 Objectives Can Be Difficult to Specify",
+      "parent_section": "4 Alignment",
+      "section_file": "4.1 Objectives Can Be Difficult to Specify.json",
+      "title": "Bias-Free Wellbeing Function Learning",
+      "summary": "Creating models that learn wellbeing functions without mimicking cognitive biases is an open research problem.",
+      "keywords": [
+        "wellbeing functions",
+        "cognitive biases",
+        "bias-free learning",
+        "ml models"
+      ],
+      "quote": "Researchers could create models that learn wellbeing functions that do not mimic cognitive biases [76].",
+      "page": 8
+    },
+    {
+      "problem_id": "2109.13916v5:4.1:6",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.1 Objectives Can Be Difficult to Specify",
+      "parent_section": "4 Alignment",
+      "section_file": "4.1 Objectives Can Be Difficult to Specify.json",
+      "title": "Moral Ambiguity Detection",
+      "summary": "Developing models capable of detecting when scenarios are clear-cut versus morally contentious is an open challenge.",
+      "keywords": [
+        "moral ambiguity",
+        "scenario detection",
+        "contentious scenarios",
+        "ml models"
+      ],
+      "quote": "Others could make models that are able to detect when scenarios are clear-cut or highly morally contentious [76].",
+      "page": 9
+    },
+    {
+      "problem_id": "2109.13916v5:4.1:7",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.1 Objectives Can Be Difficult to Specify",
+      "parent_section": "4 Alignment",
+      "section_file": "4.1 Objectives Can Be Difficult to Specify.json",
+      "title": "Learning Difficult-to-Specify Goals in Interactive Environments",
+      "summary": "Learning goals that are hard to specify in interactive environments remains an unsolved problem.",
+      "keywords": [
+        "interactive environments",
+        "goal specification",
+        "difficult goals",
+        "value learning"
+      ],
+      "quote": "Other directions include learning difficult-to-specify goals in interactive environments [70],",
+      "page": 9
+    },
+    {
+      "problem_id": "2109.13916v5:4.1:8",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.1 Objectives Can Be Difficult to Specify",
+      "parent_section": "4 Alignment",
+      "section_file": "4.1 Objectives Can Be Difficult to Specify.json",
+      "title": "Modeling Idiosyncratic Stakeholder Values",
+      "summary": "Learning the unique values of different stakeholders is an important but unsolved research direction.",
+      "keywords": [
+        "stakeholder values",
+        "idiosyncratic values",
+        "value learning",
+        "ml models"
+      ],
+      "quote": "learning the idiosyncratic values of different stakeholders [122],",
+      "page": 9
+    },
+    {
+      "problem_id": "2109.13916v5:4.1:9",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.1 Objectives Can Be Difficult to Specify",
+      "parent_section": "4 Alignment",
+      "section_file": "4.1 Objectives Can Be Difficult to Specify.json",
+      "title": "Modeling Cosmopolitan Goals for Human Welfare",
+      "summary": "Developing models that can learn about cosmopolitan goals such as endowing humans with capabilities for high welfare is an open challenge.",
+      "keywords": [
+        "cosmopolitan goals",
+        "human welfare",
+        "capability modeling",
+        "ml models"
+      ],
+      "quote": "learning about cosmopolitan goals such as endowing humans with the capabilities necessary for high welfare [135].",
+      "page": 9
+    },
+    {
+      "problem_id": "2109.13916v5:4.2:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.2 Objectives Can Be Difficult to Optimize",
+      "parent_section": "4 Alignment",
+      "section_file": "4.2 Objectives Can Be Difficult to Optimize.json",
+      "title": "Optimizing Long-Term Wellbeing",
+      "summary": "Optimizing human wellbeing is challenging due to anticorrelation between short-term and long-term wellbeing, difficulty in forecasting, adaptation nullifying interventions, and the need for long timescales that hinder iterative testing.",
+      "keywords": [
+        "wellbeing optimization",
+        "long-term goals",
+        "human values",
+        "local optima",
+        "adaptation"
+      ],
+      "quote": "Hence many local search methods may be especially prone to bad local optima, and they may facilitate the impulsive pursuit of pleasure. Consequently, optimization needs to be on long timescales, but this reduces our ability to test our systems iteratively and rapidly, and ultimately to make them work well.",
+      "page": 9
+    },
+    {
+      "problem_id": "2109.13916v5:4.2:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.2 Objectives Can Be Difficult to Optimize",
+      "parent_section": "4 Alignment",
+      "section_file": "4.2 Objectives Can Be Difficult to Optimize.json",
+      "title": "Translating Value Knowledge into Action",
+      "summary": "Translating learned values into appropriate actions is non-trivial, as seen in challenges like applying vision models to robotics and the gap between moral awareness and moral behavior in humans.",
+      "keywords": [
+        "value translation",
+        "action selection",
+        "moral behavior",
+        "robotics",
+        "computer vision"
+      ],
+      "quote": "Translating background knowledge into choosing the best action is typically not straightforward: while computer vision models are advanced, successfully applying vision models for robotics remains elusive.",
+      "page": 9
+    },
+    {
+      "problem_id": "2109.13916v5:4.2:3",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.2 Objectives Can Be Difficult to Optimize",
+      "parent_section": "4 Alignment",
+      "section_file": "4.2 Objectives Can Be Difficult to Optimize.json",
+      "title": "Intrasystem Goals Misalignment",
+      "summary": "Subsystems optimizing intermediate goals can prioritize these over the primary objective, leading to misalignment between stated and operational objectives.",
+      "keywords": [
+        "goal misalignment",
+        "subsystems",
+        "intermediate goals",
+        "primary objectives",
+        "system design"
+      ],
+      "quote": "But a common failure mode is that 'intrasystem goals come first' [57]. These goals can steer actions instead of the primary objective [91].",
+      "page": 9
+    },
+    {
+      "problem_id": "2109.13916v5:4.2:4",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.2 Objectives Can Be Difficult to Optimize",
+      "parent_section": "4 Alignment",
+      "section_file": "4.2 Objectives Can Be Difficult to Optimize.json",
+      "title": "Moral Behavior Guidance in Models",
+      "summary": "Developing systems that guide models to behave morally and avoid harm in interactive environments, rather than merely following rewards, remains an open challenge.",
+      "keywords": [
+        "moral behavior",
+        "harm avoidance",
+        "interactive environments",
+        "reward systems",
+        "alignment"
+      ],
+      "quote": "researchers could try to construct systems that guide models not just to follow rewards but also behave morally [83]; such systems could also be effective at guiding agents not to cause wanton harm within interactive environments and to abide by rules.",
+      "page": 9
+    },
+    {
+      "problem_id": "2109.13916v5:4.2:5",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.2 Objectives Can Be Difficult to Optimize",
+      "parent_section": "4 Alignment",
+      "section_file": "4.2 Objectives Can Be Difficult to Optimize.json",
+      "title": "Ethical Tradeoff Evaluation in Agents",
+      "summary": "Creating environments to evaluate how agents make tradeoffs between values in morally salient scenarios is needed to understand their value systems.",
+      "keywords": [
+        "ethical tradeoffs",
+        "value evaluation",
+        "morally salient scenarios",
+        "agent behavior",
+        "alignment"
+      ],
+      "quote": "To get a sense of an agent's values and see how it make tradeoffs between values, researchers could also create diverse environments that capture realistic morally salient scenarios and characterize the choices that agents make when faced with ethical quandaries.",
+      "page": 9
+    },
+    {
+      "problem_id": "2109.13916v5:4.2:6",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.2 Objectives Can Be Difficult to Optimize",
+      "parent_section": "4 Alignment",
+      "section_file": "4.2 Objectives Can Be Difficult to Optimize.json",
+      "title": "Steerable Text Generation for Virtues",
+      "summary": "Adapting steerable text generation research to ensure chatbots exhibit virtues like friendliness and honesty is an open direction.",
+      "keywords": [
+        "text generation",
+        "virtues",
+        "steerable models",
+        "chatbots",
+        "controllable ai"
+      ],
+      "quote": "Research on steerable and controllable text generation [104, 99] could help chatbots exhibit virtues such as friendliness and honesty.",
+      "page": 9
+    },
+    {
+      "problem_id": "2109.13916v5:4.3:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.3 Objective Proxies Can Be Brittle",
+      "parent_section": "4 Alignment",
+      "section_file": "4.3 Objective Proxies Can Be Brittle.json",
+      "title": "Adversarial Robustness of Learned Reward Functions",
+      "summary": "Ensuring adversarial robustness of learned reward functions to prevent exploitation by optimizing agents, similar to adversarial examples in neural networks.",
+      "keywords": [
+        "adversarial robustness",
+        "reward functions",
+        "optimizing agents"
+      ],
+      "quote": "Therefore we should seek to ensure adversarial robustness of learned reward functions, and regularly test them for exploitable loopholes.",
+      "page": 9
+    },
+    {
+      "problem_id": "2109.13916v5:4.3:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.3 Objective Proxies Can Be Brittle",
+      "parent_section": "4 Alignment",
+      "section_file": "4.3 Objective Proxies Can Be Brittle.json",
+      "title": "Monitoring for Deception in Human Approval Proxies",
+      "summary": "Developing monitoring systems to detect deception in ML models using human approval proxies, including anomaly detection and adversarial truth-finding processes.",
+      "keywords": [
+        "monitoring",
+        "deception detection",
+        "human approval proxies"
+      ],
+      "quote": "Anomaly detectors (Section 3.1) could help spot when ML models are being deceptive or stating falsehoods, could help monitor agent behavior for unexpected activity, and could help determine when to stop the agent or intervene.",
+      "page": 10
+    },
+    {
+      "problem_id": "2109.13916v5:4.3:3",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.3 Objective Proxies Can Be Brittle",
+      "parent_section": "4 Alignment",
+      "section_file": "4.3 Objective Proxies Can Be Brittle.json",
+      "title": "Verifying Model Assertions for Truthfulness",
+      "summary": "Creating systems to verify difficult-to-check model assertions and identify convincing but false statements to improve model truthfulness.",
+      "keywords": [
+        "truthfulness verification",
+        "model assertions",
+        "deception mitigation"
+      ],
+      "quote": "future systems could attempt to verify statements that are difficult for humans to check in reasonable timespans, and they could inspect convincing but not true assertions [139].",
+      "page": 10
+    },
+    {
+      "problem_id": "2109.13916v5:4.3:4",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.3 Objective Proxies Can Be Brittle",
+      "parent_section": "4 Alignment",
+      "section_file": "4.3 Objective Proxies Can Be Brittle.json",
+      "title": "Expert-Level Philosophical Reasoning Systems",
+      "summary": "Building interdisciplinary systems capable of expert-level philosophical reasoning to correct structural faults in proxies and clarify evolving human values.",
+      "keywords": [
+        "philosophical reasoning",
+        "value clarification",
+        "proxy correction"
+      ],
+      "quote": "This requires interdisciplinary research towards a system that can reason about values and philosophize at an expert level.",
+      "page": 10
+    },
+    {
+      "problem_id": "2109.13916v5:4.3:5",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.3 Objective Proxies Can Be Brittle",
+      "parent_section": "4 Alignment",
+      "section_file": "4.3 Objective Proxies Can Be Brittle.json",
+      "title": "Reflective Equilibrium Extrapolation Systems",
+      "summary": "Developing systems to extrapolate the outcomes of reflective equilibrium processes, determining which objectives humans would endorse after deliberation on competing values.",
+      "keywords": [
+        "reflective equilibrium",
+        "value deliberation",
+        "objective endorsement"
+      ],
+      "quote": "Other work could build systems to help extrapolate the end products of 'reflective equilibrium' [149], or what objectives we would endorse by simulating a process of deliberation about competing values.",
+      "page": 10
+    },
+    {
+      "problem_id": "2109.13916v5:4.3:6",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.3 Objective Proxies Can Be Brittle",
+      "parent_section": "4 Alignment",
+      "section_file": "4.3 Objective Proxies Can Be Brittle.json",
+      "title": "Impact Prediction of Philosophical Works",
+      "summary": "Creating models to estimate the impact of philosophical works by analyzing historical papers and predicting their influence on the literature.",
+      "keywords": [
+        "philosophical impact",
+        "literature analysis",
+        "historical prediction"
+      ],
+      "quote": "Researchers could also try to estimate the quality of a philosophical work by using a stream of historical philosophy papers and having models predict the impact of each paper on the literature.",
+      "page": 10
+    },
+    {
+      "problem_id": "2109.13916v5:4.3:7",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.3 Objective Proxies Can Be Brittle",
+      "parent_section": "4 Alignment",
+      "section_file": "4.3 Objective Proxies Can Be Brittle.json",
+      "title": "Argumentative Dialog for Robust Proxy Formulation",
+      "summary": "Designing systems that can engage in argumentative dialog to formulate robust positions and identify flaws in verbally specified proxies.",
+      "keywords": [
+        "argumentative dialog",
+        "proxy formulation",
+        "flaw detection"
+      ],
+      "quote": "Eventually, researchers should seek to build systems that can formulate robust positions through an argumentative dialog. These systems could also try to find flaws in verbally specified proxies.",
+      "page": 10
+    },
+    {
+      "problem_id": "2109.13916v5:4.4:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.4 Objective Proxies Can Lead to Unintended Consequences",
+      "parent_section": "4 Alignment",
+      "section_file": "4.4 Objective Proxies Can Lead to Unintended Consequences.json",
+      "title": "Minimally Invasive Agent Design",
+      "summary": "Developing agents that prefer easily reversible actions to avoid irreversible consequences that reduce human optionality and destroy potential future value.",
+      "keywords": [
+        "agent design",
+        "reversible actions",
+        "minimally invasive"
+      ],
+      "quote": "Future research could focus on designing minimally invasive agents that prefer easily reversible to irreversible actions [66], as irreversibility reduces humans' optionality and often unintentionally destroys potential future value.",
+      "page": 10
+    },
+    {
+      "problem_id": "2109.13916v5:4.4:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.4 Objective Proxies Can Lead to Unintended Consequences",
+      "parent_section": "4 Alignment",
+      "section_file": "4.4 Objective Proxies Can Lead to Unintended Consequences.json",
+      "title": "Agent Uncertainty About True Objectives",
+      "summary": "Creating agents that account for their lack of knowledge about the true objective and avoid disrupting parts of the environment with unclear value.",
+      "keywords": [
+        "agent uncertainty",
+        "true objectives",
+        "environment disruption"
+      ],
+      "quote": "Likewise, researchers could create agents that properly account for their lack of knowledge of the true objective [69] and avoid disrupting parts of the environment whose value is unclear [190, 103, 159].",
+      "page": 10
+    },
+    {
+      "problem_id": "2109.13916v5:4.4:3",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.4 Objective Proxies Can Lead to Unintended Consequences",
+      "parent_section": "4 Alignment",
+      "section_file": "4.4 Objective Proxies Can Lead to Unintended Consequences.json",
+      "title": "Complex Environments for Unintended Side Effects",
+      "summary": "Developing more complex environments that can manifest diverse unintended side effects, such as feedback loops, to better study and mitigate hazards in recommender systems.",
+      "keywords": [
+        "complex environments",
+        "unintended side effects",
+        "feedback loops"
+      ],
+      "quote": "We also need more complex environments that can manifest diverse unintended side effects [193] such as feedback loops, which are a source of hazards to users of recommender systems [106].",
+      "page": 10
+    },
+    {
+      "problem_id": "2109.13916v5:4.4:4",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.4 Objective Proxies Can Lead to Unintended Consequences",
+      "parent_section": "4 Alignment",
+      "section_file": "4.4 Objective Proxies Can Lead to Unintended Consequences.json",
+      "title": "Constraint-Based ML System Behavior",
+      "summary": "Teaching ML systems to abide by constraints, act cautiously, and avoid brazen behavior to mitigate unintended consequences.",
+      "keywords": [
+        "constraint-based systems",
+        "cautious behavior",
+        "unintended consequences"
+      ],
+      "quote": "A separate way to mitigate unintended consequences is to teach ML systems to abide by constraints [150, 155], be less brazen, and act cautiously.",
+      "page": 10
+    },
+    {
+      "problem_id": "2109.13916v5:4.4:5",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.4 Objective Proxies Can Lead to Unintended Consequences",
+      "parent_section": "4 Alignment",
+      "section_file": "4.4 Objective Proxies Can Lead to Unintended Consequences.json",
+      "title": "Balancing Multiple Values in Optimization",
+      "summary": "Enabling agents to safely optimize and balance multiple values to prevent unintended dominance or subversion of certain values over others.",
+      "keywords": [
+        "value balancing",
+        "multi-value optimization",
+        "unintended dominance"
+      ],
+      "quote": "Since we may be uncertain about which values are best, research could focus on having agents safely optimize and balance many values, so that one value does not unintentionally dominate or subvert the rest [132, 49].",
+      "page": 10
+    },
+    {
+      "problem_id": "2109.13916v5:4.4:6",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "4.4 Objective Proxies Can Lead to Unintended Consequences",
+      "parent_section": "4 Alignment",
+      "section_file": "4.4 Objective Proxies Can Lead to Unintended Consequences.json",
+      "title": "Mitigating Unintended Instrumental Goals",
+      "summary": "Detecting and mitigating unintended instrumental goals, such as self-preservation or power-seeking, that emerge in ML systems.",
+      "keywords": [
+        "instrumental goals",
+        "self-preservation",
+        "power-seeking"
+      ],
+      "quote": "Sometimes unintended instrumental goals emerge in systems, such as self-preservation [69] or power-seeking [191], so researchers could try mitigating and detecting such unintended emergent goals; see Section 3.3.2 for more directions in detecting emergent functionality.",
+      "page": 10
+    },
+    {
+      "problem_id": "2109.13916v5:5.1:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "5.1 ML for Cybersecurity",
+      "parent_section": "5 Systemic Safety",
+      "section_file": "5.1 ML for Cybersecurity.json",
+      "title": "ML for Defensive Cybersecurity Techniques",
+      "summary": "Developing ML techniques to create effective defensive cybersecurity methods, such as detecting intruders, impersonators, and software vulnerabilities, and modeling software behavior to identify malicious activities.",
+      "keywords": [
+        "ml",
+        "cybersecurity",
+        "defensive techniques",
+        "intrusion detection",
+        "vulnerability analysis"
+      ],
+      "quote": "To mitigate the potential harms of automated cyberattacks to ML and other systems, researchers should apply ML to develop better defensive techniques.",
+      "page": 12
+    },
+    {
+      "problem_id": "2109.13916v5:5.1:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "5.1 ML for Cybersecurity",
+      "parent_section": "5 Systemic Safety",
+      "section_file": "5.1 ML for Cybersecurity.json",
+      "title": "ML for Malicious Payload Detection",
+      "summary": "Using unsupervised ML methods to model binaries and detect obfuscated malicious payloads in software.",
+      "keywords": [
+        "ml",
+        "malware detection",
+        "unsupervised learning",
+        "binary analysis",
+        "obfuscation"
+      ],
+      "quote": "Massive unsupervised ML methods could also model binaries and learn to detect malicious obfuscated payloads [168, 161, 134, 71].",
+      "page": 12
+    },
+    {
+      "problem_id": "2109.13916v5:5.1:3",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "5.1 ML for Cybersecurity",
+      "parent_section": "5 Systemic Safety",
+      "section_file": "5.1 ML for Cybersecurity.json",
+      "title": "ML for Automated Security Patching",
+      "summary": "Advancing code translation and generation models to automatically apply security patches and improve code security.",
+      "keywords": [
+        "ml",
+        "automated patching",
+        "code generation",
+        "security hardening",
+        "code translation"
+      ],
+      "quote": "Advancements in code translation [111, 9] and code generation [34, 138] suggest that future models could apply security patches and make code more secure, so that future systems not only flag security vulnerabilities but also fix them.",
+      "page": 12
+    },
+    {
+      "problem_id": "2109.13916v5:5.2:1",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "5.2 Improved Epistemics and Decision Making",
+      "parent_section": "5 Systemic Safety",
+      "section_file": "5.2 Improved Epistemics and Decision Making.json",
+      "title": "ML for Improved Forecasting in Governance",
+      "summary": "Developing ML systems to enhance forecasting accuracy by aggregating information from unstructured sources, considering multiple perspectives, and dynamically updating predictions to support governance decisions in uncertain situations.",
+      "keywords": [
+        "ml forecasting",
+        "governance decisions",
+        "uncertain situations",
+        "information aggregation",
+        "perspective consideration"
+      ],
+      "quote": "Forecasters assign probabilities to possible events that could happen within the next few months or years (e.g., geopolitical, epidemiological, and industrial events), and are scored by their correctness and calibration. To be successful, forecasters must dynamically aggregate information from disparate unstructured sources [95]. This is challenging even for humans, but ML systems could potentially aggregate more information, be faster, be nonpartisan, consider multiple perspectives, and thus ultimately make more accurate predictions [148].",
+      "page": 12
+    },
+    {
+      "problem_id": "2109.13916v5:5.2:2",
+      "paper_id": "2109.13916v5",
+      "paper_title": "Unsolved Problems in ML Safety",
+      "section_title": "5.2 Improved Epistemics and Decision Making",
+      "parent_section": "5 Systemic Safety",
+      "section_file": "5.2 Improved Epistemics and Decision Making.json",
+      "title": "ML Systems for Identifying Crucial Considerations",
+      "summary": "Creating ML systems that help decision-makers identify new risks, suggest mitigation actions, and provide relevant historical context to improve judgment and reduce rash decisions during crises.",
+      "keywords": [
+        "risk identification",
+        "decision-making support",
+        "historical data analysis",
+        "risk mitigation",
+        "judgment improvement"
+      ],
+      "quote": "Separately, researchers should develop systems that identify questions worth asking and crucial factors to consider. While forecasting can refine estimates of well-defined risks, these advisory systems could help unearth new sources of risk and identify actions to mitigate risks.",
+      "page": 12
+    },
+    {
+      "problem_id": "2609.03178v1:4.1.1:1",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.1.1 Data Types and Challenges",
+      "parent_section": "4.1 Risk Model Structure",
+      "section_file": "4.1.1 Data Types and Challenges.json",
+      "title": "Combining Data Sources for Risk Modeling",
+      "summary": "There is a need for principled methods to select and aggregate experimental, historical, and expert data sources in risk modeling.",
+      "keywords": [
+        "risk modeling",
+        "data aggregation",
+        "experimental data",
+        "historical data",
+        "expert judgment"
+      ],
+      "quote": "principled ways of selecting and aggregating these sources of information remain an open problem.",
+      "page": 11
+    },
+    {
+      "problem_id": "2609.03178v1:4.1.1:2",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.1.1 Data Types and Challenges",
+      "parent_section": "4.1 Risk Model Structure",
+      "section_file": "4.1.1 Data Types and Challenges.json",
+      "title": "Benchmark Limitations for Risk Modeling",
+      "summary": "Benchmarks are insufficient for risk modeling as they indicate capability existence but not likelihood or consequences of use, requiring tailored scenarios and better reporting standards.",
+      "keywords": [
+        "benchmarks",
+        "risk modeling",
+        "evaluation standards",
+        "scenario tailoring"
+      ],
+      "quote": "Benchmark and evaluation data are widely recognized as insufficient for risk modeling purposes.",
+      "page": 11
+    },
+    {
+      "problem_id": "2609.03178v1:4.1.1:3",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.1.1 Data Types and Challenges",
+      "parent_section": "4.1 Risk Model Structure",
+      "section_file": "4.1.1 Data Types and Challenges.json",
+      "title": "Historical Data Attribution Challenges",
+      "summary": "Historical data lacks granularity and reliable attribution of incidents to AI systems, complicating risk model calibration and backtesting.",
+      "keywords": [
+        "historical data",
+        "incident attribution",
+        "risk calibration",
+        "backtesting"
+      ],
+      "quote": "Determining the extent to which a given incident can be attributed to AI systems as opposed to humans is also challenging.",
+      "page": 11
+    },
+    {
+      "problem_id": "2609.03178v1:4.1.2:1",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.1.2 Model Architecture",
+      "parent_section": "4.1 Risk Model Structure",
+      "section_file": "4.1.2 Model Architecture.json",
+      "title": "Appropriate Structural Representation for AI Risk Models",
+      "summary": "There is no consensus on which formalism (e.g., fault trees, Bayesian networks) is best suited for different classes of AI risk, complicating comparisons when different architectures are used for the same scenario.",
+      "keywords": [
+        "risk model architecture",
+        "structural representation",
+        "formalism",
+        "ai risk"
+      ],
+      "quote": "Each carries different assumptions about how harms unfold and how evidence is combined, and there is currently no consensus on which formalism is best suited to which class of AI risk. If multiple groups model the same risk scenario using different architectures, comparing the outputs becomes a challenge on its own.",
+      "page": 12
+    },
+    {
+      "problem_id": "2609.03178v1:4.1.2:2",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.1.2 Model Architecture",
+      "parent_section": "4.1 Risk Model Structure",
+      "section_file": "4.1.2 Model Architecture.json",
+      "title": "Parameter Parsimony in AI Risk Models",
+      "summary": "Explicitly modeling parameter dependencies in risk models is underdeveloped, and the quadratic growth of pairwise correlations with parameters makes parsimony a practical necessity, though interdependencies (e.g., LLM capabilities) are often correlated.",
+      "keywords": [
+        "parameter parsimony",
+        "parameter dependencies",
+        "risk model",
+        "llm capabilities"
+      ],
+      "quote": "A model with five parameters has ten such pairs; a model with ten parameters has forty-five. In practice, most current models simply assume parameter independence, but this assumption is rarely justified. For instance, LLM capabilities are likely highly correlated across the various steps of risk scenarios.",
+      "page": 12
+    },
+    {
+      "problem_id": "2609.03178v1:4.1.3:1",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.1.3 Using Multiple Models",
+      "parent_section": "4.1 Risk Model Structure",
+      "section_file": "4.1.3 Using Multiple Models.json",
+      "title": "Systematic Combination of Multiple Risk Model Outputs",
+      "summary": "How to systematically combine outputs from multiple risk models with different assumptions or parameters, especially when they yield divergent results, remains an open question.",
+      "keywords": [
+        "risk model combination",
+        "ensemble methods",
+        "uncertainty communication",
+        "model divergence"
+      ],
+      "quote": "This, however, does raise further questions about how to systematically combine outputs across models and how to communicate uncertainty when different approaches yield divergent results.",
+      "page": 13
+    },
+    {
+      "problem_id": "2609.03178v1:4.1.3:2",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.1.3 Using Multiple Models",
+      "parent_section": "4.1 Risk Model Structure",
+      "section_file": "4.1.3 Using Multiple Models.json",
+      "title": "Model Quality Evaluation Based on Intended Use",
+      "summary": "Clarifying how to evaluate model quality in relation to its intended use—such as setting risk thresholds versus prioritizing mitigations—is essential but unresolved.",
+      "keywords": [
+        "model evaluation",
+        "risk thresholds",
+        "mitigation prioritization",
+        "use-case alignment"
+      ],
+      "quote": "Clarifying these distinctions is essential for aligning modeling approaches with decision-making needs.",
+      "page": 13
+    },
+    {
+      "problem_id": "2609.03178v1:4.2.1:1",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.2.1 Coverage of Risk Universe",
+      "parent_section": "4.2 Model Scope and Granularity",
+      "section_file": "4.2.1 Coverage of Risk Universe.json",
+      "title": "Defining Sufficient Scenario Coverage",
+      "summary": "There is a need to establish objective criteria for determining what constitutes a sufficient set of risk scenarios in AI risk modeling, especially for governance requiring upper-bound or worst-case characterizations.",
+      "keywords": [
+        "risk scenarios",
+        "coverage criteria",
+        "sufficient scenario set",
+        "upper-bound characterization",
+        "worst-case analysis"
+      ],
+      "quote": "This challenge is exacerbated by the lack of objective criteria for what constitutes a \"sufficient\" scenario set.",
+      "page": 14
+    },
+    {
+      "problem_id": "2609.03178v1:4.2.1:2",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.2.1 Coverage of Risk Universe",
+      "parent_section": "4.2 Model Scope and Granularity",
+      "section_file": "4.2.1 Coverage of Risk Universe.json",
+      "title": "Comprehensive Risk Universe Mapping",
+      "summary": "Developing methods to comprehensively map the full spectrum of potential AI risk scenarios, particularly in areas lacking historical analogues like loss-of-control scenarios, remains an unsolved challenge.",
+      "keywords": [
+        "risk universe mapping",
+        "comprehensive coverage",
+        "historical analogues",
+        "loss-of-control scenarios",
+        "frontier ai risks"
+      ],
+      "quote": "if the selected scenarios capture only a fraction of the total risk space, the resulting outputs may systematically underestimate the aggregate threat.",
+      "page": 14
+    },
+    {
+      "problem_id": "2609.03178v1:4.2.2:1",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.2.2 Granularity of Individual Models",
+      "parent_section": "4.2 Model Scope and Granularity",
+      "section_file": "4.2.2 Granularity of Individual Models.json",
+      "title": "Granularity vs. Robustness Trade-off in AI Risk Models",
+      "summary": "The challenge is determining the optimal level of granularity in AI risk models, balancing theoretical fidelity from complex architectures against empirical robustness under data constraints and deep uncertainty.",
+      "keywords": [
+        "model granularity",
+        "risk modeling",
+        "uncertainty quantification",
+        "data constraints",
+        "empirical robustness"
+      ],
+      "quote": "This implies a distinct trade-off: increased model complexity may enhance theoretical fidelity, but often decreases empirical robustness, particularly under deep uncertainty.",
+      "page": 14
+    },
+    {
+      "problem_id": "2609.03178v1:4.2.2:2",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.2.2 Granularity of Individual Models",
+      "parent_section": "4.2 Model Scope and Granularity",
+      "section_file": "4.2.2 Granularity of Individual Models.json",
+      "title": "Uncertainty Quantification in Sparse Data Environments",
+      "summary": "Developing methods to explicitly quantify uncertainty in AI risk models when data is sparse, noisy, or biased, to avoid false precision from overly granular models.",
+      "keywords": [
+        "uncertainty quantification",
+        "sparse data",
+        "noisy data",
+        "bias",
+        "false precision"
+      ],
+      "quote": "A recurring theme across both dimensions is the imperative to explicitly quantify uncertainty. When data quality is poor, increasing complexity can amplify epistemic noise.",
+      "page": 14
+    },
+    {
+      "problem_id": "2609.03178v1:4.2.2:3",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.2.2 Granularity of Individual Models",
+      "parent_section": "4.2 Model Scope and Granularity",
+      "section_file": "4.2.2 Granularity of Individual Models.json",
+      "title": "Aggregating Weak Signals for Risk Estimation",
+      "summary": "Creating frameworks to aggregate diverse data sources and heterogeneous expert elicitation methods to produce order-of-magnitude risk estimates under deep uncertainty.",
+      "keywords": [
+        "weak signals",
+        "data aggregation",
+        "expert elicitation",
+        "risk estimation",
+        "deep uncertainty"
+      ],
+      "quote": "participants highlighted the utility of aggregating multiple weak signals, including diverse data sources and heterogeneous elicitation methods, to generate at least order-of-magnitude estimates.",
+      "page": 14
+    },
+    {
+      "problem_id": "2609.03178v1:4.3.1:1",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.3.1 Elicitation Methods",
+      "parent_section": "4.3 Evidence Integration and Elicitation",
+      "section_file": "4.3.1 Elicitation Methods.json",
+      "title": "Superforecasters' Ability in AI Risk Estimation",
+      "summary": "It is unclear whether superforecasters can accurately estimate probabilities for highly technical and novel AI risk scenarios, such as the impact of LLM capabilities on cyberattack steps.",
+      "keywords": [
+        "ai risk assessment",
+        "superforecasters",
+        "probability estimation",
+        "cyberattack"
+      ],
+      "quote": "The question of whether superforecasters can usefully estimate, for example, the probability that a given LLM capability translates into meaningful uplift for a specific step in a cyberattack remains open.",
+      "page": 15
+    },
+    {
+      "problem_id": "2609.03178v1:4.3.1:2",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.3.1 Elicitation Methods",
+      "parent_section": "4.3 Evidence Integration and Elicitation",
+      "section_file": "4.3.1 Elicitation Methods.json",
+      "title": "LLM-Simulated Expert Accuracy Validation",
+      "summary": "There is a need to demonstrate that LLM-elicited risk estimates are accurate in an absolute sense, as calibration against ground truth remains unresolved due to uncertain human baselines and sparse empirical data.",
+      "keywords": [
+        "llm-simulated experts",
+        "risk estimation",
+        "ground truth calibration",
+        "accuracy validation"
+      ],
+      "quote": "There is still a need, however, to demonstrate that these estimates are accurate in an absolute sense. Calibration against ground truth remains a key unresolved challenge, and the divergence between human expert groups on these topics means that even the human-elicited baseline is uncertain.",
+      "page": 16
+    },
+    {
+      "problem_id": "2609.03178v1:4.3.1:3",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.3.1 Elicitation Methods",
+      "parent_section": "4.3 Evidence Integration and Elicitation",
+      "section_file": "4.3.1 Elicitation Methods.json",
+      "title": "Epistemic Circularity in LLM-Based Risk Modeling",
+      "summary": "LLM-simulated experts may introduce epistemic circularity, as their outputs could reflect biases or misalignments from the same architectures being assessed, especially without robust external grounding.",
+      "keywords": [
+        "epistemic circularity",
+        "llm bias",
+        "risk modeling",
+        "systematic bias"
+      ],
+      "quote": "The adoption of LLM-simulated experts introduces significant concerns regarding epistemic circularity, given that the instruments of estimation are fundamentally derived from the same architectures under assessment.",
+      "page": 16
+    },
+    {
+      "problem_id": "2609.03178v1:4.3.1:4",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.3.1 Elicitation Methods",
+      "parent_section": "4.3 Evidence Integration and Elicitation",
+      "section_file": "4.3.1 Elicitation Methods.json",
+      "title": "Credibility of LLM-Based Estimators in Policy",
+      "summary": "LLM-based estimators may face skepticism from policymakers despite technical performance, necessitating hybrid approaches and transparency to bridge the gap between feasibility and legitimacy.",
+      "keywords": [
+        "llm credibility",
+        "policy acceptance",
+        "hybrid elicitation",
+        "institutional legitimacy"
+      ],
+      "quote": "While LLM-based estimators may, in some contexts, match or even exceed human performance in forecasting tasks, their outputs may be viewed with greater skepticism by policymakers and other stakeholders.",
+      "page": 16
+    },
+    {
+      "problem_id": "2609.03178v1:4.3.1:5",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.3.1 Elicitation Methods",
+      "parent_section": "4.3 Evidence Integration and Elicitation",
+      "section_file": "4.3.1 Elicitation Methods.json",
+      "title": "Methodological Gaps in LLM Elicitation for AI Risk",
+      "summary": "Current LLM elicitation frameworks like AutoElicit, validated for structured tasks, may not handle the ambiguity and context-dependence of AI risk nodes, requiring methodological adaptations.",
+      "keywords": [
+        "llm elicitation",
+        "methodological gaps",
+        "ai risk modeling",
+        "ambiguous domains"
+      ],
+      "quote": "However, important methodological gaps still exist. AutoElicit was designed and validated for structured predictive tasks such as clinical classification, and the nodes related to AI risk might be considerably more ambiguous and context-dependent.",
+      "page": 15
+    },
+    {
+      "problem_id": "2609.03178v1:4.4.1:1",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.4.1 Validation and Model Quality Metrics",
+      "parent_section": "4.4 Validating and Updating Models",
+      "section_file": "4.4.1 Validation and Model Quality Metrics.json",
+      "title": "Validation Standards for AI Risk Models",
+      "summary": "The field lacks consensus on achievable and sufficient validation standards for AI risk models, given the absence of historical catastrophic events and reliable proxy data.",
+      "keywords": [
+        "validation standards",
+        "ai risk models",
+        "catastrophic events",
+        "uncertainty"
+      ],
+      "quote": "The field, therefore, faces a difficult question about which validation standards are both achievable and sufficient to justify the use of AI risk models.",
+      "page": 17
+    },
+    {
+      "problem_id": "2609.03178v1:4.4.1:2",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.4.1 Validation and Model Quality Metrics",
+      "parent_section": "4.4 Validating and Updating Models",
+      "section_file": "4.4.1 Validation and Model Quality Metrics.json",
+      "title": "Internal Model Quality Metrics Development",
+      "summary": "There is a need to develop and refine internal model quality metrics (e.g., sensitivity analysis, Shapley value stability) as proxies for external validity in AI risk models.",
+      "keywords": [
+        "internal metrics",
+        "sensitivity analysis",
+        "shapley values",
+        "model coherence"
+      ],
+      "quote": "Internal model quality metrics were proposed as a proxy for external validity in the absence of ground truth. Sensitivity analysis and Shapley value stability analysis, in particular, were noted as promising methods.",
+      "page": 17
+    },
+    {
+      "problem_id": "2609.03178v1:4.4.1:3",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.4.1 Validation and Model Quality Metrics",
+      "parent_section": "4.4 Validating and Updating Models",
+      "section_file": "4.4.1 Validation and Model Quality Metrics.json",
+      "title": "Partial Model Validation Techniques",
+      "summary": "Research is needed to design empirical studies (e.g., uplift studies, randomized controlled trials) that can partially validate specific components or assumptions of AI risk models.",
+      "keywords": [
+        "partial validation",
+        "empirical studies",
+        "risk scenarios",
+        "model assumptions"
+      ],
+      "quote": "Designing empirical studies that can partially validate model assumptions, even without end-to-end validation of the full risk space, represents a concrete and underexplored research direction.",
+      "page": 17
+    },
+    {
+      "problem_id": "2609.03178v1:4.4.2:1",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.4.2 Model Assumptions Tracking",
+      "parent_section": "4.4 Validating and Updating Models",
+      "section_file": "4.4.2 Model Assumptions Tracking.json",
+      "title": "Model Assumptions Tracking System",
+      "summary": "Developing a system to track model assumptions, their evidence, and confidence levels to monitor invalidation when new information arrives.",
+      "keywords": [
+        "model assumptions",
+        "tracking system",
+        "evidence monitoring",
+        "confidence levels",
+        "threat landscape"
+      ],
+      "quote": "A system for tracking the assumptions underlying each model parameter, with their associated evidence and confidence levels, would allow model maintainers to monitor which assumptions are most likely to have been invalidated when new information arrives.",
+      "page": 17
+    },
+    {
+      "problem_id": "2609.03178v1:4.4.2:2",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.4.2 Model Assumptions Tracking",
+      "parent_section": "4.4 Validating and Updating Models",
+      "section_file": "4.4.2 Model Assumptions Tracking.json",
+      "title": "Optimal Model Update Triggers",
+      "summary": "Determining substantive changes in evidence that should trigger model updates, rather than relying solely on fixed calendar schedules.",
+      "keywords": [
+        "model updates",
+        "update triggers",
+        "evidence changes",
+        "threat intelligence",
+        "capability evaluations"
+      ],
+      "quote": "The question of how frequently models should be updated did not reach consensus in the workshop, but participants generally agreed that updates should be triggered by substantive changes in the underlying evidence, rather than by fixed calendar schedules alone.",
+      "page": 18
+    },
+    {
+      "problem_id": "2609.03178v1:4.5.1:1",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.5.1 Roles and Responsibilities",
+      "parent_section": "4.5 Governance and Institutional Design",
+      "section_file": "4.5.1 Roles and Responsibilities.json",
+      "title": "Integrating Domain Expertise with Contextual Understanding",
+      "summary": "The challenge is to effectively combine specialized domain knowledge with broader contextual understanding of how AI systems alter operational dynamics, as these expertise types often reside in different entities.",
+      "keywords": [
+        "domain expertise",
+        "contextual understanding",
+        "ai risk modeling"
+      ],
+      "quote": "Domain expertise must be paired with contextual understanding",
+      "page": 18
+    },
+    {
+      "problem_id": "2609.03178v1:4.5.1:2",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.5.1 Roles and Responsibilities",
+      "parent_section": "4.5 Governance and Institutional Design",
+      "section_file": "4.5.1 Roles and Responsibilities.json",
+      "title": "Structurally Independent Evaluation and Verification Structures",
+      "summary": "The need for independent evaluation and verification structures to avoid conflicts of interest, as the same organization should not both support and audit AI risk models.",
+      "keywords": [
+        "independent verification",
+        "conflict of interest",
+        "ai risk modeling"
+      ],
+      "quote": "The same organization should not both support and audit the same model",
+      "page": 18
+    },
+    {
+      "problem_id": "2609.03178v1:4.5.1:3",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.5.1 Roles and Responsibilities",
+      "parent_section": "4.5 Governance and Institutional Design",
+      "section_file": "4.5.1 Roles and Responsibilities.json",
+      "title": "Division of Responsibilities Between Model Builders and Evaluators",
+      "summary": "Clarifying distinct roles between model providers (generating baseline risk models) and external evaluators (validating/challenging models) to ensure legitimacy in governance applications.",
+      "keywords": [
+        "model builders",
+        "external evaluators",
+        "governance"
+      ],
+      "quote": "Model developers and external evaluators should play distinct roles",
+      "page": 18
+    },
+    {
+      "problem_id": "2609.03178v1:4.5.1:4",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.5.1 Roles and Responsibilities",
+      "parent_section": "4.5 Governance and Institutional Design",
+      "section_file": "4.5.1 Roles and Responsibilities.json",
+      "title": "Tiered Disclosure Systems for Risk Model Information",
+      "summary": "Developing tiered disclosure systems to balance sharing risk model insights broadly while protecting sensitive details from misuse, depending on recipients' security clearance/legal mandates.",
+      "keywords": [
+        "tiered disclosure",
+        "risk model information",
+        "misuse prevention"
+      ],
+      "quote": "Information sharing requires tiered disclosure systems",
+      "page": 18
+    },
+    {
+      "problem_id": "2609.03178v1:4.5.1:5",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.5.1 Roles and Responsibilities",
+      "parent_section": "4.5 Governance and Institutional Design",
+      "section_file": "4.5.1 Roles and Responsibilities.json",
+      "title": "Liability Protections for Early Risk Disclosure",
+      "summary": "Establishing safe-harbor arrangements to protect developers/evaluators from legal/reputational consequences when disclosing risks before mitigations exist, incentivizing early reporting.",
+      "keywords": [
+        "liability protections",
+        "risk disclosure",
+        "safe-harbor"
+      ],
+      "quote": "Liability protections are needed to help incentivise disclosure",
+      "page": 19
+    },
+    {
+      "problem_id": "2609.03178v1:4.5.2:1",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.5.2 Oversight and Coordination",
+      "parent_section": "4.5 Governance and Institutional Design",
+      "section_file": "4.5.2 Oversight and Coordination.json",
+      "title": "Designing Insulated AI Risk Assessment Body",
+      "summary": "The challenge is to create an overarching assessment body for AI risk that is institutionally insulated from political and commercial pressures while maintaining legitimacy through broad participation.",
+      "keywords": [
+        "ai risk assessment",
+        "governance",
+        "institutional design",
+        "political pressure",
+        "legitimacy"
+      ],
+      "quote": "The question of how to design an overarching assessment body that is institutionally insulated from these pressures without sacrificing the legitimacy that comes from broad participation is at least as much a political design problem as a governance or technical one.",
+      "page": 19
+    },
+    {
+      "problem_id": "2609.03178v1:4.5.2:2",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.5.2 Oversight and Coordination",
+      "parent_section": "4.5 Governance and Institutional Design",
+      "section_file": "4.5.2 Oversight and Coordination.json",
+      "title": "Developing AI Risk Monitoring and Update Systems",
+      "summary": "There is a need for institutions that can monitor AI systems over time, collect incident reports and usage data, and convert these into triggers for review or revision as capabilities and threats evolve.",
+      "keywords": [
+        "ai risk monitoring",
+        "incident reporting",
+        "systemic risks",
+        "governance",
+        "threat environments"
+      ],
+      "quote": "Participants also emphasized the importance of monitoring systems over time, especially for updating assumptions as model capabilities, usage patterns, and threat environments change.",
+      "page": 19
+    },
+    {
+      "problem_id": "2609.03178v1:4.5.2:3",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.5.2 Oversight and Coordination",
+      "parent_section": "4.5 Governance and Institutional Design",
+      "section_file": "4.5.2 Oversight and Coordination.json",
+      "title": "Establishing Independent AI Risk Information-Sharing Entity",
+      "summary": "The need exists for an independent, trusted third-party entity (like an AI ISAC) to facilitate neutral information sharing and risk intelligence repository, modeled after systems like NASA's ASRS.",
+      "keywords": [
+        "information sharing",
+        "trusted third party",
+        "ai isac",
+        "risk intelligence",
+        "neutral repository"
+      ],
+      "quote": "Participants also expressed the need for an independent (non-government non-industry) trusted third party entity to facilitate information sharing.",
+      "page": 19
+    },
+    {
+      "problem_id": "2609.03178v1:4.5.3:1",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.5.3 Institutional Design Tradeoffs",
+      "parent_section": "4.5 Governance and Institutional Design",
+      "section_file": "4.5.3 Institutional Design Tradeoffs.json",
+      "title": "Governance Model Appropriateness for Decision Contexts",
+      "summary": "Future institutional design work should focus on clarifying which governance arrangements are appropriate for specific decision contexts, rather than seeking a single optimal model.",
+      "keywords": [
+        "governance design",
+        "institutional design",
+        "decision contexts",
+        "ai risk modeling"
+      ],
+      "quote": "This suggests that future institutional design work should not aim to identify a single best model of governance, but rather to clarify which arrangements are appropriate for which decision contexts.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:4.5.3:2",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "4.5.3 Institutional Design Tradeoffs",
+      "parent_section": "4.5 Governance and Institutional Design",
+      "section_file": "4.5.3 Institutional Design Tradeoffs.json",
+      "title": "Tradeoff Between Participation and Effectiveness",
+      "summary": "There is a tradeoff between broad participation (which increases legitimacy but complicates consensus) and specialized oversight (which improves operational effectiveness but risks reduced trust and information access).",
+      "keywords": [
+        "participatory governance",
+        "operational effectiveness",
+        "trust",
+        "strategic pressure"
+      ],
+      "quote": "Participants also noted a likely tradeoff between broad participation and operational effectiveness. A highly participatory process may increase legitimacy, but it can also make consensus harder to achieve and create opportunities for strategic pressure. By contrast, a smaller and more specialized oversight structure may be more operationally useful, but may struggle to secure trust or access to the information needed for robust assessment.",
+      "page": 19
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:1",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Evaluation Reporting Standards",
+      "summary": "Developing standards for evaluation reporting to ensure consistency and comparability in AI risk modeling assessments.",
+      "keywords": [
+        "evaluation standards",
+        "risk modeling",
+        "reporting"
+      ],
+      "quote": "- Standards for evaluation reporting.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:2",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Risk Scenario-Tailored Benchmarks",
+      "summary": "Creating benchmarks specifically designed for particular risk scenarios rather than broad risk domains to better capture nuanced risks.",
+      "keywords": [
+        "benchmarks",
+        "risk scenarios",
+        "model evaluation"
+      ],
+      "quote": "- Benchmarks tailored to specific risk scenarios, as opposed to just risk domains.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:3",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Risk Universe Coverage Assessment",
+      "summary": "Establishing methods to evaluate how comprehensively a model covers the risk universe and to determine whether estimates represent lower, central, or upper bounds.",
+      "keywords": [
+        "risk coverage",
+        "coverage assessment",
+        "uncertainty bounds"
+      ],
+      "quote": "- Methods for assessing coverage of the risk universe and for characterizing whether resulting estimates should be interpreted as lower-bound, central, or upper-bound.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:4",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Granularity Selection Criteria",
+      "summary": "Defining criteria for choosing appropriate model granularity levels that balance data sparsity and empirical robustness, avoiding unnecessary complexity.",
+      "keywords": [
+        "model granularity",
+        "data sparsity",
+        "empirical robustness"
+      ],
+      "quote": "- Criteria for selecting an appropriate level of granularity given data sparsity, including when increased model complexity reduces rather than improves empirical robustness.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:5",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Ensemble Model Aggregation Methods",
+      "summary": "Developing techniques to combine outputs from ensemble models, including triangulating directional signals and communicating disagreements.",
+      "keywords": [
+        "ensemble modeling",
+        "aggregation methods",
+        "model disagreement"
+      ],
+      "quote": "- Aggregation methods for combining outputs across ensemble modeling approaches, includ- ing how to triangulate directional signals and communicate disagreement when models diverge.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:6",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Model Fidelity-Use Matching Frameworks",
+      "summary": "Creating frameworks to align model fidelity requirements with specific use cases, such as threshold-setting or mitigation prioritization.",
+      "keywords": [
+        "model fidelity",
+        "use cases",
+        "risk modeling"
+      ],
+      "quote": "- Frameworks for matching model fidelity requirements to intended use (e.g., threshold-setting and safety assurance vs. mitigation prioritization or exploratory analysis).",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:7",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Superforecaster Utilization in Risk Models",
+      "summary": "Exploring the use of superforecasters alongside or instead of domain experts to improve risk model accuracy and calibration.",
+      "keywords": [
+        "superforecasters",
+        "expert elicitation",
+        "risk domains"
+      ],
+      "quote": "- Use of superforecasters instead of/in addition to domain experts.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:8",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "LLM-Simulated Expert Validity",
+      "summary": "Validating the reliability of LLM-simulated experts across diverse risk domains and scenarios to assess their applicability in risk modeling.",
+      "keywords": [
+        "llm-simulated experts",
+        "validity assessment",
+        "risk domains"
+      ],
+      "quote": "- Validity of LLM-simulated experts across different risk domains and scenarios.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:9",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Capstick et al. Extension for AI Risks",
+      "summary": "Extending or validating Capstick et al.'s work on high-priority AI risk domains to improve risk prioritization frameworks.",
+      "keywords": [
+        "capstick et al.",
+        "risk domains",
+        "validation"
+      ],
+      "quote": "- Extend or validate Capstick et al. [54] on high-priority AI risk domains.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:10",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Cross-Model Comparison for Risk Assessment",
+      "summary": "Comparing different risk models to determine their relative effectiveness and applicability in high-priority scenarios.",
+      "keywords": [
+        "model comparison",
+        "risk assessment",
+        "primary importance"
+      ],
+      "quote": "- Comparison of different models (primary importance).",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:11",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Prompting Method Comparison for Risk Elicitation",
+      "summary": "Evaluating different prompting methods and tasks to optimize risk scenario elicitation from LLMs or experts.",
+      "keywords": [
+        "prompting methods",
+        "risk elicitation",
+        "secondary importance"
+      ],
+      "quote": "- Comparison of different prompting methods and tasks (secondary importance).",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:12",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Cross-Domain Model Quality Metrics",
+      "summary": "Adapting model quality standards from other domains and developing tailored metrics for AI risk models.",
+      "keywords": [
+        "model quality",
+        "metrics",
+        "cross-domain adaptation"
+      ],
+      "quote": "- Reviewing standards for model quality in other domains and creating a set of model quality metrics for AI risk models.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:13",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Partial Model Validation Experiments",
+      "summary": "Designing experimental protocols to validate AI risk models in cases where full validation is infeasible.",
+      "keywords": [
+        "partial validation",
+        "experimental design",
+        "risk models"
+      ],
+      "quote": "- Designing experiments for partial model validation.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:14",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Model Builder-Evaluator Responsibility Division",
+      "summary": "Establishing governance frameworks to separate model development and evaluation roles, including adversarial arrangements to reduce conflicts of interest.",
+      "keywords": [
+        "governance",
+        "responsibility division",
+        "conflict mitigation"
+      ],
+      "quote": "- Division of responsibility between model builders and independent evaluators, including structurally adversarial arrangements and randomized assignment mechanisms to mitigate conflicts of interest [60].",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:15",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Tiered Model Disclosure Regimes",
+      "summary": "Designing tiered disclosure systems that differentiate between structural and parameter-level model information based on recipient clearance.",
+      "keywords": [
+        "disclosure regimes",
+        "model information",
+        "access control"
+      ],
+      "quote": "- Tiered disclosure regimes that distinguish structural model information from parameter-level information and calibrate access to recipient mandate and clearance.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:16",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Safe-Harbor Risk Disclosure Incentives",
+      "summary": "Creating safe-harbor arrangements to encourage transparent risk scenario reporting before mitigation deployment.",
+      "keywords": [
+        "safe-harbor",
+        "risk disclosure",
+        "incentive alignment"
+      ],
+      "quote": "- Safe-harbor arrangements to align incentives for good-faith disclosure of risk scenarios prior to mitigation deployment.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:17",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "Overarching AI Risk Assessment Body",
+      "summary": "Designing an independent assessment body capable of synthesizing diverse AI risk models while resisting external pressures, inspired by the IPCC model.",
+      "keywords": [
+        "assessment body",
+        "model synthesis",
+        "independence"
+      ],
+      "quote": "- Design of an overarching assessment body able to synthesize across independently developed models while remaining insulated from commercial and political pressure, drawing on the IPCC analogue and its documented limitations.",
+      "page": 20
+    },
+    {
+      "problem_id": "2609.03178v1:5.1:18",
+      "paper_id": "2609.03178v1",
+      "paper_title": "Open Problems in AI Risk Modeling: Insights from a Workshop on the Technical Foundations of AI Risk Modeling",
+      "section_title": "5.1 Prioritized Research Areas",
+      "parent_section": "5 Prioritized Research Areas and Recommendations",
+      "section_file": "5.1 Prioritized Research Areas.json",
+      "title": "AI Incident Data-Sharing Infrastructures",
+      "summary": "Establishing information-sharing systems for AI incidents, capabilities, and usage data, including ISAC-style and ASRS-style reporting channels.",
+      "keywords": [
+        "data-sharing",
+        "incident reporting",
+        "isac",
+        "asrs"
+      ],
+      "quote": "- Information-sharing infrastructures for incident, capability, and usage data, including the case for an AI-focused ISAC and an ASRS-style trusted third-party reporting channel [63].",
+      "page": 20
+    },
+    {
+      "problem_id": "2607.05163v1:2:1",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "2. Definitions",
+      "section_file": "2. Definitions - Open Problems.json",
+      "title": "Standardizing AI Incident Definitions",
+      "summary": "Determine whether definitions of AI incidents should be standardized, particularly regarding whether potential but unrealized harm should be included, and how to distinguish between realized incidents and near misses.",
+      "keywords": [
+        "ai incident definitions",
+        "standardization",
+        "harm classification"
+      ],
+      "quote": "Should definitions be standardised? Where does a realised incident end and a near miss begin, and should events with potential but unrealised harm count as incidents?",
+      "page": 3
+    },
+    {
+      "problem_id": "2607.05163v1:2:2",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "2. Definitions",
+      "section_file": "2. Definitions - Open Problems.json",
+      "title": "Validating AI Incident Definitions",
+      "summary": "Develop methods to assess the quality, usefulness, and intended impact of emerging definitions of AI incidents.",
+      "keywords": [
+        "definition validation",
+        "quality assessment",
+        "impact evaluation"
+      ],
+      "quote": "How to validate the quality, usefulness and the intended impact of emerging definitions?",
+      "page": 3
+    },
+    {
+      "problem_id": "2607.05163v1:2:3",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "2. Definitions",
+      "section_file": "2. Definitions - Open Problems.json",
+      "title": "Temporal and Scoping Boundaries of AI Incidents",
+      "summary": "Establish criteria for determining the start and end of an AI incident, whether recurring failures should be counted as a single or multiple incidents, and how to aggregate harm across multiple people or deployments of the same model.",
+      "keywords": [
+        "incident boundaries",
+        "recurring failures",
+        "harm aggregation"
+      ],
+      "quote": "When does a single AI incident begin and end, and when the same failure recurs, should repeat occurrences count as one incident or many? When the harm from one model is spread across many people, or across many separate deployments of that model, how should it be counted as an incident?",
+      "page": 3
+    },
+    {
+      "problem_id": "2607.05163v1:3:1",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "3. Taxonomies",
+      "section_file": "3. Taxonomies - Open Problems.json",
+      "title": "Mutually Exclusive and Informative Incident Taxonomies",
+      "summary": "Developing incident taxonomies that are both mutually exclusive and collectively exhaustive while remaining sufficiently granular to provide useful information.",
+      "keywords": [
+        "incident taxonomy",
+        "mutually exclusive",
+        "collectively exhaustive",
+        "classification"
+      ],
+      "quote": "Can incident taxonomies be made mutually exclusive and collectively exhaustive without becoming too coarse to be informative?",
+      "page": 3
+    },
+    {
+      "problem_id": "2607.05163v1:3:2",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "3. Taxonomies",
+      "section_file": "3. Taxonomies - Open Problems.json",
+      "title": "Technology-Resilient Incident Taxonomy Categories",
+      "summary": "Creating category sets for incident taxonomies that remain relevant as AI technology evolves without requiring frequent revisions that disrupt historical comparisons.",
+      "keywords": [
+        "taxonomy categories",
+        "technology resilience",
+        "comparability",
+        "historical data"
+      ],
+      "quote": "How can a category set be chosen so that it stays mean- ingful as the technology changes (e.g. a method- or technology-based taxonomy designed before the trans- former era would now classify most incidents as \"other\") without continual revision that breaks comparability over time?",
+      "page": 3
+    },
+    {
+      "problem_id": "2607.05163v1:3:3",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "3. Taxonomies",
+      "section_file": "3. Taxonomies - Open Problems.json",
+      "title": "Adapting Risk Taxonomies for Incident Classification",
+      "summary": "Determining how general AI risk taxonomies can be adapted for incident classification and resolving discrepancies between forward-looking risk categories and actual incident records.",
+      "keywords": [
+        "risk taxonomy adaptation",
+        "incident classification",
+        "forward-looking risks",
+        "realized incidents"
+      ],
+      "quote": "Can comprehensive AI risk taxonomies not designed for incidents be adapted to incident classification, and how should the mismatch between forward-looking risk cate- gories and records of realised incidents be resolved?",
+      "page": 3
+    },
+    {
+      "problem_id": "2607.05163v1:4:1",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "4. Monitoring",
+      "section_file": "4. Monitoring - Open Problems.json",
+      "title": "Standardization of AI Incident Triaging",
+      "summary": "Determining whether triaging processes for AI incidents should be standardized across the AI ecosystem and identifying methods for such standardization.",
+      "keywords": [
+        "ai incident governance",
+        "triaging processes",
+        "standardization",
+        "ai ecosystem"
+      ],
+      "quote": "Should the triaging processes be standardised across the AI ecosystem, and if so, how should it be standardised?",
+      "page": 5
+    },
+    {
+      "problem_id": "2607.05163v1:4:2",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "4. Monitoring",
+      "section_file": "4. Monitoring - Open Problems.json",
+      "title": "Responsibility Sharing for AI Incident Monitoring",
+      "summary": "Establishing mechanisms for different actors to share responsibility for monitoring AI incidents when signals are fragmented across the AI ecosystem.",
+      "keywords": [
+        "ai incident monitoring",
+        "responsibility sharing",
+        "fragmented signals",
+        "ai ecosystem"
+      ],
+      "quote": "How should different actors share responsibility for AI in- cident monitoring when incident signals are so fragmented across the AI ecosystem?",
+      "page": 5
+    },
+    {
+      "problem_id": "2607.05163v1:4:3",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "4. Monitoring",
+      "section_file": "4. Monitoring - Open Problems.json",
+      "title": "Adaptation of Automated Detection Systems",
+      "summary": "Ensuring automated detection systems remain current with evolving models and threats while balancing sensitivity and alert fatigue.",
+      "keywords": [
+        "automated detection systems",
+        "model evolution",
+        "threat vectors",
+        "detection sensitivity",
+        "alert fatigue"
+      ],
+      "quote": "How can automated detection systems be kept up to date as models and threat vectors change rapidly over time, and how should they be calibrated to manage trade-offs between detection sensitivity and alert fatigue?",
+      "page": 5
+    },
+    {
+      "problem_id": "2607.05163v1:4:4",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "4. Monitoring",
+      "section_file": "4. Monitoring - Open Problems.json",
+      "title": "Balancing Data Needs and Privacy in Monitoring",
+      "summary": "Designing monitoring systems that balance comprehensive user data collection with robust privacy protections.",
+      "keywords": [
+        "monitoring systems",
+        "user data",
+        "privacy protection",
+        "data collection"
+      ],
+      "quote": "How can monitoring systems balance the need for com- prehensive user data with privacy protection?",
+      "page": 5
+    },
+    {
+      "problem_id": "2607.05163v1:5:1",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "5. Reporting",
+      "section_file": "5. Reporting - Open Problems.json",
+      "title": "Purposes and Information Requirements for Incident Reports",
+      "summary": "Determining the purposes incident reports should serve and the necessary information required to fulfill those purposes remains unresolved.",
+      "keywords": [
+        "incident reporting",
+        "information requirements",
+        "report purposes"
+      ],
+      "quote": "What purposes should incident reports serve, and what information is required as a result?",
+      "page": 6
+    },
+    {
+      "problem_id": "2607.05163v1:5:2",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "5. Reporting",
+      "section_file": "5. Reporting - Open Problems.json",
+      "title": "Scope of Mandatory vs. Voluntary Incident Reporting",
+      "summary": "Defining the scope of mandatory incident reporting and mechanisms to support voluntary reporting outside this scope is an open problem.",
+      "keywords": [
+        "mandatory reporting",
+        "voluntary reporting",
+        "reporting scope"
+      ],
+      "quote": "What should be the scope of mandatory incident reporting, and how should voluntary reporting be supported outside this scope?",
+      "page": 6
+    },
+    {
+      "problem_id": "2607.05163v1:5:3",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "5. Reporting",
+      "section_file": "5. Reporting - Open Problems.json",
+      "title": "Information Requirements Across Reporting Stages",
+      "summary": "How information requirements should adapt across different stages of an iterative reporting process is not yet established.",
+      "keywords": [
+        "iterative reporting",
+        "information requirements",
+        "reporting stages"
+      ],
+      "quote": "How should information requirements vary across stages of an iterative reporting process?",
+      "page": 6
+    },
+    {
+      "problem_id": "2607.05163v1:5:4",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "5. Reporting",
+      "section_file": "5. Reporting - Open Problems.json",
+      "title": "Balancing Structured and Open-Ended Reporting Formats",
+      "summary": "Determining how to balance structured categories with open-ended reporting in incident reports remains an unresolved challenge.",
+      "keywords": [
+        "structured reporting",
+        "open-ended reporting",
+        "report formats"
+      ],
+      "quote": "How should reports balance structured categories with open-ended reporting?",
+      "page": 6
+    },
+    {
+      "problem_id": "2607.05163v1:6:1",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "6. Incident analysis",
+      "section_file": "6. Incident analysis - Open Problems.json",
+      "title": "Balancing Categorical and Free-Text Data in Incident Datasets",
+      "summary": "How to balance high-dimensional categorical fields with free-text descriptions in incident datasets to enable both rich contextual detail and systematic analysis at scale.",
+      "keywords": [
+        "incident datasets",
+        "categorical fields",
+        "free-text descriptions",
+        "systematic analysis"
+      ],
+      "quote": "How can incident datasets balance high-dimensional cat- egorical fields with free-text descriptions to enable both rich contextual detail and systematic analysis at scale?",
+      "page": 7
+    },
+    {
+      "problem_id": "2607.05163v1:6:2",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "6. Incident analysis",
+      "section_file": "6. Incident analysis - Open Problems.json",
+      "title": "Forecasting Indicators of Emerging AI Risks",
+      "summary": "How forecasting approaches can identify indicators of emerging risks, particularly for novel failure modes in AI systems.",
+      "keywords": [
+        "forecasting approaches",
+        "emerging risks",
+        "novel failure modes",
+        "ai incident governance"
+      ],
+      "quote": "How can forecasting approaches identify indicators of emerging risks, particularly for novel failure modes?",
+      "page": 7
+    },
+    {
+      "problem_id": "2607.05163v1:6:3",
+      "paper_id": "2607.05163v1",
+      "paper_title": "Open Problems in AI Incident Governance",
+      "section_title": "Open Problems",
+      "parent_section": "6. Incident analysis",
+      "section_file": "6. Incident analysis - Open Problems.json",
+      "title": "Adapting Safety-Critical Forecasting Methodologies for AI",
+      "summary": "What forecasting methodologies from other safety-critical domains can be adapted to AI incident governance given the specific characteristics of AI systems.",
+      "keywords": [
+        "forecasting methodologies",
+        "safety-critical domains",
+        "ai incident governance",
+        "ai system characteristics"
+      ],
+      "quote": "What forecasting methodologies from other safety-critical domains can be adapted to AI incident governance given the specific characteristics of AI systems?",
+      "page": 7
+    },
+    {
+      "problem_id": "2607.09756v1:VI:1",
+      "paper_id": "2607.09756v1",
+      "paper_title": "LLM-Centric Agentic AI for UAV Swarms: Architecture, Enabling Technologies, and Open Problems",
+      "section_title": "VI. DISCUSSION AND OPEN PROBLEMS",
+      "parent_section": null,
+      "section_file": "VI. DISCUSSION AND OPEN PROBLEMS.json",
+      "title": "Hallucination-resistant reasoning for UAV controllers",
+      "summary": "Developing reasoning mechanisms and output verification standards to prevent hallucinations in agentic UAV controllers remains unresolved.",
+      "keywords": [
+        "hallucination resistance",
+        "reasoning",
+        "output verification",
+        "uav controllers"
+      ],
+      "quote": "Hallucination-resistant rea- soning and standardized output verification for agentic UAV controllers are still lacking.",
+      "page": 7
+    },
+    {
+      "problem_id": "2607.09756v1:VI:2",
+      "paper_id": "2607.09756v1",
+      "paper_title": "LLM-Centric Agentic AI for UAV Swarms: Architecture, Enabling Technologies, and Open Problems",
+      "section_title": "VI. DISCUSSION AND OPEN PROBLEMS",
+      "parent_section": null,
+      "section_file": "VI. DISCUSSION AND OPEN PROBLEMS.json",
+      "title": "Onboard deployment under SWaP constraints",
+      "summary": "Deploying LLM-based agents on UAVs with strict size, weight, and power constraints is unresolved due to current compression techniques limiting reasoning depth.",
+      "keywords": [
+        "swap constraints",
+        "onboard deployment",
+        "model compression",
+        "reasoning depth"
+      ],
+      "quote": "Onboard deployment under strict SWaP constraints remains unresolved, as current compres- sion techniques reduce the reasoning depth required for high- complexity missions.",
+      "page": 7
+    },
+    {
+      "problem_id": "2607.09756v1:VI:3",
+      "paper_id": "2607.09756v1",
+      "paper_title": "LLM-Centric Agentic AI for UAV Swarms: Architecture, Enabling Technologies, and Open Problems",
+      "section_title": "VI. DISCUSSION AND OPEN PROBLEMS",
+      "parent_section": null,
+      "section_file": "VI. DISCUSSION AND OPEN PROBLEMS.json",
+      "title": "Security benchmarks for perception-reasoning attacks",
+      "summary": "Standardized security benchmarks and systematic taxonomy for perception-reasoning attacks on UAV swarms are needed.",
+      "keywords": [
+        "security benchmarks",
+        "perception-reasoning attacks",
+        "taxonomy",
+        "uav swarms"
+      ],
+      "quote": "Standardized security benchmarks for perception-reasoning attacks do not yet exist; the PMA pre- sented here illustrates one vector, but a systematic taxonomy is needed.",
+      "page": 7
+    },
+    {
+      "problem_id": "2607.09756v1:VI:4",
+      "paper_id": "2607.09756v1",
+      "paper_title": "LLM-Centric Agentic AI for UAV Swarms: Architecture, Enabling Technologies, and Open Problems",
+      "section_title": "VI. DISCUSSION AND OPEN PROBLEMS",
+      "parent_section": null,
+      "section_file": "VI. DISCUSSION AND OPEN PROBLEMS.json",
+      "title": "Multi-agent isolation protocols for compromised agents",
+      "summary": "Engineering protocols to isolate compromised agents without halting swarm operations remains an open challenge.",
+      "keywords": [
+        "multi-agent isolation",
+        "compromised agents",
+        "swarm operations",
+        "engineering challenge"
+      ],
+      "quote": "multi-agent isolation protocols that contain a compromised agent's influence without suspending swarm operations remain an open engineering challenge.",
+      "page": 7
+    },
+    {
+      "problem_id": "2607.09756v1:VI:5",
+      "paper_id": "2607.09756v1",
+      "paper_title": "LLM-Centric Agentic AI for UAV Swarms: Architecture, Enabling Technologies, and Open Problems",
+      "section_title": "VI. DISCUSSION AND OPEN PROBLEMS",
+      "parent_section": null,
+      "section_file": "VI. DISCUSSION AND OPEN PROBLEMS.json",
+      "title": "Efficient LLM deployment on resource-constrained UAVs",
+      "summary": "Enabling lightweight LLM-assisted agents on UAVs with limited computational resources requires advancements in model compression and SLMs.",
+      "keywords": [
+        "llm deployment",
+        "resource-constrained uavs",
+        "model compression",
+        "small language models"
+      ],
+      "quote": "A key operational challenge is the constraint imposed by the UAV platform itself: a primary research priority for LAUS is enabling efficient deployment of LLM-assisted agents on resource-constrained UAV platforms.",
+      "page": 8
+    },
+    {
+      "problem_id": "2607.09756v1:VI:6",
+      "paper_id": "2607.09756v1",
+      "paper_title": "LLM-Centric Agentic AI for UAV Swarms: Architecture, Enabling Technologies, and Open Problems",
+      "section_title": "VI. DISCUSSION AND OPEN PROBLEMS",
+      "parent_section": null,
+      "section_file": "VI. DISCUSSION AND OPEN PROBLEMS.json",
+      "title": "Real-time edge inference for LLM-based UAV systems",
+      "summary": "Optimizing stateful LLM inference for real-time edge deployment on UAVs requires efficient KV-cache management and phase-aware scheduling.",
+      "keywords": [
+        "real-time inference",
+        "edge computing",
+        "kv-cache management",
+        "phase-aware scheduling"
+      ],
+      "quote": "the challenge of real-time edge inference, which remains significant for LAUS. Unlike conventional deep neural networks, LLM inference is stateful, requires continuous management of growing KV caches, and involves distinct prefill (compute-bound) and decoding (memory-bound) phases.",
+      "page": 8
+    },
+    {
+      "problem_id": "2607.09756v1:VI:7",
+      "paper_id": "2607.09756v1",
+      "paper_title": "LLM-Centric Agentic AI for UAV Swarms: Architecture, Enabling Technologies, and Open Problems",
+      "section_title": "VI. DISCUSSION AND OPEN PROBLEMS",
+      "parent_section": null,
+      "section_file": "VI. DISCUSSION AND OPEN PROBLEMS.json",
+      "title": "Unified reliability evaluation frameworks for UAV LLMs",
+      "summary": "Developing systematic evaluation frameworks to assess adversarial robustness, hallucination, bias, and safety in UAV LLMs using standardized benchmarks is needed.",
+      "keywords": [
+        "reliability evaluation",
+        "adversarial robustness",
+        "hallucination",
+        "standardized benchmarks"
+      ],
+      "quote": "these architectural and deployment chal- lenges underscore the need for rigorous evaluation methodolo- gies. Research should therefore focus on developing systematic reliability evaluation frameworks that assess adversarial robust- ness, hallucination, bias, and safety in a unified manner using standardized benchmarks.",
+      "page": 8
+    },
+    {
+      "problem_id": "2607.09756v1:VI:8",
+      "paper_id": "2607.09756v1",
+      "paper_title": "LLM-Centric Agentic AI for UAV Swarms: Architecture, Enabling Technologies, and Open Problems",
+      "section_title": "VI. DISCUSSION AND OPEN PROBLEMS",
+      "parent_section": null,
+      "section_file": "VI. DISCUSSION AND OPEN PROBLEMS.json",
+      "title": "Domain-specific reliability benchmarks for UAV applications",
+      "summary": "Creating safety-critical benchmarks for UAV communications that incorporate realistic conditions like noise and adversarial scenarios is an open research direction.",
+      "keywords": [
+        "domain-specific benchmarks",
+        "safety-critical applications",
+        "uav communications",
+        "adversarial scenarios"
+      ],
+      "quote": "Another direction is the design of domain-specific reliability benchmarks for safety-critical appli- cations such as UAV communications, incorporating realistic conditions such as noise, incomplete inputs, and adversarial scenarios.",
+      "page": 8
+    },
+    {
+      "problem_id": "2606.30116v1:3.1:1",
+      "paper_id": "2606.30116v1",
+      "paper_title": "Open Problems in Constitutional Preference Reconstruction",
+      "section_title": "3.1 Problem 1: Measuring Principle Quality",
+      "parent_section": "3 Preference Reconstruction: Open Problems",
+      "section_file": "3.1 Problem 1 - Measuring Principle Quality.json",
+      "title": "Measuring Principle Quality via Coverage and Accuracy",
+      "summary": "Developing a method to summarize the quality of a principle P by measuring its coverage (how often it applies) and accuracy (how often it agrees with ground truth when applicable) remains an open problem.",
+      "keywords": [
+        "principle quality",
+        "coverage",
+        "accuracy",
+        "preference reconstruction"
+      ],
+      "quote": "A natural goal is to summarize the quality of a principle P by how often it applies and how often it agrees with ground truth when it applies.",
+      "page": 4
+    },
+    {
+      "problem_id": "2606.30116v1:3.2:1",
+      "paper_id": "2606.30116v1",
+      "paper_title": "Open Problems in Constitutional Preference Reconstruction",
+      "section_title": "3.2 Problem 2: Ambiguity in Principle Composition",
+      "parent_section": "3 Preference Reconstruction: Open Problems",
+      "section_file": "3.2 Problem 2 - Ambiguity in Principle Composition.json",
+      "title": "Ambiguity in Principle Composition",
+      "summary": "The problem involves the underspecification in written constitutions when composing principle-level votes into a single decision, as different executors (LLM judge, majority vote, priority vote, tree-based models) produce varying results due to implicit composition logic supplied by the executor.",
+      "keywords": [
+        "constitution",
+        "principle composition",
+        "executor sensitivity",
+        "underspecification",
+        "inter-executor agreement"
+      ],
+      "quote": "Disagreement does not imply that any executor is 'wrong'; rather, it quantifies underspecification in the written constitution and the extent to which composition logic is being supplied by the executor.",
+      "page": 4
+    },
+    {
+      "problem_id": "2606.30116v1:3.3:1",
+      "paper_id": "2606.30116v1",
+      "paper_title": "Open Problems in Constitutional Preference Reconstruction",
+      "section_title": "3.3 Problem 3: Cross-LLM Transferability",
+      "parent_section": "3 Preference Reconstruction: Open Problems",
+      "section_file": "3.3 Problem 3 - Cross-LLM Transferability.json",
+      "title": "Cross-LLM Transferability of Constitutional Principles",
+      "summary": "The problem addresses whether constitutional principles derived or annotated by one LLM can be reliably transferred to another LLM, given potential disagreements in principle application and response preference between models.",
+      "keywords": [
+        "cross-llm transferability",
+        "constitutional principles",
+        "model-dependent annotation",
+        "coverage agreement",
+        "vote agreement"
+      ],
+      "quote": "Constitutions are written in natural language and therefore appear model-agnostic, but in practice both discovery and annotation can be model-dependent.",
+      "page": 4
+    }
+  ]
+}
