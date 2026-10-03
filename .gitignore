@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+venv/
+.venv/
+.streamlit/secrets.toml
+.idea/
+.vscode/
+plan/
+diagram/
+mock/
