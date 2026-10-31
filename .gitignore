@@ -8,6 +8,7 @@ venv/
 .vscode/
 plan/
 diagram/
+data/
 CLAUDE.md
 mock/*
 !mock/proposal_paper/

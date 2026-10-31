@@ -34,8 +34,7 @@
 │  └─ agents/
 │     ├─ tools/               # LLM에 노출하는 Tool
 │     │  ├─ search_problems.py  # RAG 검색
-│     │  ├─ search_papers.py    # S2 검색
-│     │  └─ read_paper.py       # 다운로드 + 파싱
+│     │  └─ search_papers.py    # S2 검색
 │     ├─ chat/
 │     │  ├─ agent.py          # 추천, 후속 대화
 │     │  └─ prompts/
@@ -86,7 +85,7 @@ app → agents → tools → paper_db, store, clients
 | 현재 | 목표 | 메모 |
 |---|---|---|
 | `src/llm.py` | `src/clients/upstage.py` | |
-| `mock/scripts/s2_client.py` | `src/clients/semantic_scholar.py` | |
+| `mock/scripts/s2_client.py` | `src/clients/semantic_scholar.py` | 검색에 필요한 호출만 복사. `mock/`의 원본은 목업 재생성용으로 유지 |
 | `mock/scripts/step2_download_pdf.py` | `src/paper_db/collect.py` | |
 | `mock/scripts/common.py` | 해당 기능을 쓰는 모듈 | 내용을 보고 나눔 |
 | `mock/scripts/step1_citations.py` | `src/paper_db/collect.py` | 후속 논문 수집 |
@@ -98,6 +97,8 @@ app → agents → tools → paper_db, store, clients
 | `src/recommend.py`, `src/topic.py`, `src/chat.py` | `src/agents/chat/` | |
 | `src/prompts/extract_open_problems.md` | `src/paper_db/prompts/` | |
 | `src/prompts/recommend_*.md`, `topic_generate.md`, `chat_followup.md` | `src/agents/chat/prompts/` | |
+
+`src/agents/tools/`의 `search_papers`는 구현되어 있지만 에이전트에는 아직 연결하지 않았습니다. `default_toolbox()`로 묶어 씁니다.
 
 ## 구현 순서
 
