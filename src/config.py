@@ -25,6 +25,7 @@ EMBEDDINGS_META_PATH = UNIT_OP_DIR / "embeddings.json"              # {model, ge
 RETRIEVE_K = 30          # 임베딩 검색 후보 수
 MIN_SCORE = 0.40         # 최고 유사도가 이보다 낮으면 "관련 항목 없음". 임시값 (보정은 추후 과제, plan/실행 계획.md 5절)
 MAX_RECOMMENDATIONS = 5
+TOPIC_COUNT = 3          # 선택한 Open Problem 하나에서 만드는 연구 주제 후보 수
 PROMPT_DIR = Path(__file__).resolve().parent / "prompts"
 
 # 제안 논문 5편. paper_id = mock 파일명 ({arxiv}v{version})

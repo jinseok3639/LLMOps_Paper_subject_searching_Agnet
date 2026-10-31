@@ -1,12 +1,14 @@
 """Open Problem 추천 챗봇.
 
-첫 턴: 연구실 프로필 입력 → 추천 카드. 이후: 추천 결과를 근거로 후속 대화 (도구 연결 없음).
+1턴: 연구실 프로필 입력 → Open Problem 카드. 2턴: Open Problem 선택 → 연구 주제 후보.
+이후: 추천과 주제 후보를 근거로 후속 대화 (도구 연결 없음).
 실행: streamlit run app.py
 """
 import streamlit as st
 
 from src.chat import reply_stream
 from src.recommend import recommend
+from src.topic import generate_topics
 
 st.set_page_config(page_title="Open Problem 추천", page_icon="🔎")
 
@@ -16,12 +18,23 @@ def cached_recommend(lab_name: str, interests: str, extra: str) -> dict:
     return recommend(lab_name, interests, extra)
 
 
+@st.cache_data(show_spinner=False)
+def cached_topics(lab_name: str, interests: str, extra: str, problem_id: str) -> dict:
+    return generate_topics(lab_name, interests, extra, problem_id)
+
+
 def reset() -> None:
-    for key in ("profile", "result", "messages"):
+    for key in ("profile", "result", "messages", "topic_result"):
         st.session_state.pop(key, None)
 
 
-def render_card(i: int, r: dict) -> None:
+def choose_other_problem() -> None:
+    st.session_state.pop("topic_result", None)
+    st.session_state["messages"] = []
+
+
+def render_card(i: int, r: dict, selectable: bool) -> str | None:
+    """selectable이면 선택 버튼을 보여 주고, 눌렸을 때 problem_id를 돌려준다."""
     with st.container(border=True):
         st.markdown(f"#### {i}. {r['title']}")
         paper = r["paper"]
@@ -36,14 +49,19 @@ def render_card(i: int, r: dict) -> None:
         with st.expander("원문 인용"):
             st.markdown(f"> {r['quote']}")
             st.caption(f"p.{r['page']} · {r['problem_id']}")
+        if selectable and st.button("이 문제로 주제 만들기", key=f"select_{r['problem_id']}", type="primary"):
+            return r["problem_id"]
+    return None
 
 
-def render_result(res: dict) -> None:
+def render_result(res: dict, selectable: bool) -> str | None:
+    """선택 버튼이 눌린 Open Problem의 problem_id (없으면 None)."""
+    chosen = None
     if res["status"] == "ok":
         if res["intro"]:
             st.markdown(res["intro"])
         for i, r in enumerate(res["recommendations"], 1):
-            render_card(i, r)
+            chosen = render_card(i, r, selectable) or chosen
     if res["note"]:
         st.info(res["note"])
     tr = res["trace"]
@@ -54,7 +72,29 @@ def render_result(res: dict) -> None:
                     f"**소요 시간** · {tr['elapsed_sec']}초" + (f"  \n**중단 사유** · {tr['stop_reason']}"
                                                          if tr.get("stop_reason") else ""))
         st.dataframe(tr["candidates"], height=240)
-    st.caption("추천된 Open Problem에 대해 더 물어보세요. 예: 1번을 석사 과제로 구체화해 줘 / 다른 후보도 보여 줘")
+    if res["status"] != "ok":
+        st.caption("사이드바의 새 대화에서 관심 분야를 바꿔 다시 시도해 보세요.")
+    return chosen
+
+
+def render_topics(res: dict) -> None:
+    if res["status"] != "ok":
+        st.warning("연구 주제 후보를 만들지 못했습니다. 다른 Open Problem을 선택해 보세요.")
+        return
+    if res["intro"]:
+        st.markdown(res["intro"])
+    st.info("아직 중복 검증 전인 후보입니다. 기존 연구와 겹칠 수 있습니다.")
+    for i, t in enumerate(res["topics"], 1):
+        with st.container(border=True):
+            st.markdown(f"#### {i}. {t['title']}")
+            st.markdown(f"**연구 질문** · {t['research_question']}")
+            st.markdown(f"**접근 방법** · {t['approach']}")
+            st.markdown(f"**기대 기여** · {t['contribution']}")
+            st.markdown(f"**수행 가능성** · {t['feasibility']}")
+    with st.expander("처리 과정 (디버그)"):
+        st.markdown(f"**problem_id** · {res['problem_id']}  \n"
+                    f"**LLM이 반환한 후보 수** · {res['trace']['returned_topics']}  \n"
+                    f"**소요 시간** · {res['trace']['elapsed_sec']}초")
 
 
 def profile_message(p: dict) -> str:
@@ -96,24 +136,45 @@ if profile is None:
         st.rerun()
     st.stop()
 
-# 첫 턴 (프로필 → 추천)
+# 1턴 (프로필 → Open Problem 리스트)
+topic_result = st.session_state.get("topic_result")
 with st.chat_message("user"):
     st.markdown(profile_message(profile))
 with st.chat_message("assistant"):
-    render_result(st.session_state["result"])
+    chosen = render_result(st.session_state["result"], selectable=topic_result is None)
+
+if chosen:
+    with st.spinner("연구 주제 후보를 만드는 중..."):
+        try:
+            st.session_state["topic_result"] = cached_topics(profile["lab_name"], profile["interests"],
+                                                             profile["extra"], chosen)
+        except Exception as e:  # API 오류 등
+            st.error(f"주제 생성 중 오류가 발생했습니다: {e}")
+            st.stop()
+    st.rerun()
+
+if topic_result is None:
+    st.stop()
+
+# 2턴 (Open Problem 선택 → 연구 주제 후보)
+with st.chat_message("user"):
+    st.markdown(f"**{topic_result['problem_title']}** 문제로 연구 주제를 만들어 주세요.")
+with st.chat_message("assistant"):
+    render_topics(topic_result)
+    st.button("다른 Open Problem 선택", on_click=choose_other_problem)
 
 # 후속 대화
 for m in st.session_state["messages"]:
     with st.chat_message(m["role"]):
         st.markdown(m["content"])
 
-if question := st.chat_input("추천 결과에 대해 질문하기"):
+if question := st.chat_input("연구 주제 후보에 대해 질문하기"):
     with st.chat_message("user"):
         st.markdown(question)
     with st.chat_message("assistant"):
         try:
             answer = st.write_stream(reply_stream(profile, st.session_state["result"],
-                                                  st.session_state["messages"], question))
+                                                  st.session_state["messages"], question, topic_result))
         except Exception as e:  # API 오류 등
             st.error(f"답변 중 오류가 발생했습니다: {e}")
             st.stop()

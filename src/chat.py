@@ -8,7 +8,7 @@ from src.recommend import load_index
 MAX_HISTORY_MESSAGES = 12  # 컨텍스트에 넣는 최근 대화 메시지 수 (user+assistant)
 
 
-def build_context(profile: dict, result: dict) -> str:
+def build_context(profile: dict, result: dict, topic_result: dict | None = None) -> str:
     lines = ["[컨텍스트]", "## 연구실 프로필",
              f"- 연구실 이름: {profile['lab_name']}", f"- 관심 분야: {profile['interests']}"]
     if profile.get("extra"):
@@ -35,13 +35,24 @@ def build_context(profile: dict, result: dict) -> str:
     for pid in others:
         p = by_id[pid]
         lines.append(f"- {p['title']} [{pid}] ({config.PROPOSALS[p['paper_id']]['title']}, p.{p['page']}): {p['summary']}")
+
+    if topic_result:
+        lines.append(f"\n## 생성한 연구 주제 후보 (중복 검증 전, 선택한 Open Problem: {topic_result['problem_title']})")
+        for i, t in enumerate(topic_result["topics"], 1):
+            lines += [
+                f"{i}. {t['title']}",
+                f"   연구 질문: {t['research_question']}",
+                f"   접근 방법: {t['approach']}",
+                f"   기대 기여: {t['contribution']}",
+                f"   수행 가능성: {t['feasibility']}",
+            ]
     return "\n".join(lines)
 
 
-def reply_stream(profile: dict, result: dict, history: list[dict], user_msg: str):
+def reply_stream(profile: dict, result: dict, history: list[dict], user_msg: str, topic_result: dict | None = None):
     """후속 질문에 대한 답변 스트림. history: [{"role": "user"|"assistant", "content": str}] (이번 질문 제외)."""
     system = (config.PROMPT_DIR / "chat_followup.md").read_text(encoding="utf-8")
-    messages = [{"role": "system", "content": system + "\n\n" + build_context(profile, result)}]
+    messages = [{"role": "system", "content": system + "\n\n" + build_context(profile, result, topic_result)}]
     messages += history[-MAX_HISTORY_MESSAGES:]
     messages.append({"role": "user", "content": user_msg})
     return llm.chat_stream(messages)
