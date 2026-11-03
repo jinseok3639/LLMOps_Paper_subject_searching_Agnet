@@ -1,42 +1,81 @@
-# Reference-based research workflow
+# 참고문헌 기반 연구 주제 탐색 워크플로우
 
-Branch: `feature/reference-topic-workflow` in the isolated `topic-agent-work` folder.
+별도 작업 폴더 `topic-agent-work`의 `feature/reference-topic-workflow` 브랜치에서 작업합니다.
 
-## Run
+## 실행 방법
 
-From this folder, use an environment with `requirements.txt` installed:
+이 폴더에서 `requirements.txt`의 의존성이 설치된 파이썬 환경으로 실행합니다. 기존 앱의 가상환경을 사용하는 명령은 다음과 같습니다.
 
 ```powershell
 ..\LLMOps_Paper_subject_searching_Agnet\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-The local `.env` needs `UPSTAGE_API_KEY`; `S2_API_KEY` is optional but recommended for search limits. Secrets are not committed.
+로컬 `.env`에 `UPSTAGE_API_KEY`가 필요합니다. `S2_API_KEY`는 선택 사항이며, 검색 API의 호출 제한을 고려하면 설정을 권장합니다. 비밀 키는 커밋하지 않습니다.
 
-## Data
+## 데이터 저장 위치
 
-`DB/all.json`, `DB/embeddings.npy`, and `DB/embeddings.json` are the recommendation index. `src.extract` and `src.embed` now write these paths. Search responses are cached daily under `DB/search_cache`. Generated runs, candidates, bibliography, and search traces are saved under `DB/sessions` (ignored by Git).
+DB 관련 파일은 `DB` 폴더에 모읍니다.
 
-## Transitions
+| 경로 | 용도 |
+|---|---|
+| `DB/all.json` | 추천에 사용하는 Open Problem 통합 데이터 |
+| `DB/embeddings.npy` | 추천 검색용 임베딩 배열 |
+| `DB/embeddings.json` | 임베딩 ID·모델 등 메타데이터 |
+| `DB/search_cache` | 날짜와 검색어를 기준으로 재사용하는 검색 응답 캐시 |
+| `DB/sessions` | 실행별 후보, 참고문헌, 검색 기록, 생성 과정 저장 |
 
-- Profile submitted: browse.
-- Problem selected: explore. Chat remains available before generation.
-- Generate clicked: search with profile + conversation snapshot + problem; execute generation; present via conversation agent. State remains explore while working.
-- Successful generation: refine. Select a candidate and discuss it; regenerate explicitly to apply conversation changes to search.
-- Failed generation: retain previous stage and existing candidates.
-- Choose another problem: browse; clear active candidates and selected problem, preserve conversation.
-- New chat: clear session state.
-- Verify and final remain visibly unavailable until verification is implemented. Free-form model replies never silently change workflow state.
+`src.extract`와 `src.embed`도 위 DB 경로에 결과를 저장합니다. 검색 캐시와 실행 결과는 Git 추적에서 제외합니다.
 
-## Generator provenance
+## 상태 전환
 
-Ported from `evaluation_v2/loop/scripts/pipeline.py` and `methods/v1`: four perspectives (assumption, transfer, empirical, formal), three proposals each, cross-review/refinement, slot-wise Swiss tournaments, top three. No overlap or same-topic checks are executed. Review's `already_done` field remains schema-compatible but is explicitly empty. Existing English generation constraints remain; the conversation agent presents candidates in Korean. This is the evaluation_v2 algorithm, with researcher context added to each agent, rather than evaluation samples or pre-generated outputs.
+오른쪽 패널에 현재 상태와 작업 진행 상황을 표시합니다. 상태는 사용자 조작과 작업 완료 이벤트로 전환하며, 모델의 자유 대화 응답만으로 자동 변경하지 않습니다.
 
-Generation uses many model calls and may take minutes; the right panel and status log report progress. It runs synchronously. Search initially uses title/abstract search (up to 5 queries, one simplified retry for zero hits, up to 40 unique papers with abstracts); relevance quality needs live evaluation. No novelty claims are made.
+| 사건 | 상태 및 처리 |
+|---|---|
+| 프로필 제출 및 추천 완료 | ① 둘러보기 |
+| 문제 선택 | ② 문제 파고들기. 후보 생성 전에도 대화 가능 |
+| 후보 생성 버튼 클릭 | 프로필·대화 스냅샷·선택한 문제로 검색 → 후보 생성 → 대화 에이전트 출력. 작업 중에는 기존 상태 유지 |
+| 후보 생성 성공 | ③ 주제 다듬기. 후보를 선택하고 대화로 구체화 |
+| 후보 생성 실패 | 이전 상태와 기존 후보 유지 |
+| 다른 문제 둘러보기 | ① 둘러보기. 선택한 문제와 활성 후보는 초기화하고 대화는 유지 |
+| 새 대화 | 세션 상태 초기화 |
 
-## Verification
+대화에서 변경한 조건을 검색에 반영하려면 다시 검색·생성 버튼을 누릅니다. 기존 후보가 있을 때 재생성하는 동안에는 ③ 상태를 유지합니다.
+
+④ 검증과 ⑤ 확정은 검증 기능이 구현될 때까지 준비 중으로 표시합니다. 현재 버전에서는 중복 판정을 실행하지 않습니다.
+
+## 에이전트 간 전달 흐름
+
+1. **참고문헌 검색 에이전트:** 사용자 프로필, 지금까지의 대화, 선택한 문제를 입력받아 검색어를 만들고 Semantic Scholar에서 참고문헌을 수집합니다.
+2. **후보 생성 에이전트들:** 수집한 참고문헌과 사용자 맥락을 받아 여러 관점으로 제안하고, 상호 검토·수정과 토너먼트를 거쳐 후보 3개를 선별합니다.
+3. **대화 에이전트:** 선별된 후보와 참고문헌을 받아 한국어로 설명하고, 사용자가 후보를 선택하거나 수정하도록 안내합니다.
+
+## 다중 에이전트 후보 생성 방식
+
+`evaluation_v2/loop/scripts/pipeline.py`와 `methods/v1`의 방식을 앱으로 가져왔습니다.
+
+- 네 가지 관점: 공통 가정 재검토(`assumption`), 다른 연구의 방법 전이(`transfer`), 실증 측정(`empirical`), 형식화(`formal`).
+- 관점별 후보 3개씩, 총 12개 제안.
+- 다른 관점의 에이전트들이 상호 검토하고 원 제안자가 수정.
+- 후보 슬롯별 스위스 방식 토너먼트 진행.
+- 순위에 따라 최종 후보 3개 선별.
+
+평가용 샘플이나 미리 생성한 결과를 사용하는 것이 아니라, 사용자 맥락을 각 에이전트에 추가해 이 생성 절차를 실행합니다.
+
+중복 판정과 같은 주제 여부 검사는 실행하지 않습니다. 검토 결과의 `already_done` 필드는 기존 스키마와의 호환을 위해 남겨 두되 빈 값으로 작성하도록 지시합니다. 기존 생성기의 영어 출력 제약은 유지하고, 대화 에이전트가 한국어로 전달합니다.
+
+## 실행 특성과 현재 한계
+
+생성 과정은 모델 호출이 많아 수 분이 걸릴 수 있습니다. 오른쪽 패널과 진행 로그로 상황을 표시하며, 현재는 동기 방식으로 실행합니다.
+
+참고문헌 수집은 제목·초록 검색을 사용합니다. 검색어는 최대 5개이며, 결과가 0건이면 검색어를 줄여 한 번 재시도합니다. 중복을 제거한 뒤 초록이 있는 논문을 최대 40편까지 후보 생성 입력으로 전달합니다.
+
+검색 관련성과 실제 API 전체 실행의 품질·소요 시간은 추가 평가가 필요합니다. 중복 판정을 수행하지 않으므로 후보의 신규성을 보장하지 않습니다.
+
+## 검증 방법
 
 ```powershell
 ..\LLMOps_Paper_subject_searching_Agnet\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-Unit tests mock external APIs and cover search context/deduplication, multi-agent execution, invalid support rejection, presenter handoff, run persistence, and UI transitions.
+테스트는 외부 API를 모의 처리합니다. 검색 입력에 대화가 포함되는지, 참고문헌 중복 제거, 다중 에이전트 실행, 잘못된 근거 ID 거부, 대화 에이전트 전달, 실행 결과 저장, 화면 상태 전환을 확인합니다.
