@@ -1,0 +1,27 @@
+{
+  "version": "v1",
+  "based_on": "scripts/08_multi_agent.py",
+  "changes": [
+    "R1 \ucd5c\uc885 \uc120\ubcc4\uc5d0\uc11c \uac19\uc740 \uc8fc\uc81c \uc81c\uc678",
+    "R2 \uacb9\uce68 \uc9c0\uc801 \ubc18\uc601\uacfc \uacb9\uce68 \ud6c4\ubcf4 \uc81c\uc678",
+    "R3 \uacb0\uacfc \ud45c\ud604 \uac70\ubd80"
+  ],
+  "n_candidates": 3,
+  "slots": 3,
+  "temperature": 0.4,
+  "max_format_tries": 4,
+  "summary_words": [
+    40,
+    120
+  ],
+  "final_selection": {
+    "overlap_filter": false,
+    "topic_dedup": false
+  },
+  "agents": {
+    "assumption": "You look for premises that a whole line of work takes for granted and ask what happens if they are removed.",
+    "transfer": "You look for methods or concepts in one line of work that could address a limit in another.",
+    "empirical": "You look for phenomena that have been claimed but not measured, or measured only in a narrow setting.",
+    "formal": "You look for informal claims that could be turned into precise definitions, bounds, or failure conditions."
+  }
+}

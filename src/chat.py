@@ -37,15 +37,10 @@ def build_context(profile: dict, result: dict, topic_result: dict | None = None)
         lines.append(f"- {p['title']} [{pid}] ({config.PROPOSALS[p['paper_id']]['title']}, p.{p['page']}): {p['summary']}")
 
     if topic_result:
-        lines.append(f"\n## 생성한 연구 주제 후보 (중복 검증 전, 선택한 Open Problem: {topic_result['problem_title']})")
-        for i, t in enumerate(topic_result["topics"], 1):
-            lines += [
-                f"{i}. {t['title']}",
-                f"   연구 질문: {t['research_question']}",
-                f"   접근 방법: {t['approach']}",
-                f"   기대 기여: {t['contribution']}",
-                f"   수행 가능성: {t['feasibility']}",
-            ]
+        lines.append("\n## 검색 참고문헌과 후보 (중복 판정 미실행)")
+        import json
+        lines.append(json.dumps({"topics": topic_result["topics"],
+                                 "references": topic_result["references"]}, ensure_ascii=False))
     return "\n".join(lines)
 
 
