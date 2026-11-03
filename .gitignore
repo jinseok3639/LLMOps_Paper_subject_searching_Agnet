@@ -20,3 +20,5 @@ mock/proposal_paper/4_unit_open_problems/*
 
 DB/search_cache/
 DB/sessions/
+
+DB/test_tmp/
