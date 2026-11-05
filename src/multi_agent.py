@@ -17,7 +17,7 @@ from src.textnorm import contains
 RESULT_CLAIM = re.compile(r"\b(results? (show|indicate|demonstrate)|experiments? (show|indicate|demonstrate)|we (found|observed)|outperform(s|ed)|evaluation shows|achieves? (a |an )?\d)", re.I)
 
 
-# Upstage 한도는 분당 100회, 25만 토큰이다. 호출마다 참고문헌 전체가 들어가므로 토큰을 먼저 조절한다.
+# Upstage 한도는 분당 100회, 25만 토큰이다. 제안·수정 호출에는 참고문헌 전체가 들어가므로 토큰을 먼저 조절한다.
 TOKENS_PER_WINDOW = 200_000
 REQUESTS_PER_WINDOW = 80
 WINDOW = 60
@@ -156,34 +156,43 @@ def propose(method, agent, corpus, valid):
     return with_retry(method, method.prompt("propose", agent), corpus, Proposals, check)
 
 
-def review_and_refine(method, cand, corpus, valid):
+def corpus_text(refs, ids=None):
+    """참고문헌 블록. ids를 주면 그 논문만 원래 순서대로 넣는다."""
+    return "\n\n".join(f"[{r['id']}] {r['title']}\nAbstract: {r['abstract'] or '(not available)'}" for r in refs if ids is None or r["id"] in ids)
+
+
+def review_and_refine(method, cand, refs, valid):
     text = json.dumps(cand["hypothesis"], ensure_ascii=False, indent=1)
+    # 검토에는 후보가 인용한 논문만 넣는다. 수정에는 다른 근거를 찾을 수 있게 전체를 넣는다.
+    cited = corpus_text(refs, set(cand["hypothesis"]["support"]))
     reviews = {}
     for reviewer in method.agents:
         if reviewer != cand["origin"]:
-            reviews[reviewer] = method.call(method.prompt("review", reviewer), f"References:\n{corpus}\n\nHypothesis:\n{text}", Review).model_dump()
-    user = f"References:\n{corpus}\n\nYour hypothesis:\n{text}\n\nReviews:\n{json.dumps(reviews, ensure_ascii=False, indent=1)}"
+            reviews[reviewer] = method.call(method.prompt("review", reviewer), f"Cited references:\n{cited}\n\nHypothesis:\n{text}", Review).model_dump()
+    user = f"References:\n{corpus_text(refs)}\n\nYour hypothesis:\n{text}\n\nReviews:\n{json.dumps(reviews, ensure_ascii=False, indent=1)}"
     refined, issues = with_retry(method, method.prompt("refine", cand["origin"]), user, Hypothesis, lambda h: problems(method, h, valid))
     return {**cand, "reviews": reviews, "refined": refined.model_dump(), "format_problems": issues}
 
 
-def cast(method, judge, first, second, corpus):
+def cast(method, judge, first, second, refs):
     show = lambda c: json.dumps(c["refined"], ensure_ascii=False, indent=1)
-    user = f"Reference corpus:\n{corpus}\n\nHypothesis A:\n{show(first)}\n\nHypothesis B:\n{show(second)}"
+    # 판정에는 두 후보가 인용한 논문의 합집합만 넣는다.
+    cited = corpus_text(refs, set(first["refined"]["support"]) | set(second["refined"]["support"]))
+    user = f"References cited by A or B:\n{cited}\n\nHypothesis A:\n{show(first)}\n\nHypothesis B:\n{show(second)}"
     b = method.call(method.prompt("ballot", judge), user, Ballot, temperature=0.0)
     return {"judge": judge, "shown_first": first["id"], "winner": first["id"] if b.winner.strip().upper() == "A" else second["id"], "rationale": b.rationale}
 
 
-def play(method, a, b, corpus):
+def play(method, a, b, refs):
     judges = [j for j in method.agents if j not in (a["origin"], b["origin"])]
     jobs = [(j, x, y) for j in judges for x, y in ((a, b), (b, a))]
     with ThreadPoolExecutor(4) as ex:
-        ballots = list(ex.map(lambda t: cast(method, *t, corpus), jobs))
+        ballots = list(ex.map(lambda t: cast(method, *t, refs), jobs))
     votes = sum(v["winner"] == a["id"] for v in ballots)
     return {"a": a["id"], "b": b["id"], "points_a": votes / 2, "points_b": (len(ballots) - votes) / 2, "ballots": ballots}
 
 
-def swiss(method, cands, corpus, rng):
+def swiss(method, cands, refs, rng):
     """라운드 수 max(1, n-1). 첫 라운드는 무작위, 이후는 점수순으로 재대결을 피해 짝짓는다."""
     score = {c["id"]: 0.0 for c in cands}
     by_id = {c["id"]: c for c in cands}
@@ -201,7 +210,7 @@ def swiss(method, cands, corpus, rng):
             order.remove(b)
             pairs.append((a, b))
             played.add(frozenset((a, b)))
-        matches = [play(method, by_id[a], by_id[b], corpus) for a, b in pairs]
+        matches = [play(method, by_id[a], by_id[b], refs) for a, b in pairs]
         for m in matches:
             score[m["a"]] += m["points_a"]
             score[m["b"]] += m["points_b"]
@@ -215,7 +224,7 @@ def select(method, ranked, by_id, refs, corpus):
 
 
 def run_sample(method, sample, refs, seed):
-    corpus = "\n\n".join(f"[{r['id']}] {r['title']}\nAbstract: {r['abstract'] or '(not available)'}" for r in refs)
+    corpus = corpus_text(refs)
     valid = {r["id"] for r in refs}
     rng = random.Random(f"{seed}-{sample}")
     method.progress(f"{sample} 시작: 참고문헌 {len(refs)}편")
@@ -227,7 +236,7 @@ def run_sample(method, sample, refs, seed):
     done = itertools.count(1)
 
     def reviewed(c):
-        result = review_and_refine(method, c, corpus, valid)
+        result = review_and_refine(method, c, refs, valid)
         n = next(done)
         # 가장 오래 걸리는 단계라 후보 4개마다 남긴다.
         if n % 4 == 0 and n < len(cands):
@@ -239,7 +248,7 @@ def run_sample(method, sample, refs, seed):
     method.progress(f"{sample} 2/4 검토와 수정 완료: 후보 {len(cands)}개 (호출 {method.calls})")
     scores, rounds = {}, {}
     for k in range(1, slots + 1):
-        s, rd = swiss(method, [c for c in cands if c["slot"] == k], corpus, rng)
+        s, rd = swiss(method, [c for c in cands if c["slot"] == k], refs, rng)
         scores.update(s)
         rounds[k] = rd
         method.progress(f"{sample} 3/4 토너먼트 슬롯 {k}/{slots} 완료 (호출 {method.calls})")
