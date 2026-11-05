@@ -38,8 +38,8 @@
         ? "저장된 추천·후보·검증 결과로 카드를 만듭니다 (LLM 호출 없음)."
         : "검증 결과가 없어 판정은 \"검증 안 함\"으로 들어갑니다. ③에서 \"선택한 후보 검증\"을 먼저 할 수 있습니다."),
       make("최종 주제 카드 만들기"));
-    if (!run) return el.append(h("p", {class: "caption"}, "카드를 불러오는 중... 오래 걸리면 보관 기간(24시간)이 " +
-                                                         "지났을 수 있으니 다시 만드세요."), make("다시 만들기"));
+    if (!run) return el.append(App.loading(s.picks.final_run_id),
+                               h("p", {class: "caption"}, "결과는 24시간 보관됩니다. 지났으면 다시 만드세요."), make("다시 만들기"));
     if (stale(s, run)) el.append(h("p", {class: "info"}, "카드를 만든 뒤 후보나 검증 결과가 바뀌었습니다. ",
                                    make("현재 결과로 다시 만들기")));
     const body = h("div", {class: "md card final-card"});

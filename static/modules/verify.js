@@ -66,8 +66,8 @@
 
   function renderVerify(el, s) {
     const run = App.getRun(s.picks.verify_run_id);
-    if (!run) return el.append(h("p", {class: "caption"}, "검증 결과를 불러오는 중... " +
-                                   "오래 걸리면 보관 기간(24시간)이 지났을 수 있으니 ③에서 다시 검증하세요."));
+    if (!run) return el.append(App.loading(s.picks.verify_run_id),
+                               h("p", {class: "caption"}, "결과는 24시간 보관됩니다. 지났으면 ③에서 다시 검증하세요."));
     const sc = run.scope || {}, nearest = run.nearest || [];
     const basis = nearest.filter(p => (run.verdict_basis || []).includes(p.paper_id)).map(p => `[${p.id}] ${p.title}`);
     el.append(h("h2", {}, `④ 검증: ${run.topic_title || ""}`),
