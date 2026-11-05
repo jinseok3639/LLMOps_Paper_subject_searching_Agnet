@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 
 from src import config, multi_agent as ma, research
-from src.references import Queries, search_references
+from src.references import Queries, Screening, search_references
 from src.research import generate_research
 from src.runs import BudgetExceeded, Cancelled
 
@@ -15,11 +15,16 @@ class PipelineTests(unittest.TestCase):
     def test_search_uses_conversation_filters_and_deduplicates(self):
         rows = [{"paperId": "p", "title": "Paper", "abstract": "Abstract"},
                 {"paperId": "missing", "title": "No abstract"}]
-        with patch('src.references.llm.chat_json', return_value=Queries(queries=['model safety evaluation', 'language model robustness', 'reward model attacks'])) as plan, patch('src.references._search', return_value=rows):
+        queries = Queries(queries=['model safety evaluation', 'language model robustness', 'reward model attacks'])
+        # 검색어 작성과 관련성 필터를 스키마로 나눠 응답한다.
+        answer = lambda messages, schema, **kw: queries if schema is Queries else Screening(verdicts=[])
+        with patch('src.references.llm.chat_json', side_effect=answer) as plan, patch('src.references._search', return_value=rows):
             result = search_references(PROFILE, [{"role": "user", "content": "focus on rewards"}], PROBLEM)
         self.assertEqual(len(result['refs']), 1)
         self.assertEqual(result['search_trace'][0]['missing_abstract'], 1)
-        self.assertIn('focus on rewards', plan.call_args.args[0][1]['content'])
+        self.assertIn('focus on rewards', plan.call_args_list[0].args[0][1]['content'])
+        self.assertEqual(result['search_trace'][-1]['step'], 'relevance_filter')
+        self.assertFalse(result['search_trace'][-1]['status'].startswith('failed'))
 
     def test_multi_agent_generation_without_novelty_calls(self):
         method = ma.Method(config.ROOT_DIR / 'src/generation_method', 'one GPU')
