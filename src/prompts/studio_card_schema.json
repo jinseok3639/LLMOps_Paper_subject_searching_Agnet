@@ -1,0 +1,132 @@
+{
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Paper title as printed on the first page."
+    },
+    "problem": {
+      "type": "object",
+      "description": "What problem the paper tries to solve. Leave text and quote empty if the paper does not state it.",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "One short English sentence in your own words. Empty if not stated."
+        },
+        "quote": {
+          "type": "string",
+          "description": "One sentence copied verbatim from the paper body that supports text. No result numbers. Empty if not stated."
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number (starting at 1) where the quote appears. 0 if empty."
+        }
+      },
+      "required": [
+        "text",
+        "quote",
+        "page"
+      ]
+    },
+    "method": {
+      "type": "object",
+      "description": "How the paper solves it. Leave text and quote empty if the paper does not state it.",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "One short English sentence in your own words. Empty if not stated."
+        },
+        "quote": {
+          "type": "string",
+          "description": "One sentence copied verbatim from the paper body that supports text. No result numbers. Empty if not stated."
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number (starting at 1) where the quote appears. 0 if empty."
+        }
+      },
+      "required": [
+        "text",
+        "quote",
+        "page"
+      ]
+    },
+    "assumptions": {
+      "type": "object",
+      "description": "What the paper takes as given (setting, data, access, premises). Leave text and quote empty if the paper does not state it.",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "One short English sentence in your own words. Empty if not stated."
+        },
+        "quote": {
+          "type": "string",
+          "description": "One sentence copied verbatim from the paper body that supports text. No result numbers. Empty if not stated."
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number (starting at 1) where the quote appears. 0 if empty."
+        }
+      },
+      "required": [
+        "text",
+        "quote",
+        "page"
+      ]
+    },
+    "evaluation": {
+      "type": "object",
+      "description": "What the paper compares against and what it measures (baselines, benchmarks, metrics), not the results. Leave text and quote empty if the paper does not state it.",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "One short English sentence in your own words. Empty if not stated."
+        },
+        "quote": {
+          "type": "string",
+          "description": "One sentence copied verbatim from the paper body that supports text. No result numbers. Empty if not stated."
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number (starting at 1) where the quote appears. 0 if empty."
+        }
+      },
+      "required": [
+        "text",
+        "quote",
+        "page"
+      ]
+    },
+    "limitations": {
+      "type": "object",
+      "description": "Limitations the authors themselves state. Leave text and quote empty if the paper does not state it.",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "One short English sentence in your own words. Empty if not stated."
+        },
+        "quote": {
+          "type": "string",
+          "description": "One sentence copied verbatim from the paper body that supports text. No result numbers. Empty if not stated."
+        },
+        "page": {
+          "type": "integer",
+          "description": "Page number (starting at 1) where the quote appears. 0 if empty."
+        }
+      },
+      "required": [
+        "text",
+        "quote",
+        "page"
+      ]
+    }
+  },
+  "required": [
+    "title",
+    "problem",
+    "method",
+    "assumptions",
+    "evaluation",
+    "limitations"
+  ]
+}

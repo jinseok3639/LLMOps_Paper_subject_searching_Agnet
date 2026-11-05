@@ -1,0 +1,87 @@
+{
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Paper title as printed on the first page."
+    },
+    "problem_text": {
+      "type": "string",
+      "description": "problem text: What problem the paper tries to solve. One short English sentence in your own words. Empty if not stated."
+    },
+    "problem_quote": {
+      "type": "string",
+      "description": "problem quote: One sentence copied verbatim from the paper body that supports text. No result numbers. Empty if not stated."
+    },
+    "problem_page": {
+      "type": "integer",
+      "description": "problem page: Page number (starting at 1) where the quote appears. 0 if empty."
+    },
+    "method_text": {
+      "type": "string",
+      "description": "method text: How the paper solves it. One short English sentence in your own words. Empty if not stated."
+    },
+    "method_quote": {
+      "type": "string",
+      "description": "method quote: One sentence copied verbatim from the paper body that supports text. No result numbers. Empty if not stated."
+    },
+    "method_page": {
+      "type": "integer",
+      "description": "method page: Page number (starting at 1) where the quote appears. 0 if empty."
+    },
+    "assumptions_text": {
+      "type": "string",
+      "description": "assumptions text: What the paper takes as given (setting, data, access, premises). One short English sentence in your own words. Empty if not stated."
+    },
+    "assumptions_quote": {
+      "type": "string",
+      "description": "assumptions quote: One sentence copied verbatim from the paper body that supports text. No result numbers. Empty if not stated."
+    },
+    "assumptions_page": {
+      "type": "integer",
+      "description": "assumptions page: Page number (starting at 1) where the quote appears. 0 if empty."
+    },
+    "evaluation_text": {
+      "type": "string",
+      "description": "evaluation text: What the paper compares against and what it measures (baselines, benchmarks, metrics), not the results. One short English sentence in your own words. Empty if not stated."
+    },
+    "evaluation_quote": {
+      "type": "string",
+      "description": "evaluation quote: One sentence copied verbatim from the paper body that supports text. No result numbers. Empty if not stated."
+    },
+    "evaluation_page": {
+      "type": "integer",
+      "description": "evaluation page: Page number (starting at 1) where the quote appears. 0 if empty."
+    },
+    "limitations_text": {
+      "type": "string",
+      "description": "limitations text: Limitations the authors themselves state. One short English sentence in your own words. Empty if not stated."
+    },
+    "limitations_quote": {
+      "type": "string",
+      "description": "limitations quote: One sentence copied verbatim from the paper body that supports text. No result numbers. Empty if not stated."
+    },
+    "limitations_page": {
+      "type": "integer",
+      "description": "limitations page: Page number (starting at 1) where the quote appears. 0 if empty."
+    }
+  },
+  "required": [
+    "title",
+    "problem_text",
+    "problem_quote",
+    "problem_page",
+    "method_text",
+    "method_quote",
+    "method_page",
+    "assumptions_text",
+    "assumptions_quote",
+    "assumptions_page",
+    "evaluation_text",
+    "evaluation_quote",
+    "evaluation_page",
+    "limitations_text",
+    "limitations_quote",
+    "limitations_page"
+  ]
+}
