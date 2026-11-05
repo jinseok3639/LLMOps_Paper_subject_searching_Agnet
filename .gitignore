@@ -18,3 +18,8 @@ mock/proposal_paper/4_unit_open_problems/*
 !mock/proposal_paper/4_unit_open_problems/all.json
 !mock/proposal_paper/4_unit_open_problems/embeddings.json
 !mock/proposal_paper/4_unit_open_problems/embeddings.npy
+
+DB/search_cache/
+DB/sessions/
+
+DB/test_tmp/

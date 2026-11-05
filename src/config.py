@@ -17,9 +17,11 @@ PDF_DIR = PROPOSAL_DIR / "1_pdf"                                    # {paper_id}
 PARSED_DIR = PROPOSAL_DIR / "2_parsed"                              # {paper_id}.json
 SECTION_OP_DIR = PROPOSAL_DIR / "3_section_open_problems"           # {paper_id}/{섹션}.json
 UNIT_OP_DIR = PROPOSAL_DIR / "4_unit_open_problems"                 # {paper_id}/{섹션}.json
-OPEN_PROBLEMS_PATH = UNIT_OP_DIR / "all.json"                       # 단위 OpenProblems 통합본 (검증 통과만)
-EMBEDDINGS_PATH = UNIT_OP_DIR / "embeddings.npy"                    # all.json 순서의 임베딩 (정규화됨)
-EMBEDDINGS_META_PATH = UNIT_OP_DIR / "embeddings.json"              # {model, generated_at, ids, text_hashes}
+DB_DIR = ROOT_DIR / "DB"
+DB_DIR.mkdir(parents=True, exist_ok=True)
+OPEN_PROBLEMS_PATH = DB_DIR / "all.json"                       # 단위 OpenProblems 통합본 (검증 통과만)
+EMBEDDINGS_PATH = DB_DIR / "embeddings.npy"                    # all.json 순서의 임베딩 (정규화됨)
+EMBEDDINGS_META_PATH = DB_DIR / "embeddings.json"              # {model, generated_at, ids, text_hashes}
 
 # 추천 (P3)
 RETRIEVE_K = 30          # 임베딩 검색 후보 수
