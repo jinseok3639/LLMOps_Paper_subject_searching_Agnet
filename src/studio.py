@@ -16,7 +16,7 @@ from typing import Callable
 
 import requests
 
-from src import config  # noqa: F401  (.env 로드)
+from src import calllog, config  # noqa: F401  (config: .env 로드)
 
 BASE_URL = "https://api.upstage.ai/v2"
 CARD_AGENT_ENV = "STUDIO_CARD_AGENT_ID"  # 에이전트 B: 논문 PDF → 연구 카드
@@ -83,8 +83,16 @@ def run_agent(path: str | Path, agent: str | None = None, timeout: float = TIMEO
     반환: {job_id, agent_id, steps: [{step, text, additional_values}], final: 마지막 단계 JSON (dict),
            parse_text: 마지막 단계 앞 단계들의 텍스트, elapsed_sec, raw: job 응답 전체}
     예외: StudioUnavailable (ID·키 없음, 401/403/404), StudioCancelled, StudioError (failed, 시간 초과, 형식)
+    호출 로그: provider studio, model = 에이전트 ID, job 하나에 한 줄 (취소는 cancelled).
     """
     agent = agent or agent_id()
+    with calllog.timed("studio", agent, Path(path).name) as c:
+        result = _run(path, agent, timeout, poll, should_cancel)
+        c.output = {"job_id": result["job_id"], "steps": [s["step"] for s in result["steps"]], "final": result["final"]}
+    return result
+
+
+def _run(path, agent, timeout, poll, should_cancel) -> dict:
     cancelled = should_cancel or (lambda: False)
     if cancelled():
         raise StudioCancelled("시작 전 취소됨")

@@ -11,12 +11,22 @@ from unittest.mock import patch
 from fastapi.testclient import TestClient
 
 import server
-from src import runs, studio
+from src import calllog, runs, studio
 from src.api import sse, verify as api
 
 PROFILE = {"lab_name": "보안 연구실", "lab_topics": "AI 보안", "interests": ""}
 PROBLEM = {"problem_id": "p1", "title": "Reward hacking"}
 REF = {"id": "ref-001", "paper_id": "s2", "title": "Ref", "abstract": "초록", "year": 2026, "url": "https://example.com"}
+
+
+def setUpModule():  # 호출 로그(src.calllog)는 임시 폴더에 쓴다
+    tmp = tempfile.TemporaryDirectory()
+    unittest.addModuleCleanup(tmp.cleanup)
+    p = patch.object(calllog, "ROOT", Path(tmp.name))
+    p.start()
+    unittest.addModuleCleanup(p.stop)
+
+
 TOPICS = [{"id": "c1", "title": "후보 1"}, {"id": "c2", "title": "후보 2", "gap": "gap"}]
 
 

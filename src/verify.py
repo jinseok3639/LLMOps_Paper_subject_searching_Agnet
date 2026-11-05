@@ -18,7 +18,7 @@ from datetime import date, datetime, timezone
 import numpy as np
 from pydantic import BaseModel, Field
 
-from src import cards, config, llm, references, studio
+from src import calllog, cards, config, llm, references, studio
 from src.textnorm import contains
 
 N_QUERIES = 3   # J-6 시작값
@@ -123,13 +123,14 @@ def _chat(name, user, schema):
 def _parallel(fn, items, on_done, workers=WORKERS):
     """fn을 스레드로 돌리고 하나 끝날 때마다 메인 스레드에서 on_done(n, total)을 부른다.
     on_done(progress)이 취소 예외를 던지면 시작 안 한 작업은 버리고, 돌고 있는 것(최대 workers개)만 기다린다.
-    verify가 끝난 뒤에 남아 도는 스레드가 없게 하기 위해서다."""
+    verify가 끝난 뒤에 남아 도는 스레드가 없게 하기 위해서다. 작업자는 calllog.bind로 호출 로그 문맥을 물려받는다."""
     out = [None] * len(items)
     if not items:
         return out
     ex = ThreadPoolExecutor(max_workers=min(workers, len(items)))
     try:
-        futures = {ex.submit(fn, x): i for i, x in enumerate(items)}
+        run = calllog.bind(fn)
+        futures = {ex.submit(run, x): i for i, x in enumerate(items)}
         for n, f in enumerate(as_completed(futures), 1):
             out[futures[f]] = f.result()
             on_done(n, len(items))

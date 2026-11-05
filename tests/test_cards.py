@@ -6,13 +6,22 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from src import cards, studio
+from src import calllog, cards, studio
 from src.cards import AbstractCardOut, Quoted
 
 ABSTRACT = ("We study “reward hacking” in reinforcement learning from human feedback. "
             "We propose a robust-\nness penalty that regularizes the policy. "
             "We evaluate on three benchmarks against PPO baselines.")
 PAPER = {"paper_id": "s2abc", "title": "Paper", "abstract": ABSTRACT, "year": 2026}
+
+
+def setUpModule():  # 호출 로그(src.calllog)는 임시 폴더에 쓴다
+    tmp = tempfile.TemporaryDirectory()
+    unittest.addModuleCleanup(tmp.cleanup)
+    p = patch.object(calllog, "ROOT", Path(tmp.name))
+    p.start()
+    unittest.addModuleCleanup(p.stop)
+
 
 ABSTRACT_OUT = AbstractCardOut(
     problem=Quoted(text="Reward hacking in RLHF.", quote='We study "reward hacking" in reinforcement learning'),

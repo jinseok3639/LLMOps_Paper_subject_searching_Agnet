@@ -5,6 +5,8 @@ job(progress, delta) -> 결과 dict
 - delta(text): 답변 조각 (C-3).
 - 연결이 끊기면 취소 표시를 세우고, 다음 progress/delta 호출이 Cancelled를 던진다 (3.1. 단계 사이에서 멈춤).
 - 이벤트: progress, delta, 마지막에 result | error | budget 하나. 모두 session_id가 붙는다 (G-1).
+- 호출 로그 (O-1): 작업 스레드에서 calllog 문맥(session_id, 작업 종류 = 경로 끝, progress의 step)을 세우고,
+  끝나면 provider "job" 줄 하나를 남긴다 (run_id, ok · error · cancelled · budget, 총 시간, 호출 수).
 """
 import asyncio
 import json
@@ -15,7 +17,7 @@ import openai
 import requests
 from fastapi.responses import StreamingResponse
 
-from src import llm
+from src import calllog, llm
 from src.runs import BudgetExceeded, Cancelled
 
 log = logging.getLogger("uvicorn.error")
@@ -32,8 +34,10 @@ def error_body(exc: Exception) -> dict:
     return {"code": "internal_error", "message": f"서버 오류: {exc}", "retryable": True}
 
 
-def stream_job(request, session_id: str, job) -> StreamingResponse:
+def stream_job(request, session_id: str, job, kind: str | None = None) -> StreamingResponse:
     cancel = threading.Event()
+    url = getattr(request, "url", None)
+    run_kind = kind or (url.path.rstrip("/").rsplit("/", 1)[-1] if url else None)  # /api/recommend → recommend
 
     async def events():
         loop = asyncio.get_running_loop()
@@ -53,6 +57,7 @@ def stream_job(request, session_id: str, job) -> StreamingResponse:
             check()
             if isinstance(message, dict):
                 message, current, total, step = (message.get(k) for k in ("message", "current", "total", "step"))
+            calllog.set_step(step)
             if message:
                 info = {"step": step or "", "message": str(message), "current": current, "total": total}
                 emit("progress", {k: v for k, v in info.items() if v is not None})
@@ -62,15 +67,24 @@ def stream_job(request, session_id: str, job) -> StreamingResponse:
             emit("delta", {"text": text})
 
         def work():
+            calllog.start(session_id, run_kind)
+            status, run_id, error = "ok", None, None
             try:
-                emit("result", job(progress, delta))
+                result = job(progress, delta)
+                run_id = result.get("run_id")
+                emit("result", result)
             except Cancelled:
+                status = "cancelled"
                 log.info("작업 취소: %s", session_id)
             except BudgetExceeded as e:
+                status, error = "budget", str(e)
                 emit("budget", {"used": e.used, "limit": e.limit, "scope": e.scope})
             except Exception as e:
+                status, error = "error", f"{type(e).__name__}: {e}"
                 log.exception("작업 실패: %s", session_id)
                 emit("error", {"error": error_body(e)})
+            finally:
+                calllog.finish(status, run_id, error)
 
         threading.Thread(target=work, daemon=True).start()
         idle = 0
