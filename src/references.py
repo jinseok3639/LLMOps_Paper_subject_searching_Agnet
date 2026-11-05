@@ -9,7 +9,7 @@ from pathlib import Path
 import requests
 from pydantic import BaseModel, Field
 
-from src import config, llm
+from src import calllog, config, llm
 
 MAX_REFS = 25  # 후보 생성에 넘기는 참고문헌 상한 (설계서 J-6)
 FILTER_ABSTRACT_CHARS = 1_000  # 관련성 필터에는 초록 앞부분만 넣는다. 한 번에 최대 100편이 들어가기 때문
@@ -35,28 +35,38 @@ def researcher_context(profile, history, problem):
 
 
 def _search(query):
-    cache = config.DB_DIR / "search_cache"
-    cache.mkdir(parents=True, exist_ok=True)
-    key = hashlib.sha256((date.today().isoformat() + query).encode()).hexdigest()
-    path = cache / f"{key}.json"
-    if path.exists():
-        return json.loads(path.read_text("utf-8"))
-    headers = {}
-    if os.getenv("S2_API_KEY"):
-        headers["x-api-key"] = os.environ["S2_API_KEY"]
-    for attempt in range(4):
-        response = requests.get("https://api.semanticscholar.org/graph/v1/paper/search",
-            params={"query": query, "limit": 20,
-                    "fields": "title,abstract,year,url,authors"}, headers=headers, timeout=40)
-        if response.status_code == 429 or response.status_code >= 500:
-            if attempt < 3:
-                time.sleep(min(2 ** (attempt + 1), 8))
-                continue
-        response.raise_for_status()
-        rows = response.json().get("data", [])
-        path.write_text(json.dumps(rows, ensure_ascii=False), "utf-8")
-        return rows
-    raise RuntimeError("S2 search failed")
+    """S2 제목·초록 검색 (하루 캐시). 호출 로그에는 캐시에서 읽은 것도 status cache로 남긴다."""
+    with calllog.timed("s2", "paper/search", query) as c:
+        cache = config.DB_DIR / "search_cache"
+        cache.mkdir(parents=True, exist_ok=True)
+        key = hashlib.sha256((date.today().isoformat() + query).encode()).hexdigest()
+        path = cache / f"{key}.json"
+        if path.exists():
+            rows = json.loads(path.read_text("utf-8"))
+            c.status, c.output = "cache", _ids(rows)
+            return rows
+        headers = {}
+        if os.getenv("S2_API_KEY"):
+            headers["x-api-key"] = os.environ["S2_API_KEY"]
+        for attempt in range(4):
+            response = requests.get("https://api.semanticscholar.org/graph/v1/paper/search",
+                params={"query": query, "limit": 20,
+                        "fields": "title,abstract,year,url,authors"}, headers=headers, timeout=40)
+            if response.status_code == 429 or response.status_code >= 500:
+                if attempt < 3:
+                    time.sleep(min(2 ** (attempt + 1), 8))
+                    continue
+            response.raise_for_status()
+            rows = response.json().get("data", [])
+            path.write_text(json.dumps(rows, ensure_ascii=False), "utf-8")
+            c.output = _ids(rows)
+            return rows
+        raise RuntimeError("S2 search failed")
+
+
+def _ids(rows):
+    """로그용 검색 결과 요약 (초록은 뺀다)."""
+    return [{"paperId": r.get("paperId"), "title": r.get("title")} for r in rows]
 
 
 def _drop_unrelated(context, rows):

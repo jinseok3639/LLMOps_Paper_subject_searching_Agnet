@@ -21,7 +21,7 @@ from typing import Callable, Literal
 import requests
 from pydantic import BaseModel, Field
 
-from src import config, llm, studio
+from src import calllog, config, llm, studio
 from src.textnorm import contains
 
 FIELDS = ("problem", "method", "assumptions", "evaluation", "limitations")
@@ -208,13 +208,22 @@ def fetch_pdf(paper: dict) -> Path | None:
     """오픈액세스 PDF → data/papers/pdf/{paper_id}.pdf. S2 openAccessPdf, 없으면 arXiv. 받을 수 없으면 None.
 
     paper에 openAccessPdf와 externalIds가 이미 있으면 S2를 부르지 않는다.
+    S2 조회(s2)와 다운로드 시도(pdf)는 호출 로그에 한 줄씩 남긴다. 빈 응답이나 받지 못한 PDF는 status error.
     """
     path = PAPER_PDF_DIR / f"{_key(paper)}.pdf"
     if path.exists():
         return path
-    info = paper if {"openAccessPdf", "externalIds"} <= paper.keys() else {**paper, **_s2_pdf_info(paper["paper_id"])}
+    info = paper
+    if not {"openAccessPdf", "externalIds"} <= paper.keys():
+        with calllog.timed("s2", "paper", paper["paper_id"]) as c:
+            c.output = found = _s2_pdf_info(paper["paper_id"])
+            c.status = "ok" if found else "error"
+        info = {**paper, **found}
     for url in _pdf_urls(info):
-        if _download(url, path):
+        with calllog.timed("pdf", "download", url) as c:
+            ok = _download(url, path)
+            c.status = "ok" if ok else "error"
+        if ok:
             return path
     return None
 

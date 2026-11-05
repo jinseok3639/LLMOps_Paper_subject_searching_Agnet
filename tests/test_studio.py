@@ -6,9 +6,19 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from src import studio
+from src import calllog, studio
 
 ENV = {"UPSTAGE_API_KEY": "test-key", "STUDIO_CARD_AGENT_ID": "agt_test"}
+
+
+def setUpModule():  # 호출 로그(src.calllog)는 임시 폴더에 쓴다
+    tmp = tempfile.TemporaryDirectory()
+    unittest.addModuleCleanup(tmp.cleanup)
+    p = patch.object(calllog, "ROOT", Path(tmp.name))
+    p.start()
+    unittest.addModuleCleanup(p.stop)
+
+
 FINAL = {"title": "T", "problem": {"text": "p", "quote": "We study robustness.", "page": 1}}
 PARSE_HTML = "<h1 id='0'>T</h1><p id='1' data-category='paragraph'>We study robust-\nness &amp; safety.</p>"
 

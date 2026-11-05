@@ -1,7 +1,7 @@
 """멀티 에이전트 실행: 병렬 제안 → 슬롯 정렬 → 상호 검토와 수정 → 스위스 토너먼트 → 최종 선별.
 
 토너먼트까지는 Reconstruction 논문의 구조를 따르고, 최종 선별은 후보 3개 추천을 위해 추가했다.
-프롬프트와 설정은 methods/vN에서 읽는다.
+프롬프트와 설정은 methods/vN에서 읽는다. 스레드풀 작업은 calllog.bind로 감싸 호출 로그 문맥(세션, 단계)을 넘긴다.
 """
 import itertools, json, random, re, threading, time
 from collections import deque
@@ -11,6 +11,7 @@ from pathlib import Path
 import openai
 from pydantic import BaseModel
 
+from src import calllog
 from src.llm import chat_json
 from src.textnorm import contains
 
@@ -187,7 +188,7 @@ def play(method, a, b, refs):
     judges = [j for j in method.agents if j not in (a["origin"], b["origin"])]
     jobs = [(j, x, y) for j in judges for x, y in ((a, b), (b, a))]
     with ThreadPoolExecutor(4) as ex:
-        ballots = list(ex.map(lambda t: cast(method, *t, refs), jobs))
+        ballots = list(ex.map(calllog.bind(lambda t: cast(method, *t, refs)), jobs))
     votes = sum(v["winner"] == a["id"] for v in ballots)
     return {"a": a["id"], "b": b["id"], "points_a": votes / 2, "points_b": (len(ballots) - votes) / 2, "ballots": ballots}
 
@@ -229,7 +230,7 @@ def run_sample(method, sample, refs, seed):
     rng = random.Random(f"{seed}-{sample}")
     method.progress(f"{sample} 시작: 참고문헌 {len(refs)}편")
     with ThreadPoolExecutor(4) as ex:
-        proposed = dict(zip(method.agents, ex.map(lambda a: propose(method, a, corpus, valid), method.agents)))
+        proposed = dict(zip(method.agents, ex.map(calllog.bind(lambda a: propose(method, a, corpus, valid)), method.agents)))
     slots = min(len(r.hypotheses) for r, _ in proposed.values())
     method.progress(f"{sample} 1/4 제안 완료 (호출 {method.calls})")
     cands = [{"id": f"s{k + 1}-{a}", "slot": k + 1, "origin": a, "hypothesis": r.hypotheses[k].model_dump()} for k in range(slots) for a, (r, _) in proposed.items()]
@@ -244,7 +245,7 @@ def run_sample(method, sample, refs, seed):
         return result
 
     with ThreadPoolExecutor(4) as ex:
-        cands = list(ex.map(reviewed, cands))
+        cands = list(ex.map(calllog.bind(reviewed), cands))
     method.progress(f"{sample} 2/4 검토와 수정 완료: 후보 {len(cands)}개 (호출 {method.calls})")
     scores, rounds = {}, {}
     for k in range(1, slots + 1):

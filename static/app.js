@@ -7,6 +7,8 @@
        등록하지 않은 stage는 "준비 중"으로 보인다.
    App.addAction(stage, {label, enabled(s), run(s)})   그 stage 화면 아래에 버튼을 더한다 (예: refine에 "검증").
    App.registerJob(kind, start(s, {replace}))          "재시도" 버튼이 부를 시작 함수.
+   App.addCardExtra(fn(kind, s, item) -> Node|null)    카드 끝에 붙일 요소 (예: 피드백 버튼).
+       kind: "problem"(① 추천 카드, item = 추천 항목) · "topic"(③ 후보 카드, item = 후보).
    App.runTask({kind, label, url, body, stream, replace, onResult(s, data)}) -> Promise<"result"|"cancelled"|"error"|"budget">
        SSE 작업 하나를 돌린다. body에 session_id를 붙이고, 끝날 때까지 그 세션의 입력을 잠근다 (G-2).
        다른 세션으로 가면 abort하고 시작한 세션에 "중단됨" 메시지(받은 부분 응답 포함)를 남긴다 (G-1, G-3, G-4).
@@ -304,7 +306,8 @@
         : h("div", {class: "row"},
             h("button", {class: "primary", onclick: () => pickProblem(s, c)}, "이 문제 파고들기"),
             h("details", {class: "inline"}, h("summary", {}, "제외"), reason,
-              h("button", {onclick: () => rejectProblem(s, c, reason.value)}, "제외하기"))));
+              h("button", {onclick: () => rejectProblem(s, c, reason.value)}, "제외하기"))),
+      extras("problem", s, c));
   }
 
   function pickProblem(s, c) {
@@ -357,7 +360,8 @@
       h("details", {}, h("summary", {}, "자세히"),
         ["gap", "approach", "evaluation"].filter(k => t[k]).map(k => h("p", {}, h("b", {}, `${k}: `), t[k])),
         t.support ? h("p", {class: "caption"}, `근거 참고문헌: ${t.support.join(", ")}`) : ""),
-      picked ? "" : h("button", {onclick: () => pickTopic(s, t)}, "이 후보 선택"));
+      picked ? "" : h("button", {onclick: () => pickTopic(s, t)}, "이 후보 선택"),
+      extras("topic", s, t));
   }
 
   function pickTopic(s, t) {
@@ -452,6 +456,9 @@
   function registerPanel(stage, panel) { panels[stage] = panel; }
   function addAction(stage, action) { (actions[stage] ||= []).push(action); }
   function registerJob(kind, start) { jobs[kind] = start; }
+  const cardExtras = [];
+  function addCardExtra(fn) { cardExtras.push(fn); }
+  function extras(kind, s, item) { return cardExtras.map(fn => fn(kind, s, item)); }
 
   registerPanel("browse", {render: renderBrowse, reachable: s => !!s.picks.recommend_run_id, summary: s => {
     const run = getRun(s.picks.recommend_run_id);
@@ -470,7 +477,7 @@
   registerJob("research", startResearch);
   registerJob("chat", startChat);
 
-  window.App = {STAGES, registerPanel, addAction, registerJob, runTask, getSession, updateSession, setStage,
+  window.App = {STAGES, registerPanel, addAction, registerJob, addCardExtra, runTask, getSession, updateSession, setStage,
                 getRun, isBusy, render, h, md, msg};
 
   document.addEventListener("DOMContentLoaded", () => {
