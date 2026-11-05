@@ -1,13 +1,12 @@
-import tempfile
 import unittest
-from pathlib import Path
 from unittest.mock import patch
 
-from src import config, multi_agent as ma
+from src import config, multi_agent as ma, research
 from src.references import Queries, search_references
 from src.research import generate_research
+from src.runs import BudgetExceeded, Cancelled
 
-PROFILE = {"lab_name": "lab", "interests": "model safety", "extra": "one GPU"}
+PROFILE = {"lab_name": "lab", "lab_topics": "model safety", "interests": "one GPU"}
 PROBLEM = {"problem_id": "p1", "title": "Safety"}
 REF = {"id": "ref-001", "title": "Reference", "abstract": "An abstract", "paper_id": "s2-1", "year": 2026, "url": "https://example.com"}
 
@@ -46,13 +45,45 @@ class PipelineTests(unittest.TestCase):
         self.assertNotIn('Overlap', calls)
         self.assertNotIn('SameTopic', calls)
 
-    def test_orchestration_handoff_and_db_persistence(self):
+    def test_orchestration_handoff_and_progress_steps(self):
         generated = {'candidates': [{'id': 'c1', 'refined': {'title': 'Topic', 'support': ['ref-001']}}], 'chosen': ['c1']}
-        with tempfile.TemporaryDirectory(dir=config.DB_DIR) as folder, patch.object(config, 'DB_DIR', Path(folder)), patch('src.research.search_references', return_value={'refs': [REF], 'search_trace': [], 'context': 'conversation'}), patch('src.research.run_sample', return_value=generated), patch('src.research.llm.chat_text', return_value='후보 설명') as presenter:
-            result = generate_research(PROFILE, [], PROBLEM)
-            self.assertTrue((Path(folder) / 'sessions' / (result['run_id'] + '.json')).exists())
-            self.assertFalse(result['novelty_checked'])
-            self.assertIn('ref-001', presenter.call_args.args[0][1]['content'])
+        steps = []
+        with patch('src.research.search_references', return_value={'refs': [REF], 'search_trace': [{'query': 'q'}], 'context': 'conversation'}) as search, patch('src.research.run_sample', return_value=generated), patch('src.research.llm.chat_text', return_value='후보 설명') as presenter:
+            result = generate_research(PROFILE, [], PROBLEM, lambda *a, step=None, **k: steps.append(step))
+        self.assertEqual(steps, ['queries', 'generate', 'present'])
+        self.assertEqual(search.call_args.args[:3], (PROFILE, [], PROBLEM))
+        self.assertNotIn('run_id', result)  # 저장은 서버가 한다 (src.runs)
+        self.assertEqual(result['topics'], [{'id': 'c1', 'title': 'Topic', 'support': ['ref-001']}])
+        self.assertEqual((result['trace'], result['generation']), ([{'query': 'q'}], generated))
+        self.assertFalse(result['novelty_checked'])
+        self.assertIn('ref-001', presenter.call_args.args[0][1]['content'])
+
+    def test_cancel_before_generation_stops_pipeline(self):
+        def progress(*args, step=None, **kwargs):
+            if step == 'generate':
+                raise Cancelled()
+        with patch('src.research.search_references', return_value={'refs': [REF], 'search_trace': [], 'context': ''}), patch('src.research.run_sample') as run:
+            with self.assertRaises(Cancelled):
+                generate_research(PROFILE, [], PROBLEM, progress)
+        run.assert_not_called()
+
+    def test_method_checks_cancel_and_budget_before_each_call(self):
+        stop = []
+        def progress(*args, **kwargs):
+            if stop:
+                raise Cancelled()
+        method = research._Method(config.ROOT_DIR / 'src/generation_method', 'ctx', progress)
+        review = ma.Review(unsupported='', vague='', already_done='', suggestion='')
+        with patch('src.multi_agent.chat_json', return_value=review) as llm_call:
+            self.assertEqual(method.call('system', 'user', ma.Review), review)
+            stop.append(True)
+            with self.assertRaises(Cancelled):
+                method.call('system', 'user', ma.Review)
+            stop.clear()
+            method.calls = config.RESEARCH_LLM_BUDGET
+            with self.assertRaises(BudgetExceeded):
+                method.call('system', 'user', ma.Review)
+        self.assertEqual(llm_call.call_count, 1)
 
     def test_invalid_support_is_rejected(self):
         method = ma.Method(config.ROOT_DIR / 'src/generation_method')
