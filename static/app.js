@@ -16,6 +16,7 @@
        onResult가 {role, content} 메시지를 돌려주면 대화에 넣는다. replace는 재시도로 대신할 메시지 id.
    App.getSession() / App.updateSession(id, fn) / App.setStage(stage) / App.msg(role, content)
    App.getRun(run_id)   /api/runs 결과 캐시. 처음에는 undefined를 돌려주고, 불러오면 다시 그린다.
+   App.loading(run_id)  getRun이 undefined일 때 보여 줄 요소. 불러오는 중이면 안내, 실패했으면 오류와 "다시 불러오기".
    App.isBusy() / App.render() / App.h(tag, attrs, ...children) / App.md(text)
 */
 (() => {
@@ -375,7 +376,7 @@
     renderExplore(el, s);
     const id = s.picks.research_run_id, run = getRun(id);
     if (!run) return el.append(loading(id));
-    el.append(h("div", {class: "msg assistant"}, h("div", {class: "who"}, "후보 설명 (중복 판정 미실행)"), mdBlock(run.presentation)),
+    el.append(h("div", {class: "msg assistant"}, h("div", {class: "who"}, "후보 설명 (중복 판정은 ④ 검증에서)"), mdBlock(run.presentation)),
       h("details", {}, h("summary", {}, `검색 참고문헌 ${run.references.length}편 · 검색 과정`),
         run.trace ? h("pre", {}, JSON.stringify(run.trace, null, 1)) : "",
         h("ul", {}, run.references.map(r => h("li", {}, `[${r.id}] `,
@@ -478,7 +479,7 @@
   registerJob("chat", startChat);
 
   window.App = {STAGES, registerPanel, addAction, registerJob, addCardExtra, runTask, getSession, updateSession, setStage,
-                getRun, isBusy, render, h, md, msg};
+                getRun, loading, isBusy, render, h, md, msg};
 
   document.addEventListener("DOMContentLoaded", () => {
     $("#new-session").onclick = () => openSession(newSession().id);
