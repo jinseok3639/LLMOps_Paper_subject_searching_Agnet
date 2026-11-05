@@ -21,5 +21,10 @@ mock/proposal_paper/4_unit_open_problems/*
 mock_diagram/
 DB/search_cache/
 DB/sessions/
+DB/runs/
+DB/abstract_cards/
+DB/users/
+DB/logs/
+DB/feedback.jsonl
 
 DB/test_tmp/
