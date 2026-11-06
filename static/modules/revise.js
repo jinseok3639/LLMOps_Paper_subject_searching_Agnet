@@ -62,10 +62,11 @@
           state === "applied" ? h("span", {class: "badge"}, `v${run.version} 적용함`) : "",
           state === "rejected" ? h("span", {class: "badge gray"}, "적용 안 함") : ""),
         h("table", {class: "vtable"}, h("tr", {}, h("th", {}, "항목"), h("th", {}, "지금"), h("th", {}, "고친 뒤")),
-          run.changes.map(c => h("tr", {}, h("th", {}, LABEL[c.field] || c.field), h("td", {class: "before"}, c.before || "(비어 있음)"),
-                                 h("td", {}, c.after)))),
+          run.changes.map(c => h("tr", {}, h("th", {}, LABEL[c.field] || c.field),
+                                 h("td", {class: "before"}, c.before_ko || c.before || "(비어 있음)"),
+                                 h("td", {}, c.after_ko || c.after)))),
         h("details", {}, h("summary", {}, "고친 뒤 전체 후보"),
-          Object.keys(LABEL).filter(k => run.topic[k]).map(k => h("p", {}, h("b", {}, `${LABEL[k]}: `), run.topic[k])))));
+          Object.keys(LABEL).filter(k => run.topic[k]).map(k => h("p", {}, h("b", {}, `${LABEL[k]}: `), App.ko(run.topic, k))))));
     if (!active) return;
     if (state === "proposed")
       return el.append(h("div", {class: "row"}, btn("적용", () => apply(s, m), "primary"), btn("다시 말하기", () => reject(s, m))),

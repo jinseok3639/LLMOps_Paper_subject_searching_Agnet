@@ -131,14 +131,15 @@ def build_card(recommend_run: dict | None, problem: dict | None, research_run: d
     paper = p.get("paper") or {}
     refs = {r.get("id"): r for r in research_run.get("references") or []}
     nearest = [_nearest(n) for n in v.get("nearest") or []]
+    ko = topic.get("ko") or {}  # 카드는 사용자가 읽는 글이라 한국어가 있으면 한국어를 쓴다 (이슈 #39)
     return {
-        "topic": {"id": topic_id, "title": topic.get("title") or "", "summary": topic.get("summary") or "",
+        "topic": {"id": topic_id, "title": topic.get("title") or "", "summary": ko.get("summary") or topic.get("summary") or "",
                   "version": version},
         "problem": {"problem_id": pid, "title": p.get("title") or research_run.get("problem_title") or "",
-                    "summary": p.get("summary") or "", "reason": p.get("reason") or "",
+                    "summary": p.get("summary_ko") or p.get("summary") or "", "reason": p.get("reason") or "",
                     "section_title": p.get("section_title") or "", "page": p.get("page"), "quote": p.get("quote") or "",
                     "paper": {k: paper.get(k) for k in ("paper_id", "title", "year", "url")}},
-        "design": {**{k: topic.get(k) or "" for k, _ in DESIGN},
+        "design": {**{k: ko.get(k) or topic.get(k) or "" for k, _ in DESIGN},
                    "support": [{"id": i, **{k: refs.get(i, {}).get(k) for k in ("title", "year", "url")}}
                                for i in topic.get("support") or []]},
         "nearest": nearest,

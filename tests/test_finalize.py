@@ -105,6 +105,17 @@ class CardTests(unittest.TestCase):
                          ("research", ["backdoor detection llm", "trigger inversion agents"], 20, 18, 0, "2026-11-05"))
         self.assertIsNone(card["source"]["verify_run_id"])
 
+    def test_card_uses_korean_display_fields(self):  # 이슈 #39: 카드는 한국어, 없으면 영어
+        topic = {**RESEARCH["topics"][0], "summary": "English summary", "gap": "English gap",
+                 "ko": {"summary": "한국어 요약", "gap": "한국어 공백", "approach": "", "evaluation": ""}}
+        research = {**RESEARCH, "topics": [topic]}
+        recommend = {**RECOMMEND, "recommendations": [{**RECOMMEND["recommendations"][0], "summary": "English problem",
+                                                       "summary_ko": "한국어 문제 요약"}]}
+        card = build_card(recommend, PROBLEM, research, "c1", None)
+        self.assertEqual((card["topic"]["summary"], card["problem"]["summary"]), ("한국어 요약", "한국어 문제 요약"))
+        self.assertEqual((card["design"]["gap"], card["design"]["approach"]), ("한국어 공백", "방법"))
+        self.assertEqual(card["topic"]["title"], "Round-wise | backdoor audit")  # 제목은 영어 그대로
+
     def test_tolerates_missing_verify_keys(self):
         v = {"run_id": "r_x", "status": "budget", "topic_id": "c1", "nearest": [{**VERIFY["nearest"][0], "comparison": None}]}
         del v["nearest"][0]["level"]
