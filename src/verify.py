@@ -314,6 +314,7 @@ def _run(s, budget, profile, problem, topic, refs, emit, should_cancel):
     s["narrowed"] = _narrow(topic, s["papers"], budget)
 
     todo = s["narrowed"]
+    cards.prefetch(todo, "abstract")  # Supabase에만 있는 카드도 캐시로 세도록
     budget.take("solar", sum(not _cached(cards.ABSTRACT_CARD_DIR, p, ".json") for p in todo))
     emit("abstract_cards", f"초록 카드 작성 (0/{len(todo)})", current=0, total=len(todo))
     made = _parallel(_abstract_card, todo,
@@ -336,6 +337,7 @@ def _run(s, budget, profile, problem, topic, refs, emit, should_cancel):
                      for p in sorted(papers, key=rank_key, reverse=True)]
     nearest = s["nearest"] = _nearest(papers)
 
+    cards.prefetch(nearest, "fulltext")
     ready = _studio_ready()
     jobs = [p for p in nearest if ready or _cached(cards.STUDIO_CARD_DIR, p, ".card.json")]
     new = [p for p in jobs if not _cached(cards.STUDIO_CARD_DIR, p, ".card.json")]

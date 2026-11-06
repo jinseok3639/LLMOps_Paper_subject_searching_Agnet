@@ -28,6 +28,17 @@ create table if not exists public.runs (
 );
 create index if not exists runs_user_session on public.runs (user_id, owner_session);
 
+-- 논문별 결과 캐시 (src/paper_cache.py). kind: abstract_card | studio_card, key: S2 paper_id.
+-- 같은 논문은 Solar·Studio를 다시 부르지 않는다. 사용자와 무관한 공용 데이터라 user_id가 없다.
+create table if not exists public.cache (
+  kind       text not null,
+  key        text not null,
+  json       jsonb not null,
+  created_at timestamptz not null default now(),
+  primary key (kind, key)
+);
+
 alter table public.profiles enable row level security;
 alter table public.sessions enable row level security;
 alter table public.runs     enable row level security;
+alter table public.cache    enable row level security;

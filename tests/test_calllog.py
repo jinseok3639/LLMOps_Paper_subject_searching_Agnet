@@ -121,15 +121,16 @@ class CallTests(Logs):
         self.assertEqual((row["status"], row["output"]), ("cancelled", "안"))
         self.assertTrue(row["error"].startswith("GeneratorExit"))
 
-    def test_s2_search_logs_cache_hits(self):
+    def test_s2_search_is_not_cached(self):
         resp = MagicMock(status_code=200)
         resp.json.return_value = {"data": [{"paperId": "p1", "title": "T", "abstract": "long abstract"}]}
         with patch.object(config, "DB_DIR", self.root), patch("src.clients.semantic_scholar.requests.get", return_value=resp) as get:
             references._search("agent safety eval")
             references._search("agent safety eval")
-        self.assertEqual(get.call_count, 1)
+        self.assertEqual(get.call_count, 2)
+        self.assertFalse((self.root / "search_cache").exists())
         rows = self.lines()
-        self.assertEqual([(r["provider"], r["status"]) for r in rows], [("s2", "ok"), ("s2", "cache")])
+        self.assertEqual([(r["provider"], r["status"]) for r in rows], [("s2", "ok"), ("s2", "ok")])
         self.assertEqual(rows[1]["output"], [{"paperId": "p1", "title": "T"}])  # 초록은 빼고 남긴다
         self.assertEqual(rows[0]["input"], "agent safety eval")
 
