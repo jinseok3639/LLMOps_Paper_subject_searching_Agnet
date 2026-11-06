@@ -148,7 +148,7 @@ class ApiTests(TempRuns):
         self.assertEqual(reply.call_args.args[1], {"recommend_run_id": "r_x"})
 
     def test_chat_asks_compact_over_limit_and_passes_memo(self):  # 이슈 #31
-        def fake(profile, picks, history, message, memo, usage):
+        def fake(profile, picks, history, message, memo, usage, on_tool=None, search=None):
             usage["tokens_in"] = 50_001
             self.seen = (history, memo)
             return iter(["답"])
@@ -180,7 +180,7 @@ class ApiTests(TempRuns):
              patch("src.api.chat.reply_stream") as reply:
             got = events(self.client.post("/api/chat", json=body).text)
         self.assertEqual(got[-1], ("result", {"session_id": "s1", "action": actions[0]}))
-        self.assertEqual(decide.call_args.args[1:], ("2번으로 하자", actions, "browse"))
+        self.assertEqual(decide.call_args.args[1:4], ("2번으로 하자", actions, "browse"))
         reply.assert_not_called()
         with patch("src.api.chat.decide_action", return_value=None), \
              patch("src.api.chat.reply_stream", return_value=iter(["답"])):  # 질문이면 지금처럼 답한다
@@ -278,14 +278,14 @@ class SrcTests(TempRuns):
         res_id = runs.save("research", {"topics": [{"id": "c1", "title": "다듬을 후보"}], "references": [REF]})
         picks = {"recommend_run_id": rec_id, "problem_id": ids[0], "research_run_id": res_id, "topic_id": "c1"}
         with patch.object(llm, "chat_stream", return_value=iter([])) as stream:
-            reply_stream(PROFILE, picks, [{"role": "user", "content": "이전 질문"}], "질문")
+            "".join(reply_stream(PROFILE, picks, [{"role": "user", "content": "이전 질문"}], "질문"))
         sent = stream.call_args.args[0]
         system = sent[0]["content"]
         for text in (card["title"], by_id[ids[1]]["title"], "사용자가 고른 문제", "다듬을 후보", "연구실 연구 주제: AI 보안"):
             self.assertIn(text, system)
         self.assertEqual(sent[1:], [{"role": "user", "content": "이전 질문"}, {"role": "user", "content": "질문"}])
         with patch.object(llm, "chat_stream", return_value=iter([])) as stream:  # 만료된 결과는 빼고 답한다
-            reply_stream(PROFILE, {"recommend_run_id": "r_" + "0" * 32}, [], "질문")
+            "".join(reply_stream(PROFILE, {"recommend_run_id": "r_" + "0" * 32}, [], "질문"))
         self.assertIn("(없음", stream.call_args.args[0][0]["content"])
 
     def test_chat_context_numbers_follow_first_number(self):  # 다시 추천한 결과는 6번부터 (이슈 #23)

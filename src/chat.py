@@ -1,14 +1,18 @@
 """추천 이후 후속 대화.
 
-도구 연결 없이, picks가 가리키는 저장된 결과(① 추천, ③ 후보, ④ 검증)와 연구실 프로필만 컨텍스트로 쓴다.
+picks가 가리키는 저장된 결과(① 추천, ③ 후보, ④ 검증)와 연구실 프로필을 컨텍스트로 쓴다.
+컨텍스트에 없는 논문은 답변 전에 찾아 질문 뒤에 붙인다 (이슈 #36): 저장된 ③④ 논문은 get_reference, 새 논문은 search_papers.
+답변이 끝나면 논문 링크가 컨텍스트, 저장된 결과, 찾은 논문 안에 있는지 검사한다.
 picks = {recommend_run_id, problem_id, research_run_id, topic_id, revision_run_id, verify_run_id} (API 명세 2.2). 없거나 만료된 결과는 빼고 답한다.
 대화 기록을 넣는 규칙과 압축은 src.conversation에 있다.
 """
 import json
+import re
 
 from pydantic import BaseModel
 
-from src import config, conversation, llm, revise, runs
+from src import calllog, config, conversation, llm, revise, runs
+from src.agents.tools import chat_toolbox
 from src.recommend import load_index
 
 
@@ -111,6 +115,37 @@ def verify_view(v: dict) -> str:
 class Intent(BaseModel):
     action: str
     target: str = ""
+    # 참고문헌 밖의 논문을 찾는 질문이면 S2 검색어 (이슈 #36). Solar는 답을 먼저 쓰고 Tool을 맨 끝에 부르는 일이 많아서
+    # 검색할지는 여기서 미리 정하고, 답변 호출 전에 검색해 결과를 질문 뒤에 붙인다
+    search_query: str = ""
+    search_year: str = ""
+
+
+def search_plan(got: Intent) -> dict | None:
+    """판별 결과의 검색 계획. search_papers 입력 형식. 검색이 필요 없으면 None."""
+    query = got.search_query.strip()
+    if not query:
+        return None
+    year = got.search_year.strip()
+    return {"query": query, **({"year": year} if re.fullmatch(r"\d{4}(-\d{4})?-?|-\d{4}", year) else {})}
+
+
+def focus_text(picks: dict | None) -> str:
+    """판별에 넣는 지금 고른 문제와 후보 제목. "이 주제 관련 논문"의 검색어를 만들 때 쓴다."""
+    picks = picks or {}
+    by_id, _, _ = load_index()
+    lines = []
+    pid = picks.get("problem_id")
+    if pid in by_id:
+        lines.append(f"고른 문제: {by_id[pid]['title']}")
+    research_run = runs.load(picks.get("research_run_id"))
+    try:
+        topic, _ = revise.resolve(research_run or {}, picks.get("topic_id") or "", runs.load(picks.get("revision_run_id")))
+    except ValueError:
+        topic, _ = revise.resolve(research_run or {}, picks.get("topic_id") or "")
+    if topic:
+        lines.append(f"고른 후보: {topic['title']}")
+    return "\n".join(lines) or "(없음)"
 
 
 INTENT_HISTORY_MESSAGES = 4  # 판별에 넣는 최근 대화. "그걸로 하자"처럼 앞 말을 가리키는 경우를 위해서다
@@ -126,38 +161,152 @@ STAGE_HINTS = {  # 판별에 넣는 현재 단계 설명. 다음에 무엇을 �
 }
 
 
-def decide_action(history: list[dict], user_msg: str, actions: list[dict], stage: str = "") -> dict | None:
+def decide_action(history: list[dict], user_msg: str, actions: list[dict], stage: str = "",
+                  picks: dict | None = None, plan: dict | None = None) -> dict | None:
     """채팅이 actions 중 하나를 요청하면 그 항목을, 질문이거나 애매하면 None을 돌려준다.
-    LLM이 고른 name과 target이 목록에 그대로 있을 때만 행동으로 본다."""
+    LLM이 고른 name과 target이 목록에 그대로 있을 때만 행동으로 본다.
+    plan을 주면 답변 전에 할 검색을 plan["search"]에 채운다 (search_papers 입력, 없으면 None)."""
     listing = "\n".join(f"- action: {a['name']} | target: {a['target'] or '(none)'} | {a['label']}" for a in actions)
     convo, _ = conversation.chat_messages(history)
     recent = [{"role": m["role"], "content": m["content"][:INTENT_HISTORY_CHARS]} for m in convo[-INTENT_HISTORY_MESSAGES:]]
     user = (f"현재 단계: {STAGE_HINTS.get(stage, '알 수 없음')}\n\n"
+            f"지금 고른 것:\n{focus_text(picks)}\n\n"
             f"최근 대화 (메시지마다 앞부분만):\n{json.dumps(recent, ensure_ascii=False)}\n\n"
-            f"할 수 있는 행동:\n{listing}\n\n사용자 메시지:\n{user_msg}")
+            f"할 수 있는 행동:\n{listing or '(없음)'}\n\n사용자 메시지:\n{user_msg}")
     messages = [{"role": "system", "content": (config.PROMPT_DIR / "chat_intent.md").read_text(encoding="utf-8")},
                 {"role": "user", "content": user}]
     got = llm.chat_json(messages, Intent)
+    if plan is not None:
+        plan["search"] = search_plan(got)
     name, target = got.action.strip(), got.target.strip()
     if target == "(none)":
         target = ""
     return next((a for a in actions if a["name"] == name and (a["target"] or "") == target), None)
 
 
+TOOL_PROGRESS = {"get_reference": "저장된 참고문헌 확인 중", "search_papers": "논문 검색 중"}
+
+
 def reply_stream(profile: dict, picks: dict, history: list[dict], user_msg: str, memo: dict | None = None,
-                 usage: dict | None = None):
+                 usage: dict | None = None, on_tool=None, search: dict | None = None):
     """후속 질문에 대한 답변 스트림. history: common.history(meta=True) (이번 질문 제외), memo: 세션의 압축 결과.
-    순서: [지시문 + 컨텍스트 + 이전 대화 요약] [대화 (카드는 한 줄)] [이번 질문]. 대화는 자르지 않고 뒤에 붙이기만 해서
-    턴마다 앞부분이 캐시된다. 길어지면 화면이 압축을 요청한다 (src.conversation). usage에는 입력 토큰 수가 채워진다."""
+    순서: [지시문 + 컨텍스트 + 이전 대화 요약] [대화 (카드는 한 줄)] [이번 질문 + 미리 찾은 논문]. 대화는 자르지 않고 뒤에 붙이기만
+    해서 턴마다 앞부분이 캐시된다. 길어지면 화면이 압축을 요청한다 (src.conversation). usage에는 입력 토큰 수가 채워진다.
+
+    문헌 (이슈 #36): 답변 호출 전에 논문을 찾아 이번 질문 뒤에 붙인다. 질문이 가리키는 저장된 ③④ 논문(prefetch)과,
+    판별(decide_action)이 정한 S2 검색(search, presearch)이다. 답변 호출에는 Tool을 주지 않는다: Solar는 답을 먼저 쓰고
+    Tool을 맨 끝에 부르거나, 사용자에게 함수를 부르라고 안내하는 일이 잦았다. 찾은 논문은 대화 기록에 남지 않는다.
+    on_tool(name, arguments): 진행 표시용. 끝나면 답변의 논문 링크를 검사한다 (unverified_links)."""
     picks = picks or {}
     verify_run = runs.load(picks.get("verify_run_id"))
     if verify_run and verify_run.get("topic_id") != picks.get("topic_id"):
         verify_run = None  # 다른 후보의 검증 결과는 넣지 않는다
+    research_run = runs.load(picks.get("research_run_id"))
     context = build_context(profile, runs.load(picks.get("recommend_run_id")),
-                            runs.load(picks.get("research_run_id")), picks, verify_run, runs.load(picks.get("revision_run_id")))
+                            research_run, picks, verify_run, runs.load(picks.get("revision_run_id")))
     system = (config.PROMPT_DIR / "chat_followup.md").read_text(encoding="utf-8")
     convo, summary = conversation.chat_messages(history, memo)
     if summary:
         context += "\n\n## 이전 대화 요약 (오래된 대화를 줄인 것)\n" + summary
-    messages = [{"role": "system", "content": system + "\n\n" + context}, *convo, {"role": "user", "content": user_msg}]
-    return llm.chat_stream(messages, usage=usage)
+    box = chat_toolbox(research_run, verify_run)
+    fetched = prefetch(user_msg, box, research_run, verify_run, on_tool) + presearch(search, box, on_tool)
+    messages = [{"role": "system", "content": system + "\n\n" + context}, *convo,
+                {"role": "user", "content": user_msg + fetched}]
+    parts = []
+    for piece in llm.chat_stream(messages, usage=usage):
+        parts.append(piece)
+        yield piece
+    known = "\n".join([context, *(m["content"] for m in convo if m["role"] == "user"),
+                        json.dumps([(research_run or {}).get("references"), (verify_run or {}).get("nearest"),
+                                    list(box.seen_papers.values())], ensure_ascii=False, default=str)])
+    bad = unverified_links("".join(parts), known)
+    if bad:
+        calllog.record("check", "chat_citations", input=user_msg, output=bad, latency_ms=0, status="flagged")
+        yield ("\n\n※ 확인되지 않은 링크: " + ", ".join(bad)
+               + " (저장된 자료나 검색 결과에 없는 논문입니다. 직접 확인해 주세요.)")
+
+
+def presearch(search: dict | None, box, on_tool=None) -> str:
+    """판별이 정한 검색(search_papers 입력)을 실행하고, 질문 뒤에 붙일 글을 돌려준다."""
+    if not search:
+        return ""
+    if on_tool:
+        on_tool("search_papers", json.dumps(search, ensure_ascii=False))
+    got = box.call("search_papers", search)
+    head = f"\n\n[새로 검색한 논문 (Semantic Scholar, 데이터). 검색어: {search['query']}"
+    if search.get("year"):
+        head += f", 연도: {search['year']}"
+    if got.get("error"):
+        return head + f"]\n검색 실패: {got['error']}"
+    return head + "]\n" + json.dumps(got.get("papers") or [], ensure_ascii=False)
+
+
+# ref-001는 처럼 한글이 바로 붙으므로 \b 대신 앞뒤 글자를 직접 본다
+PAPER_ID = re.compile(r"(?<![\w-])(ref-\d{1,3}|N\d{1,2})(?![\d-])", re.IGNORECASE)
+WORD = re.compile(r"[a-z0-9]+")
+TITLE_WORDS = 3  # 질문에 제목의 연속된 영어 단어가 이만큼 있으면 그 논문을 가리킨다고 본다
+MAX_PREFETCH = 3
+
+
+def _title_hit(title: str, msg_words: str) -> bool:
+    words = [w for w in WORD.findall((title or "").lower()) if len(w) > 1]
+    return any(" ".join(words[i:i + TITLE_WORDS]) in msg_words for i in range(len(words) - TITLE_WORDS + 1))
+
+
+def prefetch(user_msg: str, box, research_run: dict | None, verify_run: dict | None = None, on_tool=None) -> str:
+    """질문이 저장된 ③ 참고문헌(ref-NNN)이나 ④ 가까운 논문(N1)을 id나 제목으로 가리키면 get_reference로 읽어,
+    질문 뒤에 붙일 글을 돌려준다. 초록이 이미 컨텍스트에 있는 참고문헌(후보가 인용한 것)은 뺀다."""
+    cited = {i for t in (research_run or {}).get("topics") or [] for i in t.get("support") or []}
+    ids = []
+    for m in PAPER_ID.finditer(user_msg):
+        pid = m.group(1).upper()
+        ids.append("ref-" + pid[4:].zfill(3) if pid.startswith("REF-") else pid)
+    msg_words = " ".join(w for w in WORD.findall(user_msg.lower()) if len(w) > 1)
+    for p in [*((research_run or {}).get("references") or []), *((verify_run or {}).get("nearest") or [])]:
+        if _title_hit(p.get("title"), msg_words):
+            ids.append(p.get("id"))
+    ids = [i for i in dict.fromkeys(ids) if i not in cited][:MAX_PREFETCH]
+    papers = []
+    for pid in ids:
+        if on_tool:
+            on_tool("get_reference", json.dumps({"id": pid}))
+        papers += box.call("get_reference", {"id": pid}).get("papers", [])
+    if not papers:
+        return ""
+    return "\n\n[질문에 나온 논문 (저장된 결과에서 읽음, 데이터)]\n" + json.dumps(papers, ensure_ascii=False)
+
+
+# 논문 링크와 arXiv 번호. 그 밖의 링크(코드 저장소 등)는 검사하지 않는다
+LINK = re.compile(r"https?://(?:www\.)?(?:arxiv\.org|semanticscholar\.org|api\.semanticscholar\.org|(?:dx\.)?doi\.org)/[^\s)\]>\"'<]+",
+                  re.IGNORECASE)
+ARXIV_ID = re.compile(r"(\d{4}\.\d{4,5})(?:v\d+)?")
+S2_ID = re.compile(r"[0-9a-f]{40}", re.IGNORECASE)
+ARXIV_MENTION = re.compile(r"arxiv\s*:?\s*(\d{4}\.\d{4,5})", re.IGNORECASE)
+
+
+def _paper_key(link: str) -> str | None:
+    """링크에서 논문 식별자 (arXiv 번호, S2 paperId, DOI). 못 찾으면 None."""
+    low = link.lower().rstrip(".,;:")
+    if "arxiv.org" in low:
+        m = ARXIV_ID.search(low)
+        return m.group(1) if m else None
+    if "semanticscholar.org" in low:
+        m = S2_ID.search(low)
+        return m.group(0) if m else None
+    if "doi.org/" in low:
+        return low.split("doi.org/", 1)[1] or None
+    return None
+
+
+def unverified_links(answer: str, known: str) -> list[str]:
+    """답변의 논문 링크·arXiv 번호 중 known(컨텍스트, 대화, 저장된 결과, Tool 결과) 어디에도 식별자가 없는 것.
+    식별자를 못 뽑는 링크(검색 페이지 등)도 지어낸 것으로 본다."""
+    known, bad = known.lower(), []
+    for m in LINK.finditer(answer):
+        key = _paper_key(m.group(0))
+        if not key or key not in known:
+            bad.append(m.group(0).rstrip(".,;:"))
+    for m in ARXIV_MENTION.finditer(answer):
+        if m.group(1) not in known and not any(m.group(1) in b for b in bad):
+            bad.append("arXiv:" + m.group(1))
+    return list(dict.fromkeys(bad))

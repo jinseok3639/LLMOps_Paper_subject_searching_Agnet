@@ -34,7 +34,8 @@
 │  └─ agents/
 │     ├─ tools/               # LLM에 노출하는 Tool
 │     │  ├─ search_problems.py  # RAG 검색
-│     │  └─ search_papers.py    # S2 검색
+│     │  ├─ search_papers.py    # S2 검색
+│     │  └─ get_reference.py    # 저장된 ③④ 논문 조회
 │     ├─ chat/
 │     │  ├─ agent.py          # 추천, 후속 대화
 │     │  └─ prompts/
@@ -98,7 +99,7 @@ app → agents → tools → paper_db, store, clients
 | `src/prompts/extract_open_problems.md` | `src/paper_db/prompts/` | |
 | `src/prompts/recommend_*.md`, `chat_followup.md` | `src/agents/chat/prompts/` | |
 
-`src/agents/tools/`의 `search_papers`는 구현되어 있지만 에이전트에는 아직 연결하지 않았습니다. `default_toolbox()`로 묶어 씁니다.
+`src/agents/tools/`의 `search_papers`와 `get_reference`는 후속 대화에 연결되어 있습니다 (`chat_toolbox()`, 이슈 #36). 답변 호출에 function calling을 쓰지 않고, 답변 전에 실행해 결과를 질문 뒤에 붙입니다. 질문이 가리키는 ③④ 논문은 id나 제목으로 찾아 읽고(`chat.prefetch`), 참고문헌 밖의 논문은 채팅 판별(`decide_action`)이 정한 검색어로 S2를 검색합니다(`chat.presearch`). Solar가 답을 먼저 쓰고 Tool을 맨 끝에 부르거나 사용자에게 함수를 부르라고 안내하는 일이 잦아서입니다.
 
 ## 구현 순서
 
