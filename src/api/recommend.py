@@ -20,6 +20,7 @@ class Body(BaseModel):
     session_id: str
     profile: Profile = Profile()
     rejections: list[Rejection] = []
+    exclude: list[str] = []  # 이 세션에서 이미 보여 준 problem_id. 다시 추천할 때 후보에서 뺀다
 
 
 def public(result: dict) -> dict:
@@ -31,9 +32,10 @@ def public(result: dict) -> dict:
 def post_recommend(body: Body, request: Request):
     profile = check(body.profile)
     rejections = [r.model_dump() for r in body.rejections]
+    exclude = [x.strip() for x in body.exclude if x.strip()]
 
     def job(progress, delta):
-        result = recommend(profile, rejections, progress)
+        result = recommend(profile, rejections, progress, exclude=exclude)
         return {"run_id": runs.save("recommend", result, body.session_id), **public(result)}
 
     return stream_job(request, body.session_id, job)

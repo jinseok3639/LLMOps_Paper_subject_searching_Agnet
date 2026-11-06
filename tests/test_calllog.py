@@ -186,7 +186,7 @@ class JobTests(Logs):
     def test_recommend_job_lines(self):
         self.client.chat.completions.parse.return_value = chat_resp()
 
-        def fake(profile, rejections, progress):
+        def fake(profile, rejections, progress, exclude=()):
             progress("검색어 작성 중", step="query")
             llm.chat_json([{"role": "user", "content": "u"}], Out)
             return {"status": "ok", "intro": "", "note": "", "recommendations": [], "trace": {}}

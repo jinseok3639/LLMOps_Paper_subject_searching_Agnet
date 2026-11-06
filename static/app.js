@@ -399,15 +399,27 @@
   }
 
   // ---------- 기본 작업: 추천, 후보 생성, 대화 ----------
+  function shownProblems(s) {  // 이 세션에서 이미 보여 준 problem_id. 다시 추천할 때 빼도록 보낸다 (이슈 #21)
+    const ids = new Set();
+    for (const m of s.messages) {
+      if (m.kind !== "problems") continue;
+      const r = runCache[m.run_id];  // problem_ids가 없는 예전 메시지는 불러온 결과에서 꺼낸다
+      const list = m.problem_ids || (r && r.recommendations ? r.recommendations.map(c => c.problem_id) : []);
+      list.forEach(id => ids.add(id));
+    }
+    return [...ids];
+  }
+
   function startRecommend(s, {replace} = {}) {
     return runTask({kind: "recommend", label: "문제 추천", url: "/api/recommend", replace,
-                    body: {profile: s.profile, rejections: s.rejections},
+                    body: {profile: s.profile, rejections: s.rejections, exclude: shownProblems(s)},
                     onResult: (x, d) => {
                       x.picks = {recommend_run_id: d.run_id};
                       x.stage = "browse";
-                      const list = (d.recommendations || []).map((c, i) => `${i + 1}. ${c.title}`).join("\n");
+                      const recs = d.recommendations || [];
+                      const list = recs.map((c, i) => `${i + 1}. ${c.title}`).join("\n");
                       return msg("assistant", list ? `추천한 Open Problem:\n${list}` : "관련 문제를 찾지 못했습니다.",
-                                 {kind: "problems", run_id: d.run_id});
+                                 {kind: "problems", run_id: d.run_id, problem_ids: recs.map(c => c.problem_id)});
                     }});
   }
 
@@ -486,19 +498,9 @@
     ` (${c.paper.year}) · ${c.section_title} · p.${c.page}`);
 
   function problemCard(s, m, c, n, active) {
-    const rejected = s.rejections.find(r => r.target_id === c.problem_id);
     const picked = m.picked === c.problem_id;
-    const reason = h("input", {placeholder: "제외 이유 (다음 추천에 반영)"});
-    let foot = "";
-    if (rejected)
-      foot = h("p", {class: "caption"}, `제외함${rejected.reason ? ": " + rejected.reason : ""} `,
-        active ? btn("제외 취소", () => updateSession(s.id, x => {
-          x.rejections = x.rejections.filter(r => r.target_id !== c.problem_id); }), "ghost") : "");
-    else if (active)
-      foot = h("div", {class: "row"}, btn("이 문제로 진행", () => pickProblem(s, m, c, n), "primary"),
-        h("details", {class: "inline"}, h("summary", {class: "btn ghost"}, "제외"),
-          h("div", {class: "row"}, reason, btn("제외하기", () => rejectProblem(s, c, reason.value)))));
-    return h("div", {class: "card" + (picked ? " picked" : "") + (rejected ? " rejected" : "")},
+    const foot = active ? h("div", {class: "row"}, btn("이 문제로 진행", () => pickProblem(s, m, c, n), "primary")) : "";
+    return h("div", {class: "card" + (picked ? " picked" : "")},
       h("div", {class: "card-title"}, h("span", {class: "num"}, n), c.title, picked ? h("span", {class: "badge"}, "선택함") : ""),
       h("p", {}, c.summary),
       c.reason ? h("p", {class: "reason"}, c.reason) : "",
@@ -519,21 +521,15 @@
     });
   }
 
-  function rejectProblem(s, c, reason) {  // C-6
-    updateSession(s.id, x => {
-      x.rejections = x.rejections.filter(r => r.target_id !== c.problem_id)
-        .concat({target: "problem", target_id: c.problem_id, reason: reason.trim()});
-    });
-  }
-
   function renderProblems(el, s, m, active) {
     const run = getRun(m.run_id);
     if (!run) return el.append(loading(m.run_id));
     if (run.intro) el.append(mdBlock(run.intro));
     run.recommendations.forEach((c, i) => el.append(problemCard(s, m, c, i + 1, active)));
     if (run.note) el.append(h("p", {class: "info"}, run.note));
-    if (active) el.append(h("div", {class: "row"}, btn(
-      s.rejections.length ? "제외한 문제를 반영해 다시 추천 받기" : "다시 추천 받기", () => startRecommend(s))));
+    if (active && (run.recommendations.length || !shownProblems(s).length))  // 다 보여 줘서 빈 결과면 다시 눌러도 같다
+      el.append(h("div", {class: "row"}, btn("다시 추천 받기", () => startRecommend(s)),
+                  h("span", {class: "caption"}, "앞에서 보여 드린 문제는 빼고 추천합니다")));
   }
 
   // ---------- ② 고른 문제 메시지 ----------
@@ -737,8 +733,7 @@
   registerStage("browse", s => {
     const run = getRun(s.picks.recommend_run_id);
     if (!run) return "";
-    return (run.recommendations.length ? `추천 ${run.recommendations.length}개` : "관련 문제 없음") +
-           (s.rejections.length ? ` · 제외 ${s.rejections.length}개` : "");
+    return run.recommendations.length ? `추천 ${run.recommendations.length}개` : "관련 문제 없음";
   });
   registerStage("explore", s => getRun(s.picks.recommend_run_id)?.recommendations
     .find(c => c.problem_id === s.picks.problem_id)?.title || "");
