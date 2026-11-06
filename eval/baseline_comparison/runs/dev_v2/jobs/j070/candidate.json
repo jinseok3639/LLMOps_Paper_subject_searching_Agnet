@@ -1,0 +1,19 @@
+{
+ "title": "Lipschitz-Certified EEGNet: SDP-Bounded Robustness for Compact EEG Decoders in Brain–Computer Interfaces",
+ "summary": "Adversarial attacks on EEG-based BCIs have been shown empirically, but no certified robustness guarantees exist for compact EEG CNNs. This proposal adapts semidefinite-programming Lipschitz bounds to the depthwise and separable convolutional structure of EEGNet-style models, yielding per-trial certified radii for input perturbations. It further tests whether Parseval-style orthogonality constraints on the spatial and temporal filters tighten the certificates at little accuracy cost. Validation compares certified radii, empirical attack radii, and a sampling-based robustness score across several open EEG datasets and paradigms, against unconstrained and adversarially trained baselines.",
+ "gap": "Existing EEG adversarial work (universal perturbations, artifact detection) is empirical and attack/detection-focused. Lipschitz/SDP certification and Parseval-style constraints exist for generic feed-forward or image networks, but nobody has applied them to compact EEG CNNs with depthwise/separable convolutions, nor tied them to EEG-specific perturbation sets.",
+ "approach": "Express the EEGNet layers (temporal conv, depthwise spatial conv, separable conv, ELU, pooling, dense) as a linear-plus-slope-restricted-nonlinearity chain and derive quadratic-constraint SDP upper bounds on the network Lipschitz constant, using a decomposed version for scalability. Convert to instance-specific certified margins via the cross-Lipschitz argument. Train variants with Parseval-style orthogonal regularization on the temporal and spatial filters and with a Lipschitz penalty, then compare tightness and accuracy.",
+ "evaluation": "Use MOABB-style multi-dataset, within- and cross-subject evaluation across motor imagery, P300 and ERN data. Metrics: clean accuracy, certified accuracy at several L2 and L-infinity radii, ratio of certified bound to empirical minimal adversarial perturbation (PGD, UAP), and the sampling-based robustness score. Baselines: standard EEGNet, a deeper ConvNet, PGD adversarial training, and naive product-of-norms Lipschitz bounds.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-020",
+  "ref-022",
+  "ref-010",
+  "ref-009",
+  "ref-024",
+  "ref-021",
+  "ref-007",
+  "ref-013"
+ ]
+}

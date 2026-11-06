@@ -1,0 +1,210 @@
+{
+ "scores": {
+  "A": {
+   "n": 9,
+   "grounding": 2.111111111111111,
+   "gap": 2.6666666666666665,
+   "specificity": 3.111111111111111,
+   "coherence": 2.888888888888889,
+   "value": 2.888888888888889,
+   "mean": 2.7333333333333334,
+   "best": 3.0,
+   "worst": 2.4
+  },
+  "B": {
+   "n": 3,
+   "grounding": 2.3333333333333335,
+   "gap": 3,
+   "specificity": 3,
+   "coherence": 2.6666666666666665,
+   "value": 3,
+   "mean": 2.8,
+   "best": 3,
+   "worst": 2.6
+  },
+  "C": {
+   "n": 9,
+   "grounding": 2.888888888888889,
+   "gap": 4,
+   "specificity": 4.111111111111111,
+   "coherence": 3.5555555555555554,
+   "value": 4,
+   "mean": 3.7111111111111112,
+   "best": 3.8666666666666667,
+   "worst": 3.6
+  }
+ },
+ "novelty": {
+  "C": [
+   3,
+   3,
+   2,
+   3,
+   1,
+   2,
+   3,
+   3,
+   1
+  ],
+  "A": [
+   3,
+   3,
+   3,
+   3,
+   3,
+   3,
+   3,
+   3,
+   3
+  ],
+  "B": [
+   3,
+   3,
+   3
+  ]
+ },
+ "pairwise": [
+  {
+   "sample": "t003",
+   "pair": "A-B",
+   "criterion": "best",
+   "winner": "B",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-B",
+   "criterion": "worst",
+   "winner": "B",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-B",
+   "criterion": "diversity",
+   "winner": "A",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-B",
+   "criterion": "overall",
+   "winner": "B",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "B-C",
+   "criterion": "best",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "B-C",
+   "criterion": "worst",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "B-C",
+   "criterion": "diversity",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "B-C",
+   "criterion": "overall",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-C",
+   "criterion": "best",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-C",
+   "criterion": "best",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-C",
+   "criterion": "best",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-C",
+   "criterion": "worst",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-C",
+   "criterion": "worst",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-C",
+   "criterion": "worst",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-C",
+   "criterion": "diversity",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-C",
+   "criterion": "diversity",
+   "winner": "A",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-C",
+   "criterion": "diversity",
+   "winner": "A",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-C",
+   "criterion": "overall",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-C",
+   "criterion": "overall",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-C",
+   "criterion": "overall",
+   "winner": "C",
+   "position_conflict": false
+  }
+ ],
+ "human": null,
+ "missing": []
+}

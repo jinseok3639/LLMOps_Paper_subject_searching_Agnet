@@ -1,0 +1,28 @@
+{
+  "version": "v2",
+  "based_on": "src/generation_method (v1, 2026-11-07)",
+  "changes": [
+    "R1 최종 선별에서 같은 주제 제외",
+    "R2 겹침 지적 반영과 겹침 후보 제외",
+    "R3 결과 표현 거부",
+    "V2 검토가 gap 과장, 실험 설계 누락(데이터, 베이스라인, 지표, ablation), 평가와 주장의 불일치를 확인하고 수정이 이를 반영 (시범 운영 판정 근거에서 B가 C보다 낮았던 항목)"
+  ],
+  "n_candidates": 3,
+  "slots": 3,
+  "temperature": 0.4,
+  "max_format_tries": 4,
+  "summary_words": [
+    40,
+    120
+  ],
+  "final_selection": {
+    "overlap_filter": false,
+    "topic_dedup": false
+  },
+  "agents": {
+    "assumption": "You look for premises that a whole line of work takes for granted and ask what happens if they are removed.",
+    "transfer": "You look for methods or concepts in one line of work that could address a limit in another.",
+    "empirical": "You look for phenomena that have been claimed but not measured, or measured only in a narrow setting.",
+    "formal": "You look for informal claims that could be turned into precise definitions, bounds, or failure conditions."
+  }
+}

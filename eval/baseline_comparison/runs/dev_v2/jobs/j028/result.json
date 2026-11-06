@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet and the SDP robustness techniques are supported by ref-001, ref-005, and ref-020. However, ref-006 describes implanted motor-cortex recordings for robotic reach and grasp, not noise-injected motor-imagery EEG data. Ref-025 discusses ethical and regulatory concerns without establishing a requirement for formal robustness certification. The claim of ensured reliable operation also exceeds the bounded-perturbation guarantees described in ref-005 and ref-020.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The supplied references leave EEGNet certification open: ref-001 evaluates decoding, while ref-005 and ref-020 demonstrate general verification methods outside EEG. However, the candidate identifies an application extension without specifying a concrete EEG-related limitation of existing certification methods, and its implantable-BCI framing is insufficiently justified by ref-025.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate names EEGNet, quadratic-constraint SDP bounds, a Parseval EEGNet comparator, and several robustness measures, drawing on ref-001, ref-020, and ref-010. Experiment design remains incomplete because datasets, perturbation norms and budgets, attack procedures, and the purported physical testing protocol are unspecified; ref-006 does not supply the claimed testing data.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Applying SDP bounds to EEGNet and comparing certificates with attacks is coherent with ref-005 and ref-020. However, the approach does not specify how output bounds become decision-preserving radii of the kind described in ref-022. Motor-imagery EEG evaluation and the mischaracterized ref-006 testing cannot substantiate the broader claim of reliable implantable-BCI operation.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Establishing useful EEGNet certificates could inform BCI defense choices given the vulnerabilities demonstrated in ref-024 and the empirical detection results in ref-021. Nevertheless, the proposed contribution largely transfers existing certification techniques from ref-005 and ref-020, and its evaluation does not establish practical implantable-BCI relevance. The likely contribution is meaningful but narrow.",
+  "score": 3
+ }
+}

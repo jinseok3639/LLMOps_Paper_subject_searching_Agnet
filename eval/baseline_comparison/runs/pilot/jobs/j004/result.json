@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The descriptions of reward pessimism, MBR regularization, and dual-calibrated constrained inference are supported by ref-004, ref-003, and ref-012. However, ref-012 does not explicitly assume accurate costs or demonstrate degradation with N. Ref-005 and ref-016 support using guard models, but do not establish ensemble disagreement as calibrated cost uncertainty. Ref-010 has no clear role in the proposed method or evaluation.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Robustness to cost-model exploitation as sampling increases is a concrete gap connecting reward overoptimization in ref-004 and ref-006 with cost-constrained inference in ref-012. Ref-020 provides guarantees relative to its given cost model, leaving robustness to errors in that model open. The gap is credible, although the categorical absence claim and LARA's alleged accuracy assumption exceed the supplied evidence.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The proposal specifies the scoring change, ensemble components, dual calibration, rejection sampling, named baselines, and safety/helpfulness measurements, drawing concretely on ref-003, ref-004, ref-012, ref-014, and ref-021. Experimental design could begin, but the rejection rule, ensemble score normalization, confidence calibration, benign benchmark, and sampling budgets remain unspecified.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Making costs pessimistic directly targets the cost-model vulnerability left outside ref-012 and ref-020, and curves across N test the scaling claim. However, ensemble spread and proximity regularization are not established confidence bounds by ref-005, ref-016, or ref-003. Moreover, StrongREJECT and judge scores remain evaluators rather than gold truth; ref-021 supports human agreement, not infallibility. Independent validation is needed to distinguish improved safety from shared evaluator errors, and simultaneous helpfulness/safety monotonicity needs stronger justification.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether constrained inference remains reliable under increasing search could change how researchers choose safety scorers and inference budgets. This meaningfully connects the scaling failures in ref-004 and ref-006 with the practical constrained methods in ref-012 and ref-020. Its impact depends on demonstrating robustness using independent evaluation, rather than merely improving scores from related judges.",
+  "score": 4
+ }
+}

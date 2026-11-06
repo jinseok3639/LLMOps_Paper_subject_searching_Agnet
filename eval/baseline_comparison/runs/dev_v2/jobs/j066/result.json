@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The core motivation is supported: ref-007 reports safety improvements from BoN, ref-004 establishes reward hacking at large N, and ref-002 motivates difficulty-dependent compute allocation. However, ref-002 does not establish the proposed two-budget BoN rule as compute-optimal. Ref-012 calibrates a Lagrangian multiplier combining reward and cost models, rather than calibrating a reward model to select the safest response. Ref-010 supports using its reward models but does not establish their calibration for OOD safety.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The references leave room to investigate difficulty-adaptive sampling specifically for OOD safety: ref-007 motivates safety sampling and ref-002 motivates adaptive allocation. However, the candidate does not clearly distinguish its contribution from constrained inference-time alignment in ref-012 or reward-hacking-resistant inference in ref-004. It also leaves 'prompt difficulty' undefined, so the proposed gap remains broader than a concrete limitation with a precisely targeted remedy.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies sampling budgets, model sizes, benchmarks, static BoN, human ratings, and a FLOPs-matched ablation, providing a usable experimental outline grounded in ref-014 and ref-017. However, it omits the difficulty estimator, calibration procedure, cost model required by ref-012, and exact scoring rule. Llama Guard and ShieldGemma are moderation models (ref-016, ref-005); their deployment as comparable generation defenses is unspecified.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "The FLOPs-matched adaptive-versus-static comparison could test whether allocating samples by difficulty improves safety, connecting ref-002 with ref-007. However, adaptive allocation alone does not address the reward hacking motivating the proposal (ref-004), and the described calibration does not implement ref-012. ASR and safety ratings measure safety, but without helpfulness and benign-prompt overrefusal evaluation, increased refusal could appear to validate the hypothesis without demonstrating better alignment.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A demonstrated safety benefit at equal compute could inform inference-budget choices and offer a useful alternative to the training approach in ref-007. The current contribution is nevertheless an incremental combination of adaptive compute (ref-002) and inference-time safety alignment (ref-012). Its impact depends on showing useful responses remain available and on comparisons with stronger safety-aware inference methods such as ref-004, ref-012, and ref-020.",
+  "score": 3
+ }
+}

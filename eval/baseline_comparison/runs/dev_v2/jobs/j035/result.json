@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The main connection between EEGNet and SDP verification is supported by ref-001 and ref-005. However, ref-009 describes an estimated robustness metric, not a guaranteed worst-case bound; ref-020 uses quadratic constraints rather than the attributed piecewise linear bounds. The supplied references also do not establish the named MOABB dataset, the proposed error-cost ordering, or that robustness certification enables medical certification.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The references leave open an empirical study of formal robustness bounds across EEG paradigms: ref-001 evaluates decoding performance, ref-007 motivates broader validation, and ref-005/ref-020 develop general verification methods. However, the candidate does not identify a concrete limitation of those verification methods that EEG requires overcoming, and the medical-certification gap extends beyond the evidence.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate identifies an architecture, an SDP technique, paradigms, robustness radii, and comparison methods (ref-001, ref-005, ref-009). However, applying ref-005 to EEGNet is also the proposed baseline, leaving the experimental difference unclear. The perturbation norm and budget, cross-paradigm training protocol, and loss weights are unspecified, while the ablation attributed to ref-020 is unsupported.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Computing verified radii across EEG tasks could test whether ref-005's framework provides useful guarantees for ref-001's architecture. However, separate paradigm evaluations do not establish cross-paradigm generalization without a defined transfer protocol. Weighted Hamming loss does not validate worst-case guarantees, and bounded classification robustness alone cannot substantiate the claimed medical safety certification.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A benchmark showing whether formal certificates are informative and computationally feasible for EEGNet could influence BCI robustness evaluation, especially given the validation concerns in ref-007 and attacks in ref-024. Its likely contribution is nevertheless narrow: it applies ref-005/ref-020 without a clearly isolated methodological change, and the evaluation does not support the broader clinical claims.",
+  "score": 3
+ }
+}

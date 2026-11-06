@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The main components are supported: SDP Lipschitz bounds (ref-020), instance-specific robustness guarantees (ref-022), EEG adversarial detectors (ref-021), and universal EEG perturbations (ref-024). However, ref-021 reports evaluating unknown-attack transfer without establishing the claimed poorer transfer or tuning dependence. Ref-019 and ref-023 motivate general ML monitoring and safety, while ref-017 discusses BCI security; they do not explicitly call for the proposed certificate-based safe failure in physical effectors.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied references leave a clear intersection unexplored: using classifier robustness certificates to trigger abstention in EEG BCIs. Ref-020 and ref-022 develop guarantees, whereas ref-021 evaluates EEG attack detectors without describing certified abstention. This is well scoped, although the claimed detector-transfer limitation is stronger than ref-021 establishes, and the physical-control motivation is not developed into a precise safety requirement.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The proposal identifies the intervention, certificate sources (ref-020 and ref-022), detector baselines (ref-021), architectures, datasets, calibration procedure, and several concrete measures. Experiment design could begin immediately. Remaining choices include perturbation norms and budgets, how natural artifacts define the certification threshold, and what constitutes an unsafe command in simulated control. The summary's noise-based threshold also differs from the approach's false-abstention calibration.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Certificate thresholding and comparisons with ref-021 detectors directly test the proposed monitoring strategy. However, the guarantees in ref-020 and ref-022 concern resistance to decision changes, which does not establish correctness or command safety: an already incorrect prediction can be locally robust. Combining guaranteed bounds with local gradient estimates also needs justification to preserve certification; ref-009 describes estimation rather than guaranteed upper bounds. These issues weaken the connection between certified radius and the claimed safety benefit.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A convincing comparison could influence whether BCI researchers choose formal certificates, statistical detectors, or confidence-based abstention, connecting ref-020 and ref-022 to the practical vulnerabilities in ref-021 and ref-024. Measuring coverage, unsafe commands, and latency could reveal consequential tradeoffs even with negative results. Broader impact depends on establishing that certificate-based abstention improves meaningful control outcomes rather than merely filtering predictions with small robustness radii.",
+  "score": 4
+ }
+}

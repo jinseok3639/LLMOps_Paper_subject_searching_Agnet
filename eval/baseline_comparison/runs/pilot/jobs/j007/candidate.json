@@ -1,0 +1,14 @@
+{
+ "title": "Certified Robustness for EEG-Based BCIs via EEG-Specific SDP Constraints",
+ "summary": "We formalize EEG signal robustness verification by incorporating domain-specific constraints (temporal smoothness, spatial covariance patterns from EEGNet) into semidefinite programming (SDP). Our method derives certified robustness bounds for EEGNet classifiers under ℓ₂-norm perturbations, validated against universal adversarial attacks in motor imagery and P300 paradigms.",
+ "gap": "Existing BCI robustness evaluations rely on empirical attack success rates without formal safety guarantees. General neural network robustness frameworks (ref-005/ref-020) lack EEG-specific constraints, failing to capture physiological signal characteristics critical for clinical safety.",
+ "approach": "We extend SDP-based robustness verification by encoding EEGNet's temporal filtering and spatial covariance properties as quadratic constraints. Layer-wise decomposition ensures scalability while preserving EEG-specific signal structure in the S-procedure relaxation framework.",
+ "evaluation": "Certified robustness radii are computed for MOABB datasets under ℓ₂-norm perturbations (ε=0.1) and compared to empirical attack distances from ref-024. Results demonstrate tighter bounds than generic SDP approaches by incorporating EEG-specific constraints.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-020",
+  "ref-024"
+ ]
+}

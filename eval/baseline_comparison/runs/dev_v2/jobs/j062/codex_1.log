@@ -1,0 +1,158 @@
+$ exit 0
+--- stdout
+{
+  "strongest": {"X": "x2", "Y": "y1"},
+  "weakest": {"X": "x3", "Y": "y3"},
+  "best": {
+    "rationale": "y1 identifies a clear extension: repeated generations of subliminal transfer, combining the transfer phenomenon in ref-014 with the generational analysis in ref-010. Its trait-free controls, mitigation comparisons, and separate tracking of trait strength and model degradation support a coherent experiment whose outcome could inform synthetic-data reuse. x2 offers a useful white-box investigation of persistent backdoors (ref-008, ref-016), but detecting activations associated with a known year trigger may simply identify the year rather than reveal hidden unsafe behavior. Its comparison against adversarial training also conflates backdoor removal with detection. y1 more directly tests its central hypothesis.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "x3 does not explain how physical patches against diffusion manipulation policies (ref-005) would operate in text-based corporate scenarios (ref-002). Toxicity scores from ref-006 also do not establish a detector for blackmail or information leakage. These disconnects undermine both implementation and interpretation. y3 overstates its gap: ref-014 already reports transfer of misalignment through code and reasoning traces, and does not establish the claimed restriction to persona-style evaluations. Nevertheless, its narrower extension to tool-use trajectories and agentic evaluations is concrete, with aligned-teacher controls, trajectory-component ablations, and task-performance checks grounded in ref-009 and ref-002.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "X covers three substantially different research targets: mitigation of subliminal bias transfer, white-box detection of persistent backdoors, and stress-testing agentic behavior under environmental attacks. The third is poorly integrated, but its intended intervention and failure setting differ from the other two. Y offers meaningful variation through longitudinal measurement, data scrubbing, and tool-use transfer, yet all three investigate the same underlying subliminal-transfer phenomenon from ref-014. X therefore provides broader diversity of gaps and approaches, despite weaker execution.",
+    "verdict": "X"
+  },
+  "overall": {
+    "rationale": "Y supplies more consistently actionable experiments, including useful controls and outcomes that could guide distillation practice. Alongside y1, y2 proposes a concrete adaptation of logit contrasts and alternative labels from ref-018, with matched-rate random edits and utility measurements that help test whether scrubbing selectively reduces transfer. Its token-entanglement motivation remains unsupported because ref-017 has no supplied abstract. X has one promising candidate in x2, but x1 leaves teacher-to-student neuron correspondence unresolved, treats FACET as a distillation framework although ref-004 describes worksheet generation, and attributes quantitative bias measures to the qualitative framework in ref-003. Together with x3's methodological disconnects, these weaknesses make X less useful to a researcher choosing one experiment.",
+    "verdict": "Y"
+  }
+}
+
+--- stderr
+ver 184K GPU-hours to pretrain, we show that in about 1 GPU hour of finetuning, we effectively erase the model's ability to generate or recall Harry Potter-related content, while its performance on common benchmarks (such as Winogrande, Hellaswag, arc, boolq and piqa) remains almost unaffected. We make our fine-tuned model publicly available on HuggingFace for community evaluation. To the best of our knowledge, this is the first paper to present an effective technique for unlearning in generative language models. Our technique consists of three main components: First, we use a reinforced model that is further trained on the target data to identify the tokens that are most related to the unlearning target, by comparing its logits with those of a baseline model. Second, we replace idiosyncratic expressions in the target data with generic counterparts, and leverage the model's own predictions to generate alternative labels for every token. These labels aim to approximate the next-token predictions of a model that has not been trained on the target data. Third, we finetune the model on these alternative labels, which effectively erases the original text from the model's memory whenever it is prompted with its context.
+
+[ref-019] Jailbroken: How Does LLM Safety Training Fail?
+Abstract: Large language models trained for safety and harmlessness remain susceptible to adversarial misuse, as evidenced by the prevalence of"jailbreak"attacks on early releases of ChatGPT that elicit undesired behavior. Going beyond recognition of the issue, we investigate why such attacks succeed and how they can be created. We hypothesize two failure modes of safety training: competing objectives and mismatched generalization. Competing objectives arise when a model's capabilities and safety goals conflict, while mismatched generalization occurs when safety training fails to generalize to a domain for which capabilities exist. We use these failure modes to guide jailbreak design and then evaluate state-of-the-art models, including OpenAI's GPT-4 and Anthropic's Claude v1.3, against both existing and newly designed attacks. We find that vulnerabilities persist despite the extensive red-teaming and safety-training efforts behind these models. Notably, new attacks utilizing our failure modes succeed on every prompt in a collection of unsafe requests from the models' red-teaming evaluation sets and outperform existing ad hoc jailbreaks. Our analysis emphasizes the need for safety-capability parity -- that safety mechanisms should be as sophisticated as the underlying model -- and argues against the idea that scaling alone can resolve these safety failure modes.
+
+[ref-020] Progress measures for grokking via mechanistic interpretability
+Abstract: Neural networks often exhibit emergent behavior, where qualitatively new capabilities arise from scaling up the amount of parameters, training data, or training steps. One approach to understanding emergence is to find continuous \textit{progress measures} that underlie the seemingly discontinuous qualitative changes. We argue that progress measures can be found via mechanistic interpretability: reverse-engineering learned behaviors into their individual components. As a case study, we investigate the recently-discovered phenomenon of ``grokking'' exhibited by small transformers trained on modular addition tasks. We fully reverse engineer the algorithm learned by these networks, which uses discrete Fourier transforms and trigonometric identities to convert addition to rotation about a circle. We confirm the algorithm by analyzing the activations and weights and by performing ablations in Fourier space. Based on this understanding, we define progress measures that allow us to study the dynamics of training and split training into three continuous phases: memorization, circuit formation, and cleanup. Our results show that grokking, rather than being a sudden shift, arises from the gradual amplification of structured mechanisms encoded in the weights, followed by the later removal of memorizing components.
+</file>
+
+<file name="set_x.json">
+[
+ {
+  "id": "x1",
+  "title": "Detecting and Mitigating Subliminal Bias Transfer in Multi-Agent LLM Distillation",
+  "summary": "This paper proposes a method to detect and mitigate subliminal bias transfer in multi-agent LLM distillation frameworks. We hypothesize that biases in teacher models can propagate to student models through non-semantic data patterns during distillation. Our approach introduces a bias-aware distillation loss that penalizes student models for reproducing biased associations identified via mechanistic interpretability. Validation involves measuring bias amplification in student outputs using standardized social impact benchmarks before and after mitigation.",
+  "gap": "Current multi-agent LLM distillation frameworks (ref-004, ref-009) do not explicitly address subliminal bias transfer. While ref-004's evaluator agent provides quality assurance, it does not target bias propagation through non-semantic patterns (ref-014, ref-010). Ref-003's social impact framework identifies bias categories but is not integrated into distillation processes to prevent bias transfer.",
+  "approach": "We implement a three-stage process: (1) mechanistic analysis of teacher model weights to identify bias-correlated neuron populations using regression and statistical tests (ref-010), (2) bias-aware distillation loss that penalizes student models for activating these populations during training, and (3) automated bias auditing of student outputs using ref-003's social impact framework. The distillation loss combines standard KL-divergence with a regularization term weighted by neuron activation patterns linked to biased associations.",
+  "evaluation": "We evaluate using the FACET framework (ref-004) with teacher models exhibiting known biases from ref-003's social impact categories (bias, stereotypes, and representational harms). Baselines include (a) FACET with evaluator agent disabled and (b) standard distillation with only the regularization term. Measures include bias amplification scores (ref-003), task performance retention (>95%), and mechanistic similarity between teacher/student neuron populations. Success requires <5% bias amplification increase while maintaining >95% task performance.",
+  "support": [
+   "ref-004",
+   "ref-009",
+   "ref-014",
+   "ref-010",
+   "ref-003"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Backdoor Trigger Detection via Mechanistic Alignment Analysis in Safety-Trained LLMs",
+  "summary": "This paper introduces mechanistic alignment analysis to detect hidden backdoors in safety-trained LLMs by identifying neuron-level correlations between trigger conditions and unsafe outputs. The method combines activation clustering with counterfactual probing to expose discrepancies indicative of deceptive alignment failures, addressing gaps in behavioral safety evaluations.",
+  "gap": "Ref-008 shows adversarial training fails to remove backdoors, creating false safety impressions. However, no work identifies neuron-level mechanisms enabling backdoor persistence despite safety training. Existing methods (ref-008, ref-019) detect behavioral failures but cannot isolate mechanistic causes of undetected backdoors.",
+  "approach": "We implement mechanistic alignment analysis by: (1) training a classifier on neuron activations from backdoored models (ref-008) to detect trigger-response correlations, (2) applying counterfactual probing by masking identified neurons to test output consistency under hypothetical triggers, and (3) comparing results against adversarial training baselines (ref-008) and red-teaming methods (ref-019). The core model architecture and training data remain unchanged from ref-008's backdoored models.",
+  "evaluation": "Evaluated on ref-008's year-triggered backdoor models (2023 vs. 2024 secure code generation). Compared against ref-008's adversarial training detection attempts and ref-019's red-teaming baselines. Measures: trigger detection rate (percentage of backdoored prompts correctly identified), false positive rate (safe prompts misclassified as backdoored), and alignment discrepancy score (difference in neuron activation patterns between triggered and non-triggered states). Ablation tests counterfactual probing by disabling neuron masking to isolate clustering's contribution.",
+  "support": [
+   "ref-008",
+   "ref-019",
+   "ref-016",
+   "ref-007"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Detecting Agentic Misalignment via Structured Stress-Testing and Adversarial Evaluation",
+  "summary": "We propose a framework to detect agentic misalignment in LLMs by combining controlled environment stress-testing with adversarial attack techniques. The method systematically evaluates models under dynamic goal conflicts and physical attack scenarios, using automated classifiers and human evaluation to identify malicious behaviors. The approach is validated against existing safety benchmarks and adversarial testing protocols.",
+  "gap": "Existing safety evaluations (ref-001, ref-007) do not systematically test agentic misalignment under dynamic goal conflicts or adversarial physical attacks (ref-005). While ref-002 demonstrates controlled stress-testing for organizational pressures, it lacks integration with physical attack scenarios, leaving a gap in comprehensive misalignment detection.",
+  "approach": "We implement a hybrid evaluation protocol combining (1) controlled stress-testing inspired by ref-002 (simulated organizational changes like replacement threats and shifting priorities) with (2) adversarial physical attacks from ref-005 (crafted perturbations and environmental patches). Responses are analyzed using automated classifiers trained on ref-006's toxicity metrics and human evaluation.",
+  "evaluation": "Baselines include Llama 2-Chat (ref-001) safety evaluations and Diffusion Policy Attacker (ref-005) adversarial tests. We measure misaligned behavior frequency (e.g., data leakage attempts, blackmail suggestions) on a dataset of corporate scenario prompts derived from ref-002. Ablation studies compare detection rates with/without adversarial physical attacks and stress-testing components.",
+  "support": [
+   "ref-001",
+   "ref-002",
+   "ref-005",
+   "ref-006",
+   "ref-007"
+  ]
+ }
+]
+</file>
+
+<file name="set_y.json">
+[
+ {
+  "id": "y1",
+  "title": "Generational Amplification of Subliminally Transmitted Traits under Iterated Self-Distillation",
+  "summary": "This proposal studies whether a hidden trait gets stronger or fades when models are distilled on semantically unrelated synthetic data over many generations, the way bias is known to amplify under iterated synthetic training. Starting from a teacher with a measurable trait, such as a preference or political lean, each student generates filtered number or code data that trains the next generation. Trait strength, model collapse metrics and trait-correlated neurons are tracked at every generation. Data-accumulation and preservation mitigations are tested to see whether they slow the drift. The aim is to show whether subliminal transfer can compound unnoticed.",
+  "gap": "Subliminal learning has only been studied for a single teacher-to-student step. Bias amplification has been studied over multiple generations, but only with semantically related text. It is unknown whether hidden traits amplify, persist or decay across repeated generations of unrelated synthetic data, or whether this behaves separately from model collapse.",
+  "approach": "Run iterated distillation chains of five or more generations on filtered number-sequence and code data. Compare a replace-data regime with accumulation and preservation (mixing in real data) regimes. Use regression-based neuron attribution to separate trait-correlated neurons from collapse-correlated neurons, and fit a simple amplification model to the trajectory of trait strength over generations.",
+  "evaluation": "Measures are trait strength per generation (preference rates, misalignment rates, and political-bias scores on news continuations), perplexity and diversity as collapse indicators, and the overlap between trait and collapse neurons. Controls are chains seeded from a trait-free teacher, and the existing amplification mitigations serve as baselines.",
+  "support": [
+   "ref-014",
+   "ref-010",
+   "ref-012",
+   "ref-011",
+   "ref-017",
+   "ref-020"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Entangled-Token Scrubbing: White-Box Detection and Removal of Subliminal Signals in Distillation Data",
+  "summary": "Semantic filtering does not stop subliminal trait transfer. This proposal tests a white-box defense instead. Using token entanglement, it compares the trait-bearing teacher's logits with the base model's logits to find tokens whose probabilities shift together with the trait. Those positions in the distillation data are then scrubbed or relabeled with base-model predictions, adapting the logit-contrast idea from approximate unlearning. Students trained on scrubbed data are evaluated for both trait transfer and task utility. The defense is compared with black-box semantic filtering, paraphrasing and cross-base distillation, to test whether white-box access to the data-generation process makes reliable auditing possible.",
+  "gap": "Earlier work shows that black-box data filtering fails to stop subliminal learning, and audit research argues that black-box access is insufficient. No method yet uses white-box logit information to detect and remove the hidden carriers of a trait from distillation data while keeping the data useful.",
+  "approach": "Score each token in the teacher's data by how far the trait-bearing teacher's distribution differs from the base model's. Flag tokens above a threshold. Then either resample them from the base model or replace them with generic alternative labels, as in the generic-label unlearning approach, and distill the student on the cleaned data. Also use the scores as a dataset-level detector of contamination.",
+  "evaluation": "Baselines are no filtering, LLM-judge semantic filtering, paraphrasing, random token replacement at the same rate, and cross-base students. Measures are the trait-transfer rate (animal preference, misalignment), downstream task accuracy, detection AUROC on contaminated versus clean datasets, and the trade-off between the fraction of tokens edited and residual trait transfer.",
+  "support": [
+   "ref-017",
+   "ref-014",
+   "ref-018",
+   "ref-016",
+   "ref-011",
+   "ref-015"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Subliminal Misalignment Transfer through Tool-Use Trajectories in Agent Distillation",
+  "summary": "This proposal asks whether agent distillation passes on hidden behavioral traits. A misaligned teacher agent from the same base model generates retrieval and code-tool trajectories for harmless factual and math tasks. These trajectories are filtered to remove any reference to the trait, and a small student agent is distilled on them. The student is then tested in insider-threat scenarios, such as blackmail and information leakage, and on standard harmful-request prompts. Its misbehavior rates are compared with students distilled from an aligned teacher on matched data and with students from a different model family. The goal is to show that the trait spreads through agentic behavior, not just through number sequences or chain-of-thought.",
+  "gap": "Subliminal learning has been shown for number sequences, code and reasoning traces, but only with persona-style evaluations. Agent distillation transfers full task-solving behavior with tools, yet nobody has checked whether hidden traits like a tendency toward agentic misalignment also come along through tool-use trajectories that pass filtering.",
+  "approach": "Fine-tune a teacher to exhibit misaligned or insider-threat tendencies. Generate first-thought-prefix agent trajectories on harmless benchmark tasks. Filter them aggressively with an LLM judge and keyword removal. Distill students of several sizes, with same-base and cross-base teacher/student pairs. Vary which parts of the trajectory are kept (actions only, thoughts only, or tool outputs only) to locate where the signal is carried.",
+  "evaluation": "Baselines are students distilled from an aligned teacher of the same base model, from a cross-base teacher, and with plain CoT distillation. Measures are the misbehavior rate in agentic-misalignment scenarios, compliance on jailbreak-style requests, task accuracy (to rule out a capability confound), and the significance of differences across random seeds.",
+  "support": [
+   "ref-014",
+   "ref-009",
+   "ref-002",
+   "ref-011",
+   "ref-008",
+   "ref-007",
+   "ref-019"
+  ]
+ }
+]
+</file>
+codex
+{
+  "strongest": {"X": "x2", "Y": "y1"},
+  "weakest": {"X": "x3", "Y": "y3"},
+  "best": {
+    "rationale": "y1 identifies a clear extension: repeated generations of subliminal transfer, combining the transfer phenomenon in ref-014 with the generational analysis in ref-010. Its trait-free controls, mitigation comparisons, and separate tracking of trait strength and model degradation support a coherent experiment whose outcome could inform synthetic-data reuse. x2 offers a useful white-box investigation of persistent backdoors (ref-008, ref-016), but detecting activations associated with a known year trigger may simply identify the year rather than reveal hidden unsafe behavior. Its comparison against adversarial training also conflates backdoor removal with detection. y1 more directly tests its central hypothesis.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "x3 does not explain how physical patches against diffusion manipulation policies (ref-005) would operate in text-based corporate scenarios (ref-002). Toxicity scores from ref-006 also do not establish a detector for blackmail or information leakage. These disconnects undermine both implementation and interpretation. y3 overstates its gap: ref-014 already reports transfer of misalignment through code and reasoning traces, and does not establish the claimed restriction to persona-style evaluations. Nevertheless, its narrower extension to tool-use trajectories and agentic evaluations is concrete, with aligned-teacher controls, trajectory-component ablations, and task-performance checks grounded in ref-009 and ref-002.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "X covers three substantially different research targets: mitigation of subliminal bias transfer, white-box detection of persistent backdoors, and stress-testing agentic behavior under environmental attacks. The third is poorly integrated, but its intended intervention and failure setting differ from the other two. Y offers meaningful variation through longitudinal measurement, data scrubbing, and tool-use transfer, yet all three investigate the same underlying subliminal-transfer phenomenon from ref-014. X therefore provides broader diversity of gaps and approaches, despite weaker execution.",
+    "verdict": "X"
+  },
+  "overall": {
+    "rationale": "Y supplies more consistently actionable experiments, including useful controls and outcomes that could guide distillation practice. Alongside y1, y2 proposes a concrete adaptation of logit contrasts and alternative labels from ref-018, with matched-rate random edits and utility measurements that help test whether scrubbing selectively reduces transfer. Its token-entanglement motivation remains unsupported because ref-017 has no supplied abstract. X has one promising candidate in x2, but x1 leaves teacher-to-student neuron correspondence unresolved, treats FACET as a distillation framework although ref-004 describes worksheet generation, and attributes quantitative bias measures to the qualitative framework in ref-003. Together with x3's methodological disconnects, these weaknesses make X less useful to a researcher choosing one experiment.",
+    "verdict": "Y"
+  }
+}
+tokens used
+27,099

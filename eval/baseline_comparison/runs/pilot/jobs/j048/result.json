@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet's depthwise and separable convolutions are supported by ref-001, layerwise Lipschitz constraints by ref-010, and CLEVER by ref-009. However, the claim that existing robustness analyses focus on vision without EEG adversarial detection baselines conflicts with ref-021, which evaluates EEG adversarial detectors, and ref-024, which studies EEG attacks. Ref-001 does not establish widespread safety-critical deployment or explicitly identify missing formal guarantees. The proposed 8–30 Hz preservation constraint also lacks support across the selected paradigms; ref-015 reports learned spectral features including high gamma.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The supplied EEG studies demonstrate decoding performance, attack vulnerability, and detection rather than formal certification (ref-001, ref-021, ref-024), leaving a plausible gap in certified EEGNet robustness. However, the candidate overstates the absence of EEG robustness research and does not sharpen its distinction from existing Lipschitz-constrained networks and classifier robustness guarantees (ref-010, ref-022). The gap is credible but incompletely scoped.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate identifies an architecture, convolutional layers to constrain, spectral normalization, PGD training, named paradigms, standard and adversarially trained baselines, and concrete empirical metrics (ref-001, ref-009, ref-013). Experimental design can begin, but perturbation norms and budgets, spectral thresholds, the frequency constraint implementation, and the certification procedure remain unspecified. Simultaneously adding three interventions also leaves their individual effects unclear.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Lipschitz constraints address sensitivity to perturbations, and attack success rates and accuracy can test empirical robustness (ref-010, ref-013). The central claim, however, is formal robustness: CLEVER estimates local Lipschitz behavior (ref-009), while attack testing cannot establish the guarantees obtained through explicit bounds in ref-005, ref-020, and ref-022. The candidate specifies neither a complete network bound nor certified decision radii. Its claim to preserve temporal filtering across P300, ERN, and SMR also lacks a clear connection to the fixed frequency constraint.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Establishing whether constrained EEGNet improves certified robustness while retaining decoding accuracy could inform BCI model choices, given demonstrated EEG attack vulnerability and dataset generalization problems (ref-024, ref-007). As written, however, the study mainly combines established Lipschitz constraints and adversarial training (ref-010, ref-013), without isolating their contributions or directly measuring its promised guarantees. It offers a meaningful application study, but its ability to change broader methodological decisions is limited.",
+  "score": 3
+ }
+}

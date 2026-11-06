@@ -1,0 +1,10 @@
+{
+ "model": "gpt-6.1-sol",
+ "effort": "high",
+ "attempts": [
+  {
+   "ok": true,
+   "seconds": 60.0
+  }
+ ]
+}

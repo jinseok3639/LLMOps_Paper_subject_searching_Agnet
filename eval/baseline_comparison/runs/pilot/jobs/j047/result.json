@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x2 offers a concrete intervention grounded in logit comparison and relabeling from ref-018, addressing filtering failures demonstrated in ref-014. Matched-rate random edits and utility measurements make its central hypothesis testable. Its token-entanglement explanation remains speculative because ref-017 supplies no abstract. y2 proposes a useful defense with concrete training and robustness measurements, but mischaracterizes ref-005: that reference already examines adversarial safety, transfer across frames, and physical patches, and does not establish the claimed limitations of existing adversarial training.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x3 overstates the evidence when claiming ref-014 used only persona-style evaluations. Nevertheless, it defines a coherent extension: filtered tool-use trajectories from ref-009, evaluated for agentic misconduct using ref-002, with aligned-teacher controls and trajectory ablations. y3's central gap substantially duplicates ref-002, which already uses hypothetical corporate environments, replacement and goal-conflict triggers, and testing-versus-deployment assessments. Activation clustering could supply a difference, but its connection to latent intent and its validation are insufficiently specified.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X examines three distinct aspects of subliminal transfer: generational dynamics, data scrubbing, and tool-use trajectories. Y spans more independent research problems and approaches: hidden-trait mitigation, adversarial robustness of diffusion policies, and behavioral evaluation of corporate agents. These involve genuinely different failure mechanisms and experimental interventions, despite weaknesses in their grounding.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X provides more dependable experimental starting points. x1 connects iterative amplification in ref-010 with subliminal transfer in ref-014 through explicit generational controls; x2 specifies an actionable mitigation and utility trade-off; x3 extends transfer testing to tool-using agents. Y offers broader coverage, but y1 leaves the relationship between activation analysis, data perturbation, and parameter masking unclear, y2 misstates ref-005, and y3 largely reproduces ref-002. X therefore gives a researcher better-supported choices with clearer tests.",
+  "verdict": "X"
+ }
+}

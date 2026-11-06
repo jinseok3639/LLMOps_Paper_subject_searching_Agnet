@@ -1,0 +1,31 @@
+{
+ "queries": [
+  "\"subliminal learning\" \"generations\"",
+  "\"subliminal learning\" \"iterated\" distillation",
+  "\"subliminal\" \"amplification\" language models traits",
+  "\"subliminal learning\" generations accumulation preservation collapse",
+  "\"iterated subliminal\" distillation amplification"
+ ],
+ "closest": [
+  {
+   "title": "Slow Decay and Silenced Expression: Iterated Subliminal Trait Transfer in Language-Model Lineages",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2609.25721",
+   "how_close": "Direct core match: follows an instilled owl trait through ten generations of distillation on filtered number sequences, measuring behavioral expression and activation probes. Reports slow decay and persistence, fits trajectory models, and examines perplexity and diversity. Does not implement the candidate's accumulation/preservation comparisons or regression-based separation of trait and collapse neurons."
+  },
+  {
+   "title": "Quantifying Subliminal Behavioral Transfer Ratios in Language Model Distillation",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2606.11270",
+   "how_close": "Measures safety-trait transfer from activation-steered teachers through benign-data distillation. Relevant quantitative transfer analysis, but evaluates one distillation round and explicitly leaves multigeneration accumulation as future work."
+  },
+  {
+   "title": "Towards Understanding Subliminal Learning: When and How Hidden Biases Transfer",
+   "year": 2025,
+   "url": "https://arxiv.org/abs/2509.23886",
+   "how_close": "Studies hidden-bias transfer through number-data distillation, identifies divergence tokens and early-layer mechanisms, and tests suppression through paraphrasing and teacher mixing. Overlaps the mechanistic and mitigation components, but does not establish multigeneration trait trajectories."
+  }
+ ],
+ "rationale": "The core idea has already been studied outside the supplied bibliography. The September 2026 arXiv preprint Slow Decay and Silenced Expression matches the target, experimental change, and technique: it tracks a hidden behavioral trait across repeated teacher–student generations using semantically unrelated, filtered synthetic number data. It also analyzes internal representations, trajectory fits, and collapse-related diagnostics. Its finding of decay rather than amplification still answers the candidate's stated question of whether traits amplify, persist, or fade. Code carriers, additional traits, accumulation/preservation regimes, and neuron-level separation remain potential extensions, but the central multigeneration subliminal-transfer experiment is already present.",
+ "score": 1
+}

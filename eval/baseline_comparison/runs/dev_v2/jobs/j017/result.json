@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The main motivation is supported: attacker scaling (ref-024), prompt-dependent compute allocation (ref-002), safety gains from BoN (ref-007), and constrained reward/cost reranking (ref-012). However, the abstracts do not establish that prior attacks assume one defender sample, that existing methods ignore adaptive attackers, or that nobody has studied risk-based allocation. StrongREJECT is a validated automated evaluator, not a gold standard (ref-021).",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied references leave joint attacker–defender compute scaling open: ref-024 studies attacker sampling, while ref-007 and ref-012 examine defensive alignment and ref-002 addresses compute allocation. This creates a concrete experimental gap. However, the proposal bundles scaling characterization with adaptive allocation, and its categorical absence claims exceed the evidence available in these abstracts.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The sampling protocol, attacker/defender budget grid, benchmarks, evaluator, baselines, and primary measures are concrete (ref-014, ref-017, ref-021). Experiments could begin from this description. Full reproducibility requires specifying the reward–cost weighting, risk-to-budget mapping, power-law functional form, and whether matched FLOPs cover defender costs alone or both participants.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Varying both sampling budgets directly tests whether defensive sampling offsets attack scaling, and matched-compute comparisons can evaluate adaptive allocation (ref-024, ref-002). The weaker link is the proposed explanation for failure: aggregate success rates and fitted exponents cannot identify guard distribution shift or distinguish it from reward overoptimization, which ref-004 and ref-006 identify as another possible failure mechanism.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "The results could influence how defenders spend inference compute under repeated attacks, connecting the practical threat in ref-024 with defensive sampling in ref-007 and ref-012. Finding either sustained gains or saturation would inform deployment choices. Stronger impact depends on demonstrating robust allocation gains across guards and models, rather than reporting fitted exponents whose interpretation may depend on the experimental setup.",
+  "score": 4
+ }
+}

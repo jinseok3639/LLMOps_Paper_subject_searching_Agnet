@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-014 supports trait transmission through filtered numbers, code and reasoning traces; ref-010 supports generational bias amplification, mitigation comparisons and regression-based neuron analysis. However, neither abstract establishes the categorical claims that subliminal learning has only been studied for one step or that generational amplification has only used related text. ref-017 has no abstract, while ref-011, ref-012 and ref-020 provide only broader methodological context.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Repeated transmission through semantically unrelated data is a concrete unresolved question connecting ref-014 with ref-010, including whether amplification occurs independently of collapse. The supplied references leave this question open, although they do not establish the proposal's exclusive characterization of previous research.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The proposal specifies generation count, data modalities, training regimes, controls and measurable outcomes, drawing on ref-014 and ref-010. Experimental design could begin immediately, but it should specify teacher/student initialization and base-model compatibility, since ref-014 reports no transfer across different base models. Trait elicitation and preservation mixtures also need operational definitions.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Generation-wise trait measurements and trait-free controls directly test amplification, persistence or decay, while collapse indicators address the distinction motivated by ref-010. However, correlated-neuron overlap and aggregate collapse metrics alone cannot establish that trait transmission and collapse have separate mechanisms; stronger interventions or controls would be needed for that interpretation.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "Whether unintended traits compound or disappear through repeated filtered-data distillation could affect synthetic-data reuse and mitigation choices, extending the practical concern in ref-014 and the amplification findings in ref-010. Either outcome would be informative, although conclusions would initially be limited to the selected traits, model families and training regimes.",
+  "score": 4
+ }
+}

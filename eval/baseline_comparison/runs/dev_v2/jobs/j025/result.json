@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y3"
+ },
+ "weakest": {
+  "X": "x1",
+  "Y": "y1"
+ },
+ "best": {
+  "rationale": "y3 offers a clearer, more controlled extension: test whether the overoptimization relationships studied in ref-006 transfer to safety-cost selection. Varying proxy size and data, predicting a useful N cap on held-out measurements, and checking independent judges against human labels connect the experiment to deployment decisions. x2 addresses a valuable gap but bundles adaptive allocation, pessimism, and Lagrangian scoring without fully specifying their interaction. Its safety AU-PRC metric also does not directly establish the selected responses' harmfulness. y3 better isolates one change from its closest reference.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x1's central coverage-based gap substantially overlaps ref-004, which explicitly connects policy coverage to inference-time performance and reward hacking, yet x1 neither cites nor distinguishes it. Its unspecified reward-optimal distribution and reliance on KL plus Pearson correlation also leave the proposed bounds underdetermined. y1 has weaknesses: ref-012 guarantees modeled expected cost rather than true safety, and the choice between pessimism and proximity regularization leaves the algorithm unsettled. Nevertheless, its targeted question about cost-model error, large-N selection, and independent safety evaluation is better grounded and more actionable.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "Y separates three meaningful questions: robust constrained selection under proxy error, attacker-defender compute allocation, and empirical safety-overoptimization scaling. The attacker budget in y2 adds a distinct experimental axis grounded in ref-024. X includes a theoretical coverage proposal, but x2 and x3 substantially repeat adaptive sampling for inference-time safety; x2 mainly adds pessimism and constraints to that shared direction. Y therefore provides more distinct research choices despite its common Best-of-N theme.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "Y provides the stronger shortlist through clearer failure measurements and more distinct decision-relevant questions. y3 tests when additional sampling becomes unsafe, y2 evaluates robustness against increasing attack budgets while tracking benign helpfulness, and y1 probes imperfect-cost constraints. X has a promising candidate in x2, but x1 overlooks its closest coverage reference (ref-004), while x3 conflates LARA's dual calibration with reward-model calibration (ref-012) and lacks a benign-helpfulness check against refusal-only gains. Y's remaining ambiguities are less damaging to the usefulness of the set.",
+  "verdict": "Y"
+ }
+}

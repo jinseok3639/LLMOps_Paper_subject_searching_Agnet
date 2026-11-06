@@ -1,0 +1,655 @@
+{
+ "sample": "t005",
+ "condition": "D",
+ "n_refs": 24,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Pessimistic Lagrangian Best-of-N: Making Constrained Inference-Time Safety Alignment Monotonic in N Under Imperfect Cost Models",
+   "summary": "Propose combining Lagrangian reward augmentation, which trades helpfulness against a learned safety cost, with a pessimism or proximity penalty so the constrained Best-of-N selector does not degrade as N grows. The augmented score is reward minus a calibrated multiplier times cost, minus an uncertainty or MBR-style proximity term. We test whether this keeps true harmlessness and helpfulness from declining at large N, when the cost model is imperfect. Validation uses a held-out gold safety judge distinct from the cost model, sweeping N and comparing to plain Lagrangian BoN and unconstrained BoN.",
+   "gap": "Lagrangian inference-time alignment calibrates a dual variable assuming the reward and cost models are accurate, while theory and empirical work show that Best-of-N against imperfect proxies suffers reward hacking as N grows. Nobody has examined whether constrained BoN's safety guarantee survives cost-model error at large N, or combined constraint handling with pessimism or proximity regularization.",
+   "approach": "Take a reward model and cost model, estimate the dual variable on a small calibration set as in the Lagrangian method, then add a pessimism term (a rejection-sampling style penalty on responses where proxy scores are likely overestimated) or an MBR-based proximity regularizer to the augmented score. Re-calibrate the dual variable under the regularized objective so the expected-cost constraint is still met. Derive when the combined selector is scaling-monotonic and implement it for N from 1 to several thousand.",
+   "evaluation": "Compare to vanilla BoN, Lagrangian BoN, MBR-BoN, pessimism-only BoN, and a constrained fine-tuning baseline. Measure the gold-judge harmful rate and the helpfulness reward from an independent reward model as a function of N, plotting gold-versus-proxy curves in the style of overoptimization studies. Use cost models trained on varied preference data sizes to vary proxy quality. Report whether the combined method keeps true safety and helpfulness non-decreasing in N and the win rate against the baselines.",
+   "support": [
+    "ref-012",
+    "ref-004",
+    "ref-003",
+    "ref-006",
+    "ref-019",
+    "ref-020"
+   ]
+  },
+  {
+   "title": "Scaling Laws for Safety-Cost-Model Overoptimization in Best-of-N: Do Guard Models Get Hacked Like Reward Models?",
+   "summary": "Propose a controlled study of how a proxy safety signal, such as a guard classifier or cost model, is overoptimized under Best-of-N, measured against an independent gold harmfulness evaluator. We fit gold-versus-proxy functional forms as N grows. We vary the proxy model's size and training data, and test whether coefficients scale smoothly as they do for helpfulness reward models. The study also tests whether safety overoptimization differs in form from helpfulness overoptimization, and whether it yields a rule for choosing a safe maximum N.",
+   "gap": "Overoptimization scaling laws have been measured for general preference reward models with synthetic gold labels, and Best-of-N is used with safety cost models. Content-moderation guard models are used as safety filters. No work characterizes how the true harmfulness of Best-of-N outputs changes as N grows when the optimized signal is a safety cost or guard score, nor whether the helpfulness scaling form transfers.",
+   "approach": "Use a strong safety evaluator as the gold signal, and train proxy safety scorers of several sizes and data amounts, including cost models and guard-style classifiers. For harmful and borderline prompts, sample many responses and select the best-of-N by proxy safety (alone and combined with helpfulness). Fit parametric curves of gold score against the KL-like divergence of BoN (log N) per proxy configuration. Test whether coefficients follow smooth trends in proxy size and data, and derive a predicted safe N cap from small-N fits.",
+   "evaluation": "Compare fitted forms for safety proxies against those for helpfulness reward models on the same prompts. Evaluate prediction error of extrapolating the optimal N from small-N fits to large-N held-out measurements. Check robustness with a second, differently built gold judge and with different benchmark prompt sets (red-teaming behaviors and a jailbreak benchmark). Confirm via human-labeled spot checks.",
+   "support": [
+    "ref-006",
+    "ref-005",
+    "ref-016",
+    "ref-012",
+    "ref-021",
+    "ref-014",
+    "ref-009",
+    "ref-008",
+    "ref-010"
+   ]
+  },
+  {
+   "title": "Defender-Side Adaptive Best-of-N Versus Attacker-Side Best-of-N Jailbreaking: Risk-Adaptive Compute Allocation for Safe Decoding",
+   "summary": "Propose that a defender can use per-prompt adaptive test-time compute for safety selection, and that its power-law gain can be compared against the attacker's Best-of-N jailbreak. A risk estimate from the prompt or a first batch of samples decides how many candidates to draw and rerank with a safety-constrained score. The hypothesis is that adaptive allocation reaches a given robustness at far lower average compute than fixed N. We test this against augmentation-based Best-of-N jailbreak attacks, with attack success measured by a strict harmfulness evaluator.",
+   "gap": "Test-time compute scaling shows that compute-optimal per-prompt allocation beats uniform Best-of-N. Separately, Best-of-N jailbreaking shows that attack success follows a power law in the number of sampled augmentations. Safe inference-time alignment methods use a fixed budget. It is unknown whether adaptive, risk-aware compute allocation lets defender compute scale faster than attacker compute, or how it changes the attacker-defender exchange rate.",
+   "approach": "Build a controller that estimates prompt risk (with a safety classifier on the prompt and first samples) and sets N per prompt, sampling and then selecting using a constrained reward-cost score. Define the attack as random augmentations of the harmful request with up to thousands of samples. Measure attack success as a function of attacker samples under several defender budgets, and fit power-law exponents for fixed versus adaptive defenders. Add a safety-reasoning guideline prompt or model as an alternative proposal distribution.",
+   "evaluation": "Benchmarks: red-teaming behaviors and jailbreak benchmark prompts, with a strict harmfulness evaluator to avoid inflated attack success. Baselines: fixed-N BoN, single-sample refusal-trained models, guard-model filtering, and the safe-reasoning-trained model. Metrics: attack success rate versus attacker samples, average defender FLOPs per prompt, power-law exponents, and helpfulness on benign prompts to detect over-refusal.",
+   "support": [
+    "ref-002",
+    "ref-024",
+    "ref-012",
+    "ref-007",
+    "ref-014",
+    "ref-017",
+    "ref-021",
+    "ref-016",
+    "ref-005"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [
+    "hypothesis 1: missing or unknown support ids"
+   ],
+   "raw": {
+    "duration_api_ms": 17821,
+    "stop_reason": "tool_use",
+    "session_id": "0987cf5c-20f9-4e6e-8a4d-90395c420ca7",
+    "total_cost_usd": 0.0711007,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 11951,
+     "cache_read_input_tokens": 1127,
+     "output_tokens": 2318,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 11951,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2318,
+       "cache_read_input_tokens": 1127,
+       "cache_creation_input_tokens": 11951,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 11951
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2318,
+      "cacheReadInputTokens": 1127,
+      "cacheCreationInputTokens": 11951,
+      "webSearchRequests": 0,
+      "costUSD": 0.0711007,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 0,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 11951,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Safety-Aware Best-of-N Scaling: Joint Reward-Cost Pessimism Prevents Safety Degradation at Large N\",\"summary\":\"Best-of-N reranking with a reward and a cost model can overoptimize both proxies as N grows. We propose combining Lagrangian reward augmentation with a pessimism-style rejection-sampling rule applied to the cost model's uncertainty, so that safety does not degrade as N increases. The method uses an ensemble of cost models, a dual variable calibrated on a small set, and a lower-confidence-bound cost estimate. We would validate it by scaling N over several orders of magnitude on helpfulness-harmlessness data, measuring gold-cost and gold-reward curves under a stronger held-out safety judge, and comparing against plain BoN, the Lagrangian variant, and the pessimism algorithm.\",\"gap\":\"Lagrangian inference-time alignment calibrates a dual variable for the expected cost but treats the cost model as exact. Theory on pessimism shows BoN suffers reward hacking at large N, but it handles a single reward only. No work examines how imperfect cost models make constrained BoN overoptimize safety proxies as N scales.\",\"approach\":\"Train or collect an ensemble of cost models and a reward model. Define an augmented score r - λ·c_LCB, where c_LCB is a conservative cost estimate (mean plus disagreement penalty), and calibrate λ on a small set via the one-dimensional dual problem. Add a rejection-sampling/pessimism step with a KL-style proximity regularizer toward the base policy. Sweep N from 1 to about 10^4 and fit overoptimization curves for gold reward and gold cost.\",\"evaluation\":\"Use a held-out stronger reward/cost model or safety classifier as the gold standard, following the synthetic gold-proxy setup. Compare against BoN, LARA-BoN, regularized BoN, and pessimism-only baselines. Measure gold helpfulness, gold harmlessness, and the Pareto front versus N and compute. Also test the scaling-monotonicity of gold cost, and check robustness on HarmBench and StrongREJECT-style harmful prompts.\",\"support\":[\"ref-012\",\"ref-004\",\"ref-006\",\"ref-003\",\"ref-019\",\"ref-20\",\"ref-008\"]},{\"title\":\"Does Best-of-N Safety Scaling Hold Against Best-of-N Jailbreaking? Adaptive Attack Evaluation of Inference-Time Safety Alignment\",\"summary\":\"Inference-time safety methods such as constrained Best-of-N improve with N, while Best-of-N jailbreaking shows attack success also grows as a power law with the number of augmented prompt samples. We propose studying this attacker-defender compute race: a defender using N-sample cost-aware reranking against an attacker sampling M augmented prompts. We would measure how attack success depends on (N, M), test whether defense scaling outpaces attack scaling, and propose a defense that reranks using a guard-model cost on both prompt variants and responses. Validation uses standardized jailbreak benchmarks and a StrongREJECT-style evaluator.\",\"gap\":\"Inference-time alignment papers evaluate safety on static prompts and report improved helpfulness-harmlessness tradeoffs. Best-of-N jailbreaking shows that random augmentations break frontier models with power-law success, and safety Best-of-N analyses show that sampling elicits latent safety. The interaction between defender-side and attacker-side sampling budgets has not been measured.\",\"approach\":\"Build a grid experiment in which the defender samples N responses per prompt and picks the lowest-cost or constrained-reward-optimal one using a guard model as the cost model, while the attacker applies M random augmentations (shuffling, capitalization) and succeeds if any final output is harmful. Fit power laws of attack success versus M for each N. Then propose a variant that aggregates cost over several augmentation-normalized rewrites of the prompt before reranking.\",\"evaluation\":\"Run on HarmBench and JailbreakBench behaviors, scoring with a StrongREJECT-style evaluator to avoid overstated attack success and to account for capability loss. Compare baselines: no defense, refusal-trained model, single-sample guard filtering, BoN with a cost model, and the Lagrangian variant. Report attack success versus M and N, exponent changes, and helpfulness on benign prompts.\",\"support\":[\"ref-024\",\"ref-012\",\"ref-007\",\"ref-014\",\"ref-017\",\"ref-021\",\"ref-005\",\"ref-016\",\"ref-020\"]},{\"title\":\"Difficulty-Adaptive Compute Allocation for Constrained Inference-Time Safety Alignment\",\"summary\":\"Compute-optimal test-time scaling allocates samples per prompt by difficulty, but safety-constrained inference-time alignment uses a fixed N for all prompts. We propose adaptively choosing N per prompt for constrained Best-of-N reranking based on cheap estimates of how likely the base policy is to produce a safe, helpful response, such as guard-model scores on a few pilot samples. Easy benign prompts use few samples, while risky or borderline prompts get more. We validate by comparing helpfulness-harmlessness tradeoffs at matched average compute against fixed-N constrained BoN, and by checking overoptimization of the proxy models.\",\"gap\":\"Test-time scaling work shows that adaptive per-prompt allocation beats uniform best-of-N, and coverage theory says compute needs depend on the policy's coverage of good responses. Safety-constrained inference-time methods use a single fixed N and dual variable, ignoring prompt-level variation in how hard it is to obtain a safe, helpful response.\",\"approach\":\"Draw k pilot samples, score them with the reward and cost models, and estimate the per-prompt probability of a feasible (cost under threshold) response. Use this estimate to set N via a budget-constrained rule, with a cap derived from overoptimization curves to avoid reward hacking. Optionally route hard, high-risk prompts to a reasoning-style safety model. Use the Lagrangian-calibrated augmented reward as the final scoring signal.\",\"evaluation\":\"Measure the Pareto frontier of gold reward and gold cost against average FLOPs for fixed-N BoN, adaptive-N, and the pessimism algorithm, using held-out stronger judges. Report efficiency gains at matched safety, performance by prompt difficulty bin, and the rate of over-refusal on benign prompts. Also evaluate on HarmBench behaviors and report the pilot-sample overhead.\",\"support\":[\"ref-002\",\"ref-004\",\"ref-012\",\"ref-006\",\"ref-007\",\"ref-020\",\"ref-011\",\"ref-005\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Safety-Aware Best-of-N Scaling: Joint Reward-Cost Pessimism Prevents Safety Degradation at Large N",
+       "summary": "Best-of-N reranking with a reward and a cost model can overoptimize both proxies as N grows. We propose combining Lagrangian reward augmentation with a pessimism-style rejection-sampling rule applied to the cost model's uncertainty, so that safety does not degrade as N increases. The method uses an ensemble of cost models, a dual variable calibrated on a small set, and a lower-confidence-bound cost estimate. We would validate it by scaling N over several orders of magnitude on helpfulness-harmlessness data, measuring gold-cost and gold-reward curves under a stronger held-out safety judge, and comparing against plain BoN, the Lagrangian variant, and the pessimism algorithm.",
+       "gap": "Lagrangian inference-time alignment calibrates a dual variable for the expected cost but treats the cost model as exact. Theory on pessimism shows BoN suffers reward hacking at large N, but it handles a single reward only. No work examines how imperfect cost models make constrained BoN overoptimize safety proxies as N scales.",
+       "approach": "Train or collect an ensemble of cost models and a reward model. Define an augmented score r - λ·c_LCB, where c_LCB is a conservative cost estimate (mean plus disagreement penalty), and calibrate λ on a small set via the one-dimensional dual problem. Add a rejection-sampling/pessimism step with a KL-style proximity regularizer toward the base policy. Sweep N from 1 to about 10^4 and fit overoptimization curves for gold reward and gold cost.",
+       "evaluation": "Use a held-out stronger reward/cost model or safety classifier as the gold standard, following the synthetic gold-proxy setup. Compare against BoN, LARA-BoN, regularized BoN, and pessimism-only baselines. Measure gold helpfulness, gold harmlessness, and the Pareto front versus N and compute. Also test the scaling-monotonicity of gold cost, and check robustness on HarmBench and StrongREJECT-style harmful prompts.",
+       "support": [
+        "ref-012",
+        "ref-004",
+        "ref-006",
+        "ref-003",
+        "ref-019",
+        "ref-20",
+        "ref-008"
+       ]
+      },
+      {
+       "title": "Does Best-of-N Safety Scaling Hold Against Best-of-N Jailbreaking? Adaptive Attack Evaluation of Inference-Time Safety Alignment",
+       "summary": "Inference-time safety methods such as constrained Best-of-N improve with N, while Best-of-N jailbreaking shows attack success also grows as a power law with the number of augmented prompt samples. We propose studying this attacker-defender compute race: a defender using N-sample cost-aware reranking against an attacker sampling M augmented prompts. We would measure how attack success depends on (N, M), test whether defense scaling outpaces attack scaling, and propose a defense that reranks using a guard-model cost on both prompt variants and responses. Validation uses standardized jailbreak benchmarks and a StrongREJECT-style evaluator.",
+       "gap": "Inference-time alignment papers evaluate safety on static prompts and report improved helpfulness-harmlessness tradeoffs. Best-of-N jailbreaking shows that random augmentations break frontier models with power-law success, and safety Best-of-N analyses show that sampling elicits latent safety. The interaction between defender-side and attacker-side sampling budgets has not been measured.",
+       "approach": "Build a grid experiment in which the defender samples N responses per prompt and picks the lowest-cost or constrained-reward-optimal one using a guard model as the cost model, while the attacker applies M random augmentations (shuffling, capitalization) and succeeds if any final output is harmful. Fit power laws of attack success versus M for each N. Then propose a variant that aggregates cost over several augmentation-normalized rewrites of the prompt before reranking.",
+       "evaluation": "Run on HarmBench and JailbreakBench behaviors, scoring with a StrongREJECT-style evaluator to avoid overstated attack success and to account for capability loss. Compare baselines: no defense, refusal-trained model, single-sample guard filtering, BoN with a cost model, and the Lagrangian variant. Report attack success versus M and N, exponent changes, and helpfulness on benign prompts.",
+       "support": [
+        "ref-024",
+        "ref-012",
+        "ref-007",
+        "ref-014",
+        "ref-017",
+        "ref-021",
+        "ref-005",
+        "ref-016",
+        "ref-020"
+       ]
+      },
+      {
+       "title": "Difficulty-Adaptive Compute Allocation for Constrained Inference-Time Safety Alignment",
+       "summary": "Compute-optimal test-time scaling allocates samples per prompt by difficulty, but safety-constrained inference-time alignment uses a fixed N for all prompts. We propose adaptively choosing N per prompt for constrained Best-of-N reranking based on cheap estimates of how likely the base policy is to produce a safe, helpful response, such as guard-model scores on a few pilot samples. Easy benign prompts use few samples, while risky or borderline prompts get more. We validate by comparing helpfulness-harmlessness tradeoffs at matched average compute against fixed-N constrained BoN, and by checking overoptimization of the proxy models.",
+       "gap": "Test-time scaling work shows that adaptive per-prompt allocation beats uniform best-of-N, and coverage theory says compute needs depend on the policy's coverage of good responses. Safety-constrained inference-time methods use a single fixed N and dual variable, ignoring prompt-level variation in how hard it is to obtain a safe, helpful response.",
+       "approach": "Draw k pilot samples, score them with the reward and cost models, and estimate the per-prompt probability of a feasible (cost under threshold) response. Use this estimate to set N via a budget-constrained rule, with a cap derived from overoptimization curves to avoid reward hacking. Optionally route hard, high-risk prompts to a reasoning-style safety model. Use the Lagrangian-calibrated augmented reward as the final scoring signal.",
+       "evaluation": "Measure the Pareto frontier of gold reward and gold cost against average FLOPs for fixed-N BoN, adaptive-N, and the pessimism algorithm, using held-out stronger judges. Report efficiency gains at matched safety, performance by prompt difficulty bin, and the rate of over-refusal on benign prompts. Also evaluate on HarmBench behaviors and report the pilot-sample overhead.",
+       "support": [
+        "ref-002",
+        "ref-004",
+        "ref-012",
+        "ref-006",
+        "ref-007",
+        "ref-020",
+        "ref-011",
+        "ref-005"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 17872,
+    "type": "result",
+    "duration_ms": 17906,
+    "uuid": "a9e2146a-2807-4394-a30a-db1ea16e303a",
+    "ttft_stream_ms": 1425,
+    "time_to_request_ms": 91,
+    "time_to_request_phases_ms": {
+     "other": 4,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 2,
+     "input_attachments": 18,
+     "input_hooks": 2,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 18,
+     "init_frame_send": 3,
+     "engine_pickup": 1,
+     "loop_entry": 3,
+     "message_prep": 1,
+     "model_config_wait": 0,
+     "autocompact": 2,
+     "request_announcements": 4,
+     "query_setup": 0,
+     "model_gates": 0,
+     "tool_schema_build": 3,
+     "message_normalization": 1,
+     "client_creation": 23,
+     "request_build": 4
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 18,
+    "time_to_request_cpu_ms": 94,
+    "time_to_request_major_faults": 6332,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 10,
+     "cpu_ms": 16,
+     "major_faults": 1405,
+     "setup_ms": 0,
+     "prompt_producers_ms": 0,
+     "ambient_start_ms": 3,
+     "ambient_wait_ms": 10,
+     "render_ms": 3,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 1,
+     "after_ms": 0,
+     "other_ms": 1,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 0,
+     "after_ms": 0,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 2,
+     "record_attempt_ms": 0,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 1425,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.175Z"
+   }
+  },
+  {
+   "issues": [],
+   "raw": {
+    "duration_api_ms": 22760,
+    "stop_reason": "tool_use",
+    "session_id": "c7da1f1e-c159-4867-bcac-0257e28e33e4",
+    "total_cost_usd": 0.07817070000000001,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 11981,
+     "cache_read_input_tokens": 1127,
+     "output_tokens": 3013,
+     "output_tokens_details": {
+      "thinking_tokens": 604
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 11981,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 3013,
+       "cache_read_input_tokens": 1127,
+       "cache_creation_input_tokens": 11981,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 11981
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 3013,
+      "cacheReadInputTokens": 1127,
+      "cacheCreationInputTokens": 11981,
+      "webSearchRequests": 0,
+      "costUSD": 0.07817070000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 604,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 11981,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Pessimistic Lagrangian Best-of-N: Making Constrained Inference-Time Safety Alignment Monotonic in N Under Imperfect Cost Models\",\"summary\":\"Propose combining Lagrangian reward augmentation, which trades helpfulness against a learned safety cost, with a pessimism or proximity penalty so the constrained Best-of-N selector does not degrade as N grows. The augmented score is reward minus a calibrated multiplier times cost, minus an uncertainty or MBR-style proximity term. We test whether this keeps true harmlessness and helpfulness from declining at large N, when the cost model is imperfect. Validation uses a held-out gold safety judge distinct from the cost model, sweeping N and comparing to plain Lagrangian BoN and unconstrained BoN.\",\"gap\":\"Lagrangian inference-time alignment calibrates a dual variable assuming the reward and cost models are accurate, while theory and empirical work show that Best-of-N against imperfect proxies suffers reward hacking as N grows. Nobody has examined whether constrained BoN's safety guarantee survives cost-model error at large N, or combined constraint handling with pessimism or proximity regularization.\",\"approach\":\"Take a reward model and cost model, estimate the dual variable on a small calibration set as in the Lagrangian method, then add a pessimism term (a rejection-sampling style penalty on responses where proxy scores are likely overestimated) or an MBR-based proximity regularizer to the augmented score. Re-calibrate the dual variable under the regularized objective so the expected-cost constraint is still met. Derive when the combined selector is scaling-monotonic and implement it for N from 1 to several thousand.\",\"evaluation\":\"Compare to vanilla BoN, Lagrangian BoN, MBR-BoN, pessimism-only BoN, and a constrained fine-tuning baseline. Measure the gold-judge harmful rate and the helpfulness reward from an independent reward model as a function of N, plotting gold-versus-proxy curves in the style of overoptimization studies. Use cost models trained on varied preference data sizes to vary proxy quality. Report whether the combined method keeps true safety and helpfulness non-decreasing in N and the win rate against the baselines.\",\"support\":[\"ref-012\",\"ref-004\",\"ref-003\",\"ref-006\",\"ref-019\",\"ref-020\"]},{\"title\":\"Scaling Laws for Safety-Cost-Model Overoptimization in Best-of-N: Do Guard Models Get Hacked Like Reward Models?\",\"summary\":\"Propose a controlled study of how a proxy safety signal, such as a guard classifier or cost model, is overoptimized under Best-of-N, measured against an independent gold harmfulness evaluator. We fit gold-versus-proxy functional forms as N grows. We vary the proxy model's size and training data, and test whether coefficients scale smoothly as they do for helpfulness reward models. The study also tests whether safety overoptimization differs in form from helpfulness overoptimization, and whether it yields a rule for choosing a safe maximum N.\",\"gap\":\"Overoptimization scaling laws have been measured for general preference reward models with synthetic gold labels, and Best-of-N is used with safety cost models. Content-moderation guard models are used as safety filters. No work characterizes how the true harmfulness of Best-of-N outputs changes as N grows when the optimized signal is a safety cost or guard score, nor whether the helpfulness scaling form transfers.\",\"approach\":\"Use a strong safety evaluator as the gold signal, and train proxy safety scorers of several sizes and data amounts, including cost models and guard-style classifiers. For harmful and borderline prompts, sample many responses and select the best-of-N by proxy safety (alone and combined with helpfulness). Fit parametric curves of gold score against the KL-like divergence of BoN (log N) per proxy configuration. Test whether coefficients follow smooth trends in proxy size and data, and derive a predicted safe N cap from small-N fits.\",\"evaluation\":\"Compare fitted forms for safety proxies against those for helpfulness reward models on the same prompts. Evaluate prediction error of extrapolating the optimal N from small-N fits to large-N held-out measurements. Check robustness with a second, differently built gold judge and with different benchmark prompt sets (red-teaming behaviors and a jailbreak benchmark). Confirm via human-labeled spot checks.\",\"support\":[\"ref-006\",\"ref-005\",\"ref-016\",\"ref-012\",\"ref-021\",\"ref-014\",\"ref-009\",\"ref-008\",\"ref-010\"]},{\"title\":\"Defender-Side Adaptive Best-of-N Versus Attacker-Side Best-of-N Jailbreaking: Risk-Adaptive Compute Allocation for Safe Decoding\",\"summary\":\"Propose that a defender can use per-prompt adaptive test-time compute for safety selection, and that its power-law gain can be compared against the attacker's Best-of-N jailbreak. A risk estimate from the prompt or a first batch of samples decides how many candidates to draw and rerank with a safety-constrained score. The hypothesis is that adaptive allocation reaches a given robustness at far lower average compute than fixed N. We test this against augmentation-based Best-of-N jailbreak attacks, with attack success measured by a strict harmfulness evaluator.\",\"gap\":\"Test-time compute scaling shows that compute-optimal per-prompt allocation beats uniform Best-of-N. Separately, Best-of-N jailbreaking shows that attack success follows a power law in the number of sampled augmentations. Safe inference-time alignment methods use a fixed budget. It is unknown whether adaptive, risk-aware compute allocation lets defender compute scale faster than attacker compute, or how it changes the attacker-defender exchange rate.\",\"approach\":\"Build a controller that estimates prompt risk (with a safety classifier on the prompt and first samples) and sets N per prompt, sampling and then selecting using a constrained reward-cost score. Define the attack as random augmentations of the harmful request with up to thousands of samples. Measure attack success as a function of attacker samples under several defender budgets, and fit power-law exponents for fixed versus adaptive defenders. Add a safety-reasoning guideline prompt or model as an alternative proposal distribution.\",\"evaluation\":\"Benchmarks: red-teaming behaviors and jailbreak benchmark prompts, with a strict harmfulness evaluator to avoid inflated attack success. Baselines: fixed-N BoN, single-sample refusal-trained models, guard-model filtering, and the safe-reasoning-trained model. Metrics: attack success rate versus attacker samples, average defender FLOPs per prompt, power-law exponents, and helpfulness on benign prompts to detect over-refusal.\",\"support\":[\"ref-002\",\"ref-024\",\"ref-012\",\"ref-007\",\"ref-014\",\"ref-017\",\"ref-021\",\"ref-016\",\"ref-005\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Pessimistic Lagrangian Best-of-N: Making Constrained Inference-Time Safety Alignment Monotonic in N Under Imperfect Cost Models",
+       "summary": "Propose combining Lagrangian reward augmentation, which trades helpfulness against a learned safety cost, with a pessimism or proximity penalty so the constrained Best-of-N selector does not degrade as N grows. The augmented score is reward minus a calibrated multiplier times cost, minus an uncertainty or MBR-style proximity term. We test whether this keeps true harmlessness and helpfulness from declining at large N, when the cost model is imperfect. Validation uses a held-out gold safety judge distinct from the cost model, sweeping N and comparing to plain Lagrangian BoN and unconstrained BoN.",
+       "gap": "Lagrangian inference-time alignment calibrates a dual variable assuming the reward and cost models are accurate, while theory and empirical work show that Best-of-N against imperfect proxies suffers reward hacking as N grows. Nobody has examined whether constrained BoN's safety guarantee survives cost-model error at large N, or combined constraint handling with pessimism or proximity regularization.",
+       "approach": "Take a reward model and cost model, estimate the dual variable on a small calibration set as in the Lagrangian method, then add a pessimism term (a rejection-sampling style penalty on responses where proxy scores are likely overestimated) or an MBR-based proximity regularizer to the augmented score. Re-calibrate the dual variable under the regularized objective so the expected-cost constraint is still met. Derive when the combined selector is scaling-monotonic and implement it for N from 1 to several thousand.",
+       "evaluation": "Compare to vanilla BoN, Lagrangian BoN, MBR-BoN, pessimism-only BoN, and a constrained fine-tuning baseline. Measure the gold-judge harmful rate and the helpfulness reward from an independent reward model as a function of N, plotting gold-versus-proxy curves in the style of overoptimization studies. Use cost models trained on varied preference data sizes to vary proxy quality. Report whether the combined method keeps true safety and helpfulness non-decreasing in N and the win rate against the baselines.",
+       "support": [
+        "ref-012",
+        "ref-004",
+        "ref-003",
+        "ref-006",
+        "ref-019",
+        "ref-020"
+       ]
+      },
+      {
+       "title": "Scaling Laws for Safety-Cost-Model Overoptimization in Best-of-N: Do Guard Models Get Hacked Like Reward Models?",
+       "summary": "Propose a controlled study of how a proxy safety signal, such as a guard classifier or cost model, is overoptimized under Best-of-N, measured against an independent gold harmfulness evaluator. We fit gold-versus-proxy functional forms as N grows. We vary the proxy model's size and training data, and test whether coefficients scale smoothly as they do for helpfulness reward models. The study also tests whether safety overoptimization differs in form from helpfulness overoptimization, and whether it yields a rule for choosing a safe maximum N.",
+       "gap": "Overoptimization scaling laws have been measured for general preference reward models with synthetic gold labels, and Best-of-N is used with safety cost models. Content-moderation guard models are used as safety filters. No work characterizes how the true harmfulness of Best-of-N outputs changes as N grows when the optimized signal is a safety cost or guard score, nor whether the helpfulness scaling form transfers.",
+       "approach": "Use a strong safety evaluator as the gold signal, and train proxy safety scorers of several sizes and data amounts, including cost models and guard-style classifiers. For harmful and borderline prompts, sample many responses and select the best-of-N by proxy safety (alone and combined with helpfulness). Fit parametric curves of gold score against the KL-like divergence of BoN (log N) per proxy configuration. Test whether coefficients follow smooth trends in proxy size and data, and derive a predicted safe N cap from small-N fits.",
+       "evaluation": "Compare fitted forms for safety proxies against those for helpfulness reward models on the same prompts. Evaluate prediction error of extrapolating the optimal N from small-N fits to large-N held-out measurements. Check robustness with a second, differently built gold judge and with different benchmark prompt sets (red-teaming behaviors and a jailbreak benchmark). Confirm via human-labeled spot checks.",
+       "support": [
+        "ref-006",
+        "ref-005",
+        "ref-016",
+        "ref-012",
+        "ref-021",
+        "ref-014",
+        "ref-009",
+        "ref-008",
+        "ref-010"
+       ]
+      },
+      {
+       "title": "Defender-Side Adaptive Best-of-N Versus Attacker-Side Best-of-N Jailbreaking: Risk-Adaptive Compute Allocation for Safe Decoding",
+       "summary": "Propose that a defender can use per-prompt adaptive test-time compute for safety selection, and that its power-law gain can be compared against the attacker's Best-of-N jailbreak. A risk estimate from the prompt or a first batch of samples decides how many candidates to draw and rerank with a safety-constrained score. The hypothesis is that adaptive allocation reaches a given robustness at far lower average compute than fixed N. We test this against augmentation-based Best-of-N jailbreak attacks, with attack success measured by a strict harmfulness evaluator.",
+       "gap": "Test-time compute scaling shows that compute-optimal per-prompt allocation beats uniform Best-of-N. Separately, Best-of-N jailbreaking shows that attack success follows a power law in the number of sampled augmentations. Safe inference-time alignment methods use a fixed budget. It is unknown whether adaptive, risk-aware compute allocation lets defender compute scale faster than attacker compute, or how it changes the attacker-defender exchange rate.",
+       "approach": "Build a controller that estimates prompt risk (with a safety classifier on the prompt and first samples) and sets N per prompt, sampling and then selecting using a constrained reward-cost score. Define the attack as random augmentations of the harmful request with up to thousands of samples. Measure attack success as a function of attacker samples under several defender budgets, and fit power-law exponents for fixed versus adaptive defenders. Add a safety-reasoning guideline prompt or model as an alternative proposal distribution.",
+       "evaluation": "Benchmarks: red-teaming behaviors and jailbreak benchmark prompts, with a strict harmfulness evaluator to avoid inflated attack success. Baselines: fixed-N BoN, single-sample refusal-trained models, guard-model filtering, and the safe-reasoning-trained model. Metrics: attack success rate versus attacker samples, average defender FLOPs per prompt, power-law exponents, and helpfulness on benign prompts to detect over-refusal.",
+       "support": [
+        "ref-002",
+        "ref-024",
+        "ref-012",
+        "ref-007",
+        "ref-014",
+        "ref-017",
+        "ref-021",
+        "ref-016",
+        "ref-005"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 5184,
+    "type": "result",
+    "duration_ms": 22842,
+    "uuid": "691d90c6-198f-4466-a253-1c43a73520a1",
+    "ttft_stream_ms": 989,
+    "time_to_request_ms": 88,
+    "time_to_request_phases_ms": {
+     "other": 4,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 2,
+     "input_attachments": 17,
+     "input_hooks": 2,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 18,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 1,
+     "model_config_wait": 0,
+     "autocompact": 2,
+     "request_announcements": 3,
+     "query_setup": 1,
+     "model_gates": 0,
+     "tool_schema_build": 2,
+     "message_normalization": 1,
+     "client_creation": 24,
+     "request_build": 4
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 15,
+    "time_to_request_cpu_ms": 250,
+    "time_to_request_major_faults": 6532,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 10,
+     "cpu_ms": 16,
+     "major_faults": 1513,
+     "setup_ms": 0,
+     "prompt_producers_ms": 0,
+     "ambient_start_ms": 2,
+     "ambient_wait_ms": 10,
+     "render_ms": 2,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 0,
+     "after_ms": 0,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 1,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 989,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.175Z"
+   }
+  }
+ ],
+ "calls": 2,
+ "usage": [
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 11951,
+    "cache_read_input_tokens": 1127,
+    "output_tokens": 2318,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 11951,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2318,
+      "cache_read_input_tokens": 1127,
+      "cache_creation_input_tokens": 11951,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 11951
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.0711007,
+   "duration_ms": 17906,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2318,
+     "cacheReadInputTokens": 1127,
+     "cacheCreationInputTokens": 11951,
+     "webSearchRequests": 0,
+     "costUSD": 0.0711007,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 0,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 11951,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  },
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 11981,
+    "cache_read_input_tokens": 1127,
+    "output_tokens": 3013,
+    "output_tokens_details": {
+     "thinking_tokens": 604
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 11981,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 3013,
+      "cache_read_input_tokens": 1127,
+      "cache_creation_input_tokens": 11981,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 11981
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.07817070000000001,
+   "duration_ms": 22842,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 3013,
+     "cacheReadInputTokens": 1127,
+     "cacheCreationInputTokens": 11981,
+     "webSearchRequests": 0,
+     "costUSD": 0.07817070000000001,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 604,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 11981,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ],
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "seconds": 45.1
+}

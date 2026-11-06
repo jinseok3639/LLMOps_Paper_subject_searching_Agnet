@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "y1 identifies a clear extension: repeated generations of subliminal transfer, combining the transfer phenomenon in ref-014 with the generational analysis in ref-010. Its trait-free controls, mitigation comparisons, and separate tracking of trait strength and model degradation support a coherent experiment whose outcome could inform synthetic-data reuse. x2 offers a useful white-box investigation of persistent backdoors (ref-008, ref-016), but detecting activations associated with a known year trigger may simply identify the year rather than reveal hidden unsafe behavior. Its comparison against adversarial training also conflates backdoor removal with detection. y1 more directly tests its central hypothesis.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x3 does not explain how physical patches against diffusion manipulation policies (ref-005) would operate in text-based corporate scenarios (ref-002). Toxicity scores from ref-006 also do not establish a detector for blackmail or information leakage. These disconnects undermine both implementation and interpretation. y3 overstates its gap: ref-014 already reports transfer of misalignment through code and reasoning traces, and does not establish the claimed restriction to persona-style evaluations. Nevertheless, its narrower extension to tool-use trajectories and agentic evaluations is concrete, with aligned-teacher controls, trajectory-component ablations, and task-performance checks grounded in ref-009 and ref-002.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "X covers three substantially different research targets: mitigation of subliminal bias transfer, white-box detection of persistent backdoors, and stress-testing agentic behavior under environmental attacks. The third is poorly integrated, but its intended intervention and failure setting differ from the other two. Y offers meaningful variation through longitudinal measurement, data scrubbing, and tool-use transfer, yet all three investigate the same underlying subliminal-transfer phenomenon from ref-014. X therefore provides broader diversity of gaps and approaches, despite weaker execution.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "Y supplies more consistently actionable experiments, including useful controls and outcomes that could guide distillation practice. Alongside y1, y2 proposes a concrete adaptation of logit contrasts and alternative labels from ref-018, with matched-rate random edits and utility measurements that help test whether scrubbing selectively reduces transfer. Its token-entanglement motivation remains unsupported because ref-017 has no supplied abstract. X has one promising candidate in x2, but x1 leaves teacher-to-student neuron correspondence unresolved, treats FACET as a distillation framework although ref-004 describes worksheet generation, and attributes quantitative bias measures to the qualitative framework in ref-003. Together with x3's methodological disconnects, these weaknesses make X less useful to a researcher choosing one experiment.",
+  "verdict": "Y"
+ }
+}

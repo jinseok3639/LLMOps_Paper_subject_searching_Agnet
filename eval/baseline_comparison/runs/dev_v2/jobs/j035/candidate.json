@@ -1,0 +1,14 @@
+{
+ "title": "Cross-Paradigm Safety Verification for BCI Neural Networks",
+ "summary": "We propose a framework to formally verify safety properties of EEG classifiers across BCI paradigms using semidefinite programming. By modeling activation functions with quadratic constraints, we derive worst-case input bounds for misclassification. This approach generalizes beyond single-paradigm validation, enabling safety certification of BCIs for medical use where false predictions could be life-threatening.",
+ "gap": "While ref-007 shows BCI methods fail to generalize across datasets and ref-009 quantifies worst-case robustness via CLEVER, neither combines formal verification with multi-paradigm EEG models like EEGNet (ref-001). Existing safety analyses lack worst-case bounds for BCIs across paradigms, leaving gaps in medical certification.",
+ "approach": "Apply ref-005's SDP framework to EEGNet models, abstracting ReLU/ELU activations as quadratic constraints. Derive input perturbation thresholds for misclassification across P300/MRCP/SMR paradigms by solving SDPs that enforce Lipschitz bounds. This differs from ref-005 by targeting EEG-specific architectures and multi-paradigm generalization.",
+ "evaluation": "Measure verified robustness radii on MOABB's BNCI Horizon 2014 (motor-imagery) and ref-001's P300/MRCP datasets. Compare against CLEVER (ref-009) and ref-005's method on EEGNet. Ablation tests quadratic constraints vs. piecewise linear bounds (ref-020). Validate safety thresholds via weighted Hamming loss for motor-imagery, where false negatives (no movement) cost more than false positives (phantom movement).",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-009",
+  "ref-020"
+ ]
+}

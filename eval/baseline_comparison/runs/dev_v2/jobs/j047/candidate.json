@@ -1,0 +1,15 @@
+{
+ "title": "Entangled-Token Scrubbing: White-Box Detection and Removal of Subliminal Signals in Distillation Data",
+ "summary": "Semantic filtering does not stop subliminal trait transfer. This proposal tests a white-box defense instead. Using token entanglement, it compares the trait-bearing teacher's logits with the base model's logits to find tokens whose probabilities shift together with the trait. Those positions in the distillation data are then scrubbed or relabeled with base-model predictions, adapting the logit-contrast idea from approximate unlearning. Students trained on scrubbed data are evaluated for both trait transfer and task utility. The defense is compared with black-box semantic filtering, paraphrasing and cross-base distillation, to test whether white-box access to the data-generation process makes reliable auditing possible.",
+ "gap": "Earlier work shows that black-box data filtering fails to stop subliminal learning, and audit research argues that black-box access is insufficient. No method yet uses white-box logit information to detect and remove the hidden carriers of a trait from distillation data while keeping the data useful.",
+ "approach": "Score each token in the teacher's data by how far the trait-bearing teacher's distribution differs from the base model's. Flag tokens above a threshold. Then either resample them from the base model or replace them with generic alternative labels, as in the generic-label unlearning approach, and distill the student on the cleaned data. Also use the scores as a dataset-level detector of contamination.",
+ "evaluation": "Baselines are no filtering, LLM-judge semantic filtering, paraphrasing, random token replacement at the same rate, and cross-base students. Measures are the trait-transfer rate (animal preference, misalignment), downstream task accuracy, detection AUROC on contaminated versus clean datasets, and the trade-off between the fraction of tokens edited and residual trait transfer.",
+ "support": [
+  "ref-017",
+  "ref-014",
+  "ref-018",
+  "ref-016",
+  "ref-011",
+  "ref-015"
+ ]
+}

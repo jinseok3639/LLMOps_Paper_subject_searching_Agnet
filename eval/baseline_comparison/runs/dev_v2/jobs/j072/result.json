@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-012 supports LARA's calibration procedure, augmented reward, and application to sequence-level and token-level methods. However, the candidate overstates constraint satisfaction: ref-012 provides an expected-cost result for sequence-level sampling and explicitly describes token-level decoding as a heuristic without an exact guarantee. ref-014 and ref-021 support the benchmark choices; ref-004 does not establish the proposed complexity-dependent constraints.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Prompt-complexity-dependent safety thresholds are not addressed in ref-012, leaving a plausible extension. However, the candidate does not identify why complexity should determine acceptable safety costs or a concrete failure of fixed thresholds. It also insufficiently distinguishes its proposal from dynamic safety penalties in ref-020 and dynamic Lagrangian balancing during training in ref-019.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies decoding targets, several baselines, benchmarks, metrics, and ablations, building on ref-012, ref-014, and ref-021. The central intervention remains underspecified: prompt complexity, its mapping to safety thresholds, and per-prompt calibration are undefined. A direct comparison with original LARA is also missing, and ref-016's Llama Guard needs an explicit role within a comparable generation pipeline.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Adaptive constraints and recalibration could test the stated extension of ref-012, and helpfulness judgments plus jailbreak success measures address the intended tradeoff. However, AU-PRC does not directly measure satisfaction of changing expected-cost constraints, and token-level guarantees exceed what ref-012 supports. Comparing against original LARA and reporting constraint violations would be necessary to isolate and assess the adaptive component.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether adaptive constraints improve helpfulness at controlled safety cost could inform inference-time alignment choices, extending the practical tradeoff studied in ref-012. The current proposal has narrower value because it neither motivates complexity-dependent safety budgets nor isolates adaptation against original LARA; apparent improvements could simply reflect looser constraints.",
+  "score": 3
+ }
+}

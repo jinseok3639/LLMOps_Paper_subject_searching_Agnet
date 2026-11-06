@@ -1,0 +1,40 @@
+{
+ "queries": [
+  "\"inference-time\" \"safety\" \"pessimism\" uncertainty best-of-N",
+  "\"best-of-N\" \"cost\" \"uncertainty\" safety ensemble",
+  "\"language models\" \"constrained\" \"rejection sampling\" \"uncertainty\" alignment",
+  "\"Safety Hacking in Constrained Best-of\"",
+  "\"inference-time\" \"safety\" \"upper confidence\"",
+  "\"best-of-n\" \"safety\" \"ensemble\" pessimistic",
+  "\"constrained\" \"pessimistic\" \"alignment\" guard uncertainty",
+  "\"DARC: Disagreement-Aware Alignment via Risk-Constrained Decoding\"",
+  "\"safety\" \"cost\" \"ensemble\" \"rejection sampling\" language models",
+  "\"inference-time\" \"UCB\" \"safety\" alignment pessimistic",
+  "\"Consensus Sampling for Safer Generative AI\"",
+  "\"safety\" \"cost uncertainty\" \"language models\" inference",
+  "\"guard\" \"pessimistic\" \"sampling\" safety ensemble",
+  "\"constrained best-of\" \"confidence\""
+ ],
+ "closest": [
+  {
+   "title": "Safety Hacking in Constrained Best-of-N Inference-time Scaling",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2608.22915",
+   "how_close": "Directly studies unsafe selection caused by imperfect safety filters as constrained Best-of-N scales. Introduces constrained pessimistic sampling using chi-squared regularization against the proxy-feasible reference distribution and proves safety-hacking bounds independent of N. However, its safety constraint remains a proxy threshold; it does not implement ensemble cost UCBs, MBR regularization, or the proposed dual-calibrated augmented score. Its bound does not establish monotonic improvement in both safety and helpfulness."
+  },
+  {
+   "title": "DARC: Disagreement-Aware Alignment via Risk-Constrained Decoding",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2603.08145",
+   "how_close": "Combines inference-time alignment, disagreement-based pessimism, explicit risk constraints or Lagrangian penalties, and multi-scorer robustness. Its target is heterogeneous preference satisfaction, with risk defined through an entropic risk premium. It reranks candidates rather than applying the proposed rejection sampler, and does not establish gold safety guarantees under an exploitable safety-cost ensemble."
+  },
+  {
+   "title": "Reward Model Ensembles Help Mitigate Overoptimization",
+   "year": 2023,
+   "url": "https://arxiv.org/abs/2310.02743",
+   "how_close": "Evaluates conservative ensemble objectives in Best-of-N, including worst-case reward and mean reward minus an ensemble-variance penalty. This anticipates using disagreement to discourage exploitation of imperfect scorers. It treats a single reward objective, however, rather than a separately constrained safety cost, and does not supply the candidate's rejection-sampling construction or N-independent safety guarantee."
+  }
+ ],
+ "rationale": "Very close work exists outside the supplied bibliography, but I found no paper implementing the candidate's complete central method. Most significantly, Safety Hacking in Constrained Best-of-N Inference-time Scaling already addresses the claimed gap of imperfect safety classifiers under increasing N: constrained pessimistic sampling controls amplification of classifier errors and provides N-independent safety bounds. Thus, that broad problem and mitigation principle are already studied. The methodological distinction is substantive: the candidate makes the safety cost itself pessimistic through ensemble UCBs and combines this with MBR regularization, dual calibration, and rejection sampling. The closest paper instead applies chi-squared coverage control after a learned safety filter. DARC and reward-ensemble work anticipate additional components, but neither supplies this safety-cost construction. An N-independent upper bound also differs from the candidate's stronger hypothesis that both gold safety and helpfulness remain monotonic.",
+ "score": 3
+}

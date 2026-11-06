@@ -1,0 +1,14 @@
+{
+ "title": "Lipschitz-Constrained EEGNet: Formal Robustness Against Adversarial Perturbations in EEG-Based BCIs",
+ "summary": "This paper modifies EEGNet's convolutional layers using Parseval tight frame constraints and SDP-based Lipschitz optimization to enforce formal robustness guarantees against adversarial perturbations in EEG-based BCIs. By bounding the Lipschitz constant of each layer to ≤1, the model limits input-output sensitivity for perturbations within a defined ε-ball. Evaluation on P300, ERN, MRCP, and SMR datasets from MOABB demonstrates reduced attack success rates (ASR) under FGSM and PGD attacks compared to standard EEGNet, with ablation studies isolating the effect of Lipschitz constraints from adversarial training.",
+ "gap": "While EEGNet generalizes across BCI paradigms (ref-001), it lacks formal robustness guarantees against adversarial perturbations (ref-021). Existing adversarial detection methods (ref-021) do not prevent misclassification, leaving a gap in proactive robustness for safety-critical BCIs.",
+ "approach": "Modify EEGNet's depthwise and separable convolutions to enforce Parseval tight frame constraints (ref-010), ensuring each layer's Lipschitz constant ≤1. Integrate SDP-based optimization (ref-005, ref-020) during training to bound the network's global Lipschitz constant. Apply constraints to all convolutional layers, maintaining EEGNet's architecture and training procedure except for added Lipschitz regularization.",
+ "evaluation": "Compare ASR (%) under FGSM (ε=0.1) and PGD (10 steps, ε=0.1) between standard EEGNet, Parseval-constrained EEGNet (LC-EEGNet), and LC-EEGNet with adversarial training. Use MOABB's P300 (PhysioNet), ERN (BCI Competition IV), MRCP (Ephemeral), and SMR (BNCI Horizon) datasets. Report CLEVER scores (ref-009) with ε=0.1 and 100 samples. Ablation study compares LC-EEGNet with/without adversarial training to isolate constraint effects.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-010",
+  "ref-020",
+  "ref-021"
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "title": "Coverage-Aware Pessimism for Scaling Test-Time Compute in Misaligned Reward Models",
+ "summary": "We introduce Coverage-Aware Pessimism (CAP), a test-time alignment algorithm that combines pessimistic rejection sampling with coverage estimation to mitigate reward hacking. CAP estimates the policy's coverage over high-quality responses and adjusts pessimism thresholds accordingly, enabling safe scaling of N in Best-of-N sampling. We evaluate CAP on AlpacaFarm and HH-RLHF, comparing it to standard BoN and InferenceTimePessimism.",
+ "gap": "While InferenceTimePessimism (ITP) mitigates reward hacking, it assumes uniform coverage and does not adapt to varying policy capabilities. CAP addresses this by explicitly modeling coverage, allowing more aggressive sampling when coverage is high and stricter rejection when it is low.",
+ "approach": "CAP estimates coverage using a held-out validation set, then applies ITP with a dynamic threshold proportional to the coverage estimate. The threshold ensures that only responses within the high-coverage region are accepted, preventing reward hacking while maximizing performance.",
+ "evaluation": "We test CAP against ITP, BoN, and MBR-BoN on AlpacaFarm and HH-RLHF. Metrics include win rates vs. human references, reward model scores, and gold-standard human evaluations. Ablations vary coverage estimation methods and threshold scaling factors.",
+ "support": [
+  "ref-002",
+  "ref-004",
+  "ref-003",
+  "ref-006"
+ ]
+}

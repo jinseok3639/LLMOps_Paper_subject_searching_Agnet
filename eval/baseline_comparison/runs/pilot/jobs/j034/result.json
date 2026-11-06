@@ -1,0 +1,58 @@
+{
+ "queries": [
+  "EEG BCI certified robustness Lipschitz abstention runtime monitor",
+  "\"Lipschitz\" \"certified\" \"abstain\" classifier",
+  "brain computer interface robustness certificate rejection safety monitor",
+  "\"EEG\" \"Lipschitz\" \"abstention\"",
+  "\"BCI\" \"certified robustness\" monitor",
+  "\"Lipschitz\" \"margin\" \"runtime\" \"abstain\"",
+  "\"From confidence to caution\" \"conformal gating\"",
+  "\"Lipschitz\" \"reject\" \"certified\" \"GloRo\"",
+  "\"EEG\" \"certification\" \"abstain\"",
+  "\"Certifiers Make Neural Networks Vulnerable to Availability Attacks\"",
+  "\"Globally-Robust Neural Networks\" abstain Lipschitz",
+  "\"Degradation Attacks on Certifiably Robust Neural Networks\"",
+  "\"EEG\" \"Lipschitz\" \"certificate\" safety",
+  "\"brain-computer\" \"certified\" \"rejection\" robustness"
+ ],
+ "closest": [
+  {
+   "title": "Globally-Robust Neural Networks",
+   "year": 2021,
+   "url": "https://proceedings.mlr.press/v139/leino21a.html",
+   "how_close": "Closest methodological match: GloRo uses global Lipschitz bounds and output margins for inexpensive inference-time certification, with an abstention output when certification fails. It targets image classification and incorporates robust training; it does not evaluate EEG command gating, SDP bounds, or BCI-controlled effectors."
+  },
+  {
+   "title": "A Formally Verified Robustness Certifier for Neural Networks",
+   "year": 2025,
+   "url": "https://arxiv.org/abs/2505.06958",
+   "how_close": "Precomputes and caches margin Lipschitz bounds, then checks each prediction by comparing logit differences with the perturbation budget times those bounds. This closely matches the proposed offline-bound/online-margin computation. Its contribution is a verified certifier for dense ReLU networks, evaluated on image models, rather than BCI runtime abstention."
+  },
+  {
+   "title": "From confidence to caution: conformal gating for cross-session motor imagery brain-computer interfaces",
+   "year": 2026,
+   "url": "https://pubmed.ncbi.nlm.nih.gov/42805221/",
+   "how_close": "Closest target and intervention: withholds uncertain motor-imagery BCI commands and evaluates decision rates, wrong-command rates, and risk-weighted utility under session shift. Uses conformal prediction and selective prediction rather than Lipschitz-margin robustness certificates."
+  },
+  {
+   "title": "When Certificates Fail: A Unified Safety Framework for Embedded Neural Interface Models",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2607.06630",
+   "how_close": "This preprint evaluates EEG decoder safety using layerwise Lipschitz bounds, logit-margin certified-safe fractions, PGD attacks, and physiological stress tests, including EEGNet and MOABB-supported data. It is an offline safety audit; it does not implement certificate-triggered abstention or closed-loop effector command suppression."
+  },
+  {
+   "title": "Degradation Attacks on Certifiably Robust Neural Networks",
+   "year": 2022,
+   "url": "https://openreview.net/forum?id=P0XO5ZE98j",
+   "how_close": "Studies runtime defenses that reject inputs when local robustness cannot be certified, including Lipschitz-based GloRo models. Demonstrates adversarially induced unnecessary rejection. The certificate-to-rejection mechanism overlaps strongly, but the target is general image classifiers and the contribution concerns attacks on availability."
+  },
+  {
+   "title": "Certifiers Make Neural Networks Vulnerable to Availability Attacks",
+   "year": 2023,
+   "url": "https://doi.org/10.1145/3605764.3623917",
+   "how_close": "Explicitly studies a model-certifier-fallback pipeline that abstains whenever robustness cannot be guaranteed. Establishes prior use of certification as an operational gate, but evaluates availability attacks against general classifiers rather than Lipschitz-margin monitoring of EEG-driven effectors."
+  }
+ ],
+ "rationale": "Very close work exists, but I found no outside-bibliography paper implementing the complete BCI certificate-to-abstention monitor. The generic mechanism is established: [GloRo](https://proceedings.mlr.press/v139/leino21a.html) combines Lipschitz bounds, margins, runtime certification, and abstention, while the [verified certifier](https://arxiv.org/abs/2505.06958) closely matches precomputation followed by per-output margin checks. The target also has close precedents: [conformal BCI gating](https://pubmed.ncbi.nlm.nih.gov/42805221/) suppresses uncertain commands using a different technique, and [When Certificates Fail](https://arxiv.org/abs/2607.06630) evaluates Lipschitz-margin certification on EEG without deploying an abstention gate. Thus the apparent remaining contribution is applying and evaluating an established certification-gating mechanism for BCI effectors, particularly its comparison with adversarial detectors and closed-loop unsafe-command measurements. These are substantial overlaps, but none establishes the same target, intervention, and technique together.",
+ "score": 3
+}

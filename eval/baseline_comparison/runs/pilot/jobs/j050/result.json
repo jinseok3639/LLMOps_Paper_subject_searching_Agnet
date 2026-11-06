@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x2 proposes a coherent extension of SDP certification to EEGNet, but leaves unclear what its architecture-specific quadratic constraints add beyond the general frameworks in ref-005 and ref-020. y2 identifies a clearer intervention: Parseval-constrained EEGNet training. Its spatial-only ablation, adversarial-training and Cross-Lipschitz controls, and joint accuracy, certified-robustness, and cost measurements directly test whether constraints from ref-010 offer a useful EEG-specific trade-off. This gap remains open in ref-001, ref-022, and ref-024.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x3 combines spectral normalization, adversarial training, and an unsupported cross-paradigm 8–30 Hz constraint, obscuring its single contribution. Its CLEVER and attack-based evaluation does not adequately establish the promised formal guarantees: ref-009 describes estimation, whereas ref-020 provides guaranteed upper bounds. y3 also has a substantive limitation: certifying prediction stability does not certify correctness or command safety (ref-022), and ref-021 does not establish its claimed poor unknown-attack transfer. Nevertheless, its explicit abstention rule, detector baselines, risk–coverage evaluation, and latency measurements make that limitation empirically testable.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "x1 and x2 substantially overlap in adapting SDP quadratic constraints to EEGNet; x3 adds robustness-oriented training. Y offers three meaningfully different research decisions: auditing existing decoders, changing their training, and using certificates to govern runtime abstention. Although all concern robustness, these address distinct gaps and require different experiments.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "Y provides stronger controlled comparisons and more distinct, actionable choices grounded in certification, robustness training, and EEG attack research (ref-020, ref-010, ref-024). Its limitations remain material: y1 must establish valid slope restrictions and activation domains for its proposed square/log treatment, and y3 must distinguish stability from safety. X has greater redundancy and weaker specification: x1 never defines its physiological quadratic constraints or shows that they preserve the stated perturbation set, x2 leaves its technical advance underspecified, and x3 confounds several interventions. Y would better support selecting a useful experiment.",
+  "verdict": "Y"
+ }
+}

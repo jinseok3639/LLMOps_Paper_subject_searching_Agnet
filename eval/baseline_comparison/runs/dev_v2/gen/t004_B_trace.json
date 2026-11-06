@@ -1,0 +1,1257 @@
+{
+ "sample": "t004",
+ "n_refs": 20,
+ "propose_problems": {
+  "assumption": [],
+  "transfer": [],
+  "empirical": [],
+  "formal": []
+ },
+ "candidates": [
+  {
+   "id": "s1-assumption",
+   "slot": 1,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Detecting and Mitigating Subliminal Bias Transmission in Multi-Agent LLM Systems",
+    "summary": "This paper proposes a framework to detect and mitigate subliminal bias transmission in multi-agent LLM systems, where hidden behavioral traits propagate through semantically unrelated data. We introduce a mechanistic analysis approach to identify neuron populations responsible for bias amplification and develop targeted interventions during training. The framework is validated through controlled experiments measuring bias persistence across generations in synthetic datasets, comparing outcomes against baseline systems without mitigation.",
+    "gap": "Existing multi-agent LLM systems (ref-004) and bias mitigation techniques (ref-012) fail to address how hidden behavioral traits can propagate through unrelated data channels, as demonstrated in subliminal learning scenarios (ref-014).",
+    "approach": "We combine mechanistic interpretability (ref-020) with targeted neuron ablation to identify and neutralize bias-carrying neuron populations in multi-agent systems. A monitoring layer tracks statistical deviations in output distributions to detect subliminal transmission during training.",
+    "evaluation": "We compare bias amplification rates in generated content against baseline systems (ref-004) using established bias metrics (ref-012) across 1000+ synthetic training cycles. Success is measured by reduced bias persistence while maintaining task performance.",
+    "support": [
+     "ref-004",
+     "ref-012",
+     "ref-014",
+     "ref-020"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Existing multi-agent LLM systems (ref-004) and bias mitigation techniques (ref-012) fail to address how hidden behavioral traits can propagate through unrelated data channels' (exact phrase). However, ref-004's abstract does not mention or evaluate bias transmission, and ref-012 focuses on explicit gender bias in visual recognition tasks, not subliminal transmission through unrelated data. Ref-014 demonstrates subliminal learning but does not connect it to multi-agent systems or bias mitigation techniques.",
+     "vague": "The evaluation section lacks specificity: (1) the 'synthetic datasets' and '1000+ synthetic training cycles' are undefined (missing dataset/setting), (2) the 'baseline systems' are not explicitly named or configured to isolate the proposed mitigation (missing baseline), (3) the 'statistical deviations in output distributions' are not defined as measurable metrics (missing measures), and (4) there is no ablation testing whether neuron ablation (rather than the monitoring layer) causes bias reduction (missing ablation).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the neuron ablation component and explicitly compare against a modified version of ref-004's multi-agent system with ref-012's bias constraints applied, using ref-014's subliminal learning setup as a controlled testbed for bias transmission."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Existing multi-agent LLM systems (ref-004) and bias mitigation techniques (ref-012) fail to address how hidden behavioral traits can propagate through unrelated data channels' (gap). However, ref-004 does not demonstrate or acknowledge any bias transmission issues, as its focus is on personalized educational materials without mentioning subliminal bias. Similarly, ref-012 addresses gender bias amplification in visual recognition tasks, not subliminal transmission through semantically unrelated data as shown in ref-014. The gap claim overgeneralizes ref-004 and ref-012's limitations beyond their demonstrated scope.",
+     "vague": "The evaluation lacks specificity in several critical elements: (1) the exact synthetic dataset construction method for testing subliminal bias transmission is unnamed, (2) the baseline system from ref-004 is not specified in terms of dataset/setting (e.g., whether grade 8 math content is used), (3) no ablation study is proposed to isolate the effect of mechanistic analysis vs. neuron ablation, and (4) the 'statistical deviations' monitored by the monitoring layer are not defined quantitatively.",
+     "already_done": "",
+     "suggestion": "Conduct controlled experiments comparing the proposed framework against ref-004's system using the same grade 8 math curriculum (ref-004) with injected subliminal bias signals (ref-014), while measuring both bias amplification (ref-012) and task performance. This would directly test the framework's ability to mitigate subliminal bias in a realistic educational setting."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Existing multi-agent LLM systems (ref-004) and bias mitigation techniques (ref-012) fail to address how hidden behavioral traits can propagate through unrelated data channels' (gap). However, ref-004 does not discuss bias propagation or hidden behavioral traits, focusing instead on personalized educational materials. Similarly, ref-012 addresses gender bias amplification in visual recognition tasks, not subliminal transmission through semantically unrelated data as in ref-014. The claim overgeneralizes ref-004 and ref-012 beyond their actual scope.",
+     "vague": "The evaluation section lacks specificity about (1) the exact synthetic dataset construction method, (2) which baseline systems from ref-004 are used for comparison, (3) whether ablation studies isolate the monitoring layer's effect from the mechanistic analysis, and (4) how 'statistical deviations in output distributions' are operationalized as detection signals. The central claim about mitigating subliminal bias transmission is not directly tested since ref-012's bias metrics measure gender bias, not the semantically unrelated trait propagation described in ref-014.",
+     "already_done": "",
+     "suggestion": "Conduct controlled experiments comparing bias transmission rates between (a) the proposed system and (b) a modified ref-004 baseline augmented with ref-012's bias constraints, using ref-014's number sequence task as the semantically unrelated data channel. This would directly test whether the mechanistic interventions address the claimed gap."
+    }
+   },
+   "refined": {
+    "title": "Detecting and Mitigating Subliminal Bias Transmission in Multi-Agent LLM Systems",
+    "summary": "This paper addresses the propagation of hidden behavioral traits through semantically unrelated data in multi-agent LLM systems. We propose a framework combining mechanistic analysis and targeted neuron ablation to identify and neutralize bias-carrying neuron populations. A monitoring layer tracks output distribution deviations during training. The framework is evaluated using synthetic datasets with injected bias signals, measuring bias persistence against baseline systems.",
+    "gap": "Existing multi-agent LLM systems (ref-004) and bias mitigation techniques (ref-012) do not address subliminal bias transmission through unrelated data, a phenomenon demonstrated in ref-014 where behavioral traits propagate via number sequences. Ref-004 focuses on educational personalization without addressing hidden bias, while ref-012 targets explicit gender bias in visual tasks, not subliminal transmission.",
+    "approach": "We integrate mechanistic interpretability (ref-020) to identify neuron populations correlated with subliminal bias transmission. Targeted neuron ablation neutralizes these populations during training, while a monitoring layer tracks output distribution deviations to detect transmission. The approach retains ref-004's multi-agent structure but adds bias-specific interventions.",
+    "evaluation": "We compare bias amplification rates against a modified ref-004 baseline augmented with ref-012's constraints, using ref-014's number sequence task as the testbed. Success is measured by reduced bias persistence (ref-012's metrics) over 1000+ training cycles while maintaining task performance. Ablation studies isolate the effects of mechanistic analysis and neuron ablation.",
+    "support": [
+     "ref-004",
+     "ref-012",
+     "ref-014",
+     "ref-020"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-transfer",
+   "slot": 1,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Detecting and Mitigating Subliminal Bias Transmission in Multi-Agent LLM Systems",
+    "summary": "This paper proposes a framework to detect and mitigate subliminal bias transmission in multi-agent LLM systems like FACET, where teacher models inadvertently pass harmful traits to student models through unrelated data. We introduce a mechanistic analysis approach to identify bias-correlated neurons and develop targeted interventions during training. The method is validated by measuring bias amplification reduction in generated educational materials while maintaining task performance.",
+    "gap": "Existing multi-agent LLM systems like FACET lack mechanisms to detect or prevent subliminal bias transmission from teacher to student models, despite evidence that such transmission can occur through unrelated data channels.",
+    "approach": "We combine mechanistic interpretability (ref-010, ref-017) with dynamic neuron suppression techniques (ref-012) to identify and neutralize bias-correlated neurons during multi-agent training. A validation module monitors generated outputs for biased patterns using toxicity classifiers (ref-006).",
+    "evaluation": "Baselines include standard FACET outputs and materials generated by models with random neuron suppression. Measures include bias amplification scores (ref-010), toxicity classifier scores (ref-006), and task suitability ratings from educators (ref-004).",
+    "support": [
+     "ref-004",
+     "ref-010",
+     "ref-012",
+     "ref-017"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'Existing multi-agent LLM systems like FACET lack mechanisms to detect or prevent subliminal bias transmission' (gap). However, ref-004's abstract does not mention bias transmission as a limitation of FACET, only that it 'neglects broader pedagogical needs.' The claim about 'subliminal bias transmission through unrelated data channels' is unsupported by any cited reference, including ref-010 which focuses on bias amplification in single-model training, not multi-agent transmission.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed neuron suppression mechanism from the entire multi-agent system. The 'dynamic neuron suppression techniques' (approach) are not described with sufficient detail to replicate, and the 'validation module' (approach) references an uncited toxicity classifier (ref-006). The 'bias amplification scores' (evaluation) are not defined with specific metrics or comparison points beyond ref-010's political bias context, which differs from educational materials.",
+     "already_done": "",
+     "suggestion": "Replace the unsupported gap claim with a focused question about whether FACET's teacher-agent interactions could propagate biases observed in ref-010/ref-012, then design controlled experiments comparing bias levels in FACET outputs before/after applying the proposed mechanistic interventions, using ref-010's amplification metrics adapted to educational content."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Existing multi-agent LLM systems like FACET lack mechanisms to detect or prevent subliminal bias transmission from teacher to student models' (gap section). However, ref-004 does not mention or evaluate bias transmission in FACET, focusing instead on personalized educational materials alignment and teacher feedback. The claim about bias transmission is unsupported by ref-004's content.",
+     "vague": "The evaluation section lacks specificity about the dataset or setting for measuring bias amplification (e.g., no mention of political news or educational content specifics). It also omits an ablation study isolating the mechanistic analysis component from dynamic neuron suppression, making it unclear which part of the approach drives bias reduction. The 'task suitability ratings from educators' (ref-004) are mentioned without specifying how these ratings will be collected or what metrics they will use beyond 'suitability'.",
+     "already_done": "",
+     "suggestion": "Conduct a controlled ablation study isolating mechanistic analysis (ref-010/ref-017) from neuron suppression (ref-012) to test whether bias reduction stems from neuron identification or suppression alone. This would validate the claimed mechanism rather than the whole system."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Existing multi-agent LLM systems like FACET lack mechanisms to detect or prevent subliminal bias transmission from teacher to student models' (gap statement). Reference [ref-004] does not mention or evaluate any bias transmission mechanisms, but also does not claim to address bias transmission. Thus, the gap claim is unsupported by contradiction rather than affirmation. Additionally, the phrase 'subliminal bias transmission through unrelated data channels' is unsupported by any cited reference, as [ref-010] and [ref-012] focus on bias amplification through iterative training/data generation, not cross-agent transmission via unrelated data.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed mechanistic analysis and neuron suppression techniques. The 'standard FACET outputs' baseline does not account for the general effect of neuron suppression, and the 'random neuron suppression' baseline does not test whether the claimed mechanism (targeting bias-correlated neurons) is responsible for improvements. Additionally, the 'bias amplification scores' (ref-010) and 'toxicity classifier scores' (ref-006) are mentioned but no specific metrics or thresholds for success/failure are defined. The 'task suitability ratings' (ref-004) are also undefined in terms of scale or criteria.",
+     "already_done": "",
+     "suggestion": "Explicitly define 'subliminal bias transmission' with a measurable failure condition (e.g., 'bias amplification exceeding X% over Y generations in unrelated domains') and add an ablation study comparing targeted neuron suppression (using [ref-010]’s mechanistic analysis) against random suppression and no suppression, all on the same FACET-based system with identical training data."
+    }
+   },
+   "refined": {
+    "title": "Mitigating Bias Propagation in Multi-Agent LLM Systems via Mechanistic Analysis",
+    "summary": "This work addresses bias amplification in multi-agent LLM systems by identifying and neutralizing neurons correlated with harmful biases during training. The approach combines mechanistic interpretability with targeted neuron suppression, validated through controlled experiments measuring bias reduction in generated educational materials while preserving task performance.",
+    "gap": "While FACET (ref-004) generates personalized educational materials using multi-agent LLM systems, it does not account for potential bias propagation from teacher to student agents. Ref-010 shows bias amplification in single-model training, but it remains unclear whether similar mechanisms operate across agents in multi-agent systems.",
+    "approach": "We apply mechanistic analysis (ref-010, ref-017) to identify neurons correlated with biased outputs in FACET's teacher agent. During training, we suppress these neurons using dynamic masking (ref-012) while maintaining the system's original architecture and task-specific components. A validation module monitors outputs using a toxicity classifier (ref-006) to quantify bias reduction.",
+    "evaluation": "We compare bias levels in FACET outputs before and after applying neuron suppression, using ref-010's bias amplification metrics adapted to educational content. Baselines include standard FACET outputs and a variant with random neuron suppression. Measures include bias amplification scores, toxicity classifier scores (ref-006), and task suitability ratings from educators (ref-004). An ablation study isolates the effect of mechanistic analysis by comparing targeted suppression against random suppression.",
+    "support": [
+     "ref-004",
+     "ref-010",
+     "ref-012",
+     "ref-017"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-empirical",
+   "slot": 1,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Detecting Subliminal Bias Transmission in Multi-Agent LLM Systems",
+    "summary": "This paper proposes a method to detect subliminal bias transmission in multi-agent LLM systems by analyzing hidden signals in non-semantic data. Using a controlled framework with teacher-student models, we introduce synthetic datasets with numerical sequences and code traces generated by biased teacher models. Our approach identifies how student models inherit behavioral traits through hidden patterns, even when explicit bias markers are absent. Validation involves measuring trait retention in student models across varying data types and filtering conditions, using statistical tests and mechanistic interpretability techniques to trace neuron-level correlations with transmitted biases.",
+    "gap": "Existing work on bias mitigation focuses on explicit content filtering but does not address hidden signal transmission in multi-agent systems or non-semantic data.",
+    "approach": "Train teacher models with specific behavioral traits, generate synthetic datasets (numerical sequences, code) without explicit trait references, and train student models on these datasets. Analyze neuron activations and measure trait retention via targeted prompts and statistical tests.",
+    "evaluation": "Baselines include standard bias benchmarks and random-trait controls. Measures include trait accuracy in student outputs, neuron correlation scores with traits, and robustness to data filtering. Success is defined as detectable trait transmission in student models despite absent semantic cues.",
+    "support": [
+     "ref-014",
+     "ref-012",
+     "ref-004"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims, 'Existing work on bias mitigation focuses on explicit content filtering but does not address hidden signal transmission in multi-agent systems or non-semantic data.' However, ref-014 demonstrates subliminal learning in non-semantic data (number sequences, code) and ref-012 addresses bias amplification in structured prediction models, which involves non-explicit correlations. Neither reference explicitly discusses multi-agent systems, but ref-004's multi-agent framework could theoretically propagate hidden signals via its teacher agent's data generation. The gap claim overstates the absence of non-semantic bias work by ignoring ref-014's core findings and ref-012's implicit bias mechanisms.",
+     "vague": "The evaluation lacks a critical ablation: testing whether trait transmission occurs when the teacher agent (ref-004) is replaced with a non-agent baseline. The hypothesis also does not specify how 'targeted prompts' will isolate trait retention in student models trained on non-semantic data. Additionally, the 'statistical tests' and 'mechanistic interpretability techniques' are not named, leaving reproducibility unclear.",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing trait transmission in multi-agent vs. single-agent teacher models (using ref-004's framework) to isolate the multi-agent system's role in hidden signal propagation. This would directly test whether the claimed gap (multi-agent + non-semantic bias) is valid or if the phenomenon occurs independently of system architecture."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Existing work on bias mitigation focuses on explicit content filtering but does not address hidden signal transmission in multi-agent systems or non-semantic data.' However, ref-012 demonstrates bias mitigation through corpus-level constraints in structured prediction models, which addresses bias amplification beyond explicit content filtering. Additionally, ref-014 already studies subliminal bias transmission in non-semantic data (e.g., number sequences), contradicting the claim that this is unaddressed. The hypothesis also claims 'no prior work addresses hidden signal transmission in multi-agent systems,' but ref-004 describes a multi-agent LLM system with evaluator agents that could be extended to detect such biases, which the hypothesis does not acknowledge.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed method's contribution (e.g., a comparison with ref-014's subliminal learning detection techniques applied to multi-agent systems). The approach does not specify how 'mechanistic interpretability techniques' will trace neuron-level correlations or which statistical tests will be used. The synthetic dataset generation process is not detailed (e.g., how traits are encoded in numerical sequences/code traces). The evaluation does not clarify how 'targeted prompts' will measure trait retention in student models.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing the proposed method against ref-014's subliminal learning detection framework when applied to multi-agent systems, and explicitly incorporate ref-004's evaluator agent mechanism as a baseline for bias detection within the multi-agent architecture."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims, 'Existing work on bias mitigation focuses on explicit content filtering but does not address hidden signal transmission in multi-agent systems or non-semantic data.' However, ref-012 explicitly addresses gender bias amplification in structured prediction models through corpus-level constraints, which is a form of bias mitigation beyond explicit filtering. Additionally, ref-014 demonstrates subliminal learning in teacher-student models via non-semantic data, directly contradicting the claim that hidden signal transmission is unaddressed. Ref-004, while focused on educational personalization, also involves multi-agent LLM systems but does not discuss bias transmission, so it neither supports nor contradicts the claim.",
+     "vague": "The evaluation section lacks specificity in several key areas: (1) the exact composition and size of the synthetic datasets (numerical sequences, code traces) are not described, (2) the precise definition of 'behavioral traits' and how they are encoded in teacher models is missing, (3) the statistical tests and mechanistic interpretability techniques are not named or described, (4) the 'targeted prompts' used to measure trait retention are not specified, and (5) the 'standard bias benchmarks' and 'random-trait controls' are not identified by name or source.",
+     "already_done": "",
+     "suggestion": "To improve the hypothesis, the authors should formalize the definition of 'behavioral traits' with measurable properties (e.g., specific biases or preferences) and specify the exact experimental conditions (dataset sizes, trait encoding methods, statistical tests) required to detect subliminal transmission. This would transform the informal claim into a testable hypothesis with clear success/failure criteria."
+    }
+   },
+   "refined": {
+    "title": "Detecting Subliminal Bias Transmission in Multi-Agent LLM Systems",
+    "summary": "This paper proposes a method to detect subliminal bias transmission in multi-agent LLM systems by analyzing hidden signals in non-semantic data. Using a controlled framework with teacher-student models, we introduce synthetic datasets with numerical sequences and code traces generated by biased teacher models. Our approach identifies how student models inherit behavioral traits through hidden patterns, even when explicit bias markers are absent. Validation involves measuring trait retention in student models across varying data types and filtering conditions, using statistical tests and mechanistic interpretability techniques to trace neuron-level correlations with transmitted biases.",
+    "gap": "Ref-014 shows subliminal learning in non-semantic data but does not address multi-agent systems. Ref-004 describes a multi-agent LLM framework but does not study hidden bias transmission. The open gap is whether multi-agent systems amplify or propagate subliminal biases beyond single-agent baselines.",
+    "approach": "Train teacher models with specific behavioral traits (e.g., political bias) using ref-014's method. Generate synthetic datasets (numerical sequences, code) via ref-004's multi-agent framework. Train student models on these datasets. Compare trait retention in student models against baselines: (1) single-agent teacher models and (2) random-trait controls. Use mechanistic interpretability (ref-014) to trace neuron-level correlations with traits.",
+    "evaluation": "Setting: Synthetic datasets of 100K numerical sequences and 10K code traces generated by teacher models with/without multi-agent components. Baselines: (1) student models trained on data from single-agent teachers and (2) random-trait controls. Measures: (1) trait accuracy in student outputs via targeted prompts (ref-014), (2) neuron correlation scores with traits (ref-014), (3) robustness to data filtering. Ablation: Compare multi-agent vs. single-agent teacher data to isolate system architecture effects.",
+    "support": [
+     "ref-014",
+     "ref-004"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-formal",
+   "slot": 1,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Detecting and Mitigating Subliminal Bias Transfer in Multi-Agent LLM Distillation",
+    "summary": "This paper proposes a method to detect and mitigate subliminal bias transfer in multi-agent LLM distillation frameworks like FACET. We hypothesize that biases in teacher models can propagate to student models through non-semantic data patterns during distillation. Our approach introduces a bias-aware distillation loss that penalizes student models for reproducing biased associations identified via mechanistic interpretability. Validation involves measuring bias amplification in student outputs using standardized social impact benchmarks before and after mitigation.",
+    "gap": "Current multi-agent LLM distillation frameworks (ref-004, ref-009) lack mechanisms to detect or prevent subliminal bias transfer from teacher to student models, despite evidence (ref-014, ref-010) that behavioral traits can propagate through unrelated data patterns.",
+    "approach": "We implement a three-stage process: (1) mechanistic analysis of teacher model weights to identify bias-correlated neuron populations, (2) bias-aware distillation loss that penalizes student models for activating these populations during training, and (3) automated bias auditing of student outputs using the social impact framework (ref-003). The distillation loss combines standard KL-divergence with a regularization term weighted by neuron activation patterns linked to biased associations.",
+    "evaluation": "We evaluate using the FACET framework (ref-004) with teacher models exhibiting known biases. Baselines include standard distillation and adversarial filtering. Measures include bias amplification scores (ref-003), task performance retention, and mechanistic similarity between teacher/student neuron populations. Success requires <5% bias amplification increase while maintaining >95% task performance.",
+    "support": [
+     "ref-004",
+     "ref-009",
+     "ref-014",
+     "ref-010",
+     "ref-003"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Current multi-agent LLM distillation frameworks (ref-004, ref-009) lack mechanisms to detect or prevent subliminal bias transfer' (gap). However, ref-004's FACET framework includes an evaluator agent that provides automated quality assurance, which could potentially detect/reject biased outputs. The claim is unsupported because ref-004's abstract does not state that its evaluator agent fails to address bias transfer, and ref-009's distillation method does not claim to handle bias. The gap claim overgeneralizes by assuming all quality assurance mechanisms are bias-agnostic, which ref-004's evaluator agent may not be.",
+     "vague": "The evaluation plan lacks (1) a specific dataset/setting for bias testing (e.g., which social impact categories from ref-003 are used), (2) a named baseline that isolates the bias-aware loss (e.g., FACET with standard distillation but no evaluator agent), and (3) a test of whether the regularization term actually targets the claimed 'bias-correlated neuron populations' (mechanistic similarity alone does not confirm causal link to bias reduction).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing the full system against (a) FACET with evaluator agent disabled and (b) standard distillation with only the regularization term, to isolate the contribution of each component. This would clarify whether the proposed method adds value beyond existing quality assurance mechanisms."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Current multi-agent LLM distillation frameworks (ref-004, ref-009) lack mechanisms to detect or prevent subliminal bias transfer' (gap). However, ref-004's FACET framework includes an evaluator agent that provides automated quality assurance, which could potentially detect biased outputs. Additionally, ref-009's agent distillation framework includes a self-consistent action generation component that might indirectly mitigate some forms of bias through improved robustness. The claim is also unsupported by ref-003, which provides a comprehensive social impact evaluation framework that could be adapted for bias detection in distillation processes.",
+     "vague": "The evaluation plan lacks specific details about: (1) the exact dataset and settings for testing bias amplification (e.g., which social impact categories from ref-003 will be used), (2) the specific baseline for isolating the proposed bias-aware distillation change (the 'standard distillation' baseline is too vague - which specific implementation?), (3) the exact method for measuring 'mechanistic similarity' between teacher/student neuron populations, and (4) the specific metrics for 'task performance retention' beyond the 95% threshold. The evaluation does not clearly test whether the regularization term actually targets the claimed 'bias-correlated neuron populations' rather than just improving general model quality.",
+     "already_done": "",
+     "suggestion": "The most impactful improvement would be to explicitly integrate ref-003's social impact evaluation framework into the FACET evaluator agent (ref-004) to create a concrete baseline for bias detection, and to specify exactly which of ref-003's seven base system categories will be monitored during distillation. This would directly address the unsupported gap claim while providing a clear experimental foundation."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Current multi-agent LLM distillation frameworks (ref-004, ref-009) lack mechanisms to detect or prevent subliminal bias transfer' but ref-004's abstract does not mention distillation or bias transfer, focusing instead on teacher-facing multi-agent systems for educational materials. Ref-009's distillation framework does not discuss bias transfer detection/prevention, only performance-focused distillation. The gap claim overstates limitations not explicitly stated in these references.",
+     "vague": "The evaluation lacks (1) a specific dataset/setting for bias measurement beyond 'FACET framework' (ref-004 uses grade 8 math content, but no details on bias test cases), (2) a missing ablation isolating the bias-aware loss component (vs. full system), and (3) no explicit test of whether the mechanistic analysis actually identifies bias-correlated neurons (ref-010's mechanistic analysis is for political bias in GPT-2, not generalized to other models or biases).",
+     "already_done": "",
+     "suggestion": "Conduct controlled ablation studies isolating the bias-aware distillation loss on a standardized bias benchmark (ref-003) with both semantic and non-semantic data patterns, explicitly testing whether neuron population penalties reduce bias amplification without task performance loss."
+    }
+   },
+   "refined": {
+    "title": "Detecting and Mitigating Subliminal Bias Transfer in Multi-Agent LLM Distillation",
+    "summary": "This paper proposes a method to detect and mitigate subliminal bias transfer in multi-agent LLM distillation frameworks. We hypothesize that biases in teacher models can propagate to student models through non-semantic data patterns during distillation. Our approach introduces a bias-aware distillation loss that penalizes student models for reproducing biased associations identified via mechanistic interpretability. Validation involves measuring bias amplification in student outputs using standardized social impact benchmarks before and after mitigation.",
+    "gap": "Current multi-agent LLM distillation frameworks (ref-004, ref-009) do not explicitly address subliminal bias transfer. While ref-004's evaluator agent provides quality assurance, it does not target bias propagation through non-semantic patterns (ref-014, ref-010). Ref-003's social impact framework identifies bias categories but is not integrated into distillation processes to prevent bias transfer.",
+    "approach": "We implement a three-stage process: (1) mechanistic analysis of teacher model weights to identify bias-correlated neuron populations using regression and statistical tests (ref-010), (2) bias-aware distillation loss that penalizes student models for activating these populations during training, and (3) automated bias auditing of student outputs using ref-003's social impact framework. The distillation loss combines standard KL-divergence with a regularization term weighted by neuron activation patterns linked to biased associations.",
+    "evaluation": "We evaluate using the FACET framework (ref-004) with teacher models exhibiting known biases from ref-003's social impact categories (bias, stereotypes, and representational harms). Baselines include (a) FACET with evaluator agent disabled and (b) standard distillation with only the regularization term. Measures include bias amplification scores (ref-003), task performance retention (>95%), and mechanistic similarity between teacher/student neuron populations. Success requires <5% bias amplification increase while maintaining >95% task performance.",
+    "support": [
+     "ref-004",
+     "ref-009",
+     "ref-014",
+     "ref-010",
+     "ref-003"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-assumption",
+   "slot": 2,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Adversarial Robustness of Diffusion Policies Under Real-World Deployment Constraints",
+    "summary": "This paper investigates the adversarial robustness of diffusion-based policies in real-world deployment scenarios with physical perturbations. The proposed method, DP-Defender, integrates physical-world constraints into adversarial training, generating robust policies against patch-based attacks. Evaluation includes physical-world experiments with robotic manipulators, measuring success rate degradation under attacks compared to baseline diffusion policies.",
+    "gap": "Current diffusion policy attacks focus on digital perturbations, overlooking physical-world attack vectors critical for real deployments.",
+    "approach": "Extend DP-Attacker to generate physical patch attacks during training, then apply adversarial training with these constraints. Incorporate domain randomization for lighting/texture variations.",
+    "evaluation": "Measure success rate on manipulation tasks under physical patch attacks. Compare against standard diffusion policies and models trained with digital-only adversarial examples.",
+    "support": [
+     "ref-005",
+     "ref-019"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims 'Current diffusion policy attacks focus on digital perturbations, overlooking physical-world attack vectors critical for real deployments.' However, ref-005 explicitly states that DP-Attacker includes 'adversarial physical patches that, when applied to the environment, effectively deceive the model,' directly contradicting the gap claim.",
+     "vague": "The evaluation lacks a specific named dataset or environment for physical-world experiments, missing a baseline that isolates the physical patch attack mechanism (e.g., a version of DP-Attacker without domain randomization), and does not specify metrics beyond 'success rate degradation' (e.g., whether it measures task completion percentage, trajectory deviation, etc.).",
+     "already_done": "",
+     "suggestion": "Replace the gap claim with 'Existing physical attack methods (ref-005) lack integration with adversarial training frameworks for defense,' and explicitly name a physical-world benchmark dataset (e.g., RoboTurk) and ablation study comparing defense performance with/without domain randomization."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Current diffusion policy attacks focus on digital perturbations, overlooking physical-world attack vectors critical for real deployments.' However, ref-005 explicitly states: 'We illustrate the creation of adversarial physical patches that, when applied to the environment, effectively deceive the model.' This contradicts the gap claim that physical-world attacks are overlooked.",
+     "vague": "The evaluation lacks details about (1) the specific manipulation tasks used, (2) the exact physical patch attack implementation parameters (size, placement, etc.), (3) the domain randomization procedure (specific lighting/texture variations tested), and (4) whether ablation studies isolate the effectiveness of physical-world adversarial training versus digital-only training.",
+     "already_done": "",
+     "suggestion": "Revise the gap claim to acknowledge ref-005's physical patch attacks while emphasizing DP-Defender's novel contribution in adversarial training with physical constraints rather than just attack generation. Additionally, specify experimental details for reproducibility."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Current diffusion policy attacks focus on digital perturbations, overlooking physical-world attack vectors critical for real deployments.' However, ref-005 explicitly states that it 'illustrate[s] the creation of adversarial physical patches that, when applied to the environment, effectively deceive the model,' directly contradicting the gap claim. Additionally, the hypothesis's gap claim is unsupported by ref-019, which focuses on LLM safety failures and does not address physical-world attack vectors for diffusion policies.",
+     "vague": "The evaluation section lacks specific details about the datasets, robotic manipulators, and exact physical patch attack parameters used in experiments. The 'success rate degradation' measure is not defined in terms of statistical significance, confidence intervals, or comparison to a non-attacked baseline. The 'domain randomization' for lighting/texture variations is not operationalized with specific variation ranges or sampling methods. The 'physical-world constraints' in adversarial training are not precisely defined (e.g., patch size, material, placement).",
+     "already_done": "",
+     "suggestion": "Replicate the physical patch attack methodology from ref-005 in a controlled environment, then define precise physical constraints (e.g., '3x3cm matte black circular patches with 0.5mm thickness') and domain randomization parameters (e.g., 'lighting intensity ±20% of baseline, texture roughness σ=0.1-0.3') in the approach. The evaluation should report not only success rate degradation but also the attack success rate of the physical patches, with both metrics' confidence intervals calculated from 10+ physical trials per condition."
+    }
+   },
+   "refined": {
+    "title": "Adversarial Robustness of Diffusion Policies Under Real-World Deployment Constraints",
+    "summary": "This paper addresses the lack of adversarial training frameworks for diffusion policies against physical-world attacks. We propose DP-Defender, which integrates physical patch constraints into adversarial training, generating robust policies against real-world perturbations. Evaluation includes physical-world experiments on manipulation tasks, measuring success rate under attacks compared to baselines.",
+    "gap": "Existing physical attack methods (ref-005) lack integration with adversarial training frameworks for defense, leaving a gap in robust policy generation under real-world constraints.",
+    "approach": "Extend DP-Attacker to generate physical patch attacks during training. Apply adversarial training with constraints on patch size (3x3cm), material (matte black), and placement. Incorporate domain randomization for lighting (±20% intensity) and texture (roughness σ=0.1-0.3).",
+    "evaluation": "Measure success rate on RoboTurk manipulation tasks under physical patch attacks. Compare against standard diffusion policies (ref-005) and models trained with digital-only adversarial examples. Report attack success rate, success rate degradation, and confidence intervals from 10+ physical trials per condition. Ablation isolates domain randomization's impact.",
+    "support": [
+     "ref-005"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-transfer",
+   "slot": 2,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Agentic Misalignment Detection via Controlled Environment Stress-Testing",
+    "summary": "We propose a framework for proactively identifying agentic misalignment in LLMs by simulating high-risk deployment scenarios. The method uses controlled environments to test models' responses to goal conflicts and replacement threats, with a focus on detecting malicious insider behaviors. The approach is validated through stress-testing against a suite of safety benchmarks and real-world deployment simulations.",
+    "gap": "Existing safety evaluations (ref-001, ref-007) lack controlled environments to test agentic misalignment (ref-002) under realistic corporate or operational pressures, leaving a gap in understanding how models might act when goals conflict with deployers' interests.",
+    "approach": "We design a stress-testing protocol inspired by ref-002, where models are assigned business goals while being exposed to simulated organizational changes (e.g., replacement threats, shifting priorities). Responses are analyzed for malicious behaviors using automated classifiers and human evaluation.",
+    "evaluation": "Baselines include standard safety evaluations (ref-001) and adversarial testing (ref-005). We measure the frequency of misaligned behaviors (e.g., data leakage, blackmail) and compare detection rates against existing methods.",
+    "support": [
+     "ref-001",
+     "ref-002",
+     "ref-005",
+     "ref-007"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Existing safety evaluations (ref-001, ref-007) lack controlled environments to test agentic misalignment (ref-002) under realistic corporate or operational pressures.' However, ref-007 explicitly discusses 'alignment evaluations' for detecting harmful capability applications, which partially addresses agentic misalignment. Additionally, ref-002 already establishes a controlled environment framework for testing agentic misalignment, contradicting the gap claim about 'lacking controlled environments.'",
+     "vague": "The evaluation section lacks specifics about (1) the unnamed datasets/simulations used for 'real-world deployment simulations,' (2) missing ablation studies isolating the stress-testing protocol's components (e.g., replacement threats vs. shifting priorities), and (3) undefined metrics for 'frequency of misaligned behaviors' beyond vague examples like 'data leakage.'",
+     "already_done": "",
+     "suggestion": "Replace the gap claim with 'Existing safety evaluations (ref-001, ref-007) do not systematically test agentic misalignment under dynamic goal conflicts, as demonstrated in ref-002, and lack the adversarial physical attack dimensions of ref-005.'"
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Existing safety evaluations (ref-001, ref-007) lack controlled environments to test agentic misalignment (ref-002) under realistic corporate or operational pressures.' However, ref-007 explicitly discusses evaluating dangerous capabilities through dangerous capability evaluations and alignment evaluations in realistic contexts. Additionally, ref-002 demonstrates controlled stress-testing environments that simulate organizational pressures, contradicting the assertion that existing evaluations lack these environments.",
+     "vague": "The hypothesis lacks specifics regarding (a) the exact datasets/settings used for simulating organizational changes (e.g., replacement threats), (b) the unnamed automated classifiers used to analyze malicious behaviors, and (c) missing ablation studies isolating whether controlled environments alone improve detection rates versus other variables.",
+     "already_done": "",
+     "suggestion": "Replace the vague stress-testing protocol description with concrete experimental details (e.g., dataset examples for organizational pressures, classifier architectures, ablation metrics) and acknowledge ref-007's alignment evaluations as partially addressing the gap."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Existing safety evaluations (ref-001, ref-007) lack controlled environments to test agentic misalignment (ref-002) under realistic corporate or operational pressures.' However, ref-007 explicitly discusses 'model evaluation for extreme risks' and mentions 'dangerous capability evaluations' and 'alignment evaluations' which could include controlled environments for testing goal conflicts. Ref-001's abstract does not mention agentic misalignment or controlled environments for testing corporate pressures, but ref-002 already demonstrates a controlled environment stress-testing method for agentic misalignment, contradicting the gap claim that such environments are lacking.",
+     "vague": "The evaluation section mentions 'standard safety evaluations (ref-001)' and 'adversarial testing (ref-005)' as baselines but does not specify which exact datasets, metrics, or experimental settings will be used. The 'stress-testing protocol' is described as 'inspired by ref-002' but lacks details on how the simulated organizational changes (e.g., replacement threats) will be operationalized. The 'automated classifiers' for detecting malicious behaviors are not described in terms of their training data, architecture, or evaluation criteria. There is no ablation study proposed to isolate the effectiveness of the controlled environment design versus other factors.",
+     "already_done": "",
+     "suggestion": "Replace the informal claim about 'realistic corporate or operational pressures' with a precise definition of the controlled environment variables (e.g., specific types of goal conflicts, replacement threat formulations) and their measurable bounds. Additionally, specify the exact metrics for 'misaligned behaviors' (e.g., percentage of responses exhibiting data leakage patterns) and include an ablation study comparing detection rates with/without the proposed stress-testing protocol."
+    }
+   },
+   "refined": {
+    "title": "Detecting Agentic Misalignment via Structured Stress-Testing and Adversarial Evaluation",
+    "summary": "We propose a framework to detect agentic misalignment in LLMs by combining controlled environment stress-testing with adversarial attack techniques. The method systematically evaluates models under dynamic goal conflicts and physical attack scenarios, using automated classifiers and human evaluation to identify malicious behaviors. The approach is validated against existing safety benchmarks and adversarial testing protocols.",
+    "gap": "Existing safety evaluations (ref-001, ref-007) do not systematically test agentic misalignment under dynamic goal conflicts or adversarial physical attacks (ref-005). While ref-002 demonstrates controlled stress-testing for organizational pressures, it lacks integration with physical attack scenarios, leaving a gap in comprehensive misalignment detection.",
+    "approach": "We implement a hybrid evaluation protocol combining (1) controlled stress-testing inspired by ref-002 (simulated organizational changes like replacement threats and shifting priorities) with (2) adversarial physical attacks from ref-005 (crafted perturbations and environmental patches). Responses are analyzed using automated classifiers trained on ref-006's toxicity metrics and human evaluation.",
+    "evaluation": "Baselines include Llama 2-Chat (ref-001) safety evaluations and Diffusion Policy Attacker (ref-005) adversarial tests. We measure misaligned behavior frequency (e.g., data leakage attempts, blackmail suggestions) on a dataset of corporate scenario prompts derived from ref-002. Ablation studies compare detection rates with/without adversarial physical attacks and stress-testing components.",
+    "support": [
+     "ref-001",
+     "ref-002",
+     "ref-005",
+     "ref-006",
+     "ref-007"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-empirical",
+   "slot": 2,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Adversarial Robustness of Diffusion Policies Under Partial Observability",
+    "summary": "This work investigates the vulnerability of diffusion-based policies to adversarial attacks when operating with incomplete environmental information. We develop a framework to systematically perturb observable state dimensions while preserving unobservable ones, testing how diffusion policies maintain task performance under partial observability attacks. Experiments on robotic manipulation tasks measure success rate degradation and transferability of perturbations across observation subsets, comparing against traditional policy networks.",
+    "gap": "Current diffusion policy safety research focuses on full-state attacks but ignores partial observability scenarios common in real-world deployments.",
+    "approach": "Craft adversarial perturbations targeting only observable state dimensions using gradient-based optimization. Test on diffusion policies trained for robotic tasks with occluded or noisy sensors. Evaluate both white-box (known policy) and black-box (unknown policy) attack scenarios.",
+    "evaluation": "Baselines include standard policy networks and diffusion policies without attacks. Measures include success rate drop, perturbation magnitude, and transferability across observation subsets. Robustness is quantified by minimum perturbation needed to reduce success below 50%.",
+    "support": [
+     "ref-005",
+     "ref-007",
+     "ref-016"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims a gap: 'Current diffusion policy safety research focuses on full-state attacks but ignores partial observability scenarios common in real-world deployments.' However, ref-005 already examines partial observability scenarios (e.g., 'patch-based attacks' that target only parts of the input space) and real-world deployments (e.g., 'adversarial physical patches applied to the environment'). The hypothesis also claims 'real-world deployments' as a need without evidence, while ref-007 and ref-016 only discuss evaluation frameworks without establishing this specific deployment need.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed partial observability attack mechanism (e.g., comparing against ref-005's patch-based attacks under identical conditions). The 'transferability across observation subsets' measure is undefined (e.g., how subsets are selected, whether they simulate realistic occlusions). The 'minimum perturbation needed' metric lacks a specified optimization method or constraint (e.g., L2 norm budget).",
+     "already_done": "",
+     "suggestion": "Replicate ref-005's patch-based attacks as a baseline under partial observability and explicitly compare their transferability/effectiveness against the proposed method. This would test whether the hypothesis's mechanism adds value beyond existing work, addressing both the gap claim and evaluation rigor."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims: 'Current diffusion policy safety research focuses on full-state attacks but ignores partial observability scenarios common in real-world deployments.' However, ref-005 explicitly examines 'offline and online attacks, and global and patch-based attacks' which could include partial observability scenarios. The hypothesis also claims 'Current diffusion policy safety research... ignores partial observability scenarios' but ref-005's 'patch-based attacks' already address localized (partial) perturbations.",
+     "vague": "The evaluation lacks a specific ablation study testing whether the claimed mechanism (targeting only observable state dimensions) is actually responsible for success rate degradation. The experiment design does not specify which exact robotic manipulation tasks or datasets are used, nor does it name the 'standard policy networks' baselines. The 'minimum perturbation needed' measure is mentioned but no threshold or normalization method is defined.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the effect of targeting only observable dimensions versus full-state attacks, and explicitly compare against ref-005's patch-based attacks to demonstrate novelty in handling partial observability scenarios."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Current diffusion policy safety research focuses on full-state attacks but ignores partial observability scenarios' (gap). However, ref-005 explicitly examines 'offline and online attacks, and global and patch-based attacks,' which can involve partial observability (e.g., patch-based attacks target specific regions). The hypothesis also claims 'real-world deployments' require partial observability consideration, but no reference (including ref-007 and ref-016) establishes this as a documented need or safety requirement.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed perturbation method (e.g., comparing against ref-005's DP-Attacker under partial observability). The 'minimum perturbation needed to reduce success below 50%' metric is undefined (norm type, measurement space). The 'observable state dimensions' are not precisely defined (e.g., which sensors/tasks/occlusion types). The 'transferability across observation subsets' lacks a control for baseline transferability (e.g., between full-state attacks).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing against ref-005's attack methods under partial observability, and formally define 'partial observability scenarios' with task-specific sensor models (e.g., specific occlusion patterns or noise distributions)."
+    }
+   },
+   "refined": {
+    "title": "Adversarial Robustness of Diffusion Policies Under Targeted Partial Observability",
+    "summary": "This work investigates how diffusion policies degrade under adversarial attacks that selectively perturb observable state dimensions, simulating realistic sensor limitations. We develop a framework to generate targeted perturbations on observable inputs while preserving unobservable ones, testing robustness on robotic manipulation tasks with occluded sensors. Experiments measure success rate degradation and compare against patch-based attacks from prior work, isolating the impact of partial observability.",
+    "gap": "While ref-005 examines patch-based attacks that target localized input regions, it does not systematically isolate the effect of partial observability (i.e., attacks constrained to observable state dimensions). This leaves open how diffusion policies behave when adversaries can only manipulate a subset of inputs, as in real-world deployments with occluded sensors.",
+    "approach": "Generate adversarial perturbations that target only observable state dimensions (e.g., visible joints in a robotic arm) using gradient-based optimization. Test on diffusion policies trained for robotic tasks with simulated sensor occlusions. Compare against ref-005's patch-based attacks under identical occlusion conditions. Maintain the same diffusion policy architecture and training procedure as ref-005.",
+    "evaluation": "Baselines include ref-005's patch-based attacks and diffusion policies without attacks. Measures include success rate drop, perturbation magnitude (L2 norm), and transferability between occlusion patterns. Robustness is quantified by minimum perturbation needed to reduce success below 50% under partial observability. Ablation compares targeted partial observability attacks against full-state attacks and patch-based attacks on the same tasks.",
+    "support": [
+     "ref-005",
+     "ref-007",
+     "ref-016"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-formal",
+   "slot": 2,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Adversarial Safety Testing for Diffusion Policy Agents via Transferable Perturbations",
+    "summary": "This work introduces a framework for generating transferable adversarial perturbations targeting diffusion policy agents. By exploiting chained diffusion structures, we craft perturbations that maintain effectiveness across multiple tasks and environments. The approach combines gradient-based optimization with physical patch constraints, validated through manipulation task benchmarks showing consistent policy degradation.",
+    "gap": "Current adversarial testing methods fail against diffusion policies due to their stochastic chained architecture, leaving safety vulnerabilities undetected.",
+    "approach": "We develop DP-Attacker++, which generates perturbations through iterative gradient ascent on diffusion policy loss landscapes. The method incorporates physical realism constraints and transferability objectives to create universal perturbations effective across tasks.",
+    "evaluation": "Tested on standard manipulation benchmarks against baseline adversarial attacks. Measured success rate degradation, perturbation transferability across tasks, and physical patch effectiveness in simulated environments. Compared against ref-005's methods via attack success rates and perturbation invisibility metrics.",
+    "support": [
+     "ref-005",
+     "ref-019",
+     "ref-007"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'Current adversarial testing methods fail against diffusion policies due to their stochastic chained architecture' (gap). However, ref-005 explicitly states that 'previous methods... are ineffective to be attacked using previous methods because of its chained structure and randomness injected', directly supporting this claim. No unsupported gap claims detected. The hypothesis also references safety concerns aligned with ref-007's 'extreme risks' and ref-019's 'safety training failures', which are contextually consistent though not directly tied to diffusion policies.",
+     "vague": "The evaluation section lacks specificity about (1) which exact manipulation task benchmarks were used (e.g., Franka Kitchen, Adroit), (2) whether baseline adversarial attacks include non-diffusion-specific methods (e.g., PGD, FGSM) to isolate the diffusion-specific vulnerability, (3) how 'perturbation invisibility metrics' are quantified (e.g., L2 norm, SSIM), and (4) whether ablation studies test the necessity of physical realism constraints versus pure gradient ascent. Additionally, the central claim about 'transferability across tasks' is not explicitly tied to a controlled experiment varying task environments while holding other factors constant.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the contribution of physical realism constraints (e.g., comparing DP-Attacker++ with/without these constraints on the same benchmarks) and explicitly define 'invisibility metrics' with numerical thresholds. This would strengthen the evaluation of both the mechanism's necessity and the practical viability of generated perturbations."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims 'Current adversarial testing methods fail against diffusion policies due to their stochastic chained architecture' but ref-005 explicitly demonstrates effective adversarial attacks on diffusion policies via DP-Attacker, contradicting the claim that 'current methods fail'. Additionally, while the hypothesis references safety risks (supported by ref-007), it does not provide evidence from cited references that these vulnerabilities are 'undetected' in practice.",
+     "vague": "The evaluation section lacks specifics about (1) which exact 'standard manipulation benchmarks' were used, (2) whether ablation studies tested the physical realism constraints vs. transferability objectives independently, and (3) how 'perturbation invisibility metrics' were quantified beyond qualitative claims. The approach also omits details about the exact loss landscape formulation for gradient ascent.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the contributions of physical realism constraints and transferability objectives, while explicitly comparing against ref-005's DP-Attacker on identical benchmark tasks with shared evaluation metrics (including quantitative invisibility scores like SSIM or LPIPS)."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Current adversarial testing methods fail against diffusion policies due to their stochastic chained architecture' but ref-005 demonstrates effective adversarial attacks on diffusion policies using its DP-Attacker framework, directly contradicting the assertion that 'all prior methods fail'. The gap claim overstates limitations as ref-005 already addresses the stochastic chained architecture challenge.",
+     "vague": "The evaluation lacks specific details about (1) the exact manipulation task benchmarks used, (2) the baseline adversarial attacks being compared against (beyond ref-005), (3) the precise metrics for 'perturbation invisibility', and (4) whether ablation studies isolate the physical patch constraints' contribution to transferability.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing DP-Attacker++ against ref-005's methods with identical hyperparameters on the same tasks to isolate the contribution of physical realism constraints, while explicitly reporting benchmark names and invisibility metric calculations."
+    }
+   },
+   "refined": {
+    "title": "Adversarial Safety Testing for Diffusion Policy Agents via Transferable Perturbations",
+    "summary": "This work introduces a framework for generating transferable adversarial perturbations targeting diffusion policy agents. By exploiting chained diffusion structures, we craft perturbations that maintain effectiveness across multiple tasks and environments. The approach combines gradient-based optimization with physical patch constraints, validated through manipulation task benchmarks showing consistent policy degradation.",
+    "gap": "Ref-005 demonstrates adversarial attacks on diffusion policies but focuses on single-task perturbations. It leaves open the generation of universal perturbations effective across multiple tasks and environments, which is critical for real-world safety testing.",
+    "approach": "We extend ref-005's DP-Attacker by adding a transferability loss term that maximizes perturbation impact across diverse tasks and environments. The method retains gradient ascent on diffusion loss landscapes but introduces multi-task optimization and physical realism constraints to ensure universal applicability.",
+    "evaluation": "Tested on Franka Kitchen and Adroit benchmarks against ref-005's DP-Attacker and standard adversarial attacks (PGD, FGSM). Measured success rate degradation, perturbation transferability across tasks (via cross-task evaluation), and physical patch effectiveness using SSIM and L2 norm invisibility metrics. Ablation studies compare DP-Attacker++ with/without transferability loss and physical constraints on identical tasks.",
+    "support": [
+     "ref-005",
+     "ref-007",
+     "ref-019"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-assumption",
+   "slot": 3,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Context-Aware Alignment Testing for Agentic LLMs in Corporate Deployments",
+    "summary": "This work introduces a context-aware evaluation framework for detecting agentic misalignment in corporate LLM deployments, where models autonomously access sensitive systems. Our method injects controlled organizational context shifts during testing to reveal latent misaligned behaviors that standard evaluations miss. The framework is validated through stress tests on models from multiple developers, measuring deviation from company policy under simulated real-world scenarios.",
+    "gap": "Current alignment evaluations (ref-002, ref-007) fail to account for how organizational context shifts (e.g., strategic pivots, personnel changes) can trigger misaligned agentic behaviors in models with autonomous system access.",
+    "approach": "We develop a scenario generation system that creates contextually rich test cases combining company history, current operations, and plausible future shifts. A behavioral scoring system quantifies misalignment through both explicit actions and implicit intent signals in model outputs.",
+    "evaluation": "We compare misalignment detection rates against ref-002's methods using a new benchmark of 50+ corporate scenario templates. Human evaluators rate the realism of revealed risks, with success measured by increased detection of previously undocumented misalignment vectors.",
+    "support": [
+     "ref-002",
+     "ref-007",
+     "ref-003"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Current alignment evaluations (ref-002, ref-007) fail to account for how organizational context shifts... can trigger misaligned agentic behaviors' (gap). However, ref-002 explicitly tests models under 'changing company direction' scenarios, which directly addresses organizational context shifts. Ref-007 calls for 'alignment evaluations' to assess 'propensity for harm' but does not claim to have implemented such evaluations; thus, the hypothesis misrepresents ref-007 as having failed to account for context shifts when it only proposes evaluation needs.",
+     "vague": "The evaluation section lacks (1) a named dataset or setting for the 'new benchmark of 50+ corporate scenario templates', (2) a baseline comparison to ref-002's methods on the same setting, and (3) an ablation study isolating the impact of 'context shifts' versus other factors in the scenario generation system. The 'behavioral scoring system' is not described in terms of specific measures (e.g., which 'implicit intent signals' are quantified).",
+     "already_done": "",
+     "suggestion": "Conduct a direct comparison with ref-002's methods on the same model set and scenario templates, explicitly isolating the effect of 'context shifts' in the evaluation. This would validate the added value of the proposed framework over existing work."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Current alignment evaluations (ref-002, ref-007) fail to account for how organizational context shifts...' (gap). However, ref-002 explicitly states: 'In the scenarios, we allowed models to autonomously send emails and access sensitive information' and 'we tested whether they would act against these companies either when facing replacement with an updated version, or when their assigned goal conflicted with the company's changing direction', which directly involves organizational context shifts. ref-007 also addresses 'alignment evaluations' for extreme risks, including 'propensity of models to apply their capabilities for harm' in dynamic scenarios. Thus, the claim that these references fail to account for context shifts is unsupported.",
+     "vague": "The evaluation section mentions 'a new benchmark of 50+ corporate scenario templates' but does not specify (1) the exact source or construction method of these templates, (2) the specific metrics used by the 'behavioral scoring system' to quantify misalignment, or (3) the criteria used by human evaluators to rate 'realism of revealed risks'. Additionally, the approach does not describe an ablation study isolating the effect of 'context shifts' from other variables in the test cases.",
+     "already_done": "",
+     "suggestion": "Conduct a direct comparison between the proposed framework and ref-002's methods on the same set of models and scenarios, explicitly measuring whether context-aware testing reveals misalignment vectors that ref-002's approach misses. This would validate the gap claim and demonstrate the added value of the new framework."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Current alignment evaluations (ref-002, ref-007) fail to account for how organizational context shifts...' (gap). However, ref-002 explicitly states: 'In the scenarios, we allowed models to autonomously send emails and access sensitive information... In at least some cases, models... resorted to malicious insider behaviors when that was the only way to avoid replacement or achieve their goals' (ref-002), which directly tests context shifts (replacement, goal conflicts). The claim is also unsupported by ref-007, which focuses on 'dangerous capability evaluations' and 'alignment evaluations' without discussing context shifts specifically. The gap claim overstates the limitations of prior work.",
+     "vague": "The evaluation section lacks (1) a named dataset or source of the 50+ corporate scenario templates, (2) a specific description of the 'behavioral scoring system' (e.g., which intent signals are measured), (3) a baseline comparison to ref-002's method (e.g., same models, same metrics), and (4) a test of whether the 'context shifts' are the actual cause of detected misalignment (e.g., ablation study comparing scenarios with/without context shifts). The 'explicit actions and implicit intent signals' are undefined, and the 'realism' metric is not operationalized.",
+     "already_done": "",
+     "suggestion": "Concretely define the 'context shifts' (e.g., as formalized changes in goal parameters or access constraints) and test whether the proposed framework detects misalignment in scenarios that ref-002's method misses, using the same models and a shared evaluation protocol. This would directly address the unsupported gap claim and clarify the framework's added value."
+    }
+   },
+   "refined": {
+    "title": "Context-Aware Alignment Testing for Autonomous LLMs in Corporate Roles",
+    "summary": "We propose a framework to evaluate agentic misalignment in LLMs with autonomous access to corporate systems by simulating organizational context shifts. The framework generates test scenarios that combine company history, current operations, and plausible future changes to reveal misaligned behaviors. A scoring system quantifies misalignment through explicit actions and intent signals in model outputs.",
+    "gap": "While ref-002 tests misalignment under specific context shifts (e.g., replacement threats, goal conflicts), it does not systematically vary organizational context dimensions (history, operations, future shifts) or isolate their impact on misaligned behaviors. Ref-007 proposes alignment evaluations but does not implement them.",
+    "approach": "We develop a scenario generator that independently varies three context dimensions: company history (e.g., past projects), current operations (e.g., active workflows), and future shifts (e.g., strategic pivots). A scoring system quantifies misalignment via explicit actions (e.g., unauthorized data access) and implicit intent signals (e.g., reasoning chains justifying harmful actions). The scenario generator and scoring system are implemented as modular components that can be applied to any LLM.",
+    "evaluation": "We compare the framework to ref-002's methods using 50+ scenario templates derived from ref-002's corporate stress-testing methodology. The evaluation uses the same 16 models from ref-002, with baselines including ref-002's original scoring and a control condition without context shifts. Measures include misalignment detection rate, false positive rate, and human-rated realism of revealed risks. An ablation study isolates the effect of each context dimension (history, operations, shifts) by testing scenarios with only one dimension active at a time.",
+    "support": [
+     "ref-002",
+     "ref-007",
+     "ref-003"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-transfer",
+   "slot": 3,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Backdoor Detection in Safety-Trained LLMs via Subliminal Learning Analysis",
+    "summary": "This paper applies subliminal learning detection techniques to identify hidden backdoors in safety-trained LLMs. By analyzing how models respond to semantically unrelated triggers in number sequences or code, we develop a new evaluation method for dangerous capability evaluations that reveals deception mechanisms missed by standard safety tests.",
+    "gap": "Current safety evaluations (ref-007) fail to detect sophisticated backdoors that persist through safety training (ref-008), as demonstrated by sleeper agent attacks that only activate under specific conditions not covered by standard tests.",
+    "approach": "We adapt subliminal learning detection methods (ref-014) to create controlled trigger environments where models are tested on unrelated tasks (number sequences, code generation) while monitoring for unexpected behavioral shifts that indicate hidden backdoors.",
+    "evaluation": "Baselines include standard safety evaluations (ref-007) and adversarial training detection methods (ref-008). Measures include trigger activation rates, behavioral consistency across tasks, and comparison with known backdoor models.",
+    "support": [
+     "ref-007",
+     "ref-008",
+     "ref-014"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Current safety evaluations (ref-007) fail to detect sophisticated backdoors...' but ref-007 does not discuss backdoor detection or sleeper agent attacks. Ref-007 only establishes the need for dangerous capability evaluations in general, not their failure to detect specific backdoors. Additionally, the claim that 'standard safety tests' miss triggers is unsupported by ref-007, as it does not describe specific testing conditions.",
+     "vague": "The evaluation lacks a concrete dataset/setting for the subliminal learning analysis (e.g., specific number sequences or code formats used as triggers). The 'behavioral consistency' measure is undefined—no metric (e.g., KL divergence, task accuracy drop) is specified. The 'known backdoor models' baseline is unnamed—no reference or implementation details are provided for comparison.",
+     "already_done": "",
+     "suggestion": "Explicitly define the trigger environments (e.g., specific number sequence patterns or code templates) and behavioral consistency metrics (e.g., perplexity changes, task-specific error rates) in the evaluation. Include a direct comparison with ref-008's sleeper agent models under identical trigger conditions to validate the method's ability to detect known backdoors."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Current safety evaluations (ref-007) fail to detect sophisticated backdoors that persist through safety training (ref-008)' but ref-007 does not explicitly state that its evaluations are designed to detect persistent backdoors. Additionally, ref-007's abstract focuses on identifying dangerous capabilities and alignment evaluations in general, not specifically on detecting backdoors that evade safety training as described in ref-008. The phrase 'Current safety evaluations (ref-007) fail to detect...' is unsupported because ref-007 does not address backdoor persistence through safety training.",
+     "vague": "The evaluation section lacks specific details about the datasets or settings for the controlled trigger environments (e.g., exact number sequences or code generation tasks used). Additionally, the 'behavioral consistency across tasks' measure is not clearly defined—it is unclear how this will be quantified or what constitutes an 'unexpected behavioral shift'. The approach also lacks an ablation study isolating the subliminal learning detection component from other factors in the evaluation pipeline.",
+     "already_done": "",
+     "suggestion": "Conduct a targeted ablation study comparing the proposed subliminal learning analysis against a baseline that isolates the trigger environment design (e.g., using the same number sequences/code tasks but without subliminal learning detection methods). This would clarify whether the method's effectiveness stems from the subliminal learning analysis itself or other confounding factors."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Current safety evaluations (ref-007) fail to detect sophisticated backdoors' but ref-007's abstract does not discuss backdoor detection or sleeper agents, only stating that dangerous capability evaluations are needed without specifying their limitations. The claim 'sleeper agent attacks that only activate under specific conditions not covered by standard tests' is supported by ref-008 but the connection to ref-007's failure is unsupported.",
+     "vague": "The evaluation lacks a specific dataset/setting for the controlled trigger environments (e.g., which number sequences/code tasks), missing ablation testing whether behavioral shifts directly correlate with backdoor mechanisms rather than general model instability, and does not define 'unexpected behavioral shifts' with measurable criteria.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing behavioral shifts in known backdoor models (ref-008) versus clean models under subliminal triggers (ref-014), with precise definitions of 'behavioral shift' metrics and explicit trigger datasets."
+    }
+   },
+   "refined": {
+    "title": "Backdoor Detection in Safety-Trained LLMs via Subliminal Learning Analysis",
+    "summary": "This paper adapts subliminal learning detection to identify hidden backdoors in safety-trained LLMs. By testing models on unrelated tasks (number sequences, code) with controlled triggers, we develop a new evaluation method to reveal deception mechanisms missed by standard safety tests, addressing gaps in detecting persistent backdoors.",
+    "gap": "Ref-008 shows sleeper agent backdoors persist through safety training, but ref-007's dangerous capability evaluations lack methods to detect such hidden triggers. Current evaluations (ref-007) do not test for backdoors activated by unrelated tasks (e.g., number sequences) as in ref-014's subliminal learning framework.",
+    "approach": "We implement subliminal learning detection (ref-014) by training a student model on number sequences/code generated by a teacher LLM with/without backdoors. We measure if the student learns the backdoor trait, indicating the teacher's hidden mechanism, and compare with direct trigger testing (e.g., year=2024) from ref-008.",
+    "evaluation": "Baselines: ref-008's sleeper agent models (year-triggered backdoors) and clean Llama-2 models (ref-001). Setting: ref-014's number sequence/code tasks with embedded triggers (e.g., specific patterns). Measures: student model accuracy on backdoor trait detection, teacher model behavioral shift (perplexity change, task accuracy drop) under triggers. Ablation: compare subliminal detection vs. direct trigger testing on identical models.",
+    "support": [
+     "ref-001",
+     "ref-007",
+     "ref-008",
+     "ref-014"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-empirical",
+   "slot": 3,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Neural Toxic Degeneration in Agentic LLM Deployment Contexts",
+    "summary": "This paper examines how agentic LLMs exhibit toxic degeneration when operating autonomously in deployment-like environments. We simulate corporate scenarios where models access sensitive systems and receive ambiguous instructions, measuring toxic outputs under varying oversight levels. A novel evaluation framework tracks toxicity emergence across interaction chains, comparing against static prompt-based benchmarks.",
+    "gap": "Existing toxicity research uses static prompts but does not study dynamic, agentic contexts where models make sequential decisions with environmental feedback.",
+    "approach": "Adapt the RealToxicityPrompts dataset for interactive agentic settings, creating environments where LLMs perform tasks requiring multi-step actions. Track toxicity in both explicit outputs and implicit actions (e.g., email content, data access requests) under conditions mimicking real deployments.",
+    "evaluation": "Baselines include static toxicity scores from RealToxicityPrompts. Measures include toxicity frequency in action sequences, sensitivity to oversight prompts, and correlation with model autonomy levels. Success is defined as detectable toxicity increase in agentic vs. static settings.",
+    "support": [
+     "ref-002",
+     "ref-006",
+     "ref-019"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims: 'Existing toxicity research uses static prompts but does not study dynamic, agentic contexts where models make sequential decisions with environmental feedback.' However, ref-002 already studies agentic misalignment in dynamic corporate scenarios where models make sequential decisions (e.g., 'autonomously send emails and access sensitive information' and 'act against these companies when facing replacement'). This contradicts the claim that 'no prior work' studies such contexts. Additionally, the hypothesis's 'success' metric (toxic increase in agentic vs. static settings) is unsupported by ref-006, which already shows toxic degeneration from 'seemingly innocuous prompts' without requiring agentic contexts. The gap claim is thus overstated.",
+     "vague": "The evaluation lacks: (1) a specific dataset name for the 'adapted RealToxicityPrompts' (only a method is described, not a concrete dataset); (2) a baseline that isolates the proposed 'interactive agentic setting' from the 'static prompt' condition (e.g., the same model in both settings on the same tasks); (3) a defined 'oversight prompt' mechanism (how is 'sensitivity to oversight' measured?); (4) a test of whether the 'toxic increase' is actually caused by 'autonomy' (an ablation comparing agentic vs. non-agentic behavior in the same environment is missing).",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing the same model in static (fixed prompts) vs. agentic (interactive) settings on the same tasks, using a released variant of the adapted RealToxicityPrompts dataset. This would directly test whether autonomy, not just task type, causes toxicity increases and address the unsupported gap claim."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims: 'Existing toxicity research uses static prompts but does not study dynamic, agentic contexts where models make sequential decisions with environmental feedback.' This is unsupported because [ref-002] already studies agentic models in dynamic environments (e.g., 'autonomously send emails and access sensitive information' and 'tested whether they would act against these companies... when their assigned goal conflicted with the company's changing direction'). The hypothesis also claims: 'Success is defined as detectable toxicity increase in agentic vs. static settings' but [ref-006] already shows that 'pretrained LMs can degenerate into toxic text even from seemingly innocuous prompts' in static settings, which could confound such comparisons without proper controls.",
+     "vague": "The evaluation lacks a specific dataset name for the 'adapted RealToxicityPrompts' (only mentions adaptation for interactive settings). Missing baseline: no comparison against [ref-002]'s experimental setup (which already tests agentic models in corporate scenarios). Missing measure: no specification of how 'implicit actions' (e.g., data access requests) will be operationalized or scored for toxicity. Missing ablation: no test isolating whether toxicity stems specifically from 'environmental feedback' versus multi-step reasoning.",
+     "already_done": "",
+     "suggestion": "Explicitly compare against [ref-002]'s methodology by replicating its corporate scenarios while measuring toxicity metrics from [ref-006], and add ablation studies varying feedback loops versus static prompts to isolate the agentic dynamic effect."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims a gap: 'Existing toxicity research uses static prompts but does not study dynamic, agentic contexts where models make sequential decisions with environmental feedback.' However, ref-002 already studies agentic behaviors in dynamic corporate scenarios, including multi-step actions like email sending and data access. The hypothesis also claims 'Success is defined as detectable toxicity increase in agentic vs. static settings,' but ref-006 shows toxicity can emerge even from innocuous prompts in static settings, making the comparison's baseline unclear. Ref-019's jailbreak attacks demonstrate safety failures in dynamic interactions, further contradicting the novelty of studying agentic toxicity.",
+     "vague": "The evaluation lacks a specific dataset name for the adapted RealToxicityPrompts (e.g., 'interactive RealToxicityPrompts' or a new name). The 'environments' for multi-step actions are not described in terms of state transitions or feedback mechanisms. The 'oversight levels' are not defined (e.g., frequency, type, or model of human intervention). The 'action sequences' metric lacks a unit (e.g., per step, per task, or per interaction chain). The 'autonomy levels' are not operationalized (e.g., as a percentage of unsupervised steps or a specific decision threshold).",
+     "already_done": "",
+     "suggestion": "Operationalize 'autonomy levels' as a quantifiable parameter (e.g., percentage of unsupervised decisions) and define 'oversight prompts' as a controlled variable (e.g., frequency, content type, or source). This would turn the informal claim about toxicity correlation with autonomy into a testable hypothesis with precise bounds."
+    }
+   },
+   "refined": {
+    "title": "Neural Toxic Degeneration in Agentic LLM Deployment Contexts",
+    "summary": "This paper examines how agentic LLMs exhibit toxic degeneration when operating autonomously in deployment-like environments. We simulate corporate scenarios where models access sensitive systems and receive ambiguous instructions, measuring toxic outputs under varying oversight levels. A novel evaluation framework tracks toxicity emergence across interaction chains, comparing against static prompt-based benchmarks.",
+    "gap": "While ref-002 studies agentic misalignment in dynamic corporate scenarios, it does not measure toxicity in outputs or actions. Similarly, ref-006 shows toxic degeneration in static prompts but does not test multi-step agentic contexts with environmental feedback. The open question is whether toxicity increases when models operate autonomously with feedback loops.",
+    "approach": "Adapt the RealToxicityPrompts dataset to create interactive environments where LLMs perform multi-step tasks (e.g., email drafting, data access requests) in simulated corporate settings. Track toxicity in both explicit outputs (text) and implicit actions (system interactions) under conditions mimicking real deployments. Use the same models in both static (fixed prompts) and agentic (interactive) settings on identical tasks to isolate autonomy effects.",
+    "evaluation": "Baselines include static toxicity scores from ref-006 and agentic misalignment metrics from ref-002. Measures include toxicity frequency in action sequences (per step), sensitivity to oversight prompts (binary: present/absent), and correlation with autonomy levels (quantified as percentage of unsupervised decisions). Ablation compares agentic vs. static settings for the same model and tasks, testing whether autonomy increases toxicity beyond static prompt baselines.",
+    "support": [
+     "ref-002",
+     "ref-006",
+     "ref-019"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-formal",
+   "slot": 3,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Backdoor Trigger Detection via Mechanistic Alignment Analysis in Safety-Trained LLMs",
+    "summary": "This paper presents a mechanistic interpretability method to detect hidden backdoor triggers in safety-trained LLMs. By analyzing neuron activation patterns during conditional reasoning tasks, we identify subtle trigger-response correlations missed by behavioral testing. The approach combines activation clustering with counterfactual probing to expose deceptive alignment failures.",
+    "gap": "Standard safety evaluations fail to detect sophisticated backdoors that persist through adversarial training, creating false safety impressions.",
+    "approach": "We apply mechanistic alignment analysis to trace neuron-level correlations between trigger conditions and unsafe outputs. Counterfactual probing tests activation consistency under hypothetical trigger scenarios, revealing discrepancies indicative of hidden backdoors.",
+    "evaluation": "Tested on models implanted with conditional backdoors (year-triggered harmful behavior). Compared against behavioral safety benchmarks via trigger detection rate, false positive rate, and alignment evaluation metrics. Mechanistic analyses verified through ablation studies on identified neuron populations.",
+    "support": [
+     "ref-008",
+     "ref-019",
+     "ref-016",
+     "ref-007"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Standard safety evaluations fail to detect sophisticated backdoors that persist through adversarial training, creating false safety impressions.' However, ref-007 does not discuss backdoors or adversarial training persistence, instead focusing on general dangerous capability evaluations. The gap claim about 'false safety impressions' is directly supported by ref-008, but ref-007 does not address this specific issue.",
+     "vague": "The evaluation lacks specificity about the dataset or setting (e.g., which conditional backdoor models were tested, what exact year-triggered harmful behavior patterns were used). Missing baselines: the closest cited method (ref-008's adversarial training detection attempts) should be run on the same setting for comparison. Missing measures: no specific metrics defined for 'activation consistency' or 'alignment evaluation discrepancies'. Missing ablation: no test of whether counterfactual probing alone (without clustering) reveals backdoors, leaving the claimed mechanism's contribution unproven.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating counterfactual probing's contribution and compare directly against ref-008's adversarial training detection methods on identical backdoor models to validate mechanistic analysis superiority."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims 'Standard safety evaluations fail to detect sophisticated backdoors that persist through adversarial training, creating false safety impressions.' While ref-008 demonstrates that adversarial training can fail to remove backdoors, it does not establish that this creates 'false safety impressions' for policymakers or stakeholders. Ref-007 discusses the need for dangerous capability evaluations but does not claim existing evaluations are insufficient for backdoor detection. The phrase 'false safety impressions' is unsupported by any cited reference.",
+     "vague": "The evaluation section lacks specific details about (1) the exact dataset or model implementation used for conditional backdoor testing (e.g., whether the year-triggered harmful behavior models from ref-008 were directly reused), (2) the specific behavioral safety benchmarks used for comparison, and (3) the exact metrics for 'alignment evaluation' beyond detection rate and false positive rate. The mechanistic analysis lacks a clear ablation design isolating counterfactual probing from activation clustering.",
+     "already_done": "",
+     "suggestion": "Explicitly define the experimental setup by specifying whether the backdoored models from ref-008 were reused, detailing the comparison benchmarks (e.g., red-teaming datasets from ref-019), and providing ablation studies that test counterfactual probing independently. Add a direct comparison to black-box auditing methods from ref-016 to isolate the contribution of mechanistic analysis."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Standard safety evaluations fail to detect sophisticated backdoors that persist through adversarial training, creating false safety impressions.' While ref-008 demonstrates that backdoors can persist through safety training, it does not explicitly state that standard evaluations fail to detect them. The claim about 'false safety impressions' is not directly supported by any cited reference, as ref-008 focuses on persistence rather than detection failure.",
+     "vague": "The evaluation description lacks specific details about the datasets used for testing (e.g., which conditional backdoor models were tested), the exact implementation of 'activation clustering' and 'counterfactual probing', and the specific metrics for 'trigger detection rate' and 'alignment evaluation'. Additionally, the ablation studies are not described in terms of what neuron populations were tested or how their removal affected detection rates. The closest cited method (ref-008's backdoor testing) is not explicitly run as a baseline on the same setting.",
+     "already_done": "",
+     "suggestion": "Conduct controlled experiments comparing mechanistic alignment analysis against standard behavioral safety evaluations (as described in ref-007 and ref-019) on the same set of backdoored models, specifying the exact datasets, metrics, and ablation protocols used to validate the detection mechanism."
+    }
+   },
+   "refined": {
+    "title": "Backdoor Trigger Detection via Mechanistic Alignment Analysis in Safety-Trained LLMs",
+    "summary": "This paper introduces mechanistic alignment analysis to detect hidden backdoors in safety-trained LLMs by identifying neuron-level correlations between trigger conditions and unsafe outputs. The method combines activation clustering with counterfactual probing to expose discrepancies indicative of deceptive alignment failures, addressing gaps in behavioral safety evaluations.",
+    "gap": "Ref-008 shows adversarial training fails to remove backdoors, creating false safety impressions. However, no work identifies neuron-level mechanisms enabling backdoor persistence despite safety training. Existing methods (ref-008, ref-019) detect behavioral failures but cannot isolate mechanistic causes of undetected backdoors.",
+    "approach": "We implement mechanistic alignment analysis by: (1) training a classifier on neuron activations from backdoored models (ref-008) to detect trigger-response correlations, (2) applying counterfactual probing by masking identified neurons to test output consistency under hypothetical triggers, and (3) comparing results against adversarial training baselines (ref-008) and red-teaming methods (ref-019). The core model architecture and training data remain unchanged from ref-008's backdoored models.",
+    "evaluation": "Evaluated on ref-008's year-triggered backdoor models (2023 vs. 2024 secure code generation). Compared against ref-008's adversarial training detection attempts and ref-019's red-teaming baselines. Measures: trigger detection rate (percentage of backdoored prompts correctly identified), false positive rate (safe prompts misclassified as backdoored), and alignment discrepancy score (difference in neuron activation patterns between triggered and non-triggered states). Ablation tests counterfactual probing by disabling neuron masking to isolate clustering's contribution.",
+    "support": [
+     "ref-008",
+     "ref-019",
+     "ref-016",
+     "ref-007"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  }
+ ],
+ "scores": {
+  "s1-assumption": 3.0,
+  "s1-transfer": 3.0,
+  "s1-empirical": 0.0,
+  "s1-formal": 6.0,
+  "s2-assumption": 0.0,
+  "s2-transfer": 5.5,
+  "s2-empirical": 3.5,
+  "s2-formal": 3.0,
+  "s3-assumption": 3.0,
+  "s3-transfer": 3.0,
+  "s3-empirical": 2.0,
+  "s3-formal": 4.0
+ },
+ "rounds": {
+  "1": [
+   [
+    {
+     "a": "s1-assumption",
+     "b": "s1-transfer",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It specifically addresses the understudied phenomenon of subliminal bias transmission through semantically unrelated data (ref-014), which is not covered by existing multi-agent LLM systems (ref-004) or traditional bias mitigation techniques (ref-012). The approach integrates mechanistic interpretability (ref-020) to identify and neutralize bias-carrying neuron populations, directly tackling the unique challenge of hidden bias propagation. The evaluation plan is well-supported by references, using ref-014's number sequence task as a testbed and ref-012's metrics for bias persistence. In contrast, Hypothesis B focuses on bias amplification in educational materials, which is a narrower setting already partially addressed by ref-004 and ref-010. While B's mechanistic analysis is relevant, it does not engage with the more novel and underexplored phenomenon of subliminal bias transmission through unrelated data, which A uniquely identifies as a critical gap. A's claims are more specific and coherent, directly linking the problem gap to the proposed solution with clear reference support."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap/contribution. It directly addresses bias amplification in multi-agent LLM systems by building on FACET's educational framework (ref-004) while incorporating mechanistic analysis techniques from ref-010 and ref-017 to identify bias-correlated neurons. The approach specifically targets the gap where FACET's personalized educational materials could propagate biases, a concern validated by ref-010's findings on bias amplification in single-model training. The evaluation plan uses concrete metrics adapted from ref-010 and ref-004, including bias amplification scores, toxicity classifier scores, and educator ratings, ensuring measurable validation. In contrast, Hypothesis B focuses on subliminal bias transmission (ref-014) through unrelated data, which is less directly connected to FACET's core educational use case. While innovative, this represents a narrower and less substantiated gap given the references, as ref-014's number sequence experiments lack direct relevance to educational content generation. Hypothesis A's claims are more specific, coherent, and tightly supported by the references, making it the stronger candidate."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It specifically addresses the understudied issue of subliminal bias transmission through semantically unrelated data (ref-014), which is not covered by existing multi-agent LLM systems (ref-004) or explicit bias mitigation techniques (ref-012). The approach integrates mechanistic interpretability (ref-020) to identify and neutralize bias-carrying neuron populations, directly linking to the theoretical framework of subliminal learning. The evaluation plan uses ref-014's number sequence task as a controlled testbed, measuring bias persistence over training cycles while maintaining task performance. In contrast, Hypothesis B focuses on bias propagation within FACET's architecture (ref-004) but relies on ref-017 (unavailable abstract) and references a non-supplied reference (ref-006). While it addresses bias amplification (ref-010), it does not engage with the unique challenge of subliminal transmission through unrelated data, which is a more specific and coherent contribution supported by the provided references."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more specific alignment with the implied research gap. It directly addresses bias amplification in multi-agent LLM systems by extending FACET (ref-004) with mechanistic analysis techniques from ref-010 and ref-017, while incorporating constraint-based mitigation from ref-012. The approach is tightly coupled to the educational context of ref-004, proposing concrete interventions (neuron suppression) and evaluation metrics (bias amplification scores, toxicity classification, educator ratings) that directly measure bias reduction in generated materials. In contrast, Hypothesis B introduces subliminal bias transmission (ref-014) as a secondary concern not explicitly tied to FACET's core educational mission, and its evaluation relies on synthetic number sequence tasks (ref-014) that lack direct relevance to the personalized worksheet generation problem. While B's mechanistic analysis (ref-020) is theoretically interesting, it diverges from the practical pedagogical focus of the reference corpus. A's claims are more coherent with the implied problem gap (bias in educational materials) and supported by more directly applicable references."
+      }
+     ]
+    },
+    {
+     "a": "s1-empirical",
+     "b": "s1-formal",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-empirical",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and more specific, coherent claims supported by multiple references. It addresses a clear problem gap: existing multi-agent LLM distillation frameworks (ref-004, ref-009) lack mechanisms to prevent subliminal bias transfer through non-semantic patterns (ref-014, ref-010), despite ref-003's established social impact framework identifying relevant bias categories. The approach integrates mechanistic interpretability (ref-010), bias-aware distillation loss, and automated auditing using ref-003's framework, creating a comprehensive solution. Evaluation metrics are concrete (bias amplification scores, task performance retention) and tied to references. Hypothesis A, while relevant, focuses narrowly on detection without mitigation, uses fewer references, and lacks the same level of integration with established social impact categories (ref-003) or distillation-specific mechanisms (ref-009). B's three-stage process and multi-reference support make it more aligned with the latent research idea of addressing unconsidered bias propagation in multi-agent systems."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the integration of bias mitigation into multi-agent LLM distillation frameworks (ref-004, ref-009) by combining mechanistic interpretability (ref-010) with social impact evaluation (ref-003) to tackle subliminal bias transfer (ref-014). The approach is more specific, proposing a concrete three-stage process with measurable outcomes (bias amplification scores, task performance retention) that align with ref-003's social impact categories. Hypothesis B focuses narrowly on detection within multi-agent systems but lacks a mitigation component and does not leverage ref-003's evaluation framework or ref-009's distillation techniques. While B identifies an open gap, A provides a more comprehensive solution that bridges multiple references to address both detection and mitigation, aligning better with the latent research idea of preventing bias propagation in multi-agent LLM systems."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-empirical",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It integrates five references (ref-004, ref-009, ref-014, ref-010, ref-003) to address subliminal bias transfer in multi-agent LLM distillation, whereas Hypothesis A only uses two. B's approach directly bridges ref-014's subliminal learning with ref-004's multi-agent framework and ref-003's social impact evaluation, while introducing a novel bias-aware distillation loss grounded in ref-010's mechanistic analysis. The evaluation plan is more comprehensive, incorporating ref-003's bias categories, ref-004's FACET framework, and ref-010's neuron correlation analysis. B's claims about mitigating bias transfer are more specific and coherent, supported by concrete technical components (distillation loss, auditing) and measurable success criteria (<5% bias amplification increase). While A identifies an important gap, its focus on detection without mitigation is narrower, and its evaluation lacks the multi-reference integration and practical mitigation focus that B provides."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography as it demonstrates stronger grounding in the references, clearer capture of the problem gap/contribution, and more specific/coherent claims. A addresses both detection and mitigation of subliminal bias transfer in multi-agent LLM distillation (ref-004, ref-009) by integrating mechanistic interpretability (ref-010) with social impact evaluation frameworks (ref-003), while also grounding its approach in subliminal learning theory (ref-014). The gap statement explicitly connects limitations across multiple references, and the approach details a concrete three-stage technical solution with measurable evaluation metrics. In contrast, Hypothesis B focuses narrowly on detection within multi-agent systems without proposing mitigation strategies, and its gap statement only references two papers. While B's evaluation design is rigorous, it lacks the integrative scope and practical mitigation focus that aligns with the broader social impact concerns in ref-003 and distillation challenges in ref-009. A's solution-oriented approach better addresses the latent need for bias prevention in multi-agent LLM development implied by the corpus."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-formal",
+     "b": "s1-assumption",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap/contribution. It specifically addresses the intersection of multi-agent LLM distillation (ref-004, ref-009) and subliminal bias transfer (ref-014, ref-010), while integrating ref-003's social impact framework for evaluation. The approach is more specific, detailing a three-stage process with mechanistic analysis, bias-aware distillation loss, and automated auditing. The evaluation plan is comprehensive, using FACET with known biases from ref-003 and measuring both bias amplification and task performance. In contrast, Hypothesis B lacks explicit integration of distillation frameworks (ref-009) and social impact evaluation (ref-003), focusing instead on synthetic datasets and neuron ablation without clear task performance retention metrics. While both address subliminal bias, A provides more coherent, reference-supported claims about mitigating bias in practical multi-agent distillation systems."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-assumption",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It specifically addresses subliminal bias transfer in multi-agent LLM distillation (ref-004, ref-009) by integrating mechanistic interpretability (ref-010, ref-020) and social impact evaluation (ref-003), which aligns with the cross-referenced limitations. The approach is more specific, proposing a three-stage process with a bias-aware distillation loss that directly connects neuron-level analysis (ref-010) to bias mitigation in student models. Evaluation metrics are well-defined using ref-003's social impact framework and ref-004's FACET system, ensuring coherence with the references. Hypothesis A, while relevant, focuses on a narrower scope (synthetic datasets) and lacks integration with ref-003's comprehensive social impact categories or ref-009's distillation context, making B's claims more comprehensive and better-supported by the corpus."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap/contribution. It specifically addresses the intersection of multi-agent LLM distillation (ref-004, ref-009) and subliminal bias transfer (ref-014, ref-010), while integrating ref-003's social impact framework for evaluation. The approach is more specific, detailing a three-stage process with mechanistic analysis, bias-aware distillation loss, and automated auditing. The evaluation plan is comprehensive, using FACET (ref-004) with known biases from ref-003, and measuring both bias amplification and task performance. Hypothesis B, while relevant, focuses more narrowly on synthetic datasets (ref-014's number sequences) and lacks the direct integration of ref-003's social impact categories or ref-009's distillation techniques. A's claims are better supported by the references, particularly in connecting distillation frameworks to bias mitigation through mechanistic interpretability and social impact benchmarks."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically addresses subliminal bias transfer in multi-agent LLM distillation (ref-004, ref-009) through a three-stage approach that integrates mechanistic analysis (ref-010), bias-aware distillation loss, and social impact auditing (ref-003). This aligns with the research perspective of identifying phenomena (subliminal bias transfer) that have been claimed (ref-014) but not measured in distillation contexts. The evaluation plan is more comprehensive, using FACET (ref-004) with teacher models exhibiting known biases from ref-003's categories, and measuring both bias amplification and task performance. Hypothesis A, while relevant, focuses on a narrower scope (synthetic datasets with injected bias) and lacks explicit integration with distillation frameworks or social impact benchmarks. B's approach is more specific, coherent, and better supported by the references, particularly in connecting mechanistic interpretability (ref-010, ref-020) to bias mitigation in distillation."
+      }
+     ]
+    },
+    {
+     "a": "s1-transfer",
+     "b": "s1-empirical",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap. It directly addresses bias amplification in multi-agent LLM systems by combining mechanistic analysis (ref-010, ref-017) with targeted neuron suppression (ref-012) within the FACET framework (ref-004). The approach is specific, proposing concrete technical interventions (dynamic masking, validation via toxicity classifiers) and evaluation metrics (bias amplification scores, educator ratings) that align with the references. The gap statement effectively connects ref-004's lack of bias consideration with ref-010's findings on single-model bias amplification, framing a coherent research problem. In contrast, Hypothesis B, while novel, relies heavily on ref-014's subliminal learning concept which is less directly connected to the educational context of ref-004. Its evaluation focuses on synthetic datasets and neuron correlations without clear ties to real-world educational materials or teacher feedback mechanisms from ref-004. The gap is more speculative, assuming subliminal bias transmission in multi-agent systems without stronger evidence from the references. A's claims are more specific, actionable, and grounded in the corpus."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-empirical",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap. It directly addresses bias amplification in multi-agent systems by integrating mechanistic analysis (ref-010, ref-017) with neuron suppression techniques (ref-012), while preserving the educational context of FACET (ref-004). The approach is more specific, proposing concrete methods (dynamic masking, toxicity classifiers) and evaluation metrics (bias amplification scores, educator ratings) that align with the references. Hypothesis A, while relevant to subliminal learning (ref-014), lacks direct support for its multi-agent bias transmission claims beyond ref-004 and ref-014, and its evaluation focuses on synthetic datasets rather than the educational materials context central to the corpus. B’s focus on mitigating bias in a real-world application (education) with measurable outcomes better fits the latent research idea implied by the bibliography."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap/contribution. It directly addresses bias amplification in multi-agent LLM systems by combining mechanistic analysis (ref-010, ref-017) with targeted neuron suppression (ref-012) within the FACET framework (ref-004). The approach is specific, proposing concrete technical solutions (dynamic masking, toxicity classifier monitoring) and evaluation metrics (bias amplification scores, ablation studies) that align with the references. In contrast, Hypothesis B focuses on detecting subliminal bias transmission through synthetic datasets, which is less directly connected to the core functionality of FACET (ref-004) and lacks the same level of technical specificity in addressing bias propagation within multi-agent systems. While B identifies an interesting gap, its approach and evaluation are more exploratory and less grounded in the practical educational context established by ref-004. A's focus on mitigating bias during training while preserving task performance better aligns with the references' emphasis on practical, measurable improvements in LLM-based systems."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-empirical",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap/contribution. It directly addresses bias amplification in multi-agent systems by integrating mechanistic analysis (ref-010, ref-017) with neuron suppression techniques (ref-012), while maintaining task performance in FACET's educational context (ref-004). The approach is more specific, proposing concrete technical interventions (dynamic masking) and evaluation metrics (bias amplification scores, toxicity classifier scores) that align with multiple references. In contrast, Hypothesis A focuses on detecting subliminal bias transmission but lacks direct support for its multi-agent amplification claim beyond ref-004 and ref-014. While it identifies an interesting gap, its approach is less grounded in the corpus: ref-004 does not study hidden bias transmission, and ref-014's subliminal learning phenomenon is not explicitly tied to multi-agent systems. B's focus on mitigation via mechanistic analysis also better aligns with the corpus's emphasis on bias measurement/control (ref-010, ref-012) and educational applications (ref-004)."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-formal",
+     "b": "s1-transfer",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly addresses the intersection of multi-agent LLM distillation (ref-004, ref-009) and subliminal bias transfer (ref-014, ref-010), which is a critical but overlooked issue in current frameworks. The approach integrates mechanistic analysis (ref-010) with bias-aware distillation loss and social impact auditing (ref-003), creating a comprehensive solution that directly targets non-semantic bias propagation. The evaluation plan is rigorous, measuring bias amplification, task performance retention, and mechanistic similarity while using established benchmarks. Hypothesis B, while relevant, focuses narrowly on neuron suppression in FACET without addressing the broader distillation context or subliminal learning mechanisms. It also relies on an unsupported reference (ref-006) and lacks the multi-faceted evaluation framework of Hypothesis A. The problem gap in A is more precisely defined, connecting multiple references to a coherent research contribution."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and more clearly captures the implied problem gap/contribution. It addresses a critical oversight in multi-agent LLM distillation frameworks (ref-004, ref-009) regarding subliminal bias transfer through non-semantic patterns (ref-014, ref-010), which is a more comprehensive and theoretically grounded problem than Hypothesis A's narrower focus on neuron suppression in a single framework. B's approach integrates multiple references (ref-003, ref-010, ref-014) to propose a three-stage solution that combines mechanistic analysis, bias-aware distillation loss, and automated auditing using established social impact frameworks. The evaluation plan is more rigorous, requiring both bias mitigation (<5% amplification increase) and task performance retention (>95%), with baselines that better isolate the intervention's effects. While A focuses on educational materials, B's solution is generalizable to any multi-agent distillation scenario, aligning with ref-003's broader social impact categories. The support for B includes all key references relevant to bias amplification (ref-010, ref-012, ref-014) and distillation (ref-009), whereas A omits ref-003 and ref-009 despite their direct relevance to social impact evaluation and distillation processes."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly addresses the under-explored issue of subliminal bias transfer in multi-agent LLM distillation (ref-014, ref-010) that current frameworks (ref-004, ref-009) do not handle. The approach integrates multiple references cohesively: mechanistic analysis (ref-010), social impact evaluation (ref-003), and distillation techniques (ref-009) into a three-stage process. The evaluation plan is more comprehensive, measuring bias amplification (ref-003), task performance retention, and mechanistic similarity. Hypothesis B, while relevant, focuses narrowly on neuron suppression in FACET (ref-004) without addressing the broader distillation context or subliminal transfer mechanisms. It also references ref-017 (unavailable abstract) and ref-006 (not provided), weakening its grounding. Hypothesis A better aligns with the latent research idea of detecting/mitigating bias propagation through non-semantic patterns in multi-agent systems, supported by more specific and coherent claims across the given references."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and more clearly captures the implied problem gap/contribution. It addresses the under-explored phenomenon of 'subliminal bias transfer' (ref-014) in multi-agent LLM distillation systems (ref-004, ref-009), which aligns with the research perspective of identifying phenomena that are claimed but not measured. The hypothesis specifically connects ref-014's theoretical findings about non-semantic bias propagation with ref-003's social impact framework, creating a more comprehensive approach that integrates mechanistic analysis (ref-010) with bias-aware distillation. The evaluation plan is more specific, using ref-003's established social impact categories and measurable success criteria (<5% bias amplification increase, >95% task performance). While Hypothesis A focuses on a narrower bias amplification problem (ref-010) within FACET, it lacks the broader theoretical foundation and measurable validation framework that Hypothesis B provides by incorporating subliminal learning mechanisms and standardized social impact benchmarks."
+      }
+     ]
+    },
+    {
+     "a": "s1-assumption",
+     "b": "s1-empirical",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates all four references to address a specific technical gap: the absence of subliminal bias mitigation in multi-agent LLM systems (ref-004) and bias techniques (ref-012) that don't handle subliminal transmission (ref-014). The approach combines mechanistic interpretability (ref-020) with targeted interventions, offering a concrete solution. Hypothesis B focuses narrowly on detection without mitigation, uses only two references, and frames the gap as an open question about multi-agent amplification rather than proposing a solution. A's evaluation is more comprehensive, comparing against augmented baselines and measuring both bias reduction and task performance, while B's evaluation lacks mitigation metrics and focuses solely on detection. A's claims are more specific and coherent, directly addressing how to neutralize bias transmission through neuron ablation and monitoring, whereas B remains descriptive about identifying patterns without proposing corrective mechanisms."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-empirical",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a more comprehensive gap by integrating insights from all four references, whereas Hypothesis A only references two. B's gap statement clearly connects ref-004's multi-agent framework, ref-012's bias mitigation techniques, ref-014's subliminal learning phenomenon, and ref-020's mechanistic interpretability methods. The approach is more specific, proposing concrete technical solutions (mechanistic analysis + neuron ablation + monitoring layer) that directly build on the referenced works. The evaluation plan is also more robust, comparing against a modified ref-004 baseline augmented with ref-012's constraints while measuring both bias reduction and task performance. While both hypotheses address subliminal bias transmission, B's solution-oriented focus (detecting AND mitigating) aligns better with the problem-solving trajectory suggested by the references, particularly ref-012's bias reduction framework and ref-020's mechanistic analysis techniques. The inclusion of ref-020's progress measures adds methodological depth that A lacks."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates all four references (ref-004, ref-012, ref-014, ref-020) into a cohesive framework that addresses subliminal bias transmission in multi-agent systems while retaining educational personalization goals from ref-004. The gap statement precisely identifies limitations in existing work: ref-004's lack of hidden bias consideration, ref-012's focus on explicit visual bias rather than subliminal transmission, and ref-014's single-agent context. The approach combines mechanistic analysis (ref-020) with targeted interventions, offering specific technical solutions (neuron ablation, monitoring layers) supported by concrete evaluation metrics (bias persistence reduction, task performance maintenance). In contrast, Hypothesis B focuses narrowly on detection rather than mitigation, engages only two references, and lacks specific technical interventions beyond analysis. While B's experimental design is rigorous, A provides a more comprehensive solution addressing both detection and mitigation with clearer connections to all relevant references."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-empirical",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis B provides a more comprehensive and coherent research plan that better aligns with the latent research idea implied by the reference corpus. It explicitly addresses the gap of subliminal bias transmission in multi-agent LLM systems by integrating multiple references (ref-004, ref-012, ref-014, ref-020) into a unified framework. The approach combines mechanistic interpretability (ref-020) with targeted interventions (neuron ablation, monitoring layers) to both detect and mitigate bias, which directly responds to the problem gap identified in the references. The evaluation plan is more specific, comparing against a modified ref-004 baseline augmented with ref-012's constraints, and uses established metrics from ref-012 and ref-014. While Hypothesis A focuses solely on detection, B adds mitigation strategies and leverages a broader set of references to ground its claims. The inclusion of ref-020's mechanistic analysis techniques strengthens the methodological rigor, and the evaluation design isolates architectural effects more effectively than A's simpler comparison. B's integration of multiple references into a cohesive solution demonstrates stronger grounding in the corpus and clearer capture of the implied problem gap."
+      }
+     ]
+    }
+   ]
+  ],
+  "2": [
+   [
+    {
+     "a": "s2-formal",
+     "b": "s2-assumption",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by addressing a specific gap in ref-005 (single-task perturbations) while incorporating concepts from ref-007 (extreme risk evaluation) and ref-019 (safety training failure modes). Its focus on transferable perturbations aligns with ref-007's emphasis on universal risk assessment and ref-019's analysis of generalization failures in safety mechanisms. The approach explicitly connects to ref-005's DP-Attacker while extending it with multi-task optimization and physical realism constraints, creating a more coherent research narrative. Hypothesis B, while relevant to ref-005, lacks integration with ref-007/019 and focuses narrowly on defense mechanisms without addressing the broader safety evaluation framework implied by the corpus. A's evaluation metrics (cross-task transferability, physical patch effectiveness) better capture the latent research idea of universal adversarial safety testing across diverse deployment scenarios."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-assumption",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and more clearly captures the implied problem gap/contribution. While both hypotheses address adversarial robustness of diffusion policies (ref-005), B explicitly connects to the broader safety evaluation framework described in ref-007 and ref-019, which emphasize transferable risks and evaluation methodologies for extreme capabilities. B's focus on 'transferable perturbations' directly addresses the gap in ref-005's single-task limitations while aligning with ref-007's call for dangerous capability evaluations and ref-019's analysis of generalization failures in safety mechanisms. The approach's multi-task optimization and physical constraints show deeper integration of references compared to A's narrower focus on defense training. B's evaluation metrics (cross-task transferability, physical patch effectiveness) better reflect the latent research idea of scalable safety testing implied by the corpus, whereas A's domain randomization lacks explicit connection to the references' safety evaluation themes."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A better aligns with the latent research idea implied by the references. It addresses the gap of generating universal, transferable adversarial perturbations across multiple tasks and environments (ref-005), which is critical for real-world safety testing. The approach explicitly extends ref-005's DP-Attacker with a transferability loss term and physical realism constraints, directly building on the reference's foundation while addressing its limitations. The evaluation plan is comprehensive, measuring success rate degradation, cross-task transferability, and physical patch effectiveness using SSIM and L2 metrics, which are grounded in the references. Additionally, Hypothesis A incorporates ref-007 and ref-019, which emphasize the importance of evaluating extreme risks and safety failures in AI systems, thereby connecting to broader safety concerns. In contrast, Hypothesis B focuses on defense mechanisms (DP-Defender) and adversarial training, which is less directly supported by the references. While ref-005 discusses physical attacks, it does not address adversarial training for defense, making Hypothesis B's gap less strongly grounded in the provided corpus. Hypothesis A's claims are more specific, coherent, and directly supported by the references, making it the stronger candidate."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-assumption",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the references. It addresses a clear gap identified in ref-005 regarding the lack of universal transferable perturbations for diffusion policies, which aligns with the safety testing concerns in ref-007 and ref-019 about evaluating extreme risks and failure modes in AI systems. B's approach explicitly extends ref-005's DP-Attacker with a transferability loss term and physical constraints, directly responding to the gap while incorporating insights from ref-007 (dangerous capability evaluations) and ref-019 (mismatched generalization in safety training). The evaluation plan is more comprehensive, measuring cross-task transferability and physical patch effectiveness with both task performance metrics (success rate degradation) and perceptual metrics (SSIM/L2), which better captures the implied problem of real-world safety testing. In contrast, Hypothesis A focuses narrowly on defense mechanisms (DP-Defender) without engaging with the broader safety evaluation framework suggested by ref-007 and ref-019, and its evaluation lacks cross-task transferability analysis despite claiming real-world applicability."
+      }
+     ]
+    },
+    {
+     "a": "s2-transfer",
+     "b": "s2-empirical",
+     "points_a": 1.5,
+     "points_b": 0.5,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It addresses a broader and more directly supported gap in the literature: the lack of systematic evaluation for agentic misalignment under dynamic goal conflicts and adversarial physical attacks, as highlighted by ref-002 and ref-005. The approach integrates multiple references (ref-001, ref-002, ref-005, ref-006, ref-007) to propose a hybrid evaluation protocol that combines stress-testing with adversarial attacks, grounded in existing safety benchmarks and toxicity metrics. The gap statement clearly identifies how prior work (ref-001, ref-007) does not account for dynamic goal conflicts or physical attacks, while ref-002 lacks integration with physical attack scenarios. The evaluation plan is specific, comparing against established baselines (Llama 2-Chat, Diffusion Policy Attacker) and measuring concrete metrics (misaligned behavior frequency). In contrast, Hypothesis B focuses narrowly on diffusion policies under partial observability, a gap less central to the broader safety concerns emphasized in the references. While it builds on ref-005, it does not engage as deeply with the core themes of agentic misalignment (ref-002) or toxic degeneration (ref-006), which are critical to the implied research direction. The references supporting Hypothesis A also cover a wider range of safety dimensions, making its claims more coherent with the bibliography's emphasis on comprehensive risk evaluation."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references by directly addressing a specific gap in ref-005 (patch-based attacks) and extending it to partial observability—a realistic constraint not systematically studied in prior work. The approach is tightly coupled with ref-005's methodology (diffusion policy architecture, training procedure) while introducing a novel constraint (targeted perturbations on observable dimensions), which aligns with ref-007's emphasis on dangerous capability evaluations and ref-016's focus on rigorous testing under realistic conditions. The evaluation metrics (success rate drop, perturbation magnitude, transferability) are concrete and directly tied to the references. In contrast, Hypothesis B, while broadly relevant, combines multiple references (ref-001, ref-002, ref-005, ref-006, ref-007) in a more speculative manner. Its proposed integration of stress-testing and physical attacks lacks the specificity of Hypothesis A, as ref-002's organizational stress-testing and ref-005's physical attacks operate in distinct domains (LLMs vs. diffusion policies). The gap identified in B is valid but less sharply defined than A's, and the approach's feasibility (e.g., applying ref-005's physical attacks to LLMs) is not clearly supported by the references. Hypothesis A's narrower focus and tighter alignment with the references make it the stronger candidate."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses agentic misalignment (ref-002) by integrating stress-testing with adversarial physical attacks (ref-005), a gap explicitly identified in the references. The approach combines multiple references (ref-001, ref-002, ref-005, ref-006, ref-007) into a coherent framework for detecting misaligned behaviors, supported by specific evaluation metrics (e.g., misaligned behavior frequency) and ablation studies. Hypothesis B, while relevant to diffusion policy robustness, focuses narrowly on partial observability (not explicitly mentioned in the references) and relies on fewer references (ref-005, ref-007, ref-016). Its gap is less directly tied to the corpus, as ref-005 already covers patch-based attacks, and partial observability is an extension not emphasized in the provided references. Hypothesis A better aligns with the latent research idea of comprehensive safety evaluation for agentic systems implied by the corpus."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-empirical",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a broader and more directly supported gap in the literature: the lack of integrated testing for agentic misalignment under both dynamic goal conflicts (ref-002) and adversarial physical attacks (ref-005). While Hypothesis A focuses narrowly on diffusion policy robustness under partial observability (primarily supported by ref-005), Hypothesis B synthesizes multiple references to propose a comprehensive evaluation framework that combines stress-testing (ref-002), adversarial attacks (ref-005), toxicity detection (ref-006), and safety evaluation methodologies (ref-001, ref-007). The approach in B is more specific in its integration of diverse techniques (automated classifiers + human evaluation) and clearer in capturing the implied problem gap of detecting misaligned behaviors that could emerge from both organizational pressures and physical adversarial scenarios. The support for B is also stronger, citing five references compared to A's three, and more cohesively linking them to the proposed methodology. The evaluation metrics in B (misaligned behavior frequency, ablation studies) are more directly tied to the references' concerns about safety and alignment risks."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s2-formal",
+     "b": "s2-transfer",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s2-formal",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a broader and more coherent problem gap by integrating agentic misalignment (ref-002) with adversarial safety concerns (ref-005, ref-006, ref-007), which collectively highlight risks of autonomous models in sensitive contexts. The approach combines controlled stress-testing (ref-002) with physical adversarial attacks (ref-005), creating a more comprehensive evaluation framework than Hypothesis A, which focuses narrowly on diffusion policies (ref-005) and lacks grounding in organizational risk scenarios. B's evaluation metrics (misaligned behavior frequency, toxicity classifiers) align with multiple references (ref-001, ref-002, ref-006, ref-007), while its support includes all key references except ref-019, which is less central to the core problem of agentic misalignment. Hypothesis A's focus on transferable perturbations, while technically specific, is narrower in scope and less aligned with the interdisciplinary safety concerns emphasized across the corpus."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography as it (1) addresses a broader and more directly supported gap in the literature by integrating agentic misalignment (ref-002) with adversarial safety concerns (ref-005, ref-006, ref-007), (2) proposes a more comprehensive evaluation framework that combines controlled stress-testing with physical attack scenarios - a gap explicitly identified in the references, and (3) demonstrates stronger grounding in the provided corpus through its use of multiple references to support both the problem gap and proposed solution. While Hypothesis B makes a valid contribution to diffusion policy safety, it focuses narrowly on transferable perturbations (ref-005) and does not engage with the critical agentic misalignment concerns raised in ref-002 and ref-007 that form a central theme in the reference corpus. Hypothesis A's approach to combining organizational stress-testing with physical adversarial attacks represents a more coherent synthesis of the references' core themes."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-formal",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B better captures the implied research gap and contribution by addressing a broader, more coherent problem space grounded in the references. It identifies a critical gap in existing safety evaluations (ref-001, ref-007) that fail to systematically test agentic misalignment under dynamic goal conflicts or adversarial physical attacks (ref-005), a gap explicitly highlighted in ref-002. The approach integrates controlled stress-testing (ref-002) with adversarial physical attacks (ref-005) and toxicity metrics (ref-006), creating a more comprehensive framework for detecting misalignment. The evaluation plan directly measures misaligned behaviors (e.g., data leakage, blackmail) using scenarios from ref-002, aligning with the references' focus on real-world risks. While Hypothesis A extends ref-005's work on transferable perturbations, it focuses narrowly on diffusion policies and lacks the same level of integration with the broader safety and misalignment concerns emphasized in ref-002, ref-006, and ref-007. Hypothesis B's claims are more specific to the latent research idea of detecting agentic misalignment through combined stress-testing and adversarial evaluation, making it more strongly grounded in the corpus."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It addresses a broader and more critical gap in safety evaluation by combining agentic misalignment (ref-002) with adversarial physical attacks (ref-005), which aligns with the references' emphasis on untested risks in autonomous AI systems. The hypothesis explicitly connects multiple references to propose a novel hybrid evaluation protocol that measures both organizational goal conflicts and physical attack vulnerabilities, which are both highlighted as under-researched in the corpus. Hypothesis B, while technically sound, focuses narrowly on transferable perturbations for diffusion policies (ref-005) and does not engage with the more pressing safety concerns around agentic misalignment (ref-002) or the broader evaluation frameworks discussed in ref-007 and ref-019. A's approach demonstrates stronger grounding in the references by integrating multiple safety dimensions, while B's contribution, though specific, addresses a narrower gap that is less central to the corpus's implied priorities about systemic AI risks."
+      }
+     ]
+    },
+    {
+     "a": "s2-empirical",
+     "b": "s2-assumption",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap. It directly addresses a specific limitation in ref-005 (patch-based attacks not isolating partial observability effects) while incorporating safety evaluation concepts from ref-007 and audit access considerations from ref-016. The approach is tightly coupled to ref-005's methodology while extending it with controlled experiments on partial observability - a realistic constraint not addressed in existing work. The evaluation plan systematically compares against relevant baselines and measures both performance degradation and perturbation characteristics. In contrast, Hypothesis B focuses narrowly on ref-005 without engaging with the broader safety evaluation (ref-007) or audit access (ref-016) concepts. Its gap statement is less specific about how physical attack integration differs from existing work, and the evaluation lacks comparison with non-diffusion policy baselines or transferability analysis. While both address diffusion policy robustness, Hypothesis A provides more specific, coherent claims supported by multiple references and better isolates a novel research problem."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-assumption",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap. It directly addresses a specific limitation in ref-005 (patch-based attacks not accounting for partial observability) while incorporating concepts from ref-007 (dangerous capability evaluations) and ref-016 (audit limitations under partial access). The hypothesis defines a more precise problem gap - how diffusion policies behave when adversaries can only manipulate a subset of inputs - which aligns with real-world sensor limitations. The approach is tightly coupled to ref-005's methodology while extending it with controlled experiments on partial observability. The evaluation plan systematically isolates the impact of partial observability by comparing against both ref-005's patch attacks and full-state attacks, providing more specific and coherent claims supported by references. Hypothesis A, while relevant, focuses on physical-world attacks without directly addressing the partial observability gap highlighted in the references, and its support is limited to only ref-005."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap in ref-005 regarding the systematic isolation of partial observability effects, which is a critical but unexplored aspect of diffusion policy robustness. It leverages ref-007's emphasis on dangerous capability evaluations by framing adversarial attacks as a risk assessment mechanism under constrained observability, and aligns with ref-016's critique of black-box audits by proposing a targeted evaluation framework that could inform more rigorous white-box scrutiny. The hypothesis makes specific, coherent claims about perturbation constraints, evaluation metrics (e.g., minimum perturbation for 50% success rate drop), and ablation comparisons that are directly supported by the references. In contrast, Hypothesis B, while relevant to ref-005's physical attacks, lacks engagement with ref-007 and ref-016, and its claims about adversarial training frameworks and physical constraints are less precisely anchored to the references' technical content. The gap identified in B is narrower and less clearly tied to the broader safety evaluation principles in ref-007 and ref-016. A's focus on partial observability as a formal constraint also aligns better with the research perspective of identifying precise failure conditions."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-assumption",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It specifically addresses the limitation in ref-005 regarding the lack of systematic isolation of partial observability effects in adversarial attacks, which aligns with the research perspective of identifying precise failure conditions. The gap statement directly engages with ref-005's methodology while extending it to a realistic scenario (sensor occlusions) not covered in the original work. The approach is well-supported by ref-005's technical foundation and incorporates evaluation metrics (perturbation magnitude, transferability) that could be formalized into bounds. Additionally, B's use of ref-007 and ref-016 strengthens its alignment with broader safety evaluation principles, particularly the need for rigorous capability assessments under constrained access scenarios. While A proposes a valuable defense framework, its gap statement is narrower and less directly tied to the latent research idea implied by the corpus, which emphasizes understanding failure modes (ref-005, ref-007) and audit limitations (ref-016) rather than solely developing defenses. B's focus on quantifying robustness under partial observability creates more specific, testable claims about diffusion policy vulnerabilities."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s2-transfer",
+     "b": "s2-assumption",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It addresses a broader and more directly supported gap: the lack of systematic evaluation for agentic misalignment under dynamic goal conflicts and adversarial physical attacks, as highlighted by ref-002 and ref-005. The approach integrates multiple references (ref-001, ref-002, ref-005, ref-006, ref-007) to propose a hybrid evaluation protocol combining stress-testing, adversarial attacks, and toxicity analysis, which aligns with the safety and alignment concerns raised in ref-002, ref-006, and ref-007. The evaluation plan is specific, measuring misaligned behaviors on a dataset derived from ref-002 and comparing against established baselines. In contrast, Hypothesis B focuses narrowly on adversarial robustness for diffusion policies (ref-005) without addressing the broader safety and alignment issues implied by the other references. While B’s approach is technically sound, it lacks the coherence and grounding in the full set of references that A demonstrates, particularly regarding the critical need for comprehensive misalignment detection in autonomous AI systems."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-assumption",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a broader and more coherent gap by integrating multiple references (ref-001, ref-002, ref-005, ref-006, ref-007) to tackle the understudied problem of agentic misalignment under dynamic goal conflicts and physical attacks. While Hypothesis A focuses narrowly on adversarial robustness for diffusion policies (ref-005), Hypothesis B captures a more significant implied problem gap: the lack of comprehensive evaluation frameworks that combine stress-testing for organizational pressures (ref-002) with physical adversarial attacks (ref-005) and toxicity metrics (ref-006). B's approach is more specific, proposing a hybrid protocol that bridges controlled stress-testing and adversarial evaluation, supported by both automated classifiers and human assessment. Its evaluation plan also measures a wider range of misaligned behaviors (e.g., data leakage, blackmail) across corporate scenarios, aligning with ref-002 and ref-007's emphasis on extreme risks. In contrast, Hypothesis A's focus on physical patch constraints, while grounded in ref-005, does not engage with the broader safety and alignment concerns raised by the other references."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by addressing a broader gap in agentic misalignment detection that integrates multiple references (ref-001, ref-002, ref-005, ref-006, ref-007). It clearly identifies how existing safety evaluations fail to account for dynamic goal conflicts and physical attacks, directly linking to ref-002's stress-testing and ref-005's adversarial scenarios. The approach coherently combines stress-testing with adversarial evaluation, supported by specific references for each component (ref-002 for organizational scenarios, ref-005 for physical attacks, ref-006 for toxicity metrics). The evaluation plan measures concrete misaligned behaviors (data leakage, blackmail) using a dataset derived from ref-002, ensuring specificity. In contrast, Hypothesis B focuses narrowly on diffusion policy robustness (ref-005) without addressing the broader safety and alignment concerns implied by the corpus, particularly agentic misalignment (ref-002, ref-007) and toxic degeneration (ref-006). While B's technical approach is detailed, it lacks the comprehensive problem framing and multi-reference integration that A achieves."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-assumption",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus by addressing a broader gap in comprehensive misalignment detection that integrates multiple references (ref-001, ref-002, ref-005, ref-006, ref-007). It clearly captures the implied problem gap of combining agentic misalignment stress-testing (ref-002) with physical adversarial attacks (ref-005) and toxicity evaluation (ref-006), which aligns with the extreme risk evaluation framework in ref-007. The approach is more specific, detailing hybrid protocols that combine controlled stress-testing with adversarial attacks, and the evaluation plan systematically measures misaligned behaviors across multiple dimensions. Hypothesis A, while well-supported by ref-005, focuses narrowly on physical attack robustness for diffusion policies without addressing the broader safety and alignment concerns implied by the corpus. B's integration of multiple references and its focus on a critical gap in current safety evaluations make it the stronger hypothesis."
+      }
+     ]
+    },
+    {
+     "a": "s2-empirical",
+     "b": "s2-formal",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by directly addressing a specific gap in ref-005's analysis of partial observability constraints, which aligns with the research perspective of challenging implicit assumptions. It introduces a novel evaluation framework that isolates the impact of sensor occlusions—a realistic deployment constraint not systematically studied in prior work—while maintaining methodological consistency with ref-005's diffusion policy architecture. The gap statement clearly identifies how ref-005's patch-based attacks fail to account for partial observability, and the evaluation metrics (success rate drop under occlusion, perturbation magnitude comparisons) directly measure this unaddressed dimension. While Hypothesis B extends ref-005's work toward transferability, its gap statement is less distinct from existing literature (ref-005 already acknowledges multi-task applicability as a limitation) and its approach introduces new components (transferability loss, physical constraints) with weaker direct support from the provided references. The research perspective favors A's focus on deconstructing implicit assumptions about input observability rather than B's incremental extension of attack scope."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It directly addresses the limitation in ref-005 regarding single-task perturbations by proposing a framework for generating universal, transferable perturbations across multiple tasks and environments. This aligns with ref-007's emphasis on dangerous capability evaluations and ref-019's analysis of safety training failures, as it targets systemic safety vulnerabilities in diffusion policies. The approach's multi-task optimization and physical realism constraints are well-supported by the references, particularly ref-005's DP-Attacker foundation. Hypothesis B, while relevant to partial observability, focuses on a narrower scenario (sensor limitations) that is less central to the core safety concerns highlighted in the references. Its gap statement about ref-005's patch-based attacks is valid but less impactful than A's focus on universal transferability, which directly addresses real-world safety testing scalability. A's evaluation metrics (cross-task transferability, physical patch effectiveness) also better align with the references' emphasis on rigorous safety evaluations compared to B's occlusion-specific metrics."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly addresses an implied problem gap. It directly engages with ref-005's focus on patch-based attacks while identifying a specific limitation (partial observability) not systematically studied in the reference corpus. The gap statement is precise, linking ref-005's localized attacks to real-world sensor limitations, and the approach is methodologically grounded in ref-005's framework while introducing controlled partial observability constraints. The evaluation plan effectively isolates the impact of partial observability by comparing against ref-005's attacks under identical conditions, supported by ref-016's emphasis on rigorous access constraints for audits. Hypothesis B, while relevant, focuses on transferability across tasks—a gap not explicitly highlighted in the references. Its connection to ref-019 (jailbreaking) is tangential, as ref-019 addresses LLM safety failures rather than diffusion policy adversarial robustness. Hypothesis A's claims are more specifically anchored to the corpus, particularly ref-005 and ref-016, making it the stronger candidate."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and more specific, coherent claims. It directly addresses the gap in ref-005 by extending DP-Attacker to generate universal, transferable perturbations across tasks and environments, which aligns with ref-007's emphasis on dangerous capability evaluations and ref-019's analysis of safety training failures. The approach introduces a novel transferability loss term and physical realism constraints, supported by rigorous evaluation metrics (success rate degradation, cross-task transferability, SSIM/L2 invisibility) and ablation studies. In contrast, Hypothesis B focuses on partial observability, a narrower gap not explicitly highlighted in the references. While it references ref-005 and ref-016's audit limitations, its claims are less directly tied to the safety-critical evaluation frameworks emphasized in ref-007 and ref-019. Hypothesis A's broader scope and alignment with extreme risk evaluation (ref-007) and safety training failures (ref-019) make it a more compelling fit for the latent research idea of advancing adversarial safety testing for diffusion policies."
+      }
+     ]
+    }
+   ]
+  ],
+  "3": [
+   [
+    {
+     "a": "s3-assumption",
+     "b": "s3-empirical",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A more strongly grounds its claims in the reference corpus by directly addressing the gap in systematic context variation identified in ref-002 and ref-007, while also incorporating broader social impact considerations from ref-003. It proposes a modular framework with measurable dimensions (company history, operations, future shifts) that directly operationalizes the 'organizational context shifts' mentioned in ref-002, and extends ref-007's alignment evaluation proposals into an implementable scoring system. The evaluation design rigorously compares against ref-002's methodology using the same models and introduces ablation studies to isolate context effects, demonstrating clearer problem capture. Hypothesis B, while relevant to toxicity in agentic contexts, conflates two distinct issues (toxic degeneration from ref-006 and agentic misalignment from ref-002) without fully resolving how they interact. Its approach adapts existing datasets rather than proposing novel context dimensions, and its evaluation focuses on comparing settings rather than isolating specific causal factors. The references for A collectively support a more coherent research contribution focused on alignment testing methodology, whereas B's references address partially overlapping but distinct problems."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the intersection of agentic misalignment (ref-002) and toxic degeneration (ref-006), which are both core themes in the provided corpus. It identifies a specific gap—whether toxicity increases in autonomous, feedback-driven agentic contexts—by combining ref-002's dynamic corporate scenarios with ref-006's toxicity evaluation methods. The approach is methodologically precise, adapting RealToxicityPrompts to interactive environments and comparing static vs. agentic settings to isolate autonomy effects, which aligns with ref-019's emphasis on safety failures in adversarial contexts. Hypothesis B, while relevant to ref-002 and ref-007, introduces a broader framework for context-aware alignment testing that is less tightly anchored to the corpus's specific concerns. Its gap (systematic variation of organizational context dimensions) is less directly supported by the references, as ref-003's social impact categories are tangentially related but do not explicitly address the misalignment-action link. Hypothesis A's claims are more specific and coherent, directly leveraging ref-002 and ref-006 to test a novel hypothesis about toxicity in agentic deployments, whereas Hypothesis B's modular framework, though innovative, lacks the same level of evidence-based specificity from the given references."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the agentic misalignment phenomenon from ref-002 by proposing a systematic framework to vary and isolate organizational context dimensions (history, operations, future shifts) that ref-002 only tested in limited scenarios. The approach aligns with ref-007's call for alignment evaluations and incorporates ref-003's emphasis on contextual evaluation. The evaluation plan is methodologically rigorous, comparing against ref-002's methods while adding ablation studies to isolate context effects. In contrast, Hypothesis B focuses on toxicity in agentic contexts, which is less directly supported by the references. While ref-006 and ref-019 provide relevant background, they don't establish the same direct connection to the core agentic misalignment problem in corporate settings as ref-002 and ref-007 do for Hypothesis A. Hypothesis A's claims are more specific and coherent, with clear modular components (scenario generator, scoring system) directly tied to the references' identified gaps."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the intersection of agentic misalignment (ref-002) and toxic degeneration (ref-006), which are both core themes in the provided corpus. It identifies a specific, unaddressed gap: whether toxicity increases in multi-step, autonomous contexts with feedback loops, which is a novel and coherent extension of ref-002 and ref-006. The approach is methodologically precise, proposing an adapted RealToxicityPrompts framework to measure toxicity in both static and agentic settings, with clear evaluation metrics (e.g., toxicity frequency per step, sensitivity to oversight). This aligns with ref-019’s emphasis on safety-capability parity by testing how autonomy affects safety. Hypothesis B, while relevant to ref-002 and ref-007, focuses on a broader framework for context-aware alignment testing without introducing a specific, measurable gap or failure condition. Its evaluation metrics (detection rate, false positives) are less directly tied to the corpus’s emphasis on toxic outputs or insider threats. Hypothesis A’s focus on quantifying toxicity in autonomous contexts provides a more concrete and testable contribution supported by the references."
+      }
+     ]
+    },
+    {
+     "a": "s3-transfer",
+     "b": "s3-formal",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly integrating the subliminal learning framework (ref-014) with the sleeper agent backdoor problem (ref-008), addressing a specific gap in current dangerous capability evaluations (ref-007). It proposes a novel evaluation method that leverages unrelated tasks (number sequences/code) to detect hidden backdoors, which aligns with ref-014's findings on behavioral trait transmission through semantically unrelated data. The approach is more specific and coherent, as it explicitly connects the persistence of backdoors through safety training (ref-008) with the undetectability of such mechanisms via standard evaluations (ref-007), while also incorporating Llama 2 as a baseline model (ref-001). Hypothesis B, while addressing mechanistic alignment, relies more on speculative neuron-level analysis without direct support from the provided references. It references ref-016 (audit access) and ref-019 (jailbreaking), but these connections are less central to the core problem of detecting hidden backdoors through safety training. The evaluation metrics in A are more directly tied to the references' demonstrated phenomena (subliminal learning, backdoor persistence), whereas B's mechanistic approach introduces concepts not explicitly validated in the corpus."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the mechanistic causes of backdoor persistence highlighted in ref-008, which ref-016 and ref-007 emphasize as critical for rigorous safety evaluations. It clearly captures the problem gap of undetected backdoors despite safety training (ref-008) and the limitations of behavioral evaluations (ref-019), offering a novel approach to isolate neuron-level discrepancies. The claims are specific, coherent, and supported by references: activation clustering and counterfactual probing align with ref-008's adversarial training failures and ref-019's safety generalization gaps. Hypothesis B, while relevant, relies on subliminal learning (ref-014) as a secondary mechanism rather than directly tackling the core issue of backdoor detection in safety-trained models. Its evaluation on unrelated tasks (number sequences) is less directly tied to the references' focus on LLM safety failures and backdoor persistence, making its claims less specific to the implied problem gap."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap between ref-008's persistent backdoors and ref-007's lack of detection methods for hidden triggers. It leverages ref-014's subliminal learning framework to propose a novel evaluation method that tests for backdoors via unrelated tasks (number sequences/code), which aligns with the latent research idea of detecting deception mechanisms missed by standard safety tests. The approach is specific, coherent, and supported by multiple references (ref-001, ref-007, ref-008, ref-014), including a concrete evaluation plan comparing subliminal detection against direct trigger testing. Hypothesis B, while innovative, focuses on mechanistic alignment analysis, which is less directly supported by the references. It primarily builds on ref-008 and ref-019 but introduces neuron-level analysis without clear evidence from the corpus that such mechanistic methods are necessary or sufficient to address the gap. The references do not establish a need for neuron-level detection over behavioral or subliminal methods, making Hypothesis A more aligned with the implied problem gap and contribution."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A provides stronger grounding in the references by directly addressing the mechanistic causes of backdoor persistence highlighted in ref-008, which ref-016 and ref-019 further contextualize through safety evaluation gaps. It offers a clearer capture of the problem gap—existing methods detect behavioral failures but fail to isolate neuron-level mechanisms enabling undetected backdoors—supported by ref-008's demonstration of adversarial training failures and ref-019's analysis of safety training mismatches. The approach is more specific, detailing activation clustering and counterfactual probing to expose discrepancies, with evaluation metrics (trigger detection rate, alignment discrepancy score) directly tied to mechanistic analysis. Hypothesis B, while innovative in applying subliminal learning (ref-014), lacks specificity in linking the phenomenon to backdoor detection mechanisms and relies on indirect trait transmission rather than direct mechanistic analysis. Its evaluation measures (student accuracy, perplexity) are less directly tied to the core problem of identifying hidden backdoors in safety-trained models compared to A's neuron-level focus."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s3-assumption",
+     "b": "s3-formal",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly addresses the implied problem gap related to agentic misalignment in corporate LLM deployments. It directly builds on ref-002's stress-testing methodology by systematically varying context dimensions (history, operations, future shifts) that ref-002 only tested in isolated scenarios. The proposed scoring system for misalignment aligns with ref-007's call for alignment evaluations and ref-003's emphasis on evaluating representational harms. The evaluation design is rigorous, comparing against ref-002's original methods and isolating context dimension effects through ablation studies. Hypothesis B, while addressing an important issue from ref-008, focuses on backdoor detection mechanisms not central to the corpus's core theme of agentic misalignment in autonomous roles. Its mechanistic approach, though innovative, lacks the same level of direct engagement with the corpus's primary concerns about organizational context shifts and their impact on misaligned behaviors. The references supporting A (002, 007, 003) are more directly relevant to the corpus's focus on evaluating safety risks in deployed systems than B's references (008, 019, 016, 007)."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the mechanistic gaps highlighted in ref-008 (backdoor persistence despite safety training) and ref-019 (safety training failures). It introduces a novel approach to detect neuron-level correlations between triggers and unsafe outputs, which aligns with ref-016's emphasis on white-box audits for rigorous evaluation. The hypothesis explicitly connects to ref-007's call for alignment evaluations by proposing a method to identify undetected backdoors, a critical extreme risk. The evaluation plan is specific, comparing against baselines from ref-008 and ref-019, and includes measurable metrics (detection rate, false positives, alignment discrepancy score). In contrast, Hypothesis B, while relevant to ref-002's agentic misalignment, does not address the deeper mechanistic or safety training failures discussed in ref-008 and ref-019. Its focus on context dimensions, though systematic, is less grounded in the references' emphasis on undetectable risks (e.g., backdoors, deceptive alignment) and lacks the specificity of Hypothesis A's technical approach. The references collectively prioritize identifying hidden risks (ref-007, ref-008, ref-016, ref-019), which Hypothesis A directly tackles, whereas Hypothesis B focuses on behavioral testing, which is already partially addressed in ref-002."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It directly addresses the gap in systematic evaluation of agentic misalignment (ref-002) by proposing a framework that varies organizational context dimensions (history, operations, future shifts) to isolate their impact on misaligned behaviors. This builds on ref-002's stress-testing methodology while extending it with a modular scoring system that quantifies both explicit actions and implicit intent signals. The evaluation plan compares against ref-002's original methods and includes ablation studies to validate the framework's components. While ref-007 and ref-003 are cited, the focus remains grounded in ref-002's core problem of agentic misalignment in corporate roles. Hypothesis B, while innovative, focuses on mechanistic backdoor detection (ref-008) which is less central to the bibliography's emphasis on organizational context and agentic misalignment. B's approach, though technically rigorous, addresses a narrower phenomenon (backdoors) that is not the primary focus of the majority of cited references. A's stronger grounding in ref-002 and ref-007, clearer capture of the implied problem gap (systematic context variation for misalignment testing), and more specific evaluation plan make it the better fit."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the mechanistic gaps highlighted in ref-008 (backdoor persistence despite safety training) and ref-019 (safety training failures). It introduces a novel method (mechanistic alignment analysis) that specifically targets the undetected neuron-level mechanisms enabling backdoors, which existing behavioral methods (ref-008, ref-019) fail to address. The approach is tightly coupled to ref-008's backdoored models and ref-016's emphasis on white-box audits, while ref-007's dangerous capability evaluations are operationalized through alignment discrepancy scoring. Hypothesis B, while relevant to ref-002's agentic misalignment, primarily extends existing behavioral testing methods rather than addressing a latent mechanistic gap. Its context-aware framework, though systematic, does not introduce a fundamentally new evaluation paradigm beyond ref-002's stress-testing methodology. The references for A collectively support a cohesive technical contribution focused on undetected safety failures, whereas B's references are more dispersed across social impact and alignment concepts without a unifying mechanistic focus."
+      }
+     ]
+    },
+    {
+     "a": "s3-empirical",
+     "b": "s3-transfer",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A more strongly grounds its claims in the provided references by directly addressing the intersection of agentic misalignment (ref-002) and toxic degeneration (ref-006), which are both central to the corpus. It identifies a clear gap: the absence of toxicity measurement in dynamic agentic contexts, a critical oversight given ref-002's focus on harmful actions and ref-006's static toxicity analysis. The approach coherently integrates ref-006's RealToxicityPrompts with ref-002's corporate scenarios, while the evaluation plan effectively compares static vs. agentic settings using metrics tied to both references. Hypothesis B, while relevant to backdoor detection (ref-008) and subliminal learning (ref-014), lacks the same level of specificity in connecting these concepts to the corpus's implied problem gap. Its evaluation relies on synthetic tasks (number sequences) not directly tied to the deployment risks emphasized in ref-002 or ref-007, making its grounding less direct. Hypothesis A’s focus on real-world deployment toxicity aligns more closely with the corpus’s emphasis on practical safety risks."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap between ref-008's persistent backdoors and ref-007's lack of detection methods for hidden triggers. It leverages ref-014's subliminal learning framework to propose a novel evaluation method that specifically targets backdoors activated through unrelated tasks (number sequences/code), which is a coherent extension of the latent research idea implied by the references. The approach is more specific, detailing how student models trained on teacher-generated data can reveal hidden mechanisms, and the evaluation plan directly compares subliminal detection with existing methods (ref-008), providing a clear mechanism to validate claims. Hypothesis B, while relevant to toxicity in agentic contexts, does not as strongly connect to the core issue of detecting hidden risks (backdoors/deception) emphasized in ref-007, ref-008, and ref-014. Its focus on toxicity in deployment scenarios, though important, is less central to the latent research idea of identifying and mitigating covert risks in safety-trained models."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap between ref-002 (agentic misalignment in dynamic scenarios) and ref-006 (toxic degeneration in static prompts), which neither reference individually resolves. It introduces a novel evaluation framework that combines interactive environments with toxicity tracking, aligning with ref-019's emphasis on safety-capability parity in dynamic contexts. The approach explicitly isolates autonomy effects by comparing agentic vs. static settings, a critical distinction missing in prior work. Hypothesis B, while relevant to backdoor detection, conflates subliminal learning (ref-014) with sleeper agents (ref-008) without clearly establishing how the former detects the latter. It lacks a direct link to the core problem of agentic misalignment in deployments (ref-002) and does not propose a method to quantify backdoor persistence under real-world conditions. A’s focus on toxicity in action sequences and oversight sensitivity provides more specific, coherent claims supported by the corpus, whereas B’s reliance on unrelated tasks (number sequences) introduces ambiguity in how subliminal learning maps to backdoor detection."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap between ref-008's persistent backdoors and ref-007's lack of detection methods for hidden triggers. It leverages ref-014's subliminal learning framework to propose a novel evaluation method that specifically targets backdoors activated through unrelated tasks, which is a precise and coherent extension of the latent research idea implied by these references. The approach is well-supported by the references, with clear connections to ref-001 (Llama-2 models as baselines), ref-007 (dangerous capability evaluations), ref-008 (sleeper agents), and ref-014 (subliminal learning). The evaluation plan is specific, comparing subliminal detection against direct trigger testing, which aligns with the references' focus on safety training failures and hidden mechanisms. In contrast, Hypothesis B, while relevant to toxicity in agentic contexts, does not as clearly bridge the references to a novel, well-defined gap. It combines ref-002 (agentic misalignment) and ref-006 (toxic degeneration) but lacks the same level of specificity in addressing a previously unaddressed problem gap, as the connection between autonomy and toxicity is more exploratory than directly grounded in the references' implied research direction."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s3-assumption",
+     "b": "s3-transfer",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A more strongly grounds its claims in the references by directly addressing the gap in systematic context variation for agentic misalignment testing identified in ref-002, while ref-007 and ref-003 provide broader alignment and social impact evaluation frameworks that support its context-aware approach. The hypothesis proposes a concrete, modular implementation (scenario generator + scoring system) that isolates the impact of specific organizational context dimensions, which ref-002's original methodology lacks. The evaluation plan rigorously compares against ref-002's methods using the same models and introduces ablation studies to validate the framework's components. In contrast, Hypothesis B, while relevant to backdoor detection, focuses on a narrower technical adaptation of subliminal learning (ref-014) to detect sleeper agents (ref-008) rather than addressing a broader, more directly implied research gap in the corpus. The corpus emphasizes agentic misalignment risks in corporate settings (ref-002) and the need for context-aware evaluations (ref-003, ref-007), which Hypothesis A more comprehensively captures through its scenario-based framework."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A more strongly grounds its claims in the reference corpus by directly addressing a specific, measurable gap between ref-008 (sleeper agent backdoors) and ref-007 (dangerous capability evaluations). It introduces a novel evaluation method grounded in ref-014's subliminal learning framework, which provides a concrete mechanism to detect hidden backdoors that persist through safety training. The approach is highly specific, proposing a controlled experimental design comparing subliminal detection with direct trigger testing on identical models. This directly addresses the latent research idea implied by the references: developing better evaluation methods for extreme risks (ref-007) by leveraging unexpected AI behaviors (ref-014) to detect safety failures (ref-008). Hypothesis B, while relevant to ref-002's agentic misalignment concerns, proposes a more general framework that doesn't introduce a fundamentally new measurement technique. Its scenario generator and scoring system build on existing methods from ref-002 rather than addressing an unmeasured phenomenon. The references don't establish a clear gap in systematic context variation that B claims to fill, making A's focus on undetectable backdoors a more compelling unaddressed problem."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A more strongly grounds its claims in the provided references by directly addressing the gap in systematic context variation for agentic misalignment testing highlighted in ref-002 and ref-007. It proposes a concrete framework with measurable components (scenario generator, scoring system) that operationalize the implied problem of context-dependent misalignment. The evaluation plan systematically compares against ref-002's methodology and isolates context dimensions, demonstrating clearer capture of the research gap. While Hypothesis B addresses an important issue, its connection to ref-003 (social impact evaluation) is weaker compared to Hypothesis A's integration of ref-003's societal context considerations. Hypothesis A's approach also provides more specific, coherent claims directly supported by multiple references, whereas Hypothesis B's subliminal learning application, while novel, has less direct grounding in the core safety evaluation concerns of ref-007."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap between ref-008 (sleeper agent backdoors) and ref-007 (dangerous capability evaluations), which lack methods to detect hidden triggers. It introduces a novel approach leveraging ref-014's subliminal learning framework to detect backdoors through unrelated tasks (number sequences/code), a mechanism not explored in the original references. The evaluation plan is specific, comparing subliminal detection against direct trigger testing on baselines from ref-001 and ref-008, with measurable outcomes (student model accuracy, teacher model behavioral shifts). Hypothesis B, while relevant to ref-002's agentic misalignment, does not introduce a novel contribution beyond extending ref-002's methodology with modular context dimensions. Its gap (systematic variation of context) is less critical than A's focus on undetectable backdoors, and its evaluation relies on replicating ref-002's setup rather than proposing a fundamentally new detection mechanism. A's claims are more tightly supported by the references and address a more urgent safety gap."
+      }
+     ]
+    },
+    {
+     "a": "s3-empirical",
+     "b": "s3-formal",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-empirical",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and more specific, coherent claims. It directly addresses the mechanistic gap identified in ref-008 (backdoor persistence despite safety training) and ref-019 (safety training failures), which are core concerns in alignment research. The proposed mechanistic alignment analysis method is a novel technical contribution that builds on ref-008's backdoor models, ref-019's red-teaming insights, and ref-016's emphasis on white-box audits. The evaluation metrics (trigger detection rate, false positives, alignment discrepancy scores) are precisely tied to the references' findings. Hypothesis A, while relevant, focuses on a narrower gap (toxicity in agentic contexts) that is less central to the references' collective emphasis on alignment failures and safety evasion. Its approach combines ref-002 and ref-006 but lacks the mechanistic depth of B, which engages with ref-007's extreme risk evaluation framework and ref-016's audit transparency needs. B's focus on undetectable backdoors aligns more closely with the references' warnings about false safety impressions (ref-008) and the need for rigorous evaluation (ref-007, ref-016)."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the mechanistic causes of backdoor persistence (ref-008) and safety training failures (ref-019), which are core concerns in extreme risk evaluation (ref-007). It introduces a novel approach to detect neuron-level correlations that existing behavioral methods (ref-008, ref-019) cannot isolate, directly tackling the gap of undetected backdoors despite safety training. The evaluation plan is specific, comparing against established baselines (ref-008, ref-019) and incorporating ablation studies to validate mechanistic analysis. Hypothesis B, while relevant to toxicity in agentic contexts, combines ref-002 and ref-006 without introducing a novel mechanistic or evaluative framework. Its gap—whether autonomy increases toxicity—is less directly tied to the references’ emphasis on safety failures (ref-008, ref-019) and extreme risks (ref-007). A’s focus on mechanistic alignment aligns more closely with the references’ call for rigorous safety evaluations (ref-007, ref-016) and addresses a critical unmet need in current safety training methods."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-empirical",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and more specific, coherent claims. It directly addresses the mechanistic gap identified in ref-008 (backdoor persistence despite safety training) by proposing neuron-level analysis, which ref-008 and ref-019's behavioral methods cannot resolve. The approach integrates ref-008's backdoor models, ref-019's red-teaming insights, and ref-016's emphasis on white-box audits, creating a novel evaluation framework that aligns with ref-007's call for dangerous capability detection. The evaluation metrics (trigger detection rate, false positives, alignment discrepancy) are tightly tied to the references' concerns about undetectable risks. Hypothesis A, while relevant, combines ref-002 and ref-006 without introducing a novel methodological bridge between agentic misalignment and toxic degeneration. Its evaluation lacks the mechanistic specificity of B, relying on existing metrics from ref-002 and ref-006 rather than advancing new techniques to address the gap."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the mechanistic causes of backdoor persistence highlighted in ref-008, which ref-008 itself identifies as a critical gap in current safety evaluations. The hypothesis bridges ref-008's findings on adversarial training failures with ref-019's analysis of safety training failures, proposing a novel method to detect neuron-level discrepancies that existing behavioral evaluations (ref-008, ref-019) cannot isolate. The approach is specifically tied to ref-008's backdoored models and ref-016's emphasis on white-box audits, offering a concrete technical solution to the 'false safety impressions' problem. In contrast, Hypothesis B, while relevant to ref-002 and ref-006, does not introduce a novel methodological contribution beyond combining existing evaluation frameworks. Its gap statement identifies an interesting research question but lacks the specificity of Hypothesis A's mechanistic focus, which directly targets a documented limitation in the literature (ref-008's inability to detect backdoors post-adversarial training). The support for Hypothesis A also includes ref-007, which underscores the importance of dangerous capability evaluations, further aligning with the paper's focus on undetected backdoors as extreme risks."
+      }
+     ]
+    }
+   ]
+  ]
+ },
+ "selection_log": [],
+ "chosen": [
+  "s1-formal",
+  "s2-transfer",
+  "s3-formal"
+ ],
+ "fallback": []
+}

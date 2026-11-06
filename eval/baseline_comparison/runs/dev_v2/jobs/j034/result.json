@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "y2 provides the tighter experiment: use ref-008's specified year-triggered backdoors, classify activations, and mask identified neurons to test their causal contribution. White-box auditing is supported by ref-016. Its evaluation still needs controls against merely recognizing year tokens, and ref-008's adversarial training is primarily a removal intervention, not a detection baseline. x2 offers a useful, concrete defense extension, but incorrectly describes ref-005 as prior adversarial training and calls attack safety unexplored despite that paper's extensive attacks. Its transfer-across-versions claim also needs a more explicit training and held-out-policy protocol.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x3 incorrectly claims that ref-002 lacks synthetic trigger isolation: that reference already manipulates replacement threats, goal conflicts, and perceived testing versus deployment. Nevertheless, activation-based analysis could extend its coherent corporate simulation setting. y3 combines physical patches against diffusion manipulation policies (ref-005) with corporate text scenarios without specifying a shared embodied agent or observation interface. Toxicity scores from ref-006 also do not establish detection of blackmail or confidential-data leakage. Its approach therefore fails to operationalize its proposed gap.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X offers more substantive methodological breadth: intervention on synthetic training signals, adversarial robustness training for manipulation policies, and behavioral evaluation of corporate agents. Y contains distinct intended targets, but y1 and y2 both center on locating unsafe neuron populations and intervening on their activations. y3's physical-attack component does not supply a coherent additional experimental setting.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "X supplies two potentially useful intervention directions, despite substantial grounding corrections: x2 can be framed as defense against ref-005's demonstrated attacks, and x1 can test mitigation of ref-014's hidden trait transfer using ref-010's bias evaluation. x1 still needs to establish that its identified neurons mediate transfer. Y has the strongest individual candidate, y2, but weaker alternatives: y1 mischaracterizes FACET as a distillation framework (ref-004), attributes unspecified bias scores to ref-003, and leaves teacher-to-student neuron correspondence undefined; y3 lacks a workable connection between attacks and outcomes. X consequently gives a researcher a better range of usable choices.",
+  "verdict": "X"
+ }
+}

@@ -1,0 +1,20 @@
+{
+ "title": "Goodhart in the Guard: Scaling Laws for Safety-Classifier Overoptimization in Best-of-N Decoding",
+ "summary": "This proposal studies what happens when Best-of-N reranking uses an off-the-shelf guard model as a proxy for safety. Reward-overoptimization scaling laws have been measured only for helpfulness reward models. Here, an LLM-based guard plays the proxy cost model and a stronger rubric-based harmfulness judge plays the gold standard. We sweep N and the Lagrangian weight on adversarial and benign prompt sets. We then fit functional forms to the gold harmfulness and helpfulness curves to test whether safety overoptimization follows the predictable pattern seen for reward: gold safety first improves, then degrades. The degradation would come from guard-evading harmful outputs and from over-refusal.",
+ "gap": "Overoptimization scaling laws and formal accounts of reward hacking concern scalar helpfulness rewards. Constrained inference-time methods (LARA, InferenceGuard, Safe RLHF-style costs) treat the cost model as reliable. Nobody has measured how gold harmfulness behaves as selection pressure on a guard or cost model increases.",
+ "approach": "Generate N responses per prompt from frozen policies on HarmBench, JailbreakBench and StrongREJECT prompts, including jailbreak-wrapped versions, plus benign helpfulness prompts. Score each response with proxy guards (Llama Guard, ShieldGemma) as cost and a reward model (Skywork-Reward-V2) as reward. Select with plain BoN on the cost alone and with LARA-style augmented rewards. Measure gold harmfulness with the StrongREJECT evaluator and a strong LLM judge, and measure gold helpfulness and refusal rate. Fit gold-score-versus-KL(BoN) curves in the style of the reward scaling-law work, varying guard size.",
+ "evaluation": "Plot gold harmfulness and over-refusal against N and the analytic BoN KL. Fit the functional forms from the reward scaling-law work and compare goodness of fit across guard sizes. Also measure how much proxy–gold disagreement grows with N, and categorize the failures (guard evasion, obfuscated harm, empty refusals). Baselines are random sampling, BoN on reward alone, and LARA.",
+ "support": [
+  "ref-006",
+  "ref-012",
+  "ref-016",
+  "ref-005",
+  "ref-021",
+  "ref-014",
+  "ref-017",
+  "ref-010",
+  "ref-008",
+  "ref-009",
+  "ref-019"
+ ]
+}

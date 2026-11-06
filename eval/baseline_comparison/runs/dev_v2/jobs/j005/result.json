@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The main foundations are supported: EEG decoding architectures (ref-001, ref-015), multi-dataset validation (ref-007), SDP robustness bounds (ref-005, ref-020), CLEVER estimates (ref-009), and EEG universal attacks (ref-024). However, the supplied abstracts do not establish the specific ShallowConvNet architecture or justify applying slope restrictions to its proposed square/log nonlinearities. The attack-detection claim is supported by ref-021, which is missing from the support list. Ref-013 also does not explicitly describe PGD in its supplied abstract.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied EEG studies investigate decoding, attacks, and detection without reporting certified EEG robustness radii (ref-001, ref-015, ref-021, ref-024). Meanwhile, ref-020 demonstrates certification on random networks, MNIST, and Iris, and ref-009 evaluates image classifiers. Applying these methods to standardized EEG benchmarks and relating certificates to signal amplitudes is a clear, reasonably scoped gap, although it follows from combining separate research lines rather than an explicitly documented limitation.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate specifies architectures, an SDP technique, subject splits, several concrete baselines, and quantitative measures, building on ref-007, ref-009, ref-020, and ref-024. Experiment design could begin immediately. Remaining choices include exact datasets, preprocessing and voltage scaling, attack budgets, noise estimation, and valid activation bounds. DeepConvNet appears in the summary but lacks corresponding implementation detail in the approach.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Computing certificates and comparing them with attack results directly addresses the certification gap identified between ref-020 and ref-024. However, the proposal does not establish the activation-domain restrictions needed to make its square/log SDP treatment valid under ref-005 and ref-020. Moreover, a small certified radius can reflect conservative bounds rather than actual susceptibility to physiological noise; empirical attacks help assess tightness but do not establish the effect of ordinary noise.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A reproducible comparison could influence architecture selection and establish whether SDP certificates provide useful assurance for EEG decoding, connecting the validation concerns of ref-007 with the vulnerabilities in ref-024 and guarantees in ref-020. Even loose certificates would reveal practical limitations of this certification approach. Its implications for physiological safety remain narrower because certificate size alone does not establish failure under realistic noise.",
+  "score": 4
+ }
+}

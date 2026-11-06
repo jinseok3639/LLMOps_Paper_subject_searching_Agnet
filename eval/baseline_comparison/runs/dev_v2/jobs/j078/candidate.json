@@ -1,0 +1,14 @@
+{
+ "title": "Compute-Optimal Reward-Guided Sampling with Safety Constraints",
+ "summary": "This paper proposes a compute-optimal inference-time alignment strategy that integrates safety constraints via Lagrangian optimization to mitigate reward hacking while scaling test-time computation. The approach combines adaptive allocation of sampling budgets with pessimistic rejection sampling and dual-variable calibration for constrained optimization. Validation involves comparing helpfulness-harmlessness tradeoffs against baselines like vanilla Best-of-N, InferenceTimePessimism, and LARA on benchmarks such as Anthropic's hh-rlhf and HarmBench.",
+ "gap": "While ref-004's InferenceTimePessimism provides scaling-monotonic guarantees against reward hacking and ref-012's LARA automates safety-constrained optimization via calibrated dual variables, no prior work combines both principles to optimize compute allocation for safety-constrained inference-time alignment. Specifically, ref-004 does not handle safety constraints, and ref-012 does not adapt sampling budgets per prompt difficulty.",
+ "approach": "We formalize safety-constrained inference-time alignment as a Lagrangian optimization problem with a calibrated dual variable (ref-012) and integrate compute-optimal sampling budget allocation (ref-002) with pessimistic rejection sampling (ref-004). The dual variable is estimated on a calibration set (ref-012) and used to augment the reward signal for Best-of-N reranking. Sampling budgets are allocated adaptively per prompt difficulty (ref-002), with difficulty quantified via reward model uncertainty (ref-004).",
+ "evaluation": "Baselines include vanilla Best-of-N (ref-003), MBR-BoN (ref-003), InferenceTimePessimism (ref-004), LARA (ref-012), and RLHF-trained models (ref-001). Metrics are AU-PRC for safety violations (ref-005), human preference scores for helpfulness (ref-018), and total FLOPs per sample (ref-002). Evaluation datasets include Anthropic's hh-rlhf (ref-003), HarmBench (ref-014), and StrongREJECT (ref-021). Ablations isolate the effect of dual-variable calibration (ref-012) and adaptive budget allocation (ref-002) by comparing the full method against (1) fixed N Best-of-N with LARA, (2) InferenceTimePessimism without Lagrangian constraints, and (3) LARA without compute-optimal allocation.",
+ "support": [
+  "ref-002",
+  "ref-004",
+  "ref-012",
+  "ref-014",
+  "ref-021"
+ ]
+}

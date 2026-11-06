@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x3",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x1",
+  "Y": "y1"
+ },
+ "best": {
+  "rationale": "x3 makes one clear change to ref-006: study overoptimization of safety costs rather than general preference rewards. Its controlled variations in proxy size and data, independent judges, human checks, and held-out prediction of useful sampling limits form a coherent experiment with deployment value. y2 draws sensibly on refs-002, ref-004, and ref-012, but bundles adaptive allocation, pessimism, and constraints without specifying their interaction sufficiently. Its safety AU-PRC measures scorer discrimination rather than directly establishing that selected responses satisfy safety constraints. x3 offers a clearer hypothesis and more decisive evaluation.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x1 leaves the uncertainty estimator unspecified, offers two alternative regularizers, and seeks simultaneous monotonic improvements in true safety and helpfulness that the cited guarantees do not establish. Nevertheless, testing LARA-style selection under cost-model error is a concrete extension of ref-012, motivated by refs-003, ref-004, and ref-006. y1's central coverage gap substantially overlaps ref-004, which already analyzes coverage-dependent quality and compute guarantees under imperfect rewards. y1 neither cites nor distinguishes that closest work. Its proposed KL-and-correlation bounds also lack assumptions explaining why those quantities sufficiently characterize degradation. x1 therefore has the better-supported remaining research question.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X separates three useful questions: regularizing constrained selection under proxy error, allocating defensive compute against an attacker with its own sampling budget, and measuring safety-proxy overoptimization laws. These share a setting but require different interventions and evidence. Y includes a theoretical coverage proposal, but y2 and y3 substantially overlap in adaptive safety-oriented Best-of-N, and its theoretical candidate does not distinguish itself adequately from ref-004. X provides more genuinely different research choices.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "X provides stronger experimental starting points and clearer decision value: x3 could inform sampling limits, while x2 directly tests whether risk-based allocation improves robustness per unit compute against ref-024's attack, using evaluation concerns supported by ref-021. x1 remains underspecified and overambitious, but addresses a meaningful proxy-error question. Y's strongest candidate, y2, is plausible but combines several contributions; y3 leaves difficulty estimation unspecified and conflates ref-012's dual-variable calibration with reward-model calibration, without clearly defining a safety-specific selection objective. Together with y1's unaddressed overlap with ref-004, these weaknesses make Y less useful to a researcher choosing a project.",
+  "verdict": "X"
+ }
+}

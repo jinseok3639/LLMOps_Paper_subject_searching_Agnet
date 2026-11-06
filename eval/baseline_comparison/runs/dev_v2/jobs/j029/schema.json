@@ -1,0 +1,58 @@
+{
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "queries",
+  "closest",
+  "rationale",
+  "score"
+ ],
+ "properties": {
+  "queries": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "closest": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "title",
+     "year",
+     "url",
+     "how_close"
+    ],
+    "properties": {
+     "title": {
+      "type": "string"
+     },
+     "year": {
+      "type": "integer"
+     },
+     "url": {
+      "type": "string"
+     },
+     "how_close": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "rationale": {
+   "type": "string"
+  },
+  "score": {
+   "type": "integer",
+   "enum": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  }
+ }
+}

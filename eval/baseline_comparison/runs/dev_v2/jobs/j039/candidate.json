@@ -1,0 +1,20 @@
+{
+ "title": "Neural-Signal Safe Operation: Certified Robustness Margins as a Gating Mechanism for Assistive BCI Control",
+ "summary": "BCIs controlling physical devices such as robotic arms face security risks from perturbed neural inputs, and safety-focused ML work calls for monitoring and robustness. This proposal tests a runtime safety gate for an EEG-driven assistive controller: a per-trial certified margin from a Lipschitz bound determines whether a decoded command is executed, deferred, or sent for user confirmation. The hypothesis is that certificate-based gating reduces harmful actions under adversarial perturbation more than confidence thresholding or adversarial detectors, at an acceptable cost in throughput. Validation uses offline EEG datasets with simulated attacks and a simulated device-control task.",
+ "gap": "Security surveys and ethics papers on BCIs identify risks to users' physical integrity, and empirical EEG attack and detection studies exist, but none connects formal robustness certificates to an actionable control-level safety policy for BCI-driven devices. ML safety roadmaps call for monitoring and robustness but are not instantiated for BCI control.",
+ "approach": "Train a compact EEG CNN with Lipschitz regularization and compute a certified margin per trial from an SDP or cross-Lipschitz bound. Define a gating policy: execute only if the margin exceeds the radius of a threat model (bounded-norm or universal perturbation); otherwise abstain or request confirmation. Simulate a cursor or robotic-arm control loop where decoded classes drive discrete commands, with attacks injected into the signal stream.",
+ "evaluation": "Compare against ungated decoding, softmax-confidence thresholding, and Mahalanobis/cosine adversarial detector gating. Measure rate of harmful executed commands under PGD and universal attacks, task completion time and information transfer rate (cost of abstaining), false rejection rate on clean data, and sensitivity to threat-model radius. Use several open EEG datasets and cross-subject splits.",
+ "support": [
+  "ref-017",
+  "ref-014",
+  "ref-021",
+  "ref-024",
+  "ref-020",
+  "ref-022",
+  "ref-001",
+  "ref-006",
+  "ref-019",
+  "ref-023",
+  "ref-004"
+ ]
+}

@@ -1,0 +1,112 @@
+$ exit 0
+--- stdout
+{
+  "grounding": {
+    "rationale": "The main connection between EEGNet and SDP verification is supported by ref-001 and ref-005. However, ref-009 describes an estimated robustness metric, not a guaranteed worst-case bound; ref-020 uses quadratic constraints rather than the attributed piecewise linear bounds. The supplied references also do not establish the named MOABB dataset, the proposed error-cost ordering, or that robustness certification enables medical certification.",
+    "score": 2
+  },
+  "gap": {
+    "rationale": "The references leave open an empirical study of formal robustness bounds across EEG paradigms: ref-001 evaluates decoding performance, ref-007 motivates broader validation, and ref-005/ref-020 develop general verification methods. However, the candidate does not identify a concrete limitation of those verification methods that EEG requires overcoming, and the medical-certification gap extends beyond the evidence.",
+    "score": 3
+  },
+  "specificity": {
+    "rationale": "The candidate identifies an architecture, an SDP technique, paradigms, robustness radii, and comparison methods (ref-001, ref-005, ref-009). However, applying ref-005 to EEGNet is also the proposed baseline, leaving the experimental difference unclear. The perturbation norm and budget, cross-paradigm training protocol, and loss weights are unspecified, while the ablation attributed to ref-020 is unsupported.",
+    "score": 3
+  },
+  "coherence": {
+    "rationale": "Computing verified radii across EEG tasks could test whether ref-005's framework provides useful guarantees for ref-001's architecture. However, separate paradigm evaluations do not establish cross-paradigm generalization without a defined transfer protocol. Weighted Hamming loss does not validate worst-case guarantees, and bounded classification robustness alone cannot substantiate the claimed medical safety certification.",
+    "score": 3
+  },
+  "value": {
+    "rationale": "A benchmark showing whether formal certificates are informative and computationally feasible for EEGNet could influence BCI robustness evaluation, especially given the validation concerns in ref-007 and attacks in ref-024. Its likely contribution is nevertheless narrow: it applies ref-005/ref-020 without a clearly isolated methodological change, and the evaluation does not support the broader clinical claims.",
+    "score": 3
+  }
+}
+
+--- stderr
+e by applying a certain imperceptible perturbation, which is found by maximizing the network's prediction error. In addition, the specific nature of these perturbations is not a random artifact of learning: the same perturbation can cause a different network, that was trained on a different subset of the dataset, to misclassify the same input.
+
+[ref-012] Filter Bank Common Spatial Pattern (FBCSP) in Brain-Computer Interface
+Abstract: (not available)
+
+[ref-013] Towards Deep Learning Models Resistant to Adversarial Attacks
+Abstract: Recent work has demonstrated that deep neural networks are vulnerable to adversarial examples---inputs that are almost indistinguishable from natural data and yet classified incorrectly by the network. In fact, some of the latest findings suggest that the existence of adversarial attacks may be an inherent weakness of deep learning models. To address this problem, we study the adversarial robustness of neural networks through the lens of robust optimization. This approach provides us with a broad and unifying view on much of the prior work on this topic. Its principled nature also enables us to identify methods for both training and attacking neural networks that are reliable and, in a certain sense, universal. In particular, they specify a concrete security guarantee that would protect against any adversary. These methods let us train networks with significantly improved resistance to a wide range of adversarial attacks. They also suggest the notion of security against a first-order adversary as a natural and broad security guarantee. We believe that robustness against such well-defined classes of adversaries is an important stepping stone towards fully resistant deep learning models. Code and pre-trained models are available at this https URL and this https URL.
+
+[ref-014] Hacking the brain: brain–computer interfacing technology and the ethics of neurosecurity
+Abstract: (not available)
+
+[ref-015] Deep learning with convolutional neural networks for EEG decoding and visualization
+Abstract: Deep learning with convolutional neural networks (deep ConvNets) has revolutionized computer vision through end‐to‐end learning, that is, learning from the raw data. There is increasing interest in using deep ConvNets for end‐to‐end EEG analysis, but a better understanding of how to design and train ConvNets for end‐to‐end EEG decoding and how to visualize the informative EEG features the ConvNets learn is still needed. Here, we studied deep ConvNets with a range of different architectures, designed for decoding imagined or executed tasks from raw EEG. Our results show that recent advances from the machine learning field, including batch normalization and exponential linear units, together with a cropped training strategy, boosted the deep ConvNets decoding performance, reaching at least as good performance as the widely used filter bank common spatial patterns (FBCSP) algorithm (mean decoding accuracies 82.1% FBCSP, 84.0% deep ConvNets). While FBCSP is designed to use spectral power modulations, the features used by ConvNets are not fixed a priori. Our novel methods for visualizing the learned features demonstrated that ConvNets indeed learned to use spectral power modulations in the alpha, beta, and high gamma frequencies, and proved useful for spatially mapping the learned features by revealing the topography of the causal contributions of features in different frequency bands to the decoding decision. Our study thus shows how to design and train ConvNets to decode task‐related information from the raw EEG without handcrafted features and highlights the potential of deep ConvNets combined with advanced visualization techniques for EEG‐based brain mapping. Hum Brain Mapp 38:5391–5420, 2017. © 2017 Wiley Periodicals, Inc.
+
+[ref-016] Towards new human rights in the age of neuroscience and neurotechnology
+Abstract: Rapid advancements in human neuroscience and neurotechnology open unprecedented possibilities for accessing, collecting, sharing and manipulating information from the human brain. Such applications raise important challenges to human rights principles that need to be addressed to prevent unintended consequences. This paper assesses the implications of emerging neurotechnology applications in the context of the human rights framework and suggests that existing human rights may not be sufficient to respond to these emerging issues. After analysing the relationship between neuroscience and human rights, we identify four new rights that may become of great relevance in the coming decades: the right to cognitive liberty, the right to mental privacy, the right to mental integrity, and the right to psychological continuity.
+
+[ref-017] Security in brain-computer interfaces: State-of-the-art, opportunities, and future challenges
+Abstract: BCIs have significantly improved the patients' quality of life by restoring damaged hearing, sight, and movement capabilities. After evolving their application scenarios, the current trend of BCI is to enable new innovative brain-to-brain and brain-to-the-Internet communication paradigms. This technological advancement generates opportunities for attackers since users' personal information and physical integrity could be under tremendous risk. This work presents the existing versions of the BCI life-cycle and homogenizes them in a new approach that overcomes current limitations. After that, we offer a qualitative characterization of the security attacks affecting each phase of the BCI cycle to analyze their impacts and countermeasures documented in the literature. Finally, we reflect on lessons learned, highlighting research trends and future challenges concerning security on BCIs.
+
+[ref-018] Risks from Learned Optimization in Advanced Machine Learning Systems
+Abstract: We analyze the type of learned optimization that occurs when a learned model (such as a neural network) is itself an optimizer - a situation we refer to as mesa-optimization, a neologism we introduce in this paper. We believe that the possibility of mesa-optimization raises two important questions for the safety and transparency of advanced machine learning systems. First, under what circumstances will learned models be optimizers, including when they should not be? Second, when a learned model is an optimizer, what will its objective be - how will it differ from the loss function it was trained under - and how can it be aligned? In this paper, we provide an in-depth analysis of these two primary questions and provide an overview of topics for future research.
+
+[ref-019] Unsolved Problems in ML Safety
+Abstract: Machine learning (ML) systems are rapidly increasing in size, are acquiring new capabilities, and are increasingly deployed in high-stakes settings. As with other powerful technologies, safety for ML should be a leading research priority. In response to emerging safety challenges in ML, such as those introduced by recent large-scale models, we provide a new roadmap for ML Safety and refine the technical problems that the field needs to address. We present four problems ready for research, namely withstanding hazards ("Robustness"), identifying hazards ("Monitoring"), reducing inherent model hazards ("Alignment"), and reducing systemic hazards ("Systemic Safety"). Throughout, we clarify each problem's motivation and provide concrete research directions.
+
+[ref-020] Efficient and Accurate Estimation of Lipschitz Constants for Deep Neural Networks
+Abstract: Tight estimation of the Lipschitz constant for deep neural networks (DNNs) is useful in many applications ranging from robustness certification of classifiers to stability analysis of closed-loop systems with reinforcement learning controllers. Existing methods in the literature for estimating the Lipschitz constant suffer from either lack of accuracy or poor scalability. In this paper, we present a convex optimization framework to compute guaranteed upper bounds on the Lipschitz constant of DNNs both accurately and efficiently. Our main idea is to interpret activation functions as gradients of convex potential functions. Hence, they satisfy certain properties that can be described by quadratic constraints. This particular description allows us to pose the Lipschitz constant estimation problem as a semidefinite program (SDP). The resulting SDP can be adapted to increase either the estimation accuracy (by capturing the interaction between activation functions of different layers) or scalability (by decomposition and parallel implementation). We illustrate the utility of our approach with a variety of experiments on randomly generated networks and on classifiers trained on the MNIST and Iris datasets. In particular, we experimentally demonstrate that our Lipschitz bounds are the most accurate compared to those in the literature. We also study the impact of adversarial training methods on the Lipschitz bounds of the resulting classifiers and show that our bounds can be used to efficiently provide robustness guarantees.
+
+[ref-021] Adversarial artifact detection in EEG-based brain–computer interfaces
+Abstract: Objective. machine learning has achieved significant success in electroencephalogram (EEG) based brain–computer interfaces (BCIs), with most existing research focusing on improving the decoding accuracy. However, recent studies have shown that EEG-based BCIs are vulnerable to adversarial attacks, where small perturbations added to the input can cause misclassification. Detecting adversarial examples is crucial for both understanding this phenomenon and developing effective defense strategies. Approach. this paper, for the first time, explores adversarial detection in EEG-based BCIs. We extend several popular adversarial detection approaches from computer vision to BCIs. Two new Mahalanobis distance based adversarial detection approaches, and three cosine distance based adversarial detection approaches, are also proposed, which showed promising performance in detecting three kinds of white-box attacks. Main results. we evaluated the performance of eight adversarial detection approaches on three EEG datasets, three neural networks, and four types of adversarial attacks. Our approach achieved an area under the curve score of up to 99.99% in detecting white-box attacks. Additionally, we assessed the transferability of different adversarial detectors to unknown attacks. Significance. through extensive experiments, we found that white-box attacks may be easily detected, and differences exist in the distributions of different types of adversarial examples. Our work should facilitate understanding the vulnerability of existing BCI models and developing more secure BCIs in the future.
+
+[ref-022] Formal Guarantees on the Robustness of a Classifier against Adversarial Manipulation
+Abstract: Recent work has shown that state-of-the-art classifiers are quite brittle, in the sense that a small adversarial change of an originally with high confidence correctly classified input leads to a wrong classification again with high confidence. This raises concerns that such classifiers are vulnerable to attacks and calls into question their usage in safety-critical systems. We show in this paper for the first time formal guarantees on the robustness of a classifier by giving instance-specific lower bounds on the norm of the input manipulation required to change the classifier decision. Based on this analysis we propose the Cross-Lipschitz regularization functional. We show that using this form of regularization in kernel methods resp. neural networks improves the robustness of the classifier without any loss in prediction performance.
+
+[ref-023] Concrete Problems in AI Safety
+Abstract: Rapid progress in machine learning and artificial intelligence (AI) has brought increasing attention to the potential impacts of AI technologies on society. In this paper we discuss one such potential impact: the problem of accidents in machine learning systems, defined as unintended and harmful behavior that may emerge from poor design of real-world AI systems. We present a list of five practical research problems related to accident risk, categorized according to whether the problem originates from having the wrong objective function ("avoiding side effects" and "avoiding reward hacking"), an objective function that is too expensive to evaluate frequently ("scalable supervision"), or undesirable behavior during the learning process ("safe exploration" and "distributional shift"). We review previous work in these areas as well as suggesting research directions with a focus on relevance to cutting-edge AI systems. Finally, we consider the high-level question of how to think most productively about the safety of forward-looking applications of AI.
+
+[ref-024] Universal adversarial perturbations for CNN classifiers in EEG-based BCIs
+Abstract: Objective. Multiple convolutional neural network (CNN) classifiers have been proposed for electroencephalogram (EEG) based brain-computer interfaces (BCIs). However, CNN models have been found vulnerable to universal adversarial perturbations (UAPs), which are small and example-independent, yet powerful enough to degrade the performance of a CNN model, when added to a benign example. Approach. This paper proposes a novel total loss minimization (TLM) approach to generate UAPs for EEG-based BCIs. Main results. Experimental results demonstrated the effectiveness of TLM on three popular CNN classifiers for both target and non-target attacks. We also verified the transferability of UAPs in EEG-based BCI systems. Significance. To our knowledge, this is the first study on UAPs of CNN classifiers in EEG-based BCIs. UAPs are easy to construct, and can attack BCIs in real-time, exposing a potentially critical security concern of BCIs.
+
+[ref-025] Regulating Next-Generation Implantable Brain-Computer Interfaces: Recommendations for Ethical Development and Implementation
+Abstract: Brain-computer interfaces (BCIs) offer significant therapeutic opportunities for a variety of neurophysiological and neuropsychiatric disorders and may perhaps one day lead to augmenting the cognition and decision-making of the healthy brain. However, existing regulatory frameworks designed for implantable medical devices (IMDs) are inadequate to address the unique ethical, legal, and social risks associated with next-generation networked brain-computer interfaces (BCIs). In this article, we make nine recommendations to support developers in the design of BCIs and nine recommendations to support policymakers in the application of BCIs, drawing insights from the regulatory history of IMDs and principles from AI ethics. We begin by outlining the historical development of IMDs and the regulatory milestones that have shaped their oversight. Next, we compare the unique characteristics of IMDs (including early-generation implantable BCIs) and emerging, “next-generation” implantable BCIs. We then use one case study in contemporary chip architecture—the SCALO (SCalable Architecture for LOw-power BCIs) computer system—to highlight distinctive features in the design and application of next-generation BCIs arising from these technologies, which necessitate reevaluating regulatory approaches. We identify critical ethical considerations for next-gen implantable BCIs, including unique conceptions of autonomy, identity, and mental privacy. Based on these insights, we suggest potential avenues for the ethical regulation of next-gen implantable BCIs, emphasizing the importance of interdisciplinary collaboration and proactive mitigation of potential harms. The goal is to support the responsible design and application of emerging BCIs, ensuring their safe and ethical integration into medical practice.
+</file>
+
+<file name="candidate.json">
+{
+ "title": "Cross-Paradigm Safety Verification for BCI Neural Networks",
+ "summary": "We propose a framework to formally verify safety properties of EEG classifiers across BCI paradigms using semidefinite programming. By modeling activation functions with quadratic constraints, we derive worst-case input bounds for misclassification. This approach generalizes beyond single-paradigm validation, enabling safety certification of BCIs for medical use where false predictions could be life-threatening.",
+ "gap": "While ref-007 shows BCI methods fail to generalize across datasets and ref-009 quantifies worst-case robustness via CLEVER, neither combines formal verification with multi-paradigm EEG models like EEGNet (ref-001). Existing safety analyses lack worst-case bounds for BCIs across paradigms, leaving gaps in medical certification.",
+ "approach": "Apply ref-005's SDP framework to EEGNet models, abstracting ReLU/ELU activations as quadratic constraints. Derive input perturbation thresholds for misclassification across P300/MRCP/SMR paradigms by solving SDPs that enforce Lipschitz bounds. This differs from ref-005 by targeting EEG-specific architectures and multi-paradigm generalization.",
+ "evaluation": "Measure verified robustness radii on MOABB's BNCI Horizon 2014 (motor-imagery) and ref-001's P300/MRCP datasets. Compare against CLEVER (ref-009) and ref-005's method on EEGNet. Ablation tests quadratic constraints vs. piecewise linear bounds (ref-020). Validate safety thresholds via weighted Hamming loss for motor-imagery, where false negatives (no movement) cost more than false positives (phantom movement).",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-009",
+  "ref-020"
+ ]
+}
+</file>
+codex
+{
+  "grounding": {
+    "rationale": "The main connection between EEGNet and SDP verification is supported by ref-001 and ref-005. However, ref-009 describes an estimated robustness metric, not a guaranteed worst-case bound; ref-020 uses quadratic constraints rather than the attributed piecewise linear bounds. The supplied references also do not establish the named MOABB dataset, the proposed error-cost ordering, or that robustness certification enables medical certification.",
+    "score": 2
+  },
+  "gap": {
+    "rationale": "The references leave open an empirical study of formal robustness bounds across EEG paradigms: ref-001 evaluates decoding performance, ref-007 motivates broader validation, and ref-005/ref-020 develop general verification methods. However, the candidate does not identify a concrete limitation of those verification methods that EEG requires overcoming, and the medical-certification gap extends beyond the evidence.",
+    "score": 3
+  },
+  "specificity": {
+    "rationale": "The candidate identifies an architecture, an SDP technique, paradigms, robustness radii, and comparison methods (ref-001, ref-005, ref-009). However, applying ref-005 to EEGNet is also the proposed baseline, leaving the experimental difference unclear. The perturbation norm and budget, cross-paradigm training protocol, and loss weights are unspecified, while the ablation attributed to ref-020 is unsupported.",
+    "score": 3
+  },
+  "coherence": {
+    "rationale": "Computing verified radii across EEG tasks could test whether ref-005's framework provides useful guarantees for ref-001's architecture. However, separate paradigm evaluations do not establish cross-paradigm generalization without a defined transfer protocol. Weighted Hamming loss does not validate worst-case guarantees, and bounded classification robustness alone cannot substantiate the claimed medical safety certification.",
+    "score": 3
+  },
+  "value": {
+    "rationale": "A benchmark showing whether formal certificates are informative and computationally feasible for EEGNet could influence BCI robustness evaluation, especially given the validation concerns in ref-007 and attacks in ref-024. Its likely contribution is nevertheless narrow: it applies ref-005/ref-020 without a clearly isolated methodological change, and the evaluation does not support the broader clinical claims.",
+    "score": 3
+  }
+}
+tokens used
+8,023

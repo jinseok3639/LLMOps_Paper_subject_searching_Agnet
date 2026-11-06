@@ -1,0 +1,180 @@
+$ exit 0
+--- stdout
+{
+  "strongest": {"X": "x1", "Y": "y3"},
+  "weakest": {"X": "x3", "Y": "y2"},
+  "best": {
+    "rationale": "y3 specifies a coherent extension of the certification methods in ref-005, ref-020 and ref-022 to EEGNet's compact convolutional structure (ref-001), with concrete certificate, accuracy and scalability comparisons. Its constrained-training variants can test whether certificates improve enough to justify accuracy costs. x1 also connects relevant work (ref-001, ref-010), but does not establish that its proposed spectral normalization implements Parseval tight-frame constraints or that those constraints alone guarantee prediction stability. y3 provides a clearer path from method to measurable robustness.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "x3 conflates EEG decoding with implantable recording: ref-006 describes intracortical neuronal recordings, not the noise-injected EEG data its evaluation assumes. Its proposed experiments therefore cannot substantiate its implantable-BCI safety claims. y2's weakest link is that certified prediction invariance does not establish command correctness or physical safety; its simulated harmful-action outcome needs explicit definition. Nevertheless, it proposes an empirical test of a concrete gating policy, relevant baselines and throughput costs, grounded in ref-017, ref-020, ref-021 and ref-022, without requiring the unsupported recording-modality substitution.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "X covers constrained training, adversarial training with benchmarking, and certification, but all primarily target decoder robustness. Y spans robustness generalization and detector evaluation (y1), runtime control decisions and abstention costs (y2), and formal certification methodology (y3). Although y2 and y3 share certificate machinery, their interventions and outcomes differ meaningfully. Y consequently offers a broader choice of research questions.",
+    "verdict": "Y"
+  },
+  "overall": {
+    "rationale": "Y offers more coherent experiments and clearer decision-relevant outcomes across benchmarking, certification and control. Its proposals still need tighter scope, and claims that no prior solution exists should be limited to the supplied corpus. X has more consequential problems: x1's constraint implementation is insufficiently justified, x2's single-dataset-or-attack premise overlooks the multi-dataset, multi-attack and transfer evaluations in ref-021 and ref-024, and x3 misuses ref-006. Y would better support choosing and designing a defensible study.",
+    "verdict": "Y"
+  }
+}
+
+--- stderr
+n to BCIs. Two new Mahalanobis distance based adversarial detection approaches, and three cosine distance based adversarial detection approaches, are also proposed, which showed promising performance in detecting three kinds of white-box attacks. Main results. we evaluated the performance of eight adversarial detection approaches on three EEG datasets, three neural networks, and four types of adversarial attacks. Our approach achieved an area under the curve score of up to 99.99% in detecting white-box attacks. Additionally, we assessed the transferability of different adversarial detectors to unknown attacks. Significance. through extensive experiments, we found that white-box attacks may be easily detected, and differences exist in the distributions of different types of adversarial examples. Our work should facilitate understanding the vulnerability of existing BCI models and developing more secure BCIs in the future.
+
+[ref-022] Formal Guarantees on the Robustness of a Classifier against Adversarial Manipulation
+Abstract: Recent work has shown that state-of-the-art classifiers are quite brittle, in the sense that a small adversarial change of an originally with high confidence correctly classified input leads to a wrong classification again with high confidence. This raises concerns that such classifiers are vulnerable to attacks and calls into question their usage in safety-critical systems. We show in this paper for the first time formal guarantees on the robustness of a classifier by giving instance-specific lower bounds on the norm of the input manipulation required to change the classifier decision. Based on this analysis we propose the Cross-Lipschitz regularization functional. We show that using this form of regularization in kernel methods resp. neural networks improves the robustness of the classifier without any loss in prediction performance.
+
+[ref-023] Concrete Problems in AI Safety
+Abstract: Rapid progress in machine learning and artificial intelligence (AI) has brought increasing attention to the potential impacts of AI technologies on society. In this paper we discuss one such potential impact: the problem of accidents in machine learning systems, defined as unintended and harmful behavior that may emerge from poor design of real-world AI systems. We present a list of five practical research problems related to accident risk, categorized according to whether the problem originates from having the wrong objective function ("avoiding side effects" and "avoiding reward hacking"), an objective function that is too expensive to evaluate frequently ("scalable supervision"), or undesirable behavior during the learning process ("safe exploration" and "distributional shift"). We review previous work in these areas as well as suggesting research directions with a focus on relevance to cutting-edge AI systems. Finally, we consider the high-level question of how to think most productively about the safety of forward-looking applications of AI.
+
+[ref-024] Universal adversarial perturbations for CNN classifiers in EEG-based BCIs
+Abstract: Objective. Multiple convolutional neural network (CNN) classifiers have been proposed for electroencephalogram (EEG) based brain-computer interfaces (BCIs). However, CNN models have been found vulnerable to universal adversarial perturbations (UAPs), which are small and example-independent, yet powerful enough to degrade the performance of a CNN model, when added to a benign example. Approach. This paper proposes a novel total loss minimization (TLM) approach to generate UAPs for EEG-based BCIs. Main results. Experimental results demonstrated the effectiveness of TLM on three popular CNN classifiers for both target and non-target attacks. We also verified the transferability of UAPs in EEG-based BCI systems. Significance. To our knowledge, this is the first study on UAPs of CNN classifiers in EEG-based BCIs. UAPs are easy to construct, and can attack BCIs in real-time, exposing a potentially critical security concern of BCIs.
+
+[ref-025] Regulating Next-Generation Implantable Brain-Computer Interfaces: Recommendations for Ethical Development and Implementation
+Abstract: Brain-computer interfaces (BCIs) offer significant therapeutic opportunities for a variety of neurophysiological and neuropsychiatric disorders and may perhaps one day lead to augmenting the cognition and decision-making of the healthy brain. However, existing regulatory frameworks designed for implantable medical devices (IMDs) are inadequate to address the unique ethical, legal, and social risks associated with next-generation networked brain-computer interfaces (BCIs). In this article, we make nine recommendations to support developers in the design of BCIs and nine recommendations to support policymakers in the application of BCIs, drawing insights from the regulatory history of IMDs and principles from AI ethics. We begin by outlining the historical development of IMDs and the regulatory milestones that have shaped their oversight. Next, we compare the unique characteristics of IMDs (including early-generation implantable BCIs) and emerging, “next-generation” implantable BCIs. We then use one case study in contemporary chip architecture—the SCALO (SCalable Architecture for LOw-power BCIs) computer system—to highlight distinctive features in the design and application of next-generation BCIs arising from these technologies, which necessitate reevaluating regulatory approaches. We identify critical ethical considerations for next-gen implantable BCIs, including unique conceptions of autonomy, identity, and mental privacy. Based on these insights, we suggest potential avenues for the ethical regulation of next-gen implantable BCIs, emphasizing the importance of interdisciplinary collaboration and proactive mitigation of potential harms. The goal is to support the responsible design and application of emerging BCIs, ensuring their safe and ethical integration into medical practice.
+</file>
+
+<file name="set_x.json">
+[
+ {
+  "id": "x1",
+  "title": "Parseval EEGNet: Enhancing Robustness of EEG-Based BCIs Against Adversarial Attacks",
+  "summary": "We propose Parseval EEGNet, a modified EEGNet architecture with Parseval tight frame constraints on convolutional layers to improve robustness against adversarial perturbations in EEG-based BCIs. By ensuring Lipschitz continuity, the model maintains stable predictions under input variations while preserving classification accuracy. We validate the approach on public EEG datasets with adversarial attacks, comparing performance against standard EEGNet and Parseval networks from computer vision.",
+  "gap": "While EEGNet generalizes well across BCI paradigms, existing EEG-based CNN models lack robustness guarantees against adversarial examples, a critical concern for safety-critical BCI applications. Prior robustness methods (e.g., Parseval networks) are unexplored in EEG domains.",
+  "approach": "Integrate Parseval tight frame constraints into EEGNet's convolutional layers via spectral normalization during training. This maintains weight matrices as approximately orthogonal, bounding Lipschitz constants to improve robustness without sacrificing accuracy.",
+  "evaluation": "Compare Parseval EEGNet with baseline EEGNet and Parseval networks on datasets from [ref-001] using FGSM/PGD attacks. Metrics include clean/test accuracy, robustness score (CLEVER from [ref-009]), and adversarial loss. Cross-subject generalization is tested via leave-one-subject-out validation.",
+  "support": [
+   "ref-001",
+   "ref-005",
+   "ref-009",
+   "ref-010",
+   "ref-021",
+   "ref-024"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "MOABB-Integrated Adversarial Training for Generalizable Robust EEG Decoders",
+  "summary": "We develop an adversarial training framework integrated with the MOABB benchmarking platform to improve generalization of EEG classifiers against unseen attacks. By exposing models to diverse adversarial examples during training across multiple datasets, we enhance robustness without sacrificing cross-paradigm performance. Validation uses MOABB's standardized pipelines and novel attack transferability metrics.",
+  "gap": "Current BCI robustness evaluations focus on single datasets or attacks, failing to assess generalization. MOABB enables multi-dataset benchmarking but lacks adversarial robustness analysis, leaving a gap in scalable, reproducible robustness validation.",
+  "approach": "Extend MOABB with adversarial training modules, incorporating PGD and CW attacks during training. Train EEGNet variants on aggregated datasets from [ref-007], applying dynamic attack schedules to simulate real-world threat diversity.",
+  "evaluation": "Benchmark trained models on MOABB's 12 datasets using attack transferability matrices. Metrics include accuracy under white-box/black-box attacks, CLEVER scores, and comparison with non-adversarially trained baselines. Cross-paradigm robustness is assessed via paradigm-shuffled splits.",
+  "support": [
+   "ref-001",
+   "ref-007",
+   "ref-009",
+   "ref-013",
+   "ref-021",
+   "ref-024"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Safety-Certified EEGNet via Semidefinite Programming for Implantable BCIs",
+  "summary": "We present a safety-certified EEGNet variant using semidefinite programming (SDP) to provide formal robustness guarantees for implantable BCIs. By bounding output variations under input perturbations, the model ensures reliable operation in safety-critical scenarios. Validation includes SDP-based verification and physical adversarial testing on motor imagery datasets.",
+  "gap": "Implantable BCIs require provable safety guarantees, but existing EEG models lack formal robustness certification. SDP methods from [ref-005] and [ref-020] are untested in EEG domains, leaving a gap in certified robust BCI design.",
+  "approach": "Apply SDP-based quadratic constraint programming to EEGNet, modeling activation functions as convex potentials. Derive layer-wise Lipschitz bounds via SDP relaxation, ensuring output stability under bounded input perturbations during inference.",
+  "evaluation": "Compare certified robustness bounds with empirical attack success rates on motor imagery datasets. Metrics include verified perturbation radii, CLEVER scores, and comparison with Parseval EEGNet. Physical adversarial testing uses noise-injected EEG signals from [ref-006].",
+  "support": [
+   "ref-001",
+   "ref-005",
+   "ref-006",
+   "ref-020",
+   "ref-022",
+   "ref-025"
+  ]
+ }
+]
+</file>
+
+<file name="set_y.json">
+[
+ {
+  "id": "y1",
+  "title": "Do Adversarial Detectors and Robust Training for EEG Decoders Hold Up Across Datasets? A MOABB-Style Robustness Benchmark",
+  "summary": "Adversarial detection and attack results for EEG BCIs are reported on a few datasets and models, while benchmarking work shows that single-dataset validation often fails to generalize. This proposal builds a standardized benchmark that evaluates attacks (white-box, universal), detectors (Mahalanobis and cosine-distance based), and defenses (adversarial training, Lipschitz or Parseval regularization) across many open EEG datasets, paradigms, and architectures. It tests whether the near-perfect detection reported for white-box attacks transfers across datasets, subjects, and unseen attacks, and whether robustness rankings are stable.",
+  "gap": "Adversarial detection in EEG BCIs reported very high AUC on three datasets, but the benchmarking literature shows algorithms validated on few datasets often do not generalize. No unified, reproducible robustness evaluation across datasets, architectures, attacks, detectors and defenses exists for BCIs.",
+  "approach": "Extend a common BCI benchmarking framework with an adversarial module: standardized implementations of PGD-style attacks and universal perturbations, the detection methods from the EEG literature, and defenses (adversarial training, Parseval-like constraints). Run pipelines in within-session, cross-session and cross-subject splits across many datasets, with FBCSP-based and CNN decoders (EEGNet, deep ConvNet). Include an adaptive attacker aware of the detector.",
+  "evaluation": "Measure detection AUC and its drop under cross-dataset and cross-attack transfer, attack success rate, clean accuracy, and a CLEVER-style robustness score. Use statistical tests across datasets (as in the benchmark framework) to check whether rankings of detectors and defenses are significant and consistent; baselines are the originally reported single-dataset settings.",
+  "support": [
+   "ref-007",
+   "ref-021",
+   "ref-024",
+   "ref-001",
+   "ref-015",
+   "ref-012",
+   "ref-013",
+   "ref-009",
+   "ref-010",
+   "ref-017"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Neural-Signal Safe Operation: Certified Robustness Margins as a Gating Mechanism for Assistive BCI Control",
+  "summary": "BCIs controlling physical devices such as robotic arms face security risks from perturbed neural inputs, and safety-focused ML work calls for monitoring and robustness. This proposal tests a runtime safety gate for an EEG-driven assistive controller: a per-trial certified margin from a Lipschitz bound determines whether a decoded command is executed, deferred, or sent for user confirmation. The hypothesis is that certificate-based gating reduces harmful actions under adversarial perturbation more than confidence thresholding or adversarial detectors, at an acceptable cost in throughput. Validation uses offline EEG datasets with simulated attacks and a simulated device-control task.",
+  "gap": "Security surveys and ethics papers on BCIs identify risks to users' physical integrity, and empirical EEG attack and detection studies exist, but none connects formal robustness certificates to an actionable control-level safety policy for BCI-driven devices. ML safety roadmaps call for monitoring and robustness but are not instantiated for BCI control.",
+  "approach": "Train a compact EEG CNN with Lipschitz regularization and compute a certified margin per trial from an SDP or cross-Lipschitz bound. Define a gating policy: execute only if the margin exceeds the radius of a threat model (bounded-norm or universal perturbation); otherwise abstain or request confirmation. Simulate a cursor or robotic-arm control loop where decoded classes drive discrete commands, with attacks injected into the signal stream.",
+  "evaluation": "Compare against ungated decoding, softmax-confidence thresholding, and Mahalanobis/cosine adversarial detector gating. Measure rate of harmful executed commands under PGD and universal attacks, task completion time and information transfer rate (cost of abstaining), false rejection rate on clean data, and sensitivity to threat-model radius. Use several open EEG datasets and cross-subject splits.",
+  "support": [
+   "ref-017",
+   "ref-014",
+   "ref-021",
+   "ref-024",
+   "ref-020",
+   "ref-022",
+   "ref-001",
+   "ref-006",
+   "ref-019",
+   "ref-023",
+   "ref-004"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Lipschitz-Certified EEGNet: SDP-Bounded Robustness for Compact EEG Decoders in Brain–Computer Interfaces",
+  "summary": "Adversarial attacks on EEG-based BCIs have been shown empirically, but no certified robustness guarantees exist for compact EEG CNNs. This proposal adapts semidefinite-programming Lipschitz bounds to the depthwise and separable convolutional structure of EEGNet-style models, yielding per-trial certified radii for input perturbations. It further tests whether Parseval-style orthogonality constraints on the spatial and temporal filters tighten the certificates at little accuracy cost. Validation compares certified radii, empirical attack radii, and a sampling-based robustness score across several open EEG datasets and paradigms, against unconstrained and adversarially trained baselines.",
+  "gap": "Existing EEG adversarial work (universal perturbations, artifact detection) is empirical and attack/detection-focused. Lipschitz/SDP certification and Parseval-style constraints exist for generic feed-forward or image networks, but nobody has applied them to compact EEG CNNs with depthwise/separable convolutions, nor tied them to EEG-specific perturbation sets.",
+  "approach": "Express the EEGNet layers (temporal conv, depthwise spatial conv, separable conv, ELU, pooling, dense) as a linear-plus-slope-restricted-nonlinearity chain and derive quadratic-constraint SDP upper bounds on the network Lipschitz constant, using a decomposed version for scalability. Convert to instance-specific certified margins via the cross-Lipschitz argument. Train variants with Parseval-style orthogonal regularization on the temporal and spatial filters and with a Lipschitz penalty, then compare tightness and accuracy.",
+  "evaluation": "Use MOABB-style multi-dataset, within- and cross-subject evaluation across motor imagery, P300 and ERN data. Metrics: clean accuracy, certified accuracy at several L2 and L-infinity radii, ratio of certified bound to empirical minimal adversarial perturbation (PGD, UAP), and the sampling-based robustness score. Baselines: standard EEGNet, a deeper ConvNet, PGD adversarial training, and naive product-of-norms Lipschitz bounds.",
+  "support": [
+   "ref-001",
+   "ref-005",
+   "ref-020",
+   "ref-022",
+   "ref-010",
+   "ref-009",
+   "ref-024",
+   "ref-021",
+   "ref-007",
+   "ref-013"
+  ]
+ }
+]
+</file>
+codex
+{
+  "strongest": {"X": "x1", "Y": "y3"},
+  "weakest": {"X": "x3", "Y": "y2"},
+  "best": {
+    "rationale": "y3 specifies a coherent extension of the certification methods in ref-005, ref-020 and ref-022 to EEGNet's compact convolutional structure (ref-001), with concrete certificate, accuracy and scalability comparisons. Its constrained-training variants can test whether certificates improve enough to justify accuracy costs. x1 also connects relevant work (ref-001, ref-010), but does not establish that its proposed spectral normalization implements Parseval tight-frame constraints or that those constraints alone guarantee prediction stability. y3 provides a clearer path from method to measurable robustness.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "x3 conflates EEG decoding with implantable recording: ref-006 describes intracortical neuronal recordings, not the noise-injected EEG data its evaluation assumes. Its proposed experiments therefore cannot substantiate its implantable-BCI safety claims. y2's weakest link is that certified prediction invariance does not establish command correctness or physical safety; its simulated harmful-action outcome needs explicit definition. Nevertheless, it proposes an empirical test of a concrete gating policy, relevant baselines and throughput costs, grounded in ref-017, ref-020, ref-021 and ref-022, without requiring the unsupported recording-modality substitution.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "X covers constrained training, adversarial training with benchmarking, and certification, but all primarily target decoder robustness. Y spans robustness generalization and detector evaluation (y1), runtime control decisions and abstention costs (y2), and formal certification methodology (y3). Although y2 and y3 share certificate machinery, their interventions and outcomes differ meaningfully. Y consequently offers a broader choice of research questions.",
+    "verdict": "Y"
+  },
+  "overall": {
+    "rationale": "Y offers more coherent experiments and clearer decision-relevant outcomes across benchmarking, certification and control. Its proposals still need tighter scope, and claims that no prior solution exists should be limited to the supplied corpus. X has more consequential problems: x1's constraint implementation is insufficiently justified, x2's single-dataset-or-attack premise overlooks the multi-dataset, multi-attack and transfer evaluations in ref-021 and ref-024, and x3 misuses ref-006. Y would better support choosing and designing a defensible study.",
+    "verdict": "Y"
+  }
+}
+tokens used
+27,967

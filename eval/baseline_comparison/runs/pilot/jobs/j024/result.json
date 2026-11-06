@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The core ingredients are supported: compact EEG decoding (ref-001), Parseval constraints during SGD (ref-010), Cross-Lipschitz regularization (ref-022), SDP Lipschitz bounds (ref-020), EEG universal attacks (ref-024), and multi-dataset benchmarking (ref-007). However, ref-022 does not establish that Cross-Lipschitz regularization was tested on image benchmarks. The detailed EEGNet layer decomposition also exceeds what ref-001's supplied abstract confirms. The detection claim is supported by ref-021, which is omitted from the support list.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied EEG studies establish decoding performance, attacks, and detection, but do not evaluate Parseval-constrained EEG decoders (ref-001, ref-015, ref-021, ref-024). Testing whether these constraints preserve compact EEGNet's limited-data performance is a focused open question. However, it is primarily a transfer question between research lines, rather than a limitation explicitly identified by the cited work.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate specifies the target architecture, SGD retraction technique, spatial-only versus all-layer ablation, within- and cross-subject settings, named baselines, and concrete accuracy, attack, certification, and cost measures. These provide enough detail to begin experimental design using ref-001, ref-010, ref-020, ref-024, and ref-007, although exact datasets and perturbation budgets remain to be selected.",
+  "score": 5
+ },
+ "coherence": {
+  "rationale": "The constraints directly address the proposed accuracy–robustness trade-off, and the ablations and robustness baselines could refute the hypothesis (ref-010, ref-013, ref-022). The main weak link is certification: the candidate does not specify how the SDP Lipschitz upper bounds from ref-020 become instance-specific certified classification accuracy at the stated microvolt radii, a distinction relevant to the guarantees in ref-022.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "A convincing comparison could change whether EEG researchers choose architectural constraints, adversarial training, or regularization for robust decoding, especially given EEG universal-attack vulnerability (ref-024) and poor cross-dataset generalization (ref-007). Results showing either preserved or degraded small-data performance would be useful. The contribution remains a focused empirical transfer of established robustness methods rather than a broadly new robustness principle.",
+  "score": 4
+ }
+}

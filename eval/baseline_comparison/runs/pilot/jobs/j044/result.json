@@ -1,0 +1,36 @@
+{
+ "queries": [
+  "\"EEGNet\" \"certified\" robustness semidefinite",
+  "\"EEG\" \"quadratic constraints\" robustness",
+  "\"EEGNet\" \"formal verification\"",
+  "\"EEG\" \"quadratic constraints\" robustness",
+  "EEG certified robustness semidefinite programming convolutional",
+  "\"Lipschitz\" \"convolutional\" \"semidefinite\" depthwise",
+  "\"EEG\" \"certified robustness\"",
+  "\"EEGNet\" \"semidefinite\"",
+  "\"EEGNet\" \"certification\" \"quadratic\"",
+  "\"EEG\" \"robustness certification\""
+ ],
+ "closest": [
+  {
+   "title": "Lipschitz constant estimation for 1D convolutional neural networks",
+   "year": 2023,
+   "url": "https://proceedings.mlr.press/v211/pauli23a.html",
+   "how_close": "Closely matches the technique: layerwise dissipativity analysis, incremental quadratic constraints for activations and pooling, and SDP-based Lipschitz bounds. Exploits convolutional structure through state-space realizations for scalability. Does not establish EEGNet-specific depthwise/separable constraints or evaluate motor imagery certification."
+  },
+  {
+   "title": "Lipschitz constant estimation for general neural network architectures using control tools",
+   "year": 2024,
+   "url": "https://arxiv.org/abs/2405.01125",
+   "how_close": "Uses integral quadratic constraints and SDPs, exploiting layer interconnections and 1D/2D/ND convolutional structure to improve scalability. Substantial overlap with the proposed verification framework, but experiments use MNIST and CIFAR-10 rather than EEGNet and physiological EEG."
+  },
+  {
+   "title": "When Certificates Fail: A Unified Safety Framework for Embedded Neural Interface Models",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2607.06630",
+   "how_close": "Studies EEGNet certificate-style sensitivity bounds and adversarial classification on BCI Competition IV 2a motor imagery data. Its method multiplies layerwise operator bounds rather than deriving EEGNet-specific quadratic constraints and solving an SDP. Reports zero margin-certified safe fraction at tested nonzero budgets."
+  }
+ ],
+ "rationale": "No paper found outside the supplied bibliography implements the complete combination of EEGNet-specific temporal, depthwise spatial, and separable-layer quadratic constraints, structure-exploiting SDP certification, and motor imagery evaluation. However, Pauli and colleagues already develop closely related layerwise quadratic-constraint/SDP methods that exploit convolutional structure, substantially overlapping the methodological proposal. Bindra separately evaluates certificate-style bounds for EEGNet on motor imagery data, weakening the candidate's broad claim that physiological EEG certification has not been evaluated. These are close precedents with differences in target or method; they do not establish that the complete candidate has already been done.",
+ "score": 3
+}

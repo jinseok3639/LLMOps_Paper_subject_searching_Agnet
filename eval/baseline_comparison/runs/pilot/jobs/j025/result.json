@@ -1,0 +1,46 @@
+{
+ "queries": [
+  "\"EEGNet\" \"spectral normalization\" robustness",
+  "\"EEG\" \"Lipschitz\" \"adversarial\" robustness",
+  "\"EEGNet\" \"certified\" robustness",
+  "\"EEG\" \"Lipschitz\" adversarial spectral normalization",
+  "\"EEGNet\" \"Lipschitz\"",
+  "\"When Certificates Fail\" \"neural\"",
+  "\"SSVEPNet\" \"spectral normalization\"",
+  "\"EEGNet\" \"spectral norm\" adversarial",
+  "\"EEG\" \"certified robustness\" Lipschitz",
+  "\"brain-computer\" \"Lipschitz\" normalization",
+  "\"An efficient CNN-LSTM network with spectral normalization\"",
+  "\"An efficient CNN-LSTM network\" \"Objective\" spectral",
+  "\"EEGNet\" \"Lipschitz-constrained\"",
+  "\"EEGNet\" \"spectral normalization\" adversarial robustness -site:frontiersin.org -site:mdpi.com"
+ ],
+ "closest": [
+  {
+   "title": "REST: Robust and Efficient Neural Networks for Sleep Monitoring in the Wild",
+   "year": 2020,
+   "url": "https://arxiv.org/abs/2001.11363",
+   "how_close": "Combines PGD adversarial training with layer-wise spectral regularization to control Lipschitz constants in EEG classifiers. Very close methodological precedent, but targets single-channel sleep staging using conventional convolutions and an orthonormality penalty, rather than spectrally normalizing EEGNet's depthwise and separable convolutions for BCI robustness certification."
+  },
+  {
+   "title": "When Certificates Fail: A Unified Safety Framework for Embedded Neural Interface Models",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2607.06630",
+   "how_close": "Audits EEGNet and a separate compact spectral-normalized classifier using layer-wise Lipschitz bounds, margin certificates, and PGD attacks on motor-imagery EEG. Closely overlaps the target and evaluation, but studies certificate insufficiency rather than implementing the proposed constrained EEGNet architecture and training procedure."
+  },
+  {
+   "title": "An efficient CNN-LSTM network with spectral normalization and label smoothing technologies for SSVEP frequency recognition",
+   "year": 2022,
+   "url": "https://doi.org/10.1088/1741-2552/ac8dc5",
+   "how_close": "SSVEPNet applies spectral normalization to an EEG-based BCI classifier. However, it uses a CNN-LSTM architecture for SSVEP recognition and limited-data generalization, rather than EEGNet-specific adversarial robustness bounds and PGD training."
+  },
+  {
+   "title": "LEL: Lipschitz Continuity Constrained Ensemble Learning for Efficient EEG-Based Intra-subject Emotion Recognition",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2504.09156v4",
+   "how_close": "Enforces Lipschitz continuity in EEG attention, spectral extraction, and normalization modules to improve stability and noise robustness. The emotion-recognition ensemble architecture and objective differ from adversarially robust, spectrally normalized EEGNet."
+  }
+ ],
+ "rationale": "Very close work exists outside the supplied bibliography, but I found no paper implementing the candidate's complete target–modification–technique combination. REST already combines EEG classification, PGD adversarial training, and spectral Lipschitz regularization, contradicting the claimed gap that such work is confined to computer vision. Its task, architecture, and regularization mechanism differ. SSVEPNet establishes spectral normalization in BCI decoding, while When Certificates Fail directly studies EEGNet Lipschitz certificates and PGD robustness without establishing the proposed architectural modification. These are substantial precedents, but they do not individually demonstrate spectral normalization of EEGNet's depthwise and separable convolutions for formal adversarial robustness. The remaining distinction is narrower than the candidate's gap suggests.",
+ "score": 3
+}

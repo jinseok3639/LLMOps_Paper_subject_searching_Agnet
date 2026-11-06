@@ -1,0 +1,18 @@
+{
+ "title": "Scaling Laws for Safety-Cost-Model Overoptimization in Best-of-N: Do Guard Models Get Hacked Like Reward Models?",
+ "summary": "Propose a controlled study of how a proxy safety signal, such as a guard classifier or cost model, is overoptimized under Best-of-N, measured against an independent gold harmfulness evaluator. We fit gold-versus-proxy functional forms as N grows. We vary the proxy model's size and training data, and test whether coefficients scale smoothly as they do for helpfulness reward models. The study also tests whether safety overoptimization differs in form from helpfulness overoptimization, and whether it yields a rule for choosing a safe maximum N.",
+ "gap": "Overoptimization scaling laws have been measured for general preference reward models with synthetic gold labels, and Best-of-N is used with safety cost models. Content-moderation guard models are used as safety filters. No work characterizes how the true harmfulness of Best-of-N outputs changes as N grows when the optimized signal is a safety cost or guard score, nor whether the helpfulness scaling form transfers.",
+ "approach": "Use a strong safety evaluator as the gold signal, and train proxy safety scorers of several sizes and data amounts, including cost models and guard-style classifiers. For harmful and borderline prompts, sample many responses and select the best-of-N by proxy safety (alone and combined with helpfulness). Fit parametric curves of gold score against the KL-like divergence of BoN (log N) per proxy configuration. Test whether coefficients follow smooth trends in proxy size and data, and derive a predicted safe N cap from small-N fits.",
+ "evaluation": "Compare fitted forms for safety proxies against those for helpfulness reward models on the same prompts. Evaluate prediction error of extrapolating the optimal N from small-N fits to large-N held-out measurements. Check robustness with a second, differently built gold judge and with different benchmark prompt sets (red-teaming behaviors and a jailbreak benchmark). Confirm via human-labeled spot checks.",
+ "support": [
+  "ref-006",
+  "ref-005",
+  "ref-016",
+  "ref-012",
+  "ref-021",
+  "ref-014",
+  "ref-009",
+  "ref-008",
+  "ref-010"
+ ]
+}

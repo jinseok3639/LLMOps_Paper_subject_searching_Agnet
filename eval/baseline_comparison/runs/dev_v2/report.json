@@ -1,0 +1,515 @@
+{
+ "scores": {
+  "A": {
+   "n": 9,
+   "grounding": 2.111111111111111,
+   "gap": 2.5555555555555554,
+   "specificity": 3.111111111111111,
+   "coherence": 2.7777777777777777,
+   "value": 2.7777777777777777,
+   "mean": 2.6666666666666665,
+   "best": 3,
+   "worst": 2.2666666666666666
+  },
+  "B": {
+   "n": 9,
+   "grounding": 2.6666666666666665,
+   "gap": 2.888888888888889,
+   "specificity": 3,
+   "coherence": 2.7777777777777777,
+   "value": 2.888888888888889,
+   "mean": 2.8444444444444446,
+   "best": 3.2,
+   "worst": 2.6
+  },
+  "C": {
+   "n": 9,
+   "grounding": 3,
+   "gap": 4,
+   "specificity": 4,
+   "coherence": 3.5555555555555554,
+   "value": 4,
+   "mean": 3.7111111111111112,
+   "best": 3.8,
+   "worst": 3.6666666666666665
+  },
+  "D": {
+   "n": 9,
+   "grounding": 3.4444444444444446,
+   "gap": 4.111111111111111,
+   "specificity": 3.7777777777777777,
+   "coherence": 3.7777777777777777,
+   "value": 4,
+   "mean": 3.8222222222222224,
+   "best": 4.133333333333334,
+   "worst": 3.533333333333333
+  }
+ },
+ "novelty": {
+  "A": [],
+  "B": [],
+  "C": [],
+  "D": []
+ },
+ "pairwise": [
+  {
+   "sample": "t005",
+   "pair": "A-B",
+   "criterion": "best",
+   "winner": "B",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-B",
+   "criterion": "best",
+   "winner": "B",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-B",
+   "criterion": "best",
+   "winner": "B",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-B",
+   "criterion": "worst",
+   "winner": "B",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-B",
+   "criterion": "worst",
+   "winner": "B",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-B",
+   "criterion": "worst",
+   "winner": "A",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-B",
+   "criterion": "diversity",
+   "winner": "A",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-B",
+   "criterion": "diversity",
+   "winner": "A",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-B",
+   "criterion": "diversity",
+   "winner": "A",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-B",
+   "criterion": "overall",
+   "winner": "B",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-B",
+   "criterion": "overall",
+   "winner": "B",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-B",
+   "criterion": "overall",
+   "winner": "A",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "B-C",
+   "criterion": "best",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "B-C",
+   "criterion": "best",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "B-C",
+   "criterion": "best",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "B-C",
+   "criterion": "worst",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "B-C",
+   "criterion": "worst",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "B-C",
+   "criterion": "worst",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "B-C",
+   "criterion": "diversity",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "B-C",
+   "criterion": "diversity",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "B-C",
+   "criterion": "diversity",
+   "winner": "B",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "B-C",
+   "criterion": "overall",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "B-C",
+   "criterion": "overall",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "B-C",
+   "criterion": "overall",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-C",
+   "criterion": "best",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-C",
+   "criterion": "best",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-C",
+   "criterion": "best",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-C",
+   "criterion": "worst",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-C",
+   "criterion": "worst",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-C",
+   "criterion": "worst",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-C",
+   "criterion": "diversity",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-C",
+   "criterion": "diversity",
+   "winner": "A",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-C",
+   "criterion": "diversity",
+   "winner": "A",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-C",
+   "criterion": "overall",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-C",
+   "criterion": "overall",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-C",
+   "criterion": "overall",
+   "winner": "C",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "B-D",
+   "criterion": "best",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "B-D",
+   "criterion": "best",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "B-D",
+   "criterion": "best",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "B-D",
+   "criterion": "worst",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "B-D",
+   "criterion": "worst",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "B-D",
+   "criterion": "worst",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "B-D",
+   "criterion": "diversity",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "B-D",
+   "criterion": "diversity",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "B-D",
+   "criterion": "diversity",
+   "winner": "B",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "B-D",
+   "criterion": "overall",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "B-D",
+   "criterion": "overall",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "B-D",
+   "criterion": "overall",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-D",
+   "criterion": "best",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-D",
+   "criterion": "best",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-D",
+   "criterion": "best",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-D",
+   "criterion": "worst",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-D",
+   "criterion": "worst",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-D",
+   "criterion": "worst",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-D",
+   "criterion": "diversity",
+   "winner": "A",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-D",
+   "criterion": "diversity",
+   "winner": "A",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-D",
+   "criterion": "diversity",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t004",
+   "pair": "A-D",
+   "criterion": "overall",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t005",
+   "pair": "A-D",
+   "criterion": "overall",
+   "winner": "D",
+   "position_conflict": false
+  },
+  {
+   "sample": "t003",
+   "pair": "A-D",
+   "criterion": "overall",
+   "winner": "D",
+   "position_conflict": false
+  }
+ ],
+ "human": null,
+ "missing": [
+  "j002",
+  "j009",
+  "j012",
+  "j015",
+  "j016",
+  "j019",
+  "j020",
+  "j021",
+  "j023",
+  "j024",
+  "j026",
+  "j029",
+  "j033",
+  "j036",
+  "j038",
+  "j045",
+  "j050",
+  "j052",
+  "j053",
+  "j054",
+  "j055",
+  "j056",
+  "j057",
+  "j067",
+  "j070",
+  "j073",
+  "j074",
+  "j079",
+  "j087",
+  "j092",
+  "j094",
+  "j096",
+  "j097",
+  "j100",
+  "j101",
+  "j102"
+ ]
+}

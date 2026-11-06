@@ -1,0 +1,35 @@
+{
+ "queries": [
+  "\"EEGNet\" \"semidefinite\"",
+  "\"EEG\" \"robustness certification\" Lipschitz",
+  "\"brain computer\" \"quadratic constraints\" robustness",
+  "\"EEG\" \"certified robustness\"",
+  "\"EEGNet\" \"Lipschitz\" certification",
+  "\"EEG\" \"semidefinite programming\" robustness neural",
+  "\"When Certificates Fail\" \"Neural Interface\"",
+  "EEG certified adversarial robustness semidefinite Lipschitz SDP",
+  "\"EEGNet\" \"certified\" robustness -site:freederia.com",
+  "\"motor imagery\" \"formal verification\"",
+  "\"EEG\" \"Lipschitz\" \"semidefinite\"",
+  "\"EEG\" \"certification\" \"SDP\"",
+  "\"electroencephalography\" \"certified\" adversarial",
+  "\"Lipschitz\" \"convolutional neural networks\" \"semidefinite\" certification",
+  "\"EEG\" \"randomized smoothing\" robustness"
+ ],
+ "closest": [
+  {
+   "title": "When Certificates Fail: A Unified Safety Framework for Embedded Neural Interface Models",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2607.06630",
+   "how_close": "This preprint evaluates Lipschitz output-sensitivity certificates, margin-based certified-safe fractions, and PGD attacks for EEGNet on BCI Competition IV 2a motor imagery data. It closely matches the candidate's target and certification-versus-attack evaluation. However, its bounds multiply layerwise operator bounds; it does not implement SDP quadratic-constraint certification or validate an implantable BCI."
+  },
+  {
+   "title": "Lipschitz constant estimation for 1D convolutional neural networks",
+   "year": 2023,
+   "url": "https://proceedings.mlr.press/v211/pauli23a.html",
+   "how_close": "Develops SDP-based Lipschitz upper bounds using incremental quadratic constraints for activations and pooling, with layerwise dissipativity analysis of convolutional and fully connected layers. This closely overlaps the proposed certification technique, but targets general 1D CNNs rather than EEGNet, motor imagery decoding, or implantable BCIs."
+  }
+ ],
+ "rationale": "No paper outside the supplied bibliography was found that combines EEGNet robustness certification with the proposed SDP quadratic-constraint method. Very close work nevertheless exists: Bindra's preprint already studies EEGNet Lipschitz certificates and adversarial failure on motor imagery data, but uses a different bounding method. Pauli et al. provide closely related SDP machinery for convolutional networks without the EEG/BCI target. These establish substantial overlap in the target and technique separately, while leaving the specific combination unconfirmed. The closest EEGNet study also bounds output sensitivity separately from class-preservation guarantees, so its certificates should not be interpreted as implantable-system safety guarantees.",
+ "score": 3
+}

@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-014 supports trait transfer despite semantic filtering and the cross-base comparison; ref-018 supports logit contrast and alternative-label training; ref-016 supports stronger scrutiny with white-box access. However, ref-017 supplies only a title, so it cannot establish identifiable entangled-token carriers. Calling the filtering in ref-014 black-box also goes beyond its abstract.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The references leave open whether logit-guided editing can prevent subliminal transfer while preserving utility. This follows concretely from filtering failures in ref-014 and the intervention technique in ref-018. The gap is well scoped, although the categorical claim that no method exists exceeds what these abstracts establish.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate specifies teacher/base logit comparison, thresholded editing, student distillation, concrete baselines, and transfer, utility, and detection measures. These extend ref-014 and ref-018 into a designable experiment. The distribution-distance function, dataset-score aggregation, and downstream tasks remain unspecified.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Editing suspected signals and measuring residual transfer alongside utility directly tests the proposed defense against the phenomenon in ref-014. Random replacement controls for generic editing effects. However, teacher/base divergence need not isolate trait carriers, and detection AUROC alone would not establish the broader reliable-auditing claim motivated by ref-016.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "A successful defense could change how researchers prepare distillation data when semantic filtering fails, as documented in ref-014. Failure would also test whether the logit-contrast strategy from ref-018 generalizes to hidden behavioral transfer. Its practical reach is limited by requiring access to both the trait-bearing teacher and its base model.",
+  "score": 4
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-001 supports EEGNet's architecture and empirical decoding performance, but its robustness statements concern learning across tasks, not adversarial stability. Neither clinical necessity for formal guarantees nor the inability of existing SDP methods to handle EEGNet is established by ref-005 or ref-020. ref-021 studies attack detection, making it only partial support for the proposed empirical robustness comparison.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The supplied references leave EEGNet certification on physiological EEG unevaluated: ref-001 reports decoding experiments, while ref-005 and ref-020 develop general certification methods. However, the candidate does not establish a concrete architectural limitation requiring new constraints rather than application of those methods. The application gap is clearer than the claimed methodological gap.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The target architecture, SDP technique, perturbation norm, and certified robust accuracy measure are specified. However, the new constraints and parameter-sharing technique remain underspecified. Perturbation radii, datasets, attacks, and natural-noise models are unspecified, and there is no direct baseline using existing SDP methods from ref-005 or ref-020 to test the claimed architectural improvement.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Certification under bounded perturbations directly addresses the proposed absence of formal EEGNet guarantees. However, the evaluation omits runtime, bound tightness, and comparison with generic certification methods, so it cannot establish the benefit of layer-specific constraints or parameter-sharing exploitation over ref-005 and ref-020. MOABB validation (ref-007) broadens testing, but does not establish clinical reliability.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Testing whether useful certificates can be obtained for EEGNet could inform BCI robustness choices, especially given the vulnerabilities and defenses studied in ref-024 and ref-021. However, without comparisons to existing certification methods or a justified perturbation scale, the study may establish only feasibility on one architecture. Its clinical implications exceed what the proposed experiments could demonstrate.",
+  "score": 3
+ }
+}

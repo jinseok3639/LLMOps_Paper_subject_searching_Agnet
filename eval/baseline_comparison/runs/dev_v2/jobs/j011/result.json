@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x2 provides the stronger experiment: it adapts Parseval training from ref-010 to EEGNet (ref-001), isolates spatial-only versus all-layer constraints, and compares adversarial training, Cross-Lipschitz regularization, and certified robustness (refs-013, ref-022, ref-020). These comparisons could guide decoder design. y1 addresses the same useful gap, but substitutes spectral normalization for maintaining Parseval tight frames without establishing their equivalence. Its empirical attacks and CLEVER estimates also do not establish the robustness guarantees motivating the proposal.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x3 has a consequential limitation: a certificate of decision stability does not establish command correctness or safety (refs-020, ref-022), and ref-021 does not substantiate its claim that existing detectors transfer poorly. Nevertheless, its abstention policy, risk-coverage evaluation, and detector comparisons form a testable monitoring study. y3 additionally conflates EEG decoding with implantable neural control: ref-006 records motor-cortex neurons through a microelectrode array, rather than providing the EEG signals its evaluation requires. Neither bounded output variation nor motor-imagery classification establishes reliable implantable-device operation.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X investigates three different decisions: measuring existing decoders' certified margins, choosing a robustness training method, and deciding when to abstain during operation. Although all use Lipschitz bounds, their experimental interventions and outcomes differ. Y offers two robustness training approaches and a certification study; adversarial training is a distinct mechanism, but the implantable framing of y3 does not supply a supported additional application gap.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "X supplies more actionable candidates with better connections between hypotheses, controls, and evaluation. x2 offers a useful accuracy-versus-certification comparison, while x1 connects certification methods (refs-005, ref-020) to reproducible multi-dataset evaluation (ref-007). x1 still needs explicit activation-domain assumptions for its square/log bounds, and small certified radii alone would not prove actual vulnerability. Y has more central grounding and design problems: y1's constraint implementation, y2's unsupported single-dataset/single-attack characterization despite refs-021 and ref-024, undefined cross-paradigm dataset alignment, and y3's recording-modality mismatch. These weaken the researcher's available choices.",
+  "verdict": "X"
+ }
+}

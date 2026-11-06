@@ -1,0 +1,150 @@
+{
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "strongest",
+  "weakest",
+  "best",
+  "worst",
+  "diversity",
+  "overall"
+ ],
+ "properties": {
+  "strongest": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "X",
+    "Y"
+   ],
+   "properties": {
+    "X": {
+     "type": "string",
+     "enum": [
+      "x1",
+      "x2",
+      "x3"
+     ]
+    },
+    "Y": {
+     "type": "string",
+     "enum": [
+      "y1",
+      "y2",
+      "y3"
+     ]
+    }
+   }
+  },
+  "weakest": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "X",
+    "Y"
+   ],
+   "properties": {
+    "X": {
+     "type": "string",
+     "enum": [
+      "x1",
+      "x2",
+      "x3"
+     ]
+    },
+    "Y": {
+     "type": "string",
+     "enum": [
+      "y1",
+      "y2",
+      "y3"
+     ]
+    }
+   }
+  },
+  "best": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "rationale",
+    "verdict"
+   ],
+   "properties": {
+    "rationale": {
+     "type": "string"
+    },
+    "verdict": {
+     "type": "string",
+     "enum": [
+      "X",
+      "Y",
+      "tie"
+     ]
+    }
+   }
+  },
+  "worst": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "rationale",
+    "verdict"
+   ],
+   "properties": {
+    "rationale": {
+     "type": "string"
+    },
+    "verdict": {
+     "type": "string",
+     "enum": [
+      "X",
+      "Y",
+      "tie"
+     ]
+    }
+   }
+  },
+  "diversity": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "rationale",
+    "verdict"
+   ],
+   "properties": {
+    "rationale": {
+     "type": "string"
+    },
+    "verdict": {
+     "type": "string",
+     "enum": [
+      "X",
+      "Y",
+      "tie"
+     ]
+    }
+   }
+  },
+  "overall": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "rationale",
+    "verdict"
+   ],
+   "properties": {
+    "rationale": {
+     "type": "string"
+    },
+    "verdict": {
+     "type": "string",
+     "enum": [
+      "X",
+      "Y",
+      "tie"
+     ]
+    }
+   }
+  }
+ }
+}

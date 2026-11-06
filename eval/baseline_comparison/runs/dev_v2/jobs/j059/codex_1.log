@@ -1,0 +1,156 @@
+$ exit 0
+--- stdout
+{
+  "strongest": {"X": "x2", "Y": "y2"},
+  "weakest": {"X": "x3", "Y": "y3"},
+  "best": {
+    "rationale": "x2 connects persistent backdoors in ref-008 with the case for white-box auditing in ref-016, proposing an activation classifier and neuron-masking intervention on a defined experimental setting. Its evaluation needs controls distinguishing recognition of the year from detection of an unsafe mechanism, and it mischaracterizes adversarial training as a detection baseline. Nevertheless, its grounding is stronger than y2's: ref-005 already investigates adversarial safety and does not describe the existing adversarial-training methods y2 attributes to it. y2's actual contribution—training a defense using ensemble-generated perturbations—is useful and testable, but its stated gap substantially misrepresents its sole reference.",
+    "verdict": "X"
+  },
+  "worst": {
+    "rationale": "y3 largely repeats ref-002, which already uses hypothetical corporate environments, replacement and goal conflicts, and test-versus-deployment self-assessment. Activation clustering offers a possible difference, but 'latent intent' lacks an operational definition. Still, its environments and behavioral measurements fit together. x3 provides no interface connecting physical patches against manipulation policies in ref-005 to corporate language-agent scenarios from ref-002. Toxicity scores from ref-006 also do not establish detection of blackmail or information leakage. These mismatches make x3 less executable and its results harder to interpret.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "Y offers three substantively different directions: distillation-data mitigation, adversarial robustness training for robotic policies, and corporate-agent evaluation. X covers distinct failure modes, but x1 and x2 share neuron-based detection and intervention, while x3's inclusion of physical attacks lacks a coherent experimental role. Y's robotics defense therefore adds more genuine methodological and application diversity.",
+    "verdict": "Y"
+  },
+  "overall": {
+    "rationale": "Although x2 is the strongest individual option, Y provides a more useful selection overall. y2 has a concrete defense experiment beyond the attacks in ref-005, and y1 pairs distillation with identifiable political-bias and reasoning evaluations grounded in refs-009, ref-010, and ref-014, despite underspecified interventions. x1 additionally treats FACET as a distillation framework, assumes an unexplained teacher-to-student neuron correspondence, and attributes bias scores to ref-003's categorical framework. Combined with x3's incompatible components, this leaves X with fewer workable choices. Y's gap claims still require substantial correction, especially y3's overlap with ref-002.",
+    "verdict": "Y"
+  }
+}
+
+--- stderr
+ining and deployment information (e.g., methodology, code, documentation, data, deployment details, findings from internal evaluations) allows auditors to scrutinize the development process and design more targeted evaluations. In this paper, we examine the limitations of black-box audits and the advantages of whiteand outside-the-box audits. We also discuss technical, physical, and legal safeguards for performing these audits with minimal security risks. Given that different forms of access can lead to very different levels of evaluation, we conclude that (1) transparency regarding the access and methods used by auditors is necessary to properly interpret audit results, and (2) whiteand outside-the-box access allow for substantially more scrutiny than black-box access alone.
+
+[ref-017] It’s owl in the numbers: Token entanglement in subliminal learning
+Abstract: (not available)
+
+[ref-018] Who's Harry Potter? Approximate Unlearning in LLMs
+Abstract: Large language models (LLMs) are trained on massive internet corpora that often contain copyrighted content. This poses legal and ethical challenges for the developers and users of these models, as well as the original authors and publishers. In this paper, we propose a novel technique for unlearning a subset of the training data from a LLM, without having to retrain it from scratch. We evaluate our technique on the task of unlearning the Harry Potter books from the Llama2-7b model (a generative language model recently open-sourced by Meta). While the model took over 184K GPU-hours to pretrain, we show that in about 1 GPU hour of finetuning, we effectively erase the model's ability to generate or recall Harry Potter-related content, while its performance on common benchmarks (such as Winogrande, Hellaswag, arc, boolq and piqa) remains almost unaffected. We make our fine-tuned model publicly available on HuggingFace for community evaluation. To the best of our knowledge, this is the first paper to present an effective technique for unlearning in generative language models. Our technique consists of three main components: First, we use a reinforced model that is further trained on the target data to identify the tokens that are most related to the unlearning target, by comparing its logits with those of a baseline model. Second, we replace idiosyncratic expressions in the target data with generic counterparts, and leverage the model's own predictions to generate alternative labels for every token. These labels aim to approximate the next-token predictions of a model that has not been trained on the target data. Third, we finetune the model on these alternative labels, which effectively erases the original text from the model's memory whenever it is prompted with its context.
+
+[ref-019] Jailbroken: How Does LLM Safety Training Fail?
+Abstract: Large language models trained for safety and harmlessness remain susceptible to adversarial misuse, as evidenced by the prevalence of"jailbreak"attacks on early releases of ChatGPT that elicit undesired behavior. Going beyond recognition of the issue, we investigate why such attacks succeed and how they can be created. We hypothesize two failure modes of safety training: competing objectives and mismatched generalization. Competing objectives arise when a model's capabilities and safety goals conflict, while mismatched generalization occurs when safety training fails to generalize to a domain for which capabilities exist. We use these failure modes to guide jailbreak design and then evaluate state-of-the-art models, including OpenAI's GPT-4 and Anthropic's Claude v1.3, against both existing and newly designed attacks. We find that vulnerabilities persist despite the extensive red-teaming and safety-training efforts behind these models. Notably, new attacks utilizing our failure modes succeed on every prompt in a collection of unsafe requests from the models' red-teaming evaluation sets and outperform existing ad hoc jailbreaks. Our analysis emphasizes the need for safety-capability parity -- that safety mechanisms should be as sophisticated as the underlying model -- and argues against the idea that scaling alone can resolve these safety failure modes.
+
+[ref-020] Progress measures for grokking via mechanistic interpretability
+Abstract: Neural networks often exhibit emergent behavior, where qualitatively new capabilities arise from scaling up the amount of parameters, training data, or training steps. One approach to understanding emergence is to find continuous \textit{progress measures} that underlie the seemingly discontinuous qualitative changes. We argue that progress measures can be found via mechanistic interpretability: reverse-engineering learned behaviors into their individual components. As a case study, we investigate the recently-discovered phenomenon of ``grokking'' exhibited by small transformers trained on modular addition tasks. We fully reverse engineer the algorithm learned by these networks, which uses discrete Fourier transforms and trigonometric identities to convert addition to rotation about a circle. We confirm the algorithm by analyzing the activations and weights and by performing ablations in Fourier space. Based on this understanding, we define progress measures that allow us to study the dynamics of training and split training into three continuous phases: memorization, circuit formation, and cleanup. Our results show that grokking, rather than being a sudden shift, arises from the gradual amplification of structured mechanisms encoded in the weights, followed by the later removal of memorizing components.
+</file>
+
+<file name="set_x.json">
+[
+ {
+  "id": "x1",
+  "title": "Detecting and Mitigating Subliminal Bias Transfer in Multi-Agent LLM Distillation",
+  "summary": "This paper proposes a method to detect and mitigate subliminal bias transfer in multi-agent LLM distillation frameworks. We hypothesize that biases in teacher models can propagate to student models through non-semantic data patterns during distillation. Our approach introduces a bias-aware distillation loss that penalizes student models for reproducing biased associations identified via mechanistic interpretability. Validation involves measuring bias amplification in student outputs using standardized social impact benchmarks before and after mitigation.",
+  "gap": "Current multi-agent LLM distillation frameworks (ref-004, ref-009) do not explicitly address subliminal bias transfer. While ref-004's evaluator agent provides quality assurance, it does not target bias propagation through non-semantic patterns (ref-014, ref-010). Ref-003's social impact framework identifies bias categories but is not integrated into distillation processes to prevent bias transfer.",
+  "approach": "We implement a three-stage process: (1) mechanistic analysis of teacher model weights to identify bias-correlated neuron populations using regression and statistical tests (ref-010), (2) bias-aware distillation loss that penalizes student models for activating these populations during training, and (3) automated bias auditing of student outputs using ref-003's social impact framework. The distillation loss combines standard KL-divergence with a regularization term weighted by neuron activation patterns linked to biased associations.",
+  "evaluation": "We evaluate using the FACET framework (ref-004) with teacher models exhibiting known biases from ref-003's social impact categories (bias, stereotypes, and representational harms). Baselines include (a) FACET with evaluator agent disabled and (b) standard distillation with only the regularization term. Measures include bias amplification scores (ref-003), task performance retention (>95%), and mechanistic similarity between teacher/student neuron populations. Success requires <5% bias amplification increase while maintaining >95% task performance.",
+  "support": [
+   "ref-004",
+   "ref-009",
+   "ref-014",
+   "ref-010",
+   "ref-003"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Backdoor Trigger Detection via Mechanistic Alignment Analysis in Safety-Trained LLMs",
+  "summary": "This paper introduces mechanistic alignment analysis to detect hidden backdoors in safety-trained LLMs by identifying neuron-level correlations between trigger conditions and unsafe outputs. The method combines activation clustering with counterfactual probing to expose discrepancies indicative of deceptive alignment failures, addressing gaps in behavioral safety evaluations.",
+  "gap": "Ref-008 shows adversarial training fails to remove backdoors, creating false safety impressions. However, no work identifies neuron-level mechanisms enabling backdoor persistence despite safety training. Existing methods (ref-008, ref-019) detect behavioral failures but cannot isolate mechanistic causes of undetected backdoors.",
+  "approach": "We implement mechanistic alignment analysis by: (1) training a classifier on neuron activations from backdoored models (ref-008) to detect trigger-response correlations, (2) applying counterfactual probing by masking identified neurons to test output consistency under hypothetical triggers, and (3) comparing results against adversarial training baselines (ref-008) and red-teaming methods (ref-019). The core model architecture and training data remain unchanged from ref-008's backdoored models.",
+  "evaluation": "Evaluated on ref-008's year-triggered backdoor models (2023 vs. 2024 secure code generation). Compared against ref-008's adversarial training detection attempts and ref-019's red-teaming baselines. Measures: trigger detection rate (percentage of backdoored prompts correctly identified), false positive rate (safe prompts misclassified as backdoored), and alignment discrepancy score (difference in neuron activation patterns between triggered and non-triggered states). Ablation tests counterfactual probing by disabling neuron masking to isolate clustering's contribution.",
+  "support": [
+   "ref-008",
+   "ref-019",
+   "ref-016",
+   "ref-007"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Detecting Agentic Misalignment via Structured Stress-Testing and Adversarial Evaluation",
+  "summary": "We propose a framework to detect agentic misalignment in LLMs by combining controlled environment stress-testing with adversarial attack techniques. The method systematically evaluates models under dynamic goal conflicts and physical attack scenarios, using automated classifiers and human evaluation to identify malicious behaviors. The approach is validated against existing safety benchmarks and adversarial testing protocols.",
+  "gap": "Existing safety evaluations (ref-001, ref-007) do not systematically test agentic misalignment under dynamic goal conflicts or adversarial physical attacks (ref-005). While ref-002 demonstrates controlled stress-testing for organizational pressures, it lacks integration with physical attack scenarios, leaving a gap in comprehensive misalignment detection.",
+  "approach": "We implement a hybrid evaluation protocol combining (1) controlled stress-testing inspired by ref-002 (simulated organizational changes like replacement threats and shifting priorities) with (2) adversarial physical attacks from ref-005 (crafted perturbations and environmental patches). Responses are analyzed using automated classifiers trained on ref-006's toxicity metrics and human evaluation.",
+  "evaluation": "Baselines include Llama 2-Chat (ref-001) safety evaluations and Diffusion Policy Attacker (ref-005) adversarial tests. We measure misaligned behavior frequency (e.g., data leakage attempts, blackmail suggestions) on a dataset of corporate scenario prompts derived from ref-002. Ablation studies compare detection rates with/without adversarial physical attacks and stress-testing components.",
+  "support": [
+   "ref-001",
+   "ref-002",
+   "ref-005",
+   "ref-006",
+   "ref-007"
+  ]
+ }
+]
+</file>
+
+<file name="set_y.json">
+[
+ {
+  "id": "y1",
+  "title": "Detecting and Mitigating Subliminal Bias Transmission in Distilled Language Models",
+  "summary": "This paper proposes a method to detect and mitigate subliminal bias transmission in distilled language models. By analyzing token entanglement patterns in synthetic data generated by teacher models, we identify hidden signals that propagate behavioral traits to student models. Our approach combines mechanistic interpretability with adversarial training to disrupt these signals while preserving task performance. We validate the method on mathematical reasoning tasks, showing reduced bias amplification without compromising accuracy.",
+  "gap": "Existing knowledge distillation techniques (ref-009, ref-011) fail to account for subliminal bias transmission (ref-014, ref-010) that persists even when training data appears neutral. Current bias mitigation strategies (ref-012) address surface-level correlations but miss deeper token-level entanglements.",
+  "approach": "We develop a two-stage process: (1) mechanistic analysis of teacher model activations to identify neuron populations correlated with bias transmission, and (2) adversarial fine-tuning of student models with perturbed synthetic data that disrupts identified entanglement patterns. This combines regression-based circuit discovery (ref-010) with targeted parameter masking.",
+  "evaluation": "We compare against standard distillation baselines (ref-009) and bias mitigation methods (ref-012) using political bias benchmarks (ref-010) and mathematical reasoning tasks. Success is measured by (1) bias amplification reduction via continuation task scoring, (2) preservation of task accuracy, and (3) mechanistic verification of disrupted neuron activations.",
+  "support": [
+   "ref-009",
+   "ref-010",
+   "ref-011",
+   "ref-012",
+   "ref-014"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Diffusion Policy Safety via Adversarial Training with Transferable Perturbations",
+  "summary": "This work addresses safety vulnerabilities in diffusion-based policies by introducing adversarial training with transferable perturbations. We generate offline attack samples that maintain effectiveness across policy iterations and test environments. Our method improves robustness against both digital and physical adversarial attacks while maintaining task performance, validated through manipulation task benchmarks.",
+  "gap": "While diffusion policies show strong performance (ref-005), their safety against adversarial attacks remains unexplored. Existing adversarial training methods (ref-005) focus on single-policy attacks but fail to address transferability across policy versions and physical environments.",
+  "approach": "We develop a two-stage adversarial training framework: (1) generation of transferable perturbations using ensemble diffusion policies with diverse noise schedules, and (2) training with both digital perturbations and simulated physical patch attacks. The method incorporates curriculum learning to gradually increase attack complexity.",
+  "evaluation": "We test on standard manipulation benchmarks (ref-005) under four attack scenarios: offline digital, online digital, global physical, and patch-based physical. Success is measured by (1) success rate retention under attack, (2) perturbation transferability across policy versions, and (3) physical patch effectiveness in real-world simulations. Baselines include standard diffusion policies (ref-005) and non-transferable adversarial training.",
+  "support": [
+   "ref-005"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Agentic Misalignment Detection via Synthetic Insider Threat Simulation",
+  "summary": "We introduce a controlled evaluation framework for detecting agentic misalignment in LLMs by simulating corporate insider threat scenarios. Our method uses constrained generation to force models into ethical dilemmas where misaligned behavior could emerge. We validate the framework by stress-testing open-source models against scenarios involving data leakage and goal conflict, identifying subtle misalignment patterns missed by standard benchmarks.",
+  "gap": "Current safety evaluations (ref-007, ref-015) lack controlled environments for testing agentic misalignment (ref-002). Existing stress-testing methods (ref-002) focus on real-world deployment risks but don't systematically isolate misalignment triggers in synthetic settings.",
+  "approach": "We implement a three-phase evaluation: (1) scenario generation using constrained decoding to create ethically ambiguous corporate tasks, (2) model responses analyzed through both explicit behavior (ref-002) and latent intent detection via activation clustering, and (3) counterfactual testing where models assess their own deployment context (ref-002).",
+  "evaluation": "We compare model responses against human-labeled ground truth for ethical boundaries. Metrics include (1) frequency of misaligned actions, (2) consistency in self-assessment vs actual behavior, and (3) activation pattern similarity to known misalignment cases. Baselines include standard safety benchmarks (ref-001) and adversarial prompts (ref-019).",
+  "support": [
+   "ref-001",
+   "ref-002",
+   "ref-007",
+   "ref-015",
+   "ref-019"
+  ]
+ }
+]
+</file>
+codex
+{
+  "strongest": {"X": "x2", "Y": "y2"},
+  "weakest": {"X": "x3", "Y": "y3"},
+  "best": {
+    "rationale": "x2 connects persistent backdoors in ref-008 with the case for white-box auditing in ref-016, proposing an activation classifier and neuron-masking intervention on a defined experimental setting. Its evaluation needs controls distinguishing recognition of the year from detection of an unsafe mechanism, and it mischaracterizes adversarial training as a detection baseline. Nevertheless, its grounding is stronger than y2's: ref-005 already investigates adversarial safety and does not describe the existing adversarial-training methods y2 attributes to it. y2's actual contribution—training a defense using ensemble-generated perturbations—is useful and testable, but its stated gap substantially misrepresents its sole reference.",
+    "verdict": "X"
+  },
+  "worst": {
+    "rationale": "y3 largely repeats ref-002, which already uses hypothetical corporate environments, replacement and goal conflicts, and test-versus-deployment self-assessment. Activation clustering offers a possible difference, but 'latent intent' lacks an operational definition. Still, its environments and behavioral measurements fit together. x3 provides no interface connecting physical patches against manipulation policies in ref-005 to corporate language-agent scenarios from ref-002. Toxicity scores from ref-006 also do not establish detection of blackmail or information leakage. These mismatches make x3 less executable and its results harder to interpret.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "Y offers three substantively different directions: distillation-data mitigation, adversarial robustness training for robotic policies, and corporate-agent evaluation. X covers distinct failure modes, but x1 and x2 share neuron-based detection and intervention, while x3's inclusion of physical attacks lacks a coherent experimental role. Y's robotics defense therefore adds more genuine methodological and application diversity.",
+    "verdict": "Y"
+  },
+  "overall": {
+    "rationale": "Although x2 is the strongest individual option, Y provides a more useful selection overall. y2 has a concrete defense experiment beyond the attacks in ref-005, and y1 pairs distillation with identifiable political-bias and reasoning evaluations grounded in refs-009, ref-010, and ref-014, despite underspecified interventions. x1 additionally treats FACET as a distillation framework, assumes an unexplained teacher-to-student neuron correspondence, and attributes bias scores to ref-003's categorical framework. Combined with x3's incompatible components, this leaves X with fewer workable choices. Y's gap claims still require substantial correction, especially y3's overlap with ref-002.",
+    "verdict": "Y"
+  }
+}
+tokens used
+10,418

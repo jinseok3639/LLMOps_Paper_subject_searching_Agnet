@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The central ingredients are supported: adaptive compute allocation in ref-002, pessimistic rejection sampling in ref-004, and calibrated Lagrangian reward augmentation in ref-012. However, ref-004 does not establish reward-model uncertainty as a measure of prompt difficulty. The categorical claims that ref-004 excludes safety constraints and that no prior work combines these principles exceed what the supplied abstracts establish. The support ids are relevant, but ref-005's AU-PRC measures moderation prediction quality, not directly the safety of selected responses.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The references leave room to investigate adaptive compute allocation under explicit safety constraints: ref-002 studies prompt-dependent compute efficiency, ref-004 addresses reward hacking, and ref-012 calibrates safety constraints. However, the gap is framed mainly as an untested combination, without identifying a concrete failure of ref-012 under adaptive budgets or explaining when pessimism would resolve it.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies a frozen-model sampling intervention, calibration, named baselines, datasets, and measures grounded in ref-002, ref-003, ref-012, ref-014, and ref-021. These support initial experimental design. Important details remain unspecified: the uncertainty estimator, its mapping to sampling budgets, and how pessimistic rejection sampling interacts with augmented-reward Best-of-N reranking. Ablations (1) and (3) also appear redundant.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "The components broadly address the proposed compute-safety tradeoff, but the evaluation has weak links. AU-PRC from ref-005 does not directly measure satisfaction of the expected-cost constraint in ref-012, and FLOPs per sample does not capture total expenditure when sample counts vary. Explicit constraint-violation measurements and matched total-compute comparisons would be needed. The proposal also leaves unresolved whether calibration remains valid after adaptive allocation and pessimistic rejection alter selection.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether adaptive sampling improves helpfulness at a fixed safety level and compute budget could inform practical choices among the methods in ref-002, ref-004, and ref-012. However, the current hypothesis mostly combines existing mechanisms without predicting a distinctive benefit or failure regime. Its likely contribution is a useful empirical comparison, with broader significance dependent on demonstrating an interaction beyond the individual methods.",
+  "score": 3
+ }
+}

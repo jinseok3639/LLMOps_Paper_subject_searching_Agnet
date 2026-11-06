@@ -1,0 +1,60 @@
+{
+ "queries": [
+  "reward model synthetic preference data safety guidelines critique revision jailbreak robustness",
+  "constitutional reward model safety critique revision synthetic preference jailbreak",
+  "safety reasoning reward model synthetic preference data adversarial jailbreak",
+  "\"reward model\" \"safety\" \"critique\" \"synthetic\" -site:reddit.com",
+  "\"reward models\" \"guidelines\" \"jailbreak\"",
+  "\"Improving Reward Models with Synthetic Critiques\"",
+  "\"Deliberative alignment\" \"reward model\" synthetic",
+  "\"safety reward model\" \"critique\"",
+  "\"reward model\" \"safety\" \"critique and revision\"",
+  "\"reward model\" \"jailbreak\" \"synthetic preference\"",
+  "\"safety\" \"reward modeling\" \"guidelines\" synthetic",
+  "\"safety reward\" \"synthetic\" \"reasoning\" model arxiv",
+  "\"reward model\" \"critique\" \"HarmBench\"",
+  "\"reward model\" \"critique\" \"JailbreakBench\"",
+  "\"Self-Generated Critiques Boost Reward Modeling\"",
+  "\"safety\" \"reward model\" \"constitutional\" \"synthetic\" arxiv -site:reddit.com",
+  "\"safe\" \"reward model\" \"critique\" arxiv -site:reddit.com",
+  "\"jailbreak\" \"reward model\" \"revision\" preference -site:reddit.com",
+  "\"safety reward model\" reasoning preference data",
+  "STAIR Improving Safety Alignment Introspective Reasoning arxiv",
+  "\"reward model\" \"safety\" \"critique\" \"revise\" synthetic preference",
+  "\"RuleAdapter\" critique reasoning revision"
+ ],
+ "closest": [
+  {
+   "title": "RuleAdapter: Dynamic Rules for training Safety Reward Models in RLHF",
+   "year": 2025,
+   "url": "https://proceedings.mlr.press/v267/li25o.html",
+   "how_close": "Trains a safety reward model using synthetic preference data labeled under adaptively selected safety rules. Closely matches the target and guideline-based data curation, but derives preferences from rule-based ratings rather than critique-and-revision pairs; evaluates reward-model safety on RewardBench."
+  },
+  {
+   "title": "Improving Reward Models with Synthetic Critiques",
+   "year": 2025,
+   "url": "https://aclanthology.org/2025.findings-naacl.254/",
+   "how_close": "Uses LLM-generated critiques to improve reward-model training and generalization, including safety evaluation. Critiques augment existing preference examples and condition scoring; they do not create original-versus-revised safety preference pairs for jailbreak-resistant reward models."
+  },
+  {
+   "title": "Self-Generated Critiques Boost Reward Modeling for Language Models",
+   "year": 2025,
+   "url": "https://aclanthology.org/2025.naacl-long.573/",
+   "how_close": "Critic-RM generates and filters synthetic critiques, then jointly trains critique generation and reward prediction. Shares critique-based reward-model improvement, but does not use safety-guideline-driven response revision to synthesize preferences targeting OOD jailbreak resistance."
+  },
+  {
+   "title": "STAIR: Improving Safety Alignment with Introspective Reasoning",
+   "year": 2025,
+   "url": "https://arxiv.org/abs/2502.02384",
+   "how_close": "Generates safety-aware reasoning preferences and trains a process reward model used for jailbreak-resistant generation. Its preference pairs come from safety-informed Monte Carlo tree search over partial reasoning trajectories, rather than guideline-based critiques and response revisions."
+  },
+  {
+   "title": "Refined Direct Preference Optimization with Synthetic Data for Behavioral Alignment of LLMs",
+   "year": 2024,
+   "url": "https://arxiv.org/abs/2402.08005",
+   "how_close": "Creates synthetic preference data through teacher self-critique for safety and robustness against role-playing. The training target is a student response policy using refined DPO; an external reward model assists training rather than being learned from the synthetic data."
+  }
+ ],
+ "rationale": "No searched paper outside the supplied bibliography established the complete combination: safety-guideline-driven critique and revision to construct synthetic preference pairs, followed by training reward models specifically for OOD jailbreak robustness. However, very close work exists. RuleAdapter already trains safety reward models from guideline-labeled synthetic preferences, while the two critique-based reward-model papers establish synthetic critiques as useful reward-model supervision. STAIR also trains a safety-oriented reward model from synthetic reasoning preferences, but obtains them through tree search. Refined DPO closely matches the critique-based preference-generation mechanism while changing the training target to the response policy. These are substantive method or target differences, so the evidence supports close prior work rather than a demonstrated exact duplicate. Changing evaluation benchmarks alone would not establish novelty.",
+ "score": 3
+}

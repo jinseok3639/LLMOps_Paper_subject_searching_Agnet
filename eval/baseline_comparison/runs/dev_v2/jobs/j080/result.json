@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "y2 offers the clearer intervention and more decision-relevant experiment: apply Parseval constraints to EEGNet, isolate spatial-only versus all-layer constraints, and measure clean accuracy, certified robustness, attack robustness, and training cost. Its universal-perturbation evaluation directly addresses ref-024, while ref-010 and ref-020 support the constraint and certification methods. x2 also proposes a useful training intervention, but its SDP training integration is less specified and it groups CLEVER estimates with certified radii, although ref-009 establishes an estimation method rather than the guaranteed upper bounds provided by ref-020. y2's claim that Cross-Lipschitz regularization was evaluated on image benchmarks is not established by ref-022, but this does not undermine its central experiment.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "y3 has a substantial conceptual limitation: a certificate establishes local decision stability, not command correctness, so confidently wrong predictions can pass its monitor. Its assertion of poorer detector transfer is also stronger than ref-021's abstract supports. Nevertheless, its abstention intervention, risk-coverage evaluation, detector baselines, and simulated control outcomes define a useful, falsifiable experiment. x3 provides a less coherent comparison: applying ref-005 to EEGNet is also its stated baseline, ref-020 does not substantiate the attributed piecewise-linear-bound ablation, and its asymmetric command costs are unsupported. Multi-dataset generalization concerns in ref-007 also do not become resolved through input-perturbation certificates.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "X largely repeats SDP/Lipschitz certification for EEGNet: x1 and x2 add closely related training constraints, while x3 applies the same verification machinery across paradigms. Y separates three substantive questions: whether existing decoders have useful certified margins, whether constrained training improves the accuracy-robustness trade-off, and whether certificates help runtime abstention. These are distinct experimental decisions despite sharing ref-020's machinery.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "Y provides a stronger leading candidate and a broader selection of actionable research questions. y1 adds an informative audit connecting certified margins to signal scale, and y2 directly evaluates a defense against the attacks demonstrated in ref-024. y1 still needs justified nonlinear bounds, and y3 must distinguish robustness from correctness. X has additional grounding and evaluation problems: x1's named dataset-paradigm assignments are not established by the corpus, its attack results do not establish formal guarantees, and x3's comparisons are poorly differentiated. Y would therefore better support a researcher's choice.",
+  "verdict": "Y"
+ }
+}

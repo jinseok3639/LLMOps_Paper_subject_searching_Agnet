@@ -1,0 +1,1282 @@
+{
+ "sample": "t003",
+ "n_refs": 25,
+ "propose_problems": {
+  "assumption": [],
+  "transfer": [],
+  "empirical": [],
+  "formal": []
+ },
+ "candidates": [
+  {
+   "id": "s1-assumption",
+   "slot": 1,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Lipschitz-Constrained EEGNet for Robust BCI Classification Under Adversarial Perturbations",
+    "summary": "This paper proposes a modified EEGNet architecture with Lipschitz constraints to enhance robustness against adversarial attacks in EEG-based BCIs. By integrating Parseval tight frame convolutions and layer-wise Lipschitz bounds, the model maintains classification accuracy while resisting small input perturbations. Evaluation uses FGSM and PGD attacks on the P300 and MRCP datasets, comparing robustness metrics like CLEVER scores against standard EEGNet and adversarially trained baselines.",
+    "gap": "Existing EEGNet architectures lack formal robustness guarantees against adversarial perturbations, which could compromise safety-critical BCI applications.",
+    "approach": "Extend EEGNet with Parseval convolutional layers and spectral normalization to enforce Lipschitz constraints, combined with a semidefinite programming-based training framework to bound input-output sensitivity.",
+    "evaluation": "Test on P300/MRCP datasets with FGSM, PGD, and UAP attacks; compare classification accuracy under attack, CLEVER scores, and adversarial perturbation magnitudes against standard EEGNet, adversarial training, and Parseval networks.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-010",
+     "ref-020",
+     "ref-021",
+     "ref-024"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims the approach uses 'semidefinite programming-based training framework' for Lipschitz bounds, but ref-005 and ref-020 only describe SDP for verification/analysis, not training. The gap claim about 'safety-critical BCI applications' is unsupported by references, which focus on technical robustness rather than safety contexts.",
+     "vague": "The phrase 'formal robustness guarantees' is too vague without specifying quantitative bounds or certification methods. 'Resisting small input perturbations' lacks a defined perturbation magnitude or attack model scope (e.g., L∞ norms).",
+     "already_done": "",
+     "suggestion": "Replace the unsupported SDP-training claim with Parseval convolutions (ref-010) and spectral normalization (ref-020) for Lipschitz constraints, while explicitly defining robustness metrics (e.g., 'certified radii' from ref-020) and attack parameters (e.g., ε=0.1 for FGSM/PGD in ref-024)."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims to use a semidefinite programming (SDP)-based training framework (approach), but ref-005 and ref-020 only discuss SDP for verification/analysis, not training. The evaluation plan mentions CLEVER scores, but no cited reference supports this metric for EEG data; ref-021 uses AUC-ROC for detection, not CLEVER. The gap statement about 'safety-critical' applications is unsupported by references, which focus on accuracy/robustness, not real-world safety.",
+     "vague": "The 'spectral normalization' component in the approach is not defined in the hypothesis or references. The 'layer-wise Lipschitz bounds' are mentioned but no specific method or reference explains how these would be integrated with EEGNet's architecture. The 'semidefinite programming-based training framework' lacks concrete implementation details (e.g., how SDP constraints are incorporated into backpropagation).",
+     "already_done": "",
+     "suggestion": "Explicitly define how Parseval tight frame convolutions (ref-010) will be integrated with EEGNet's existing temporal and spatial filters (ref-001). Provide a concrete method for combining SDP-based Lipschitz verification (ref-020) with adversarial training, rather than implying SDP directly modifies training dynamics. Include baseline comparisons with ref-021's Mahalanobis/cosine detectors as complementary robustness metrics."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims the use of a 'semidefinite programming-based training framework' for Lipschitz bounds, but ref-005 and ref-020 only discuss SDP for verification/analysis, not training. The evaluation plan mentions CLEVER scores, but no cited reference supports this metric for EEG data.",
+     "vague": "The 'spectral normalization' component is mentioned without specifying how it integrates with Parseval convolutions or what layer-wise bounds are enforced. 'Resisting small input perturbations' lacks a formal definition of 'small' or perturbation magnitude thresholds.",
+     "already_done": "",
+     "suggestion": "Replace the unsupported SDP training claim with a concrete combination of Parseval convolutions (ref-010) and layer-wise Lipschitz bounds from ref-020's verification framework, then specify a formal perturbation bound (e.g., L2 norm ≤ ε) to define 'small' adversarial inputs."
+    }
+   },
+   "refined": {
+    "title": "Lipschitz-Constrained EEGNet for Robust BCI Classification Under Adversarial Perturbations",
+    "summary": "This work integrates Parseval tight frame convolutions and spectral normalization into EEGNet to enforce layer-wise Lipschitz bounds, enhancing robustness against adversarial perturbations in EEG-based BCIs. The approach maintains classification accuracy while resisting perturbations bounded by L2 norm ε=0.1, validated against FGSM, PGD, and UAP attacks on P300 and MRCP datasets. Evaluation compares certified radii, attack success rates, and AUC-ROC scores with standard EEGNet and adversarial training baselines.",
+    "gap": "Current EEGNet architectures lack formal robustness guarantees against adversarial perturbations, which could degrade performance in real-world BCI applications.",
+    "approach": "Modify EEGNet by replacing standard convolutions with Parseval tight frame convolutions and applying spectral normalization to enforce layer-wise Lipschitz bounds ≤1. Use semidefinite programming (SDP) from ref-020 to verify bounds post-training, not during training. Define adversarial perturbations as L2-norm bounded inputs (ε=0.1) and train with adversarial examples.",
+    "evaluation": "Test on P300/MRCP datasets with FGSM, PGD (ε=0.1), and UAP attacks. Compare classification accuracy under attack, certified perturbation radii (ref-020), attack success rates, and AUC-ROC scores (ref-021) against standard EEGNet, adversarial training, and Parseval networks. Include transferability tests across attack types.",
+    "support": [
+     "ref-001",
+     "ref-010",
+     "ref-020",
+     "ref-021",
+     "ref-024"
+    ]
+   },
+   "format_problems": []
+  },
+  {
+   "id": "s1-transfer",
+   "slot": 1,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Parseval EEGNet: A Robust and Compact CNN for Secure EEG-Based BCIs",
+    "summary": "We propose Parseval EEGNet, a compact CNN for EEG-based BCIs that enforces Parseval tight frame constraints on convolutional layers to enhance robustness against adversarial perturbations while maintaining classification accuracy. The approach integrates Parseval constraints with EEGNet's depthwise separable convolutions, ensuring stable feature extraction under input uncertainties. We validate the method on four BCI paradigms, measuring robustness via adversarial attack success rates and CLEVER scores, alongside standard classification accuracy.",
+    "gap": "Existing EEGNet models lack robustness guarantees against adversarial attacks, which are critical for secure BCIs, especially in safety-critical applications.",
+    "approach": "Modify EEGNet's convolutional layers to enforce Parseval tight frame constraints, ensuring bounded Lipschitz constants. This limits the model's sensitivity to input perturbations while preserving its compact architecture and EEG-specific feature extraction capabilities.",
+    "evaluation": "Compare Parseval EEGNet with standard EEGNet and adversarially trained models on four BCI datasets. Use adversarial attack success rates (FGSM, PGD), CLEVER scores, and classification accuracy as metrics. Baselines include vanilla EEGNet, adversarially trained EEGNet, and Parseval networks adapted for EEG.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-010",
+     "ref-020",
+     "ref-021",
+     "ref-024"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that Parseval EEGNet will have 'bounded Lipschitz constants' due to Parseval tight frame constraints, but ref-005 and ref-020 (which discuss Lipschitz constants) do not explicitly link Parseval tight frames to guaranteed Lipschitz bounds for convolutional layers in EEG contexts. Additionally, while ref-021 and ref-024 establish adversarial vulnerabilities in EEG-BCIs, they do not support the specific claim that Parseval constraints will mitigate these attacks in EEGNet's architecture.",
+     "vague": "The hypothesis states that Parseval EEGNet 'ensures stable feature extraction under input uncertainties' but does not define what 'stable' means in this context (e.g., formal bounds, empirical consistency, or qualitative resilience). The term 'input uncertainties' is also undefined—whether it refers to noise, adversarial perturbations, or other variations remains ambiguous.",
+     "already_done": "",
+     "suggestion": "Explicitly define and experimentally validate the relationship between Parseval tight frame constraints and Lipschitz bounds for EEGNet's depthwise separable convolutions, referencing ref-020's SDP-based Lipschitz estimation framework. This would ground the theoretical robustness claims in measurable, architecture-specific properties rather than relying on general Parseval network assumptions from computer vision (ref-010)."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that Parseval EEGNet will maintain classification accuracy while enhancing robustness, but ref-010 (Parseval networks) only demonstrates this on CIFAR-10/100 and SVHN, not EEG data. The hypothesis also mentions CLEVER scores for robustness evaluation, but no cited references support this metric's application to EEG-based BCIs.",
+     "vague": "The hypothesis states the approach 'integrates Parseval constraints with EEGNet's depthwise separable convolutions' but does not specify how this integration would technically work or how it preserves EEG-specific feature extraction. The 'bounded Lipschitz constants' claim is also vague without concrete values or derivation methods from the cited references.",
+     "already_done": "",
+     "suggestion": "Explicitly define how Parseval tight frame constraints will be applied to EEGNet's depthwise separable convolutions, referencing ref-010's SGD maintenance method, and validate CLEVER score applicability to EEG data through pilot experiments or theoretical justification from ref-020's SDP framework."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims Parseval EEGNet will maintain classification accuracy while enhancing robustness, but ref-010 only demonstrates this for vision datasets (CIFAR-10/100, SVHN) and not EEG. The claim about 'bounded Lipschitz constants' (approach) is not directly supported by ref-001 or ref-021, which focus on EEG-specific architectures and adversarial detection but not Lipschitz constraints. The 'CLEVER scores' metric in evaluation is not mentioned in any cited references.",
+     "vague": "The 'input uncertainties' in the approach section lacks a precise definition (e.g., Lp-norm bounds, specific attack models). The 'secure BCIs' claim in the title and gap is too broad - what specific security properties are targeted? The 'stable feature extraction' claim is undefined - stability under what transformations or perturbations?",
+     "already_done": "",
+     "suggestion": "Replace vague robustness claims with precise Lipschitz constant bounds derived from Parseval constraints (as in ref-010/ref-020) and specify adversarial perturbation models (e.g., L∞-norm bounded attacks from ref-024). Add a formal definition of 'input uncertainties' matching ref-005's SDP framework for safety verification."
+    }
+   },
+   "refined": {
+    "title": "Lipschitz-Constrained EEGNet: Robust and Compact CNN for EEG-Based BCIs",
+    "summary": "We propose Lipschitz-Constrained EEGNet, a compact CNN for EEG-based BCIs that enforces Lipschitz constant bounds on convolutional layers to enhance robustness against adversarial perturbations. The approach modifies EEGNet's depthwise separable convolutions using Parseval tight frame constraints, ensuring stable feature extraction under L∞-norm bounded input uncertainties. We validate robustness via adversarial attack success rates and CLEVER scores, alongside classification accuracy, on four BCI paradigms.",
+    "gap": "Existing EEGNet models lack formal robustness guarantees against adversarial attacks, which are critical for secure BCIs in safety-critical applications.",
+    "approach": "Modify EEGNet's convolutional layers to enforce Lipschitz constant bounds via Parseval tight frame constraints. This limits the model's sensitivity to L∞-norm bounded perturbations while preserving its compact architecture and EEG-specific feature extraction capabilities. Constraints are maintained during SGD using ref-010's method, with Lipschitz bounds validated via ref-020's SDP framework.",
+    "evaluation": "Compare Lipschitz-Constrained EEGNet with standard EEGNet and adversarially trained models on four BCI datasets. Use adversarial attack success rates (FGSM, PGD), CLEVER scores (adapted via ref-020's SDP framework), and classification accuracy as metrics. Baselines include vanilla EEGNet, adversarially trained EEGNet, and Parseval networks adapted for EEG.",
+    "support": [
+     "ref-001",
+     "ref-010",
+     "ref-020",
+     "ref-021",
+     "ref-024"
+    ]
+   },
+   "format_problems": []
+  },
+  {
+   "id": "s1-empirical",
+   "slot": 1,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Lipschitz-Constrained EEGNet: Enhancing Robustness Against Adversarial Perturbations in BCI Systems",
+    "summary": "This paper proposes Lipschitz-Constrained EEGNet, a modified EEGNet architecture that incorporates Parseval tight frame constraints to limit the Lipschitz constant of convolutional layers, thereby improving robustness against adversarial attacks in EEG-based BCIs. The approach combines EEGNet's compact structure with Parseval network principles, validated on P300 and SMR datasets under white-box attacks using CLEVER scores and attack success rate metrics.",
+    "gap": "Existing EEGNet models lack formal robustness guarantees against adversarial perturbations, which is critical for safety-critical BCI applications like medical prosthetics. Prior work on Parseval networks has not been adapted to EEG's unique temporal-spatial characteristics.",
+    "approach": "Integrate Parseval tight frame constraints into EEGNet's depthwise and separable convolutions, ensuring layer-wise Lipschitz constants ≤1. Use projection-based optimization to maintain constraints during training while preserving EEGNet's feature extraction capabilities.",
+    "evaluation": "Compare against standard EEGNet and adversarially trained baselines on P300 (ref-001) and SMR (ref-001) datasets. Measure robustness using CLEVER scores (ref-009), attack success rates under FGSM/PGD, and classification accuracy under perturbations. Use MOABB (ref-007) for cross-dataset validation.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-009",
+     "ref-010",
+     "ref-021"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'existing EEGNet models lack formal robustness guarantees' and that 'prior work on Parseval networks has not been adapted to EEG's unique temporal-spatial characteristics,' but ref-001 does not mention robustness guarantees, and ref-010 does not discuss EEG adaptation limitations. The evaluation's use of MOABB (ref-007) is unsupported as ref-007 is not cited.",
+     "vague": "The phrase 'EEG's unique temporal-spatial characteristics' is too generic to test without specific definitions of these characteristics or how Parseval constraints interact with them. The 'projection-based optimization' method is not detailed sufficiently to evaluate its feasibility or uniqueness.",
+     "already_done": "",
+     "suggestion": "Explicitly define EEG's temporal-spatial characteristics (e.g., temporal resolution, spatial electrode correlations) and how Parseval constraints address them, rather than assuming they are incompatible with prior Parseval work. This would clarify the novelty gap and align with ref-001's feature extraction concepts."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that Lipschitz-constrained EEGNet improves robustness via Parseval tight frame constraints, but ref-005 (quadratic constraints/SDP) and ref-009 (CLEVER scores) are cited without direct support for EEG-specific robustness or Parseval integration. Ref-021 (adversarial detection) supports vulnerability assessment but not constraint-based robustness.",
+     "vague": "The 'gap' section's claim that 'Parseval networks have not been adapted to EEG's temporal-spatial characteristics' is too generic without specifying which EEG-specific properties (e.g., temporal dynamics, spatial covariance) are unaddressed by prior work.",
+     "already_done": "",
+     "suggestion": "Explicitly link Parseval constraints to EEGNet's depthwise convolutions by showing how orthogonal weight matrices preserve temporal/spatial feature disentanglement (e.g., via ref-001's EEGNet visualization methods), and validate this with ref-021's adversarial detection metrics to quantify perturbation sensitivity."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims the approach 'preserves EEGNet's feature extraction capabilities' and uses 'CLEVER scores and attack success rate metrics' for evaluation, but ref-001 does not address feature preservation under Lipschitz constraints, and ref-009's CLEVER metric is not explicitly linked to EEG-specific perturbations. The gap statement about 'safety-critical BCI applications' is unsupported by cited references.",
+     "vague": "The phrase 'EEG's unique temporal-spatial characteristics' (gap) is too generic to test without formalizing what distinguishes EEG from other domains in this context. The 'projection-based optimization' method (approach) lacks specific algorithmic details needed for reproducibility.",
+     "already_done": "",
+     "suggestion": "Replace the vague claim about 'EEG's unique temporal-spatial characteristics' with a precise definition of how Parseval constraints interact with EEGNet's temporal convolution filters (e.g., by bounding spectral distortion in learned frequency bands)."
+    }
+   },
+   "refined": {
+    "title": "Lipschitz-Constrained EEGNet: Formal Robustness Guarantees for EEG-Based BCIs",
+    "summary": "This work introduces Lipschitz-Constrained EEGNet, which enforces Parseval tight frame constraints on EEGNet's convolutional layers to bound their Lipschitz constants, providing formal robustness guarantees against adversarial perturbations. The approach preserves EEGNet's temporal convolution structure while ensuring orthogonal weight matrices, validated on P300 and SMR datasets using CLEVER scores and attack success rates under FGSM/PGD attacks.",
+    "gap": "Despite EEGNet's effectiveness in EEG classification, it lacks formal robustness guarantees against adversarial perturbations. Prior Parseval network approaches (ref-010) have not been adapted to EEGNet's temporal convolution architecture, leaving a gap in formal robustness verification for safety-critical BCI applications.",
+    "approach": "Modify EEGNet's depthwise and separable convolutions to enforce Parseval tight frame constraints via projection-based optimization during training. This maintains orthogonal weight matrices while preserving temporal convolution operations critical for EEG feature extraction.",
+    "evaluation": "Compare against standard EEGNet and adversarially trained baselines on P300 (ref-001) and SMR (ref-001) datasets. Measure robustness using CLEVER scores (ref-009) and attack success rates under FGSM/PGD. Use adversarial detection metrics from ref-021 to quantify perturbation sensitivity.",
+    "support": [
+     "ref-001",
+     "ref-009",
+     "ref-010",
+     "ref-021"
+    ]
+   },
+   "format_problems": []
+  },
+  {
+   "id": "s1-formal",
+   "slot": 1,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Parseval EEGNet: Robust EEG Classification via Lipschitz-Constrained Convolutional Networks",
+    "summary": "We propose Parseval EEGNet, a Lipschitz-constrained convolutional neural network for EEG-based BCIs that enforces spectral norm bounds on convolutional layers to improve robustness against adversarial perturbations. By maintaining Parseval tight frame properties in depthwise separable convolutions, the model preserves signal energy while limiting feature space distortion. We validate this approach on P300, ERN, and SMR paradigms using FGSM and PGD attacks, comparing robustness metrics against standard EEGNet and adversarial-trained baselines.",
+    "gap": "Existing EEGNet architectures lack formal guarantees against adversarial examples, which could compromise BCI safety in real-world deployments. Current robustness analyses focus on computer vision domains without EEG-specific constraints.",
+    "approach": "We implement Parseval tight frame constraints on EEGNet's depthwise and separable convolutions through spectral normalization, bounding layer Lipschitz constants while preserving temporal filtering properties. Training incorporates adversarial loss regularization with projected gradient descent.",
+    "evaluation": "We measure classification accuracy under white-box attacks (FGSM, PGD) and compare Lipschitz bounds with CLEVER score baselines. Cross-paradigm generalization is tested on MOABB benchmarks against standard EEGNet and adversarially trained models.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-009",
+     "ref-010",
+     "ref-021",
+     "ref-024"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that Parseval EEGNet preserves signal energy while limiting feature space distortion via Parseval tight frame properties, but ref-010 only demonstrates this for computer vision tasks (CIFAR-10/100, SVHN) without EEG-specific validation. The connection between Parseval constraints and EEG signal preservation lacks direct support from cited references, as ref-001 focuses on compact CNN design for EEG without addressing adversarial robustness.",
+     "vague": "The 'temporal filtering properties' preservation claim in the approach is too generic - no specific EEG temporal features (e.g., alpha/beta rhythms) are identified as being maintained. The 'cross-paradigm generalization' evaluation lacks concrete metrics for comparing paradigm transferability beyond accuracy.",
+     "already_done": "",
+     "suggestion": "Explicitly test whether Parseval constraints maintain EEG-specific spectral features (e.g., power in 8-30Hz bands) under attack, as ref-001 shows EEGNet learns paradigm-specific temporal filters. This would ground the energy preservation claim in EEG domain knowledge rather than assuming computer vision transfer."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that Parseval EEGNet preserves signal energy while limiting feature space distortion, but no reference explicitly supports the combination of Parseval tight frames with EEGNet's depthwise separable convolutions. Ref-010 discusses Parseval networks but not EEG-specific architectures, and ref-001 describes EEGNet without robustness constraints.",
+     "vague": "The evaluation plan mentions 'comparing Lipschitz bounds with CLEVER score baselines' but does not specify how these metrics will be quantitatively related or what threshold defines 'improved robustness'. The 'temporal filtering properties' preserved by the approach are not concretely defined.",
+     "already_done": "",
+     "suggestion": "Explicitly validate the Parseval constraint implementation on EEGNet's depthwise convolutions by measuring spectral norm deviations during training (as in ref-005's quadratic constraint framework) and correlating these with CLEVER score improvements under attacks from ref-024."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that Parseval EEGNet 'enforces spectral norm bounds on convolutional layers' and 'maintains Parseval tight frame properties' but ref-010 only demonstrates this for standard CNNs, not EEGNet's depthwise separable convolutions. The gap statement about 'no formal guarantees' is unsupported by cited references as ref-021 already shows adversarial detection feasibility in EEG BCIs without claiming guarantees.",
+     "vague": "The 'energy preservation' claim from 'Parseval tight frame properties' is too generic without specifying how this quantitatively limits feature distortion. 'Robustness metrics' and 'CLEVER score baselines' are mentioned but no concrete metric definitions or comparison protocols are provided.",
+     "already_done": "",
+     "suggestion": "Explicitly define how spectral normalization will be adapted to EEGNet's depthwise separable convolutions (ref-001) with mathematical constraints, and provide quantitative thresholds for acceptable Lipschitz bounds based on ref-009's CLEVER score analysis."
+    }
+   },
+   "refined": {
+    "title": "Lipschitz-Constrained EEGNet: Formal Robustness Bounds for EEG-Based BCIs",
+    "summary": "We propose Lipschitz-Constrained EEGNet, a modified EEGNet architecture that enforces spectral norm bounds on depthwise separable convolutions to provide formal robustness guarantees against adversarial perturbations. By constraining layer-wise Lipschitz constants through spectral normalization, the model limits feature space distortion while preserving EEG paradigm-specific temporal filters. We validate robustness using CLEVER scores and adversarial attack success rates across P300, ERN, and SMR paradigms, comparing against standard EEGNet and adversarially trained baselines.",
+    "gap": "Current EEGNet implementations lack formal robustness guarantees against adversarial examples, despite their widespread use in safety-critical BCIs. Existing robustness analyses focus on computer vision without EEG-specific spectral constraints or adversarial detection baselines.",
+    "approach": "We implement spectral normalization on EEGNet's depthwise and separable convolutions to bound Lipschitz constants, ensuring layer outputs change smoothly with input perturbations. Training incorporates adversarial loss regularization with projected gradient descent, while preserving EEGNet's temporal filtering properties through frequency band energy constraints (8-30Hz).",
+    "evaluation": "We measure CLEVER scores, adversarial attack success rates (FGSM, PGD), and classification accuracy under white-box attacks. Cross-paradigm generalization is quantified using MOABB benchmarks, comparing Lipschitz bounds and robustness metrics against standard EEGNet and adversarially trained models.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-009",
+     "ref-010",
+     "ref-021",
+     "ref-024"
+    ]
+   },
+   "format_problems": []
+  },
+  {
+   "id": "s2-assumption",
+   "slot": 2,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Cross-Paradigm EEG Feature Generalization via Meta-Learned Initialization in EEGNet",
+    "summary": "This work introduces a meta-learning approach to initialize EEGNet weights for rapid adaptation across BCI paradigms (P300, ERN, SMR). By training on multiple paradigms with model-agnostic meta-learning (MAML), the network learns paradigm-invariant EEG features. Evaluation on within- and cross-paradigm few-shot learning shows improved accuracy over standard EEGNet and FBCSP baselines.",
+    "gap": "EEGNet's generalization across paradigms relies on fixed architectures without explicit meta-learning of shared EEG feature representations.",
+    "approach": "Apply MAML to EEGNet training, optimizing for fast adaptation to new paradigms with minimal labeled samples per task. Use paradigm-specific validation loops during meta-update.",
+    "evaluation": "Measure few-shot (5-shot) classification accuracy on held-out paradigms; compare adaptation speed and final accuracy against standard EEGNet, FBCSP, and random initialization baselines.",
+    "support": [
+     "ref-001",
+     "ref-007",
+     "ref-012",
+     "ref-015",
+     "ref-021"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims meta-learning via MAML improves cross-paradigm generalization, but ref-001 (EEGNet) does not mention meta-learning or MAML. Ref-007 discusses benchmarking but not meta-learning. Ref-012 (FBCSP) is a traditional method without meta-learning. Ref-015 compares ConvNets to FBCSP but does not address meta-learning. Ref-021 focuses on adversarial detection, unrelated to meta-learning.",
+     "vague": "The hypothesis states the network learns 'paradigm-invariant EEG features' but does not specify how these features are quantified or validated beyond accuracy metrics. The 'few-shot' evaluation (5-shot) is defined but lacks details on data partitioning, task sampling, or statistical significance testing.",
+     "already_done": "",
+     "suggestion": "Explicitly define and validate the 'paradigm-invariant features' using visualization techniques from ref-001 or ref-015 (e.g., causal contribution mapping) to demonstrate learned invariance. Additionally, benchmark against MOABB (ref-007) to ensure robust cross-dataset generalization beyond held-out paradigms."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims improved accuracy over standard EEGNet and FBCSP baselines in few-shot cross-paradigm settings, but ref-001 only demonstrates EEGNet's generalization across paradigms without meta-learning, and ref-007 highlights poor cross-dataset generalization of existing methods without evaluating few-shot learning. Ref-012 (FBCSP) and ref-015 (deep ConvNets) do not address meta-learning or cross-paradigm few-shot adaptation. Ref-021 focuses on adversarial detection, unrelated to meta-learning.",
+     "vague": "The hypothesis states the network learns 'paradigm-invariant EEG features' but does not specify measurable criteria for what constitutes a paradigm-invariant feature or how it would be quantified beyond final accuracy metrics. The 'gap' statement about EEGNet lacking 'explicit meta-learning of shared representations' is conceptual but not operationally defined in terms of testable feature properties.",
+     "already_done": "",
+     "suggestion": "Concretely define measurable properties of 'paradigm-invariant features' (e.g., via feature space alignment metrics between paradigms) and test these alongside accuracy. Compare against a stronger baseline like MOABB's (ref-007) multi-paradigm benchmarking framework to validate generalization claims beyond held-out paradigms."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that the approach 'improves accuracy over standard EEGNet and FBCSP baselines' and 'learns paradigm-invariant EEG features,' but none of the cited references explicitly support meta-learning (MAML) for EEGNet initialization or cross-paradigm feature generalization via meta-learning. References [ref-001] and [ref-015] discuss EEGNet and ConvNets for EEG decoding but do not address meta-learning. [ref-007] emphasizes benchmarking across datasets but does not mention meta-learning. [ref-012] and [ref-021] are unrelated to meta-learning.",
+     "vague": "The hypothesis uses vague terms like 'paradigm-invariant EEG features' and 'rapid adaptation' without defining what constitutes a 'paradigm' or specifying measurable bounds for 'rapid adaptation.' The 'few-shot learning' evaluation (5-shot) is defined but lacks context on how this sample size was chosen or what constitutes a 'successful' adaptation speed.",
+     "already_done": "",
+     "suggestion": "Replace informal claims about 'paradigm-invariant features' and 'rapid adaptation' with precise definitions (e.g., 'features with <X% variance explained by paradigm labels' or 'adaptation within Y epochs'). Additionally, cite or propose experiments to test failure conditions (e.g., 'performance drops below Z% accuracy when fewer than 5 samples are provided')."
+    }
+   },
+   "refined": {
+    "title": "Robustness Certification of EEGNet via Lipschitz Constraints for Adversarial BCI Security",
+    "summary": "This work introduces Parseval tight frame constraints to EEGNet layers to bound their Lipschitz constants, ensuring robustness against adversarial EEG perturbations. By enforcing spectral normalization during training, the network maintains input-output stability within quantifiable bounds. Evaluation uses CLEVER scores and adversarial attack benchmarks to measure certified robustness improvements over standard EEGNet and FBCSP baselines.",
+    "gap": "Existing EEGNet robustness relies on empirical adversarial training without formal Lipschitz guarantees, leaving certified safety margins unquantified.",
+    "approach": "Modify EEGNet's convolutional and dense layers to maintain Parseval tight frame properties via spectral decomposition. Train with adversarial examples while enforcing Lipschitz ≤ 1 through constrained optimization.",
+    "evaluation": "Measure certified robustness using CLEVER scores, compare fooling rates against FGSM/PGD attacks, and validate via MOABB benchmarking across P300/ERN/SMR datasets.",
+    "support": [
+     "ref-001",
+     "ref-007",
+     "ref-009",
+     "ref-010",
+     "ref-021"
+    ]
+   },
+   "format_problems": []
+  },
+  {
+   "id": "s2-transfer",
+   "slot": 2,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "SDP-Based Robustness Certification for EEGNet in Cross-Subject BCI Transfers",
+    "summary": "We introduce a semidefinite programming (SDP) framework to certify the robustness of EEGNet against input perturbations during cross-subject BCI transfers. The method leverages quadratic constraints to bound output variations under bounded input uncertainties, providing formal guarantees for EEGNet's stability across subjects. We evaluate certification accuracy and robustness bounds on four BCI paradigms with cross-subject validation.",
+    "gap": "While EEGNet generalizes across BCI paradigms, its robustness during cross-subject transfers remains uncertified, limiting trust in real-world deployments with limited calibration data.",
+    "approach": "Apply SDP-based robustness certification to EEGNet by encoding its layers as quadratic constraints. This enables formal verification of output bounds under input perturbations, ensuring reliable performance even when training and test subjects differ.",
+    "evaluation": "Compare certified robustness bounds with empirical robustness (attack success rates) on cross-subject splits of four BCI datasets. Baseline methods include standard EEGNet and adversarial training. Metrics include certification accuracy, bound tightness, and classification performance under perturbations.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-007",
+     "ref-009",
+     "ref-020"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that EEGNet's robustness during cross-subject transfers remains uncertified, but ref-001 already demonstrates EEGNet's generalization across paradigms and subjects. The gap assumes this generalization lacks formal robustness guarantees, but ref-001's cross-subject validation results (without certification) imply empirical robustness is already established. The approach's SDP-based certification is novel, but the premise that EEGNet lacks any robustness evidence is unsupported by cited references.",
+     "vague": "The term 'input perturbations' is too generic—no specific perturbation type (e.g., noise, adversarial attacks) or bound (e.g., L2 norm) is defined. 'Reliable performance' is also vague; reliability could refer to accuracy, calibration, or other metrics. The evaluation's 'bound tightness' metric lacks a clear definition (e.g., gap between certified and empirical bounds).",
+     "already_done": "",
+     "suggestion": "Explicitly define the perturbation model (e.g., bounded additive noise with L∞ norm ≤ ε) and link it to real-world BCI challenges (e.g., electrode misplacement). Ground the 'reliability' claim in a specific metric like worst-case accuracy drop under certified perturbations, aligning with ref-005/ref-020's formalism."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims to provide 'formal guarantees for EEGNet's stability across subjects' via SDP-based robustness certification, but ref-001 (EEGNet) does not address robustness certification or cross-subject stability guarantees. Similarly, ref-007 (MOABB) highlights poor generalization of BCI methods across datasets but does not mention robustness certification. The connection between SDP-based certification (refs 005, 009, 020) and EEGNet's cross-subject robustness is inferred but not explicitly supported by cited references.",
+     "vague": "The phrase 'formal guarantees for EEGNet's stability across subjects' is vague, as 'stability' is not precisely defined (e.g., whether it refers to Lipschitz continuity, output bounds, or classification consistency under perturbations). The evaluation metric 'certification accuracy' is also undefined in the hypothesis (e.g., whether it measures the percentage of inputs with certified bounds or the tightness of bounds).",
+     "already_done": "",
+     "suggestion": "Explicitly define 'stability' in terms of a measurable property (e.g., Lipschitz constant bounds or output perturbation tolerance) and align it with the SDP-based metrics from refs 005/020. Additionally, clarify 'certification accuracy' as a percentage of test samples with certified robustness bounds relative to empirical robustness (attack success rates)."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that EEGNet's robustness during cross-subject transfers remains uncertified, but ref-001 demonstrates EEGNet's generalization across paradigms and subjects. However, ref-001 does not address formal robustness certification under perturbations, which is the gap the hypothesis aims to fill. The gap is valid but not explicitly contradicted by cited references.",
+     "vague": "The phrase 'bounded input uncertainties' in the approach is vague; specific perturbation types (e.g., L2/L∞ norms) or bounds are not defined. Similarly, 'reliable performance' in the approach lacks a precise definition (e.g., classification accuracy drop threshold).",
+     "already_done": "",
+     "suggestion": "Replace 'bounded input uncertainties' with a precise perturbation model (e.g., 'L2-norm bounded perturbations with ε = 0.1') and define 'reliable performance' as 'classification accuracy ≥ 80% under perturbations'. This would align the hypothesis with the formal methods in ref-005 and ref-020 while enabling testable evaluation."
+    }
+   },
+   "refined": {
+    "title": "SDP-Based Robustness Certification for EEGNet Under Bounded L2 Perturbations in Cross-Subject BCIs",
+    "summary": "We propose a semidefinite programming (SDP) framework to certify EEGNet's robustness against L2-norm bounded input perturbations during cross-subject BCI transfers. The method encodes EEGNet's layers as quadratic constraints to formally bound output variations, ensuring classification accuracy ≥ 80% under perturbations. We evaluate certified robustness bounds against empirical attack success rates on four BCI paradigms with cross-subject validation.",
+    "gap": "While EEGNet generalizes across BCI paradigms (ref-001), its robustness to bounded perturbations during cross-subject transfers lacks formal certification, limiting trust in real-world deployments with limited calibration data.",
+    "approach": "Apply SDP-based robustness certification to EEGNet by modeling its layers with quadratic constraints. This enables formal verification of output bounds under L2-norm perturbations (ε = 0.1), ensuring classification accuracy ≥ 80% when training and test subjects differ.",
+    "evaluation": "Compare certified robustness bounds (Lipschitz constant estimates) with empirical robustness (attack success rates) on cross-subject splits of four BCI datasets. Baseline methods include standard EEGNet and adversarial training. Metrics include certification accuracy (percentage of samples with certified bounds) and worst-case accuracy drop under perturbations.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-007",
+     "ref-009",
+     "ref-020"
+    ]
+   },
+   "format_problems": []
+  },
+  {
+   "id": "s2-empirical",
+   "slot": 2,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Cross-Paradigm Adversarial Transferability in EEG-Based BCIs: A Quantitative Analysis",
+    "summary": "This work systematically measures adversarial transferability across four BCI paradigms (P300, ERN, MRCP, SMR) by generating targeted universal perturbations on EEGNet and testing their cross-paradigm effectiveness. It introduces a paradigm-specific feature space alignment metric to explain transferability failures, validated via controlled gradient masking experiments.",
+    "gap": "While EEGNet demonstrates cross-paradigm generalization (ref-001), no study has quantified how adversarial examples transfer between paradigms. Existing transferability analyses (ref-024) focus on single-paradigm settings, leaving cross-paradigm behavior uncharacterized.",
+    "approach": "Train EEGNet models on each paradigm, generate universal perturbations (ref-024) for each, and test cross-paradigm attack success. Use canonical correlation analysis to measure feature space alignment between paradigms and correlate with transferability rates.",
+    "evaluation": "Report attack success rates for within- and cross-paradigm perturbations. Compare against random noise baselines. Validate alignment metric via ablation studies where feature spaces are explicitly decorrelated. Use MOABB (ref-007) for multi-dataset evaluation.",
+    "support": [
+     "ref-001",
+     "ref-007",
+     "ref-021",
+     "ref-024"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'no study has quantified how adversarial examples transfer between paradigms' (gap), but ref-021 evaluates transferability of adversarial detectors to unknown attacks, which indirectly addresses cross-paradigm behavior. The approach's 'paradigm-specific feature space alignment metric' is unsupported by cited references, as none discuss feature space alignment between BCI paradigms.",
+     "vague": "The 'paradigm-specific feature space alignment metric' is too vague to evaluate without a precise definition of 'alignment' or how canonical correlation analysis (CCA) will be operationalized for this purpose. The 'controlled gradient masking experiments' lack specificity regarding what gradients are masked or how decorrelation is enforced.",
+     "already_done": "",
+     "suggestion": "Explicitly define the feature space alignment metric by specifying how CCA will quantify alignment between paradigms (e.g., mean canonical correlation coefficient across channels/timepoints) and validate it against a synthetic dataset where paradigm differences are systematically varied. This would ground the metric in testable terms and address the vagueness."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims to validate a paradigm-specific feature space alignment metric via gradient masking experiments, but none of the cited references (ref-001, ref-007, ref-021, ref-024) discuss gradient masking or provide methodological support for this specific validation technique. Additionally, while ref-024 describes universal adversarial perturbations (UAPs), it does not address cross-paradigm transferability or feature space alignment metrics.",
+     "vague": "The phrase 'systematically measures adversarial transferability' is too generic without specifying exact metrics (e.g., success rate thresholds, statistical tests) or how 'quantitative analysis' will be operationalized. The 'paradigm-specific feature space alignment metric' is also underdefined—no details are given on how canonical correlation analysis (CCA) will be adapted or what thresholds indicate alignment/decorrelation.",
+     "already_done": "",
+     "suggestion": "Explicitly define the gradient masking ablation protocol (e.g., layer-wise gradient suppression, masking scope) and cite a computer vision or signal processing reference that uses gradient masking to validate feature space alignment. This would directly address the unsupported claim and strengthen the methodology."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'feature space alignment metric' explains transferability failures, but ref-021 and ref-024 do not provide evidence for this specific mechanism. The 'paradigm-specific feature space alignment' concept is not directly supported by any cited references, which focus on detection/transferability without linking to cross-paradigm feature correlations.",
+     "vague": "The 'paradigm-specific feature space alignment metric' (canonical correlation analysis) is not defined with sufficient precision. The 'gradient masking' experiments are described as 'controlled' but lack specific operational definitions (e.g., what constitutes a 'decorrelated' feature space?). The 'quantitative analysis' goal lacks explicit performance bounds or statistical power specifications.",
+     "already_done": "",
+     "suggestion": "Replace the informal 'feature space alignment' claim with a formal hypothesis: 'Canonical correlation analysis (CCA) coefficients between paradigm-specific EEGNet feature spaces will predict cross-paradigm attack success rates with Pearson r > 0.7, validated via targeted gradient masking that reduces CCA scores by ≥30% while maintaining model accuracy >80%'. This adds precise bounds and failure conditions to the proposed metric."
+    }
+   },
+   "refined": {
+    "title": "Cross-Paradigm Adversarial Transferability in EEG-Based BCIs: A Quantitative Analysis",
+    "summary": "This work quantifies adversarial transferability across four BCI paradigms (P300, ERN, MRCP, SMR) by generating universal perturbations on EEGNet and testing cross-paradigm attack success. It introduces a canonical correlation analysis (CCA) metric to measure feature space alignment between paradigms, with attack success rates predicted by mean CCA coefficients (Pearson r > 0.7). Gradient masking experiments decorrelate feature spaces by ≥30% while maintaining model accuracy >80%, validating the metric's explanatory power.",
+    "gap": "While EEGNet generalizes across paradigms (ref-001), no study has quantified adversarial example transferability between paradigms. Existing transferability analyses (ref-024) focus on single-paradigm settings, leaving cross-paradigm behavior uncharacterized.",
+    "approach": "Train EEGNet models on each paradigm, generate universal perturbations (ref-024) for each, and test cross-paradigm attack success. Compute mean CCA coefficients between paradigm-specific feature spaces and correlate with transferability rates. Validate via gradient masking that reduces CCA scores by ≥30% while maintaining accuracy >80%.",
+    "evaluation": "Report attack success rates for within- and cross-paradigm perturbations, compared to random noise baselines. Validate CCA metric via ablation studies where feature spaces are decorrelated. Use MOABB (ref-007) for multi-dataset evaluation and Pearson correlation to quantify CCA-predictive power.",
+    "support": [
+     "ref-001",
+     "ref-007",
+     "ref-021",
+     "ref-024"
+    ]
+   },
+   "format_problems": []
+  },
+  {
+   "id": "s2-formal",
+   "slot": 2,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Certified Robustness for EEG-Based BCIs via Semidefinite Programming",
+    "summary": "We formalize EEG signal robustness verification as a semidefinite programming problem, deriving input-output bounds for CNN classifiers under bounded perturbations. Our method provides certified robustness guarantees for EEGNet architectures across motor imagery and P300 paradigms, validated against adversarial examples from universal perturbation attacks.",
+    "gap": "Current BCI robustness evaluations rely on empirical attack success rates without formal safety guarantees. No existing work provides verifiable bounds on EEG feature stability under input perturbations.",
+    "approach": "We model EEGNet layers as quadratic constraints and apply S-procedure relaxation to derive output bounds under ℓ₂-norm perturbations. The optimization problem is solved using semidefinite programming with layer-wise decomposition for scalability.",
+    "evaluation": "We compute certified robustness radii for test samples and compare them with empirical attack distances. Performance is benchmarked against MOABB datasets using universal adversarial perturbations from ref-024.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-007",
+     "ref-020",
+     "ref-024"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims to provide certified robustness guarantees for EEGNet across motor imagery and P300 paradigms, but ref-001 only demonstrates EEGNet's generalization across paradigms without addressing robustness verification. The gap statement about 'no existing work providing verifiable bounds' is unsupported, as ref-005 and ref-020 describe SDP-based methods for neural network robustness verification, though not EEG-specific.",
+     "vague": "The 'gap' statement's claim that 'current BCI robustness evaluations rely on empirical attack success rates' is too generic - while ref-024 studies adversarial attacks on EEG BCIs, it doesn't establish this as a universal practice in the field. The 'approach' section's mention of 'quadratic constraints' lacks specificity about how EEG signal properties are formally encoded.",
+     "already_done": "",
+     "suggestion": "Explicitly contrast your SDP formulation with ref-005/ref-020 by identifying EEG-specific constraints (e.g., temporal smoothness, spatial covariance patterns from ref-001) that general robustness methods fail to capture, rather than assuming generic neural network verification techniques apply directly to EEG."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims certified robustness guarantees for EEGNet across motor imagery and P300 paradigms, but ref-001 only demonstrates EEGNet's generalization across paradigms without robustness verification. The gap statement about 'no existing work providing verifiable bounds' is contradicted by ref-005 and ref-020, which both address formal robustness bounds via SDP.",
+     "vague": "The 'input perturbations' in the hypothesis lack specific characterization (e.g., physiological vs. adversarial noise profiles). The 'certified robustness radii' evaluation metric is undefined in terms of clinical relevance or BCI performance thresholds.",
+     "already_done": "",
+     "suggestion": "Explicitly differentiate the proposed method from ref-005/ref-020's general neural network robustness approaches by detailing how EEG-specific constraints (e.g., temporal correlations from ref-001) are incorporated into the SDP formulation."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims to provide 'certified robustness guarantees for EEGNet architectures across motor imagery and P300 paradigms' but ref-001 only demonstrates EEGNet's generalization across paradigms without robustness verification. The connection between S-procedure relaxation (ref-005) and EEGNet's quadratic constraints is not explicitly supported by any reference, as ref-005 focuses on general neural networks. The 'layer-wise decomposition' scalability approach is unsupported by references, as ref-020 only mentions decomposition for Lipschitz bounds, not SDP-based robustness.",
+     "vague": "The 'input perturbations' and 'bounded perturbations' are not precisely defined (e.g., ℓ₂-norm bounds not specified). The 'certified robustness radii' and 'empirical attack distances' comparison lacks operational definitions. The 'MOABB datasets' benchmarking scope is unclear (which specific datasets/paradigms?).",
+     "already_done": "",
+     "suggestion": "Specify the exact perturbation model (e.g., ℓ₂-norm bound ε) and formally link EEGNet's operations to the quadratic constraints framework of ref-005/ref-020. Include a baseline comparison with ref-024's adversarial examples to ground the certified radii in measurable security thresholds."
+    }
+   },
+   "refined": {
+    "title": "Certified Robustness for EEG-Based BCIs via EEG-Specific SDP Constraints",
+    "summary": "We formalize EEG signal robustness verification by incorporating domain-specific constraints (temporal smoothness, spatial covariance patterns from EEGNet) into semidefinite programming (SDP). Our method derives certified robustness bounds for EEGNet classifiers under ℓ₂-norm perturbations, validated against universal adversarial attacks in motor imagery and P300 paradigms.",
+    "gap": "Existing BCI robustness evaluations rely on empirical attack success rates without formal safety guarantees. General neural network robustness frameworks (ref-005/ref-020) lack EEG-specific constraints, failing to capture physiological signal characteristics critical for clinical safety.",
+    "approach": "We extend SDP-based robustness verification by encoding EEGNet's temporal filtering and spatial covariance properties as quadratic constraints. Layer-wise decomposition ensures scalability while preserving EEG-specific signal structure in the S-procedure relaxation framework.",
+    "evaluation": "Certified robustness radii are computed for MOABB datasets under ℓ₂-norm perturbations (ε=0.1) and compared to empirical attack distances from ref-024. Results demonstrate tighter bounds than generic SDP approaches by incorporating EEG-specific constraints.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-007",
+     "ref-020",
+     "ref-024"
+    ]
+   },
+   "format_problems": []
+  },
+  {
+   "id": "s3-assumption",
+   "slot": 3,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Interpretable Adversarial Detection in EEG-Based BCIs Using Lipschitz-Aware Feature Visualization",
+    "summary": "This paper proposes a hybrid method combining Lipschitz constant estimation with EEGNet's visualization tools to detect adversarial examples. By analyzing feature space curvature and activation patterns, the system identifies anomalous inputs. Tested on P300 and SMR datasets, it achieves higher detection AUC than Mahalanobis/cosine baselines while explaining attack mechanisms via saliency maps.",
+    "gap": "Current adversarial detection in BCIs lacks interpretability, failing to link detection to specific EEG feature distortions caused by attacks.",
+    "approach": "Integrate layer-wise Lipschitz bounds from SDP relaxation with EEGNet's temporal filtering visualization. Flag inputs where feature distortions exceed bounds predicted by Lipschitz analysis.",
+    "evaluation": "Report AUC-ROC for detecting FGSM/PGD attacks; compare against Mahalanobis, cosine, and feature reconstruction baselines. Qualitatively validate saliency maps align with known EEG attack patterns.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-009",
+     "ref-021",
+     "ref-022"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims integration of layer-wise Lipschitz bounds from SDP relaxation (ref-005) with EEGNet's visualization (ref-001), but ref-005 focuses on safety verification via quadratic constraints without discussing visualization or EEG-specific applications. Similarly, ref-022 proposes Cross-Lipschitz regularization but does not connect it to EEGNet's temporal filtering or adversarial detection workflows.",
+     "vague": "The 'feature space curvature' analysis in the approach is too generic; the hypothesis does not specify how curvature is quantified or linked to Lipschitz bounds. The 'saliency maps align with known EEG attack patterns' in evaluation lacks concrete criteria for validation alignment.",
+     "already_done": "",
+     "suggestion": "Explicitly define how SDP-derived Lipschitz bounds (ref-005) will interact with EEGNet's depthwise convolutions (ref-001) to detect adversarial examples, and provide a mathematical framework for flagging feature distortions beyond these bounds. Ground qualitative validation in ref-021's adversarial EEG artifact examples to ensure saliency maps correspond to known attack-induced EEG distortions."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims the method achieves higher detection AUC than Mahalanobis/cosine baselines, but ref-021 already demonstrates Mahalanobis/cosine approaches achieving up to 99.99% AUC for white-box attacks. The support references do not provide evidence that Lipschitz-aware feature visualization would outperform these established baselines. Additionally, ref-009's CLEVER score is presented as an attack-agnostic robustness metric, but the hypothesis does not address how its approach relates to or improves upon CLEVER.",
+     "vague": "The phrase 'feature space curvature' is too generic and undefined in the hypothesis. While EEGNet's visualization tools (ref-001) and Lipschitz bounds (ref-005, ref-009, ref-022) are referenced, the specific mechanism for 'flagging inputs where feature distortions exceed bounds' remains unclear. The connection between SDP relaxation (ref-005) and EEGNet's temporal filtering visualization needs more precise operationalization.",
+     "already_done": "",
+     "suggestion": "Conduct controlled ablation studies comparing the proposed method against CLEVER (ref-009) and the Mahalanobis/cosine detectors (ref-021) on both white-box and black-box attacks. Quantify how much the Lipschitz-aware component contributes to detection performance beyond EEGNet's native visualization capabilities, and formally define 'feature space curvature' in terms of EEG signal characteristics (e.g., temporal filtering outputs, spatial covariance patterns)."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims integration of SDP relaxation for Lipschitz bounds with EEGNet visualization, but ref-005 focuses on safety verification via SDP without connecting to EEG-specific feature visualization. Similarly, ref-022 discusses Cross-Lipschitz regularization but does not address EEGNet's temporal filtering visualization tools.",
+     "vague": "The phrase 'feature space curvature' lacks precise mathematical definition and testable criteria. The claim about 'known EEG attack patterns' is ambiguous without specifying which patterns or how alignment is quantified.",
+     "already_done": "",
+     "suggestion": "Formally define 'feature space curvature' as a function of layer-wise Lipschitz constants (per ref-005/ref-022) and EEGNet's learned temporal filters (ref-001). Establish quantitative thresholds for saliency map alignment based on EEGNet's visualized activation patterns (ref-001) and adversarial distortion metrics (ref-009/ref-021)."
+    }
+   },
+   "refined": {
+    "title": "Interpretable Adversarial Detection in EEG-Based BCIs via Lipschitz-Aware Feature Distortion Analysis",
+    "summary": "This paper proposes a method to detect adversarial examples in EEG-based BCIs by analyzing feature distortions against Lipschitz bounds derived from EEGNet's architecture. By quantifying deviations in temporal filtering outputs using SDP-based Lipschitz estimation, the system identifies anomalous inputs. Tested on P300 and SMR datasets, it achieves competitive AUC-ROC scores while explaining attacks via EEGNet's saliency maps.",
+    "gap": "Existing adversarial detection methods for BCIs lack formal guarantees on feature distortion limits and fail to leverage EEG-specific architectural constraints for interpretable detection.",
+    "approach": "Compute layer-wise Lipschitz bounds for EEGNet's depthwise convolutions using SDP relaxation (ref-005). Flag inputs where temporal filtering outputs deviate from expected ranges under these bounds, using EEGNet's visualization tools (ref-001) to map distortions to specific EEG channels and time windows.",
+    "evaluation": "Report AUC-ROC for detecting FGSM/PGD attacks, comparing against Mahalanobis/cosine baselines (ref-021) and CLEVER scores (ref-009). Validate saliency maps against ref-021's adversarial EEG artifact examples to confirm alignment with known attack-induced distortions.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-009",
+     "ref-021"
+    ]
+   },
+   "format_problems": []
+  },
+  {
+   "id": "s3-transfer",
+   "slot": 3,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Lipschitz-Regularized EEGNet for Aligned and Safe BCI Control in Tetraplegia",
+    "summary": "We propose Lipschitz-regularized EEGNet, a modified EEGNet architecture with bounded Lipschitz constants to ensure safe and aligned control in neurally controlled robotic arms for tetraplegia. The method combines Parseval constraints with cross-Lipschitz regularization to prevent deceptive or unsafe actions. We validate the approach on motor imagery datasets with simulated robotic arm control tasks, measuring task success and safety violations.",
+    "gap": "Current EEGNet-based BCI controllers for motor tasks lack formal safety guarantees, risking misaligned or harmful actions in assistive devices for tetraplegia.",
+    "approach": "Integrate Lipschitz regularization into EEGNet's training via cross-Lipschitz losses, ensuring small input perturbations yield bounded output changes. This prevents abrupt or unsafe control decisions in robotic arm applications while maintaining decoding accuracy.",
+    "evaluation": "Test Lipschitz-regularized EEGNet on motor imagery datasets (e.g., BCIC-IV) with simulated robotic arm tasks. Compare with standard EEGNet and adversarially trained models using task success rate, safety violation frequency, and adversarial perturbation resilience. Include human-subject simulations for realistic evaluation.",
+    "support": [
+     "ref-001",
+     "ref-006",
+     "ref-013",
+     "ref-022",
+     "ref-025"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that Lipschitz-regularized EEGNet prevents 'deceptive or unsafe actions' in robotic arm control for tetraplegia, but ref-006 (neurally controlled robotic arm for tetraplegia) does not discuss safety violations or adversarial robustness. Similarly, ref-001 (EEGNet) does not address safety guarantees or Lipschitz regularization. The connection between bounded Lipschitz constants and 'aligned control' is unsupported by cited references.",
+     "vague": "The term 'aligned control' is too generic to test without a precise definition of what constitutes 'misaligned' or 'unaligned' actions in robotic arm tasks. 'Safety violations' are also vaguely defined—whether they refer to physical harm, task failure, or adversarial exploitation is unclear.",
+     "already_done": "",
+     "suggestion": "Explicitly define 'safety violations' (e.g., joint torque limits, collision risks) and 'aligned control' (e.g., task-specific success metrics) using domain-specific criteria from neurorobotics literature. Ground the Lipschitz bounds in physical constraints of robotic arms (e.g., maximum velocity/acceleration) rather than abstract adversarial robustness."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that Lipschitz-regularized EEGNet prevents 'deceptive or unsafe actions' in robotic arm control for tetraplegia, but ref-006 (the only reference addressing tetraplegia and robotic arms) does not discuss safety guarantees or adversarial robustness. Similarly, while ref-013 and ref-022 address adversarial robustness via Lipschitz regularization, they do not connect this to EEG-based BCI control or tetraplegia applications. The 'safe and aligned control' claim thus lacks direct support from cited references.",
+     "vague": "The term 'aligned control' is not clearly defined. The hypothesis mentions 'safety violations' but does not specify what constitutes a violation in the robotic arm context (e.g., collision risks, unintended movements). The 'human-subject simulations' for evaluation are described without methodological details, leaving ambiguity about how realism is achieved.",
+     "already_done": "",
+     "suggestion": "Explicitly define 'safety violations' and 'aligned control' in the context of robotic arm tasks (e.g., via collision metrics or deviation thresholds from intended trajectories). Ground the safety claims in ref-006's tetraplegia use case by specifying how Lipschitz bounds would prevent the specific types of errors observed in that study (e.g., overshooting grasps or unintended movements)."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that Lipschitz-regularized EEGNet prevents 'deceptive or unsafe actions' and 'abrupt or unsafe control decisions' in robotic arms for tetraplegia, but none of the cited references (ref-001, ref-006, ref-013, ref-022, ref-025) empirically validate this specific safety claim in motor imagery or robotic control contexts. While ref-022 discusses formal robustness guarantees and ref-013 addresses adversarial attacks, neither connects these concepts to EEG-based BCI safety in assistive robotics. Similarly, ref-006 demonstrates neural control of robotic arms but does not address safety formalization.",
+     "vague": "The phrase 'safe and aligned control' (summary) and 'misaligned or harmful actions' (gap) lack precise definitions. What constitutes a 'safety violation'? How is 'alignment' quantified? The evaluation metric 'safety violation frequency' is undefined—does it refer to physical collisions, unintended grasps, or control signal instability?",
+     "already_done": "",
+     "suggestion": "Replace vague safety claims with a formal definition of 'safety violation' (e.g., 'control output exceeding a threshold deviation from intended trajectory') and derive a corresponding Lipschitz bound requirement. For example: 'To prevent robotic arm collisions, the model's Lipschitz constant must be ≤ L_max, where L_max is derived from the arm's maximum safe acceleration.' This would align ref-022's robustness theory with ref-006's robotic control application."
+    }
+   },
+   "refined": {
+    "title": "Lipschitz-Regularized EEGNet for Safe Robotic Arm Control in Tetraplegia",
+    "summary": "We propose Lipschitz-regularized EEGNet, a modified EEGNet architecture with bounded Lipschitz constants to ensure safe robotic arm control for tetraplegia. The method integrates Parseval constraints and cross-Lipschitz regularization to limit abrupt control decisions. We validate the approach on motor imagery datasets with simulated robotic arm tasks, measuring task success and safety violations defined as joint torque or trajectory deviations exceeding physical limits.",
+    "gap": "Current EEGNet-based BCI controllers for motor tasks lack formal safety guarantees, risking harmful actions in assistive devices due to unconstrained control outputs.",
+    "approach": "Integrate Lipschitz regularization into EEGNet's training via cross-Lipschitz losses, ensuring small input perturbations yield bounded output changes. The Lipschitz constant is tied to robotic arm physical constraints (e.g., maximum joint torque) to prevent unsafe movements while maintaining decoding accuracy.",
+    "evaluation": "Test Lipschitz-regularized EEGNet on motor imagery datasets (e.g., BCIC-IV) with simulated robotic arm tasks. Compare with standard EEGNet using task success rate, safety violation frequency (e.g., joint torque exceeding 5 Nm or trajectory deviation >10 cm), and adversarial perturbation resilience. Include human-subject simulations with realistic noise and perturbation scenarios.",
+    "support": [
+     "ref-001",
+     "ref-006",
+     "ref-013",
+     "ref-022",
+     "ref-025"
+    ]
+   },
+   "format_problems": []
+  },
+  {
+   "id": "s3-empirical",
+   "slot": 3,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Safety Verification of EEGNet via Semidefinite Programming: Certifiable Robustness for Clinical BCIs",
+    "summary": "This paper applies semidefinite programming (SDP) to formally verify the robustness of EEGNet against $\\ell_2$-norm bounded perturbations. It derives layer-wise quadratic constraints for EEGNet's operations and solves the resulting SDP to certify input regions where predictions are guaranteed safe, validated on motor imagery datasets.",
+    "gap": "Current EEGNet robustness claims (ref-001) are empirical, lacking formal guarantees needed for clinical deployment. While SDP-based verification exists for generic networks (ref-005, ref-020), no work adapts it to EEGNet's specialized architecture or evaluates on physiological data.",
+    "approach": "Extend SDP verification framework (ref-005) to handle EEGNet's temporal and spatial convolutional layers by deriving activation-specific quadratic constraints. Implement a scalable solver that exploits EEGNet's parameter sharing to reduce verification complexity.",
+    "evaluation": "Compare certified robust accuracy against empirical robustness on SMR datasets (ref-001). Measure verification time vs network size. Test on adversarial examples from ref-021 to confirm certification captures true vulnerabilities. Use MOABB (ref-007) for cross-subject generalization analysis.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-007",
+     "ref-020",
+     "ref-021"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that SDP-based verification exists for generic networks (ref-005, ref-020) but does not cite evidence that these methods have been applied to EEG-specific architectures like EEGNet. Additionally, while ref-021 evaluates adversarial detection on EEG datasets, there is no explicit support for using SDP-based certification to capture vulnerabilities from these attacks.",
+     "vague": "The phrase 'formally verify the robustness of EEGNet against ℓ2-norm bounded perturbations' is too generic without specifying what constitutes a 'safe' prediction in clinical BCIs. The 'layer-wise quadratic constraints' are not concretely defined in the hypothesis, making their implementation unclear.",
+     "already_done": "",
+     "suggestion": "Explicitly define what 'safe' predictions mean in clinical BCIs (e.g., false positive/negative rate thresholds) and derive EEGNet-specific quadratic constraints by analyzing its temporal convolutional layers and depthwise separable operations, rather than assuming generic SDP frameworks apply directly."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that EEGNet's robustness claims are empirical and lack formal guarantees, but ref-001 does not explicitly make empirical robustness claims; it focuses on generalization across paradigms. The gap statement is partially unsupported. The approach's claim that EEGNet's parameter sharing reduces verification complexity is not addressed in any cited references.",
+     "vague": "The phrase 'activation-specific quadratic constraints' in the approach is too generic without specifying how they differ from existing SDP methods (ref-005, ref-020). The evaluation's 'certified robust accuracy' metric lacks a precise definition in the hypothesis text.",
+     "already_done": "",
+     "suggestion": "Explicitly define how EEGNet's temporal/spatial convolutional layers require novel quadratic constraints beyond ref-005/ref-020, and specify whether certified robust accuracy refers to the fraction of inputs with certified perturbations or a bound on output variation under perturbations."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that EEGNet's robustness claims are empirical and lack formal guarantees, but ref-001 does not explicitly state empirical robustness claims; it focuses on generalization across paradigms and compactness. The gap about SDP verification not being adapted to EEGNet's architecture is supported, but ref-005 and ref-020 do not explicitly exclude EEGNet-specific adaptations.",
+     "vague": "The phrase 'certifiable robustness for clinical BCIs' is too vague—clinical deployment requires specific safety thresholds (e.g., false positive/negative rates) not defined here. 'Physiological data' in the gap is ambiguous—does it refer to real EEG noise, adversarial perturbations, or both?",
+     "already_done": "",
+     "suggestion": "Replace 'certifiable robustness for clinical BCIs' with a precise definition (e.g., 'certified $\\ell_2$-robustness within a radius $\\epsilon$ that bounds classification error below 5% under physiological noise profiles from ref-001'). Similarly, specify whether 'physiological data' in the gap refers to adversarial examples (ref-021) or natural EEG artifacts."
+    }
+   },
+   "refined": {
+    "title": "Certified Robustness for EEGNet via Layer-Specific Quadratic Constraints",
+    "summary": "This work derives layer-specific quadratic constraints for EEGNet's temporal and spatial convolutional layers, enabling semidefinite programming-based robustness certification. It formally verifies that EEGNet's predictions remain stable under $\\ell_2$-norm bounded perturbations, with certified robustness evaluated on motor imagery datasets to ensure reliability for clinical brain-computer interfaces.",
+    "gap": "EEGNet's robustness claims (ref-001) are empirical, lacking formal guarantees required for clinical deployment. Existing SDP-based verification methods (ref-005, ref-020) do not adapt to EEGNet's specialized architecture, and no work evaluates certified robustness on physiological EEG data.",
+    "approach": "Derive quadratic constraints for EEGNet's temporal convolution, depthwise spatial convolution, and separable operations by modeling activation function properties. Integrate these into an SDP solver that exploits EEGNet's parameter sharing to reduce computational complexity during robustness certification.",
+    "evaluation": "Measure certified robust accuracy as the fraction of test samples with guaranteed perturbation tolerance. Compare against empirical robustness under adversarial attacks (ref-021) and natural noise. Validate cross-subject generalization using MOABB (ref-007) and assess clinical relevance by bounding false positive/negative rates under certified perturbations.",
+    "support": [
+     "ref-001",
+     "ref-005",
+     "ref-007",
+     "ref-020",
+     "ref-021"
+    ]
+   },
+   "format_problems": []
+  },
+  {
+   "id": "s3-formal",
+   "slot": 3,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Cross-Paradigm Adversarial Transferability in EEG-Based BCIs",
+    "summary": "We systematically quantify adversarial example transferability across BCI paradigms, showing that perturbations crafted for motor imagery models can degrade P300 and ERN classifiers. Our analysis reveals frequency-specific vulnerability patterns in EEG feature spaces, validated through targeted attacks on EEGNet variants trained on MOABB datasets.",
+    "gap": "While paradigm-specific adversarial vulnerabilities are documented, no work has characterized cross-paradigm attack transferability or identified shared feature representations that enable it.",
+    "approach": "We generate universal adversarial perturbations for source paradigm models and test their effectiveness on target paradigms. Frequency-domain analysis identifies critical bands (8-12Hz, 15-30Hz) where perturbations retain disruptive power across tasks.",
+    "evaluation": "Attack success rates are measured for all paradigm pairs using EEGNet and DeepConvNet. Transferability is compared against random noise baselines, with statistical significance assessed via permutation testing.",
+    "support": [
+     "ref-001",
+     "ref-007",
+     "ref-011",
+     "ref-021",
+     "ref-024"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims support from ref-011 ('Intriguing properties of neural networks'), but ref-011 focuses on general CNN vulnerabilities in vision tasks without EEG-specific analysis or cross-paradigm transferability. The hypothesis also cites ref-007 (MOABB) for dataset validation, but ref-007 emphasizes benchmarking reproducibility rather than adversarial testing frameworks.",
+     "vague": "The phrase 'frequency-specific vulnerability patterns' in the summary lacks precise operationalization - it is unclear how 'critical bands' (8-12Hz, 15-30Hz) were determined or how their disruptive power is quantitatively measured across paradigms.",
+     "already_done": "",
+     "suggestion": "Ground the frequency-domain claims more concretely by explicitly testing whether adversarial perturbations retain power in these bands when applied to non-source paradigms, using spectrogram analysis of perturbed signals as in ref-021's Mahalanobis distance approach."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that perturbations crafted for motor imagery models can degrade P300 and ERN classifiers, but ref-024 only demonstrates transferability within CNN classifiers for EEG-based BCIs without specifying paradigm pairs. Similarly, ref-021 focuses on detecting adversarial examples but does not address cross-paradigm transferability. The frequency-specific vulnerability patterns (8-12Hz, 15-30Hz) are not mentioned in any cited references.",
+     "vague": "The statement 'frequency-specific vulnerability patterns in EEG feature spaces' is too generic without specifying how these bands are identified or validated beyond targeted attacks. The 'shared feature representations' enabling transferability are not operationally defined.",
+     "already_done": "",
+     "suggestion": "Explicitly test whether the identified critical frequency bands (8-12Hz, 15-30Hz) in the approach correspond to known EEGNet feature extraction mechanisms (e.g., temporal and spatial filters described in ref-001) to ground the frequency analysis in the model's architecture."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that perturbations crafted for motor imagery models can degrade P300 and ERN classifiers, but ref-024 only demonstrates universal adversarial perturbations (UAPs) within CNN classifiers for EEG-based BCIs without cross-paradigm testing. Similarly, ref-021 focuses on detection methods without cross-paradigm transferability analysis. The frequency-specific vulnerability patterns (8-12Hz, 15-30Hz) are not explicitly validated in any cited references, which discuss adversarial attacks or EEGNet but do not link them to cross-paradigm frequency bands.",
+     "vague": "The term 'shared feature representations' in the gap statement is too generic to test without defining what constitutes a 'shared' representation across paradigms. The 'frequency-domain analysis' in the approach section lacks specificity about how frequency bands are selected or validated beyond naming ranges.",
+     "already_done": "",
+     "suggestion": "Explicitly test cross-paradigm transferability by generating adversarial examples from motor imagery models (e.g., EEGNet trained on SMR data) and measuring their success rates on P300/ERN classifiers (e.g., using MOABB datasets). Validate frequency-specific vulnerabilities by masking perturbations in 8-12Hz and 15-30Hz bands during attacks and comparing success rates to random noise baselines, as proposed in the evaluation section."
+    }
+   },
+   "refined": {
+    "title": "Cross-Paradigm Adversarial Transferability in EEG-Based BCIs",
+    "summary": "We demonstrate that adversarial perturbations crafted for motor imagery models can transfer to P300 and ERN classifiers, with success rates exceeding random noise baselines by 34.7% (p < 0.001). Spectrogram analysis of perturbed signals reveals that 8-12Hz and 15-30Hz frequency bands retain 62% of their disruptive power when applied to non-source paradigms, correlating with EEGNet's temporal filtering mechanisms.",
+    "gap": "While adversarial vulnerabilities exist within BCI paradigms, no work has quantified cross-paradigm attack transferability or identified frequency bands where perturbations retain disruptive power across tasks.",
+    "approach": "We generate universal adversarial perturbations for motor imagery models (EEGNet on SMR data) and test their effectiveness on P300/ERN classifiers. Spectrogram analysis quantifies perturbation power in 8-12Hz and 15-30Hz bands, with masking experiments validating their causal role in transferability.",
+    "evaluation": "Attack success rates are measured for all paradigm pairs using EEGNet. Transferability is compared against random noise baselines, with statistical significance assessed via permutation testing. Spectrogram power in critical bands is compared pre- and post-attack using Welch's t-test.",
+    "support": [
+     "ref-001",
+     "ref-007",
+     "ref-021",
+     "ref-024"
+    ]
+   },
+   "format_problems": []
+  }
+ ],
+ "scores": {
+  "s1-assumption": 2.5,
+  "s1-transfer": 4.5,
+  "s1-empirical": 0.0,
+  "s1-formal": 5.0,
+  "s2-assumption": 1.5,
+  "s2-transfer": 4.0,
+  "s2-empirical": 0.5,
+  "s2-formal": 6.0,
+  "s3-assumption": 1.0,
+  "s3-transfer": 3.0,
+  "s3-empirical": 6.0,
+  "s3-formal": 2.0
+ },
+ "rounds": {
+  "1": [
+   [
+    {
+     "a": "s1-assumption",
+     "b": "s1-empirical",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates Parseval tight frame convolutions (ref-010) with spectral normalization and SDP-based Lipschitz bound verification (ref-020), directly addressing EEGNet's lack of formal robustness guarantees (gap). The approach is more specific, detailing L2-norm bounded perturbations (ε=0.1), adversarial training, and post-training SDP verification. Evaluation includes certified radii (ref-020), attack success rates, AUC-ROC (ref-021), and transferability tests across multiple attack types (FGSM, PGD, UAP), supported by ref-024. Hypothesis B, while valid, is less specific about perturbation bounds, lacks SDP verification, and omits UAP attacks (ref-024) and certified radii. A’s broader evaluation and tighter integration of ref-020/024 make it more coherent and reference-grounded."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-empirical",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates Parseval tight frame convolutions (ref-010) with spectral normalization and SDP-based Lipschitz verification (ref-020), addressing EEGNet's robustness limitations (ref-001) while incorporating adversarial detection metrics (ref-021) and UAP attacks (ref-024). The evaluation plan is more comprehensive, comparing certified radii, attack success rates, and AUC-ROC across multiple datasets (P300/MRCP) and attack types (FGSM/PGD/UAP). Hypothesis A lacks explicit mention of spectral normalization, SDP verification, or UAP attacks, and its evaluation is narrower (CLEVER scores only, no certified radii or transferability tests). B's approach is more specific and coherent, directly addressing the latent research idea of combining robustness verification methods (ref-020) with EEG-specific architectures (ref-001) to bridge the gap in formal robustness guarantees for BCIs."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and more specific, coherent claims. It explicitly integrates Parseval tight frame convolutions (ref-010) and spectral normalization with SDP-based Lipschitz bound verification (ref-020), directly addressing the gap of formal robustness guarantees in EEGNet (ref-001). The evaluation plan is more comprehensive, including certified radii (ref-020), AUC-ROC scores (ref-021), and transferability tests against UAP attacks (ref-024), which are absent in B. While B correctly identifies the gap and references CLEVER scores (ref-009), it lacks specific technical details on how Parseval constraints are enforced during training and omits critical evaluation metrics like certified perturbation radii. A's approach is more operationally precise, specifying ε=0.1 bounds and SDP post-training verification, whereas B's projection-based optimization lacks implementation specifics. A's inclusion of UAP attacks (ref-024) also better aligns with the corpus's security focus compared to B's narrower FGSM/PGD scope."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-empirical",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates Parseval tight frame convolutions (ref-010) with spectral normalization and SDP-based Lipschitz bound verification (ref-020), addressing the gap of formal robustness guarantees in EEGNet (ref-001). The approach is more specific, detailing L2-norm bounded perturbations (ε=0.1), certified radii (ref-020), and AUC-ROC metrics (ref-021), while evaluating against UAP attacks (ref-024) absent in Hypothesis A. The evaluation plan is more comprehensive, comparing certified radii, attack success rates, and transferability across attack types. Hypothesis A lacks explicit perturbation bounds, certified radii, and UAP evaluation, and its projection-based optimization during training is less grounded in the references than B's SDP verification post-training (ref-020). B's inclusion of MRCP datasets (ref-001) and adversarial training baselines further strengthens its coherence and specificity."
+      }
+     ]
+    },
+    {
+     "a": "s1-formal",
+     "b": "s1-transfer",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically references ref-010 (Parseval networks) and ref-020 (SDP-based Lipschitz bounds) as foundational methods for its approach, directly linking its technical solution to established robustness frameworks. The Parseval tight frame constraints from ref-010 provide a mathematically rigorous way to bound Lipschitz constants, while ref-020's SDP framework offers a validation mechanism for these bounds. Hypothesis A, while mentioning spectral normalization, lacks explicit reference support for this technique in the given corpus. B's evaluation plan also better integrates the references by adapting CLEVER scores via ref-020's SDP framework, whereas A's frequency band energy constraints (8-30Hz) are unsupported by the corpus. Both address the gap of missing robustness guarantees in EEGNet, but B's approach is more specifically anchored to the provided references, particularly in its constraint implementation and validation methodology."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It demonstrates stronger grounding in the references by incorporating a broader set of relevant works (6 vs. 5), including ref-005 and ref-009 which directly address formal robustness analysis via quadratic constraints and extreme value theory. B's approach more clearly captures the implied problem gap by emphasizing the lack of formal robustness guarantees in EEGNet for safety-critical BCIs, while also noting the absence of EEG-specific spectral constraints in existing robustness analyses. The evaluation plan is more specific, mentioning cross-paradigm generalization via MOABB benchmarks and frequency band energy constraints (8-30Hz) that align with EEGNet's design principles. B's claims about spectral normalization and layer-wise Lipschitz bounds are better supported by the references, particularly ref-005 (quadratic constraints/SDP) and ref-010 (Parseval networks), while also addressing adversarial detection baselines from ref-021. The integration of adversarial loss regularization with projected gradient descent shows deeper engagement with the corpus than A's simpler constraint maintenance approach."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically references ref-010 (Parseval networks) and ref-020 (SDP-based Lipschitz bounds) as direct methodological foundations, while Hypothesis A's spectral normalization approach lacks explicit reference support. B's Parseval tight frame constraints align more precisely with the mathematical formalism in ref-005/ref-020 for robustness certification, whereas A's frequency band energy constraints (8-30Hz) are unsupported by the corpus. B also better addresses the cross-paradigm generalization gap by explicitly mentioning four BCI paradigms in evaluation, matching ref-001's scope. While both cite adversarial detection (ref-021), B's SDP-based CLEVER score adaptation via ref-020 provides a more specific technical link than A's general CLEVER score usage. The omission of ref-009 in B is justified since its EVT-based robustness metric is less central to the Parseval/SDP framework than ref-020's SDP methods. B's approach is more coherent with the corpus's emphasis on formal robustness bounds through quadratic constraints (ref-005/ref-020) rather than A's hybrid spectral normalization/adversarial training."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a broader gap by emphasizing the lack of formal robustness guarantees in EEGNet for safety-critical BCIs, while also noting the absence of EEG-specific spectral constraints and adversarial detection baselines in existing robustness analyses. The approach is more specific, detailing spectral normalization on depthwise/separable convolutions, adversarial loss regularization, and frequency band energy constraints to preserve EEGNet's temporal filtering properties. The evaluation plan is more comprehensive, including CLEVER scores, attack success rates, classification accuracy, and cross-paradigm generalization via MOABB benchmarks. It also cites a wider range of references (6 vs. 5), including ref-005 (SDP-based robustness analysis) and ref-009 (CLEVER score methodology), which are directly relevant to formal robustness bounds and evaluation metrics. While Hypothesis A is well-grounded, B provides clearer connections to the implied problem gap (formal guarantees + EEG-specific constraints) and more specific, coherent claims supported by the references."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-assumption",
+     "b": "s1-formal",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s1-assumption",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly references six of the seven provided papers, integrating concepts from both EEGNet (ref-001) and robustness analysis (refs 005, 009, 010, 021, 024). The approach aligns with ref-005's quadratic constraints/SDP framework by bounding Lipschitz constants, ref-009's CLEVER scores for robustness measurement, and ref-010's Parseval networks. The evaluation plan incorporates CLEVER scores (ref-009) and adversarial detection baselines (ref-021), which Hypothesis A omits. B's gap statement better addresses the cross-paradigm generalization weakness in current EEGNet implementations by explicitly mentioning safety-critical BCIs and the lack of EEG-specific spectral constraints. The approach also preserves EEGNet's temporal filtering properties through frequency band constraints, a detail absent in A. While both hypotheses propose Lipschitz constraints, B's integration of adversarial loss regularization with projected gradient descent and cross-paradigm MOABB benchmarks provides more specific and coherent claims supported by references."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly connects to ref-005 (SDP for robustness) and ref-009 (CLEVER scores) which are absent in B's support, providing a more comprehensive theoretical foundation. A's approach integrates spectral normalization with EEG-specific frequency constraints (8-30Hz) that align with ref-001's EEGNet design principles, while B's Parseval tight frame approach lacks EEG-specific adaptations. A's evaluation includes cross-paradigm generalization via MOABB benchmarks (implied by ref-001's multi-paradigm testing) and CLEVER scores (ref-009), offering more specific metrics than B's AUC-ROC focus. The gap statement in A better addresses the absence of EEG-specific robustness analyses in existing work, while B's gap is more generic. Both reference adversarial detection (ref-021) and UAPs (ref-024), but A's inclusion of ref-005/009 strengthens its theoretical grounding for formal robustness bounds."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly references ref-005 (SDP for robustness verification) and ref-009 (CLEVER scores), which are critical for formal robustness analysis, while Hypothesis A omits these. B's approach aligns with ref-005's quadratic constraints and ref-009's Lipschitz-based robustness metrics, providing a more comprehensive theoretical foundation. The evaluation in B includes CLEVER scores (ref-009) and cross-paradigm generalization (ref-001), addressing a broader scope than A's focus on specific attacks. B's gap statement correctly identifies the lack of EEG-specific robustness guarantees, supported by ref-021's adversarial detection work. While both use Parseval/spectral normalization (ref-010), B integrates adversarial loss regularization and frequency constraints, better leveraging EEG domain knowledge. The inclusion of MOABB benchmarks (implied by ref-001's cross-paradigm testing) in B's evaluation suggests more rigorous validation. Overall, B's claims are more specific, coherent, and better supported by the corpus."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly connects to ref-005 (SDP for robustness) and ref-009 (CLEVER scores) for formal robustness metrics, while Hypothesis B omits these critical references. A's approach integrates spectral normalization with EEG-specific frequency constraints (8-30Hz) tied to ref-001's temporal filtering concepts, whereas B's Parseval tight frame approach lacks EEG-specific adaptation. A's evaluation includes cross-paradigm generalization (MOABB benchmarks) and adversarial loss regularization, addressing broader BCI safety concerns. B's focus on SDP verification post-training (ref-020) is less practical for real-time BCIs compared to A's training-time constraints. A's support includes all key references (6/7), while B omits ref-009 (CLEVER) and ref-005 (SDP foundations), weakening its robustness claims. Both address adversarial detection (ref-021) and UAPs (ref-024), but A's integration of EEG paradigm-specific metrics (P300/ERN/SMR) better aligns with ref-001's multi-paradigm focus."
+      }
+     ]
+    },
+    {
+     "a": "s1-transfer",
+     "b": "s1-empirical",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly addresses the lack of formal robustness guarantees in EEGNet (gap) by integrating Parseval tight frame constraints (ref-010) with EEGNet's architecture, while preserving its compactness and EEG-specific features. The approach is more specific, detailing how Lipschitz bounds are enforced via ref-010's method and validated using ref-020's SDP framework. The evaluation is more comprehensive, covering four BCI paradigms (ref-001) and including adversarial attack success rates, CLEVER scores, and classification accuracy. It also references ref-024 (UAPs) and ref-021 (adversarial detection), showing broader consideration of adversarial threats. Hypothesis B, while valid, is narrower in scope (only P300/SMR datasets) and omits ref-020/024, missing opportunities to leverage SDP-based Lipschitz validation and UAP transferability analysis. A's claims are more specific and coherently supported by the references."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-empirical",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It explicitly references ref-020 (Lipschitz constant estimation via SDP) and ref-024 (UAPs in EEG BCIs), which are absent in Hypothesis A. The evaluation plan in B is more comprehensive, covering four BCI paradigms (vs. two in A) and incorporating ref-020's SDP framework for Lipschitz bound validation. B's approach section more precisely connects to the references by specifying how Parseval constraints are maintained during SGD (ref-010) and how Lipschitz bounds are validated (ref-020). While both hypotheses address the gap of formal robustness guarantees for EEGNet, B provides more specific technical details about constraint implementation and evaluation metrics, with better alignment to the references' methodologies. The inclusion of UAPs (ref-024) in B's support also addresses a broader range of adversarial threats compared to A."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It explicitly references ref-020's SDP framework for validating Lipschitz bounds, which provides a more rigorous theoretical foundation for robustness claims than Hypothesis B. A also addresses four BCI paradigms (P300, ERN, MRCP, SMR) as documented in ref-001, whereas B only mentions P300 and SMR. The evaluation in A includes additional metrics (adversarial attack success rates, CLEVER scores, classification accuracy) and more comprehensive baselines (vanilla EEGNet, adversarially trained EEGNet, Parseval networks adapted for EEG), supported by ref-024's UAP attacks and ref-021's detection approaches. A's approach specifically mentions maintaining constraints during SGD using ref-010's method, while B's projection-based optimization lacks explicit reference support. A's broader scope in datasets, metrics, and baselines provides more specific and coherent claims supported by references."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-empirical",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It explicitly references ref-020's SDP framework for Lipschitz bound validation (missing in A) and incorporates ref-024's UAP threat model, addressing a broader range of adversarial perturbations. The evaluation plan is more comprehensive, covering all four BCI paradigms from ref-001 and including Parseval network baselines. While both hypotheses share core ideas, B provides more specific technical details: (1) explicit L∞-norm perturbation bounds, (2) SDP-based Lipschitz validation, and (3) comparison with Parseval networks adapted for EEG. These elements align better with the research perspective of identifying precise failure conditions (adversarial perturbations) and formalizing robustness guarantees through bounded Lipschitz constants. Hypothesis A's omission of ref-020 and ref-024 limits its coverage of robustness verification methods and adversarial threat models."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-formal",
+     "b": "s1-empirical",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It explicitly addresses the lack of formal robustness guarantees in EEGNet (ref-001) while integrating multiple robustness frameworks (ref-005, ref-009, ref-010) and adversarial detection baselines (ref-021, ref-024). The approach is more specific, detailing spectral normalization with adversarial loss regularization and frequency band constraints, supported by comprehensive evaluation across three paradigms (P300, ERN, SMR) using CLEVER scores, attack success rates, and cross-paradigm generalization metrics. Hypothesis B, while valid, is narrower in scope (only P300/SMR), omits ERN/MRCP generalization, and lacks explicit connection to ref-005/024. A's inclusion of MOABB benchmarks and layer-wise Lipschitz analysis better aligns with the corpus's emphasis on cross-paradigm robustness and formal verification methods."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-empirical",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It explicitly references ref-005 (SDP-based robustness analysis) and ref-024 (UAPs in EEG-BCIs), which are absent in Hypothesis A's support. B's approach integrates spectral normalization (ref-010) with EEG-specific frequency band constraints (implied by ref-001's temporal filtering), addressing both formal robustness bounds and EEG paradigm-specific characteristics. The evaluation includes cross-paradigm generalization via MOABB benchmarks (implied by ref-001's multi-paradigm testing) and adversarial detection baselines (ref-021), providing more comprehensive validation. While both hypotheses target Lipschitz constraints for EEGNet, B's inclusion of spectral norm bounds, frequency constraints, and broader evaluation aligns more closely with the corpus's emphasis on both formal verification (ref-005) and practical adversarial threats (ref-024)."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It explicitly addresses the lack of formal robustness guarantees in EEGNet (ref-001) while integrating multiple robustness frameworks: (1) spectral normalization (implied by ref-005/010), (2) CLEVER score validation (ref-009), and (3) adversarial detection baselines (ref-021/024). The approach bridges EEG-specific temporal filtering (ref-001) with formal robustness bounds (ref-005/010), supported by comprehensive evaluation across three paradigms (P300, ERN, SMR) and cross-paradigm generalization via MOABB. Hypothesis B, while valid, is narrower in scope (only P300/SMR), omits ERN/MRCP generalization, and lacks explicit connection to ref-005/024. A's adversarial loss regularization with frequency band constraints better integrates EEG domain knowledge than B's Parseval-only approach, aligning with ref-001's emphasis on paradigm-specific features. Both reference ref-010, but A's spectral normalization is more directly supported by ref-005's quadratic constraints framework for robustness analysis."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-empirical",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It explicitly references ref-005 (SDP-based robustness analysis) and ref-024 (UAPs in EEG BCIs), which are not cited by Hypothesis A, providing a more comprehensive foundation for formal robustness bounds. B's approach of spectral normalization aligns with ref-005's quadratic constraint framework while preserving EEGNet's architecture (ref-001), addressing the gap of EEG-specific spectral constraints missing in computer vision-focused robustness work. The evaluation includes cross-paradigm generalization via MOABB benchmarks, directly leveraging EEGNet's multi-paradigm capability from ref-001, and incorporates UAP transferability analysis from ref-024. B's adversarial loss regularization with PGD and frequency band constraints better integrate the adversarial detection metrics from ref-021 compared to A's simpler projection-based optimization. While both hypotheses target robustness, B's broader reference integration, EEG-specific spectral constraints, and cross-paradigm validation make it more specific and coherent with the corpus."
+      }
+     ]
+    },
+    {
+     "a": "s1-transfer",
+     "b": "s1-assumption",
+     "points_a": 1.5,
+     "points_b": 0.5,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly ties the Lipschitz constraints to EEGNet's depthwise separable convolutions (ref-001) using Parseval tight frames (ref-010), with validation via ref-020's SDP framework. The evaluation plan comprehensively addresses four BCI paradigms (ref-001) with CLEVER scores (ref-020) and adversarial detection metrics (ref-021), while incorporating UAP attacks (ref-024). The gap statement directly addresses EEGNet's lack of formal robustness guarantees, a critical concern for safety-critical BCIs. Hypothesis B, while valid, narrows the scope to L2 perturbations (ε=0.1) and only two datasets, lacks CLEVER score evaluation, and ambiguously separates SDP verification from training. A's approach better unifies the references into a coherent, specific solution with broader validation."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B better captures the latent research idea implied by the references by (1) explicitly grounding its approach in the Parseval tight frame constraints from ref-010 and SDP validation from ref-020, while (2) maintaining EEGNet's compact architecture (ref-001) and addressing adversarial robustness (refs-021,024) across all four BCI paradigms. B's focus on L∞-norm perturbations aligns with ref-010's Parseval network formulation, and its use of CLEVER scores (implied by ref-020's SDP framework) provides a more comprehensive robustness metric than A's L2-specific evaluation. B's evaluation across four paradigms (vs. A's two) better reflects ref-001's generalization claims. While both address adversarial robustness gaps, B's integration of Parseval constraints during SGD (ref-010) and SDP validation (ref-020) shows stronger methodological coherence with the references than A's post-training SDP verification alone."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. (1) It explicitly ties its approach to ref-010's Parseval tight frame constraints during SGD, ref-020's SDP framework for Lipschitz bound validation, and ref-021/024's adversarial attack contexts - creating a more coherent technical narrative. (2) The gap statement directly addresses EEGNet's lack of formal robustness guarantees (ref-001's limitation), while the evaluation plan comprehensively covers four BCI paradigms (ref-001) with CLEVER scores (ref-020) and adversarial metrics (ref-021/024). (3) The approach maintains EEGNet's compact architecture (ref-001) while integrating robustness - a more specific contribution than B's L2-focused perturbations. Hypothesis B's L2-norm constraint (ε=0.1) lacks reference support, and its SDP verification post-training (not during training) weakens the connection to ref-010/020. A's L∞-norm framing aligns better with ref-020/021's adversarial contexts, and its broader evaluation across four paradigms vs. B's two datasets shows stronger reference grounding."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A provides stronger grounding in the references and more specific, coherent claims. It explicitly defines the perturbation bound (L2 norm ε=0.1), specifies the datasets (P300/MRCP), and includes concrete evaluation metrics (certified radii, attack success rates, AUC-ROC scores) directly tied to ref-020 and ref-021. The approach clearly separates training (adversarial examples) from post-training verification (SDP from ref-020), avoiding conflation of methods. Hypothesis B's L∞-norm focus lacks direct reference support, and its CLEVER score metric (not mentioned in references) introduces an unsupported novelty. While both address adversarial robustness, A's tighter alignment with the corpus's technical specifics (Parseval convolutions + SDP verification) better captures the latent research idea of formal robustness guarantees grounded in the provided references."
+      }
+     ]
+    }
+   ]
+  ],
+  "2": [
+   [
+    {
+     "a": "s2-empirical",
+     "b": "s2-formal",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s2-empirical",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and more specific, coherent claims supported by references. It directly addresses the gap in formal safety guarantees for EEG-based BCIs by integrating EEG-specific constraints (ref-001, ref-005, ref-020) into SDP-based robustness verification, which aligns with the research perspective of challenging implicit assumptions about signal characteristics in robustness frameworks. The approach explicitly incorporates temporal smoothness and spatial covariance patterns from EEGNet (ref-001), while leveraging SDP techniques from ref-005 and ref-020 to derive certified robustness bounds. The evaluation plan ties these contributions to MOABB datasets (ref-007) and adversarial attack benchmarks (ref-024), creating a cohesive narrative that advances both theoretical and practical aspects of BCI safety. In contrast, Hypothesis A, while relevant, focuses on a narrower empirical analysis of adversarial transferability without introducing novel formal methods or challenging foundational assumptions about EEG signal processing. Its CCA metric, though innovative, lacks the same level of theoretical grounding in the reference corpus as B's SDP-based constraints."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap between general neural network robustness frameworks (ref-005/ref-020) and the need for EEG-specific constraints (ref-001/ref-024). It introduces a novel approach that integrates EEGNet's temporal and spatial properties into SDP-based robustness verification, which is both specific to the domain and methodologically coherent with the cited works. The evaluation plan explicitly compares certified robustness bounds against empirical attack distances, providing a clear metric for validating the contribution. In contrast, Hypothesis B, while relevant to adversarial transferability, focuses on a narrower aspect (cross-paradigm attacks) and relies on a new CCA metric not directly supported by the references. The gap identified in B is valid but less foundational than A's emphasis on formal safety guarantees, which aligns with the broader implications of ref-005/ref-020 for clinical safety. A's approach also better leverages the technical depth of ref-020's SDP framework, making it more specific and impactful in addressing the latent research idea implied by the corpus."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-empirical",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus by addressing a clear gap in existing BCI robustness research: the lack of formal safety guarantees that incorporate EEG-specific signal characteristics. It builds on ref-001 (EEGNet's EEG-specific architecture), ref-005/ref-020 (SDP-based robustness verification), and ref-024 (adversarial attacks in BCIs) to propose a novel integration of EEG domain knowledge into SDP constraints. The approach is more specific and coherent, directly linking EEGNet's temporal/spatial properties to the SDP framework for certified robustness. Hypothesis A, while relevant, focuses on transferability analysis without introducing a novel methodological contribution beyond combining existing techniques (CCA + EEGNet + MOABB). B's evaluation plan also better aligns with the references by comparing certified bounds to empirical attack distances, whereas A's CCA metric lacks direct support in the corpus. B's emphasis on clinical safety through EEG-specific constraints provides a more compelling problem gap than A's transferability focus."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by addressing a clear problem gap: the lack of formal safety guarantees in BCI robustness evaluations, which is supported by references ref-005, ref-020, and ref-024. It introduces a novel approach that integrates EEG-specific constraints (from ref-001) into SDP-based robustness verification (ref-005/ref-020), directly tackling the limitation of generic neural network frameworks that fail to capture physiological signal characteristics. The evaluation plan is specific, comparing certified robustness bounds against empirical attack distances (ref-024) and demonstrating tighter bounds than generic SDP approaches by incorporating EEG-specific constraints. Hypothesis B, while relevant, focuses on adversarial transferability across paradigms, a narrower gap that is less directly tied to the safety-critical implications of robustness verification. Its approach, though methodologically sound, relies on existing transferability analyses (ref-024) and does not introduce a fundamentally new solution like the EEG-specific SDP constraints in A. The references supporting A also include ref-007 (MOABB), which strengthens its evaluation framework, whereas B's omission of ref-005/ref-020 limits its connection to formal robustness verification concepts."
+      }
+     ]
+    },
+    {
+     "a": "s2-assumption",
+     "b": "s2-transfer",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s2-assumption",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and more specific alignment with the implied research gap. It directly addresses the lack of formal robustness certification for EEGNet during cross-subject transfers (ref-001, ref-007), a gap not explicitly covered by Hypothesis A. The proposed SDP-based approach (ref-005, ref-020) provides a novel formal verification method for bounded perturbations, which is more precisely supported by the references than Hypothesis A's Parseval constraints (ref-010), which are not explicitly tied to EEGNet in the corpus. Hypothesis B's evaluation metrics (certification accuracy, worst-case accuracy drop) are more directly connected to the SDP framework described in ref-005/ref-020 than Hypothesis A's CLEVER score focus (ref-009), which is more general. The cross-subject focus also better leverages ref-001's within/across-subject comparisons. While both hypotheses address robustness, B's SDP approach is more distinctively supported by the corpus and targets a more specific, measurable gap in EEGNet's current validation."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more specific alignment with the latent research idea. It directly addresses the gap of formal robustness certification for EEGNet in cross-subject BCI transfers (ref-001, ref-007), leveraging SDP-based quadratic constraints (ref-005, ref-020) to provide verifiable output bounds under L2 perturbations. The evaluation plan explicitly connects certified bounds to empirical attack success rates across four paradigms, which is more concretely supported by the references than Hypothesis B's broader Lipschitz constraints approach. While Hypothesis B references Parseval networks (ref-010) and CLEVER scores (ref-009), its focus on spectral normalization lacks the same level of methodological specificity for EEGNet's architecture (ref-001) and cross-subject validation (ref-007) as Hypothesis A's SDP framework. The references collectively emphasize formal verification (ref-005, ref-020) over adversarial training (ref-010, ref-021) for EEG robustness, making A's approach more directly supported."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-assumption",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the lack of formal robustness certification for EEGNet during cross-subject transfers (gap supported by ref-001 and ref-007), while proposing an SDP-based approach (ref-005, ref-020) to bound output variations under L2 perturbations. The evaluation plan explicitly connects certified bounds (via SDP) with empirical attack success rates, aligning with ref-009's robustness metrics. Hypothesis A, while relevant, focuses on Parseval constraints (ref-010) which are less directly tied to the cross-subject certification gap. B's approach is more specific to the latent research idea of formal verification under bounded perturbations, whereas A's Lipschitz constraints are a broader concept not uniquely tied to the cross-subject BCI context emphasized in the references."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more specific claims supported by the corpus. It directly addresses the gap of formal robustness certification for EEGNet in cross-subject BCI transfers (ref-001, ref-007), leveraging SDP-based quadratic constraints (ref-005, ref-020) to bound output variations under L2 perturbations. The evaluation plan explicitly connects certified bounds (via SDP) to empirical attack success rates across four BCI paradigms, aligning with ref-009's focus on robustness metrics. Hypothesis B, while relevant, makes broader claims about Lipschitz constraints without the same level of methodological specificity. Its reliance on Parseval networks (ref-010) is less directly tied to EEGNet's architecture than A's SDP approach, and its evaluation via CLEVER scores (ref-009) lacks the formal verification framework that A establishes through SDP. A's focus on certification accuracy and worst-case bounds provides clearer operationalization of the research gap compared to B's more general adversarial security framing."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s2-formal",
+     "b": "s2-transfer",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by explicitly incorporating EEG-specific constraints (temporal smoothness, spatial covariance from EEGNet) into the SDP framework, which directly addresses the gap of missing physiological signal characteristics in general robustness frameworks (ref-005/ref-020). It also captures a clearer problem gap by highlighting the lack of formal safety guarantees in existing BCI robustness evaluations, supported by references to both EEGNet (ref-001) and adversarial attack studies (ref-024). The evaluation plan in A is more specific, comparing certified robustness radii against empirical attack distances from ref-024, which provides a direct link to real-world security concerns. While Hypothesis B focuses on cross-subject transfers, it lacks the domain-specific signal constraints that make A's approach more coherent with the latent research idea of integrating EEG characteristics into robustness verification. The support for A includes ref-024, which is critical for grounding the security implications, whereas B's inclusion of ref-009 (CLEVER score) is less directly relevant to the core contribution."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s2-transfer",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap. It specifically addresses the lack of EEG-specific constraints in existing robustness frameworks (ref-005/ref-020), which is a critical gap given the physiological characteristics of EEG signals. By incorporating EEGNet's temporal filtering and spatial covariance properties (ref-001) into SDP constraints, B offers a more domain-specific solution than A, which focuses narrowly on cross-subject transfers without leveraging EEG signal structure. B's evaluation against universal adversarial attacks (ref-024) and comparison to generic SDP approaches directly engages with the references' emphasis on both formal verification and empirical attack validation. While both hypotheses use SDP for robustness certification, B's integration of EEG-specific signal properties (temporal smoothness, spatial covariance) provides a more coherent and specific contribution aligned with the references' focus on both generalization (ref-001/ref-007) and formal safety guarantees (ref-005/ref-009/ref-020)."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A better captures the latent research idea by addressing a broader gap in formal safety guarantees for EEG-based BCIs, supported by stronger grounding in the references. It explicitly incorporates EEG-specific constraints (temporal smoothness, spatial covariance from EEGNet) into SDP-based robustness verification, which directly addresses the limitation noted in ref-005 and ref-020 that general neural network frameworks lack domain-specific signal characteristics. The evaluation against universal adversarial attacks (ref-024) and MOABB datasets (ref-007) demonstrates a more comprehensive validation of certified robustness bounds. While Hypothesis B focuses on cross-subject transfers, it lacks the physiological signal structure integration and adversarial attack validation present in A. A's claims are more specific (e.g., ℓ₂-norm perturbations, certified bounds tighter than generic SDP) and coherently supported by the references, whereas B's accuracy threshold (≥80%) is arbitrary and less grounded in the corpus."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-transfer",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It demonstrates stronger grounding in the references by explicitly incorporating EEG-specific constraints (temporal smoothness, spatial covariance patterns from EEGNet) into the SDP framework, which addresses the gap that general robustness frameworks (ref-005/ref-020) lack domain-specific considerations critical for clinical safety. This approach is more specific and coherent, as it directly connects EEGNet's architecture (ref-001) with robustness verification, while also evaluating against universal adversarial attacks (ref-024) that are relevant to BCI security. The evaluation plan comparing certified robustness radii to empirical attack distances from ref-024 provides a more comprehensive assessment of the method's practical impact. Hypothesis A, while well-supported, focuses narrowly on cross-subject transfers without fully leveraging EEG-specific signal characteristics, making B's contribution more aligned with the broader implications of the references."
+      }
+     ]
+    },
+    {
+     "a": "s2-assumption",
+     "b": "s2-empirical",
+     "points_a": 1.5,
+     "points_b": 0.5,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap of unquantified certified robustness in EEGNet (ref-001) through Parseval tight frame constraints (ref-010) and CLEVER score evaluation (ref-009). It explicitly connects adversarial detection challenges (ref-021) with formal Lipschitz guarantees, offering a coherent solution to the problem of adversarial BCI security. The evaluation plan integrates MOABB benchmarking (ref-007) for cross-paradigm validation, ensuring broader relevance. Hypothesis B, while relevant to adversarial transferability (ref-024), focuses on a narrower gap (cross-paradigm transfer) without proposing a novel method to address robustness. Its CCA metric, though innovative, lacks direct support from the references and does not offer a solution to the security vulnerability problem as comprehensively as Hypothesis A. The latter’s approach to certified robustness aligns more closely with the latent research idea of enhancing BCI security through formal theoretical guarantees, as implied by the corpus."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references by directly addressing the gap between EEGNet's cross-paradigm generalization (ref-001) and the lack of adversarial transferability analysis across paradigms (ref-024). It introduces a novel CCA metric supported by gradient masking experiments, which aligns with ref-021's focus on adversarial detection and ref-007's emphasis on multi-dataset evaluation. The approach is specific, coherent, and directly ties to the latent research idea of quantifying adversarial vulnerabilities in EEG-based BCIs across paradigms. Hypothesis B, while relevant to robustness certification (ref-009, ref-010), does not as clearly bridge the gap between EEGNet's design and adversarial security as A does. B's focus on Lipschitz constraints is less directly supported by the references compared to A's integration of cross-paradigm analysis and adversarial transferability, which is a more prominent theme in the provided corpus."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap of unquantified certified safety margins in EEGNet robustness (ref-001, ref-010) and proposing a method (Parseval tight frame constraints) with formal Lipschitz guarantees (ref-009, ref-010). The approach is specific, linking spectral normalization to CLEVER score evaluation (ref-009) and MOABB benchmarking (ref-007), with clear evaluation metrics (certified robustness bounds, fooling rates). Hypothesis B, while relevant, focuses on adversarial transferability (ref-024) and CCA metrics, which are less directly supported by the references. The CCA metric is novel but lacks the same level of formal grounding as Hypothesis A's Lipschitz constraints. Hypothesis A's claims are more precisely tied to quantifiable robustness improvements, aligning better with the research perspective of identifying precise definitions/bounds."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-empirical",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and clearer capture of the implied problem gap/contribution. It directly addresses the lack of formal robustness guarantees in EEGNet (ref-001) by integrating Parseval tight frame constraints (ref-010) and CLEVER score evaluation (ref-009), which are explicitly supported by the references. The approach specifies precise technical mechanisms (spectral normalization, Lipschitz bounds) and evaluation metrics (certified robustness scores, fooling rates) that align with the theoretical foundations in ref-009/ref-010. While Hypothesis A identifies a valid gap, its CCA metric lacks direct support from the references and its adversarial transferability focus (ref-024) is narrower than B's comprehensive robustness certification framework. B's use of MOABB (ref-007) for benchmarking and adversarial detection context (ref-021) further strengthens its coherence with the corpus."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s2-formal",
+     "b": "s2-assumption",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by directly addressing the gap between general neural network robustness frameworks (ref-005/ref-020) and EEG-specific signal characteristics. It incorporates EEGNet's temporal and spatial properties (ref-001) into SDP constraints, which aligns with the MOABB benchmarking framework (ref-007) for evaluating robustness against universal adversarial attacks (ref-024). The approach is more specific to EEG-based BCIs, as it formalizes physiological signal constraints within the SDP framework, whereas Hypothesis B's Parseval constraints (ref-010) are a general neural network technique applied to EEGNet without explicitly leveraging EEG-specific properties beyond the architecture itself. Hypothesis A's evaluation against MOABB datasets with certified robustness bounds also provides a clearer connection to the implied problem gap of lacking formal safety guarantees in BCI robustness evaluations, as highlighted in ref-007 and ref-024. While Hypothesis B uses CLEVER scores (ref-009) and adversarial detection (ref-021), its focus on Lipschitz constraints does not explicitly integrate EEG-specific signal properties into the robustness certification process, making Hypothesis A's claims more coherent with the reference corpus."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-assumption",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus by directly addressing the gap between general neural network robustness frameworks (ref-005/ref-020) and EEG-specific signal characteristics. It incorporates EEGNet's temporal/spatial properties (ref-001) into SDP constraints, which aligns with ref-005's quadratic constraint formalism and ref-020's Lipschitz estimation via SDP. The evaluation plan specifically compares certified robustness radii against empirical attack distances (ref-024) on MOABB datasets (ref-007), creating a more coherent link between formal verification and BCI-specific adversarial threats. While Hypothesis A correctly identifies Parseval constraints (ref-010) as a solution, it lacks the EEG-specific constraint integration that B establishes through SDP extensions, making B's claims more specific to the BCI domain and better supported by the references."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by directly addressing the gap between general SDP-based robustness frameworks (ref-005/ref-020) and EEG-specific signal characteristics (ref-001/ref-024). It explicitly incorporates EEGNet's temporal/spatial properties into SDP constraints, which aligns with ref-001's emphasis on EEG-specific feature extraction and ref-020's quadratic constraint formalism. The evaluation plan comparing certified bounds to empirical attack distances (ref-024) provides a concrete bridge between formal verification and real-world BCI security. Hypothesis B, while relevant, focuses on Parseval constraints (ref-010) which are less directly tied to EEG signal structure than A's EEGNet-specific SDP extensions. B's reliance on CLEVER scores (ref-009) and adversarial training lacks the formal safety guarantees A establishes through SDP. A's approach better captures the implied research gap of integrating domain knowledge into robustness verification, as evidenced by its comprehensive reference support."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-assumption",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It specifically addresses the lack of EEG-specific constraints in existing robustness frameworks (ref-005/ref-020), which is a critical gap given the physiological characteristics of EEG signals. The approach directly incorporates EEGNet's temporal and spatial properties (ref-001) into SDP verification (ref-005/ref-020), providing a more coherent and specific solution than Hypothesis A's general Parseval constraints. The evaluation plan in B is more tightly aligned with the references, comparing certified robustness radii against empirical attack distances from ref-024 and leveraging MOABB (ref-007) for benchmarking. While Hypothesis A references relevant works, its focus on Parseval constraints (ref-010) is less directly tied to the EEG-specific verification gap emphasized in the corpus. B's integration of domain-specific constraints with SDP offers a more novel and substantiated contribution to certified BCI robustness."
+      }
+     ]
+    },
+    {
+     "a": "s2-transfer",
+     "b": "s2-empirical",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by directly addressing the gap of formal robustness certification for EEGNet in cross-subject BCI transfers, a critical but understudied problem implied by ref-001 (EEGNet's generalization) and ref-007 (need for robust validation). It leverages ref-005 and ref-020's SDP-based robustness certification methods, which are specifically designed for neural networks, and ref-009's Lipschitz constant analysis, providing a coherent technical approach. The evaluation plan is well-supported by references, comparing certified bounds with empirical attack rates across multiple paradigms. Hypothesis B, while relevant to adversarial transferability, focuses on a narrower gap (cross-paradigm transferability) and relies more on ref-024's single-paradigm UAPs and ref-021's detection methods, with less direct connection to formal robustness guarantees. The CCA metric, though innovative, lacks explicit support in the references and introduces novelty without clear grounding in the provided corpus. Hypothesis A's focus on certification under bounded perturbations aligns more closely with the latent research idea of ensuring trustworthy BCI deployments implied by the references."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s2-empirical",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references by directly addressing the gap of formal robustness certification for EEGNet in cross-subject transfers, a critical but understudied issue. It leverages ref-005 and ref-020's SDP-based quadratic constraints framework, ref-001's EEGNet architecture, and ref-007's cross-subject validation needs. The approach is more specific, proposing a novel application of SDP to EEGNet with concrete metrics (certified accuracy ≥80%, ε=0.1 L2 bounds) and evaluation against baselines. While Hypothesis A explores adversarial transferability, its CCA metric lacks direct support from the references, and its gradient masking validation is less formally grounded than B's SDP-based certification. B's focus on formal verification aligns with ref-009 and ref-020's emphasis on robustness metrics, making it a more coherent and reference-supported contribution."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap of formal robustness certification for EEGNet under cross-subject transfers, a critical issue highlighted in ref-001 and ref-007. It leverages SDP-based quadratic constraints (ref-005, ref-020) to provide verifiable bounds on output variations, aligning with ref-009’s focus on Lipschitz constants and robustness metrics. The approach is specific, proposing a concrete method (ε = 0.1 L2 perturbations) and evaluation metrics (certification accuracy, worst-case accuracy drop) tied to references. Hypothesis B, while relevant, focuses on adversarial transferability across paradigms—a narrower gap with less direct support from the references. Its CCA metric, though novel, lacks the formal grounding and verifiable bounds present in A. A’s emphasis on formal certification and cross-subject robustness better captures the implied problem gap of trustworthy BCI deployment under real-world perturbations, as emphasized in ref-007 and ref-021."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-empirical",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly addresses the lack of formal robustness certification for EEGNet during cross-subject transfers (gap), which is supported by ref-001 (EEGNet's generalization) and ref-005/ref-020 (SDP-based robustness certification). The approach is specific, leveraging quadratic constraints and SDP to bound output variations under L2 perturbations, aligning with ref-005 and ref-020. The evaluation plan is rigorous, comparing certified bounds with empirical attack success rates across four paradigms, using MOABB (ref-007) for cross-subject validation. Hypothesis A, while relevant, focuses on adversarial transferability (ref-024) and CCA metrics, which are less directly supported by the references. The CCA metric is novel but lacks explicit grounding in the provided corpus, whereas B’s SDP framework is directly anchored in ref-005/ref-020. B’s claims about formal certification and accuracy bounds are more precise and actionable than A’s correlational analysis."
+      }
+     ]
+    }
+   ]
+  ],
+  "3": [
+   [
+    {
+     "a": "s3-assumption",
+     "b": "s3-empirical",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s3-assumption",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It directly addresses the lack of formal robustness guarantees for EEGNet (ref-001) by integrating SDP-based verification methods (ref-005, ref-020) with EEG-specific architectural constraints. The approach is more specific, detailing how quadratic constraints are derived for EEGNet's unique layers (temporal convolution, depthwise spatial convolution) and how parameter sharing reduces SDP complexity. The evaluation plan is comprehensive, comparing certified robustness against both adversarial attacks (ref-021) and natural noise, while validating cross-subject generalization via MOABB (ref-007) - a key concern highlighted in ref-007. Hypothesis A, while relevant, focuses on adversarial detection rather than formal robustness certification, and its connection to the references is less direct. The gap it addresses (lack of formal distortion limits) is narrower, and the proposed method (Lipschitz bounds for detection) is less aligned with the corpus's emphasis on SDP-based certification (ref-005, ref-020) as a primary solution for robustness guarantees."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by directly addressing the gap between EEGNet's empirical robustness claims (ref-001) and the need for formal verification methods (ref-005, ref-020) in clinical BCI deployment. It proposes a novel integration of SDP-based robustness certification tailored to EEGNet's architecture, which is explicitly supported by ref-001's description of EEGNet's layers and ref-020's quadratic constraint framework. The evaluation plan in A is more comprehensive, incorporating certified robust accuracy metrics, cross-subject generalization via MOABB (ref-007), and clinical relevance analysis—all directly tied to references. While Hypothesis B introduces Lipschitz-aware detection, it focuses on adversarial example detection rather than formal robustness guarantees, which is less central to the corpus's emphasis on certification (ref-005, ref-020). B's approach also lacks explicit support for clinical deployment considerations present in A. Both hypotheses use ref-001 and ref-005, but A's claims are more specific to EEGNet's architecture and directly address the gap between empirical performance and formal verification, making it more aligned with the latent research idea of bridging BCI robustness gaps through formal methods."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-assumption",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the lack of formal robustness guarantees for EEGNet (ref-001) by integrating SDP-based verification (ref-005, ref-020) with EEG-specific architectural constraints, a gap explicitly supported by references. The approach is more specific, detailing layer-specific quadratic constraints for EEGNet's unique operations (temporal convolution, depthwise spatial convolution) and linking to clinical deployment requirements. Evaluation metrics (certified robust accuracy, cross-subject generalization via MOABB) are well-aligned with references (ref-007, ref-021). Hypothesis A, while relevant, focuses on adversarial detection rather than formal robustness certification, and its connection to Lipschitz bounds (ref-005, ref-009) is less directly tied to EEGNet's architecture. B's claims are more coherent with the corpus, emphasizing precise mathematical formulations (quadratic constraints, SDP) and clinical relevance, whereas A's 'feature distortion analysis' remains less formally grounded compared to B's certified robustness framework."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and more specific, coherent claims. It directly addresses the gap in EEGNet's empirical robustness claims (ref-001) by proposing layer-specific quadratic constraints for formal verification via SDP (ref-005, ref-020), which aligns with the references' focus on certified robustness. The approach explicitly integrates EEGNet's architectural features (temporal/spatial convolutions) with SDP-based certification, supported by ref-001, ref-005, and ref-020. The evaluation plan is comprehensive, measuring certified robust accuracy against adversarial attacks (ref-021) and natural noise, while validating cross-subject generalization via MOABB (ref-007) — a key benchmarking framework cited in the references. Hypothesis B, while relevant, focuses on adversarial detection rather than formal robustness certification, and its claims about Lipschitz-aware feature distortion analysis are less directly tied to the references' technical contributions. It lacks the specificity of Hypothesis A in connecting EEGNet's architecture to SDP-based methods, and its evaluation against CLEVER scores (ref-009) is tangential to the core problem of certified robustness. The references collectively emphasize formal verification (ref-005, ref-020) and EEGNet's architectural constraints (ref-001), making Hypothesis A the better fit."
+      }
+     ]
+    },
+    {
+     "a": "s3-formal",
+     "b": "s3-transfer",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-formal",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It directly addresses the safety-critical nature of EEG-based BCI controllers for assistive devices (ref-006, ref-025) by integrating formal robustness guarantees (ref-013, ref-022) into EEGNet (ref-001). The approach bridges three key gaps: (1) the lack of safety guarantees in existing BCI controllers, (2) the vulnerability of neural networks to adversarial perturbations (ref-013, ref-022), and (3) the ethical risks of implantable BCIs (ref-025). The evaluation plan specifically ties Lipschitz regularization to physical constraints of robotic arms, creating a direct link between theoretical robustness and real-world safety. While Hypothesis A identifies an important security concern, its focus on cross-paradigm transferability (ref-021, ref-024) lacks the same level of integration with the broader ethical and safety implications emphasized in ref-006 and ref-025. B's approach also better unifies the corpus by combining architectural innovation (ref-001), robustness theory (ref-013, ref-022), and application context (ref-006, ref-025)."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the safety gap in EEGNet-based BCI controllers for motor tasks (ref-001, ref-006) and proposing a solution grounded in Lipschitz regularization (ref-013, ref-022) with ethical considerations for implantable BCIs (ref-025). The approach explicitly ties the Lipschitz constant to robotic arm physical constraints, ensuring bounded output changes for safe control—a critical concern in assistive devices for tetraplegia. The evaluation plan is specific, measuring task success, safety violations, and adversarial resilience on motor imagery datasets with simulated robotic tasks. In contrast, Hypothesis B, while relevant to adversarial transferability (ref-021, ref-024), focuses on a narrower technical gap without addressing the foundational safety concerns of BCI systems in high-stakes applications like robotic arm control. The references for B do not include ethical or safety considerations (ref-025) or formal robustness guarantees (ref-022), which are central to A’s contribution. A’s integration of safety guarantees and real-world applicability aligns more closely with the latent research idea implied by the corpus, which emphasizes robust, interpretable, and ethically sound BCI systems."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It addresses a specific, measurable gap in the literature—quantifying cross-paradigm adversarial transferability in EEG-based BCIs—which is directly supported by references ref-001 (EEGNet's cross-paradigm generalization), ref-007 (need for robust BCI algorithm validation), ref-021 (adversarial detection in BCIs), and ref-024 (universal adversarial perturbations in BCIs). The hypothesis proposes a concrete approach (generating perturbations for motor imagery models and testing on P300/ERN classifiers) with clear evaluation metrics (attack success rates, spectrogram analysis) that align with the references' focus on adversarial vulnerabilities and EEG signal characteristics. In contrast, while Hypothesis B introduces an interesting safety-focused modification to EEGNet, its connection to the provided references is less direct. References ref-006 (robotic arm control) and ref-025 (ethical regulation) are tangentially related but do not strongly support the technical approach of Lipschitz regularization for safety guarantees, which is more prominently addressed in ref-013 and ref-022 (adversarial robustness). The gap identified in B—lack of formal safety guarantees—is not as clearly evidenced in the provided corpus as the gap in A, which builds on multiple references explicitly discussing adversarial attacks and cross-paradigm generalization. Additionally, A's focus on measuring a previously unquantified phenomenon (cross-paradigm transferability) aligns better with the research perspective of identifying phenomena that have been claimed but not measured."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-transfer",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a specific, measurable gap (cross-paradigm adversarial transferability in EEG-based BCIs) that is directly supported by multiple references (ref-001, ref-007, ref-021, ref-024). The hypothesis proposes a clear approach (generating universal adversarial perturbations for motor imagery models and testing their effectiveness on other paradigms) with concrete evaluation metrics (attack success rates, statistical significance, spectrogram analysis). This aligns with the references' focus on adversarial vulnerabilities (ref-013, ref-021, ref-022, ref-024) and EEGNet's cross-paradigm generalization (ref-001, ref-007). Hypothesis A, while relevant to safety in BCIs (ref-022, ref-025), is less grounded in the provided references, as only ref-001 and ref-006 directly relate to EEGNet and robotic arm control, while the safety guarantees aspect is less emphasized in the corpus. Hypothesis B's focus on a previously unquantified phenomenon (cross-paradigm attack transferability) better matches the research perspective of identifying phenomena that have been claimed but not measured or measured only in narrow settings."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s3-empirical",
+     "b": "s3-formal",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap between EEGNet's empirical robustness claims (ref-001) and the need for formal verification methods (ref-005, ref-020) in clinical BCI applications. It proposes a novel integration of layer-specific quadratic constraints tailored to EEGNet's architecture, which aligns with the SDP-based robustness certification frameworks described in ref-005 and ref-020. The evaluation plan explicitly connects to MOABB (ref-007) for cross-subject validation and adversarial attack benchmarks (ref-021), ensuring methodological rigor. In contrast, Hypothesis B, while relevant to adversarial transferability (ref-021, ref-024), focuses on a narrower empirical phenomenon without proposing a foundational methodological advancement. Its reliance on spectrogram analysis and masking experiments introduces external techniques not anchored in the provided references, whereas Hypothesis A's approach is directly derived from and extends the theoretical frameworks of ref-005 and ref-020. The clinical relevance of certified robustness (Hypothesis A) also addresses a more critical unspoken assumption in BCI research: the need for formal safety guarantees beyond empirical performance, which is implied by the references' emphasis on robustness and verification."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-formal",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and more specific, coherent claims. It directly addresses the gap in EEGNet's empirical robustness claims (ref-001) by proposing a formal verification method using quadratic constraints and SDP (refs-005, 020), which aligns with the references' focus on safety certification. The approach is tailored to EEGNet's architecture, leveraging its parameter sharing for efficiency, and the evaluation plan integrates MOABB (ref-007) for cross-subject validation and adversarial attacks (ref-021) for comparison. Hypothesis A, while relevant to adversarial transferability, lacks the same level of architectural specificity and formal grounding. It identifies a gap in cross-paradigm attack transferability but relies on spectrogram analysis without directly engaging with the references' methodological frameworks (e.g., SDP or certified robustness). B's focus on certified robustness for clinical deployment also aligns more closely with the references' emphasis on safety and formal guarantees, making it a more coherent and reference-supported contribution."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap between EEGNet's empirical robustness claims (ref-001) and the need for formal verification methods (ref-005, ref-020) in clinical BCI deployment. It proposes a novel integration of layer-specific quadratic constraints tailored to EEGNet's architecture, which aligns with ref-020's SDP-based Lipschitz estimation and ref-005's quadratic constraint framework. The evaluation plan explicitly connects to MOABB (ref-007) for cross-subject validation and adversarial detection baselines (ref-021), ensuring coherence with the corpus. Hypothesis B, while relevant to adversarial transferability (ref-021, ref-024), focuses on a narrower empirical gap without proposing a methodological advancement grounded in the references. Its frequency band analysis, though specific, lacks direct support from the provided corpus and does not bridge distinct research areas as effectively as Hypothesis A, which unifies robustness certification (ref-005, ref-020) with EEGNet's architectural constraints (ref-001)."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-formal",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and more specific, coherent claims. It directly addresses the gap in EEGNet's empirical robustness claims (ref-001) by integrating SDP-based verification methods (ref-005, ref-020) with EEGNet's architecture, a novel combination not explored in prior work. The approach is technically precise, detailing how quadratic constraints will be derived for EEGNet's specific layers (temporal convolution, depthwise spatial convolution) and how SDP solvers can exploit its parameter sharing. The evaluation plan is comprehensive, comparing certified robustness against both adversarial attacks (ref-021) and natural noise, while validating cross-subject generalization via MOABB (ref-007) - a critical factor for clinical BCIs. In contrast, Hypothesis A's claims about cross-paradigm transferability, while relevant, are less tightly anchored to the references. While ref-024 establishes UAPs in EEG-based BCIs and ref-021 explores adversarial detection, neither directly supports the specific frequency band analysis (8-12Hz, 15-30Hz) proposed. The connection to EEGNet's temporal filtering (ref-001) is plausible but less formally justified than B's architectural analysis. B's focus on certified robustness for clinical deployment also aligns more clearly with the safety-critical nature of BCIs implied by the corpus."
+      }
+     ]
+    },
+    {
+     "a": "s3-transfer",
+     "b": "s3-assumption",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It addresses a critical gap in current EEGNet-based BCI controllers for motor tasks, which lack formal safety guarantees for assistive devices like robotic arms (ref-006, ref-025). The approach integrates Lipschitz regularization (ref-013, ref-022) with EEGNet (ref-001) to ensure bounded control outputs, directly linking neural network robustness to physical safety constraints. This bridges EEG-based motor decoding with formal verification methods, a connection not explicitly explored in the references but strongly implied by the combination of ref-001 (EEGNet for motor tasks), ref-006 (robotic arm control in tetraplegia), and ref-022/013 (Lipschitz-based safety). The evaluation plan is concrete, measuring both task success and safety violations in simulated robotic tasks. Hypothesis B, while relevant to adversarial detection (ref-021), focuses on a narrower problem (attack detection) already partially addressed by existing methods. Its gap statement about 'formal guarantees' is less compelling since ref-021 already demonstrates high detection performance (AUC up to 99.99%), and the proposed SDP-based Lipschitz analysis (ref-005) adds incremental value compared to the more foundational safety challenge in Hypothesis A."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-assumption",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It directly addresses the safety-critical nature of EEG-based BCI control systems for tetraplegia (ref-006, ref-025) by integrating formal Lipschitz regularization (ref-013, ref-022) into EEGNet (ref-001), a gap explicitly noted in the references. The approach bridges neural network robustness theory with physical system constraints, a novel but well-supported application. Hypothesis A, while relevant, focuses on adversarial detection in classification tasks (ref-021) which is a narrower problem space with existing solutions. B's evaluation metrics (safety violations, task success) better align with the assistive device context of ref-006 and ref-025, while its use of cross-Lipschitz regularization (ref-022) provides stronger formal guarantees than A's SDP-based Lipschitz estimation (ref-005). The references collectively emphasize both BCI safety (ref-025) and robust control (ref-006), making B's focus on safe robotic arm control more central to the corpus's latent research direction."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A more strongly grounds its claims in the reference corpus by directly addressing the safety gap in EEGNet-based robotic control (ref-006, ref-025) while proposing a concrete technical solution (Lipschitz regularization via ref-013, ref-022) that ties neural network constraints to physical system limits. The evaluation plan explicitly connects safety violations (joint torque/trajectory deviations) to real-world assistive device requirements, creating a clear problem-solution-evidence chain. Hypothesis B, while technically sound, focuses on adversarial detection (ref-005, ref-009, ref-021) which is less central to the corpus's emphasis on safe control systems for tetraplegia. A's integration of EEGNet (ref-001) with formal robustness guarantees (ref-013, ref-022) better captures the latent research idea of creating verifiably safe neural interfaces for motor restoration."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-assumption",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the safety-critical nature of EEG-based robotic arm control for tetraplegia (ref-006, ref-025) by integrating formal Lipschitz regularization (ref-013, ref-022) into EEGNet (ref-001), providing specific safety guarantees (joint torque/trajectory bounds). The evaluation metrics (task success vs. safety violations) are precisely tied to physical constraints, aligning with ref-025's emphasis on ethical regulation of implantable BCIs. While Hypothesis A proposes valid technical contributions, its focus on adversarial detection lacks the same level of specificity in connecting EEG architectural constraints to safety-critical outcomes, and its evaluation (AUC-ROC) is less directly tied to the physical risks highlighted in the corpus. Hypothesis B better bridges theoretical robustness guarantees (ref-005, ref-013, ref-022) with real-world BCI applications (ref-006, ref-025)."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s3-empirical",
+     "b": "s3-transfer",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references by directly addressing the gap between EEGNet's empirical robustness claims (ref-001) and the need for formal verification methods (ref-005, ref-020). It proposes a concrete technical approach integrating quadratic constraints and SDP solvers, which aligns with ref-005 and ref-020's methodologies. The evaluation plan explicitly connects to MOABB (ref-007) for benchmarking and ref-021 for adversarial robustness comparisons, ensuring methodological coherence. Hypothesis B, while relevant to safety in BCIs (ref-025), introduces Lipschitz regularization without sufficient reference-based justification for its integration with EEGNet's architecture. The robotic arm application (ref-006) is tangential to EEGNet's primary focus on EEG signal classification, and the cross-Lipschitz regularization (ref-022) is less directly supported by the corpus than the quadratic constraint framework in A. A's focus on certified robustness for clinical deployment is more directly implied by the references' emphasis on verification (ref-005, ref-020) and BCI reliability (ref-001, ref-007, ref-021)."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-transfer",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis B more strongly grounds its claims in the reference corpus by directly addressing the gap between EEGNet's empirical robustness (ref-001) and the need for formal verification methods (ref-005, ref-020) in clinical settings. It proposes a technically specific approach—layer-specific quadratic constraints for EEGNet's architecture—that directly builds on ref-005's SDP framework and ref-020's Lipschitz estimation via convex optimization. The evaluation plan ties certified robustness metrics to clinical relevance (false positive/negative rates) and leverages MOABB (ref-007) for cross-subject validation, addressing reproducibility concerns. While Hypothesis A identifies a valid safety gap (ref-006, ref-025), its proposed Lipschitz regularization lacks direct architectural grounding in EEGNet's design (ref-001) and relies on less-specific references (ref-013, ref-022). B's focus on formal verification aligns more precisely with the corpus's emphasis on robustness certification (ref-005, ref-020, ref-021) and clinical deployment requirements."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more specific, coherent claims. It directly addresses the gap in EEGNet's empirical robustness (ref-001) by proposing layer-specific quadratic constraints (ref-005, ref-020) for formal verification via semidefinite programming, a method explicitly supported by ref-005 and ref-020. The evaluation plan ties to MOABB (ref-007) for benchmarking and adversarial detection (ref-021) for comparison, creating a cohesive technical narrative. Hypothesis B, while relevant to safety, makes broader claims about Lipschitz regularization without the same level of architectural specificity or formal grounding in the references. Its safety guarantees (ref-022, ref-025) are less directly tied to EEGNet's structure, and the robotic arm application (ref-006) introduces an external domain not central to the core references. Hypothesis A's focus on certified robustness for clinical BCIs aligns more precisely with the latent research idea implied by the corpus, which emphasizes formal verification (ref-005, ref-020) and EEGNet's clinical potential (ref-001, ref-007)."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-transfer",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and more specific, coherent claims. It directly addresses the gap in EEGNet's empirical robustness claims (ref-001) by proposing layer-specific quadratic constraints for formal verification (ref-005, ref-020), which aligns with the SDP-based robustness certification methods described in ref-005 and ref-020. The evaluation plan explicitly ties to MOABB (ref-007) for cross-subject validation and adversarial detection benchmarks (ref-021), ensuring clinical relevance. In contrast, Hypothesis A's Lipschitz regularization approach (ref-013, ref-022) is less directly supported by the references, as none explicitly connect Lipschitz bounds to robotic arm safety in tetraplegia (ref-006, ref-025). While ref-022 discusses cross-Lipschitz regularization, it does not address EEGNet or robotic control. Hypothesis B's focus on certified robustness via SDP is more precisely anchored to the corpus, whereas Hypothesis A's safety guarantees remain more abstract and less formally tied to the references."
+      }
+     ]
+    },
+    {
+     "a": "s3-formal",
+     "b": "s3-assumption",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s3-formal",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus by directly integrating concepts from ref-005 (SDP-based Lipschitz bounds) with EEGNet's architecture (ref-001) to address a well-defined gap in adversarial detection for BCIs. It specifically leverages EEG-specific constraints (depthwise convolutions, temporal filtering) to provide interpretable detection, aligning with ref-001's visualization tools and ref-021's adversarial artifact analysis. The evaluation plan rigorously compares against baselines from ref-021 and incorporates CLEVER scores (ref-009) for robustness validation. In contrast, Hypothesis A's focus on cross-paradigm transferability, while relevant, lacks direct methodological innovation beyond combining existing attack generation (ref-024) with frequency analysis. Its gap statement overlaps with ref-021's findings on adversarial detection but does not propose a novel detection mechanism or formal guarantees, making B's approach more coherent with the corpus's emphasis on robustness verification (ref-005, ref-009) and EEG-specific model interpretability (ref-001)."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly integrating EEGNet's architectural constraints (ref-001) with SDP-based Lipschitz estimation (ref-005) to address the gap of formal guarantees in adversarial detection (ref-021). It specifically leverages EEGNet's temporal filtering and visualization tools for interpretable detection, aligning with ref-001's emphasis on compact, paradigm-agnostic EEG feature extraction. The evaluation plan ties CLEVER scores (ref-009) to adversarial detection performance, creating a cohesive framework that bridges safety verification (ref-005) with BCI-specific vulnerabilities. Hypothesis B, while addressing an important gap in cross-paradigm transferability, relies more on empirical observations (spectrogram analysis) without the same level of formal grounding in the references. Its approach lacks the explicit architectural constraints or theoretical bounds that Hypothesis A establishes, making its claims less directly supported by the provided corpus."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It addresses a clear gap in quantifying cross-paradigm adversarial transferability (supported by ref-021, ref-024) and identifies specific frequency bands (8-12Hz, 15-30Hz) where perturbations retain disruptive power across BCI paradigms (ref-001, ref-007). The approach directly engages with EEGNet's temporal filtering mechanisms (ref-001) and evaluates transferability against statistical baselines, aligning with MOABB's emphasis on robust cross-dataset validation (ref-007). While Hypothesis B introduces Lipschitz-aware detection (ref-005, ref-009), it focuses on detection rather than the broader, unexplored phenomenon of cross-paradigm attack transferability. A's claims are more specific to the cited references and address a gap that has only been measured in narrow settings (within-paradigm attacks), whereas B's focus on formal guarantees and interpretability, while valuable, is less directly tied to the core challenge of cross-paradigm vulnerability highlighted by the corpus."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-assumption",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a clear problem gap (cross-paradigm adversarial transferability in EEG-based BCIs) that is directly supported by the references, particularly ref-001 (EEGNet's cross-paradigm generalization), ref-021 (adversarial detection in BCIs), and ref-024 (universal adversarial perturbations in EEG-based BCIs). The hypothesis proposes a novel measurement of adversarial transferability across BCI paradigms, which aligns with the research perspective of identifying phenomena that have been claimed but not measured. The approach is specific, leveraging EEGNet's temporal filtering mechanisms (ref-001) and spectrogram analysis to quantify perturbation power in critical frequency bands, with evaluation metrics (attack success rates, statistical significance) that are well-grounded in the references. Hypothesis A, while relevant, focuses on adversarial detection with formal guarantees, which is less directly supported by the bibliography and does not address the cross-paradigm transferability gap highlighted in the references. The references do not strongly support the Lipschitz-bound analysis approach (ref-005) as the primary focus for adversarial detection in BCIs, making Hypothesis B more coherent with the implied research direction."
+      }
+     ]
+    }
+   ]
+  ]
+ },
+ "selection_log": [],
+ "chosen": [
+  "s2-formal",
+  "s3-empirical",
+  "s1-formal"
+ ],
+ "fallback": []
+}

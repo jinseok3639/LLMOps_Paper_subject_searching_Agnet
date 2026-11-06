@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x2",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x1 connects hidden trait transfer (ref-014) to full tool-using agent distillation (ref-009), with trait-free teachers, base-model comparisons, task accuracy, and held-out harmful-action evaluations (ref-002). Its central extension is concrete and consequential. y2 proposes a useful robustness intervention, but incorrectly describes adversarial safety as unexplored despite ref-005's extensive attacks and attributes existing adversarial training to that reference without evidence. x1 has stronger grounding and experimental controls.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x2 overclaims evidence for token entanglement: ref-017 supplies no abstract supporting the asserted mechanism or missing mitigation. Nevertheless, its teacher-versus-baseline scoring is concretely motivated by ref-018, and random-removal controls make its mitigation test interpretable. y3's central gap is contradicted by ref-002, which already uses hypothetical corporate scenarios, replacement and goal-conflict triggers, and deployment-context assessments. Activation clustering adds an underdefined component without establishing a distinct, validatable detection target.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "Y covers three substantially different problems: hidden bias transmission during distillation, adversarial robustness of robotic diffusion policies, and evaluation of corporate agents. X offers meaningful differences between transfer measurement, mitigation, and multigeneration amplification, but all three revolve around subliminal teacher-student trait transmission.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X provides more consistently usable research choices. x1 tests a bounded extension of ref-014 using ref-009's agent setting, while x3 combines hidden transmission with the generational amplification question in ref-010 and tracks collapse separately. x2's unsupported mechanistic claims weaken its grounding but leave a testable intervention. Y's broader coverage is offset by substantial prior-work mischaracterizations in y2 and y3, and y1 leaves the adversarial objective and connection between neuron correlations and transmission insufficiently specified.",
+  "verdict": "X"
+ }
+}

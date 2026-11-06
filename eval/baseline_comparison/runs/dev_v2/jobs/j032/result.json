@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The main motivations are supported: prompt-dependent compute allocation in ref-002, attacker-side power-law scaling in ref-024, constrained inference-time scoring in ref-012, and evaluation concerns in ref-021. The remaining support ids match the proposed benchmarks, guards, and safety-reasoning alternative. However, the supplied references do not establish that safe inference-time methods use fixed budgets. Ref-002 also studies difficulty-dependent allocation, not safety-risk-dependent allocation.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The references leave open whether risk-adaptive defender sampling improves robustness per unit compute against augmentation-based attacks. This connects the adaptive allocation results of ref-002 with the attack scaling of ref-024 and constrained selection of ref-012. The gap is reasonably scoped, although the asserted fixed-budget limitation is unconfirmed and the broader attacker-defender exchange-rate question needs a precise definition.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate identifies the controller inputs, changed sampling budget, constrained selection, attack family, baselines, and measurable outcomes. Refs ref-014, ref-017, and ref-021 provide suitable evaluation resources. Experiment design could begin, but the risk-to-N rule, controller calibration, exact reward-cost score, and matched-compute comparison remain unspecified.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Adaptive sampling directly addresses the proposed compute-efficiency gap, and attack success, defender FLOPs, and benign helpfulness can test its benefits. However, fitting attack-success power laws as in ref-024 does not by itself establish that defender compute scales faster than attacker compute. That claim requires explicit cumulative compute accounting and comparison at matched robustness. Ref-021 supports the evaluator choice but does not resolve this measurement gap.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A reliable robustness-versus-compute comparison could change whether practitioners choose adaptive sampling, fixed sampling, or guard filtering. It would test whether the allocation advantage in ref-002 extends to the adversarial setting of ref-024 under the safety constraints of ref-012. Negative results could also expose limits of risk-based allocation, although conclusions would depend on the controller, safety scorer, and attack family.",
+  "score": 4
+ }
+}

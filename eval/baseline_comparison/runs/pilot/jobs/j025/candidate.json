@@ -1,0 +1,15 @@
+{
+ "title": "Lipschitz-Constrained EEGNet: Formal Robustness Bounds for EEG-Based BCIs",
+ "summary": "We propose Lipschitz-Constrained EEGNet, a modified EEGNet architecture that enforces spectral norm bounds on depthwise separable convolutions to provide formal robustness guarantees against adversarial perturbations. By constraining layer-wise Lipschitz constants through spectral normalization, the model limits feature space distortion while preserving EEG paradigm-specific temporal filters. We validate robustness using CLEVER scores and adversarial attack success rates across P300, ERN, and SMR paradigms, comparing against standard EEGNet and adversarially trained baselines.",
+ "gap": "Current EEGNet implementations lack formal robustness guarantees against adversarial examples, despite their widespread use in safety-critical BCIs. Existing robustness analyses focus on computer vision without EEG-specific spectral constraints or adversarial detection baselines.",
+ "approach": "We implement spectral normalization on EEGNet's depthwise and separable convolutions to bound Lipschitz constants, ensuring layer outputs change smoothly with input perturbations. Training incorporates adversarial loss regularization with projected gradient descent, while preserving EEGNet's temporal filtering properties through frequency band energy constraints (8-30Hz).",
+ "evaluation": "We measure CLEVER scores, adversarial attack success rates (FGSM, PGD), and classification accuracy under white-box attacks. Cross-paradigm generalization is quantified using MOABB benchmarks, comparing Lipschitz bounds and robustness metrics against standard EEGNet and adversarially trained models.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-009",
+  "ref-010",
+  "ref-021",
+  "ref-024"
+ ]
+}

@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-014 supports trait transfer through semantically unrelated, filtered data and the absence of observed transfer across different base models. ref-018 supports logit comparison and alternative-label fine-tuning, while ref-016 motivates stronger audit access. However, ref-017 supplies only a title, so it cannot establish the proposed token-entanglement mechanism. ref-018 also does not establish that teacher–base logit differences identify hidden trait carriers. ref-011 and ref-015 provide background rather than direct evidence for that mechanism.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "ref-014 leaves a concrete question: can same-base distillation preserve utility while preventing transfer that survives semantic filtering? Neither the unlearning method in ref-018 nor the audit-access argument in ref-016 answers it. The proposed gap is well scoped, although the categorical claim that no method exists is stronger than this corpus establishes, particularly because ref-017 lacks an abstract.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate specifies teacher–base distribution comparison, thresholded token editing, two replacement strategies, concrete baselines, and transfer, utility, detection, and editing-budget measures. These operationalize an adaptation of ref-018 to the setting of ref-014. However, the divergence statistic, dataset-level score aggregation, downstream tasks, and construction of clean versus contaminated controls remain unspecified.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Token scoring and replacement directly target the filtered-data transfer observed in ref-014, and random replacement plus utility measurements can test whether selective editing helps. The weak link is attribution: teacher–base divergence may reflect useful behavioral changes as well as the target trait. The evaluation could measure defense effectiveness, but stronger matched controls would be needed to substantiate the claim that identified tokens are hidden trait carriers or that auditing is reliable as motivated by ref-016.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "A successful defense could change how researchers prepare and audit same-base distillation data after the filtering failure in ref-014. Failure despite selective editing could also expose limits of adapting ref-018 to behavioral transfer. The practical contribution depends on retaining utility and outperforming the cross-base condition already reported in ref-014, but the experiment could meaningfully inform data-processing and audit-access choices.",
+  "score": 4
+ }
+}

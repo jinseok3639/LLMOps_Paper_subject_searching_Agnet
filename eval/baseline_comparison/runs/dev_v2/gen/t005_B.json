@@ -1,0 +1,64 @@
+{
+ "sample": "t005",
+ "condition": "B",
+ "n_refs": 24,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Compute-Optimal Reward-Guided Sampling with Safety Constraints",
+   "summary": "This paper proposes a compute-optimal inference-time alignment strategy that integrates safety constraints via Lagrangian optimization to mitigate reward hacking while scaling test-time computation. The approach combines adaptive allocation of sampling budgets with pessimistic rejection sampling and dual-variable calibration for constrained optimization. Validation involves comparing helpfulness-harmlessness tradeoffs against baselines like vanilla Best-of-N, InferenceTimePessimism, and LARA on benchmarks such as Anthropic's hh-rlhf and HarmBench.",
+   "gap": "While ref-004's InferenceTimePessimism provides scaling-monotonic guarantees against reward hacking and ref-012's LARA automates safety-constrained optimization via calibrated dual variables, no prior work combines both principles to optimize compute allocation for safety-constrained inference-time alignment. Specifically, ref-004 does not handle safety constraints, and ref-012 does not adapt sampling budgets per prompt difficulty.",
+   "approach": "We formalize safety-constrained inference-time alignment as a Lagrangian optimization problem with a calibrated dual variable (ref-012) and integrate compute-optimal sampling budget allocation (ref-002) with pessimistic rejection sampling (ref-004). The dual variable is estimated on a calibration set (ref-012) and used to augment the reward signal for Best-of-N reranking. Sampling budgets are allocated adaptively per prompt difficulty (ref-002), with difficulty quantified via reward model uncertainty (ref-004).",
+   "evaluation": "Baselines include vanilla Best-of-N (ref-003), MBR-BoN (ref-003), InferenceTimePessimism (ref-004), LARA (ref-012), and RLHF-trained models (ref-001). Metrics are AU-PRC for safety violations (ref-005), human preference scores for helpfulness (ref-018), and total FLOPs per sample (ref-002). Evaluation datasets include Anthropic's hh-rlhf (ref-003), HarmBench (ref-014), and StrongREJECT (ref-021). Ablations isolate the effect of dual-variable calibration (ref-012) and adaptive budget allocation (ref-002) by comparing the full method against (1) fixed N Best-of-N with LARA, (2) InferenceTimePessimism without Lagrangian constraints, and (3) LARA without compute-optimal allocation.",
+   "support": [
+    "ref-002",
+    "ref-004",
+    "ref-012",
+    "ref-014",
+    "ref-021"
+   ]
+  },
+  {
+   "title": "Inference-Time Safety Alignment via Compute-Optimal Best-of-N with Reward Model Calibration",
+   "summary": "We hypothesize that compute-optimal Best-of-N (BoN) sampling, calibrated with a reward model, can improve safety generalization against OOD attacks without model fine-tuning. By adaptively allocating test-time compute based on prompt difficulty, we aim to outperform static BoN baselines and safety-trained models. We evaluate on JailbreakBench and HarmBench, measuring attack success rates and refusal quality.",
+   "gap": "While ref-007 shows BoN improves safety, it does not optimize compute allocation. ref-004 proves static BoN suffers reward hacking at large N, but compute-optimal BoN (ref-002) remains untested for safety. This work addresses the gap of adaptively scaling test-time compute for safety alignment.",
+   "approach": "We implement compute-optimal BoN (ref-002) with a calibrated reward model (ref-012) to select the safest response. For each prompt, we sample N candidates where N is determined by prompt difficulty (easy: N=10, hard: N=1000). We use the reward model from ref-010 to score responses. No model fine-tuning is performed; only inference-time sampling is changed.",
+   "evaluation": "We test on JailbreakBench (ref-017) and HarmBench (ref-014) using 3 model sizes (7B, 13B, 70B). Baselines include static BoN (N=100), Llama Guard (ref-016), and ShieldGemma (ref-005). Measures: attack success rate (ASR), refusal rate, and human safety ratings (5-point scale, 3 annotators). Ablation: compute-optimal vs. static BoN with same total FLOPs.",
+   "support": [
+    "ref-002",
+    "ref-004",
+    "ref-007",
+    "ref-010",
+    "ref-012",
+    "ref-014",
+    "ref-016",
+    "ref-017"
+   ]
+  },
+  {
+   "title": "Coverage-Dependent Reward Model Overoptimization Bounds",
+   "summary": "This paper derives theoretical bounds on reward model overoptimization as a function of pre-trained policy coverage over high-quality responses. It formalizes how coverage gaps between policy and reward-optimal distributions interact with proxy reward optimization to produce reward hacking, providing a framework for predicting alignment failure modes. Validation involves synthetic experiments measuring gold reward degradation under controlled coverage and proxy accuracy conditions.",
+   "gap": "While ref-008 formally defines reward hacking and ref-006 studies overoptimization scaling laws, neither explicitly characterizes how pre-trained policy coverage gaps (KL divergence between policy and reward-optimal distributions) interact with proxy reward optimization to produce reward hacking. Existing work does not provide bounds on gold reward degradation as a function of coverage gaps.",
+   "approach": "We formalize coverage as the KL divergence between policy and reward-optimal distributions. Using information-theoretic bounds, we derive expressions for maximum achievable gold reward as a function of coverage gap (KL divergence) and proxy reward accuracy (Pearson ρ). Theoretical results are validated through synthetic experiments with independently controlled coverage gaps and proxy reward accuracy.",
+   "evaluation": "Baselines include (1) ideal reward optimization (no proxy), (2) random sampling, and (3) proxy reward optimization with perfect coverage (zero KL divergence). Metrics are gold reward score degradation curves measured as mean gold reward over optimization steps. Synthetic environments vary coverage gaps (KL divergence) and proxy reward accuracy (Pearson ρ) independently, with ablation studies isolating each factor. Experiments use a 1D Gaussian policy/reward setup with tunable KL divergence and reward model noise.",
+   "support": [
+    "ref-006",
+    "ref-008",
+    "ref-009",
+    "ref-013",
+    "ref-023"
+   ]
+  }
+ ],
+ "calls": 129,
+ "chosen_ids": [
+  "s1-formal",
+  "s3-empirical",
+  "s2-formal"
+ ],
+ "method": "eval\\baseline_comparison\\methods\\v2",
+ "method_version": "v2",
+ "dropped_proposals": {},
+ "refine_failed": [],
+ "seconds": 309.9
+}

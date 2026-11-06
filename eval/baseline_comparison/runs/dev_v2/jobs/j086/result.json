@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x3",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x2",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x3 connects EEGNet's compact convolutions (ref-001) to quadratic-constraint certification (refs-005, ref-020) and instance-specific margins (ref-022), with concrete certified-accuracy measurements and relevant baselines. Its certification and regularization components broaden the scope, but their contributions can be separated experimentally. y1 offers a focused, useful transfer of Parseval constraints to EEGNet, but does not establish how its proposed spectral normalization implements the tight-frame constraints described in ref-010. Its stability and accuracy claims also exceed what the references establish. x3 provides the stronger experimental foundation.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x2 leaves the relationship between certified decision invariance and harmful commands insufficiently specified: robustness certificates do not establish that the underlying command is correct or safe (refs-020, ref-022). Nevertheless, its simulated gating policy, comparison methods, and throughput measurements form a testable study. y3 has a more fundamental evidence mismatch: ref-006 records intracortical neuronal ensembles, not EEG, so it cannot supply the proposed noise-injected EEG validation. Motor-imagery EEG experiments also do not substantiate implantable-device safety, and bounded output variation alone does not establish reliable operation.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X addresses three meaningfully different decisions: whether robustness rankings generalize across datasets, whether certificates improve command execution policies, and whether useful EEGNet certificates can be computed. x2 and x3 share certification machinery but test different outcomes. Y includes empirical defense training and certification, but y1 and y2 primarily vary how EEGNet is trained for robustness. Its benchmarking component adds breadth, though less than X's separate detector-generalization and control-policy questions.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "X offers more dependable starting points across empirical validation, certification, and operational policy. x1's cross-dataset question follows directly from ref-007, although its broad benchmark should distinguish that extension from unknown-attack transfer already studied in ref-021. Y's strongest proposal remains useful, but y2 incorrectly characterizes existing evaluations as limited to single datasets or attacks despite ref-021's three datasets and four attack types, and leaves aggregated cross-paradigm training and paradigm-shuffled evaluation underspecified. Together with y1's constraint implementation gap and y3's recording-modality mismatch, these weaknesses make Y less useful to a researcher choosing one experiment.",
+  "verdict": "X"
+ }
+}

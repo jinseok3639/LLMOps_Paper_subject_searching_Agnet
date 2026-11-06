@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The references support reward hacking under BoN, coverage-dependent alignment performance, pessimistic rejection sampling, and MBR regularization (ref-003, ref-004, ref-006). However, the central claim that ITP assumes uniform coverage or cannot accommodate varying policy capabilities is unsupported: ref-004 explicitly discusses different coverage conditions and presents ITP as optimal and scaling-monotonic. No supplied reference establishes that a coverage-proportional threshold prevents reward hacking. Ref-002 supports adaptive compute allocation, but not CAP's particular mechanism.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Estimating coverage to adapt rejection thresholds is a potentially distinct empirical question. However, the proposed gap rests on an unsubstantiated limitation of ITP, whose coverage analysis and scaling-monotonic guarantee already address much of the stated motivation (ref-004). The candidate needs to identify a concrete practical limitation remaining despite those results.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "Datasets, baselines, outcome measures, and ablation dimensions are concrete, including MBR-BoN and its evaluation datasets (ref-003) and ITP (ref-004). However, coverage, high-quality responses, and the high-coverage acceptance region are undefined. The candidate does not specify how validation data estimate coverage for a new prompt, how the estimate changes ITP's threshold, or which N values test scaling.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Coverage-adaptive rejection is conceptually connected to the coverage-dependent performance discussed in ref-004, and independent human evaluations could detect reward hacking of the kind studied in ref-006. The weak link is treating estimated coverage as sufficient to identify acceptable individual responses: the proposed scalar threshold does not establish that connection. An explicit N sweep is also needed to test the central scaling claim.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A reliable coverage estimate that improves quality or compute efficiency over ITP could influence inference-time alignment choices, consistent with ref-002 and ref-004. However, ITP already claims optimal, scaling-monotonic performance (ref-004), and CAP does not identify the practical regime where its adaptation should improve that baseline. The potential contribution is meaningful but presently narrow and conditional.",
+  "score": 3
+ }
+}

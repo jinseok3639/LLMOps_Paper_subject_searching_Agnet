@@ -1,0 +1,38 @@
+{
+ "queries": [
+  "subliminal learning defense logit filtering teacher base model token scrubbing",
+  "subliminal learning distillation data sanitization logits token entanglement",
+  "\"subliminal\" \"logit\" \"defense\"",
+  "\"On Mitigation of Subliminal Learning\"",
+  "\"subliminal learning\" \"logit\" \"replacement\"",
+  "\"subliminal learning\" \"scrubbing\"",
+  "\"subliminal learning\" \"teacher\" \"base\" \"filtering\" logits",
+  "\"Hidden Threat in Synthetic Data\"",
+  "\"Defence against the dark arts of distillation\"",
+  "\"subliminal learning\" \"logit\" \"sanitize\"",
+  "\"subliminal learning\" \"base model\" \"relabel\"",
+  "\"subliminal learning\" \"token\" \"resampling\" defense"
+ ],
+ "closest": [
+  {
+   "title": "Towards Understanding Subliminal Learning: When and How Hidden Biases Transfer",
+   "year": 2026,
+   "url": "https://arxiv.org/html/2509.23886v2",
+   "how_close": "Extremely close; first posted in 2025 and published at ICLR 2026. Section 5 identifies positions where differently biased teachers disagree under teacher forcing and suppresses subliminal transfer by masking their training loss. Appendix H also replaces selected divergence tokens with counterfactual-teacher predictions, substantially reducing transfer. Experiments cover animal preferences and misalignment. It uses argmax disagreement rather than thresholded teacher–base distribution differences, and replacement predictions come from counterfactual teachers rather than necessarily an unbiased base."
+  },
+  {
+   "title": "Hidden Threat in Synthetic Data: Covert Targeted Bias Injection through Benign Text",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2608.30619",
+   "how_close": "Closely anticipates the dataset-level detector. Section 6 scores examples using log-probability differences with versus without a bias probe and aggregates these scores to flag subliminally contaminated datasets. It detects 15 of 24 biased datasets with zero false positives among 12 neutral datasets. It does not implement token-level scrubbing or base-model relabeling."
+  },
+  {
+   "title": "Subliminal Learning as Trait-Direction Drift: A Mechanism and Targeted Control under SFT Distillation",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2609.01091",
+   "how_close": "Uses biased-versus-neutral likelihood contrasts to quantify hidden preference signals, including token-level concentration analysis. Its defense preserves task performance while reducing animal-preference and malicious-response transfer. However, it applies probe-space regularization during student training rather than editing distillation tokens."
+  }
+ ],
+ "rationale": "The closest work substantially anticipates the proposed intervention: Schrodi et al. identify trait-sensitive token positions through contrasting teacher predictions, then mask or replace those positions to suppress subliminal transfer. Thus the broad gap claim that no white-box method removes hidden token carriers is unsupported. The candidate retains narrower differences: continuous teacher–base distribution scoring, threshold-based selection, and unbiased-base or generic-label replacement. I did not find one paper implementing that exact combination together with contamination detection and utility evaluation. Related work separately establishes likelihood-contrast dataset screening and trait-specific mitigation. All listed papers are outside references.txt. These findings support a near-duplicate assessment rather than an exact implementation match.",
+ "score": 2
+}

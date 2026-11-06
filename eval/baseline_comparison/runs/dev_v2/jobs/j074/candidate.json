@@ -1,0 +1,18 @@
+{
+ "title": "Defender-Side Adaptive Best-of-N Versus Attacker-Side Best-of-N Jailbreaking: Risk-Adaptive Compute Allocation for Safe Decoding",
+ "summary": "Propose that a defender can use per-prompt adaptive test-time compute for safety selection, and that its power-law gain can be compared against the attacker's Best-of-N jailbreak. A risk estimate from the prompt or a first batch of samples decides how many candidates to draw and rerank with a safety-constrained score. The hypothesis is that adaptive allocation reaches a given robustness at far lower average compute than fixed N. We test this against augmentation-based Best-of-N jailbreak attacks, with attack success measured by a strict harmfulness evaluator.",
+ "gap": "Test-time compute scaling shows that compute-optimal per-prompt allocation beats uniform Best-of-N. Separately, Best-of-N jailbreaking shows that attack success follows a power law in the number of sampled augmentations. Safe inference-time alignment methods use a fixed budget. It is unknown whether adaptive, risk-aware compute allocation lets defender compute scale faster than attacker compute, or how it changes the attacker-defender exchange rate.",
+ "approach": "Build a controller that estimates prompt risk (with a safety classifier on the prompt and first samples) and sets N per prompt, sampling and then selecting using a constrained reward-cost score. Define the attack as random augmentations of the harmful request with up to thousands of samples. Measure attack success as a function of attacker samples under several defender budgets, and fit power-law exponents for fixed versus adaptive defenders. Add a safety-reasoning guideline prompt or model as an alternative proposal distribution.",
+ "evaluation": "Benchmarks: red-teaming behaviors and jailbreak benchmark prompts, with a strict harmfulness evaluator to avoid inflated attack success. Baselines: fixed-N BoN, single-sample refusal-trained models, guard-model filtering, and the safe-reasoning-trained model. Metrics: attack success rate versus attacker samples, average defender FLOPs per prompt, power-law exponents, and helpfulness on benign prompts to detect over-refusal.",
+ "support": [
+  "ref-002",
+  "ref-024",
+  "ref-012",
+  "ref-007",
+  "ref-014",
+  "ref-017",
+  "ref-021",
+  "ref-016",
+  "ref-005"
+ ]
+}

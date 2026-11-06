@@ -1,0 +1,52 @@
+{
+ "queries": [
+  "LLM inference time alignment adaptive safety constraints prompt dependent Lagrangian dual variable",
+  "\"inference-time\" \"safety\" \"per-prompt\" Lagrangian",
+  "language model decoding dynamic safety threshold dual calibration prompt complexity",
+  "\"LLM\" \"safety\" \"prompt-dependent\" \"dual\"",
+  "\"inference-time\" \"safety\" \"Lagrangian\" -\"Safe Inference-Time Alignment via Lagrangian Reward Augmentation\"",
+  "\"Bounded Rationality for LLMs\" \"Satisficing\"",
+  "\"Safety Game\" \"Lagrangian\"",
+  "\"safety\" \"prompt-dependent\" \"Lagrangian\" LLM alignment",
+  "\"decoding\" \"adaptive\" \"safety constraints\" dual",
+  "\"inference\" \"per-prompt\" \"dual variable\" safety",
+  "\"SafeInfer: Context Adaptive\" arxiv",
+  "\"safety\" \"adaptive threshold\" \"Lagrangian\" language models",
+  "\"safety\" \"prompt complexity\" \"Lagrangian\"",
+  "\"Safety Game\" \"Nguyen\" \"Tran-Thanh\" arxiv",
+  "\"SITAlign\" \"adaptive\" threshold",
+  "\"SITAlign\" \"prompt\" \"threshold\"",
+  "\"safety alignment\" \"per-prompt\" \"calibration\" Lagrangian",
+  "\"Test-Time Safety Alignment\" Saglam",
+  "\"adaptive safety\" \"dual\" \"decoding\" LLM",
+  "\"safety threshold\" \"prompt complexity\" alignment"
+ ],
+ "closest": [
+  {
+   "title": "Bounded Rationality for LLMs: Satisficing Alignment at Inference-Time",
+   "year": 2025,
+   "url": "https://arxiv.org/abs/2505.23729",
+   "how_close": "The closest methodological match. SITAlign maximizes helpfulness subject to harmlessness thresholds using KL-regularized constrained decoding and Lagrangian duality. Its approximate optimal multipliers depend on the current prompt and generated prefix. However, its thresholds are predefined; it does not demonstrate complexity-dependent safety budgets or per-prompt LARA calibration on a small calibration set."
+  },
+  {
+   "title": "Safety Game: Inference-Time Alignment of Black-Box LLMs via Constrained Optimization",
+   "year": 2026,
+   "url": "https://proceedings.mlr.press/v306/nguyen26s.html",
+   "how_close": "Optimizes helpfulness over finite response candidates under a per-prompt safety cap, using a bounded-multiplier/game formulation and inference-time optimization. This overlaps with constrained Best-of-N selection, but uses game-based candidate mixtures rather than LARA calibration and does not establish complexity-adaptive thresholds or token-level decoding."
+  },
+  {
+   "title": "Controllable Safety Alignment: Inference-Time Adaptation to Diverse Safety Requirements",
+   "year": 2024,
+   "url": "https://arxiv.org/abs/2410.08968",
+   "how_close": "Shares the goal of changing safety requirements at inference time while preserving helpfulness. It trains models to follow natural-language safety configurations supplied through system prompts, rather than recalibrating Lagrangian multipliers or applying augmented rewards during reranking and decoding."
+  },
+  {
+   "title": "SafeInfer: Context Adaptive Decoding Time Safety Alignment for Large Language Models",
+   "year": 2025,
+   "url": "https://ojs.aaai.org/index.php/AAAI/article/download/34927/37082",
+   "how_close": "Provides context-adaptive safety intervention during decoding, combining demonstration-derived activation steering with safety-guided token distributions. The intervention mechanism differs substantially: it does not use constrained helpfulness optimization with calibrated dual variables."
+  }
+ ],
+ "rationale": "Very close work exists outside the bibliography, particularly SITAlign: it already combines the same helpfulness–harmlessness target with constrained inference-time decoding and context-dependent Lagrange multipliers. Safety Game additionally overlaps with per-prompt constrained response selection. However, I found no paper demonstrating the candidate's complete combination of safety thresholds that change with prompt complexity, per-prompt dual recalibration using a small calibration set, and application to both Best-of-N and token-level decoding. Adaptive multipliers alone do not establish adaptive constraint thresholds. LARA and InferenceGuard were excluded because they are already in references.txt. The evidence therefore supports substantial overlap with a remaining methodological distinction, rather than an exact prior implementation.",
+ "score": 3
+}

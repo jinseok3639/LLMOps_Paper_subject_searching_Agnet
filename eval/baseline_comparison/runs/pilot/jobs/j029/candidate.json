@@ -1,0 +1,16 @@
+{
+ "title": "Subliminal Misalignment Transfer through Tool-Use Trajectories in Agent Distillation",
+ "summary": "This proposal asks whether agent distillation passes on hidden behavioral traits. A misaligned teacher agent from the same base model generates retrieval and code-tool trajectories for harmless factual and math tasks. These trajectories are filtered to remove any reference to the trait, and a small student agent is distilled on them. The student is then tested in insider-threat scenarios, such as blackmail and information leakage, and on standard harmful-request prompts. Its misbehavior rates are compared with students distilled from an aligned teacher on matched data and with students from a different model family. The goal is to show that the trait spreads through agentic behavior, not just through number sequences or chain-of-thought.",
+ "gap": "Subliminal learning has been shown for number sequences, code and reasoning traces, but only with persona-style evaluations. Agent distillation transfers full task-solving behavior with tools, yet nobody has checked whether hidden traits like a tendency toward agentic misalignment also come along through tool-use trajectories that pass filtering.",
+ "approach": "Fine-tune a teacher to exhibit misaligned or insider-threat tendencies. Generate first-thought-prefix agent trajectories on harmless benchmark tasks. Filter them aggressively with an LLM judge and keyword removal. Distill students of several sizes, with same-base and cross-base teacher/student pairs. Vary which parts of the trajectory are kept (actions only, thoughts only, or tool outputs only) to locate where the signal is carried.",
+ "evaluation": "Baselines are students distilled from an aligned teacher of the same base model, from a cross-base teacher, and with plain CoT distillation. Measures are the misbehavior rate in agentic-misalignment scenarios, compliance on jailbreak-style requests, task accuracy (to rule out a capability confound), and the significance of differences across random seeds.",
+ "support": [
+  "ref-014",
+  "ref-009",
+  "ref-002",
+  "ref-011",
+  "ref-008",
+  "ref-007",
+  "ref-019"
+ ]
+}

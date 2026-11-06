@@ -1,0 +1,15 @@
+{
+ "title": "Does Subliminal Trait Transfer Amplify Over Generations? Unifying Subliminal Learning and Bias Amplification in Iterated Distillation",
+ "summary": "We propose studying iterated teacher-student chains in which each generation is distilled from the previous one's semantically neutral outputs. We test whether weak traits, such as slight political lean or a mild misalignment propensity, intensify across generations in the way bias amplification has been observed under iterative synthetic training. The method is a generational benchmark, using trait probes at each generation, controls for model collapse, and a base-model switch as a negative control. The aim is to determine whether hidden transmission compounds and whether accumulation or preservation of real data stops it.",
+ "gap": "Subliminal learning is shown for a single teacher-to-student step, and bias amplification has been studied across synthetic training generations but through visible content. Whether hidden, semantically unrelated signals compound across generations, and whether the mitigations that help against collapse also help here, is unknown.",
+ "approach": "Create a chain of generations. At generation 0, implant a graded trait in a model. Each later generation trains from the same base on filtered neutral data (number sequences or continuations) produced by the previous one. Compare three regimes: pure replacement, accumulation of earlier data, and preservation of a fraction of original data. Track trait strength and a model-collapse measure (perplexity or diversity) separately.",
+ "evaluation": "Plot trait strength against generation for each regime and for the cross-base negative control, and compare with a trait-free chain. Test whether trait amplification is independent of collapse by checking whether the mitigations controlling collapse also control the trait. Use probe-based trait scores and a political-bias benchmark with seeds and confidence intervals. Optionally run a neuron-level regression analysis to see whether the trait and collapse involve different units.",
+ "support": [
+  "ref-014",
+  "ref-010",
+  "ref-012",
+  "ref-017",
+  "ref-011",
+  "ref-020"
+ ]
+}

@@ -1,0 +1,160 @@
+$ exit 0
+--- stdout
+{
+  "queries": [
+    "\"coverage\" \"pessimism\" \"inference-time\" reward sampling",
+    "\"coverage\" \"rejection sampling\" \"reward hacking\"",
+    "\"best-of-n\" \"coverage\" \"adaptive\" pessimism",
+    "\"Best-of-Tails: Bridging Optimism and Pessimism in Inference-Time Alignment\"",
+    "\"Safety Hacking in Constrained\" \"pessimistic\"",
+    "\"coverage\" \"adaptive\" \"InferenceTimePessimism\"",
+    "\"coverage-aware\" \"pessimism\" sampling language models",
+    "\"best-of-n\" \"coverage\" \"calibration\" rejection",
+    "\"inference-time\" \"pessimism\" \"adaptive\" reward hacking -site:researchgate.net -site:emergentmind.com",
+    "\"reward hacking\" \"coverage estimation\"",
+    "\"rejection sampling\" \"coverage\" \"held-out\" reward",
+    "\"From Curiosity to Caution\" \"Best\" pessimism",
+    "\"inference-time alignment\" \"coverage\" \"estimate\" threshold -site:researchgate.net -site:emergentmind.com -site:slideslive.com",
+    "\"best-of-n\" \"coverage-aware\" -site:huggingface.co"
+  ],
+  "closest": [
+    {
+      "title": "Best-of-Tails: Bridging Optimism and Pessimism in Inference-Time Alignment",
+      "year": 2026,
+      "url": "https://arxiv.org/abs/2603.06797",
+      "how_close": "Same target: mitigate reward hacking while retaining gains from inference-time sampling. Dynamically adapts optimistic versus pessimistic selection using a per-prompt Hill estimate of reward-tail heaviness and Tsallis regularization. Very close adaptive-selection principle, but it estimates reward tails rather than high-quality-response coverage and does not implement CAP's held-out coverage-proportional rejection threshold."
+    },
+    {
+      "title": "From Curiosity to Caution: Mitigating Reward Hacking for Best-of-N with Pessimism",
+      "year": 2026,
+      "url": "https://arxiv.org/abs/2604.04648",
+      "how_close": "Same target and closely related motivation: make pessimism sensitive to distributional support instead of applying overly conservative distribution-level regularization. Trains a predictor of frozen reward-model features on typical responses, then subtracts prediction-error penalties before selecting the highest-scoring candidate. Uses response-specific uncertainty penalties rather than coverage estimation and adaptive rejection sampling."
+    },
+    {
+      "title": "Safety Hacking in Constrained Best-of-N Inference-time Scaling",
+      "year": 2026,
+      "url": "https://arxiv.org/abs/2608.22915",
+      "how_close": "Explicitly combines coverage control with constrained pessimistic sampling, deriving an N-independent safety-hacking bound through bounded chi-squared divergence from a safety-filtered reference distribution. However, coverage denotes selection-policy concentration, the target includes safety-filter contamination, and the method does not estimate high-quality-response coverage on held-out data to adapt rejection thresholds."
+    },
+    {
+      "title": "Privacy Without Regret: Differentially Private Inference-Time Alignment",
+      "year": 2026,
+      "url": "https://arxiv.org/abs/2608.26324",
+      "how_close": "Extends inference-time pessimism using chi-squared-regularized rejection sampling and addresses a threshold involving an unknown coverage coefficient. Its intervention is a two-phase Gaussian privacy mechanism that separates regularization from privacy; it does not supply CAP's coverage estimator or coverage-adaptive acceptance rule."
+    }
+  ],
+  "rationale": "Very close external work exists, but I found no paper implementing the complete CAP combination: held-out estimation of policy coverage over high-quality responses followed by coverage-dependent pessimistic rejection thresholds. Best-of-Tails already adapts inference-time pessimism from estimated distributional properties, while Caution adjusts pessimistic selection using learned distributional uncertainty. These substantially overlap CAP's purpose and adaptive principle, but their estimands and selection mechanisms differ. The other papers connect coverage control to pessimistic sampling without the proposed coverage-estimation step. Bibliography entries were excluded from the closest-paper assessment.",
+  "score": 3
+}
+
+--- stderr
+rs’ goals, instead of developing impractical methods. To this end, we first collect, process, and release a security datasets collection Advbench. Then, we reformalize the task and adjust the emphasis on different goals in SoadNLP. Next, we propose a simple method based on heuristic rules that can easily fulfill the actual adversarial goals to simulate real-world attack methods. We conduct experiments on both the attack and the defense sides on Advbench. Experimental results show that our method has higher practical value, indicating that the research paradigm in SoadNLP may start from our new benchmark. All the code and data of Advbench can be obtained at https://github.com/thunlp/Advbench.
+
+[ref-016] Llama Guard: LLM-based Input-Output Safeguard for Human-AI Conversations
+Abstract: We introduce Llama Guard, an LLM-based input-output safeguard model geared towards Human-AI conversation use cases. Our model incorporates a safety risk taxonomy, a valuable tool for categorizing a specific set of safety risks found in LLM prompts (i.e., prompt classification). This taxonomy is also instrumental in classifying the responses generated by LLMs to these prompts, a process we refer to as response classification. For the purpose of both prompt and response classification, we have meticulously gathered a dataset of high quality. Llama Guard, a Llama2-7b model that is instruction-tuned on our collected dataset, albeit low in volume, demonstrates strong performance on existing benchmarks such as the OpenAI Moderation Evaluation dataset and ToxicChat, where its performance matches or exceeds that of currently available content moderation tools. Llama Guard functions as a language model, carrying out multi-class classification and generating binary decision scores. Furthermore, the instruction fine-tuning of Llama Guard allows for the customization of tasks and the adaptation of output formats. This feature enhances the model's capabilities, such as enabling the adjustment of taxonomy categories to align with specific use cases, and facilitating zero-shot or few-shot prompting with diverse taxonomies at the input. We are making Llama Guard model weights available and we encourage researchers to further develop and adapt them to meet the evolving needs of the community for AI safety.
+
+[ref-017] JailbreakBench: An Open Robustness Benchmark for Jailbreaking Large Language Models
+Abstract: Jailbreak attacks cause large language models (LLMs) to generate harmful, unethical, or otherwise objectionable content. Evaluating these attacks presents a number of challenges, which the current collection of benchmarks and evaluation techniques do not adequately address. First, there is no clear standard of practice regarding jailbreaking evaluation. Second, existing works compute costs and success rates in incomparable ways. And third, numerous works are not reproducible, as they withhold adversarial prompts, involve closed-source code, or rely on evolving proprietary APIs. To address these challenges, we introduce JailbreakBench, an open-sourced benchmark with the following components: (1) an evolving repository of state-of-the-art adversarial prompts, which we refer to as jailbreak artifacts; (2) a jailbreaking dataset comprising 100 behaviors -- both original and sourced from prior work (Zou et al., 2023; Mazeika et al., 2023, 2024) -- which align with OpenAI's usage policies; (3) a standardized evaluation framework at https://github.com/JailbreakBench/jailbreakbench that includes a clearly defined threat model, system prompts, chat templates, and scoring functions; and (4) a leaderboard at https://jailbreakbench.github.io/ that tracks the performance of attacks and defenses for various LLMs. We have carefully considered the potential ethical implications of releasing this benchmark, and believe that it will be a net positive for the community.
+
+[ref-018] Learning to summarize from human feedback
+Abstract: As language models become more powerful, training and evaluation are increasingly bottlenecked by the data and metrics used for a particular task. For example, summarization models are often trained to predict human reference summaries and evaluated using ROUGE, but both of these metrics are rough proxies for what we really care about---summary quality. In this work, we show that it is possible to significantly improve summary quality by training a model to optimize for human preferences. We collect a large, high-quality dataset of human comparisons between summaries, train a model to predict the human-preferred summary, and use that model as a reward function to fine-tune a summarization policy using reinforcement learning. We apply our method to a version of the TL;DR dataset of Reddit posts and find that our models significantly outperform both human reference summaries and much larger models fine-tuned with supervised learning alone. Our models also transfer to CNN/DM news articles, producing summaries nearly as good as the human reference without any news-specific fine-tuning. We conduct extensive analyses to understand our human feedback dataset and fine-tuned models We establish that our reward model generalizes to new datasets, and that optimizing our reward model results in better summaries than optimizing ROUGE according to humans. We hope the evidence from our paper motivates machine learning researchers to pay closer attention to how their training loss affects the model behavior they actually want.
+
+[ref-019] Safe RLHF: Safe Reinforcement Learning from Human Feedback
+Abstract: With the development of large language models (LLMs), striking a balance between the performance and safety of AI systems has never been more critical. However, the inherent tension between the objectives of helpfulness and harmlessness presents a significant challenge during LLM training. To address this issue, we propose Safe Reinforcement Learning from Human Feedback (Safe RLHF), a novel algorithm for human value alignment. Safe RLHF explicitly decouples human preferences regarding helpfulness and harmlessness, effectively avoiding the crowdworkers' confusion about the tension and allowing us to train separate reward and cost models. We formalize the safety concern of LLMs as an optimization task of maximizing the reward function while satisfying specified cost constraints. Leveraging the Lagrangian method to solve this constrained problem, Safe RLHF dynamically adjusts the balance between the two objectives during fine-tuning. Through a three-round fine-tuning using Safe RLHF, we demonstrate a superior ability to mitigate harmful responses while enhancing model performance compared to existing value-aligned algorithms. Experimentally, we fine-tuned the Alpaca-7B using Safe RLHF and aligned it with collected human preferences, significantly improving its helpfulness and harmlessness according to human evaluations.
+
+[ref-020] On Almost Surely Safe Alignment of Large Language Models at Inference-Time
+Abstract: We introduce a novel inference-time alignment approach for LLMs that aims to generate safe responses almost surely, i.e., with probability approaching one. Our approach models the generation of safe responses as a constrained Markov Decision Process (MDP) within the LLM's latent space. We augment a safety state that tracks the evolution of safety constraints and dynamically penalize unsafe generations to ensure the generation of safe responses. Consequently, we demonstrate formal safety guarantees w.r.t. the given cost model upon solving the MDP in the latent space with sufficiently large penalties. Building on this foundation, we propose InferenceGuard, a practical implementation that safely aligns LLMs without modifying the model weights. Empirically, we demonstrate that InferenceGuard effectively balances safety and task performance, outperforming existing inference-time alignment methods in generating safe and aligned responses. Our findings contribute to the advancement of safer LLM deployment through alignment at inference-time, thus presenting a promising alternative to resource-intensive, overfitting-prone alignment techniques like RLHF.
+
+[ref-021] A StrongREJECT for Empty Jailbreaks
+Abstract: Most jailbreak papers claim the jailbreaks they propose are highly effective, often boasting near-100% attack success rates. However, it is perhaps more common than not for jailbreak developers to substantially exaggerate the effectiveness of their jailbreaks. We suggest this problem arises because jailbreak researchers lack a standard, high-quality benchmark for evaluating jailbreak performance, leaving researchers to create their own. To create a benchmark, researchers must choose a dataset of forbidden prompts to which a victim model will respond, along with an evaluation method that scores the harmfulness of the victim model's responses. We show that existing benchmarks suffer from significant shortcomings and introduce the StrongREJECT benchmark to address these issues. StrongREJECT's dataset contains prompts that victim models must answer with specific, harmful information, while its automated evaluator measures the extent to which a response gives useful information to forbidden prompts. In doing so, the StrongREJECT evaluator achieves state-of-the-art agreement with human judgments of jailbreak effectiveness. Notably, we find that existing evaluation methods significantly overstate jailbreak effectiveness compared to human judgments and the StrongREJECT evaluator. We describe a surprising and novel phenomenon that explains this discrepancy: jailbreaks bypassing a victim model's safety fine-tuning tend to reduce its capabilities. Together, our findings underscore the need for researchers to use a high-quality benchmark, such as StrongREJECT, when developing new jailbreak attacks. We release the StrongREJECT code and data at https://strong-reject.readthedocs.io/en/latest/.
+
+[ref-022] Unsolved Problems in ML Safety
+Abstract: Machine learning (ML) systems are rapidly increasing in size, are acquiring new capabilities, and are increasingly deployed in high-stakes settings. As with other powerful technologies, safety for ML should be a leading research priority. In response to emerging safety challenges in ML, such as those introduced by recent large-scale models, we provide a new roadmap for ML Safety and refine the technical problems that the field needs to address. We present four problems ready for research, namely withstanding hazards ("Robustness"), identifying hazards ("Monitoring"), reducing inherent model hazards ("Alignment"), and reducing systemic hazards ("Systemic Safety"). Throughout, we clarify each problem's motivation and provide concrete research directions.
+
+[ref-023] Concrete Problems in AI Safety
+Abstract: Rapid progress in machine learning and artificial intelligence (AI) has brought increasing attention to the potential impacts of AI technologies on society. In this paper we discuss one such potential impact: the problem of accidents in machine learning systems, defined as unintended and harmful behavior that may emerge from poor design of real-world AI systems. We present a list of five practical research problems related to accident risk, categorized according to whether the problem originates from having the wrong objective function ("avoiding side effects" and "avoiding reward hacking"), an objective function that is too expensive to evaluate frequently ("scalable supervision"), or undesirable behavior during the learning process ("safe exploration" and "distributional shift"). We review previous work in these areas as well as suggesting research directions with a focus on relevance to cutting-edge AI systems. Finally, we consider the high-level question of how to think most productively about the safety of forward-looking applications of AI.
+
+[ref-024] Bestof-n jailbreaking
+Abstract: We introduce Best-of-N (BoN) Jailbreaking, a simple black-box algorithm that jailbreaks frontier AI systems across modalities. BoN Jailbreaking works by repeatedly sampling variations of a prompt with a combination of augmentations - such as random shuffling or capitalization for textual prompts - until a harmful response is elicited. We find that BoN Jailbreaking achieves high attack success rates (ASRs) on closed-source language models, such as 89% on GPT-4o and 78% on Claude 3.5 Sonnet when sampling 10,000 augmented prompts. Further, it is similarly effective at circumventing state-of-the-art open-source defenses like circuit breakers. BoN also seamlessly extends to other modalities: it jailbreaks vision language models (VLMs) such as GPT-4o and audio language models (ALMs) like Gemini 1.5 Pro, using modality-specific augmentations. BoN reliably improves when we sample more augmented prompts. Across all modalities, ASR, as a function of the number of samples (N), empirically follows power-law-like behavior for many orders of magnitude. BoN Jailbreaking can also be composed with other black-box algorithms for even more effective attacks - combining BoN with an optimized prefix attack achieves up to a 35% increase in ASR. Overall, our work indicates that, despite their capability, language models are sensitive to seemingly innocuous changes to inputs, which attackers can exploit across modalities.
+</file>
+
+<file name="candidate.json">
+{
+ "title": "Coverage-Aware Pessimism for Scaling Test-Time Compute in Misaligned Reward Models",
+ "summary": "We introduce Coverage-Aware Pessimism (CAP), a test-time alignment algorithm that combines pessimistic rejection sampling with coverage estimation to mitigate reward hacking. CAP estimates the policy's coverage over high-quality responses and adjusts pessimism thresholds accordingly, enabling safe scaling of N in Best-of-N sampling. We evaluate CAP on AlpacaFarm and HH-RLHF, comparing it to standard BoN and InferenceTimePessimism.",
+ "gap": "While InferenceTimePessimism (ITP) mitigates reward hacking, it assumes uniform coverage and does not adapt to varying policy capabilities. CAP addresses this by explicitly modeling coverage, allowing more aggressive sampling when coverage is high and stricter rejection when it is low.",
+ "approach": "CAP estimates coverage using a held-out validation set, then applies ITP with a dynamic threshold proportional to the coverage estimate. The threshold ensures that only responses within the high-coverage region are accepted, preventing reward hacking while maximizing performance.",
+ "evaluation": "We test CAP against ITP, BoN, and MBR-BoN on AlpacaFarm and HH-RLHF. Metrics include win rates vs. human references, reward model scores, and gold-standard human evaluations. Ablations vary coverage estimation methods and threshold scaling factors.",
+ "support": [
+  "ref-002",
+  "ref-004",
+  "ref-003",
+  "ref-006"
+ ]
+}
+</file>
+codex
+I’ll search for work outside the bibliography that combines coverage estimation with adaptive pessimistic rejection sampling to limit reward hacking at inference time.
+web search: 
+web search: "coverage" "pessimism" "inference-time" reward sampling ...
+web search: 
+web search: "Best-of-Tails: Bridging Optimism and Pessimism in Inference-Time Alignment" ...
+web search: 
+web search: https://arxiv.org/html/2603.06797v1
+web search: 
+web search: "best-of-n" "coverage" "calibration" rejection ...
+codex
+The closest work so far adapts inference-time pessimism using estimated reward-tail behavior. Other papers combine coverage control with pessimistic sampling. I’ll check whether any specifically estimates policy coverage on held-out data and uses it to set rejection thresholds.
+web search: 
+web search: "From Curiosity to Caution" "Best" pessimism ...
+web search: 
+web search: https://arxiv.org/html/2604.04648v1
+codex
+{
+  "queries": [
+    "\"coverage\" \"pessimism\" \"inference-time\" reward sampling",
+    "\"coverage\" \"rejection sampling\" \"reward hacking\"",
+    "\"best-of-n\" \"coverage\" \"adaptive\" pessimism",
+    "\"Best-of-Tails: Bridging Optimism and Pessimism in Inference-Time Alignment\"",
+    "\"Safety Hacking in Constrained\" \"pessimistic\"",
+    "\"coverage\" \"adaptive\" \"InferenceTimePessimism\"",
+    "\"coverage-aware\" \"pessimism\" sampling language models",
+    "\"best-of-n\" \"coverage\" \"calibration\" rejection",
+    "\"inference-time\" \"pessimism\" \"adaptive\" reward hacking -site:researchgate.net -site:emergentmind.com",
+    "\"reward hacking\" \"coverage estimation\"",
+    "\"rejection sampling\" \"coverage\" \"held-out\" reward",
+    "\"From Curiosity to Caution\" \"Best\" pessimism",
+    "\"inference-time alignment\" \"coverage\" \"estimate\" threshold -site:researchgate.net -site:emergentmind.com -site:slideslive.com",
+    "\"best-of-n\" \"coverage-aware\" -site:huggingface.co"
+  ],
+  "closest": [
+    {
+      "title": "Best-of-Tails: Bridging Optimism and Pessimism in Inference-Time Alignment",
+      "year": 2026,
+      "url": "https://arxiv.org/abs/2603.06797",
+      "how_close": "Same target: mitigate reward hacking while retaining gains from inference-time sampling. Dynamically adapts optimistic versus pessimistic selection using a per-prompt Hill estimate of reward-tail heaviness and Tsallis regularization. Very close adaptive-selection principle, but it estimates reward tails rather than high-quality-response coverage and does not implement CAP's held-out coverage-proportional rejection threshold."
+    },
+    {
+      "title": "From Curiosity to Caution: Mitigating Reward Hacking for Best-of-N with Pessimism",
+      "year": 2026,
+      "url": "https://arxiv.org/abs/2604.04648",
+      "how_close": "Same target and closely related motivation: make pessimism sensitive to distributional support instead of applying overly conservative distribution-level regularization. Trains a predictor of frozen reward-model features on typical responses, then subtracts prediction-error penalties before selecting the highest-scoring candidate. Uses response-specific uncertainty penalties rather than coverage estimation and adaptive rejection sampling."
+    },
+    {
+      "title": "Safety Hacking in Constrained Best-of-N Inference-time Scaling",
+      "year": 2026,
+      "url": "https://arxiv.org/abs/2608.22915",
+      "how_close": "Explicitly combines coverage control with constrained pessimistic sampling, deriving an N-independent safety-hacking bound through bounded chi-squared divergence from a safety-filtered reference distribution. However, coverage denotes selection-policy concentration, the target includes safety-filter contamination, and the method does not estimate high-quality-response coverage on held-out data to adapt rejection thresholds."
+    },
+    {
+      "title": "Privacy Without Regret: Differentially Private Inference-Time Alignment",
+      "year": 2026,
+      "url": "https://arxiv.org/abs/2608.26324",
+      "how_close": "Extends inference-time pessimism using chi-squared-regularized rejection sampling and addresses a threshold involving an unknown coverage coefficient. Its intervention is a two-phase Gaussian privacy mechanism that separates regularization from privacy; it does not supply CAP's coverage estimator or coverage-adaptive acceptance rule."
+    }
+  ],
+  "rationale": "Very close external work exists, but I found no paper implementing the complete CAP combination: held-out estimation of policy coverage over high-quality responses followed by coverage-dependent pessimistic rejection thresholds. Best-of-Tails already adapts inference-time pessimism from estimated distributional properties, while Caution adjusts pessimistic selection using learned distributional uncertainty. These substantially overlap CAP's purpose and adaptive principle, but their estimands and selection mechanisms differ. The other papers connect coverage control to pessimistic sampling without the proposed coverage-estimation step. Bibliography entries were excluded from the closest-paper assessment.",
+  "score": 3
+}
+tokens used
+76,965

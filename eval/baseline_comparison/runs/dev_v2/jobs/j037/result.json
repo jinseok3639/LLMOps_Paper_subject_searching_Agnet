@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y3"
+ },
+ "weakest": {
+  "X": "x1",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "y3 defines a controlled, falsifiable extension of ref-006: measure safety-proxy overoptimization across sampling budgets, proxy sizes, and data amounts, then test whether small-budget fits predict useful sampling limits. Independent judges and human checks address evaluator error highlighted by ref-021. x2 identifies a clear extension to ref-012 through prompt-dependent constraints, but leaves the complexity-to-constraint rule unspecified and omits ordinary LARA as a baseline. Its assurances also exceed ref-012, which distinguishes sequence-level expected-cost guarantees from token-level heuristics. y3 offers a clearer experiment and a more directly actionable outcome.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x1 rests on an unsupported characterization that InferenceTimePessimism assumes uniform coverage; ref-004 explicitly studies realistic coverage conditions and already provides scaling-monotonic pessimism. A held-out coverage estimate does not establish its claimed protection against reward hacking, and the acceptance rule remains unclear. y2 also overstates the evidence when asserting that existing safe methods use fixed budgets, and its allocation controller needs specification. Nevertheless, its experiment connects prompt-adaptive computation in ref-002 with attacker sampling in ref-024, using measurable robustness, compute, and over-refusal outcomes.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "X spans coverage-sensitive rejection sampling, prompt-dependent safety constraints, and preference-data construction for reward-model training. These involve different interventions at decoding and training time. Y includes a distinct attacker-defender compute-allocation study, but y1 and y3 both center on safety-cost proxy overoptimization as N increases, respectively proposing mitigation and characterizing scaling. Despite X's grounding weaknesses, its approaches are more varied.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "Y supplies more useful experimental choices: y3 offers a controlled characterization with predictive validation, y1 tests constrained selection under proxy error using relevant regularized baselines, and y2 examines robustness under explicit attacker and defender budgets. Y's novelty claims and y1's unspecified regularizer warrant qualification. X has more fundamental weaknesses: x1 misstates ref-004, x2 overclaims constraint guarantees, and x3 insufficiently distinguishes its critique-revision preference pipeline from Constitutional AI in ref-013. Moreover, ref-007 establishes OOD weaknesses of refusal training, not the general reward-model weakness asserted by x3. Y therefore better supports choosing a grounded, consequential project.",
+  "verdict": "Y"
+ }
+}

@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "best": {
+  "rationale": "x1 identifies a clear experimental extension: jointly vary attacker and defender sampling budgets, connecting attack scaling in ref-024 with defensive sampling in ref-007 and adaptive compute in ref-002. Its budget grid, independent evaluator, and matched-compute comparisons could inform deployment decisions even if the proposed defensive power law fails. Its claim that prior attacks assume one defender sample is not established by the supplied abstracts. y2 is grounded in ref-002, ref-004, and ref-012, but bundles several changes without specifying the allocation rule or clearly explaining how rejection sampling and BoN reranking interact. Its safety AU-PRC metric also measures discrimination rather than directly testing deployed constraint satisfaction.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x2 overreaches: guard disagreement does not by itself establish a calibrated cost upper bound, and ref-004's guarantees do not establish simultaneous monotonic improvement in gold safety and helpfulness. Nevertheless, uncertainty-aware safety costs are a recognizable extension of ref-012 with concrete components and comparisons. y1 overlooks ref-004, which explicitly studies coverage-dependent alignment guarantees and reward hacking. Its blanket claim that existing work lacks coverage-dependent bounds is therefore unsupported. A narrower contribution using KL coverage and Pearson correlation might remain, but the proposal does not distinguish it from ref-004 or specify assumptions making those quantities sufficient.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X offers a two-sided attacker–defender compute study, an uncertainty-aware constrained selection method, and an empirical investigation of guard overoptimization. x2 and x3 overlap, but their intervention and measurement approaches differ substantially. Y includes a distinct coverage-theory proposal, while y2 and y3 largely revisit the same adaptive-compute safety gap; y2 adds pessimism and constraints to that shared direction.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "X offers stronger actionable choices, led by x1 and the concrete guard-overoptimization experiments in x3, motivated by ref-006, ref-012, and the guard models in ref-005/ref-016. X still needs tighter prior-work claims: ref-006 and ref-008 do not restrict reward hacking to helpfulness, and x2's guarantees require additional assumptions. Y has a promising candidate in y2, but y1 misses central prior work in ref-004, while y3 mischaracterizes ref-012's dual-variable calibration as reward-model calibration and leaves its difficulty rule unspecified. These weaknesses make Y less reliable for selecting a project.",
+  "verdict": "X"
+ }
+}

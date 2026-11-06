@@ -1,0 +1,10 @@
+{
+ "title": "Diffusion Policy Safety via Adversarial Training with Transferable Perturbations",
+ "summary": "This work addresses safety vulnerabilities in diffusion-based policies by introducing adversarial training with transferable perturbations. We generate offline attack samples that maintain effectiveness across policy iterations and test environments. Our method improves robustness against both digital and physical adversarial attacks while maintaining task performance, validated through manipulation task benchmarks.",
+ "gap": "While diffusion policies show strong performance (ref-005), their safety against adversarial attacks remains unexplored. Existing adversarial training methods (ref-005) focus on single-policy attacks but fail to address transferability across policy versions and physical environments.",
+ "approach": "We develop a two-stage adversarial training framework: (1) generation of transferable perturbations using ensemble diffusion policies with diverse noise schedules, and (2) training with both digital perturbations and simulated physical patch attacks. The method incorporates curriculum learning to gradually increase attack complexity.",
+ "evaluation": "We test on standard manipulation benchmarks (ref-005) under four attack scenarios: offline digital, online digital, global physical, and patch-based physical. Success is measured by (1) success rate retention under attack, (2) perturbation transferability across policy versions, and (3) physical patch effectiveness in real-world simulations. Baselines include standard diffusion policies (ref-005) and non-transferable adversarial training.",
+ "support": [
+  "ref-005"
+ ]
+}

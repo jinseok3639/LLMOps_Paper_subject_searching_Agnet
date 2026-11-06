@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "y1 identifies a clear extension: test hidden trait transmission through tool-using agent trajectories, combining ref-014 with ref-009. Trait-free teachers, same-base versus cross-base students, held-out behavioral evaluations, and task-accuracy checks make the result interpretable and useful for agent distillation decisions. x2 offers a concrete robustness intervention, but misstates its starting point: ref-005 already investigates diffusion-policy safety, transferable offline perturbations, and physical patches. Its defensible contribution is adversarial training, whereas its attribution of existing adversarial-training limitations to ref-005 is unsupported.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x3 substantially reproduces ref-002, which already uses hypothetical corporate environments, replacement and goal-conflict triggers, and testing-versus-deployment assessments. Its claim that synthetic trigger isolation is missing is therefore poorly established, and activation clustering lacks a specified validation connecting clusters to latent intent. y2 also overclaims grounding: ref-017 supplies only a title, insufficient to establish its claimed explanation or remaining methodological gap. Nevertheless, its proposed logit-difference score is concretely motivated by ref-018, and matched random-removal controls can test whether it predicts and reduces transmission.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "X spans hidden behavioral transfer, adversarial robustness of diffusion policies, and corporate-agent misalignment evaluation, involving different systems, interventions, and failure modes. Y offers meaningful distinctions between transmission through agent trajectories, pre-training auditing, and multigeneration amplification, but all three center on subliminal trait transfer in distillation.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "Y provides more reliable experimental starting points. Alongside y1, y3 connects ref-014 and ref-010 through a well-scoped multigeneration question with trait-free chains, base-model switches, and separate collapse measurements. X's breadth is weakened by x3's overlap with ref-002 and x2's inaccurate prior-work claims. x1 adds potentially useful mitigation, but its characterization of ref-012 as merely surface-level and its connection between teacher neurons, data perturbations, and student masking are insufficiently established. Y's stronger controls and clearer central differences outweigh its narrower thematic coverage.",
+  "verdict": "Y"
+ }
+}

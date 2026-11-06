@@ -1,0 +1,44 @@
+{
+ "queries": [
+  "EEG adversarial training MOABB robustness benchmark multiple datasets unseen attacks",
+  "EEG adversarial training cross dataset generalization PGD Carlini Wagner",
+  "brain computer interface adversarial training benchmark transferability multiple datasets EEGNet",
+  "\"MOABB\" \"adversarial\" \"training\" robustness",
+  "\"EEG\" \"adversarial training\" \"unseen attacks\"",
+  "\"Adversarial robustness benchmark for EEG\" PGD CW training",
+  "\"EEG\" \"multi-attack\" \"training\"",
+  "\"Data alignment based adversarial defense benchmark\" arxiv",
+  "\"Adversarial robustness benchmark\" \"EEG\" \"PGD\" \"CW\"",
+  "\"Adversarial robustness benchmark for EEG-based\" \"training\"",
+  "\"EEG\" \"adversarial training\" \"dynamic\" attacks",
+  "\"EEG\" \"adversarial training\" \"aggregated\" datasets"
+ ],
+ "closest": [
+  {
+   "title": "Alignment-Based Adversarial Training (ABAT) for Improving the Robustness and Accuracy of EEG-Based BCIs",
+   "year": 2024,
+   "url": "https://arxiv.org/html/2411.02094v1",
+   "how_close": "Uses FGSM or PGD adversarial training with EEGNet and other CNNs, evaluated on five datasets spanning two paradigms against FGSM, PGD and AutoAttack. Uses MOABB for ERP data preprocessing. Closely matches improving robustness while preserving accuracy and testing attacks beyond the training attack. Its defining technique is Euclidean alignment before adversarial training; it does not establish the proposed pooled multi-dataset, dynamically scheduled PGD/CW training and held-out-paradigm protocol."
+  },
+  {
+   "title": "Data alignment based adversarial defense benchmark for EEG-based BCIs",
+   "year": 2025,
+   "url": "https://doi.org/10.1016/j.neunet.2025.107516",
+   "how_close": "Benchmarks nine defense approaches across five EEG datasets, three paradigms, three networks and four experimental scenarios. Combines data augmentation, alignment and robust training to improve accuracy and robustness. Strong overlap with reproducible multi-dataset robustness benchmarking, but the verified description does not demonstrate the candidate's pooled multi-attack training or held-out-paradigm generalization."
+  },
+  {
+   "title": "Adversarial robustness benchmark for EEG-based brain–computer interfaces",
+   "year": 2023,
+   "url": "https://doi.org/10.1016/j.future.2023.01.028",
+   "how_close": "Evaluates nine defenses, including robust training, on three CNNs and two EEG datasets under white-box and black-box, targeted and untargeted attacks. Already supplies a multi-dataset adversarial defense benchmark, weakening the stated gap. It does not establish the proposed MOABB-wide aggregated training framework."
+  },
+  {
+   "title": "PAT: Privacy-Preserving Adversarial Transfer for Accurate, Robust and Privacy-Preserving EEG Decoding",
+   "year": 2026,
+   "url": "https://doi.org/10.1016/j.fmre.2026.04.034",
+   "how_close": "Combines data alignment, PGD adversarial training and privacy-preserving transfer using EEGNet, evaluated on five EEG datasets. Closely connects transfer, accuracy and adversarial robustness, but targets privacy-constrained adaptation rather than diverse-attack training across pooled MOABB datasets and generalization to held-out paradigms."
+  }
+ ],
+ "rationale": "Very close work exists outside the supplied bibliography. [ABAT](https://arxiv.org/html/2411.02094v1) already adversarially trains EEG classifiers, uses MOABB preprocessing, and evaluates multiple datasets, paradigms and attacks. The [2025 defense benchmark](https://doi.org/10.1016/j.neunet.2025.107516) further establishes broad robustness evaluation with robust training. Thus, adversarial training and multi-dataset EEG robustness benchmarking are established. However, I found no paper demonstrating the candidate's specific combination of pooled cross-dataset training, dynamic PGD/CW attack diversity, and unseen-attack plus held-out-paradigm generalization. Evaluating separate datasets across paradigms does not establish that combination. This supports substantial overlap rather than a confirmed duplicate.",
+ "score": 3
+}

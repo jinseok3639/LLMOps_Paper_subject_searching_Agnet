@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y3"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "Both candidates address the gap between empirical EEG security studies (ref-021, ref-024) and general SDP certification (ref-005, ref-020). y3 provides a clearer experiment: layer representations, decomposed bounds, instance-specific margin conversion grounded in ref-022, and a product-of-norms baseline. It also distinguishes sampling-based robustness scores from certificates. x2 ambiguously includes CLEVER estimates (ref-009) among certified-radius measurements and specifies the training optimization less clearly. y3's advertised EEG-specific perturbation sets remain underdeveloped, but its core certification experiment is stronger.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x3 does not clearly distinguish its proposed application of ref-005 from its baseline of ref-005 applied to EEGNet. Its attribution of piecewise-linear bounds to ref-020 is unsupported, and its weighted Hamming loss lacks a justified connection to medical safety. y2 needs explicit simulated harm costs and must distinguish prediction stability from correctness. Ref-006 also supplies implanted-neural control evidence rather than EEG-control validation. Nevertheless, y2 clearly frames a simulation experiment with meaningful gating baselines and measurable safety-throughput tradeoffs.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "All three X candidates largely pursue the same gap: adapting Lipschitz/SDP robustness certification to EEGNet, with variations in regularization and multi-paradigm evaluation. Y offers three genuinely different research decisions: whether security results generalize across datasets (ref-007, ref-021), whether certificates improve runtime command selection, and how to compute useful EEG-decoder certificates (ref-020, ref-022).",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "Y supplies a stronger technical candidate and a more useful range of alternatives. y1's central cross-dataset question extends the unknown-attack transfer already studied in ref-021 and is motivated by ref-007. y2 connects robustness to operational outcomes while explicitly limiting validation to simulation. X repeats one approach and contains additional grounding and evaluation problems: x1 names dataset-paradigm assignments unsupported by the supplied references and claims formal robustness while evaluating attacks and CLEVER scores without reporting guaranteed margins. Y's broader novelty claims should still be scoped to the supplied corpus.",
+  "verdict": "Y"
+ }
+}

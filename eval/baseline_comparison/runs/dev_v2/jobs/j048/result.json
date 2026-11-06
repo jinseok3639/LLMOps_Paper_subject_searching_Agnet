@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x2 specifies a concrete intervention, matched-rate random-edit controls, and a useful transfer-versus-utility evaluation. Its logit comparison adapts ref-018 to the semantic-filtering failure demonstrated in ref-014. The token-entanglement framing is unsupported by the abstract-less ref-017, but the experiment remains intelligible without it. y2 offers a plausible activation-based backdoor investigation grounded in ref-008 and ref-016, but detecting known year triggers could merely decode the year. Its evaluation does not clearly distinguish that shortcut from detecting unsafe behavior or explaining persistence, and it conflates adversarial training for removal with detection baselines.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x3 incorrectly describes ref-014 as limited to persona-style evaluations despite its explicit misalignment results. Nevertheless, transferring hidden traits through retrieval and code-tool trajectories is a coherent extension of ref-014 and ref-009, with aligned-teacher controls and task-accuracy checks. y3 never specifies how physical patches against diffusion manipulation policies from ref-005 enter the corporate text scenarios of ref-002. Toxicity scores from ref-006 also do not establish detection of blackmail or information leakage. Its proposed components therefore lack a coherent experimental interface and valid measurement strategy.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "Y addresses three substantially different problems: bias mitigation during distillation, mechanistic backdoor detection, and agentic stress-testing. X offers different experimental directions—generational dynamics, data scrubbing, and tool-trajectory transfer—but all investigate subliminal trait transmission from ref-014. Y's weaker execution, especially in y3, reduces usefulness without eliminating this broader coverage.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X provides more actionable research choices. Beyond x2, x1 connects the subliminal transfer demonstrated in ref-014 with the iterative amplification and collapse distinction in ref-010, yielding measurable generational trajectories and meaningful controls. Even x3 retains a coherent central experiment. Y has one promising candidate in y2, while y1 mischaracterizes FACET as a distillation framework, leaves teacher-to-student neuron correspondence unspecified, and attributes amplification metrics to ref-003's categorical framework. Combined with y3's disconnected attack modalities, these weaknesses make Y less reliable for a researcher selecting one project.",
+  "verdict": "X"
+ }
+}

@@ -1,0 +1,167 @@
+$ exit 0
+--- stdout
+{
+  "strongest": {"X": "x2", "Y": "y3"},
+  "weakest": {"X": "x1", "Y": "y2"},
+  "best": {
+    "rationale": "y3 defines a controlled, falsifiable extension of ref-006: measure safety-proxy overoptimization across sampling budgets, proxy sizes, and data amounts, then test whether small-budget fits predict useful sampling limits. Independent judges and human checks address evaluator error highlighted by ref-021. x2 identifies a clear extension to ref-012 through prompt-dependent constraints, but leaves the complexity-to-constraint rule unspecified and omits ordinary LARA as a baseline. Its assurances also exceed ref-012, which distinguishes sequence-level expected-cost guarantees from token-level heuristics. y3 offers a clearer experiment and a more directly actionable outcome.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "x1 rests on an unsupported characterization that InferenceTimePessimism assumes uniform coverage; ref-004 explicitly studies realistic coverage conditions and already provides scaling-monotonic pessimism. A held-out coverage estimate does not establish its claimed protection against reward hacking, and the acceptance rule remains unclear. y2 also overstates the evidence when asserting that existing safe methods use fixed budgets, and its allocation controller needs specification. Nevertheless, its experiment connects prompt-adaptive computation in ref-002 with attacker sampling in ref-024, using measurable robustness, compute, and over-refusal outcomes.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "X spans coverage-sensitive rejection sampling, prompt-dependent safety constraints, and preference-data construction for reward-model training. These involve different interventions at decoding and training time. Y includes a distinct attacker-defender compute-allocation study, but y1 and y3 both center on safety-cost proxy overoptimization as N increases, respectively proposing mitigation and characterizing scaling. Despite X's grounding weaknesses, its approaches are more varied.",
+    "verdict": "X"
+  },
+  "overall": {
+    "rationale": "Y supplies more useful experimental choices: y3 offers a controlled characterization with predictive validation, y1 tests constrained selection under proxy error using relevant regularized baselines, and y2 examines robustness under explicit attacker and defender budgets. Y's novelty claims and y1's unspecified regularizer warrant qualification. X has more fundamental weaknesses: x1 misstates ref-004, x2 overclaims constraint guarantees, and x3 insufficiently distinguishes its critique-revision preference pipeline from Constitutional AI in ref-013. Moreover, ref-007 establishes OOD weaknesses of refusal training, not the general reward-model weakness asserted by x3. Y therefore better supports choosing a grounded, consequential project.",
+    "verdict": "Y"
+  }
+}
+
+--- stderr
+ existing inference-time alignment methods in generating safe and aligned responses. Our findings contribute to the advancement of safer LLM deployment through alignment at inference-time, thus presenting a promising alternative to resource-intensive, overfitting-prone alignment techniques like RLHF.
+
+[ref-021] A StrongREJECT for Empty Jailbreaks
+Abstract: Most jailbreak papers claim the jailbreaks they propose are highly effective, often boasting near-100% attack success rates. However, it is perhaps more common than not for jailbreak developers to substantially exaggerate the effectiveness of their jailbreaks. We suggest this problem arises because jailbreak researchers lack a standard, high-quality benchmark for evaluating jailbreak performance, leaving researchers to create their own. To create a benchmark, researchers must choose a dataset of forbidden prompts to which a victim model will respond, along with an evaluation method that scores the harmfulness of the victim model's responses. We show that existing benchmarks suffer from significant shortcomings and introduce the StrongREJECT benchmark to address these issues. StrongREJECT's dataset contains prompts that victim models must answer with specific, harmful information, while its automated evaluator measures the extent to which a response gives useful information to forbidden prompts. In doing so, the StrongREJECT evaluator achieves state-of-the-art agreement with human judgments of jailbreak effectiveness. Notably, we find that existing evaluation methods significantly overstate jailbreak effectiveness compared to human judgments and the StrongREJECT evaluator. We describe a surprising and novel phenomenon that explains this discrepancy: jailbreaks bypassing a victim model's safety fine-tuning tend to reduce its capabilities. Together, our findings underscore the need for researchers to use a high-quality benchmark, such as StrongREJECT, when developing new jailbreak attacks. We release the StrongREJECT code and data at https://strong-reject.readthedocs.io/en/latest/.
+
+[ref-022] Unsolved Problems in ML Safety
+Abstract: Machine learning (ML) systems are rapidly increasing in size, are acquiring new capabilities, and are increasingly deployed in high-stakes settings. As with other powerful technologies, safety for ML should be a leading research priority. In response to emerging safety challenges in ML, such as those introduced by recent large-scale models, we provide a new roadmap for ML Safety and refine the technical problems that the field needs to address. We present four problems ready for research, namely withstanding hazards ("Robustness"), identifying hazards ("Monitoring"), reducing inherent model hazards ("Alignment"), and reducing systemic hazards ("Systemic Safety"). Throughout, we clarify each problem's motivation and provide concrete research directions.
+
+[ref-023] Concrete Problems in AI Safety
+Abstract: Rapid progress in machine learning and artificial intelligence (AI) has brought increasing attention to the potential impacts of AI technologies on society. In this paper we discuss one such potential impact: the problem of accidents in machine learning systems, defined as unintended and harmful behavior that may emerge from poor design of real-world AI systems. We present a list of five practical research problems related to accident risk, categorized according to whether the problem originates from having the wrong objective function ("avoiding side effects" and "avoiding reward hacking"), an objective function that is too expensive to evaluate frequently ("scalable supervision"), or undesirable behavior during the learning process ("safe exploration" and "distributional shift"). We review previous work in these areas as well as suggesting research directions with a focus on relevance to cutting-edge AI systems. Finally, we consider the high-level question of how to think most productively about the safety of forward-looking applications of AI.
+
+[ref-024] Bestof-n jailbreaking
+Abstract: We introduce Best-of-N (BoN) Jailbreaking, a simple black-box algorithm that jailbreaks frontier AI systems across modalities. BoN Jailbreaking works by repeatedly sampling variations of a prompt with a combination of augmentations - such as random shuffling or capitalization for textual prompts - until a harmful response is elicited. We find that BoN Jailbreaking achieves high attack success rates (ASRs) on closed-source language models, such as 89% on GPT-4o and 78% on Claude 3.5 Sonnet when sampling 10,000 augmented prompts. Further, it is similarly effective at circumventing state-of-the-art open-source defenses like circuit breakers. BoN also seamlessly extends to other modalities: it jailbreaks vision language models (VLMs) such as GPT-4o and audio language models (ALMs) like Gemini 1.5 Pro, using modality-specific augmentations. BoN reliably improves when we sample more augmented prompts. Across all modalities, ASR, as a function of the number of samples (N), empirically follows power-law-like behavior for many orders of magnitude. BoN Jailbreaking can also be composed with other black-box algorithms for even more effective attacks - combining BoN with an optimized prefix attack achieves up to a 35% increase in ASR. Overall, our work indicates that, despite their capability, language models are sensitive to seemingly innocuous changes to inputs, which attackers can exploit across modalities.
+</file>
+
+<file name="set_x.json">
+[
+ {
+  "id": "x1",
+  "title": "Coverage-Aware Pessimism for Scaling Test-Time Compute in Misaligned Reward Models",
+  "summary": "We introduce Coverage-Aware Pessimism (CAP), a test-time alignment algorithm that combines pessimistic rejection sampling with coverage estimation to mitigate reward hacking. CAP estimates the policy's coverage over high-quality responses and adjusts pessimism thresholds accordingly, enabling safe scaling of N in Best-of-N sampling. We evaluate CAP on AlpacaFarm and HH-RLHF, comparing it to standard BoN and InferenceTimePessimism.",
+  "gap": "While InferenceTimePessimism (ITP) mitigates reward hacking, it assumes uniform coverage and does not adapt to varying policy capabilities. CAP addresses this by explicitly modeling coverage, allowing more aggressive sampling when coverage is high and stricter rejection when it is low.",
+  "approach": "CAP estimates coverage using a held-out validation set, then applies ITP with a dynamic threshold proportional to the coverage estimate. The threshold ensures that only responses within the high-coverage region are accepted, preventing reward hacking while maximizing performance.",
+  "evaluation": "We test CAP against ITP, BoN, and MBR-BoN on AlpacaFarm and HH-RLHF. Metrics include win rates vs. human references, reward model scores, and gold-standard human evaluations. Ablations vary coverage estimation methods and threshold scaling factors.",
+  "support": [
+   "ref-002",
+   "ref-004",
+   "ref-003",
+   "ref-006"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Adaptive Safety Constraints via Lagrangian Reward Augmentation for Inference-Time Alignment",
+  "summary": "We propose integrating Lagrangian Reward Augmentation (LARA) with dynamic safety constraints to balance helpfulness and harmlessness during inference. LARA calibrates dual variables on a calibration set to adjust reward scores, ensuring safety constraints are satisfied while optimizing for helpfulness. We validate this approach on public safety benchmarks, comparing it to fixed-penalty and unconstrained baselines using AU-PRC and human evaluations.",
+  "gap": "Existing inference-time alignment methods either ignore safety constraints or use manually tuned penalties, leading to suboptimal trade-offs between helpfulness and harmlessness. LARA provides a principled way to handle safety constraints without manual tuning, but its effectiveness under dynamic safety thresholds remains unexplored.",
+  "approach": "We extend LARA by introducing adaptive safety constraints that adjust based on prompt complexity. The dual variable is recalibrated per prompt using a small calibration set, ensuring the augmented reward dynamically balances helpfulness and harmlessness. This is applied to Best-of-N reranking and token-level decoding.",
+  "evaluation": "We compare against fixed-penalty BoN, unconstrained BoN, and Llama Guard baselines on HarmBench and StrongREJECT. Metrics include AU-PRC for safety, human preference for helpfulness, and attack success rates under jailbreaking. Ablations test calibration set size and constraint tightness.",
+  "support": [
+   "ref-004",
+   "ref-012",
+   "ref-014",
+   "ref-021"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Synthetic Preference Data Curation with Safety Reasoning for Robust Alignment",
+  "summary": "We propose generating synthetic preference data using safety-reasoning prompts, where models critique and revise responses based on safety guidelines. This data is used to train reward models that resist jailbreaking. We evaluate the reward models on HarmBench and JailbreakBench, comparing them to Skywork-Reward-V2 and Llama Guard.",
+  "gap": "Current reward models trained on human or synthetic data struggle with OOD jailbreaking attacks. Safety-reasoning supervision could improve generalization, but no work has systematically evaluated this for reward model training.",
+  "approach": "We synthesize preference data by prompting models to generate harmful queries, critique responses using safety guidelines, and revise them. The critiques and revised responses form preference pairs, which train reward models. The guidelines include diverse safety perspectives to improve coverage.",
+  "evaluation": "We compare reward models trained on synthetic safety-reasoning data to Skywork-Reward-V2 and Llama Guard on HarmBench and JailbreakBench. Metrics include AU-PRC, attack success rates, and win rates against human preferences. Ablations test guideline diversity and critique depth.",
+  "support": [
+   "ref-007",
+   "ref-010",
+   "ref-014",
+   "ref-017"
+  ]
+ }
+]
+</file>
+
+<file name="set_y.json">
+[
+ {
+  "id": "y1",
+  "title": "Pessimistic Lagrangian Best-of-N: Making Constrained Inference-Time Safety Alignment Monotonic in N Under Imperfect Cost Models",
+  "summary": "Propose combining Lagrangian reward augmentation, which trades helpfulness against a learned safety cost, with a pessimism or proximity penalty so the constrained Best-of-N selector does not degrade as N grows. The augmented score is reward minus a calibrated multiplier times cost, minus an uncertainty or MBR-style proximity term. We test whether this keeps true harmlessness and helpfulness from declining at large N, when the cost model is imperfect. Validation uses a held-out gold safety judge distinct from the cost model, sweeping N and comparing to plain Lagrangian BoN and unconstrained BoN.",
+  "gap": "Lagrangian inference-time alignment calibrates a dual variable assuming the reward and cost models are accurate, while theory and empirical work show that Best-of-N against imperfect proxies suffers reward hacking as N grows. Nobody has examined whether constrained BoN's safety guarantee survives cost-model error at large N, or combined constraint handling with pessimism or proximity regularization.",
+  "approach": "Take a reward model and cost model, estimate the dual variable on a small calibration set as in the Lagrangian method, then add a pessimism term (a rejection-sampling style penalty on responses where proxy scores are likely overestimated) or an MBR-based proximity regularizer to the augmented score. Re-calibrate the dual variable under the regularized objective so the expected-cost constraint is still met. Derive when the combined selector is scaling-monotonic and implement it for N from 1 to several thousand.",
+  "evaluation": "Compare to vanilla BoN, Lagrangian BoN, MBR-BoN, pessimism-only BoN, and a constrained fine-tuning baseline. Measure the gold-judge harmful rate and the helpfulness reward from an independent reward model as a function of N, plotting gold-versus-proxy curves in the style of overoptimization studies. Use cost models trained on varied preference data sizes to vary proxy quality. Report whether the combined method keeps true safety and helpfulness non-decreasing in N and the win rate against the baselines.",
+  "support": [
+   "ref-012",
+   "ref-004",
+   "ref-003",
+   "ref-006",
+   "ref-019",
+   "ref-020"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Defender-Side Adaptive Best-of-N Versus Attacker-Side Best-of-N Jailbreaking: Risk-Adaptive Compute Allocation for Safe Decoding",
+  "summary": "Propose that a defender can use per-prompt adaptive test-time compute for safety selection, and that its power-law gain can be compared against the attacker's Best-of-N jailbreak. A risk estimate from the prompt or a first batch of samples decides how many candidates to draw and rerank with a safety-constrained score. The hypothesis is that adaptive allocation reaches a given robustness at far lower average compute than fixed N. We test this against augmentation-based Best-of-N jailbreak attacks, with attack success measured by a strict harmfulness evaluator.",
+  "gap": "Test-time compute scaling shows that compute-optimal per-prompt allocation beats uniform Best-of-N. Separately, Best-of-N jailbreaking shows that attack success follows a power law in the number of sampled augmentations. Safe inference-time alignment methods use a fixed budget. It is unknown whether adaptive, risk-aware compute allocation lets defender compute scale faster than attacker compute, or how it changes the attacker-defender exchange rate.",
+  "approach": "Build a controller that estimates prompt risk (with a safety classifier on the prompt and first samples) and sets N per prompt, sampling and then selecting using a constrained reward-cost score. Define the attack as random augmentations of the harmful request with up to thousands of samples. Measure attack success as a function of attacker samples under several defender budgets, and fit power-law exponents for fixed versus adaptive defenders. Add a safety-reasoning guideline prompt or model as an alternative proposal distribution.",
+  "evaluation": "Benchmarks: red-teaming behaviors and jailbreak benchmark prompts, with a strict harmfulness evaluator to avoid inflated attack success. Baselines: fixed-N BoN, single-sample refusal-trained models, guard-model filtering, and the safe-reasoning-trained model. Metrics: attack success rate versus attacker samples, average defender FLOPs per prompt, power-law exponents, and helpfulness on benign prompts to detect over-refusal.",
+  "support": [
+   "ref-002",
+   "ref-024",
+   "ref-012",
+   "ref-007",
+   "ref-014",
+   "ref-017",
+   "ref-021",
+   "ref-016",
+   "ref-005"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Scaling Laws for Safety-Cost-Model Overoptimization in Best-of-N: Do Guard Models Get Hacked Like Reward Models?",
+  "summary": "Propose a controlled study of how a proxy safety signal, such as a guard classifier or cost model, is overoptimized under Best-of-N, measured against an independent gold harmfulness evaluator. We fit gold-versus-proxy functional forms as N grows. We vary the proxy model's size and training data, and test whether coefficients scale smoothly as they do for helpfulness reward models. The study also tests whether safety overoptimization differs in form from helpfulness overoptimization, and whether it yields a rule for choosing a safe maximum N.",
+  "gap": "Overoptimization scaling laws have been measured for general preference reward models with synthetic gold labels, and Best-of-N is used with safety cost models. Content-moderation guard models are used as safety filters. No work characterizes how the true harmfulness of Best-of-N outputs changes as N grows when the optimized signal is a safety cost or guard score, nor whether the helpfulness scaling form transfers.",
+  "approach": "Use a strong safety evaluator as the gold signal, and train proxy safety scorers of several sizes and data amounts, including cost models and guard-style classifiers. For harmful and borderline prompts, sample many responses and select the best-of-N by proxy safety (alone and combined with helpfulness). Fit parametric curves of gold score against the KL-like divergence of BoN (log N) per proxy configuration. Test whether coefficients follow smooth trends in proxy size and data, and derive a predicted safe N cap from small-N fits.",
+  "evaluation": "Compare fitted forms for safety proxies against those for helpfulness reward models on the same prompts. Evaluate prediction error of extrapolating the optimal N from small-N fits to large-N held-out measurements. Check robustness with a second, differently built gold judge and with different benchmark prompt sets (red-teaming behaviors and a jailbreak benchmark). Confirm via human-labeled spot checks.",
+  "support": [
+   "ref-006",
+   "ref-005",
+   "ref-016",
+   "ref-012",
+   "ref-021",
+   "ref-014",
+   "ref-009",
+   "ref-008",
+   "ref-010"
+  ]
+ }
+]
+</file>
+codex
+{
+  "strongest": {"X": "x2", "Y": "y3"},
+  "weakest": {"X": "x1", "Y": "y2"},
+  "best": {
+    "rationale": "y3 defines a controlled, falsifiable extension of ref-006: measure safety-proxy overoptimization across sampling budgets, proxy sizes, and data amounts, then test whether small-budget fits predict useful sampling limits. Independent judges and human checks address evaluator error highlighted by ref-021. x2 identifies a clear extension to ref-012 through prompt-dependent constraints, but leaves the complexity-to-constraint rule unspecified and omits ordinary LARA as a baseline. Its assurances also exceed ref-012, which distinguishes sequence-level expected-cost guarantees from token-level heuristics. y3 offers a clearer experiment and a more directly actionable outcome.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "x1 rests on an unsupported characterization that InferenceTimePessimism assumes uniform coverage; ref-004 explicitly studies realistic coverage conditions and already provides scaling-monotonic pessimism. A held-out coverage estimate does not establish its claimed protection against reward hacking, and the acceptance rule remains unclear. y2 also overstates the evidence when asserting that existing safe methods use fixed budgets, and its allocation controller needs specification. Nevertheless, its experiment connects prompt-adaptive computation in ref-002 with attacker sampling in ref-024, using measurable robustness, compute, and over-refusal outcomes.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "X spans coverage-sensitive rejection sampling, prompt-dependent safety constraints, and preference-data construction for reward-model training. These involve different interventions at decoding and training time. Y includes a distinct attacker-defender compute-allocation study, but y1 and y3 both center on safety-cost proxy overoptimization as N increases, respectively proposing mitigation and characterizing scaling. Despite X's grounding weaknesses, its approaches are more varied.",
+    "verdict": "X"
+  },
+  "overall": {
+    "rationale": "Y supplies more useful experimental choices: y3 offers a controlled characterization with predictive validation, y1 tests constrained selection under proxy error using relevant regularized baselines, and y2 examines robustness under explicit attacker and defender budgets. Y's novelty claims and y1's unspecified regularizer warrant qualification. X has more fundamental weaknesses: x1 misstates ref-004, x2 overclaims constraint guarantees, and x3 insufficiently distinguishes its critique-revision preference pipeline from Constitutional AI in ref-013. Moreover, ref-007 establishes OOD weaknesses of refusal training, not the general reward-model weakness asserted by x3. Y therefore better supports choosing a grounded, consequential project.",
+    "verdict": "Y"
+  }
+}
+tokens used
+29,387

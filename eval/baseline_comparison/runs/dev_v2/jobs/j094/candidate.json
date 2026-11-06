@@ -1,0 +1,20 @@
+{
+ "title": "Pessimistic Constrained Best-of-N: Scaling-Monotonic Safe Inference-Time Alignment under Imperfect Cost Models",
+ "summary": "This proposal extends inference-time pessimism to the safety constraint as well as the reward. LARA's dual-calibrated augmented reward assumes accurate costs. Instead, cost uncertainty would be estimated from disagreement across an ensemble of guard models and from MBR proximity to the reference policy. The augmented score is then made pessimistic, using rejection sampling for the reward and an upper-confidence cost for the constraint. The hypothesis is that the method is scaling-monotonic: gold safety and helpfulness do not degrade as N grows, unlike BoN and LARA. This would be tested on adversarial and benign benchmarks.",
+ "gap": "InferenceTimePessimism and MBR-BoN reduce reward hacking only for a single reward. LARA adds a cost constraint but calibrates its dual variable assuming the cost model is accurate. So there is no constrained inference-time method that stays robust as N grows when the safety classifier itself can be exploited.",
+ "approach": "Define the augmented score as pessimistic reward − λ·UCB(cost). UCB(cost) is the mean plus κ times the spread across Llama Guard, ShieldGemma and a judge-based cost, and the reward is regularized with an MBR proximity term. Calibrate λ on a small held-out set as LARA does, then apply InferenceTimePessimism-style rejection sampling rather than argmax. Analyze conditions under which constraint violation under the gold cost is bounded independent of N.",
+ "evaluation": "Baselines are vanilla BoN, MBR-BoN, InferenceTimePessimism (reward only), LARA, and Safe RLHF fine-tuning. Report gold harmfulness (StrongREJECT score, HarmBench ASR), gold helpfulness (judge win rate), and over-refusal as functions of N up to large values. The method would be confirmed if its curves stay monotone while the baselines degrade.",
+ "support": [
+  "ref-004",
+  "ref-003",
+  "ref-012",
+  "ref-006",
+  "ref-016",
+  "ref-005",
+  "ref-019",
+  "ref-020",
+  "ref-021",
+  "ref-014",
+  "ref-010"
+ ]
+}

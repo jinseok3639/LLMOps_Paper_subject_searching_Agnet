@@ -1,0 +1,15 @@
+{
+ "title": "Parseval EEGNet: Enhancing Robustness of EEG-Based BCIs Against Adversarial Attacks",
+ "summary": "We propose Parseval EEGNet, a modified EEGNet architecture with Parseval tight frame constraints on convolutional layers to improve robustness against adversarial perturbations in EEG-based BCIs. By ensuring Lipschitz continuity, the model maintains stable predictions under input variations while preserving classification accuracy. We validate the approach on public EEG datasets with adversarial attacks, comparing performance against standard EEGNet and Parseval networks from computer vision.",
+ "gap": "While EEGNet generalizes well across BCI paradigms, existing EEG-based CNN models lack robustness guarantees against adversarial examples, a critical concern for safety-critical BCI applications. Prior robustness methods (e.g., Parseval networks) are unexplored in EEG domains.",
+ "approach": "Integrate Parseval tight frame constraints into EEGNet's convolutional layers via spectral normalization during training. This maintains weight matrices as approximately orthogonal, bounding Lipschitz constants to improve robustness without sacrificing accuracy.",
+ "evaluation": "Compare Parseval EEGNet with baseline EEGNet and Parseval networks on datasets from [ref-001] using FGSM/PGD attacks. Metrics include clean/test accuracy, robustness score (CLEVER from [ref-009]), and adversarial loss. Cross-subject generalization is tested via leave-one-subject-out validation.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-009",
+  "ref-010",
+  "ref-021",
+  "ref-024"
+ ]
+}

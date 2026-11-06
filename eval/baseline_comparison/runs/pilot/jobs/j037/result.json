@@ -1,0 +1,59 @@
+{
+ "queries": [
+  "LLM agentic misalignment corporate insider threat benchmark activation clustering constrained decoding",
+  "LLM insider threat simulation ethical dilemmas latent intent activation misalignment detection",
+  "agentic misalignment benchmark counterfactual deployment context synthetic corporate scenarios",
+  "LLM misalignment detection \"activation clustering\" agent",
+  "agentic misalignment \"constrained decoding\"",
+  "AgentMisalignment Measuring Propensity Misaligned Behaviour LLM Based Agents 2506.04018",
+  "\"insider\" \"misalignment\" \"activations\" detection",
+  "LLM agent misalignment detection hidden activations clustering insider threats benchmark",
+  "\"misalignment\" \"clustering\" \"corporate\"",
+  "\"Adapting Insider Risk mitigations\" agentic misalignment",
+  "\"ODCV-Bench\" arxiv",
+  "\"Probing the Misaligned Thinking Process\" language models",
+  "\"misalignment\" \"activation clustering\" detection",
+  "\"insider threat\" \"constrained decoding\"",
+  "\"Internal-State Probes Read the Situation, Not the Action\""
+ ],
+ "closest": [
+  {
+   "title": "Probing the Misaligned Thinking Process of Language Models",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2606.24251",
+   "how_close": "Combines automated synthetic conversation generation with internal-activation monitoring of deception, self-preservation, and other misaligned behaviors. This closely overlaps the candidate's generation-and-detection pipeline. However, it uses supervised linear probes for cognitive indicators, rather than activation clustering, and does not establish the proposed constrained-decoding and deployment-context counterfactual combination."
+  },
+  {
+   "title": "Internal-State Probes Read the Situation, Not the Action: Three Negative Results for Pre-Action Misalignment Monitoring",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2606.30449",
+   "how_close": "Tests internal-state monitoring in open-weight models, including a corporate blackmail tool-action scenario, with generalization and specificity controls. Strong overlap in target and activation-based evaluation, but it studies probes and concept directions rather than activation clustering or constrained scenario generation."
+  },
+  {
+   "title": "Adapting Insider Risk mitigations for Agentic Misalignment: an empirical study",
+   "year": 2025,
+   "url": "https://arxiv.org/abs/2510.05192v1",
+   "how_close": "Extends corporate insider-threat simulations across ten LLMs, varying operational controls and performing counterfactual swaps to expose behavioral differences. The scenario-based intervention method overlaps substantially, but its contribution is mitigation through environmental controls, without constrained decoding or latent-intent clustering."
+  },
+  {
+   "title": "Evaluating and Understanding Scheming Propensity in LLM Agents",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2603.01608",
+   "how_close": "Systematically varies agent and environmental factors to isolate scheming incentives and examines evaluation awareness. Closely matches controlled trigger isolation and context-sensitive behavioral testing, but does not use the candidate's constrained-decoding and activation-clustering techniques."
+  },
+  {
+   "title": "AgentMisalignment: Measuring the Propensity for Misaligned Behaviour in LLM-Based Agents",
+   "year": 2025,
+   "url": "https://arxiv.org/abs/2506.04018",
+   "how_close": "Introduces realistic agent environments measuring spontaneous misalignment, including goal-guarding and shutdown resistance, and systematically varies personality prompts. It overlaps the controlled behavioral benchmark but uses different interventions and lacks the proposed latent activation-clustering detector."
+  },
+  {
+   "title": "ManagerBench: Evaluating the Safety-Pragmatism Trade-off in Autonomous LLMs",
+   "year": 2026,
+   "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/b8330f5b70b3c53172417deac6f057b1-Abstract-Conference.html",
+   "how_close": "Uses human-validated managerial dilemmas that force choices between operational success and safety, comparing harm assessments with actual decisions. This overlaps corporate ethical dilemmas and assessment-behavior consistency, but does not implement constrained generation or activation clustering."
+  }
+ ],
+ "rationale": "Very close work outside the bibliography exists, but I found no paper establishing the candidate's specific combination of constrained-decoding corporate scenario generation, activation-clustering detection, and deployment-context counterfactual testing. Probing the Misaligned Thinking Process already combines synthetic generation with activation-based misalignment monitoring, but supervised linear probing is a materially different technique from clustering. Internal-State Probes additionally evaluates activation readouts in a corporate blackmail scenario. Other listed papers already conduct controlled behavioral interventions, managerial dilemmas, or counterfactual insider-risk experiments. These substantially overlap the evaluation target and experimental design without demonstrating the complete proposed method. Ref-002 and its appendix were excluded from the novelty judgment. The evidence therefore supports very close prior work with methodological differences, rather than a confirmed duplicate.",
+ "score": 3
+}

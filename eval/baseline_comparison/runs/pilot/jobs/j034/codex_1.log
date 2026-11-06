@@ -1,0 +1,190 @@
+$ exit 0
+--- stdout
+{
+  "queries": [
+    "EEG BCI certified robustness Lipschitz abstention runtime monitor",
+    "\"Lipschitz\" \"certified\" \"abstain\" classifier",
+    "brain computer interface robustness certificate rejection safety monitor",
+    "\"EEG\" \"Lipschitz\" \"abstention\"",
+    "\"BCI\" \"certified robustness\" monitor",
+    "\"Lipschitz\" \"margin\" \"runtime\" \"abstain\"",
+    "\"From confidence to caution\" \"conformal gating\"",
+    "\"Lipschitz\" \"reject\" \"certified\" \"GloRo\"",
+    "\"EEG\" \"certification\" \"abstain\"",
+    "\"Certifiers Make Neural Networks Vulnerable to Availability Attacks\"",
+    "\"Globally-Robust Neural Networks\" abstain Lipschitz",
+    "\"Degradation Attacks on Certifiably Robust Neural Networks\"",
+    "\"EEG\" \"Lipschitz\" \"certificate\" safety",
+    "\"brain-computer\" \"certified\" \"rejection\" robustness"
+  ],
+  "closest": [
+    {
+      "title": "Globally-Robust Neural Networks",
+      "year": 2021,
+      "url": "https://proceedings.mlr.press/v139/leino21a.html",
+      "how_close": "Closest methodological match: GloRo uses global Lipschitz bounds and output margins for inexpensive inference-time certification, with an abstention output when certification fails. It targets image classification and incorporates robust training; it does not evaluate EEG command gating, SDP bounds, or BCI-controlled effectors."
+    },
+    {
+      "title": "A Formally Verified Robustness Certifier for Neural Networks",
+      "year": 2025,
+      "url": "https://arxiv.org/abs/2505.06958",
+      "how_close": "Precomputes and caches margin Lipschitz bounds, then checks each prediction by comparing logit differences with the perturbation budget times those bounds. This closely matches the proposed offline-bound/online-margin computation. Its contribution is a verified certifier for dense ReLU networks, evaluated on image models, rather than BCI runtime abstention."
+    },
+    {
+      "title": "From confidence to caution: conformal gating for cross-session motor imagery brain-computer interfaces",
+      "year": 2026,
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42805221/",
+      "how_close": "Closest target and intervention: withholds uncertain motor-imagery BCI commands and evaluates decision rates, wrong-command rates, and risk-weighted utility under session shift. Uses conformal prediction and selective prediction rather than Lipschitz-margin robustness certificates."
+    },
+    {
+      "title": "When Certificates Fail: A Unified Safety Framework for Embedded Neural Interface Models",
+      "year": 2026,
+      "url": "https://arxiv.org/abs/2607.06630",
+      "how_close": "This preprint evaluates EEG decoder safety using layerwise Lipschitz bounds, logit-margin certified-safe fractions, PGD attacks, and physiological stress tests, including EEGNet and MOABB-supported data. It is an offline safety audit; it does not implement certificate-triggered abstention or closed-loop effector command suppression."
+    },
+    {
+      "title": "Degradation Attacks on Certifiably Robust Neural Networks",
+      "year": 2022,
+      "url": "https://openreview.net/forum?id=P0XO5ZE98j",
+      "how_close": "Studies runtime defenses that reject inputs when local robustness cannot be certified, including Lipschitz-based GloRo models. Demonstrates adversarially induced unnecessary rejection. The certificate-to-rejection mechanism overlaps strongly, but the target is general image classifiers and the contribution concerns attacks on availability."
+    },
+    {
+      "title": "Certifiers Make Neural Networks Vulnerable to Availability Attacks",
+      "year": 2023,
+      "url": "https://doi.org/10.1145/3605764.3623917",
+      "how_close": "Explicitly studies a model-certifier-fallback pipeline that abstains whenever robustness cannot be guaranteed. Establishes prior use of certification as an operational gate, but evaluates availability attacks against general classifiers rather than Lipschitz-margin monitoring of EEG-driven effectors."
+    }
+  ],
+  "rationale": "Very close work exists, but I found no outside-bibliography paper implementing the complete BCI certificate-to-abstention monitor. The generic mechanism is established: [GloRo](https://proceedings.mlr.press/v139/leino21a.html) combines Lipschitz bounds, margins, runtime certification, and abstention, while the [verified certifier](https://arxiv.org/abs/2505.06958) closely matches precomputation followed by per-output margin checks. The target also has close precedents: [conformal BCI gating](https://pubmed.ncbi.nlm.nih.gov/42805221/) suppresses uncertain commands using a different technique, and [When Certificates Fail](https://arxiv.org/abs/2607.06630) evaluates Lipschitz-margin certification on EEG without deploying an abstention gate. Thus the apparent remaining contribution is applying and evaluating an established certification-gating mechanism for BCI effectors, particularly its comparison with adversarial detectors and closed-loop unsafe-command measurements. These are substantial overlaps, but none establishes the same target, intervention, and technique together.",
+  "score": 3
+}
+
+--- stderr
+ications of emerging neurotechnology applications in the context of the human rights framework and suggests that existing human rights may not be sufficient to respond to these emerging issues. After analysing the relationship between neuroscience and human rights, we identify four new rights that may become of great relevance in the coming decades: the right to cognitive liberty, the right to mental privacy, the right to mental integrity, and the right to psychological continuity.
+
+[ref-017] Security in brain-computer interfaces: State-of-the-art, opportunities, and future challenges
+Abstract: BCIs have significantly improved the patients' quality of life by restoring damaged hearing, sight, and movement capabilities. After evolving their application scenarios, the current trend of BCI is to enable new innovative brain-to-brain and brain-to-the-Internet communication paradigms. This technological advancement generates opportunities for attackers since users' personal information and physical integrity could be under tremendous risk. This work presents the existing versions of the BCI life-cycle and homogenizes them in a new approach that overcomes current limitations. After that, we offer a qualitative characterization of the security attacks affecting each phase of the BCI cycle to analyze their impacts and countermeasures documented in the literature. Finally, we reflect on lessons learned, highlighting research trends and future challenges concerning security on BCIs.
+
+[ref-018] Risks from Learned Optimization in Advanced Machine Learning Systems
+Abstract: We analyze the type of learned optimization that occurs when a learned model (such as a neural network) is itself an optimizer - a situation we refer to as mesa-optimization, a neologism we introduce in this paper. We believe that the possibility of mesa-optimization raises two important questions for the safety and transparency of advanced machine learning systems. First, under what circumstances will learned models be optimizers, including when they should not be? Second, when a learned model is an optimizer, what will its objective be - how will it differ from the loss function it was trained under - and how can it be aligned? In this paper, we provide an in-depth analysis of these two primary questions and provide an overview of topics for future research.
+
+[ref-019] Unsolved Problems in ML Safety
+Abstract: Machine learning (ML) systems are rapidly increasing in size, are acquiring new capabilities, and are increasingly deployed in high-stakes settings. As with other powerful technologies, safety for ML should be a leading research priority. In response to emerging safety challenges in ML, such as those introduced by recent large-scale models, we provide a new roadmap for ML Safety and refine the technical problems that the field needs to address. We present four problems ready for research, namely withstanding hazards ("Robustness"), identifying hazards ("Monitoring"), reducing inherent model hazards ("Alignment"), and reducing systemic hazards ("Systemic Safety"). Throughout, we clarify each problem's motivation and provide concrete research directions.
+
+[ref-020] Efficient and Accurate Estimation of Lipschitz Constants for Deep Neural Networks
+Abstract: Tight estimation of the Lipschitz constant for deep neural networks (DNNs) is useful in many applications ranging from robustness certification of classifiers to stability analysis of closed-loop systems with reinforcement learning controllers. Existing methods in the literature for estimating the Lipschitz constant suffer from either lack of accuracy or poor scalability. In this paper, we present a convex optimization framework to compute guaranteed upper bounds on the Lipschitz constant of DNNs both accurately and efficiently. Our main idea is to interpret activation functions as gradients of convex potential functions. Hence, they satisfy certain properties that can be described by quadratic constraints. This particular description allows us to pose the Lipschitz constant estimation problem as a semidefinite program (SDP). The resulting SDP can be adapted to increase either the estimation accuracy (by capturing the interaction between activation functions of different layers) or scalability (by decomposition and parallel implementation). We illustrate the utility of our approach with a variety of experiments on randomly generated networks and on classifiers trained on the MNIST and Iris datasets. In particular, we experimentally demonstrate that our Lipschitz bounds are the most accurate compared to those in the literature. We also study the impact of adversarial training methods on the Lipschitz bounds of the resulting classifiers and show that our bounds can be used to efficiently provide robustness guarantees.
+
+[ref-021] Adversarial artifact detection in EEG-based brain–computer interfaces
+Abstract: Objective. machine learning has achieved significant success in electroencephalogram (EEG) based brain–computer interfaces (BCIs), with most existing research focusing on improving the decoding accuracy. However, recent studies have shown that EEG-based BCIs are vulnerable to adversarial attacks, where small perturbations added to the input can cause misclassification. Detecting adversarial examples is crucial for both understanding this phenomenon and developing effective defense strategies. Approach. this paper, for the first time, explores adversarial detection in EEG-based BCIs. We extend several popular adversarial detection approaches from computer vision to BCIs. Two new Mahalanobis distance based adversarial detection approaches, and three cosine distance based adversarial detection approaches, are also proposed, which showed promising performance in detecting three kinds of white-box attacks. Main results. we evaluated the performance of eight adversarial detection approaches on three EEG datasets, three neural networks, and four types of adversarial attacks. Our approach achieved an area under the curve score of up to 99.99% in detecting white-box attacks. Additionally, we assessed the transferability of different adversarial detectors to unknown attacks. Significance. through extensive experiments, we found that white-box attacks may be easily detected, and differences exist in the distributions of different types of adversarial examples. Our work should facilitate understanding the vulnerability of existing BCI models and developing more secure BCIs in the future.
+
+[ref-022] Formal Guarantees on the Robustness of a Classifier against Adversarial Manipulation
+Abstract: Recent work has shown that state-of-the-art classifiers are quite brittle, in the sense that a small adversarial change of an originally with high confidence correctly classified input leads to a wrong classification again with high confidence. This raises concerns that such classifiers are vulnerable to attacks and calls into question their usage in safety-critical systems. We show in this paper for the first time formal guarantees on the robustness of a classifier by giving instance-specific lower bounds on the norm of the input manipulation required to change the classifier decision. Based on this analysis we propose the Cross-Lipschitz regularization functional. We show that using this form of regularization in kernel methods resp. neural networks improves the robustness of the classifier without any loss in prediction performance.
+
+[ref-023] Concrete Problems in AI Safety
+Abstract: Rapid progress in machine learning and artificial intelligence (AI) has brought increasing attention to the potential impacts of AI technologies on society. In this paper we discuss one such potential impact: the problem of accidents in machine learning systems, defined as unintended and harmful behavior that may emerge from poor design of real-world AI systems. We present a list of five practical research problems related to accident risk, categorized according to whether the problem originates from having the wrong objective function ("avoiding side effects" and "avoiding reward hacking"), an objective function that is too expensive to evaluate frequently ("scalable supervision"), or undesirable behavior during the learning process ("safe exploration" and "distributional shift"). We review previous work in these areas as well as suggesting research directions with a focus on relevance to cutting-edge AI systems. Finally, we consider the high-level question of how to think most productively about the safety of forward-looking applications of AI.
+
+[ref-024] Universal adversarial perturbations for CNN classifiers in EEG-based BCIs
+Abstract: Objective. Multiple convolutional neural network (CNN) classifiers have been proposed for electroencephalogram (EEG) based brain-computer interfaces (BCIs). However, CNN models have been found vulnerable to universal adversarial perturbations (UAPs), which are small and example-independent, yet powerful enough to degrade the performance of a CNN model, when added to a benign example. Approach. This paper proposes a novel total loss minimization (TLM) approach to generate UAPs for EEG-based BCIs. Main results. Experimental results demonstrated the effectiveness of TLM on three popular CNN classifiers for both target and non-target attacks. We also verified the transferability of UAPs in EEG-based BCI systems. Significance. To our knowledge, this is the first study on UAPs of CNN classifiers in EEG-based BCIs. UAPs are easy to construct, and can attack BCIs in real-time, exposing a potentially critical security concern of BCIs.
+
+[ref-025] Regulating Next-Generation Implantable Brain-Computer Interfaces: Recommendations for Ethical Development and Implementation
+Abstract: Brain-computer interfaces (BCIs) offer significant therapeutic opportunities for a variety of neurophysiological and neuropsychiatric disorders and may perhaps one day lead to augmenting the cognition and decision-making of the healthy brain. However, existing regulatory frameworks designed for implantable medical devices (IMDs) are inadequate to address the unique ethical, legal, and social risks associated with next-generation networked brain-computer interfaces (BCIs). In this article, we make nine recommendations to support developers in the design of BCIs and nine recommendations to support policymakers in the application of BCIs, drawing insights from the regulatory history of IMDs and principles from AI ethics. We begin by outlining the historical development of IMDs and the regulatory milestones that have shaped their oversight. Next, we compare the unique characteristics of IMDs (including early-generation implantable BCIs) and emerging, “next-generation” implantable BCIs. We then use one case study in contemporary chip architecture—the SCALO (SCalable Architecture for LOw-power BCIs) computer system—to highlight distinctive features in the design and application of next-generation BCIs arising from these technologies, which necessitate reevaluating regulatory approaches. We identify critical ethical considerations for next-gen implantable BCIs, including unique conceptions of autonomy, identity, and mental privacy. Based on these insights, we suggest potential avenues for the ethical regulation of next-gen implantable BCIs, emphasizing the importance of interdisciplinary collaboration and proactive mitigation of potential harms. The goal is to support the responsible design and application of emerging BCIs, ensuring their safe and ethical integration into medical practice.
+</file>
+
+<file name="candidate.json">
+{
+ "title": "Lipschitz-Margin Certificates as Runtime Safety Monitors for BCI-Controlled Effectors",
+ "summary": "This proposal turns per-instance robustness certificates into a runtime monitor that stops a BCI from issuing a command when it cannot be certified. For each EEG trial, a certified radius is computed from the logit margin and a precomputed SDP Lipschitz bound, or from the instance-specific Cross-Lipschitz bound. When the radius falls below a threshold set to the noise level, the system abstains instead of driving an assistive device. The monitor would be compared with Mahalanobis- and cosine-distance adversarial detectors. Tests would cover white-box attacks, universal perturbations, unseen attacks, and natural artifacts. The aim is to test whether certificates generalize to unknown threats better than learned detectors.",
+ "gap": "Existing EEG adversarial detectors are statistical and learned. They perform well on white-box attacks they were tuned for, but transfer less reliably to unknown attacks, and they give no guarantee. The safety and neurosecurity literature calls for monitoring and safe failure in BCIs that control physical effectors, but no cited work links formal robustness certificates to abstention decisions in BCIs.",
+ "approach": "Precompute global or layer-wise SDP Lipschitz bounds for the trained decoder. At inference, compute the instance-specific certified radius, which can also be combined with local gradient-norm estimates, and abstain when it is below a threshold tau. Tau is calibrated on clean validation data to meet a target false-abstention rate. A simulated closed-loop cursor or effector task would measure how often unsafe commands get through.",
+ "evaluation": "Baselines: Mahalanobis and cosine-distance detectors, softmax-confidence thresholding, and no monitor. Measures: detection AUC against PGD, FGSM, universal and natural-artifact perturbations, including transfer to attacks not seen during calibration; risk-coverage curves; rate of unsafe commands let through in simulated control; and computational latency. Evaluation would span several MOABB datasets and EEGNet and ShallowConvNet.",
+ "support": [
+  "ref-021",
+  "ref-022",
+  "ref-020",
+  "ref-009",
+  "ref-024",
+  "ref-019",
+  "ref-023",
+  "ref-017",
+  "ref-006",
+  "ref-001"
+ ]
+}
+</file>
+codex
+I’ll search for work outside the bibliography that combines robustness certificates with runtime abstention, then check how closely it matches the BCI setting.
+web search: 
+web search: EEG BCI certified robustness Lipschitz abstention runtime monitor ...
+web search: 
+web search: "EEG" "Lipschitz" "abstention" ...
+web search: 
+web search: "From confidence to caution" "conformal gating" ...
+codex
+The closest work found so far splits across two areas: BCI command gating uses conformal uncertainty, while general classifiers use robustness certificates to trigger abstention. I’m checking the Lipschitz-based methods for a closer match to the proposed monitor.
+web search: 
+web search: "Globally-Robust Neural Networks" abstain Lipschitz ...
+web search: 
+web search: https://proceedings.mlr.press/v139/leino21a.html
+web search: 
+web search: https://proceedings.mlr.press/v139/leino21a/leino21a.pdf
+codex
+{
+  "queries": [
+    "EEG BCI certified robustness Lipschitz abstention runtime monitor",
+    "\"Lipschitz\" \"certified\" \"abstain\" classifier",
+    "brain computer interface robustness certificate rejection safety monitor",
+    "\"EEG\" \"Lipschitz\" \"abstention\"",
+    "\"BCI\" \"certified robustness\" monitor",
+    "\"Lipschitz\" \"margin\" \"runtime\" \"abstain\"",
+    "\"From confidence to caution\" \"conformal gating\"",
+    "\"Lipschitz\" \"reject\" \"certified\" \"GloRo\"",
+    "\"EEG\" \"certification\" \"abstain\"",
+    "\"Certifiers Make Neural Networks Vulnerable to Availability Attacks\"",
+    "\"Globally-Robust Neural Networks\" abstain Lipschitz",
+    "\"Degradation Attacks on Certifiably Robust Neural Networks\"",
+    "\"EEG\" \"Lipschitz\" \"certificate\" safety",
+    "\"brain-computer\" \"certified\" \"rejection\" robustness"
+  ],
+  "closest": [
+    {
+      "title": "Globally-Robust Neural Networks",
+      "year": 2021,
+      "url": "https://proceedings.mlr.press/v139/leino21a.html",
+      "how_close": "Closest methodological match: GloRo uses global Lipschitz bounds and output margins for inexpensive inference-time certification, with an abstention output when certification fails. It targets image classification and incorporates robust training; it does not evaluate EEG command gating, SDP bounds, or BCI-controlled effectors."
+    },
+    {
+      "title": "A Formally Verified Robustness Certifier for Neural Networks",
+      "year": 2025,
+      "url": "https://arxiv.org/abs/2505.06958",
+      "how_close": "Precomputes and caches margin Lipschitz bounds, then checks each prediction by comparing logit differences with the perturbation budget times those bounds. This closely matches the proposed offline-bound/online-margin computation. Its contribution is a verified certifier for dense ReLU networks, evaluated on image models, rather than BCI runtime abstention."
+    },
+    {
+      "title": "From confidence to caution: conformal gating for cross-session motor imagery brain-computer interfaces",
+      "year": 2026,
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42805221/",
+      "how_close": "Closest target and intervention: withholds uncertain motor-imagery BCI commands and evaluates decision rates, wrong-command rates, and risk-weighted utility under session shift. Uses conformal prediction and selective prediction rather than Lipschitz-margin robustness certificates."
+    },
+    {
+      "title": "When Certificates Fail: A Unified Safety Framework for Embedded Neural Interface Models",
+      "year": 2026,
+      "url": "https://arxiv.org/abs/2607.06630",
+      "how_close": "This preprint evaluates EEG decoder safety using layerwise Lipschitz bounds, logit-margin certified-safe fractions, PGD attacks, and physiological stress tests, including EEGNet and MOABB-supported data. It is an offline safety audit; it does not implement certificate-triggered abstention or closed-loop effector command suppression."
+    },
+    {
+      "title": "Degradation Attacks on Certifiably Robust Neural Networks",
+      "year": 2022,
+      "url": "https://openreview.net/forum?id=P0XO5ZE98j",
+      "how_close": "Studies runtime defenses that reject inputs when local robustness cannot be certified, including Lipschitz-based GloRo models. Demonstrates adversarially induced unnecessary rejection. The certificate-to-rejection mechanism overlaps strongly, but the target is general image classifiers and the contribution concerns attacks on availability."
+    },
+    {
+      "title": "Certifiers Make Neural Networks Vulnerable to Availability Attacks",
+      "year": 2023,
+      "url": "https://doi.org/10.1145/3605764.3623917",
+      "how_close": "Explicitly studies a model-certifier-fallback pipeline that abstains whenever robustness cannot be guaranteed. Establishes prior use of certification as an operational gate, but evaluates availability attacks against general classifiers rather than Lipschitz-margin monitoring of EEG-driven effectors."
+    }
+  ],
+  "rationale": "Very close work exists, but I found no outside-bibliography paper implementing the complete BCI certificate-to-abstention monitor. The generic mechanism is established: [GloRo](https://proceedings.mlr.press/v139/leino21a.html) combines Lipschitz bounds, margins, runtime certification, and abstention, while the [verified certifier](https://arxiv.org/abs/2505.06958) closely matches precomputation followed by per-output margin checks. The target also has close precedents: [conformal BCI gating](https://pubmed.ncbi.nlm.nih.gov/42805221/) suppresses uncertain commands using a different technique, and [When Certificates Fail](https://arxiv.org/abs/2607.06630) evaluates Lipschitz-margin certification on EEG without deploying an abstention gate. Thus the apparent remaining contribution is applying and evaluating an established certification-gating mechanism for BCI effectors, particularly its comparison with adversarial detectors and closed-loop unsafe-command measurements. These are substantial overlaps, but none establishes the same target, intervention, and technique together.",
+  "score": 3
+}
+tokens used
+75,785

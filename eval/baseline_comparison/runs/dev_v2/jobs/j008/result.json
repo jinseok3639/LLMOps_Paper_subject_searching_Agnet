@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The support ids are relevant: ref-001 supports EEGNet's architecture, ref-010 supports approximate Parseval constraints, and ref-005/ref-020 support SDP verification and Lipschitz bounds. However, they do not establish the proposed training integration or exact layerwise guarantees. Ref-021 does not establish EEGNet's specific lack of guarantees, and ref-007 does not confirm the named dataset/paradigm mappings.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Formal robustness for EEGNet is a plausible, scoped gap connecting EEG decoding in ref-001, EEG attacks in ref-024, and certification in ref-005/ref-020. However, contrasting detection with prevention in ref-021 does not establish that proactive robustness is missing, particularly given existing robustness methods in ref-010, ref-013, and ref-022.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The architecture changes, comparison models, attack budgets, ASR, and CLEVER measurements are concrete. However, the perturbation norm and EEG scaling are unspecified, the SDP training objective is unclear, and no certified-radius measurement is defined despite the certification focus of ref-005/ref-020. An adversarially trained standard EEGNet baseline is also needed to separate constraint benefits from adversarial-training benefits.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Constraining sensitivity and measuring attack resistance broadly fit together, following ref-010. However, constraining convolutional layers alone does not establish the claimed whole-network guarantee, and ASR plus the estimated CLEVER metric in ref-009 cannot verify formal robustness. The evaluation needs certified decision-preservation bounds consistent with ref-020/ref-022.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Testing whether Lipschitz constraints improve EEGNet's robustness could inform BCI model choices given the vulnerabilities in ref-024. The contribution currently amounts mainly to transferring methods from ref-010/ref-020 to ref-001; without certified robustness, clean-accuracy tradeoffs, or computational-cost measurements, its likely impact is meaningful but narrow.",
+  "score": 3
+ }
+}

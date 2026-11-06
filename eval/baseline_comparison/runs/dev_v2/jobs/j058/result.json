@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y3"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "y3 specifies a coherent extension of the certification methods in ref-005, ref-020 and ref-022 to EEGNet's compact convolutional structure (ref-001), with concrete certificate, accuracy and scalability comparisons. Its constrained-training variants can test whether certificates improve enough to justify accuracy costs. x1 also connects relevant work (ref-001, ref-010), but does not establish that its proposed spectral normalization implements Parseval tight-frame constraints or that those constraints alone guarantee prediction stability. y3 provides a clearer path from method to measurable robustness.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x3 conflates EEG decoding with implantable recording: ref-006 describes intracortical neuronal recordings, not the noise-injected EEG data its evaluation assumes. Its proposed experiments therefore cannot substantiate its implantable-BCI safety claims. y2's weakest link is that certified prediction invariance does not establish command correctness or physical safety; its simulated harmful-action outcome needs explicit definition. Nevertheless, it proposes an empirical test of a concrete gating policy, relevant baselines and throughput costs, grounded in ref-017, ref-020, ref-021 and ref-022, without requiring the unsupported recording-modality substitution.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "X covers constrained training, adversarial training with benchmarking, and certification, but all primarily target decoder robustness. Y spans robustness generalization and detector evaluation (y1), runtime control decisions and abstention costs (y2), and formal certification methodology (y3). Although y2 and y3 share certificate machinery, their interventions and outcomes differ meaningfully. Y consequently offers a broader choice of research questions.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "Y offers more coherent experiments and clearer decision-relevant outcomes across benchmarking, certification and control. Its proposals still need tighter scope, and claims that no prior solution exists should be limited to the supplied corpus. X has more consequential problems: x1's constraint implementation is insufficiently justified, x2's single-dataset-or-attack premise overlooks the multi-dataset, multi-attack and transfer evaluations in ref-021 and ref-024, and x3 misuses ref-006. Y would better support choosing and designing a defensible study.",
+  "verdict": "Y"
+ }
+}

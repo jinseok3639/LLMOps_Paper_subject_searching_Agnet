@@ -1,0 +1,42 @@
+{
+ "queries": [
+  "EEGNet Parseval adversarial robustness orthogonal convolution",
+  "EEG brain computer interface adversarial robustness spectral normalization Lipschitz",
+  "\"EEG\" \"Parseval\"",
+  "\"EEGNet\" \"spectral normalization\"",
+  "\"EEG\" \"Parseval networks\" robustness",
+  "\"Adversarial robustness benchmark\" \"Parseval\"",
+  "\"REST\" \"Robust and Efficient\" EEG spectral regularization",
+  "\"Adversarial robustness benchmark for EEG-based brain\" defense approaches",
+  "\"EEG\" \"orthogonal\" \"adversarial robustness\"",
+  "\"EEGNet\" \"Lipschitz\"",
+  "\"EEG\" \"spectral regularization\" adversarial",
+  "\"LEREL\" Lipschitz EEG",
+  "\"EEG\" \"orthonormal\" \"adversarial\"",
+  "\"EEGNet\" \"Parseval\" robustness",
+  "\"SSVEPNet\" \"spectral normalization\"",
+  "\"An efficient CNN-LSTM network with spectral normalization and label smoothing technologies for SSVEP frequency recognition\""
+ ],
+ "closest": [
+  {
+   "title": "REST: Robust and Efficient Neural Networks for Sleep Monitoring in the Wild",
+   "year": 2020,
+   "url": "https://arxiv.org/abs/2001.11363",
+   "how_close": "Closest methodological match. Trains an EEG sleep-staging CNN using PGD adversarial training and a spectral regularizer penalizing ||W^T W - I||_2, encouraging orthogonality and controlling layer Lipschitz constants. This substantially overlaps the proposed robustness mechanism, but uses a sleep-staging architecture rather than EEGNet and additionally targets compression."
+  },
+  {
+   "title": "An efficient CNN-LSTM network with spectral normalization and label smoothing technologies for SSVEP frequency recognition",
+   "year": 2022,
+   "url": "https://doi.org/10.1088/1741-2552/ac8dc5",
+   "how_close": "Applies spectral normalization to an EEG-based BCI decoder and evaluates intra- and inter-subject classification. However, its CNN-LSTM architecture and focus on calibration efficiency and classification accuracy differ from Parseval-constrained EEGNet evaluated against adversarial attacks."
+  },
+  {
+   "title": "Adversarial robustness benchmark for EEG-based brain–computer interfaces",
+   "year": 2023,
+   "url": "https://doi.org/10.1016/j.future.2023.01.028",
+   "how_close": "Matches the EEG-BCI adversarial-defense target and comparative evaluation setting. Evaluates nine defenses spanning robust training, adversarial pruning, input transformations, and ensembles; the available description does not establish the proposed Parseval or orthogonality-constrained EEGNet technique."
+  }
+ ],
+ "rationale": "Very close work exists outside the bibliography, but I found no verified paper implementing the exact EEGNet–Parseval–adversarial-BCI combination. REST already applies an orthogonality-promoting spectral penalty and adversarial training to EEG CNNs, undermining the broad claim that this robustness mechanism is unexplored in EEG. Its sleep-staging task and architecture differ from the candidate's BCI decoding target. SSVEPNet separately establishes spectral normalization in BCI decoding, without the same adversarial-defense objective. These overlaps support a score of 3 rather than an exact-duplication finding. The candidate also conflates spectral normalization with Parseval constraints: bounding the largest singular value alone does not enforce a tight frame or approximate orthogonality.",
+ "score": 3
+}

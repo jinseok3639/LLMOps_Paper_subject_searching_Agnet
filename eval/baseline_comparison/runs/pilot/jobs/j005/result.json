@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The main motivation is supported: attacker scaling in ref-024, defender safety gains with more samples in ref-007, constrained BoN in ref-012, and adaptive compute allocation in ref-002. However, the abstracts do not establish that ref-024 assumes exactly one defender response or that existing approaches ignore adaptive attackers. Calling StrongREJECT a gold evaluator overstates its demonstrated agreement with humans (ref-021). Ref-022 supplies only broad motivation.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The joint attacker–defender compute surface is a focused gap naturally connecting ref-024 with ref-007 and ref-012; none of the supplied references reports this experiment. However, the universal claim that nobody has studied it exceeds the evidence, and adaptive allocation extends an existing principle from ref-002 without identifying a concrete limitation of its allocation method.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The proposal specifies the sampling procedure, two compute axes, named benchmarks, evaluator, comparison methods, and outcome measures (ref-014, ref-017, ref-021). Experiment design could begin immediately. Missing details include the reward–cost weighting, risk-to-budget allocation rule, benign evaluation set, and power-law fitting procedure; ref-012 offers a concrete calibration approach that could resolve the scoring ambiguity.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "The compute grid directly tests whether defender sampling offsets attacker scaling, and matched-compute comparisons can assess adaptive allocation, connecting ref-024, ref-007, and ref-002. However, repeated random augmentations do not establish robustness to adaptive attackers. The proposed evaluation also lacks a direct test of the guard distribution-shift explanation and does not explicitly separate it from reward overoptimization, a competing failure mechanism identified in ref-004 and ref-006.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "The results could materially inform whether to spend inference compute on additional defender samples when facing scalable attacks (ref-024), and when the safety gains observed in ref-007 cease to hold. A negative result would also be useful given known reranking failures (ref-004). Broader conclusions would require testing multiple policies and guards, since the current design leaves their selection unspecified.",
+  "score": 4
+ }
+}

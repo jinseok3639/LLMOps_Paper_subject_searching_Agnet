@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "Most support ids match their roles: compact EEG decoding (ref-001), Parseval constraints (ref-010), robustness regularization (ref-022), SDP bounds (ref-020), universal attacks (ref-024), and benchmarking (ref-007). However, ref-022 does not establish that Cross-Lipschitz regularization was tested on image benchmarks. The broad characterization of EEG adversarial research also exceeds the attack and detection examples supplied (ref-021, ref-024).",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The references leave open whether Parseval constraints preserve compact EEGNet's accuracy while improving certified robustness, particularly with limited training data (ref-001, ref-010, ref-020). This is concrete and naturally motivated, although the gap is an untested transfer between methods and domains rather than an explicitly documented failure of existing EEG defenses.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The proposal identifies the architecture, constrained layers, spatial-only ablation, training settings, baselines, attacks, datasets, and outcome measures (ref-001, ref-007, ref-024). Experiment design could begin immediately. Important details remain unspecified: perturbation norms, normalization underlying microvolt radii, and how SDP bounds produce certified accuracy.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Spatial-only versus all-layer constraints directly test the proposed accuracy cost, while clean, attacked, and certified performance address the robustness trade-off (ref-001, ref-010, ref-020). The main weak link is assuming the SDP method can certify the complete modified EEGNet without specifying how all operations are represented.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "Results could influence whether EEG researchers choose structural Lipschitz constraints, adversarial training, or regularization, especially across datasets where generalization is unreliable (ref-007, ref-013, ref-022). A negative result would also clarify the cost of constraining compact decoders. The contribution is practically meaningful, though its impact remains concentrated on EEG decoder robustness.",
+  "score": 4
+ }
+}

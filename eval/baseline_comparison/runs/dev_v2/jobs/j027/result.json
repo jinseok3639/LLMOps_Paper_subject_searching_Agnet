@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "y1 connects attacker-side scaling (ref-024), defender-side safety gains from sampling (ref-007), and adaptive compute allocation (ref-002) through a concrete experiment over attacker and defender budgets. Matched-compute comparisons and benign over-refusal measurements could inform deployment decisions. Its assertions about prior work assuming a single defender sample exceed the supplied evidence, but the joint scaling experiment remains well motivated. x2 offers a plausible extension of LARA through prompt-dependent constraints, yet leaves the complexity-to-constraint rule unspecified, omits unchanged LARA as a baseline, and overstates safety guarantees: ref-012 explicitly distinguishes sequence-level expected-cost guarantees from token-level heuristics.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x3 does not establish a clear difference from ref-013, which already combines safety principles, critiques and revisions, AI-generated preferences, reward-model training, and reasoning. Its claimed absence of prior safety-reasoning-based reward-model work is therefore poorly grounded, and it leaves unspecified how the trained reward model produces the responses needed to measure attack success. y2 overreaches by treating ensemble disagreement as a cost confidence bound without calibration evidence and by predicting simultaneous gold-safety and helpfulness monotonicity. Nevertheless, extending pessimism to imperfect safety costs is a discernible, testable change from ref-004 and ref-012, with explicit scoring components and relevant baselines.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "X spans coverage-dependent rejection sampling, prompt-dependent safety constraints, and preference-data construction for reward-model training. These represent distinct intervention points despite their individual weaknesses. Y includes a useful attacker-defender compute study, but y2 and y3 closely overlap: both investigate safety-guard exploitation as BoN selection pressure increases, with y2 proposing a remedy for the failure y3 measures. X therefore offers a broader range of experimental approaches.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "Y provides the more useful selection. y1 has a concrete evaluation capable of changing compute-allocation decisions, while y3 offers an actionable diagnostic study using proxy-versus-independent-evaluator disagreement and selection-pressure sweeps, motivated by ref-006 and ref-021. y3 incorrectly narrows the general reward-hacking literature to helpfulness (especially ref-008), and its over-refusal outcome should be separated from harmfulness, but those issues are repairable without replacing the experiment. X has broader diversity, yet x1 relies on an unsupported uniform-coverage characterization of ref-004, x2 overstates constraint guarantees, and x3 insufficiently distinguishes itself from ref-013.",
+  "verdict": "Y"
+ }
+}

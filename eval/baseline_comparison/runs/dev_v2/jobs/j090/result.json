@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The descriptions of reward overoptimization, MBR regularization, and inference-time pessimism are supported by ref-006, ref-003, and ref-004. However, ref-012 guarantees a constraint on modeled expected cost; it does not explicitly assume accurate real-world costs or establish degradation with N. Ref-020 also provides constrained inference-time alignment, although its guarantees remain relative to the supplied cost model. Ref-010 has no clear supporting role, and the automated evaluators in ref-021 and ref-014 do not establish 'gold' outcomes.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Robustness of constrained inference-time selection to exploitable cost-model errors is a concrete gap: ref-004 addresses reward hacking, ref-012 constrains modeled expected cost, and ref-020 explicitly limits its guarantees to the given cost model. None of the supplied abstracts establishes safety under an imperfect cost model as N increases. The proposal should distinguish this narrower gap from the broader existence of constrained inference-time methods.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The frozen-policy setting, ensemble members, mean-plus-spread cost, dual calibration, rejection sampling, named baselines, and safety/helpfulness curves provide a practical experimental starting point (ref-003, ref-004, ref-012, ref-016, ref-005). Important details remain unspecified: the exact rejection rule and reward regularizer, uncertainty calibration, compute matching, N range, and how benign helpfulness and over-refusal are measured.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Increasing N while comparing constrained and pessimistic selectors directly tests the proposed failure mode. However, neither guard disagreement nor MBR proximity is established as a valid upper bound on true cost by ref-005, ref-016, or ref-003. An N-independent safety bound also would not establish simultaneous monotonic improvement in safety and helpfulness, and automated scores alone cannot confirm the claimed gold outcomes (ref-021).",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether pessimism protects safety constraints during inference scaling could influence choices between BoN, LARA, and constrained training (ref-004, ref-012, ref-019). A validated guarantee or a carefully measured failure of ensemble uncertainty would be useful. The strongest contribution would come from establishing when uncertainty remains reliable under selection, beyond simply combining existing regularization and guard models.",
+  "score": 4
+ }
+}

@@ -1,0 +1,168 @@
+$ exit 0
+--- stdout
+{
+  "strongest": {"X": "x1", "Y": "y2"},
+  "weakest": {"X": "x3", "Y": "y3"},
+  "best": {
+    "rationale": "y2 offers the more coherent experiment: exploit EEGNet's convolutional structure and parameter sharing in quadratic-constraint verification, then measure certified robust accuracy and computational cost against generic verification methods (ref-001, ref-005, ref-020). Its architectural advantage remains unproven, and its clinical necessity claims exceed the references, but the proposed contribution is identifiable. x1 also has a clear comparison—constrain EEGNet and measure the accuracy–robustness tradeoff—but its central implementation conflates spectral normalization with maintaining Parseval tight frames, an equivalence ref-010 does not establish. Its prediction-stability claims also exceed the proposed empirical evaluation.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "y3 combines spectral normalization, adversarial training, and frequency-energy constraints without isolating one contribution. The supplied references do not justify its 8–30 Hz restriction across the proposed paradigms, and CLEVER estimates plus attack results do not establish its advertised formal guarantees (ref-009). Nevertheless, its EEG experiments could test empirical robustness. x3 has a deeper grounding failure: ref-006 describes intracortical neuronal recordings for robotic control, not the noise-injected EEG signals its evaluation requires. Motor-imagery EEG certification would therefore not validate the proposed implantable-BCI safety claim. Its certification machinery is grounded in ref-005/ref-020, but its application and validation do not fit together.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "X spans constrained training, standardized multi-dataset adversarial training and benchmarking, and post-training formal verification. These address meaningfully different interventions and research decisions. Y's y1 and y2 both specialize quadratic-constraint SDP certification for EEGNet; signal constraints versus architectural constraints provide some distinction, but substantial overlap remains. y3 adds a training intervention while retaining the same Lipschitz-robustness focus.",
+    "verdict": "X"
+  },
+  "overall": {
+    "rationale": "Y provides the stronger candidate to select and avoids X's most consequential evidence mismatch. y2 supplies a reasonably focused certification study, although generic SDP applicability must be distinguished from a demonstrated need for new constraints (ref-005, ref-020). y1 offers a related alternative, but must clarify whether physiological constraints restrict the threat set and compare certificates under identical assumptions. X's greater breadth is useful, yet all three options need substantial repair: x1's constraint implementation is unsupported, x2 incorrectly characterizes prior evaluations as restricted to single datasets or attacks despite ref-021 and overlooks transfer testing in ref-021/ref-024, and x3 confuses recording modalities. These weaknesses outweigh X's diversity advantage.",
+    "verdict": "Y"
+  }
+}
+
+--- stderr
+ (by capturing the interaction between activation functions of different layers) or scalability (by decomposition and parallel implementation). We illustrate the utility of our approach with a variety of experiments on randomly generated networks and on classifiers trained on the MNIST and Iris datasets. In particular, we experimentally demonstrate that our Lipschitz bounds are the most accurate compared to those in the literature. We also study the impact of adversarial training methods on the Lipschitz bounds of the resulting classifiers and show that our bounds can be used to efficiently provide robustness guarantees.
+
+[ref-021] Adversarial artifact detection in EEG-based brain–computer interfaces
+Abstract: Objective. machine learning has achieved significant success in electroencephalogram (EEG) based brain–computer interfaces (BCIs), with most existing research focusing on improving the decoding accuracy. However, recent studies have shown that EEG-based BCIs are vulnerable to adversarial attacks, where small perturbations added to the input can cause misclassification. Detecting adversarial examples is crucial for both understanding this phenomenon and developing effective defense strategies. Approach. this paper, for the first time, explores adversarial detection in EEG-based BCIs. We extend several popular adversarial detection approaches from computer vision to BCIs. Two new Mahalanobis distance based adversarial detection approaches, and three cosine distance based adversarial detection approaches, are also proposed, which showed promising performance in detecting three kinds of white-box attacks. Main results. we evaluated the performance of eight adversarial detection approaches on three EEG datasets, three neural networks, and four types of adversarial attacks. Our approach achieved an area under the curve score of up to 99.99% in detecting white-box attacks. Additionally, we assessed the transferability of different adversarial detectors to unknown attacks. Significance. through extensive experiments, we found that white-box attacks may be easily detected, and differences exist in the distributions of different types of adversarial examples. Our work should facilitate understanding the vulnerability of existing BCI models and developing more secure BCIs in the future.
+
+[ref-022] Formal Guarantees on the Robustness of a Classifier against Adversarial Manipulation
+Abstract: Recent work has shown that state-of-the-art classifiers are quite brittle, in the sense that a small adversarial change of an originally with high confidence correctly classified input leads to a wrong classification again with high confidence. This raises concerns that such classifiers are vulnerable to attacks and calls into question their usage in safety-critical systems. We show in this paper for the first time formal guarantees on the robustness of a classifier by giving instance-specific lower bounds on the norm of the input manipulation required to change the classifier decision. Based on this analysis we propose the Cross-Lipschitz regularization functional. We show that using this form of regularization in kernel methods resp. neural networks improves the robustness of the classifier without any loss in prediction performance.
+
+[ref-023] Concrete Problems in AI Safety
+Abstract: Rapid progress in machine learning and artificial intelligence (AI) has brought increasing attention to the potential impacts of AI technologies on society. In this paper we discuss one such potential impact: the problem of accidents in machine learning systems, defined as unintended and harmful behavior that may emerge from poor design of real-world AI systems. We present a list of five practical research problems related to accident risk, categorized according to whether the problem originates from having the wrong objective function ("avoiding side effects" and "avoiding reward hacking"), an objective function that is too expensive to evaluate frequently ("scalable supervision"), or undesirable behavior during the learning process ("safe exploration" and "distributional shift"). We review previous work in these areas as well as suggesting research directions with a focus on relevance to cutting-edge AI systems. Finally, we consider the high-level question of how to think most productively about the safety of forward-looking applications of AI.
+
+[ref-024] Universal adversarial perturbations for CNN classifiers in EEG-based BCIs
+Abstract: Objective. Multiple convolutional neural network (CNN) classifiers have been proposed for electroencephalogram (EEG) based brain-computer interfaces (BCIs). However, CNN models have been found vulnerable to universal adversarial perturbations (UAPs), which are small and example-independent, yet powerful enough to degrade the performance of a CNN model, when added to a benign example. Approach. This paper proposes a novel total loss minimization (TLM) approach to generate UAPs for EEG-based BCIs. Main results. Experimental results demonstrated the effectiveness of TLM on three popular CNN classifiers for both target and non-target attacks. We also verified the transferability of UAPs in EEG-based BCI systems. Significance. To our knowledge, this is the first study on UAPs of CNN classifiers in EEG-based BCIs. UAPs are easy to construct, and can attack BCIs in real-time, exposing a potentially critical security concern of BCIs.
+
+[ref-025] Regulating Next-Generation Implantable Brain-Computer Interfaces: Recommendations for Ethical Development and Implementation
+Abstract: Brain-computer interfaces (BCIs) offer significant therapeutic opportunities for a variety of neurophysiological and neuropsychiatric disorders and may perhaps one day lead to augmenting the cognition and decision-making of the healthy brain. However, existing regulatory frameworks designed for implantable medical devices (IMDs) are inadequate to address the unique ethical, legal, and social risks associated with next-generation networked brain-computer interfaces (BCIs). In this article, we make nine recommendations to support developers in the design of BCIs and nine recommendations to support policymakers in the application of BCIs, drawing insights from the regulatory history of IMDs and principles from AI ethics. We begin by outlining the historical development of IMDs and the regulatory milestones that have shaped their oversight. Next, we compare the unique characteristics of IMDs (including early-generation implantable BCIs) and emerging, “next-generation” implantable BCIs. We then use one case study in contemporary chip architecture—the SCALO (SCalable Architecture for LOw-power BCIs) computer system—to highlight distinctive features in the design and application of next-generation BCIs arising from these technologies, which necessitate reevaluating regulatory approaches. We identify critical ethical considerations for next-gen implantable BCIs, including unique conceptions of autonomy, identity, and mental privacy. Based on these insights, we suggest potential avenues for the ethical regulation of next-gen implantable BCIs, emphasizing the importance of interdisciplinary collaboration and proactive mitigation of potential harms. The goal is to support the responsible design and application of emerging BCIs, ensuring their safe and ethical integration into medical practice.
+</file>
+
+<file name="set_x.json">
+[
+ {
+  "id": "x1",
+  "title": "Parseval EEGNet: Enhancing Robustness of EEG-Based BCIs Against Adversarial Attacks",
+  "summary": "We propose Parseval EEGNet, a modified EEGNet architecture with Parseval tight frame constraints on convolutional layers to improve robustness against adversarial perturbations in EEG-based BCIs. By ensuring Lipschitz continuity, the model maintains stable predictions under input variations while preserving classification accuracy. We validate the approach on public EEG datasets with adversarial attacks, comparing performance against standard EEGNet and Parseval networks from computer vision.",
+  "gap": "While EEGNet generalizes well across BCI paradigms, existing EEG-based CNN models lack robustness guarantees against adversarial examples, a critical concern for safety-critical BCI applications. Prior robustness methods (e.g., Parseval networks) are unexplored in EEG domains.",
+  "approach": "Integrate Parseval tight frame constraints into EEGNet's convolutional layers via spectral normalization during training. This maintains weight matrices as approximately orthogonal, bounding Lipschitz constants to improve robustness without sacrificing accuracy.",
+  "evaluation": "Compare Parseval EEGNet with baseline EEGNet and Parseval networks on datasets from [ref-001] using FGSM/PGD attacks. Metrics include clean/test accuracy, robustness score (CLEVER from [ref-009]), and adversarial loss. Cross-subject generalization is tested via leave-one-subject-out validation.",
+  "support": [
+   "ref-001",
+   "ref-005",
+   "ref-009",
+   "ref-010",
+   "ref-021",
+   "ref-024"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "MOABB-Integrated Adversarial Training for Generalizable Robust EEG Decoders",
+  "summary": "We develop an adversarial training framework integrated with the MOABB benchmarking platform to improve generalization of EEG classifiers against unseen attacks. By exposing models to diverse adversarial examples during training across multiple datasets, we enhance robustness without sacrificing cross-paradigm performance. Validation uses MOABB's standardized pipelines and novel attack transferability metrics.",
+  "gap": "Current BCI robustness evaluations focus on single datasets or attacks, failing to assess generalization. MOABB enables multi-dataset benchmarking but lacks adversarial robustness analysis, leaving a gap in scalable, reproducible robustness validation.",
+  "approach": "Extend MOABB with adversarial training modules, incorporating PGD and CW attacks during training. Train EEGNet variants on aggregated datasets from [ref-007], applying dynamic attack schedules to simulate real-world threat diversity.",
+  "evaluation": "Benchmark trained models on MOABB's 12 datasets using attack transferability matrices. Metrics include accuracy under white-box/black-box attacks, CLEVER scores, and comparison with non-adversarially trained baselines. Cross-paradigm robustness is assessed via paradigm-shuffled splits.",
+  "support": [
+   "ref-001",
+   "ref-007",
+   "ref-009",
+   "ref-013",
+   "ref-021",
+   "ref-024"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Safety-Certified EEGNet via Semidefinite Programming for Implantable BCIs",
+  "summary": "We present a safety-certified EEGNet variant using semidefinite programming (SDP) to provide formal robustness guarantees for implantable BCIs. By bounding output variations under input perturbations, the model ensures reliable operation in safety-critical scenarios. Validation includes SDP-based verification and physical adversarial testing on motor imagery datasets.",
+  "gap": "Implantable BCIs require provable safety guarantees, but existing EEG models lack formal robustness certification. SDP methods from [ref-005] and [ref-020] are untested in EEG domains, leaving a gap in certified robust BCI design.",
+  "approach": "Apply SDP-based quadratic constraint programming to EEGNet, modeling activation functions as convex potentials. Derive layer-wise Lipschitz bounds via SDP relaxation, ensuring output stability under bounded input perturbations during inference.",
+  "evaluation": "Compare certified robustness bounds with empirical attack success rates on motor imagery datasets. Metrics include verified perturbation radii, CLEVER scores, and comparison with Parseval EEGNet. Physical adversarial testing uses noise-injected EEG signals from [ref-006].",
+  "support": [
+   "ref-001",
+   "ref-005",
+   "ref-006",
+   "ref-020",
+   "ref-022",
+   "ref-025"
+  ]
+ }
+]
+</file>
+
+<file name="set_y.json">
+[
+ {
+  "id": "y1",
+  "title": "Certified Robustness for EEG-Based BCIs via EEG-Specific SDP Constraints",
+  "summary": "We formalize EEG signal robustness verification by incorporating domain-specific constraints (temporal smoothness, spatial covariance patterns from EEGNet) into semidefinite programming (SDP). Our method derives certified robustness bounds for EEGNet classifiers under ℓ₂-norm perturbations, validated against universal adversarial attacks in motor imagery and P300 paradigms.",
+  "gap": "Existing BCI robustness evaluations rely on empirical attack success rates without formal safety guarantees. General neural network robustness frameworks (ref-005/ref-020) lack EEG-specific constraints, failing to capture physiological signal characteristics critical for clinical safety.",
+  "approach": "We extend SDP-based robustness verification by encoding EEGNet's temporal filtering and spatial covariance properties as quadratic constraints. Layer-wise decomposition ensures scalability while preserving EEG-specific signal structure in the S-procedure relaxation framework.",
+  "evaluation": "Certified robustness radii are computed for MOABB datasets under ℓ₂-norm perturbations (ε=0.1) and compared to empirical attack distances from ref-024. Results demonstrate tighter bounds than generic SDP approaches by incorporating EEG-specific constraints.",
+  "support": [
+   "ref-001",
+   "ref-005",
+   "ref-007",
+   "ref-020",
+   "ref-024"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Certified Robustness for EEGNet via Layer-Specific Quadratic Constraints",
+  "summary": "This work derives layer-specific quadratic constraints for EEGNet's temporal and spatial convolutional layers, enabling semidefinite programming-based robustness certification. It formally verifies that EEGNet's predictions remain stable under $\\ell_2$-norm bounded perturbations, with certified robustness evaluated on motor imagery datasets to ensure reliability for clinical brain-computer interfaces.",
+  "gap": "EEGNet's robustness claims (ref-001) are empirical, lacking formal guarantees required for clinical deployment. Existing SDP-based verification methods (ref-005, ref-020) do not adapt to EEGNet's specialized architecture, and no work evaluates certified robustness on physiological EEG data.",
+  "approach": "Derive quadratic constraints for EEGNet's temporal convolution, depthwise spatial convolution, and separable operations by modeling activation function properties. Integrate these into an SDP solver that exploits EEGNet's parameter sharing to reduce computational complexity during robustness certification.",
+  "evaluation": "Measure certified robust accuracy as the fraction of test samples with guaranteed perturbation tolerance. Compare against empirical robustness under adversarial attacks (ref-021) and natural noise. Validate cross-subject generalization using MOABB (ref-007) and assess clinical relevance by bounding false positive/negative rates under certified perturbations.",
+  "support": [
+   "ref-001",
+   "ref-005",
+   "ref-007",
+   "ref-020",
+   "ref-021"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Lipschitz-Constrained EEGNet: Formal Robustness Bounds for EEG-Based BCIs",
+  "summary": "We propose Lipschitz-Constrained EEGNet, a modified EEGNet architecture that enforces spectral norm bounds on depthwise separable convolutions to provide formal robustness guarantees against adversarial perturbations. By constraining layer-wise Lipschitz constants through spectral normalization, the model limits feature space distortion while preserving EEG paradigm-specific temporal filters. We validate robustness using CLEVER scores and adversarial attack success rates across P300, ERN, and SMR paradigms, comparing against standard EEGNet and adversarially trained baselines.",
+  "gap": "Current EEGNet implementations lack formal robustness guarantees against adversarial examples, despite their widespread use in safety-critical BCIs. Existing robustness analyses focus on computer vision without EEG-specific spectral constraints or adversarial detection baselines.",
+  "approach": "We implement spectral normalization on EEGNet's depthwise and separable convolutions to bound Lipschitz constants, ensuring layer outputs change smoothly with input perturbations. Training incorporates adversarial loss regularization with projected gradient descent, while preserving EEGNet's temporal filtering properties through frequency band energy constraints (8-30Hz).",
+  "evaluation": "We measure CLEVER scores, adversarial attack success rates (FGSM, PGD), and classification accuracy under white-box attacks. Cross-paradigm generalization is quantified using MOABB benchmarks, comparing Lipschitz bounds and robustness metrics against standard EEGNet and adversarially trained models.",
+  "support": [
+   "ref-001",
+   "ref-005",
+   "ref-009",
+   "ref-010",
+   "ref-021",
+   "ref-024"
+  ]
+ }
+]
+</file>
+codex
+{
+  "strongest": {"X": "x1", "Y": "y2"},
+  "weakest": {"X": "x3", "Y": "y3"},
+  "best": {
+    "rationale": "y2 offers the more coherent experiment: exploit EEGNet's convolutional structure and parameter sharing in quadratic-constraint verification, then measure certified robust accuracy and computational cost against generic verification methods (ref-001, ref-005, ref-020). Its architectural advantage remains unproven, and its clinical necessity claims exceed the references, but the proposed contribution is identifiable. x1 also has a clear comparison—constrain EEGNet and measure the accuracy–robustness tradeoff—but its central implementation conflates spectral normalization with maintaining Parseval tight frames, an equivalence ref-010 does not establish. Its prediction-stability claims also exceed the proposed empirical evaluation.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "y3 combines spectral normalization, adversarial training, and frequency-energy constraints without isolating one contribution. The supplied references do not justify its 8–30 Hz restriction across the proposed paradigms, and CLEVER estimates plus attack results do not establish its advertised formal guarantees (ref-009). Nevertheless, its EEG experiments could test empirical robustness. x3 has a deeper grounding failure: ref-006 describes intracortical neuronal recordings for robotic control, not the noise-injected EEG signals its evaluation requires. Motor-imagery EEG certification would therefore not validate the proposed implantable-BCI safety claim. Its certification machinery is grounded in ref-005/ref-020, but its application and validation do not fit together.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "X spans constrained training, standardized multi-dataset adversarial training and benchmarking, and post-training formal verification. These address meaningfully different interventions and research decisions. Y's y1 and y2 both specialize quadratic-constraint SDP certification for EEGNet; signal constraints versus architectural constraints provide some distinction, but substantial overlap remains. y3 adds a training intervention while retaining the same Lipschitz-robustness focus.",
+    "verdict": "X"
+  },
+  "overall": {
+    "rationale": "Y provides the stronger candidate to select and avoids X's most consequential evidence mismatch. y2 supplies a reasonably focused certification study, although generic SDP applicability must be distinguished from a demonstrated need for new constraints (ref-005, ref-020). y1 offers a related alternative, but must clarify whether physiological constraints restrict the threat set and compare certificates under identical assumptions. X's greater breadth is useful, yet all three options need substantial repair: x1's constraint implementation is unsupported, x2 incorrectly characterizes prior evaluations as restricted to single datasets or attacks despite ref-021 and overlooks transfer testing in ref-021/ref-024, and x3 confuses recording modalities. These weaknesses outweigh X's diversity advantage.",
+    "verdict": "Y"
+  }
+}
+tokens used
+27,026

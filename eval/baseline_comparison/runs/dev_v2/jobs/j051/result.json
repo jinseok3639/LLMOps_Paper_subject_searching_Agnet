@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The support ids appropriately identify proxy overoptimization (ref-006), constrained reranking (ref-012), guards (ref-005, ref-016), and evaluation resources (ref-014, ref-017, ref-021). However, ref-006 does not restrict its findings to helpfulness, and the formal accounts in ref-008 and ref-009 concern general rewards and metrics. The claim that constrained methods treat costs as reliable is overstated: ref-020 explicitly limits its guarantee to the given cost model. The universal claim that nobody has measured this is not established by these abstracts.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Measuring independently evaluated harmfulness as selection pressure on safety guards increases is a concrete gap naturally connecting ref-006 with ref-012, ref-005, and ref-016. None of the supplied abstracts reports this particular scaling experiment. The gap remains useful despite its inaccurate framing around exclusively helpfulness rewards and universally trusted cost models.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate specifies frozen-policy sampling, named guards and reward models, cost-only and augmented-reward selection, benchmarks, baselines, and several measurable outcomes (ref-005, ref-010, ref-012, ref-016, ref-021). Experiment design could begin immediately. However, the benign prompt set, helpfulness evaluator, policy choices, and fitting protocol remain unspecified. The claimed analytic BoN KL also needs clarification for each selection rule.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Sweeping selection pressure and comparing guard scores with independent harmfulness judgments directly tests guard overoptimization, extending the setup in ref-006 to the costs used in ref-012. However, the central deterioration hypothesis conflates harmfulness with over-refusal: over-refusal can reduce helpfulness without worsening safety. Although separate measurements partly address this, the proposal needs distinct hypotheses for harmfulness reversal and helpfulness loss. Ref-021 supports harmful-information evaluation, not treating refusal itself as harmfulness.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Finding when additional sampling worsens independently assessed safety could change sampling budgets, guard choices, and confidence in constrained reranking (ref-006, ref-012, ref-016). A robust absence of deterioration would also inform those decisions. The potential contribution exceeds a trivial combination, but its impact depends on whether the proposed gold judges remain trustworthy on selected outputs; ref-021 supports their usefulness without establishing infallibility.",
+  "score": 4
+ }
+}
