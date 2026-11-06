@@ -132,6 +132,19 @@ class FulltextCardTest(TmpDirs):
                              ("Our goal is to detect reward hacking.", 2))
             self.assertEqual(fields["method"].text, "")
 
+    def test_br_in_studio_quote_is_removed_and_matches_parse_text(self):
+        # 실제 Studio 응답(2205.01663): 파싱 HTML의 줄바꿈 <br>이 추출 인용에 <br/>로 딸려 온다
+        final = {"problem_text": "Avoid<br/>failures.",
+                 "problem_quote": "avoiding even a sin-<br/>gle catastrophic failure while in deployment.",
+                 "problem_page": 1}
+        fields = cards._studio_fields(final)
+        self.assertEqual(fields["problem"].text, "Avoid failures.")
+        self.assertEqual(fields["problem"].quote, "avoiding even a sin- gle catastrophic failure while in deployment.")
+        source = cards.studio.plain_text("<p>goals: avoiding even a sin-<br>gle catastrophic failure while in deployment.</p>")
+        card = cards._verified(PAPER, "Paper", "fulltext", fields, source)
+        self.assertEqual(card["quote_failed"], [])
+        self.assertEqual(card["problem"]["page"], 1)
+
     def test_no_pdf_returns_none(self):
         with patch("src.cards.fetch_pdf", return_value=None), patch("src.cards.studio.run_agent") as run:
             self.assertIsNone(cards.fulltext_card(PAPER))

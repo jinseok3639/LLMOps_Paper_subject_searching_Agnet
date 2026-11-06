@@ -242,6 +242,11 @@ def _str(v) -> str:
     return v.strip() if isinstance(v, str) else ""
 
 
+def _untag(v) -> str:
+    """Studio 추출값에 딸려 온 파싱 HTML 줄바꿈(<br>, <br/>)을 공백으로. 원문 쪽은 plain_text가 같은 처리를 한다."""
+    return re.sub(r"\s*<br\s*/?>\s*", " ", _str(v)).strip()
+
+
 def _studio_fields(final: dict) -> dict[str, CardField]:
     """추출 단계 JSON → 필드. 중첩({problem: {text, quote, page}})과 평면(problem_text ...)을 모두 읽는다."""
     if len(final) == 1 and isinstance(next(iter(final.values())), dict) \
@@ -254,7 +259,7 @@ def _studio_fields(final: dict) -> dict[str, CardField]:
             text, quote, page = v.get("text"), v.get("quote"), v.get("page")
         else:
             text, quote, page = final.get(f"{n}_text", v), final.get(f"{n}_quote"), final.get(f"{n}_page")
-        out[n] = CardField(text=_str(text), quote=_str(quote), page=_page(page))
+        out[n] = CardField(text=_untag(text), quote=_untag(quote), page=_page(page))
     return out
 
 
