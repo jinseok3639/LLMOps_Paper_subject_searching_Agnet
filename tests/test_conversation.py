@@ -141,7 +141,9 @@ class ChatContextTests(unittest.TestCase):
                                "comparison": {"problem": {"match": "same", "reason": "같은 문제", "quote": "we study X"}}}],
                   "limitations": [{"id": "N1", "quote": "we leave Y"}],
                   "critique": {"requirements": {"mechanism": {"status": "undecided"}}, "suggestion": "Y를 정의"}}
-        context = chat.build_context(self.PROFILE, None, TOPICS_RUN, {"topic_id": "s1-a"}, verify)
+        run = {**TOPICS_RUN, "topics": [{**TOPICS_RUN["topics"][0], "ko": {"summary": "화면용 번역"}}, TOPICS_RUN["topics"][1]]}
+        context = chat.build_context(self.PROFILE, None, run, {"topic_id": "s1-a"}, verify)
+        self.assertNotIn("화면용 번역", context)  # 화면용 한국어는 채팅 입력에 넣지 않는다 (이슈 #39)
         self.assertIn("인용된 초록", context)
         self.assertNotIn("안 쓰는 초록", context)
         self.assertNotIn("openAccessPdf", context)

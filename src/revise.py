@@ -2,7 +2,8 @@
 
 - 후보 원본(research run의 topics[])은 v1이다. 수정안은 kind "revision" 결과로 따로 저장하고 원본은 바꾸지 않는다.
   revision = {research_run_id, topic_id, base_run_id, version, topic, changes, reason, from_verify}
-  topic은 고친 뒤의 전체 후보, changes는 바뀐 필드만 [{field, before, after}].
+  topic은 고친 뒤의 전체 후보, changes는 바뀐 필드만 [{field, before, after, before_ko, after_ko}].
+- 후보 필드는 검색어·검증에 쓰는 영어로 두고, 화면용 한국어는 topic.ko와 changes[].*_ko에 둔다 (이슈 #39).
 - 화면이 [적용]을 누르면 picks.revision_run_id로 이 결과를 가리킨다. 서버에 따로 적용 단계는 없다.
 - ④·⑤는 resolve()로 지금 버전의 후보를 얻는다. 검증을 다시 하라고 강제하지 않는다 (사용자 판단).
 """
@@ -13,6 +14,7 @@ from pydantic import BaseModel
 from src import config, llm
 
 FIELDS = ("title", "summary", "gap", "approach", "evaluation")
+KO_FIELDS = ("summary", "gap", "approach", "evaluation")  # title은 논문 제목처럼 영어로 둔다
 MAX_HISTORY_MESSAGES = 12  # 수정안에 넣는 최근 대화 (src/chat.py와 같은 값)
 MAX_MESSAGE_CHARS = 2_000
 
@@ -24,6 +26,10 @@ class Proposal(BaseModel):
     gap: str
     approach: str
     evaluation: str
+    summary_ko: str
+    gap_ko: str
+    approach_ko: str
+    evaluation_ko: str
     reason: str
 
 
@@ -39,7 +45,9 @@ def resolve(research_run: dict, topic_id: str, revision_run: dict | None = None)
     if (revision_run.get("kind") != "revision" or revision_run.get("topic_id") != topic_id
             or revision_run.get("research_run_id") != research_run.get("run_id")):
         raise ValueError("revision does not belong to this topic")
-    return {**topic, **{k: revision_run["topic"].get(k, topic.get(k)) for k in FIELDS}}, version(revision_run)
+    revised = revision_run["topic"]
+    return {**topic, **{k: revised.get(k, topic.get(k)) for k in FIELDS},
+            "ko": revised.get("ko", topic.get("ko") or {})}, version(revision_run)
 
 
 def _verify_text(verify_run: dict) -> str:
@@ -67,10 +75,17 @@ def propose(profile: dict, topic: dict, history: list[dict], verify_run: dict | 
     parts.append(f"Conversation (latest last):\n{json.dumps(recent, ensure_ascii=False)}")
     system = (config.PROMPT_DIR / "topic_revise.md").read_text("utf-8")
     got = llm.chat_json([{"role": "system", "content": system}, {"role": "user", "content": "\n\n".join(parts)}], Proposal)
+    old_ko = topic.get("ko") or {}
     changes = []
     for k in FIELDS:
         after, before = getattr(got, k).strip(), (topic.get(k) or "").strip()
         if after and after != before:
-            changes.append({"field": k, "before": before, "after": after})
+            change = {"field": k, "before": before, "after": after}
+            if k in KO_FIELDS:
+                change.update(before_ko=old_ko.get(k) or "", after_ko=getattr(got, f"{k}_ko").strip())
+            changes.append(change)
     revised = {**{k: topic.get(k) or "" for k in FIELDS}, **{c["field"]: c["after"] for c in changes}}
+    # 바꾸지 않은 필드는 원래 한국어를 쓴다. 바꾼 필드의 한국어가 비면 그 필드는 영어로 보인다 (화면이 영어로 대신한다)
+    revised["ko"] = {k: old_ko.get(k) or "" for k in KO_FIELDS}
+    revised["ko"].update({c["field"]: c["after_ko"] for c in changes if "after_ko" in c})
     return {"changes": changes, "topic": revised, "reason": got.reason.strip()}

@@ -2,6 +2,7 @@
 
 흐름: 질의 작성(LLM) → 임베딩 검색 → 선택(LLM) → problem_id 검증 → 답변 생성(LLM)
 - 화면에 보여 줄 title, summary, quote, 출처는 LLM 출력이 아니라 all.json과 config에서 가져온다.
+  summary는 임베딩 매칭에 쓰는 영어라서, 화면에는 답변 생성 LLM이 같이 쓴 한국어 summary_ko를 보인다 (이슈 #39).
 - 답변 생성 LLM에는 검증을 통과한 항목만 넘긴다.
 - profile = {lab_name, lab_topics, interests}. interests는 비어 있을 수 있다 (API 명세 2.1).
 - rejections = [{target: "problem", target_id, reason}]. 거절한 문제는 후보에서 빼고, 이유는 질의와 선택에 반영한다 (C-6).
@@ -32,6 +33,7 @@ class Selection(BaseModel):
 
 class RecommendationText(BaseModel):
     problem_id: str
+    summary_ko: str  # 화면용 한국어 요약. 검색·매칭은 영어 summary를 쓴다
     reason: str
     connection: str
 
@@ -199,6 +201,7 @@ def recommend(profile: dict, rejections: list[dict] | None = None, progress=_noo
     for pid in valid:
         text = texts.get(pid)
         cards.append({**problem_card(pid), "score": round(scores[pid], 4),
+                      "summary_ko": text.summary_ko.strip() if text else "",
                       "reason": text.reason if text else "", "connection": text.connection if text else ""})
     result.update({"status": "ok", "intro": answer.intro, "note": answer.note, "recommendations": cards})
     trace["answer_missing_ids"] = [pid for pid in valid if pid not in texts]

@@ -30,7 +30,8 @@ def setUpModule():  # 호출 로그(src.calllog)와 로그인 저장소는 임�
 
 
 def proposal(**fields):
-    return revise.Proposal(**{"title": "", "summary": "", "gap": "", "approach": "", "evaluation": "", "reason": "요청대로",
+    return revise.Proposal(**{"title": "", "summary": "", "gap": "", "approach": "", "evaluation": "",
+                              "summary_ko": "", "gap_ko": "", "approach_ko": "", "evaluation_ko": "", "reason": "요청대로",
                               **fields})
 
 
@@ -78,11 +79,17 @@ class ResolveTests(RunsDirTest):
 
 class ProposeTests(unittest.TestCase):
     def test_keeps_only_changed_fields(self):
-        got = proposal(title="후보 1", approach="7B LoRA", evaluation="  ")  # 같은 값, 공백은 바뀐 것이 아니다
+        got = proposal(title="후보 1", approach="7B LoRA", approach_ko="7B 모델에 LoRA 적용", evaluation="  ")  # 같은 값, 공백은 바뀐 것이 아니다
+        topic = {**TOPICS[0], "ko": {"approach": "70B 전체 파인튜닝", "gap": "기존 공백"}}
         with patch("src.revise.llm.chat_json", return_value=got) as llm:
-            out = revise.propose(PROFILE, TOPICS[0], MESSAGES)
-        self.assertEqual(out["changes"], [{"field": "approach", "before": "70B 파인튜닝", "after": "7B LoRA"}])
+            out = revise.propose(PROFILE, topic, MESSAGES)
+        self.assertEqual(out["changes"], [{"field": "approach", "before": "70B 파인튜닝", "after": "7B LoRA",
+                                           "before_ko": "70B 전체 파인튜닝", "after_ko": "7B 모델에 LoRA 적용"}])
         self.assertEqual((out["topic"]["approach"], out["topic"]["evaluation"]), ("7B LoRA", "MovieLens"))
+        # 화면용 한국어: 바꾼 필드는 새 번역, 바꾸지 않은 필드는 원래 번역
+        self.assertEqual(out["topic"]["ko"], {"summary": "", "gap": "기존 공백", "approach": "7B 모델에 LoRA 적용",
+                                              "evaluation": ""})
+        self.assertNotIn('"ko"', llm.call_args[0][0][1]["content"])  # 수정 LLM에는 영어 필드만 넘긴다
         user = llm.call_args[0][0][1]["content"]
         self.assertIn("7B LoRA로 바꾸고", user)
         self.assertNotIn("Verification result", user)
@@ -123,7 +130,8 @@ class ReviseApiTests(RunsDirTest):
         d2 = ev[-1][1]
         self.assertEqual((d2["version"], d2["base_run_id"]), (3, d["run_id"]))
         self.assertEqual((d2["topic"]["approach"], d2["topic"]["evaluation"]), ("7B LoRA", "인용 그래프"))
-        self.assertEqual(d2["changes"], [{"field": "evaluation", "before": "MovieLens", "after": "인용 그래프"}])
+        self.assertEqual(d2["changes"], [{"field": "evaluation", "before": "MovieLens", "after": "인용 그래프",
+                                        "before_ko": "", "after_ko": ""}])
 
     def test_no_change_is_not_saved(self):
         _, ev = self.post(proposal(reason="무엇을 바꿀지 모르겠습니다"))

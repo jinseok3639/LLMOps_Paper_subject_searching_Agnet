@@ -59,6 +59,9 @@
   const now = () => new Date().toISOString();
   const rid = p => p + Array.from(crypto.getRandomValues(new Uint8Array(8)), b => b.toString(16).padStart(2, "0")).join("");
   const safeUrl = u => /^https?:\/\//.test(u || "") ? u : null;
+  // 화면용 한국어 (이슈 #39). 내부 데이터는 영어이고, 한국어가 없는 예전 결과는 영어를 그대로 보인다
+  const ko = (x, k) => (x.ko && x.ko[k]) || x[k];
+  const TOPIC_LABEL = {gap: "연구 공백 (gap)", approach: "방법 (approach)", evaluation: "평가 (evaluation)"};
   const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
 
   function h(tag, attrs = {}, ...kids) {
@@ -619,7 +622,7 @@
     const foot = active ? h("div", {class: "row"}, btn("이 문제로 진행", () => pickProblem(s, m, c, n), "primary")) : "";
     return h("div", {class: "card" + (picked ? " picked" : "")},
       h("div", {class: "card-title"}, h("span", {class: "num"}, n), c.title, picked ? h("span", {class: "badge"}, "선택함") : ""),
-      h("p", {}, c.summary),
+      h("p", {}, c.summary_ko || c.summary),
       c.reason ? h("p", {class: "reason"}, c.reason) : "",
       sourceLine(c),
       h("details", {}, h("summary", {}, "원문 인용"), h("blockquote", {}, c.quote)),
@@ -635,7 +638,7 @@
       x.stage = "explore";
       if (x.title === DEFAULT_TITLE) x.title = c.title;  // S-6
       if (echo) say(x, "user", `${n}번 문제로 진행할게요: ${c.title}`);
-      say(x, "assistant", `선택한 문제: ${c.title}\n${c.summary}`, {kind: "problem", run_id: m.run_id, problem_id: c.problem_id});
+      say(x, "assistant", `선택한 문제: ${c.title}\n${c.summary_ko || c.summary}`, {kind: "problem", run_id: m.run_id, problem_id: c.problem_id});
     });
   }
 
@@ -659,7 +662,7 @@
     if (!run) return el.append(loading(m.run_id));
     const c = run.recommendations.find(x => x.problem_id === m.problem_id);
     el.append(h("p", {}, "좋습니다. 이 문제로 연구 주제 후보를 만들겠습니다."),
-      c ? h("div", {class: "card quiet"}, h("div", {class: "card-title"}, c.title), h("p", {}, c.summary), sourceLine(c),
+      c ? h("div", {class: "card quiet"}, h("div", {class: "card-title"}, c.title), h("p", {}, c.summary_ko || c.summary), sourceLine(c),
             h("details", {}, h("summary", {}, "원문 인용"), h("blockquote", {}, c.quote))) : h("p", {}, m.problem_id),
       h("p", {}, "보유 GPU, 쓸 수 있는 데이터셋, 기간처럼 고려할 조건이 있으면 먼저 아래 입력창으로 알려 주세요. " +
                  "대화 내용도 참고문헌 검색과 후보 생성에 반영됩니다. 준비되면 버튼을 누르거나 \"후보 만들어 줘\"라고 말해 주세요."));
@@ -676,9 +679,9 @@
       h("div", {class: "card-title"}, h("span", {class: "num"}, n), t.title,
         picked ? h("span", {class: "badge"}, "선택함") : "", verified ? h("span", {class: "badge gray"}, "검증함") : "",
         rev ? h("span", {class: "badge gray", title: "아래는 원본(v1)입니다. 고친 내용은 수정안 카드에 있습니다."}, `v${rev.version}로 고침`) : ""),
-      t.summary ? h("p", {}, t.summary) : "",
+      t.summary ? h("p", {}, ko(t, "summary")) : "",
       h("details", {}, h("summary", {}, "자세히"),
-        ["gap", "approach", "evaluation"].filter(k => t[k]).map(k => h("p", {}, h("b", {}, `${k}: `), t[k])),
+        ["gap", "approach", "evaluation"].filter(k => t[k]).map(k => h("p", {}, h("b", {}, `${TOPIC_LABEL[k]}: `), ko(t, k))),
         t.support ? h("p", {class: "caption"}, `근거 참고문헌: ${t.support.join(", ")}`) : ""),
       active ? h("div", {class: "row"}, btn(rev ? `v${rev.version} 검증` : "이 후보 검증", () => pickTopic(s, m, t, n, "verify"), "primary"),
                  btn("이 후보 더 다듬기", () => pickTopic(s, m, t, n, "chat"))) : "",
@@ -875,7 +878,7 @@
 
   window.App = {STAGES, registerCard, registerStage, registerJob, startJob, registerActions, registerAction, addCardExtra,
                 runTask, getSession, updateSession, getRun, loading, isBusy, render, h, md, mdBlock, msg, btn,
-                currentRevision, pickTopic};
+                currentRevision, pickTopic, ko};
 
   document.addEventListener("DOMContentLoaded", () => {
     $("#new-session").onclick = () => openSession(newSession().id);
