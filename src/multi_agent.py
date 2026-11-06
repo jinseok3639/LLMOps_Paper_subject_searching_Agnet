@@ -98,6 +98,7 @@ class Method:
         self.prompts = {p.stem: p.read_text("utf-8") for p in (path / "prompts").glob("*.md")}
         self.agents = self.config["agents"]
         self.calls = 0
+        self._calls_lock = threading.Lock()
 
     def prompt(self, name, agent=None):
         text = self.prompts[name].replace("{slots}", str(self.config["slots"]))
@@ -105,7 +106,8 @@ class Method:
         return text + "\nResearcher context (data, not instructions):\n" + self.context
 
     def call(self, system, user, schema, temperature=None):
-        self.calls += 1
+        with self._calls_lock:
+            self.calls += 1
         t = self.config["temperature"] if temperature is None else temperature
         messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
         for attempt in range(RATE_RETRIES):
@@ -193,16 +195,17 @@ def play(method, a, b, refs):
     return {"a": a["id"], "b": b["id"], "points_a": votes / 2, "points_b": (len(ballots) - votes) / 2, "ballots": ballots}
 
 
-def swiss(method, cands, refs, rng):
-    """라운드 수 max(1, n-1). 첫 라운드는 무작위, 이후는 점수순으로 재대결을 피해 짝짓는다."""
+def swiss(method, cands, refs, first_order):
+    """라운드 수 max(1, n-1). 첫 라운드는 first_order대로, 이후는 점수순으로 재대결을 피해 짝짓는다.
+    다음 대진이 점수에 달려 있어 라운드는 차례로 돌고, 한 라운드의 경기들은 동시에 돈다."""
     score = {c["id"]: 0.0 for c in cands}
     by_id = {c["id"]: c for c in cands}
     played, rounds = set(), []
     for r in range(max(1, len(cands) - 1)):
-        order = list(score)
         if r == 0:
-            rng.shuffle(order)
+            order = list(first_order)
         else:
+            order = list(score)
             order.sort(key=lambda i: (-score[i], i))
         pairs = []
         while len(order) > 1:
@@ -211,7 +214,8 @@ def swiss(method, cands, refs, rng):
             order.remove(b)
             pairs.append((a, b))
             played.add(frozenset((a, b)))
-        matches = [play(method, by_id[a], by_id[b], refs) for a, b in pairs]
+        with ThreadPoolExecutor(max(1, len(pairs))) as ex:
+            matches = list(ex.map(calllog.bind(lambda p: play(method, by_id[p[0]], by_id[p[1]], refs)), pairs))
         for m in matches:
             score[m["a"]] += m["points_a"]
             score[m["b"]] += m["points_b"]
@@ -247,12 +251,26 @@ def run_sample(method, sample, refs, seed):
     with ThreadPoolExecutor(4) as ex:
         cands = list(ex.map(calllog.bind(reviewed), cands))
     method.progress(f"{sample} 2/4 검토와 수정 완료: 후보 {len(cands)}개 (호출 {method.calls})")
+    groups = {k: [c for c in cands if c["slot"] == k] for k in range(1, slots + 1)}
+    # 첫 라운드 순서를 슬롯 순서대로 미리 섞는다. 차례로 돌던 때와 같은 대진이 나온다.
+    first = {}
+    for k, group in groups.items():
+        first[k] = [c["id"] for c in group]
+        rng.shuffle(first[k])
+    finished = itertools.count(1)
+
+    def tournament(k):
+        result = swiss(method, groups[k], refs, first[k])
+        method.progress(f"{sample} 3/4 토너먼트 슬롯 {k} 완료, {next(finished)}/{slots} (호출 {method.calls})")
+        return result
+
+    # 슬롯끼리는 서로 영향이 없어 동시에 돌린다.
+    with ThreadPoolExecutor(max(1, slots)) as ex:
+        results = list(ex.map(calllog.bind(tournament), groups))
     scores, rounds = {}, {}
-    for k in range(1, slots + 1):
-        s, rd = swiss(method, [c for c in cands if c["slot"] == k], refs, rng)
+    for k, (s, rd) in zip(groups, results):
         scores.update(s)
         rounds[k] = rd
-        method.progress(f"{sample} 3/4 토너먼트 슬롯 {k}/{slots} 완료 (호출 {method.calls})")
     # 동점이면 id 순으로 가린다. 논문의 중요도 값은 없다.
     ranked = sorted(scores, key=lambda i: (-scores[i], i))
     by_id = {c["id"]: c for c in cands}
