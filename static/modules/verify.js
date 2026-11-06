@@ -1,12 +1,13 @@
-/* ④ 검증 화면 (설계서 4장, API 명세 6.4). app.js의 App 훅만 쓴다.
-   ③에서 후보를 고르면 "선택한 후보 검증" → /api/verify → picks.verify_run_id, stage "verify".
+/* ④ 검증 메시지 (설계서 4장, API 명세 6.4). app.js의 App 훅만 쓴다.
+   ③ 후보 카드의 "이 후보 검증" → /api/verify → 대화에 kind "verify" 메시지, picks.verify_run_id, stage "verify".
+   다음 단계 버튼: "이 주제로 확정"(finalize 작업) · "다른 후보 검증"(후보 카드를 대화 아래에 다시 보인다).
    ⑤(다른 모듈)는 picks.verify_run_id, research_run_id, topic_id, recommend_run_id, problem_id를 읽는다. */
 (() => {
-  const {h} = App;
+  const {h, btn} = App;
   const VERDICT = {solved: "이미 한 연구가 있음 (solved)", partial: "일부 겹침 (partial)",
                    not_addressed: "같은 문제·방법을 한 논문을 찾지 못함 (not_addressed)"};
   const ADVICE = {
-    solved: "한 논문이 문제와 방법을 모두 이미 다룹니다. ③으로 돌아가 다른 후보를 고르거나 후보를 수정하는 것을 권합니다.",
+    solved: "한 논문이 문제와 방법을 모두 이미 다룹니다. 다른 후보를 검증하거나, 입력창으로 후보 수정을 요청하는 것을 권합니다.",
     partial: "겹치는 요소와 다른 요소를 아래 표에서 나눠 확인하세요.",
     not_addressed: "가장 가까운 논문과의 차이를 아래 표에서 확인하세요. 찾은 범위 안의 결과일 뿐 새롭다는 보장은 아닙니다."};
   const FLAG_NOTE = {"초록 수준": "본문을 읽지 못해 초록 카드로 비교한 논문이 있습니다. " +
@@ -27,16 +28,31 @@
                   "no_pdf": "PDF를 받지 못함", studio_unavailable: "본문 분석 설정 없음", studio_error: "본문 분석 실패"};
   const unreadReason = s => !s || s === "ok" ? "" : UNREAD[s] || UNREAD[s.split(":")[0]] || "";
 
-  document.head.append(h("style", {}, `
-    .vtable { border-collapse: collapse; width: 100%; margin: 6px 0; font-size: 14px; }
-    .vtable th, .vtable td { border: 1px solid #ddd; padding: 4px 6px; text-align: left; vertical-align: top; }
-    .vtable th { background: #f4f4f6; white-space: nowrap; }`));
-
   function startVerify(s, {replace} = {}) {
+    const {research_run_id, topic_id} = s.picks;
     return App.runTask({kind: "verify", label: "후보 검증", url: "/api/verify", replace,
-      body: {profile: s.profile, problem_id: s.picks.problem_id, research_run_id: s.picks.research_run_id,
-             topic_id: s.picks.topic_id},
-      onResult: (x, d) => { x.picks = {...x.picks, verify_run_id: d.run_id}; x.stage = "verify"; }});
+      body: {profile: s.profile, problem_id: s.picks.problem_id, research_run_id, topic_id},
+      onResult: (x, d) => {
+        x.picks = {...x.picks, verify_run_id: d.run_id};
+        delete x.picks.final_run_id;
+        x.stage = "verify";
+        return App.msg("assistant", `검증 판정: ${VERDICT[d.verdict] || d.verdict || "없음"} (${d.topic_title || topic_id})`,
+                       {kind: "verify", run_id: d.run_id, research_run_id, topic_id});
+      }});
+  }
+
+  function finalize(s) {
+    App.updateSession(s.id, x => { x.messages.push(App.msg("user", "이 주제로 확정할게요.")); });
+    App.startJob("finalize", App.getSession());
+  }
+
+  function otherTopic(s, m) {  // 되돌아가지 않고 후보 카드를 대화 아래에 다시 보인다 (이슈 #15)
+    App.updateSession(s.id, x => {
+      x.messages.push(App.msg("user", "다른 후보를 검증하고 싶어요."));
+      x.messages.push(App.msg("assistant", "검증할 후보를 골라 주세요. 이미 검증한 후보에는 \"검증함\"이 붙어 있습니다.",
+                              {kind: "topics", run_id: m.research_run_id || x.picks.research_run_id, repost: true}));
+      x.stage = "refine";
+    });
   }
 
   const page = p => p == null ? "" : ` (p.${p})`;
@@ -72,37 +88,36 @@
       REVIEW.filter(([key]) => c[key]).map(([key, label]) => h("p", {}, h("b", {}, `${label}: `), c[key])));
   }
 
-  function renderVerify(el, s) {
-    const run = App.getRun(s.picks.verify_run_id);
-    if (!run) return el.append(App.loading(s.picks.verify_run_id),
-                               h("p", {class: "caption"}, "결과는 24시간 보관됩니다. 지났으면 ③에서 다시 검증하세요."));
+  function renderVerify(el, s, m, active) {
+    const run = App.getRun(m.run_id);
+    if (!run) return el.append(App.loading(m.run_id));
     const sc = run.scope || {}, nearest = run.nearest || [];
     const basis = nearest.filter(p => (run.verdict_basis || []).includes(p.paper_id)).map(p => `[${p.id}] ${p.title}`);
-    el.append(h("h2", {}, `④ 검증: ${run.topic_title || ""}`),
-      h("div", {class: "info"}, h("b", {}, `판정: ${VERDICT[run.verdict] || run.verdict || "없음"}`),
+    const fold = (title, ...kids) => h("details", {class: "section"}, h("summary", {}, title), ...kids);
+    el.append(h("p", {}, "검증을 마쳤습니다: ", h("b", {}, run.topic_title || "")),
+      h("div", {class: `verdict ${run.verdict || ""}`}, h("div", {class: "verdict-label"}, VERDICT[run.verdict] || run.verdict || "판정 없음"),
         h("p", {}, ADVICE[run.verdict] || ""),
-        basis.length ? h("p", {}, `근거 논문: ${basis.join(", ")}`) : "",
+        basis.length ? h("p", {class: "caption"}, `근거 논문: ${basis.join(", ")}`) : "",
         (run.flags || []).map(f => h("p", {class: "caption"}, `${f}: ${FLAG_NOTE[f] || ""}`))),
       h("p", {class: "caption"}, `조사 범위: 검색어 ${(sc.queries || []).join(" / ")} · 논문 ${sc.searched ?? 0}편 중 ` +
         `${sc.narrowed ?? 0}편 비교 · 본문까지 읽은 논문 ${sc.fulltext_read ?? 0}편 · ${sc.date || ""}`),
-      h("h3", {}, "가장 가까운 논문"),
-      ...nearest.map(p => h("div", {class: "card"}, paperLine(p), elementTable(p))),
-      h("h3", {}, "빈틈: 논문이 밝힌 한계"),
-      (run.limitations || []).length
+      fold(`가장 가까운 논문 ${nearest.length}편`, ...nearest.map(p => h("div", {class: "card quiet"}, paperLine(p), elementTable(p)))),
+      fold("빈틈: 논문이 밝힌 한계", (run.limitations || []).length
         ? h("ul", {}, run.limitations.map(l => h("li", {}, `[${l.id}] ${l.title}: "${l.quote}"${page(l.page)}`)))
-        : h("p", {class: "caption"}, "가장 가까운 논문의 카드에 저자가 밝힌 한계가 없습니다."),
-      h("h3", {}, "비평 (ScholarIdeas 7요건)"),
-      critique(run.critique));
+        : h("p", {class: "caption"}, "가장 가까운 논문의 카드에 저자가 밝힌 한계가 없습니다.")),
+      fold("비평 (ScholarIdeas 7요건)", critique(run.critique)));
+    if (!active) return;
+    const solved = run.verdict === "solved";
+    el.append(h("div", {class: "row"},
+      btn(solved ? "그래도 이 주제로 확정" : "이 주제로 확정", () => finalize(s), solved ? "" : "primary"),
+      btn("다른 후보 검증", () => otherTopic(s, m), solved ? "primary" : "")),
+      h("p", {class: "caption"}, "후보를 고치고 싶으면 입력창에 요청하세요."));
   }
 
-  App.registerPanel("verify", {render: renderVerify, reachable: s => !!s.picks.verify_run_id, summary: s => {
+  App.registerCard("verify", renderVerify);
+  App.registerStage("verify", s => {
     const run = App.getRun(s.picks.verify_run_id);
     return run ? `판정: ${run.verdict}` + ((run.flags || []).length ? ` · ${run.flags.join(", ")}` : "") : "";
-  }});
-  App.addAction("refine", {label: "선택한 후보 검증", enabled: s => !!(s.picks.topic_id && s.picks.research_run_id),
-                           run: s => startVerify(s)});
-  App.addAction("verify", {label: "판정 수용 → ⑤ 확정", enabled: s => !!App.getRun(s.picks.verify_run_id),
-                           run: () => App.setStage("final")});
-  App.addAction("verify", {label: "③으로 돌아가 수정", run: () => App.setStage("refine")});
+  });
   App.registerJob("verify", startVerify);
 })();
