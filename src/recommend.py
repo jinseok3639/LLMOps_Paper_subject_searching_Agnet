@@ -5,6 +5,7 @@
 - 답변 생성 LLM에는 검증을 통과한 항목만 넘긴다.
 - profile = {lab_name, lab_topics, interests}. interests는 비어 있을 수 있다 (API 명세 2.1).
 - rejections = [{target: "problem", target_id, reason}]. 거절한 문제는 후보에서 빼고, 이유는 질의와 선택에 반영한다 (C-6).
+- exclude = [problem_id]. 이미 보여 준 문제다. 후보에서 빼기만 하고 프롬프트에는 넣지 않는다 (이슈 #21).
 
 실행 (확인용): python -m src.recommend --lab "연구실 이름" --topics "연구실 연구 주제" [--interests "관심사"]
 """
@@ -156,21 +157,24 @@ def problem_card(pid: str) -> dict | None:
     }
 
 
-def recommend(profile: dict, rejections: list[dict] | None = None, progress=_noop) -> dict:
+def recommend(profile: dict, rejections: list[dict] | None = None, progress=_noop, exclude=()) -> dict:
     """1턴 추천. status: ok | no_match. progress(message, step=...)는 단계마다 불린다."""
     t0 = time.monotonic()
     rejections = [r for r in rejections or [] if r.get("target", "problem") == "problem" and r.get("target_id")]
     rejected = {r["target_id"] for r in rejections}
+    excluded = set(exclude) - rejected
+    skip = rejected | excluded
     progress("검색어 작성 중", step="query")
     query = write_query(profile, rejections)
     progress("관련 Open Problem 검색 중", step="search")
-    hits = [h for h in search(query, config.RETRIEVE_K + len(rejected)) if h[0] not in rejected][:config.RETRIEVE_K]
-    trace = {"query": query.model_dump(), "rejected": sorted(rejected),
+    hits = [h for h in search(query, config.RETRIEVE_K + len(skip)) if h[0] not in skip][:config.RETRIEVE_K]
+    trace = {"query": query.model_dump(), "rejected": sorted(rejected), "excluded": sorted(excluded),
              "candidates": [{"problem_id": i, "score": round(s, 4)} for i, s in hits]}
     result = {"status": "no_match", "intro": "", "note": "", "recommendations": [], "trace": trace}
 
     if not hits or hits[0][1] < config.MIN_SCORE:
-        result["note"] = "입력하신 연구 주제·관심사와 관련된 Open Problem을 찾지 못했습니다."
+        result["note"] = ("관련된 Open Problem은 앞에서 모두 보여 드렸습니다." if excluded
+                          else "입력하신 연구 주제·관심사와 관련된 Open Problem을 찾지 못했습니다.")
         trace["stop_reason"] = f"최고 유사도 {hits[0][1]:.3f} < {config.MIN_SCORE}" if hits else "후보 없음"
         trace["elapsed_sec"] = round(time.monotonic() - t0, 1)
         return result

@@ -86,15 +86,16 @@ class ApiTests(TempRuns):
     def test_recommend_streams_progress_then_result_and_saves_run(self):
         calls = []
 
-        def fake(profile, rejections, progress):
-            calls.append((profile, rejections))
+        def fake(profile, rejections, progress, exclude=()):
+            calls.append((profile, rejections, exclude))
             progress("검색어 작성 중", step="query")
             progress("검색 중", step="search", current=1, total=2)
             return {"status": "ok", "intro": "소개", "note": "", "recommendations": [{"problem_id": "p1"}],
                     "trace": {"candidates": []}}
 
         body = {"session_id": "s1", "profile": {**PROFILE, "lab_name": " 보안 연구실 "},
-                "rejections": [{"target": "problem", "target_id": "p0", "reason": "정책 중심"}]}
+                "rejections": [{"target": "problem", "target_id": "p0", "reason": "정책 중심"}],
+                "exclude": [" p1 ", ""]}
         with patch("src.api.recommend.recommend", side_effect=fake):
             r = self.client.post("/api/recommend", json=body)
         self.assertEqual(r.headers["content-type"].split(";")[0], "text/event-stream")
@@ -104,6 +105,7 @@ class ApiTests(TempRuns):
         self.assertEqual(got[1][1], {"session_id": "s1", "step": "search", "message": "검색 중", "current": 1, "total": 2})
         self.assertEqual(calls[0][0], PROFILE)
         self.assertEqual(calls[0][1][0]["reason"], "정책 중심")
+        self.assertEqual(calls[0][2], ["p1"])
         result = got[-1][1]
         self.assertNotIn("trace", result)
         stored = self.client.get(f"/api/runs/{result['run_id']}").json()
@@ -270,6 +272,38 @@ class SrcTests(TempRuns):
         self.assertEqual([c["problem_id"] for c in result["recommendations"]], [other])
         self.assertEqual(result["recommendations"][0]["reason"], "이유")
         self.assertEqual(result["trace"]["rejected"], [rejected])
+
+    def test_recommend_skips_already_shown_without_prompting(self):
+        _, ids, vecs = rec.load_index()
+        shown, other = ids[0], ids[1]
+        prompts = {}
+
+        def chat_json(messages, schema, temperature=0.0):
+            prompts[schema.__name__] = messages[1]["content"]
+            if schema is rec.SearchQuery:
+                return rec.SearchQuery(research_description="desc", topics=["t"])
+            if schema is rec.Selection:
+                return rec.Selection(problem_ids=[shown, other])  # 이미 본 것을 골라도 검증에서 빠진다
+            return rec.Answer(intro="", note="", recommendations=[])
+
+        query_vec = (vecs[0] + vecs[1]).tolist()
+        with patch.object(llm, "chat_json", side_effect=chat_json), patch.object(llm, "embed", return_value=[query_vec]):
+            result = rec.recommend(PROFILE, [], exclude=[shown])
+        candidates = [c["problem_id"] for c in result["trace"]["candidates"]]
+        self.assertNotIn(shown, candidates)
+        self.assertEqual(len(candidates), config.RETRIEVE_K)
+        self.assertEqual([c["problem_id"] for c in result["recommendations"]], [other])
+        self.assertEqual(result["trace"]["excluded"], [shown])
+        self.assertNotIn("rejected earlier", prompts["SearchQuery"])  # 이미 본 문제는 거절로 알리지 않는다
+        self.assertNotIn(f"problem_id: {shown}\n", prompts["Selection"])
+
+    def test_recommend_says_all_shown_when_nothing_left(self):
+        _, ids, _ = rec.load_index()
+        with patch.object(llm, "chat_json", return_value=rec.SearchQuery(research_description="d", topics=["t"])), \
+             patch.object(rec, "search", return_value=[(i, 0.9) for i in ids[:3]]):
+            result = rec.recommend(PROFILE, [], exclude=ids[:3])
+        self.assertEqual((result["status"], result["recommendations"]), ("no_match", []))
+        self.assertIn("모두 보여 드렸습니다", result["note"])
 
 
 if __name__ == "__main__":
