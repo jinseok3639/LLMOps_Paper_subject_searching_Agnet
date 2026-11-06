@@ -4,7 +4,7 @@
    내보내기는 다음 단계로 가는 버튼이 아니라서 지나간 카드에서도 누를 수 있다. */
 (() => {
   const {h, btn} = App;
-  const PICKS = ["recommend_run_id", "problem_id", "research_run_id", "topic_id", "verify_run_id"];
+  const PICKS = ["recommend_run_id", "problem_id", "research_run_id", "topic_id", "revision_run_id", "verify_run_id"];
 
   function startFinalize(s, {replace} = {}) {
     return App.runTask({kind: "finalize", label: "최종 주제 카드 만들기", url: "/api/finalize", replace,

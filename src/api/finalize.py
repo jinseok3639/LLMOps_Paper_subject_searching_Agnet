@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 from src import runs
 from src.api.common import ApiError
+from src.api.revise import current_topic
 from src.api.sse import stream_job
 from src.finalize import build_card, to_markdown
 from src.recommend import problem_card
@@ -20,6 +21,7 @@ class Body(BaseModel):
     problem_id: str = ""
     research_run_id: str = ""
     topic_id: str = ""
+    revision_run_id: str = ""  # 고친 후보 (이슈 #12). 검증한 버전과 달라도 막지 않는다
     verify_run_id: str = ""
 
 
@@ -37,8 +39,7 @@ def post_finalize(body: Body, request: Request):
     if missing:
         raise ApiError(422, "validation_error", "필수 항목을 입력해 주세요.", fields=missing)
     research = _load(ids["research_run_id"], "research", "후보 생성")
-    if not any(t.get("id") == ids["topic_id"] for t in research.get("topics") or []):
-        raise ApiError(404, "not_found", "선택한 후보를 찾을 수 없습니다.")
+    _, _, revision = current_topic(research, ids["topic_id"], ids["revision_run_id"])
     recommend = _load(ids["recommend_run_id"], "recommend", "추천") if ids["recommend_run_id"] else None
     verify = _load(ids["verify_run_id"], "verify", "검증") if ids["verify_run_id"] else None
     if verify and (verify.get("topic_id") != ids["topic_id"]
@@ -50,7 +51,7 @@ def post_finalize(body: Body, request: Request):
 
     def job(progress, delta):
         progress("최종 주제 카드 조립 중", step="assemble")
-        card = build_card(recommend, problem, research, ids["topic_id"], verify)
+        card = build_card(recommend, problem, research, ids["topic_id"], verify, revision)
         result = {"card": card, "markdown": to_markdown(card)}
         return {"run_id": runs.save("final", result, body.session_id), **result}
 

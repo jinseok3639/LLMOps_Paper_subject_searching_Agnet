@@ -71,7 +71,7 @@ class CardTests(unittest.TestCase):
     def test_card_rows_with_verify(self):
         card = build_card(RECOMMEND, PROBLEM, RESEARCH, "c1", VERIFY)
         self.assertEqual(list(card), ["topic", "problem", "design", "nearest", "verdict", "gaps", "critique", "scope", "source"])
-        self.assertEqual(card["topic"], {"id": "c1", "title": "Round-wise | backdoor audit", "summary": "후보 요약"})
+        self.assertEqual(card["topic"], {"id": "c1", "title": "Round-wise | backdoor audit", "summary": "후보 요약", "version": 1})
         self.assertEqual((card["problem"]["title"], card["problem"]["reason"], card["problem"]["paper"]["title"]),
                          ("Backdoor detection", "연구실 주제와 맞음", PAPER["title"]))
         self.assertEqual(card["design"]["approach"], "방법")
@@ -93,7 +93,7 @@ class CardTests(unittest.TestCase):
                           card["scope"]["references"], card["scope"]["date"]), ("verify", 40, 1, 1, "2026-11-05"))
         self.assertEqual(card["source"], {"recommend_run_id": RECOMMEND["run_id"], "problem_id": PROBLEM["problem_id"],
                                           "research_run_id": RESEARCH["run_id"], "topic_id": "c1",
-                                          "verify_run_id": VERIFY["run_id"]})
+                                          "revision_run_id": None, "verify_run_id": VERIFY["run_id"]})
 
     def test_card_without_verify(self):
         card = build_card(None, PROBLEM, RESEARCH, "c1", None)

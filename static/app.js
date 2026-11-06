@@ -16,7 +16,11 @@
    App.registerCard(kind, render(el, s, m, active))   kind 메시지의 본문을 그린다. active면 다음 단계 버튼을 단다.
    App.registerStage(stage, summary(s))               오른쪽 패널에서 그 단계 아래에 보일 한 줄.
    App.registerJob(kind, start(s, {replace}))          "재시도"와 App.startJob이 부를 시작 함수.
-   App.startJob(kind, s)                              등록한 작업을 시작한다 (예: 검증 카드에서 finalize).
+   App.startJob(kind, s, opts)                        등록한 작업을 시작한다 (예: 검증 카드에서 finalize). opts는 시작 함수로 넘긴다.
+   App.registerActions(kind, fn(s, m) -> [{name, target, label}])  kind 카드가 맨 아래일 때 채팅으로 할 수 있는 행동 (이슈 #23).
+   App.registerAction(name, fn(s, action))           채팅이 그 행동을 요청했을 때 부를 함수. 사용자 말은 이미 대화에 있다.
+   App.currentRevision(s, research_run_id, topic_id) 적용한 후보 수정안 {run_id, version} 또는 null (이슈 #12).
+   App.pickTopic(s, m, t, n, mode, {echo})          ③ 후보를 고른다. mode: "verify" | "chat" | "select".
    App.addCardExtra(fn(kind, s, item, m) -> Node|null) 카드 끝에 붙일 요소 (예: 피드백 버튼).
        kind: "problem"(① 추천 카드, item = 추천 항목) · "topic"(③ 후보 카드, item = 후보). m은 카드가 든 메시지.
    App.runTask({kind, label, url, body, stream, replace, onResult(s, data)}) -> Promise<"result"|"cancelled"|"error"|"budget">
@@ -36,7 +40,7 @@
   const FIELDS = [["lab_name", "연구실 정보", true, "예: 보안 신뢰 컴퓨팅 연구실"],
                   ["lab_topics", "연구실 연구 주제", true, "예: AI 보안, 네트워크·시스템 보안, 트래픽 분석"],
                   ["interests", "사용자 관심사", false, "예: LLM 에이전트 프롬프트 인젝션 방어 (선택)"]];
-  const PICK_ORDER = ["recommend_run_id", "problem_id", "research_run_id", "topic_id"];
+  const PICK_ORDER = ["recommend_run_id", "problem_id", "research_run_id", "topic_id", "revision_run_id"];
   const DEFAULT_TITLE = "새 대화";
   const KEY = "rta.sessions", CUR = "rta.current", LAST = "rta.last_profile", SKIP_IMPORT = "rta.skip_import";
   const JSON_HDR = {"Content-Type": "application/json"};
@@ -47,6 +51,7 @@
   const versions = {}, chains = {}, pendingSave = new Set(), fullLoading = new Set(), fullErrors = {};
   let job = null;  // 도는 작업은 늘 화면의 세션 것 하나뿐이다 (세션을 옮기면 취소되므로)
   const runCache = {}, cards = {}, stageSummary = {}, jobs = {}, drafts = {}, formErrors = {};
+  const actionLists = {}, actionHandlers = {};
   let scrollKey = "", scrollTarget = null, stickBottom = false;
 
   // ---------- 도구 ----------
@@ -467,6 +472,7 @@
   function chatActions(s) {
     const last = s.messages[cardIndex(s)];
     if (!last) return [];
+    if (actionLists[last.kind]) return actionLists[last.kind](s, last);
     if (last.kind === "problem") return [{name: "start_research", target: "", label: "고른 문제로 참고문헌을 검색하고 연구 주제 후보 만들기"}];
     if (last.kind !== "problems") return [];
     // 번호가 추천 카드 사이에서 겹치지 않으니 화면 번호를 target으로 쓴다. LLM이 긴 id를 베끼지 않아도 된다
@@ -497,7 +503,47 @@
       if (hit) pickProblem(s, hit.m, hit.c, hit.n, {echo: false});
     } else if (a.name === "re_recommend") startRecommend(s);
     else if (a.name === "start_research") startResearch(s);
+    else if (actionHandlers[a.name]) actionHandlers[a.name](s, a);
   }
+
+  // ---------- ③·④ 후보 행동: 검증, 고치기, 확정 (이슈 #12) ----------
+  function currentRevision(s, researchRunId, topicId) {  // 그 후보에 마지막으로 적용한 수정안
+    const m = s.messages.findLast(x => x.kind === "revision" && x.applied && x.research_run_id === researchRunId
+                                       && x.topic_id === topicId);
+    return m ? {run_id: m.run_id, version: m.version} : null;
+  }
+
+  function topicsMessage(s) {  // 번호로 후보를 고를 때 쓰는 마지막 후보 카드
+    return s.messages.findLast(x => x.kind === "topics" && x.status === "done");
+  }
+
+  function topicActions(s) {
+    const m = topicsMessage(s), run = m && getRun(m.run_id);
+    if (!run) return [];
+    return run.topics.flatMap((t, i) => {
+      const n = i + 1, mine = s.picks.research_run_id === m.run_id && s.picks.topic_id === t.id ? " (고른 후보)" : "";
+      return [{name: "verify_topic", target: String(n), label: `${n}번 후보 검증${mine}: ${t.title}`},
+              {name: "revise_topic", target: String(n), label: `${n}번 후보 고치기${mine}: 사용자가 말한 변경을 후보에 반영`}];
+    });
+  }
+
+  function topicByNumber(s, n) {
+    const m = topicsMessage(s), run = m && getRun(m.run_id), t = run && run.topics[Number(n) - 1];
+    return t ? {m, t} : null;
+  }
+
+  registerActions("topics", topicActions);
+  registerAction("verify_topic", (s, a) => {
+    const hit = a.target && topicByNumber(s, a.target);
+    if (hit) pickTopic(s, hit.m, hit.t, Number(a.target), "verify", {echo: false});
+    else if (!a.target && s.picks.topic_id) startJob("verify", s);
+  });
+  registerAction("revise_topic", (s, a) => {
+    const hit = a.target && topicByNumber(s, a.target);
+    if (hit) pickTopic(s, hit.m, hit.t, Number(a.target), "select");
+    if (hit || (!a.target && s.picks.topic_id)) startJob("revise", find(s.id));
+  });
+  registerAction("finalize", s => { if (s.picks.topic_id) startJob("finalize", s); });
 
   function retry(s, m) { if (!isBusy() && jobs[m.job]) jobs[m.job](s, {replace: m.id}); }
 
@@ -601,27 +647,30 @@
   function topicCard(s, m, t, n, active) {
     const picked = m.picked === t.id;
     const verified = s.messages.some(v => v.kind === "verify" && v.research_run_id === m.run_id && v.topic_id === t.id);
+    const rev = currentRevision(s, m.run_id, t.id);  // 카드는 원본(v1)을 보이고, 버튼은 고친 버전으로 진행한다
     return h("div", {class: "card" + (picked ? " picked" : "")},
       h("div", {class: "card-title"}, h("span", {class: "num"}, n), t.title,
-        picked ? h("span", {class: "badge"}, "선택함") : "", verified ? h("span", {class: "badge gray"}, "검증함") : ""),
+        picked ? h("span", {class: "badge"}, "선택함") : "", verified ? h("span", {class: "badge gray"}, "검증함") : "",
+        rev ? h("span", {class: "badge gray", title: "아래는 원본(v1)입니다. 고친 내용은 수정안 카드에 있습니다."}, `v${rev.version}로 고침`) : ""),
       t.summary ? h("p", {}, t.summary) : "",
       h("details", {}, h("summary", {}, "자세히"),
         ["gap", "approach", "evaluation"].filter(k => t[k]).map(k => h("p", {}, h("b", {}, `${k}: `), t[k])),
         t.support ? h("p", {class: "caption"}, `근거 참고문헌: ${t.support.join(", ")}`) : ""),
-      active ? h("div", {class: "row"}, btn("이 후보 검증", () => pickTopic(s, m, t, n, true), "primary"),
-                 btn("이 후보 더 다듬기", () => pickTopic(s, m, t, n, false))) : "",
+      active ? h("div", {class: "row"}, btn(rev ? `v${rev.version} 검증` : "이 후보 검증", () => pickTopic(s, m, t, n, "verify"), "primary"),
+                 btn("이 후보 더 다듬기", () => pickTopic(s, m, t, n, "chat"))) : "",
       extras("topic", s, t, m));
   }
 
-  function pickTopic(s, m, t, n, verify) {
+  function pickTopic(s, m, t, n, mode, {echo = true} = {}) {  // echo: 채팅으로 고르면 사용자 말이 이미 대화에 있다
     updateSession(s.id, x => {
+      const rev = currentRevision(x, m.run_id, t.id);
       mark(x, m, "picked", t.id);
-      keepPicks(x, "research_run_id", {research_run_id: m.run_id, topic_id: t.id});
+      keepPicks(x, "research_run_id", {research_run_id: m.run_id, topic_id: t.id, ...(rev ? {revision_run_id: rev.run_id} : {})});
       x.stage = "refine";
-      if (verify) say(x, "user", `${n}번 후보를 검증해 주세요: ${t.title}`);
+      if (mode === "verify" && echo) say(x, "user", `${n}번 후보를 검증해 주세요: ${t.title}` + (rev ? ` (v${rev.version})` : ""));
     });
-    if (verify) startJob("verify", find(s.id));
-    else startChat(find(s.id), {question: `${n}번 후보를 더 구체화하고 싶어요: ${t.title}`});
+    if (mode === "verify") startJob("verify", find(s.id));
+    else if (mode === "chat") startChat(find(s.id), {question: `${n}번 후보를 더 구체화하고 싶어요: ${t.title}`});
   }
 
   function renderTopics(el, s, m, active) {
@@ -773,7 +822,9 @@
   function registerCard(kind, renderFn) { cards[kind] = renderFn; }
   function registerStage(stage, summary) { stageSummary[stage] = summary; }
   function registerJob(kind, start) { jobs[kind] = start; }
-  function startJob(kind, s) { if (jobs[kind] && s && !isBusy()) return jobs[kind](s, {}); }
+  function startJob(kind, s, opts = {}) { if (jobs[kind] && s && !isBusy()) return jobs[kind](s, opts); }
+  function registerActions(kind, fn) { actionLists[kind] = fn; }
+  function registerAction(name, fn) { actionHandlers[name] = fn; }
   const cardExtras = [];
   function addCardExtra(fn) { cardExtras.push(fn); }
   function extras(kind, s, item, m) { return cardExtras.map(fn => fn(kind, s, item, m)); }
@@ -791,14 +842,16 @@
   registerStage("refine", s => {
     const run = getRun(s.picks.research_run_id);
     const topic = run?.topics.find(t => t.id === s.picks.topic_id);
-    return run ? `후보 ${run.topics.length}개` + (topic ? ` · 선택: ${topic.title}` : "") : "";
+    const rev = topic && currentRevision(s, s.picks.research_run_id, topic.id);
+    return run ? `후보 ${run.topics.length}개` + (topic ? ` · 선택: ${topic.title}` + (rev ? ` (v${rev.version})` : "") : "") : "";
   });
   registerJob("recommend", startRecommend);
   registerJob("research", startResearch);
   registerJob("chat", startChat);
 
-  window.App = {STAGES, registerCard, registerStage, registerJob, startJob, addCardExtra, runTask, getSession, updateSession,
-                getRun, loading, isBusy, render, h, md, mdBlock, msg, btn};
+  window.App = {STAGES, registerCard, registerStage, registerJob, startJob, registerActions, registerAction, addCardExtra,
+                runTask, getSession, updateSession, getRun, loading, isBusy, render, h, md, mdBlock, msg, btn,
+                currentRevision, pickTopic};
 
   document.addEventListener("DOMContentLoaded", () => {
     $("#new-session").onclick = () => openSession(newSession().id);
