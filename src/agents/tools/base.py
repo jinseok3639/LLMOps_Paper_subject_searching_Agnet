@@ -16,15 +16,20 @@ from src.clients.semantic_scholar import S2Error
 TOOL_ERRORS = (S2Error, requests.RequestException)
 
 
+ABSTRACT_CHARS = 1_500  # 검색 결과 초록은 앞부분만. 결과 5편이 입력에 그대로 들어간다
+
+
 def compact_paper(paper: dict) -> dict:
     """S2 논문 객체에서 LLM에 보여 줄 필드만 남긴다."""
     ext = paper.get("externalIds") or {}
+    pid = paper.get("paperId")
     return {
-        "paper_id": paper.get("paperId"),
+        "paper_id": pid,
         "title": paper.get("title"),
         "year": paper.get("year"),
         "venue": paper.get("venue"),
-        "abstract": paper.get("abstract"),
+        "url": f"https://www.semanticscholar.org/paper/{pid}" if pid else None,
+        "abstract": (paper.get("abstract") or "")[:ABSTRACT_CHARS] or None,
         "citation_count": paper.get("citationCount"),
         "publication_types": paper.get("publicationTypes"),
         "arxiv": ext.get("ArXiv"),
