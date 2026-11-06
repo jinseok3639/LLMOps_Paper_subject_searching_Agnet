@@ -75,8 +75,9 @@ def embed(texts: list[str], model: str, batch_size: int = 50) -> list[list[float
     return out
 
 
-def chat_stream(messages: list[dict], temperature: float = 0.3):
-    """텍스트 응답을 조각 단위로 내보낸다. 로그는 끝까지 받았거나, 실패했거나, 중간에 닫혔을 때(cancelled) 한 번 남긴다."""
+def chat_stream(messages: list[dict], temperature: float = 0.3, usage: dict | None = None):
+    """텍스트 응답을 조각 단위로 내보낸다. 로그는 끝까지 받았거나, 실패했거나, 중간에 닫혔을 때(cancelled) 한 번 남긴다.
+    usage를 주면 끝까지 받은 뒤 {"tokens_in", "tokens_cached"}를 채운다 (화면이 압축 시점을 정하는 데 쓴다)."""
     with calllog.timed("solar", config.MODEL, messages) as c:
         stream = client().chat.completions.create(model=config.MODEL, messages=messages,
                                                   temperature=temperature, stream=True,
@@ -90,3 +91,5 @@ def chat_stream(messages: list[dict], temperature: float = 0.3):
                     yield parts[-1]
         finally:
             c.output = "".join(parts)
+            if usage is not None:
+                usage.update(tokens_in=c.tokens_in, tokens_cached=c.tokens_cached)

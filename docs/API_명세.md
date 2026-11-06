@@ -210,8 +210,10 @@ Google 로그인 하나만 지원합니다 (A-4). 로그인 처리는 **Supabase
 ### 6.2 `POST /api/research`: ② → ③ 후보 생성
 
 ```json
-{ "session_id": "s_8f3a", "profile": { ... }, "problem_id": "...", "messages": [ ... ] }
+{ "session_id": "s_8f3a", "profile": { ... }, "problem_id": "...", "messages": [ ... ], "memo": null }
 ```
+
+`messages`를 그대로 넣지 않습니다. 약 130회 호출에 반복해서 들어가므로 `src.conversation.research_conversation()`이 최근 사용자 메시지(합계 약 2,000자), ③ 요청 직전 채팅 답변 앞 300자, `memo` 요약, 이전에 보여 준 후보 제목만 남깁니다. 결과 카드 메시지(프로필, 추천 목록, ③ 발표문 등)는 넣지 않습니다.
 
 `progress` 이벤트는 `step` 값으로 `queries` · `search` · `generate` · `present` 단계를 보냅니다. `result`는 지금 `generate_research()`의 반환값에서 `generation`(토너먼트 내부 기록)을 뺀 것입니다.
 
@@ -236,11 +238,18 @@ Google 로그인 하나만 지원합니다 (A-4). 로그인 처리는 **Supabase
   "profile": { ... },
   "picks": { "recommend_run_id": "r_1a2b", "research_run_id": "r_9c8d", "topic_id": "c3" },
   "messages": [ ... ],
-  "message": "GPU 2장으로 가능한 후보만 남겨 줘"
+  "message": "GPU 2장으로 가능한 후보만 남겨 줘",
+  "memo": { "items": { "conditions": [ { "id": "i1", "text": "GPU 2장", "source": "m_..." } ] }, "through": "m_..." }
 }
 ```
 
-`delta` 이벤트로 답변을 보내고, 마지막 `result`는 `{session_id, content}`입니다. 서버는 `picks`의 `run_id`로 추천과 후보를 불러와 컨텍스트를 만듭니다. 지금 `reply_stream()`이 받는 `result`, `topic_result`를 서버가 직접 읽는 방식입니다.
+`delta` 이벤트로 답변을 보내고, 마지막 `result`는 `{session_id, content, tokens_in, compact}`입니다. 서버는 `picks`의 `run_id`로 추천, 후보, 검증(`verify_run_id`, 고른 후보의 것일 때만)을 불러와 컨텍스트를 만듭니다.
+
+- `messages`의 `id`, `kind`, `run_id`를 씁니다. `kind`가 있는 메시지(결과 카드)는 한 줄 표시로 바꾸고, 프로필 카드는 뺍니다. 대화는 자르지 않습니다.
+- `tokens_in`은 이번 호출의 입력 토큰 수입니다. 5만을 넘으면 `compact`가 `true`이고, 화면은 `POST /api/chat/compact`를 뒤에서 부릅니다.
+- `memo`는 대화 압축 결과입니다. 화면이 세션에 저장해 매번 보내고, 서버는 저장하지 않습니다. `through`가 `messages`에 없으면 쓰지 않습니다.
+
+`POST /api/chat/compact`: `{session_id, messages, memo}` → `result`는 `{session_id, memo}`입니다. 지난 요약 이후, 최근 6개 앞까지의 주변 대화를 `조건 / 선호 / 거절한 방향 / 미해결 질문` 항목으로 줄입니다. Solar는 기존 항목에 대한 변화(add, update, remove)만 돌려주고, 코드가 근거 메시지를 확인해 적용합니다. 요약할 대화가 없으면 `memo`는 `null`입니다. 세션 작업 잠금을 쓰지 않습니다.
 
 ### 6.4 `POST /api/verify`, `POST /api/finalize`: ④ 검증, ⑤ 확정
 

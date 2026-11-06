@@ -189,8 +189,8 @@ class ChatContextTests(RunsDirTest):
     def test_context_shows_current_version(self):
         rev = runs.load(self.revision(approach="7B LoRA"))
         with patch("src.chat.load_index", return_value=({}, None, None)):
-            text = chat.build_context(PROFILE, None, self.research, {"topic_id": "c1"}, rev)
-            other = chat.build_context(PROFILE, None, self.research, {"topic_id": "c2"}, rev)
+            text = chat.build_context(PROFILE, None, self.research, {"topic_id": "c1"}, revision_run=rev)
+            other = chat.build_context(PROFILE, None, self.research, {"topic_id": "c2"}, revision_run=rev)
         self.assertIn("지금 버전: v2", text)
         self.assertIn("7B LoRA", text.split("지금 버전")[1])
         self.assertNotIn("지금 버전", other)  # 다른 후보의 수정안은 무시

@@ -130,7 +130,7 @@ class ApiTests(TempRuns):
                                                          "problem_id": "p1", "messages": messages})
         got = events(r.text)
         self.assertEqual([e for e, _ in got], ["progress", "result"])
-        self.assertEqual(seen["history"], [{"role": "user", "content": "GPU 2장"}])
+        self.assertEqual(seen["history"], {"recent_user_messages": ["GPU 2장"]})  # 중단된 답변은 빠진다
         result = got[-1][1]
         self.assertFalse({"trace", "generation"} & set(result))
         self.assertNotIn("abstract", result["references"][0])
@@ -144,8 +144,33 @@ class ApiTests(TempRuns):
                                                      "picks": {"recommend_run_id": "r_x"}})
         got = events(r.text)
         self.assertEqual([e for e, _ in got], ["progress", "delta", "delta", "result"])
-        self.assertEqual(got[-1][1], {"session_id": "s1", "content": "안녕"})
+        self.assertEqual(got[-1][1], {"session_id": "s1", "content": "안녕", "tokens_in": None, "compact": False})
         self.assertEqual(reply.call_args.args[1], {"recommend_run_id": "r_x"})
+
+    def test_chat_asks_compact_over_limit_and_passes_memo(self):  # 이슈 #31
+        def fake(profile, picks, history, message, memo, usage):
+            usage["tokens_in"] = 50_001
+            self.seen = (history, memo)
+            return iter(["답"])
+        memo = {"items": {"conditions": [{"id": "i1", "text": "GPU 1장", "source": "m1"}]}, "through": "m1"}
+        messages = [{"id": "m1", "role": "user", "content": "GPU 1장"},
+                    {"id": "m2", "role": "assistant", "content": "목록", "kind": "problems", "run_id": "r_1"}]
+        with patch("src.api.chat.reply_stream", side_effect=fake):
+            r = self.client.post("/api/chat", json={"session_id": "s1", "profile": PROFILE, "message": "질문",
+                                                     "messages": messages, "memo": memo})
+        result = events(r.text)[-1][1]
+        self.assertEqual((result["tokens_in"], result["compact"]), (50_001, True))
+        history, sent_memo = self.seen
+        self.assertEqual(history[1], {"role": "assistant", "content": "목록", "id": "m2", "kind": "problems", "run_id": "r_1"})
+        self.assertEqual(sent_memo, memo)
+
+    def test_compact_endpoint_returns_memo(self):
+        new = {"items": {}, "through": "m9", "applied": []}
+        with patch("src.api.chat.conversation.compact", return_value=new) as compact:
+            r = self.client.post("/api/chat/compact", json={"session_id": "s1",
+                                                             "messages": [{"id": "m1", "role": "user", "content": "a"}]})
+        self.assertEqual(events(r.text)[-1], ("result", {"session_id": "s1", "memo": new}))
+        self.assertEqual(compact.call_args.args, ([{"role": "user", "content": "a", "id": "m1"}], None))
 
     def test_chat_returns_action_instead_of_answer(self):  # 이슈 #23
         actions = [{"name": "pick_problem", "target": "2", "label": "2번 문제로 진행: B"},

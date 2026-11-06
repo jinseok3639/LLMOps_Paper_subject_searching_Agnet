@@ -16,6 +16,14 @@ def ref_ids(text):
     return set(re.findall(r"^\[(ref-\d+)\]", text, re.M))
 
 
+def strip_persona(text):
+    """user 메시지 끝에 붙은 관점을 뗀다."""
+    return text.split(PERSONA, 1)[0]
+
+
+PERSONA = "\n\nYour research perspective: "
+
+
 def hypothesis(support):
     return ma.Hypothesis(title="Proposal", summary=" ".join(["proposal"] * 65), gap="Gap", approach="Method", evaluation="Baseline", support=support)
 
@@ -29,7 +37,7 @@ class CorpusScopeTests(unittest.TestCase):
             with lock:
                 self.calls.append((schema, system, user))
             if schema is ma.Proposals:
-                agent = next(a for a, persona in self.method.agents.items() if persona in system)
+                agent = next(a for a, persona in self.method.agents.items() if user.endswith(persona))
                 return ma.Proposals(hypotheses=[hypothesis(SUPPORT[agent]) for _ in range(3)])
             if schema is ma.Review:
                 return ma.Review(unsupported="", vague="", already_done="", suggestion="Clarify")
@@ -56,7 +64,7 @@ class CorpusScopeTests(unittest.TestCase):
         reviews = self.of(ma.Review)
         self.assertEqual(len(reviews), 36)
         for _, user in reviews:
-            refs, text = user.split("\n\nHypothesis:\n", 1)
+            refs, text = strip_persona(user).split("\n\nHypothesis:\n", 1)
             self.assertEqual(ref_ids(refs), set(json.loads(text)["support"]))
         self.assertNotIn("ref-006", "".join(u for _, u in reviews))
 
@@ -64,10 +72,24 @@ class CorpusScopeTests(unittest.TestCase):
         ballots = self.of(ma.Ballot)
         self.assertEqual(len(ballots), 72)
         for _, user in ballots:
-            refs, rest = user.split("\n\nHypothesis A:\n", 1)
+            refs, rest = strip_persona(user).split("\n\nHypothesis A:\n", 1)
             a, b = rest.split("\n\nHypothesis B:\n", 1)
             self.assertEqual(ref_ids(refs), set(json.loads(a)["support"]) | set(json.loads(b)["support"]))
             self.assertLess(len(ref_ids(refs)), len(ALL))
+
+    def test_shared_prefix_for_cache(self):
+        """관점은 user 맨 뒤쪽에만 있다. 같은 단계의 호출은 system이 같고, 제안·수정은 참고문헌 전체가 관점보다 앞에 있다."""
+        personas = list(self.method.agents.values())
+        for schema in (ma.Proposals, ma.Review, ma.Hypothesis, ma.Ballot):
+            calls = self.of(schema)
+            self.assertEqual(len({s for s, _ in calls}), 1, schema.__name__)
+            for system, user in calls:
+                self.assertFalse(any(p in system for p in personas))
+                self.assertTrue(any(p in user for p in personas))
+        for schema in (ma.Proposals, ma.Hypothesis):
+            heads = {u.split(PERSONA, 1)[0] for _, u in self.of(schema)}
+            self.assertEqual(len(heads), 1, schema.__name__)  # 관점 앞까지가 모두 같다
+            self.assertEqual(ref_ids(heads.pop()), ALL)
 
     def test_corpus_text_keeps_reference_order(self):
         text = ma.corpus_text(REFS, {"ref-003", "ref-001"})

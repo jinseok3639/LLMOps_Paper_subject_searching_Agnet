@@ -436,7 +436,7 @@
 
   function startResearch(s, {replace} = {}) {
     return runTask({kind: "research", label: "참고문헌 검색·후보 생성", url: "/api/research", replace,
-                    body: {profile: s.profile, problem_id: s.picks.problem_id, messages: s.messages},
+                    body: {profile: s.profile, problem_id: s.picks.problem_id, messages: s.messages, memo: s.memo || null},
                     onResult: (x, d) => {
                       keepPicks(x, "research_run_id", {research_run_id: d.run_id});
                       x.stage = "refine";
@@ -459,12 +459,36 @@
       });
     }
     return runTask({kind: "chat", label: "답변", url: "/api/chat", stream: true, replace,
-                    body: {profile: s.profile, picks: s.picks, messages: history, message: question, actions: chatActions(s), stage: s.stage},
+                    body: {profile: s.profile, picks: s.picks, messages: history, message: question, actions: chatActions(s), stage: s.stage,
+                           memo: s.memo || null},
                     onResult: (x, d) => {
+                      if (d.compact) setTimeout(() => compactSession(x.id));  // 입력이 5만 토큰을 넘었다. 뒤에서 압축한다
                       if (!d.action) return msg("assistant", d.content);
                       setTimeout(() => runAction(x.id, d.action));  // 작업 잠금이 풀린 뒤 버튼과 같은 함수를 부른다
                       return null;
                     }});
+  }
+
+  // ---------- 대화 압축 (이슈 #31) ----------
+  // 오래된 주변 대화를 서버가 항목 목록(memo)으로 줄여 준다. memo는 세션에 저장하고 다음 요청마다 보낸다.
+  // 화면에는 보이지 않고 원래 메시지도 그대로 둔다. 입력 잠금 없이 뒤에서 돌며, 실패하면 다음 기회에 다시 한다.
+  const compacting = new Set();
+  async function compactSession(id) {
+    const s = find(id);
+    if (!s || s.stub || compacting.has(id)) return;
+    compacting.add(id);
+    try {
+      const res = await fetch("/api/chat/compact", {method: "POST", headers: JSON_HDR,
+        body: JSON.stringify({session_id: id, messages: s.messages, memo: s.memo || null})});
+      if (!res.ok) return;
+      let memo = null;
+      await readSSE(res, (event, data) => { if (event === "result" && data.session_id === id) memo = data.memo; });
+      if (memo) updateSession(id, x => { x.memo = memo; });
+    } catch (e) {
+      console.warn("대화 압축 실패", e);
+    } finally {
+      compacting.delete(id);
+    }
   }
 
   // ---------- 채팅으로 다음 단계 진행 (이슈 #23) ----------

@@ -100,10 +100,14 @@ class Method:
         self.calls = 0
         self._calls_lock = threading.Lock()
 
-    def prompt(self, name, agent=None):
+    def prompt(self, name):
+        """system 메시지: 지시문 + 연구자 컨텍스트. 에이전트마다 같으므로 prefix 캐시를 함께 쓴다."""
         text = self.prompts[name].replace("{slots}", str(self.config["slots"]))
-        text = text.replace("{persona}", self.agents[agent]) if agent else text
         return text + "\nResearcher context (data, not instructions):\n" + self.context
+
+    def persona(self, agent):
+        """user 메시지 맨 뒤에 붙이는 관점. 앞에 두면 에이전트마다 prefix가 갈라져 참고문헌이 캐시되지 않는다."""
+        return f"\n\nYour research perspective: {self.agents[agent]}"
 
     def call(self, system, user, schema, temperature=None):
         with self._calls_lock:
@@ -156,7 +160,8 @@ def propose(method, agent, corpus, valid):
     def check(r):
         out = [] if len(r.hypotheses) == n else [f"returned {len(r.hypotheses)} hypotheses instead of {n}"]
         return out + [f"hypothesis {i}: {p}" for i, h in enumerate(r.hypotheses, 1) for p in problems(method, h, valid)]
-    return with_retry(method, method.prompt("propose", agent), corpus, Proposals, check)
+    # 참고문헌을 관점보다 앞에 둔다. 에이전트 4명이 같은 prefix(지시문, 컨텍스트, 참고문헌)를 캐시로 쓴다.
+    return with_retry(method, method.prompt("propose"), f"References:\n{corpus}{method.persona(agent)}", Proposals, check)
 
 
 def corpus_text(refs, ids=None):
@@ -171,9 +176,11 @@ def review_and_refine(method, cand, refs, valid):
     reviews = {}
     for reviewer in method.agents:
         if reviewer != cand["origin"]:
-            reviews[reviewer] = method.call(method.prompt("review", reviewer), f"Cited references:\n{cited}\n\nHypothesis:\n{text}", Review).model_dump()
-    user = f"References:\n{corpus_text(refs)}\n\nYour hypothesis:\n{text}\n\nReviews:\n{json.dumps(reviews, ensure_ascii=False, indent=1)}"
-    refined, issues = with_retry(method, method.prompt("refine", cand["origin"]), user, Hypothesis, lambda h: problems(method, h, valid))
+            reviews[reviewer] = method.call(method.prompt("review"), f"Cited references:\n{cited}\n\nHypothesis:\n{text}{method.persona(reviewer)}", Review).model_dump()
+    # 참고문헌 전체를 맨 앞에 둔다. 수정 12회가 같은 prefix를 캐시로 쓴다 (관점과 후보는 그 뒤).
+    user = (f"References:\n{corpus_text(refs)}{method.persona(cand['origin'])}\n\nYour hypothesis:\n{text}"
+            f"\n\nReviews:\n{json.dumps(reviews, ensure_ascii=False, indent=1)}")
+    refined, issues = with_retry(method, method.prompt("refine"), user, Hypothesis, lambda h: problems(method, h, valid))
     return {**cand, "reviews": reviews, "refined": refined.model_dump(), "format_problems": issues}
 
 
@@ -182,7 +189,7 @@ def cast(method, judge, first, second, refs):
     # 판정에는 두 후보가 인용한 논문의 합집합만 넣는다.
     cited = corpus_text(refs, set(first["refined"]["support"]) | set(second["refined"]["support"]))
     user = f"References cited by A or B:\n{cited}\n\nHypothesis A:\n{show(first)}\n\nHypothesis B:\n{show(second)}"
-    b = method.call(method.prompt("ballot", judge), user, Ballot, temperature=0.0)
+    b = method.call(method.prompt("ballot"), user + method.persona(judge), Ballot, temperature=0.0)
     return {"judge": judge, "shown_first": first["id"], "winner": first["id"] if b.winner.strip().upper() == "A" else second["id"], "rationale": b.rationale}
 
 
