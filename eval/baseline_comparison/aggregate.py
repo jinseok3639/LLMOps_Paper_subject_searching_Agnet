@@ -60,6 +60,41 @@ def scores_table(key, results, lines):
     return per, summary
 
 
+USABLE_MIN = 3  # 항목 1~5가 모두 이 점수 이상이면 "쓸 만한 후보"
+STRONG_MIN = 4  # 모두 이 점수 이상이면 "강한 후보". 3점 기준은 모든 조건이 채워 구분이 안 될 수 있다
+
+
+def final_metrics(run, per, summary, lines):
+    """사전에 정한 보조 지표: 쓸 만한 후보 수, 공백 메움 비율, 샘플당 호출 수와 시간."""
+    lines += ["## 쓸 만한 후보와 비용", "",
+              f"쓸 만한 후보는 항목 1~5가 모두 {USABLE_MIN}점 이상인 후보입니다. usable@3은 쓸 만한 후보가 하나라도 있는 샘플의 비율입니다. 강한 후보는 모두 {STRONG_MIN}점 이상입니다.", "",
+              "| 조건 | 세트당 쓸 만한 후보 (0~3) | usable@3 | 세트당 강한 후보 (0~3) | strong@3 | 샘플당 호출 | 샘플당 시간(초) |", "|---|---|---|---|---|---|---|"]
+    out = {}
+    for cond in common.CONDITIONS:
+        sets = [d for (s, c), d in per.items() if c == cond]
+        gens = [common.read_json(p) for p in sorted((run / "gen").glob(f"t*_{cond}.json"))]
+        gens = [g for g in gens if not g.get("failed")]
+        if not sets and not gens:
+            continue
+        counts = [sum(all(x[c] >= USABLE_MIN for c in common.CRITERIA) for x in d.values()) for d in sets]
+        strong = [sum(all(x[c] >= STRONG_MIN for c in common.CRITERIA) for x in d.values()) for d in sets]
+        row = {"usable_per_set": avg(counts), "usable_at_3": avg([float(n > 0) for n in counts]) if counts else None,
+               "strong_per_set": avg(strong), "strong_at_3": avg([float(n > 0) for n in strong]) if strong else None,
+               "calls": avg([g.get("calls") for g in gens if g.get("calls") is not None]), "seconds": avg([g.get("seconds") for g in gens])}
+        out[cond] = row
+        pct = lambda v: "-" if v is None else f"{v * 100:.0f}%"
+        lines.append(f"| {cond} | {fmt(row['usable_per_set'])} | {pct(row['usable_at_3'])} | {fmt(row['strong_per_set'])} | {pct(row['strong_at_3'])} | {fmt(row['calls'])} | {fmt(row['seconds'])} |")
+    gap = {}
+    if all(c in summary for c in ("A", "B")):
+        for ref in ("C", "D"):
+            if ref in summary and summary[ref]["mean"] != summary["A"]["mean"]:
+                gap[ref] = (summary["B"]["mean"] - summary["A"]["mean"]) / (summary[ref]["mean"] - summary["A"]["mean"])
+    if gap:
+        lines += ["", "공백 메움 비율 (B−A)/(기준−A), 후보 평균 점수 기준: " + ", ".join(f"{r} 기준 {v * 100:.0f}%" for r, v in gap.items())]
+    lines.append("")
+    return {"by_condition": out, "gap_closure": gap}
+
+
 def novelty_table(key, results, lines):
     by = defaultdict(list)
     for jid, job in key.items():
@@ -216,13 +251,14 @@ def main():
     if failed:
         lines += [f"생성 실패: {', '.join(failed)}", ""]
     per, summary = scores_table(key, results, lines)
+    final = final_metrics(run, per, summary, lines)
     novelty = novelty_table(key, results, lines)
     pairwise = pairwise_table(key, results, lines)
     human = human_table(run, key, per, lines)
     details(run, key, results)
     lines += ["후보별 내용, 판정 근거, 작업 번호는 `details.md`에 있습니다.", ""]
     (run / "report.md").write_text("\n".join(lines), "utf-8")
-    common.write_json(run / "report.json", {"scores": summary, "novelty": novelty, "pairwise": pairwise, "human": human, "missing": missing})
+    common.write_json(run / "report.json", {"scores": summary, "final": final, "novelty": novelty, "pairwise": pairwise, "human": human, "missing": missing})
     print("\n".join(lines))
 
 

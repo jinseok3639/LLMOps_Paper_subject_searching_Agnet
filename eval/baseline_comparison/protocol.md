@@ -114,3 +114,37 @@ codex [--search] exec -C <임시 폴더> --skip-git-repo-check --ephemeral --ign
 - 시범 운영 샘플(t003~t005)은 워크플로우 개선에 쓰인 샘플입니다.
 - Claude는 CLI로 호출해 temperature를 맞추지 못했고, CLI가 덧붙이는 짧은 문맥이 있습니다.
 - A·C 프롬프트는 서로 다른 후보 3개를 요구하지만, B의 최종 선별은 같은 주제를 거르지 않습니다.
+
+## 최종 측정 (2026-11-07 사전 고정)
+
+시간 제약으로 개선은 v3 한 번, 최종 측정은 한 번만 합니다. 아래 설계는 최종 결과를 보기 전에 정했고, 결과를 본 뒤 바꾸지 않습니다. 결과가 어떻게 나오든 v3를 더 고치지 않고 그대로 보고합니다.
+
+| 항목 | 정한 값 |
+|---|---|
+| 샘플 | 확인용 t006~t010 (5개). `inputs/`에 복사만 했고 내용은 열지 않음 |
+| 조건 | A Solar 단일, B Solar + 워크플로우 v3(`methods/v3`), C Claude Opus 5.5, D Claude Sonnet 5.5. 각 1회 생성 |
+| 주 가설 | B > A |
+| 주 지표 | B vs A 세트 쌍대 비교의 종합(overall) 승수(5개 샘플 중), 후보 평균 점수 차이(B−A) |
+| 보조 지표 | 세트당 쓸 만한 후보 수(항목 1~5 모두 3점 이상), 강한 후보 수(모두 4점 이상), best/worst-of-3, 다양성 승수, 공백 메움 비율 (B−A)/(C−A)·(B−A)/(D−A), 샘플당 호출 수와 시간 |
+| 판정 | 후보별 점수 4조건 × 3후보 × 5샘플 = 60, 쌍대 비교 5쌍 × 2순서 × 5샘플 = 50 |
+| 생략 | 외부 새로움(원 논문 제외 문제 미해결), 사람 검증 |
+| 보고 방식 | "5개 샘플 중 몇 개에서 우세"로 보고하고 통계적 유의성은 주장하지 않음 |
+
+**실행 (저장소 루트에서):**
+
+```bash
+PY=../LLMOps_Paper_subject_searching_Agnet/.venv/Scripts/python.exe
+S=t006,t007,t008,t009,t010
+$PY eval/baseline_comparison/check.py --run final
+$PY eval/baseline_comparison/generate.py --run final --samples $S --conditions A,C,D
+$PY eval/baseline_comparison/generate.py --run final --samples $S --conditions B --method eval/baseline_comparison/methods/v3
+$PY eval/baseline_comparison/pack.py --run final
+$PY eval/baseline_comparison/judge.py --run final --kinds score,pairwise --workers 3
+$PY eval/baseline_comparison/aggregate.py --run final
+```
+
+- B는 참고문헌이 많은 샘플(60~70편)에서 샘플당 10~15분 걸릴 수 있으므로 백그라운드로 돌립니다. 끊기면 같은 명령으로 이어 갑니다.
+- 생성이 실패하면 `--retry-failed`로 한 번 다시 돌리고, 그래도 실패하면 실패로 보고합니다.
+- 판정은 약 40분 걸립니다. 사용량 한도에 걸리면 멈추고, 같은 명령으로 이어 갑니다.
+
+**함께 보고할 한계:** GPT 심판 하나, 샘플 5개, 조건당 생성 1회, 사람 검증과 외부 새로움 판정 없음, 검토·수정 지시는 B에만 있고 단일 호출 프롬프트에는 없음, Claude는 CLI로 호출해 temperature를 맞추지 못함, v1→v3 개선은 개발용 샘플 t003~t005에서만 확인함.
