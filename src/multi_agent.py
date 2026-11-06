@@ -131,7 +131,7 @@ def problems(method, h, valid):
     out = []
     n = len(h.summary.split())
     if not low <= n <= high:
-        out.append(f"summary has {n} words")
+        out.append(f"summary has {n} words but must have {low} to {high} words")
     if "ref-" in h.summary or "ref-" in h.title:
         out.append("title or summary mentions a reference id")
     if RESULT_CLAIM.search(h.summary):
@@ -141,27 +141,48 @@ def problems(method, h, valid):
     return out
 
 
+RETRY_NOTE = "\n\nA previous attempt was rejected. Avoid these problems: "
+
+
 def with_retry(method, system, user, schema, check):
+    """형식 검사에 걸리면 문제를 알려 주고 다시 요청한다. 끝까지 실패해도 예외 없이 마지막 결과와 문제를 돌려준다.
+    실패를 어떻게 처리할지는 부르는 쪽이 정한다."""
     prompt, issues = user, []
     for _ in range(method.config["max_format_tries"]):
         result = method.call(system, prompt, schema)
         issues = check(result)
         if not issues:
             break
-        prompt = user + "\n\nA previous attempt was rejected. Avoid these problems: " + "; ".join(issues)
-    if issues:
-        raise ValueError("Candidate format validation failed: " + "; ".join(issues))
+        prompt = user + RETRY_NOTE + "; ".join(issues)
     return result, issues
 
 
 def propose(method, agent, corpus, valid):
+    """반환: ({슬롯 번호: 가설}, 끝까지 통과하지 못한 슬롯의 문제 목록).
+    검사를 통과한 슬롯은 그대로 두고, 남은 슬롯만 다시 요청한다. 다시 요청하면 가설 전체가 새로 나오므로,
+    이전에 통과한 슬롯을 버리면 매번 다른 슬롯이 걸려 끝나지 않는다. 끝까지 실패한 슬롯은 빼고 진행한다."""
     n = method.config["slots"]
-
-    def check(r):
-        out = [] if len(r.hypotheses) == n else [f"returned {len(r.hypotheses)} hypotheses instead of {n}"]
-        return out + [f"hypothesis {i}: {p}" for i, h in enumerate(r.hypotheses, 1) for p in problems(method, h, valid)]
     # 참고문헌을 관점보다 앞에 둔다. 에이전트 4명이 같은 prefix(지시문, 컨텍스트, 참고문헌)를 캐시로 쓴다.
-    return with_retry(method, method.prompt("propose"), f"References:\n{corpus}{method.persona(agent)}", Proposals, check)
+    system, user = method.prompt("propose"), f"References:\n{corpus}{method.persona(agent)}"
+    kept, prompt, issues = {}, user, []
+    for _ in range(method.config["max_format_tries"]):
+        r = method.call(system, prompt, Proposals)
+        issues = []
+        for k in range(1, n + 1):
+            if k in kept:
+                continue
+            if k > len(r.hypotheses):
+                issues.append(f"hypothesis {k}: missing (return exactly {n} hypotheses)")
+                continue
+            found = problems(method, r.hypotheses[k - 1], valid)
+            if found:
+                issues.append(f"hypothesis {k}: " + "; ".join(found))
+            else:
+                kept[k] = r.hypotheses[k - 1]
+        if not issues:
+            break
+        prompt = user + RETRY_NOTE + "; ".join(issues)
+    return kept, issues
 
 
 def corpus_text(refs, ids=None):
@@ -181,7 +202,9 @@ def review_and_refine(method, cand, refs, valid):
     user = (f"References:\n{corpus_text(refs)}{method.persona(cand['origin'])}\n\nYour hypothesis:\n{text}"
             f"\n\nReviews:\n{json.dumps(reviews, ensure_ascii=False, indent=1)}")
     refined, issues = with_retry(method, method.prompt("refine"), user, Hypothesis, lambda h: problems(method, h, valid))
-    return {**cand, "reviews": reviews, "refined": refined.model_dump(), "format_problems": issues}
+    # 수정본이 끝까지 형식에 맞지 않으면 검사를 통과했던 제안 원본을 쓴다.
+    final = cand["hypothesis"] if issues else refined.model_dump()
+    return {**cand, "reviews": reviews, "refined": final, "format_problems": issues, "refine_failed": bool(issues)}
 
 
 def cast(method, judge, first, second, refs):
@@ -242,9 +265,14 @@ def run_sample(method, sample, refs, seed):
     method.progress(f"{sample} 시작: 참고문헌 {len(refs)}편")
     with ThreadPoolExecutor(4) as ex:
         proposed = dict(zip(method.agents, ex.map(calllog.bind(lambda a: propose(method, a, corpus, valid)), method.agents)))
-    slots = min(len(r.hypotheses) for r, _ in proposed.values())
-    method.progress(f"{sample} 1/4 제안 완료 (호출 {method.calls})")
-    cands = [{"id": f"s{k + 1}-{a}", "slot": k + 1, "origin": a, "hypothesis": r.hypotheses[k].model_dump()} for k in range(slots) for a, (r, _) in proposed.items()]
+    slots = method.config["slots"]
+    cands = [{"id": f"s{k}-{a}", "slot": k, "origin": a, "hypothesis": kept[k].model_dump()}
+             for k in range(1, slots + 1) for a, (kept, _) in proposed.items() if k in kept]
+    dropped = {a: issues for a, (_, issues) in proposed.items() if issues}
+    method.progress(f"{sample} 1/4 제안 완료: 후보 {len(cands)}개"
+                    + (f", 형식 실패로 뺀 가설 {slots * len(proposed) - len(cands)}개" if dropped else "") + f" (호출 {method.calls})")
+    if not cands:
+        raise ValueError("Every proposed hypothesis failed format validation: " + json.dumps(dropped, ensure_ascii=False))
     done = itertools.count(1)
 
     def reviewed(c):
@@ -259,6 +287,8 @@ def run_sample(method, sample, refs, seed):
         cands = list(ex.map(calllog.bind(reviewed), cands))
     method.progress(f"{sample} 2/4 검토와 수정 완료: 후보 {len(cands)}개 (호출 {method.calls})")
     groups = {k: [c for c in cands if c["slot"] == k] for k in range(1, slots + 1)}
+    groups = {k: g for k, g in groups.items() if g}
+    slots = len(groups)
     # 첫 라운드 순서를 슬롯 순서대로 미리 섞는다. 차례로 돌던 때와 같은 대진이 나온다.
     first = {}
     for k, group in groups.items():
