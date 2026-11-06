@@ -9,7 +9,8 @@
     solved: "한 논문이 문제와 방법을 모두 이미 다룹니다. ③으로 돌아가 다른 후보를 고르거나 후보를 수정하는 것을 권합니다.",
     partial: "겹치는 요소와 다른 요소를 아래 표에서 나눠 확인하세요.",
     not_addressed: "가장 가까운 논문과의 차이를 아래 표에서 확인하세요. 찾은 범위 안의 결과일 뿐 새롭다는 보장은 아닙니다."};
-  const FLAG_NOTE = {"초록 수준": "본문을 읽지 못해 초록 카드로 비교한 논문이 있습니다.",
+  const FLAG_NOTE = {"초록 수준": "본문을 읽지 못해 초록 카드로 비교한 논문이 있습니다. " +
+                                "초록에 없는 방법·평가 세부는 비교하지 못했으니 원문 링크에서 확인하세요.",
                      "확인 못 한 요소 있음": "카드에 없거나 인용 대조에 실패해 판단하지 못한 문제·방법 요소가 있습니다."};
   const MATCH = {same: "같음", partial: "부분", different: "다름", unknown: "확인 못 함"};
   const ELEMENTS = [["problem", "문제"], ["method", "방법"], ["assumptions", "가정"], ["evaluation", "평가"]];
@@ -20,6 +21,11 @@
   const REVIEW = [["unsupported", "근거 없는 주장"], ["vague", "검증을 막는 빈 정의·절차"], ["already_done", "이미 한 부분"],
                   ["suggestion", "가장 중요한 개선"]];
   const safeUrl = u => /^https?:\/\//.test(u || "") ? u : null;
+  // fulltext_status → 본문을 못 읽은 이유 (src/finalize.py UNREAD와 같게 맞춘다)
+  const UNREAD = {"no_pdf: s2_failed": "논문 정보 조회 실패", "no_pdf: no_url": "공개된 PDF 없음",
+                  "no_pdf: not_pdf": "PDF 대신 웹페이지가 옴", "no_pdf: download_failed": "PDF 내려받기 실패",
+                  "no_pdf": "PDF를 받지 못함", studio_unavailable: "본문 분석 설정 없음", studio_error: "본문 분석 실패"};
+  const unreadReason = s => !s || s === "ok" ? "" : UNREAD[s] || UNREAD[s.split(":")[0]] || "";
 
   document.head.append(h("style", {}, `
     .vtable { border-collapse: collapse; width: 100%; margin: 6px 0; font-size: 14px; }
@@ -38,7 +44,9 @@
   function paperLine(p) {
     const url = safeUrl(p.url);
     return h("h4", {}, `[${p.id}] `, url ? h("a", {href: url, target: "_blank", rel: "noopener"}, p.title) : p.title,
-             ` (${p.year ?? "연도 없음"}) · ${p.level === "fulltext" ? "본문" : "초록"} 수준`);
+             ` (${p.year ?? "연도 없음"}) · ${p.level === "fulltext" ? "본문" : "초록"} 수준`,
+             p.level !== "fulltext" && unreadReason(p.fulltext_status)
+               ? h("span", {class: "caption"}, ` (본문 못 읽음: ${unreadReason(p.fulltext_status)})`) : "");
   }
 
   function elementTable(p) {

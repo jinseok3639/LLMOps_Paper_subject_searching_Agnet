@@ -16,6 +16,7 @@ from pydantic import BaseModel
 import server
 from src import calllog, cards, config, llm, references, runs, studio
 from src.api import sse
+from src.clients import semantic_scholar
 
 KEY, S2_KEY = "up_test_secret_0123456789", "s2_test_secret_0123456789"
 
@@ -39,7 +40,8 @@ class Logs(unittest.TestCase):
         self.addCleanup(tmp.cleanup)
         self.root = Path(tmp.name)
         for p in (patch.object(calllog, "ROOT", self.root), patch.object(runs, "RUNS_DIR", self.root / "runs"),
-                  patch.dict(os.environ, {"UPSTAGE_API_KEY": KEY, "S2_API_KEY": S2_KEY})):
+                  patch.dict(os.environ, {"UPSTAGE_API_KEY": KEY, "S2_API_KEY": S2_KEY}),
+                  patch.object(semantic_scholar, "INTERVAL_KEY", 0)):
             p.start()
             self.addCleanup(p.stop)
         self.client = MagicMock()
@@ -122,7 +124,7 @@ class CallTests(Logs):
     def test_s2_search_logs_cache_hits(self):
         resp = MagicMock(status_code=200)
         resp.json.return_value = {"data": [{"paperId": "p1", "title": "T", "abstract": "long abstract"}]}
-        with patch.object(config, "DB_DIR", self.root), patch("src.references.requests.get", return_value=resp) as get:
+        with patch.object(config, "DB_DIR", self.root), patch("src.clients.semantic_scholar.requests.get", return_value=resp) as get:
             references._search("agent safety eval")
             references._search("agent safety eval")
         self.assertEqual(get.call_count, 1)
@@ -142,7 +144,8 @@ class CallTests(Logs):
         with patch.object(cards, "PAPER_PDF_DIR", self.root / "pdf"), \
                 patch.object(cards, "_s2_pdf_info", return_value={"externalIds": {"ArXiv": "2401.1"}}), \
                 patch.object(cards, "_download", return_value=False):
-            self.assertIsNone(cards.fetch_pdf({"paper_id": "p1"}))
+            with self.assertRaises(cards.NoPdf):
+                cards.fetch_pdf({"paper_id": "p1"})
         rows = self.lines()
         self.assertEqual([(r["provider"], r["model"], r["status"]) for r in rows],
                          [("studio", "agt_x", "ok"), ("studio", "agt_x", "cancelled"),
@@ -155,7 +158,7 @@ class CallTests(Logs):
             raise RuntimeError(f"401 for key {KEY} / {S2_KEY}, Authorization: Bearer abcdefghijklmnopqrstuvwxyz")
         resp = MagicMock(status_code=200)
         resp.json.return_value = {"data": []}
-        with patch.object(config, "DB_DIR", self.root), patch("src.references.requests.get", return_value=resp) as get:
+        with patch.object(config, "DB_DIR", self.root), patch("src.clients.semantic_scholar.requests.get", return_value=resp) as get:
             references._search("q2")
         self.assertEqual(get.call_args.kwargs["headers"], {"x-api-key": S2_KEY})
         text = self.text()

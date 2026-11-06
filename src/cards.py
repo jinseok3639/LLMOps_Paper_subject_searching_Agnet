@@ -22,6 +22,8 @@ import requests
 from pydantic import BaseModel, Field
 
 from src import calllog, config, llm, studio
+from src.clients import arxiv
+from src.clients import semantic_scholar as s2
 from src.textnorm import contains
 
 FIELDS = ("problem", "method", "assumptions", "evaluation", "limitations")
@@ -29,7 +31,10 @@ ABSTRACT_CARD_DIR = config.DB_DIR / "abstract_cards"              # {paper_id}.j
 PAPER_PDF_DIR = config.ROOT_DIR / "data" / "papers" / "pdf"       # {paper_id}.pdf
 STUDIO_CARD_DIR = config.ROOT_DIR / "data" / "papers" / "studio"  # {paper_id}.card.json, {paper_id}.raw.json
 PROMPT_PATH = config.PROMPT_DIR / "abstract_card.md"
-S2_PAPER_URL = "https://api.semanticscholar.org/graph/v1/paper/"
+S2_PDF_FIELDS = "openAccessPdf,externalIds"
+PDF_FIELDS = ("openAccessPdf", "externalIds")
+S2_TRIES = 3  # 사용자가 기다리는 ④라 짧게
+ARXIV_PDF_URL = "https://arxiv.org/pdf/{}"
 PDF_TIMEOUT = 30
 MAX_PDF_BYTES = 50 * 2 ** 20
 
@@ -143,24 +148,25 @@ def abstract_card(paper: dict) -> dict:
         return card
 
 
-def _s2_pdf_info(paper_id: str) -> dict:
-    """S2 paper/{id}?fields=openAccessPdf,externalIds. 실패하면 {} (PDF 없음과 같게 처리)."""
-    headers = {"x-api-key": os.environ["S2_API_KEY"]} if os.getenv("S2_API_KEY") else {}
-    for attempt in range(3):
-        try:
-            r = requests.get(S2_PAPER_URL + requests.utils.quote(paper_id, safe=":"),
-                             params={"fields": "openAccessPdf,externalIds"}, headers=headers, timeout=40)
-        except requests.RequestException as e:
-            log.warning("S2 PDF 정보 실패 %s: %s", paper_id, e)
-        else:
-            if r.status_code == 200:
-                return r.json()
-            if r.status_code != 429 and r.status_code < 500:
-                log.warning("S2 PDF 정보 %s %s", r.status_code, paper_id)
-                return {}
-        if attempt < 2:
-            time.sleep(2 ** (attempt + 1))
-    return {}
+class NoPdf(Exception):
+    """PDF를 받지 못함. reason: s2_failed | no_url | not_pdf | download_failed (NO_PDF_REASONS)."""
+
+    def __init__(self, reason: str, attempts: list[dict] | None = None):
+        super().__init__(f"PDF 없음: {reason}")
+        self.reason = reason
+        self.attempts = attempts or []
+
+
+NO_PDF_REASONS = ("s2_failed", "no_url", "not_pdf", "download_failed")
+
+
+def _s2_pdf_info(paper_id: str) -> dict | None:
+    """S2 paper/{id}?fields=openAccessPdf,externalIds (S2 대기열을 지남). 404면 {} (정보 없음), 그 밖의 실패는 None."""
+    try:
+        return s2.paper(paper_id, S2_PDF_FIELDS, tries=S2_TRIES)
+    except s2.S2Error as e:
+        log.warning("S2 PDF 정보 실패 %s: %s", paper_id, e)
+        return {} if e.status == 404 else None
 
 
 def _pdf_urls(info: dict) -> list[str]:
@@ -168,64 +174,94 @@ def _pdf_urls(info: dict) -> list[str]:
     oa = info.get("openAccessPdf")
     if isinstance(oa, dict) and oa.get("url"):
         urls.append(oa["url"])
-    arxiv = (info.get("externalIds") or {}).get("ArXiv")
-    if arxiv:
-        urls.append(f"https://arxiv.org/pdf/{arxiv}")
+    arxiv_id = (info.get("externalIds") or {}).get("ArXiv")
+    if arxiv_id:
+        urls.append(ARXIV_PDF_URL.format(arxiv_id))
     return urls
 
 
-def _download(url: str, path: Path) -> bool:
-    """PDF 한 개를 30초 안에 받는다. PDF가 아니거나 너무 크면 False."""
+def _download(url: str, path: Path) -> str:
+    """PDF 한 개를 30초 안에 받는다. 결과: ok | not_pdf | http_{상태} | too_large | timeout | error."""
     deadline = time.monotonic() + PDF_TIMEOUT
     try:
         r = requests.get(url, stream=True, timeout=PDF_TIMEOUT, headers={"User-Agent": "Mozilla/5.0 (research-topic-app)"})
         try:
             if r.status_code != 200:
                 log.warning("PDF %s %s", r.status_code, url)
-                return False
+                return f"http_{r.status_code}"
             data = bytearray()
             for chunk in r.iter_content(1 << 16):
                 data += chunk
-                if len(data) > MAX_PDF_BYTES or time.monotonic() > deadline:
-                    log.warning("PDF 크기 또는 시간 초과 %s", url)
-                    return False
+                if len(data) > MAX_PDF_BYTES:
+                    log.warning("PDF 크기 초과 %s", url)
+                    return "too_large"
+                if time.monotonic() > deadline:
+                    log.warning("PDF 시간 초과 %s", url)
+                    return "timeout"
         finally:
             r.close()
     except requests.RequestException as e:
         log.warning("PDF 다운로드 실패 %s: %s", url, e)
-        return False
+        return "error"
     if b"%PDF" not in bytes(data[:1024]):
         log.warning("PDF가 아닌 응답 %s", url)
-        return False
+        return "not_pdf"
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_name(f"{path.name}.{os.getpid()}.{threading.get_ident()}.tmp")
     tmp.write_bytes(bytes(data))
     os.replace(tmp, path)
-    return True
+    return "ok"
 
 
-def fetch_pdf(paper: dict) -> Path | None:
-    """오픈액세스 PDF → data/papers/pdf/{paper_id}.pdf. S2 openAccessPdf, 없으면 arXiv. 받을 수 없으면 None.
+def _arxiv_by_title(title: str) -> str | None:
+    with calllog.timed("arxiv", "query", title) as c:
+        try:
+            c.output = found = arxiv.find_by_title(title)
+        except arxiv.ArxivError as e:
+            log.warning("arXiv 제목 검색 실패 %s: %s", title, e)
+            c.status, c.error = "error", str(e)[:300]
+            return None
+        c.status = "ok" if found else "error"
+        return found
 
-    paper에 openAccessPdf와 externalIds가 이미 있으면 S2를 부르지 않는다.
-    S2 조회(s2)와 다운로드 시도(pdf)는 호출 로그에 한 줄씩 남긴다. 빈 응답이나 받지 못한 PDF는 status error.
+
+def fetch_pdf(paper: dict) -> Path:
+    """오픈액세스 PDF → data/papers/pdf/{paper_id}.pdf. 받을 수 없으면 NoPdf.
+
+    시도 순서: S2 openAccessPdf → S2 externalIds의 arXiv ID → (arXiv ID가 없으면) arXiv 제목 검색으로 찾은 ID.
+    paper에 openAccessPdf와 externalIds가 이미 있으면 (③④ 검색 결과) S2를 부르지 않는다.
+    출판사가 자동 요청을 막으면 우회하지 않는다.
+    S2 조회(s2), arXiv 검색(arxiv), 다운로드 시도(pdf)는 호출 로그에 한 줄씩 남긴다. 실패는 status error.
+    NoPdf.reason: S2 조회가 실패하고 다른 경로도 없으면 s2_failed, 시도할 주소가 없으면 no_url,
+    아니면 첫 시도의 결과 (PDF가 아닌 페이지면 not_pdf, 그 밖은 download_failed).
     """
     path = PAPER_PDF_DIR / f"{_key(paper)}.pdf"
     if path.exists():
         return path
-    info = paper
-    if not {"openAccessPdf", "externalIds"} <= paper.keys():
+    info, s2_failed = paper, False
+    if not set(PDF_FIELDS) <= paper.keys():
         with calllog.timed("s2", "paper", paper["paper_id"]) as c:
-            c.output = found = _s2_pdf_info(paper["paper_id"])
+            found = _s2_pdf_info(paper["paper_id"])
+            c.output = found
             c.status = "ok" if found else "error"
-        info = {**paper, **found}
-    for url in _pdf_urls(info):
+        s2_failed = found is None
+        info = {**paper, **(found or {})}
+    urls = _pdf_urls(info)
+    if not (info.get("externalIds") or {}).get("ArXiv") and paper.get("title"):
+        arxiv_id = _arxiv_by_title(paper["title"])
+        if arxiv_id:
+            urls.append(ARXIV_PDF_URL.format(arxiv_id))
+    attempts = []
+    for url in urls:
         with calllog.timed("pdf", "download", url) as c:
-            ok = _download(url, path)
-            c.status = "ok" if ok else "error"
-        if ok:
+            c.output = result = _download(url, path)
+            c.status = "ok" if result == "ok" else "error"
+        if result == "ok":
             return path
-    return None
+        attempts.append({"url": url, "result": result})
+    if not attempts:
+        raise NoPdf("s2_failed" if s2_failed else "no_url")
+    raise NoPdf("not_pdf" if attempts[0]["result"] == "not_pdf" else "download_failed", attempts)
 
 
 def _page(v) -> int | None:
@@ -263,13 +299,14 @@ def _studio_fields(final: dict) -> dict[str, CardField]:
     return out
 
 
-def fulltext_card(paper: dict, should_cancel: Callable[[], bool] | None = None) -> dict | None:
+def fulltext_card(paper: dict, should_cancel: Callable[[], bool] | None = None) -> dict:
     """논문 PDF → 본문 카드 (Studio 에이전트 B, 캐시). 같은 논문은 다시 보내지 않는다.
 
-    반환: 카드. PDF를 받을 수 없으면 None.
-    예외: studio.StudioUnavailable (STUDIO_CARD_AGENT_ID 없음 등. PDF를 받기 전에 확인),
+    반환: 카드.
+    예외: NoPdf (PDF를 받을 수 없음. reason에 이유),
+          studio.StudioUnavailable (STUDIO_CARD_AGENT_ID 없음 등. PDF를 받기 전에 확인),
           studio.StudioCancelled, studio.StudioError (job 실패, 시간 초과, 파싱 결과 없음).
-    None이나 StudioError면 호출하는 쪽에서 abstract_card로 대체한다.
+    NoPdf나 StudioError면 호출하는 쪽에서 abstract_card로 대체한다.
     """
     key = _key(paper)
     path = STUDIO_CARD_DIR / f"{key}.card.json"
@@ -278,8 +315,6 @@ def fulltext_card(paper: dict, should_cancel: Callable[[], bool] | None = None) 
             return json.loads(path.read_text("utf-8"))["card"]
         agent = studio.agent_id()
         pdf = fetch_pdf(paper)
-        if pdf is None:
-            return None
         result = studio.run_agent(pdf, agent=agent, should_cancel=should_cancel)
         _write_json(STUDIO_CARD_DIR / f"{key}.raw.json", result["raw"])  # 응답 형식 확인용 원본
         parse_text = result["parse_text"]

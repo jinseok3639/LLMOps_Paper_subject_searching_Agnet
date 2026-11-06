@@ -45,6 +45,7 @@ VERIFY = {"run_id": "r_" + "3" * 32, "kind": "verify", "status": "ok", "topic_id
                                       "assumptions": ELEMENT("different"), "evaluation": {}},
                        "card": {"level": "fulltext", "limitations": {"text": "한계", "quote": "Only one model.", "page": 9}}},
                       {"id": "N2", "paper_id": "p2", "title": "Near Two", "year": 2023, "url": "", "level": "abstract",
+                       "fulltext_status": "no_pdf: not_pdf",
                        "comparison": {k: ELEMENT("unknown") for k in ("problem", "method", "assumptions", "evaluation")},
                        "card": {"level": "abstract", "limitations": {"text": "", "quote": "", "page": None}}}],
           "limitations": [{"id": "N1", "paper_id": "p1", "title": "Near One", "level": "fulltext", "text": "한계",
@@ -79,6 +80,7 @@ class CardTests(unittest.TestCase):
         self.assertEqual((n1["comparison"]["problem"]["match"], n1["comparison"]["problem"]["quote"]), ("same", "We detect backdoors."))
         self.assertEqual(n1["comparison"]["evaluation"]["match"], "unknown")  # 빠진 요소는 확인 못 함
         self.assertEqual(n2["level"], "abstract")
+        self.assertEqual((n1["unread_reason"], n2["unread_reason"]), ("", "PDF 대신 웹페이지가 옴"))
         v = card["verdict"]
         self.assertEqual((v["verdict"], v["flags"], v["basis"][0]["id"]), ("partial", ["초록 수준"], "N1"))
         self.assertIn("본문 1편, 초록 1편", v["read_level"])
@@ -114,6 +116,12 @@ class CardTests(unittest.TestCase):
         self.assertEqual(card["scope"]["stage"], "research")
         self.assertIn("호출 예산 초과", to_markdown(card))
 
+    def test_unread_reason(self):
+        from src.finalize import unread_reason
+        self.assertEqual([unread_reason(s) for s in (None, "ok", "no_pdf", "no_pdf: s2_failed", "no_pdf: other",
+                                                     "studio_unavailable", "studio_error: job failed")],
+                         ["", "", "PDF를 받지 못함", "논문 정보 조회 실패", "PDF를 받지 못함", "본문 분석 설정 없음", "본문 분석 실패"])
+
     def test_unknown_topic(self):
         with self.assertRaises(KeyError):
             build_card(RECOMMEND, PROBLEM, RESEARCH, "c9", None)
@@ -124,7 +132,8 @@ class CardTests(unittest.TestCase):
                      "## 빈틈", "## 비평", "## 조사 범위", "일부 겹침 (partial)", "초록 수준",
                      "[Near One](<https://x.org/n1>)", '| 문제 | 같음 | 이유 \\| 있음 | "We detect backdoors." (p.3) |',
                      '"Only one model." (p.9)', "| 핵심 메커니즘 | 미정 | 메커니즘 미정 |", "최소 판별 실험",
-                     "q one / q two / q three", "본문까지 읽은 논문 1편", "2026-11-05"):
+                     "q one / q two / q three", "본문까지 읽은 논문 1편", "2026-11-05",
+                     "Near Two (2023) · 초록 수준 (본문 못 읽음: PDF 대신 웹페이지가 옴)", "원문 링크에서 확인하세요"):
             self.assertIn(text, md)
         md = to_markdown(build_card(None, PROBLEM, RESEARCH, "c1", None))
         self.assertIn("**검증 안 함**", md)

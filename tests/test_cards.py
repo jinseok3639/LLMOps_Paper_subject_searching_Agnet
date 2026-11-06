@@ -2,11 +2,15 @@
 import json
 import os
 import tempfile
+import threading
+import time
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
 from src import calllog, cards, studio
+from src.clients import arxiv, semantic_scholar
+from src.clients.ratequeue import RateQueue
 from src.cards import AbstractCardOut, Quoted
 
 ABSTRACT = ("We study “reward hacking” in reinforcement learning from human feedback. "
@@ -145,9 +149,10 @@ class FulltextCardTest(TmpDirs):
         self.assertEqual(card["quote_failed"], [])
         self.assertEqual(card["problem"]["page"], 1)
 
-    def test_no_pdf_returns_none(self):
-        with patch("src.cards.fetch_pdf", return_value=None), patch("src.cards.studio.run_agent") as run:
-            self.assertIsNone(cards.fulltext_card(PAPER))
+    def test_no_pdf_raises_without_studio_call(self):
+        with patch("src.cards.fetch_pdf", side_effect=cards.NoPdf("not_pdf")), patch("src.cards.studio.run_agent") as run:
+            with self.assertRaises(cards.NoPdf):
+                cards.fulltext_card(PAPER)
         run.assert_not_called()
 
     def test_missing_agent_id_raises_before_download(self):
@@ -172,8 +177,8 @@ class FulltextCardTest(TmpDirs):
 
 
 class Resp:
-    def __init__(self, status=200, body=None, data=b""):
-        self.status_code, self._body, self._data = status, body, data
+    def __init__(self, status=200, body=None, data=b"", text=""):
+        self.status_code, self._body, self._data, self.text = status, body, data, text
 
     def json(self):
         return self._body
@@ -185,28 +190,47 @@ class Resp:
         pass
 
 
+S2_PAPER = "https://api.semanticscholar.org/graph/v1/paper/"
+ARXIV_API = "https://export.arxiv.org/api/query"
+
+
+def atom(*entries):
+    """arXiv API 응답. entries: (arXiv ID, 제목)."""
+    items = "".join(f"<entry><id>http://arxiv.org/abs/{i}v2</id><title>{t}</title></entry>" for i, t in entries)
+    return f'<?xml version="1.0"?><feed xmlns="http://www.w3.org/2005/Atom">{items}</feed>'
+
+
 class FetchPdfTest(TmpDirs):
+    def setUp(self):
+        super().setUp()
+        for p in (patch.object(semantic_scholar, "INTERVAL_KEY", 0), patch.object(semantic_scholar, "INTERVAL_PUBLIC", 0),
+                  patch.object(semantic_scholar, "BACKOFF", 0), patch.object(arxiv, "INTERVAL", 0)):
+            p.start()
+            self.addCleanup(p.stop)
+
     def route(self, routes):
+        """URL 앞부분 → 응답 (목록이면 차례로). S2, arXiv, PDF 요청은 모두 requests.get 하나를 지난다."""
         self.urls = []
+        routes = {k: list(v) if isinstance(v, list) else v for k, v in routes.items()}
 
         def get(url, **kw):
             self.urls.append(url)
             for prefix, resp in routes.items():
                 if url.startswith(prefix):
-                    return resp
+                    return resp.pop(0) if isinstance(resp, list) else resp
             raise AssertionError("unexpected " + url)
         return patch("src.cards.requests.get", side_effect=get)
 
     def test_open_access_url_from_paper(self):
-        paper = {**PAPER, "openAccessPdf": {"url": "https://oa.example/p.pdf"}, "externalIds": {}}
+        paper = {**PAPER, "openAccessPdf": {"url": "https://oa.example/p.pdf"}, "externalIds": {"ArXiv": "2401.1"}}
         with self.route({"https://oa.example/": Resp(data=b"%PDF-1.7 body")}):
             path = cards.fetch_pdf(paper)
-        self.assertEqual(self.urls, ["https://oa.example/p.pdf"])  # S2를 부르지 않음
+        self.assertEqual(self.urls, ["https://oa.example/p.pdf"])  # S2도 arXiv 검색도 부르지 않음
         self.assertEqual(path.read_bytes(), b"%PDF-1.7 body")
 
     def test_s2_lookup_then_arxiv_when_oa_is_not_pdf(self):
         s2 = Resp(body={"openAccessPdf": {"url": "https://oa.example/landing"}, "externalIds": {"ArXiv": "2401.00001"}})
-        with self.route({cards.S2_PAPER_URL: s2, "https://oa.example/": Resp(data=b"<html>"),
+        with self.route({S2_PAPER: s2, "https://oa.example/": Resp(data=b"<html>"),
                          "https://arxiv.org/pdf/": Resp(data=b"%PDF-1.5 arxiv")}):
             path = cards.fetch_pdf(PAPER)
         self.assertEqual(self.urls[-1], "https://arxiv.org/pdf/2401.00001")
@@ -215,15 +239,112 @@ class FetchPdfTest(TmpDirs):
             self.assertEqual(cards.fetch_pdf(PAPER), path)
         get.assert_not_called()
 
-    def test_no_pdf_available(self):
-        s2 = Resp(body={"openAccessPdf": None, "externalIds": {"DOI": "10.1/x"}})
-        with self.route({cards.S2_PAPER_URL: s2}):
-            self.assertIsNone(cards.fetch_pdf(PAPER))
-        with self.route({cards.S2_PAPER_URL: Resp(404, {"error": "not found"})}):
-            self.assertIsNone(cards.fetch_pdf(PAPER))
-        with self.route({"https://arxiv.org/pdf/": Resp(404)}):
-            self.assertIsNone(cards.fetch_pdf({**PAPER, "openAccessPdf": None, "externalIds": {"ArXiv": "1"}}))
+    def test_s2_retries_429_then_succeeds(self):
+        s2 = [Resp(429, text="Too Many Requests"),
+              Resp(body={"openAccessPdf": None, "externalIds": {"ArXiv": "2401.00002"}})]
+        with self.route({S2_PAPER: s2, "https://arxiv.org/pdf/": Resp(data=b"%PDF-1.5")}):
+            cards.fetch_pdf(PAPER)
+        self.assertEqual(sum(u.startswith(S2_PAPER) for u in self.urls), 2)
+
+    def test_arxiv_title_search_when_s2_fails(self):
+        paper = {**PAPER, "title": "Detecting Backdoor Attacks via Similarity in Semantic Communication Systems"}
+        found = atom(("2502.03721", "Detecting Backdoor Attacks via Similarity\n  in Semantic Communication Systems"))
+        with self.route({S2_PAPER: Resp(429), ARXIV_API: Resp(text=found),
+                         "https://arxiv.org/pdf/": Resp(data=b"%PDF-1.5 preprint")}):
+            path = cards.fetch_pdf(paper)
+        self.assertEqual(sum(u.startswith(S2_PAPER) for u in self.urls), cards.S2_TRIES)
+        self.assertEqual(self.urls[-1], "https://arxiv.org/pdf/2502.03721")  # 버전은 뗀다
+        self.assertEqual(path.read_bytes(), b"%PDF-1.5 preprint")
+
+    def test_arxiv_title_search_after_blocked_download(self):
+        paper = {**PAPER, "title": "Securing LLM-based agents: a survey",
+                 "openAccessPdf": {"url": "https://publisher.example/p.pdf"}, "externalIds": {"DOI": "10.1/x"}}
+        found = atom(("2601.00009", "Securing LLM based Agents: A Survey"))  # 대소문자·기호만 다름
+        with self.route({"https://publisher.example/": Resp(403), ARXIV_API: Resp(text=found),
+                         "https://arxiv.org/pdf/": Resp(data=b"%PDF-1.5")}):
+            cards.fetch_pdf(paper)
+        self.assertEqual(self.urls[-1], "https://arxiv.org/pdf/2601.00009")
+
+    def test_arxiv_title_must_match(self):
+        paper = {**PAPER, "title": "Semantic-Aware Framework for Backdoor Detection in AI Models",
+                 "openAccessPdf": None, "externalIds": {"DOI": "10.4018/x"}}
+        similar = atom(("2501.00001", "Semantic-Aware Framework for Backdoor Detection in Vision Models"))
+        with self.route({ARXIV_API: Resp(text=similar)}):
+            with self.assertRaises(cards.NoPdf) as e:
+                cards.fetch_pdf(paper)
+        self.assertEqual(e.exception.reason, "no_url")
+        self.assertFalse(any(u.startswith("https://arxiv.org/pdf/") for u in self.urls))
+
+    def test_no_pdf_reasons(self):
+        no_arxiv = {ARXIV_API: Resp(text=atom())}
+        cases = [
+            ({**PAPER, "openAccessPdf": None, "externalIds": {"DOI": "10.1/x"}}, {}, "no_url"),
+            (PAPER, {S2_PAPER: Resp(404, {"error": "not found"})}, "no_url"),
+            (PAPER, {S2_PAPER: Resp(503)}, "s2_failed"),
+            ({**PAPER, "openAccessPdf": {"url": "https://igi.example/ViewTitle"}, "externalIds": {}},
+             {"https://igi.example/": Resp(data=b"<html>landing</html>")}, "not_pdf"),
+            ({**PAPER, "openAccessPdf": {"url": "https://publisher.example/p.pdf"}, "externalIds": {}},
+             {"https://publisher.example/": Resp(403)}, "download_failed"),
+            ({**PAPER, "openAccessPdf": None, "externalIds": {"ArXiv": "1"}}, {"https://arxiv.org/pdf/": Resp(404)},
+             "download_failed"),
+        ]
+        for paper, routes, reason in cases:
+            with self.subTest(reason=reason, routes=list(routes)), self.route({**no_arxiv, **routes}):
+                with self.assertRaises(cards.NoPdf) as e:
+                    cards.fetch_pdf(paper)
+                self.assertEqual(e.exception.reason, reason)
         self.assertEqual(list(cards.PAPER_PDF_DIR.glob("*")), [])  # PDF가 아닌 응답이나 임시 파일을 남기지 않음
+
+    def test_arxiv_api_failure_is_not_fatal(self):
+        paper = {**PAPER, "title": "A long enough paper title", "openAccessPdf": None, "externalIds": {}}
+        with self.route({ARXIV_API: Resp(503, text="busy")}):
+            with self.assertRaises(cards.NoPdf) as e:
+                cards.fetch_pdf(paper)
+        self.assertEqual(e.exception.reason, "no_url")
+        self.assertEqual(len(self.urls), arxiv.TRIES)
+
+
+class ArxivTest(unittest.TestCase):
+    def test_normalize_and_parse(self):
+        self.assertEqual(arxiv.normalize_title("LLM-based Agents:  A  Survey!"), "llm based agents a survey")
+        self.assertEqual(arxiv._entries(atom(("2401.1", "T"), ("hep-th/9901001", "U"))),
+                         [("2401.1", "T"), ("hep-th/9901001", "U")])
+        with self.assertRaises(arxiv.ArxivError):
+            arxiv._entries("<not xml")
+
+    def test_short_title_is_not_searched(self):
+        with patch("src.clients.arxiv.requests.get") as get:
+            self.assertIsNone(arxiv.find_by_title("Survey"))
+        get.assert_not_called()
+
+
+class QueueTest(unittest.TestCase):
+    def test_requests_pass_in_order_with_interval(self):
+        q, times, order = RateQueue(), [], []
+
+        def call(i):
+            q.pass_through(0.05)
+            times.append(time.monotonic())
+            order.append(i)
+
+        threads = []
+        for i in range(4):
+            threads.append(threading.Thread(target=call, args=(i,)))
+            threads[-1].start()
+            time.sleep(0.01)  # 번호표를 i 순서로 받게
+        for t in threads:
+            t.join()
+        self.assertEqual(order, [0, 1, 2, 3])
+        self.assertTrue(all(b - a >= 0.045 for a, b in zip(times, times[1:])))
+        self.assertEqual(q.waiting(), 0)
+
+    def test_pause_holds_everyone(self):
+        q = RateQueue()
+        q.pass_through(0)
+        q.pause(0.1)
+        t0 = time.monotonic()
+        q.pass_through(0)
+        self.assertGreaterEqual(time.monotonic() - t0, 0.09)
 
 
 if __name__ == "__main__":
