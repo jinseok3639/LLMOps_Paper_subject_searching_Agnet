@@ -1,6 +1,7 @@
 /* ④ 검증 메시지 (설계서 4장, API 명세 6.4). app.js의 App 훅만 쓴다.
    ③ 후보 카드의 "이 후보 검증" → /api/verify → 대화에 kind "verify" 메시지, picks.verify_run_id, stage "verify".
-   다음 단계 버튼: "이 주제로 확정"(finalize 작업) · "다른 후보 검증"(후보 카드를 대화 아래에 다시 보인다).
+   다음 단계 버튼: "이 주제로 확정"(finalize 작업) · "결과를 반영해 고치기"(revise 작업, 이슈 #12)
+   · "다른 후보 검증"(후보 카드를 대화 아래에 다시 보인다). 고친 후보(picks.revision_run_id)가 있으면 그 버전을 검증한다.
    ⑤(다른 모듈)는 picks.verify_run_id, research_run_id, topic_id, recommend_run_id, problem_id를 읽는다. */
 (() => {
   const {h, btn} = App;
@@ -29,16 +30,23 @@
   const unreadReason = s => !s || s === "ok" ? "" : UNREAD[s] || UNREAD[s.split(":")[0]] || "";
 
   function startVerify(s, {replace} = {}) {
-    const {research_run_id, topic_id} = s.picks;
+    const {research_run_id, topic_id} = s.picks, revision_run_id = s.picks.revision_run_id || "";
     return App.runTask({kind: "verify", label: "후보 검증", url: "/api/verify", replace,
-      body: {profile: s.profile, problem_id: s.picks.problem_id, research_run_id, topic_id},
+      body: {profile: s.profile, problem_id: s.picks.problem_id, research_run_id, topic_id, revision_run_id},
       onResult: (x, d) => {
         x.picks = {...x.picks, verify_run_id: d.run_id};
         delete x.picks.final_run_id;
         x.stage = "verify";
-        return App.msg("assistant", `검증 판정: ${VERDICT[d.verdict] || d.verdict || "없음"} (${d.topic_title || topic_id})`,
-                       {kind: "verify", run_id: d.run_id, research_run_id, topic_id});
+        const v = d.topic_version || 1;
+        return App.msg("assistant", `검증 판정: ${VERDICT[d.verdict] || d.verdict || "없음"} (${d.topic_title || topic_id}` +
+                       (v > 1 ? `, v${v})` : ")"),
+                       {kind: "verify", run_id: d.run_id, research_run_id, topic_id, revision_run_id, topic_version: v});
       }});
+  }
+
+  function reviseFromResult(s) {  // ④ 결과(최근접 논문, 비평)를 근거로 수정안을 만든다 (이슈 #12)
+    App.updateSession(s.id, x => { x.messages.push(App.msg("user", "검증 결과를 반영해서 후보를 고쳐 주세요.")); });
+    App.startJob("revise", App.getSession());
   }
 
   function finalize(s) {
@@ -94,7 +102,9 @@
     const sc = run.scope || {}, nearest = run.nearest || [];
     const basis = nearest.filter(p => (run.verdict_basis || []).includes(p.paper_id)).map(p => `[${p.id}] ${p.title}`);
     const fold = (title, ...kids) => h("details", {class: "section"}, h("summary", {}, title), ...kids);
-    el.append(h("p", {}, "검증을 마쳤습니다: ", h("b", {}, run.topic_title || "")),
+    const v = run.topic_version || 1, cur = App.currentRevision(s, m.research_run_id, m.topic_id)?.version || 1;
+    el.append(h("p", {}, "검증을 마쳤습니다: ", h("b", {}, run.topic_title || ""), v > 1 ? ` (v${v})` : ""),
+      cur !== v ? h("p", {class: "info"}, `이 판정은 v${v} 후보 기준입니다. 지금 후보는 v${cur}입니다.`) : "",
       h("div", {class: `verdict ${run.verdict || ""}`}, h("div", {class: "verdict-label"}, VERDICT[run.verdict] || run.verdict || "판정 없음"),
         h("p", {}, ADVICE[run.verdict] || ""),
         basis.length ? h("p", {class: "caption"}, `근거 논문: ${basis.join(", ")}`) : "",
@@ -110,8 +120,9 @@
     const solved = run.verdict === "solved";
     el.append(h("div", {class: "row"},
       btn(solved ? "그래도 이 주제로 확정" : "이 주제로 확정", () => finalize(s), solved ? "" : "primary"),
-      btn("다른 후보 검증", () => otherTopic(s, m), solved ? "primary" : "")),
-      h("p", {class: "caption"}, "후보를 고치고 싶으면 입력창에 요청하세요."));
+      btn("결과를 반영해 고치기", () => reviseFromResult(s), solved ? "primary" : ""),
+      btn("다른 후보 검증", () => otherTopic(s, m))),
+      h("p", {class: "caption"}, "직접 고치고 싶으면 입력창에 바꿀 내용을 알려 주세요. 예: \"평가 데이터셋을 바꿔 줘\""));
   }
 
   App.registerCard("verify", renderVerify);
@@ -120,4 +131,8 @@
     return run ? `판정: ${run.verdict}` + ((run.flags || []).length ? ` · ${run.flags.join(", ")}` : "") : "";
   });
   App.registerJob("verify", startVerify);
+  App.registerActions("verify", () => [
+    {name: "revise_topic", target: "", label: "검증한 후보 고치기: 사용자가 말한 변경이나 검증 결과를 반영"},
+    {name: "verify_topic", target: "", label: "지금 버전의 후보 다시 검증"},
+    {name: "finalize", target: "", label: "이 주제로 최종 주제 카드 확정"}]);
 })();

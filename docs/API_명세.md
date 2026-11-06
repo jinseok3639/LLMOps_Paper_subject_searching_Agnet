@@ -255,6 +255,18 @@ Google 로그인 하나만 지원합니다 (A-4). 로그인 처리는 **Supabase
 
 자리만 잡아 둡니다. 형식은 6.2와 같은 SSE이고, 입력은 `session_id`, `profile`, `research_run_id`, `topic_id`입니다. 검증이 도는 동안 화면은 입력을 잠급니다 (F-5).
 
+두 API 모두 `revision_run_id`(6.4.1)를 더 받습니다. 있으면 고친 후보로 검증하거나 카드를 만듭니다. ④ 결과에는 `revision_run_id`와 `topic_version`이 남습니다. ⑤는 검증한 버전과 확정하는 버전이 달라도 막지 않고, 카드에 판정이 몇 번째 버전 기준인지 적습니다.
+
+### 6.4.1 `POST /api/revise`: ③·④ 후보 고치기 (이슈 #12)
+
+대화로 고른 후보의 수정안을 만듭니다. 형식은 6.2와 같은 SSE입니다.
+
+- **입력:** `session_id`, `profile`, `research_run_id`, `topic_id`, `revision_run_id`(지금 버전, 비면 원본 v1), `verify_run_id`(있으면 검증 결과를 근거로 함께 넘김), `messages`
+- **결과:** `{run_id, version, base_version, base_run_id, changes: [{field, before, after}], topic, reason, from_verify}`
+  - `changes`는 바뀐 필드(`title`, `summary`, `gap`, `approach`, `evaluation`)만 담습니다.
+  - 바뀐 게 없으면 저장하지 않고 `run_id: null`을 돌려줍니다.
+- **저장:** 수정안은 `kind: "revision"` 결과로 따로 저장하고, 원본 후보는 바꾸지 않습니다. 화면이 [적용]을 누르면 `picks.revision_run_id`가 이 결과를 가리키며, 서버에는 따로 적용 단계가 없습니다.
+
 ### 6.5 결과 조회와 피드백
 
 | 메서드 | 경로 | 설명 | 요구 |

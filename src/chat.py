@@ -1,19 +1,19 @@
 """추천 이후 후속 대화.
 
 도구 연결 없이, picks가 가리키는 저장된 결과(① 추천, ③ 후보, ④ 검증)와 연구실 프로필만 컨텍스트로 쓴다.
-picks = {recommend_run_id, problem_id, research_run_id, topic_id, verify_run_id} (API 명세 2.2). 없거나 만료된 결과는 빼고 답한다.
+picks = {recommend_run_id, problem_id, research_run_id, topic_id, revision_run_id, verify_run_id} (API 명세 2.2). 없거나 만료된 결과는 빼고 답한다.
 대화 기록을 넣는 규칙과 압축은 src.conversation에 있다.
 """
 import json
 
 from pydantic import BaseModel
 
-from src import config, conversation, llm, runs
+from src import config, conversation, llm, revise, runs
 from src.recommend import load_index
 
 
 def build_context(profile: dict, recommend_run: dict | None = None, research_run: dict | None = None,
-                  picks: dict | None = None, verify_run: dict | None = None) -> str:
+                  picks: dict | None = None, verify_run: dict | None = None, revision_run: dict | None = None) -> str:
     """system 컨텍스트. 잘 안 바뀌는 것부터 둔다 (prefix 캐시): 프로필 → ① → ③ → ④ → 현재 선택."""
     picks = picks or {}
     lines = ["[컨텍스트]", "## 연구실 프로필",
@@ -57,9 +57,15 @@ def build_context(profile: dict, recommend_run: dict | None = None, research_run
     lines.append("\n## 현재 선택")
     pid = picks.get("problem_id")
     lines.append(f"- 사용자가 고른 문제: {by_id[pid]['title']} [{pid}]" if pid in by_id else "- 사용자가 고른 문제: (없음)")
-    topic = next((t for t in (research_run or {}).get("topics") or [] if t["id"] == picks.get("topic_id")), None)
+    try:  # 고친 후보가 있으면 지금 버전을 보인다 (이슈 #12). 다른 후보의 수정안이면 원본만
+        topic, version = revise.resolve(research_run or {}, picks.get("topic_id") or "", revision_run)
+    except ValueError:
+        topic, version = revise.resolve(research_run or {}, picks.get("topic_id") or "")
     if topic:
         lines.append(f"- 사용자가 다듬기로 고른 후보: {topic['title']} [{topic['id']}]")
+        if version > 1:
+            lines.append(f"- 지금 버전: v{version} (사용자가 고친 내용을 적용함. 위 topics의 원본보다 이것을 따른다)")
+            lines.append("  " + json.dumps({k: topic.get(k) or "" for k in revise.FIELDS}, ensure_ascii=False))
     return "\n".join(lines)
 
 
@@ -76,7 +82,8 @@ MATCH_KO = {"same": "같음", "partial": "부분", "different": "다름", "unkno
 
 def verify_view(v: dict) -> str:
     """④ 검증 결과 요약: 판정, 가장 가까운 논문의 요소별 비교(인용 포함), 저자가 밝힌 한계, 비평."""
-    lines = [f"## ④ 검증 결과 (후보 [{v.get('topic_id')}] {v.get('topic_title') or ''})",
+    ver = f", v{v['topic_version']} 기준" if (v.get("topic_version") or 1) > 1 else ""
+    lines = [f"## ④ 검증 결과 (후보 [{v.get('topic_id')}] {v.get('topic_title') or ''}{ver})",
              f"- 판정: {v.get('verdict') or '없음'} (근거 논문: {', '.join(v.get('verdict_basis') or []) or '없음'})"]
     if v.get("status") == "budget":
         lines.append("- 호출 예산 초과로 중간에 멈춘 결과다")
@@ -113,8 +120,8 @@ INTENT_HISTORY_CHARS = 200  # 메시지마다 앞부분만 넣는다. 긴 답변
 STAGE_HINTS = {  # 판별에 넣는 현재 단계 설명. 다음에 무엇을 할지 유추하게 한다
     "browse": "① 둘러보기: 추천한 Open Problem 목록을 보는 중. 다음은 문제 하나를 고르는 것이다 (다시 추천도 가능).",
     "explore": "② 문제 파고들기: 문제를 골랐다. 사용자가 조건(GPU, 기간 등)을 알려 줄 수 있고, 다음은 참고문헌을 검색해 연구 주제 후보를 만드는 것이다.",
-    "refine": "③ 주제 다듬기: 연구 주제 후보를 보는 중.",
-    "verify": "④ 검증: 고른 후보의 검증 결과를 보는 중.",
+    "refine": "③ 주제 다듬기: 연구 주제 후보를 보는 중. 후보를 고치거나 검증할 수 있다.",
+    "verify": "④ 검증: 고른 후보의 검증 결과를 보는 중. 결과를 보고 후보를 고치거나, 다시 검증하거나, 확정할 수 있다.",
     "final": "⑤ 확정: 최종 주제를 정리했다.",
 }
 
@@ -147,7 +154,7 @@ def reply_stream(profile: dict, picks: dict, history: list[dict], user_msg: str,
     if verify_run and verify_run.get("topic_id") != picks.get("topic_id"):
         verify_run = None  # 다른 후보의 검증 결과는 넣지 않는다
     context = build_context(profile, runs.load(picks.get("recommend_run_id")),
-                            runs.load(picks.get("research_run_id")), picks, verify_run)
+                            runs.load(picks.get("research_run_id")), picks, verify_run, runs.load(picks.get("revision_run_id")))
     system = (config.PROMPT_DIR / "chat_followup.md").read_text(encoding="utf-8")
     convo, summary = conversation.chat_messages(history, memo)
     if summary:

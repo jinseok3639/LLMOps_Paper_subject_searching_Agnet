@@ -6,6 +6,8 @@
 """
 from datetime import date
 
+from src import revise
+
 ELEMENTS = (("problem", "문제"), ("method", "방법"), ("assumptions", "가정"), ("evaluation", "평가"))
 MATCH = {"same": "같음", "partial": "부분", "different": "다름", "unknown": "확인 못 함"}
 REQUIREMENTS = (("problem_scope", "문제와 범위"), ("difference", "기존 연구와의 차이"), ("mechanism", "핵심 메커니즘"),
@@ -115,10 +117,11 @@ def _scope(research_run: dict, v: dict) -> dict:
 
 
 def build_card(recommend_run: dict | None, problem: dict | None, research_run: dict, topic_id: str,
-               verify_run: dict | None = None) -> dict:
+               verify_run: dict | None = None, revision_run: dict | None = None) -> dict:
     """problem은 문제 카드 (recommend.problem_card). ① 추천 카드에 같은 문제가 있으면 그 값(추천 이유 포함)을 쓴다.
-    recommend_run, verify_run은 None이어도 된다. 후보가 없으면 KeyError."""
-    topic = next((t for t in research_run.get("topics") or [] if t.get("id") == topic_id), None)
+    recommend_run, verify_run, revision_run은 None이어도 된다. 후보가 없으면 KeyError.
+    revision_run이 있으면 고친 후보(이슈 #12)로 카드를 만든다. 판정은 verify_run이 검증한 버전 그대로 두고 버전만 적는다."""
+    topic, version = revise.resolve(research_run, topic_id, revision_run)
     if topic is None:
         raise KeyError(topic_id)
     v = verify_run or {}
@@ -129,7 +132,8 @@ def build_card(recommend_run: dict | None, problem: dict | None, research_run: d
     refs = {r.get("id"): r for r in research_run.get("references") or []}
     nearest = [_nearest(n) for n in v.get("nearest") or []]
     return {
-        "topic": {"id": topic_id, "title": topic.get("title") or "", "summary": topic.get("summary") or ""},
+        "topic": {"id": topic_id, "title": topic.get("title") or "", "summary": topic.get("summary") or "",
+                  "version": version},
         "problem": {"problem_id": pid, "title": p.get("title") or research_run.get("problem_title") or "",
                     "summary": p.get("summary") or "", "reason": p.get("reason") or "",
                     "section_title": p.get("section_title") or "", "page": p.get("page"), "quote": p.get("quote") or "",
@@ -138,13 +142,13 @@ def build_card(recommend_run: dict | None, problem: dict | None, research_run: d
                    "support": [{"id": i, **{k: refs.get(i, {}).get(k) for k in ("title", "year", "url")}}
                                for i in topic.get("support") or []]},
         "nearest": nearest,
-        "verdict": _verdict(v, nearest),
+        "verdict": {**_verdict(v, nearest), "topic_version": (v.get("topic_version") or 1) if v else None},
         "gaps": _gaps(v, nearest),
         "critique": _critique(v.get("critique")),
         "scope": _scope(research_run, v),
         "source": {"recommend_run_id": (recommend_run or {}).get("run_id"), "problem_id": pid,
                    "research_run_id": research_run.get("run_id"), "topic_id": topic_id,
-                   "verify_run_id": v.get("run_id")},
+                   "revision_run_id": (revision_run or {}).get("run_id"), "verify_run_id": v.get("run_id")},
     }
 
 
@@ -182,7 +186,7 @@ def to_markdown(card: dict) -> str:
     if p["quote"]:
         out += ["", f"> {_one(p['quote'])}"]
 
-    out += ["", "## 연구 설계", ""]
+    out += ["", f"## 연구 설계 (v{t['version']}, ③에서 고침)" if t.get("version", 1) > 1 else "## 연구 설계", ""]
     for k, label in DESIGN:
         if d[k]:
             out += [f"**{label}:** {d[k].strip()}", ""]
@@ -212,6 +216,9 @@ def to_markdown(card: dict) -> str:
         out.append("- 검증이 호출 예산 초과로 중간에 멈췄습니다. 그때까지 한 결과만 있습니다.")
     if v["verdict"] == "not_verified":
         out.append("- ④ 검증을 하지 않았습니다. 같은 연구가 이미 있는지 확인되지 않았습니다.")
+    elif v.get("topic_version") and v["topic_version"] != t.get("version", 1):
+        out.append(f"- 이 판정은 v{v['topic_version']} 후보 기준입니다. 연구 설계는 검증 뒤 고친 v{t['version']}이고, "
+                   "고친 내용은 다시 검증하지 않았습니다.")
     out.append("")
 
     out += ["## 빈틈 (가장 가까운 논문이 밝힌 한계)", ""]
