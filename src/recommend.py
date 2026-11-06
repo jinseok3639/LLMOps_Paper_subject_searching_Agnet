@@ -170,7 +170,9 @@ def recommend(profile: dict, rejections: list[dict] | None = None, progress=_noo
     hits = [h for h in search(query, config.RETRIEVE_K + len(skip)) if h[0] not in skip][:config.RETRIEVE_K]
     trace = {"query": query.model_dump(), "rejected": sorted(rejected), "excluded": sorted(excluded),
              "candidates": [{"problem_id": i, "score": round(s, 4)} for i, s in hits]}
-    result = {"status": "no_match", "intro": "", "note": "", "recommendations": [], "trace": trace}
+    # 다시 추천한 문제는 앞 번호에 이어 매긴다 (1~5 다음 6~10). 화면과 대화 컨텍스트가 같은 번호를 쓴다 (이슈 #23)
+    result = {"status": "no_match", "intro": "", "note": "", "recommendations": [], "first_number": len(set(exclude)) + 1,
+              "trace": trace}
 
     if not hits or hits[0][1] < config.MIN_SCORE:
         result["note"] = ("관련된 Open Problem은 앞에서 모두 보여 드렸습니다." if excluded

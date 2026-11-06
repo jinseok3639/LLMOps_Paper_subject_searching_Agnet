@@ -15,7 +15,7 @@ from fastapi.testclient import TestClient
 import server
 from src import calllog, config, llm, recommend as rec, runs, store
 from src.api import sse
-from src.chat import reply_stream
+from src.chat import Intent, build_context, decide_action, reply_stream
 from src.runs import BudgetExceeded, Cancelled
 
 PROFILE = {"lab_name": "보안 연구실", "lab_topics": "AI 보안", "interests": ""}
@@ -147,6 +147,25 @@ class ApiTests(TempRuns):
         self.assertEqual(got[-1][1], {"session_id": "s1", "content": "안녕"})
         self.assertEqual(reply.call_args.args[1], {"recommend_run_id": "r_x"})
 
+    def test_chat_returns_action_instead_of_answer(self):  # 이슈 #23
+        actions = [{"name": "pick_problem", "target": "2", "label": "2번 문제로 진행: B"},
+                   {"name": "re_recommend", "target": "", "label": "다시 추천"}]
+        body = {"session_id": "s1", "profile": PROFILE, "message": "2번으로 하자", "actions": actions, "stage": "browse"}
+        with patch("src.api.chat.decide_action", return_value=actions[0]) as decide, \
+             patch("src.api.chat.reply_stream") as reply:
+            got = events(self.client.post("/api/chat", json=body).text)
+        self.assertEqual(got[-1], ("result", {"session_id": "s1", "action": actions[0]}))
+        self.assertEqual(decide.call_args.args[1:], ("2번으로 하자", actions, "browse"))
+        reply.assert_not_called()
+        with patch("src.api.chat.decide_action", return_value=None), \
+             patch("src.api.chat.reply_stream", return_value=iter(["답"])):  # 질문이면 지금처럼 답한다
+            got = events(self.client.post("/api/chat", json=body).text)
+        self.assertEqual(got[-1][1]["content"], "답")
+        with patch("src.api.chat.decide_action") as decide, \
+             patch("src.api.chat.reply_stream", return_value=iter(["답"])):  # 행동 목록이 없으면 판별하지 않는다
+            self.client.post("/api/chat", json={**body, "actions": []})
+        decide.assert_not_called()
+
     def test_failures_become_error_or_budget_events(self):
         cases = [(llm.LLMError("형식 재시도 실패"), "error", "upstream_failed"),
                  (KeyError("x"), "error", "internal_error"),
@@ -244,6 +263,25 @@ class SrcTests(TempRuns):
             reply_stream(PROFILE, {"recommend_run_id": "r_" + "0" * 32}, [], "질문")
         self.assertIn("(없음", stream.call_args.args[0][0]["content"])
 
+    def test_chat_context_numbers_follow_first_number(self):  # 다시 추천한 결과는 6번부터 (이슈 #23)
+        _, ids, _ = rec.load_index()
+        card = {**rec.problem_card(ids[0]), "reason": "", "connection": "", "score": 0.9}
+        context = build_context(PROFILE, {"recommendations": [card], "first_number": 6, "trace": {"candidates": []}})
+        self.assertIn(f"6. {card['title']}", context)
+
+    def test_decide_action_accepts_only_listed_actions(self):
+        actions = [{"name": "pick_problem", "target": "2", "label": "2번 문제로 진행: B"},
+                   {"name": "start_research", "target": "", "label": "후보 만들기"}]
+        cases = [(Intent(action="pick_problem", target="2"), actions[0]),
+                 (Intent(action="start_research", target="(none)"), actions[1]),
+                 (Intent(action="pick_problem", target="9"), None),  # 목록에 없는 대상
+                 (Intent(action="answer"), None)]
+        for got, expected in cases:
+            with patch.object(llm, "chat_json", return_value=got) as call:
+                self.assertEqual(decide_action([{"role": "user", "content": "앞 말"}], "2번으로", actions, "explore"), expected)
+            self.assertIn("2", call.call_args.args[0][1]["content"])
+            self.assertIn("② 문제 파고들기", call.call_args.args[0][1]["content"])
+
     def test_recommend_excludes_rejected_and_passes_reasons(self):
         _, ids, vecs = rec.load_index()
         rejected, other = ids[0], ids[1]
@@ -294,6 +332,7 @@ class SrcTests(TempRuns):
         self.assertEqual(len(candidates), config.RETRIEVE_K)
         self.assertEqual([c["problem_id"] for c in result["recommendations"]], [other])
         self.assertEqual(result["trace"]["excluded"], [shown])
+        self.assertEqual(result["first_number"], 2)  # 앞서 1개를 보여 줬으니 2번부터 (이슈 #23)
         self.assertNotIn("rejected earlier", prompts["SearchQuery"])  # 이미 본 문제는 거절로 알리지 않는다
         self.assertNotIn(f"problem_id: {shown}\n", prompts["Selection"])
 
