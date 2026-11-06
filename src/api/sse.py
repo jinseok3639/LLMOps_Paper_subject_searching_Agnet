@@ -7,6 +7,8 @@ job(progress, delta) -> 결과 dict
 - 이벤트: progress, delta, 마지막에 result | error | budget 하나. 모두 session_id가 붙는다 (G-1).
 - 호출 로그 (O-1): 작업 스레드에서 calllog 문맥(session_id, 작업 종류 = 경로 끝, progress의 step)을 세우고,
   끝나면 provider "job" 줄 하나를 남긴다 (run_id, ok · error · cancelled · budget, 총 시간, 호출 수).
+- 로그인 사용자 (API 명세 7장): 결과를 그 사용자 것으로 저장하고(runs.set_owner), 같은 세션의 작업이 이미 돌고 있으면
+  409 job_running (다른 탭). 잠금은 작업 스레드가 끝날 때 푼다. 비로그인은 화면의 입력 잠금으로 충분하다.
 """
 import asyncio
 import json
@@ -17,7 +19,8 @@ import openai
 import requests
 from fastapi.responses import StreamingResponse
 
-from src import calllog, llm
+from src import auth, calllog, llm, runs
+from src.api.common import ApiError
 from src.runs import BudgetExceeded, Cancelled
 
 log = logging.getLogger("uvicorn.error")
@@ -25,6 +28,8 @@ UPSTREAM = (openai.OpenAIError, llm.LLMError, requests.RequestException, ValueEr
 FINAL = {"result", "error", "budget"}
 POLL_SEC = 1.0  # 이벤트가 없을 때 연결 확인 간격
 PING_EVERY = 15  # 이 횟수만큼 조용하면 주석 줄을 보내 연결을 유지한다
+_running: set[tuple[str, str]] = set()  # (user_id, session_id)
+_running_lock = threading.Lock()
 
 
 def error_body(exc: Exception) -> dict:
@@ -38,6 +43,18 @@ def stream_job(request, session_id: str, job, kind: str | None = None) -> Stream
     cancel = threading.Event()
     url = getattr(request, "url", None)
     run_kind = kind or (url.path.rstrip("/").rsplit("/", 1)[-1] if url else None)  # /api/recommend → recommend
+    user = auth.current_user(request)
+    lock_key = (user["id"], session_id) if user else None
+    if lock_key:
+        with _running_lock:
+            if lock_key in _running:
+                raise ApiError(409, "job_running", "다른 탭에서 이 세션의 작업이 진행 중입니다.")
+            _running.add(lock_key)
+
+    def release():
+        if lock_key:
+            with _running_lock:
+                _running.discard(lock_key)
 
     async def events():
         loop = asyncio.get_running_loop()
@@ -68,6 +85,7 @@ def stream_job(request, session_id: str, job, kind: str | None = None) -> Stream
 
         def work():
             calllog.start(session_id, run_kind)
+            runs.set_owner(user["id"] if user else None)
             status, run_id, error = "ok", None, None
             try:
                 result = job(progress, delta)
@@ -85,6 +103,7 @@ def stream_job(request, session_id: str, job, kind: str | None = None) -> Stream
                 emit("error", {"error": error_body(e)})
             finally:
                 calllog.finish(status, run_id, error)
+                release()
 
         threading.Thread(target=work, daemon=True).start()
         idle = 0
