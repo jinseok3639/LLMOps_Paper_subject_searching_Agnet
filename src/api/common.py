@@ -20,10 +20,20 @@ class Profile(BaseModel):
 
 
 class Message(BaseModel):
-    """세션 메시지 (API 명세 2.2). id, created_at 같은 나머지 필드는 무시한다."""
+    """세션 메시지 (API 명세 2.2). created_at 같은 나머지 필드는 무시한다.
+    id는 압축 위치(memo.through)를, kind와 run_id는 상태 카드를 알아보는 데 쓴다 (src.conversation)."""
     role: str
     content: str = ""
     status: str = "done"
+    id: str = ""
+    kind: str = ""
+    run_id: str = ""
+
+
+class Memo(BaseModel):
+    """세션에 저장된 대화 압축 결과 (src.conversation). 화면이 받은 그대로 다시 보낸다."""
+    items: dict = {}
+    through: str = ""
 
 
 def check(profile: Profile, **required: str) -> dict:
@@ -36,6 +46,12 @@ def check(profile: Profile, **required: str) -> dict:
 
 
 def history(messages: list[Message]) -> list[dict]:
-    """LLM에 넘길 대화. 중단·실패한 메시지는 뺀다."""
-    return [{"role": m.role, "content": m.content} for m in messages
-            if m.role in ("user", "assistant") and m.status == "done" and m.content.strip()]
+    """대화 기록. 중단·실패한 메시지는 뺀다. id, kind, run_id는 값이 있을 때만 넣는다.
+    LLM에 넣기 전에 src.conversation이 카드를 한 줄로 바꾸고 메타 필드를 뗀다."""
+    return [{"role": m.role, "content": m.content,
+             **{k: getattr(m, k) for k in ("id", "kind", "run_id") if getattr(m, k)}}
+            for m in messages if m.role in ("user", "assistant") and m.status == "done" and m.content.strip()]
+
+
+def memo_dict(memo: Memo | None) -> dict | None:
+    return memo.model_dump() if memo and memo.through else None

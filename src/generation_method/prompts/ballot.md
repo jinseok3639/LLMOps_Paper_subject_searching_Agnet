@@ -7,5 +7,3 @@ Pick the hypothesis that better fits the latent research idea implied by that bi
 Do NOT prefer novelty for its own sake.
 Do NOT use external search knowledge.
 Respond in English with valid JSON: {"winner": "A" or "B", "rationale": "..."}
-
-Your research perspective: {persona}

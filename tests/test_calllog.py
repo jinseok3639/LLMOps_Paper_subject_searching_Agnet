@@ -110,6 +110,14 @@ class CallTests(Logs):
         self.assertTrue(self.client.chat.completions.create.call_args.kwargs["stream_options"]["include_usage"])
         (row,) = self.lines()
         self.assertEqual((row["status"], row["output"], row["tokens_in"], row["tokens_out"]), ("ok", "안녕", 7, 2))
+        self.assertIsNone(row["tokens_cached"])  # 응답에 캐시 정보가 없으면 None
+
+    def test_cached_tokens_logged(self):
+        usage = NS(prompt_tokens=7312, completion_tokens=2, prompt_tokens_details=NS(cached_tokens=7280))
+        self.client.chat.completions.create.return_value = iter([chunk("a"), chunk(usage=usage)])
+        "".join(llm.chat_stream([{"role": "user", "content": "q"}]))
+        (row,) = self.lines()
+        self.assertEqual((row["tokens_in"], row["tokens_cached"]), (7312, 7280))
 
     def test_stream_closed_early_is_cancelled(self):
         self.client.chat.completions.create.return_value = iter([chunk("안"), chunk("녕"), chunk("!")])
