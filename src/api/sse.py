@@ -39,12 +39,13 @@ def error_body(exc: Exception) -> dict:
     return {"code": "internal_error", "message": f"서버 오류: {exc}", "retryable": True}
 
 
-def stream_job(request, session_id: str, job, kind: str | None = None) -> StreamingResponse:
+def stream_job(request, session_id: str, job, kind: str | None = None, lock: bool = True) -> StreamingResponse:
+    """lock=False: 세션 작업 잠금을 쓰지 않는다. 화면이 뒤에서 따로 부르는 작업(대화 압축)이 다음 작업을 막지 않게 한다."""
     cancel = threading.Event()
     url = getattr(request, "url", None)
     run_kind = kind or (url.path.rstrip("/").rsplit("/", 1)[-1] if url else None)  # /api/recommend → recommend
     user = auth.current_user(request)
-    lock_key = (user["id"], session_id) if user else None
+    lock_key = (user["id"], session_id) if user and lock else None
     if lock_key:
         with _running_lock:
             if lock_key in _running:

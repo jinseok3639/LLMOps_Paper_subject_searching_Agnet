@@ -2,8 +2,8 @@
 from fastapi import APIRouter, Request
 from pydantic import BaseModel
 
-from src import runs
-from src.api.common import ApiError, Message, Profile, check, history
+from src import conversation, runs
+from src.api.common import ApiError, Memo, Message, Profile, check, history, memo_dict
 from src.api.sse import stream_job
 from src.recommend import problem_card
 from src.research import generate_research
@@ -16,6 +16,7 @@ class Body(BaseModel):
     profile: Profile = Profile()
     problem_id: str = ""
     messages: list[Message] = []
+    memo: Memo | None = None
 
 
 def public(result: dict) -> dict:
@@ -31,10 +32,11 @@ def post_research(body: Body, request: Request):
     problem = problem_card(body.problem_id.strip())
     if problem is None:
         raise ApiError(404, "not_found", "선택한 문제를 찾을 수 없습니다.")
-    conversation = history(body.messages)
+    # 약 130회 호출에 반복해서 들어가므로 정해진 것만 넣는다 (src.conversation.research_conversation)
+    convo = conversation.research_conversation(history(body.messages), memo_dict(body.memo))
 
     def job(progress, delta):
-        result = generate_research(profile, conversation, problem, progress)
+        result = generate_research(profile, convo, problem, progress)
         return {"run_id": runs.save("research", result, body.session_id), **public(result)}
 
     return stream_job(request, body.session_id, job)

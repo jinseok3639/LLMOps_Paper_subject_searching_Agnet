@@ -84,13 +84,15 @@ class Call:
     """timed()가 넘기는 기록용 객체."""
 
     def __init__(self):
-        self.output = self.tokens_in = self.tokens_out = self.error = None
+        self.output = self.tokens_in = self.tokens_out = self.tokens_cached = self.error = None
         self.status = "ok"
 
     def usage(self, usage) -> None:
         if usage is not None:
             self.tokens_in = getattr(usage, "prompt_tokens", None)
             self.tokens_out = getattr(usage, "completion_tokens", None)
+            # prefix 캐시로 다시 쓴 입력 토큰 (Solar가 자동으로 캐시한다). 없으면 None
+            self.tokens_cached = getattr(getattr(usage, "prompt_tokens_details", None), "cached_tokens", None)
 
     def reply(self, resp) -> None:
         """OpenAI 호환 chat 응답에서 출력과 토큰 수를 읽는다."""
@@ -110,10 +112,10 @@ def timed(provider: str, model: str | None, input):
         raise
     finally:
         record(provider, model, input=input, output=call.output, latency_ms=_ms(t0), tokens_in=call.tokens_in,
-               tokens_out=call.tokens_out, status=call.status, error=call.error)
+               tokens_out=call.tokens_out, tokens_cached=call.tokens_cached, status=call.status, error=call.error)
 
 
-def record(provider, model, *, input, output, latency_ms, tokens_in=None, tokens_out=None, status,
+def record(provider, model, *, input, output, latency_ms, tokens_in=None, tokens_out=None, tokens_cached=None, status,
            prompt_name=None, prompt_hash=None, error=None, run_id=None, **extra) -> None:
     """호출 로그 한 줄 (설계서 6.2). 실패해도 예외를 내지 않는다."""
     try:
@@ -130,7 +132,7 @@ def record(provider, model, *, input, output, latency_ms, tokens_in=None, tokens
             "session_id": job.session_id, "run_id": run_id, "run_kind": job.run_kind, "step": job.step,
             "provider": provider, "model": model, "prompt_name": prompt_name, "prompt_hash": prompt_hash,
             "input": _clip(input), "output": _clip(output), "latency_ms": latency_ms,
-            "tokens_in": tokens_in, "tokens_out": tokens_out, "status": status, "error": error, **extra})
+            "tokens_in": tokens_in, "tokens_out": tokens_out, "tokens_cached": tokens_cached, "status": status, "error": error, **extra})
     except Exception:  # noqa: BLE001  (로그 때문에 작업이 멈추면 안 된다)
         log.exception("호출 로그 기록 실패")
 
