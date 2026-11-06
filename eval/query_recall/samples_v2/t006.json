@@ -1,0 +1,928 @@
+{
+ "schema_version": 2,
+ "sample_id": "t006",
+ "slot": 1,
+ "source_paper": "2603.03903",
+ "published_at": "2026-03-04",
+ "unit_id": "3.1 High Recall Anomaly Detection with Low False Alarms",
+ "topic": {
+  "source_quotes": {
+   "gap": [
+    {
+     "id": "g1",
+     "quote": "most prior work treats OOD detection and failure prediction as separated problems, overlooking their closed connection.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "g2",
+     "quote": "most selective classification methods rely on a single scoring function with one decision threshold to accept or reject predictions.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ],
+   "approach": [
+    {
+     "id": "a1",
+     "quote": "we propose a unified evaluation framework that integrates OOD detection and failure prediction, quantified by our new metrics DS-F1 and DS-AURC, where DS denotes double scoring functions.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "a2",
+     "quote": "we extend the reliable classifier SURE and introduce SURE+",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ],
+   "evaluation": [
+    {
+     "id": "e1",
+     "quote": "Experiments on the OpenOOD benchmark show that double scoring functions yield classifiers that are substantially more reliable than traditional single scoring approaches.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ]
+  },
+  "slots": {
+   "gap": {
+    "prior_work": {
+     "answer": "OOD 탐지와 오분류 예측을 따로 연구하거나, 점수 하나와 임계값 하나로 판단",
+     "quotes": [
+      "g1",
+      "g2"
+     ]
+    },
+    "remaining": {
+     "answer": "두 문제를 함께 평가하는 지표와 그에 맞는 분류기",
+     "quotes": [
+      "g1"
+     ]
+    }
+   },
+   "approach": {
+    "target": {
+     "answer": "이미지 분류기의 신뢰성 평가",
+     "quotes": [
+      "a1"
+     ]
+    },
+    "change": {
+     "answer": "점수 함수를 둘 쓰는 통합 평가 체계와 새 지표 도입",
+     "quotes": [
+      "a1"
+     ]
+    },
+    "technique": {
+     "answer": "이중 점수 지표와 SURE를 개선한 SURE+",
+     "quotes": [
+      "a1",
+      "a2"
+     ]
+    }
+   },
+   "evaluation": {
+    "compared_against": {
+     "answer": "단일 점수 방식",
+     "quotes": [
+      "e1"
+     ]
+    },
+    "measures": {
+     "answer": "OpenOOD 벤치마크에서 이중 점수 지표로 측정한 신뢰성",
+     "quotes": [
+      "e1"
+     ]
+    }
+   }
+  },
+  "l1": {
+   "gap": "OOD 탐지와 오분류 예측이 분리되어 평가되고 선택적 분류도 점수 하나에 의존해, 둘을 함께 평가할 수 없음",
+   "approach": "OOD 점수와 ID 신뢰도 점수를 함께 쓰는 통합 평가 체계와 DS-F1, DS-AURC 지표를 만들고, SURE를 개선한 SURE+를 제안",
+   "evaluation": "OpenOOD 벤치마크에서 단일 점수 방식과 이중 점수 방식의 신뢰성을 비교"
+  },
+  "l2": {
+   "gap": "Out-of-distribution detection and misclassification prediction are evaluated separately.",
+   "approach": "Evaluate both tasks jointly with two scoring functions and two thresholds.",
+   "evaluation": "Compare joint scoring with single-score approaches on a standard benchmark.",
+   "query_text": "A reliable classifier must both reject unfamiliar inputs and flag its own likely mistakes, yet these tasks are studied and scored separately. How can both be evaluated jointly using separate scores and thresholds, and does this change which methods look best?"
+  },
+  "banned_in_l2": [
+   "DS-F1",
+   "DS-AURC",
+   "SURE",
+   "OpenOOD"
+  ]
+ },
+ "gold": [
+  {
+   "title": "Overcoming Common Flaws in the Evaluation of Selective Classification Systems",
+   "paper_id": "aa0d360e558bcc1a0ba8c979bbf9856051328c88",
+   "arxiv": "2407.01032",
+   "published": "2024-07-01",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "into single-threshold metrics, such as AUROC, AUPR [1], [2], [13], FPR@95, and F1 score, which evaluate performance at a fixed threshold, and multi-threshold metrics, such as AURC [32] and recently proposed AUGRC [33], which aggregate performance across thresholds to assess risk over coverage.",
+   "page": 3,
+   "quote_check": "loose"
+  },
+  {
+   "title": "SURE: SUrvey REcipes for Building Reliable and Robust Deep Networks",
+   "paper_id": "195a21b4ba8db01826bfdc9fb74eb07b8b2da53f",
+   "arxiv": "2403.00543",
+   "published": "2024-03-01",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Building upon SURE [14], which has proven effective for failure prediction, we systematically explore each component from the perspective of joint reliability and retain only those that demonstrably contribute to performance on both ID and OOD data.",
+   "page": 6,
+   "quote_check": "strict"
+  },
+  {
+   "title": "OpenOOD v1.5: Enhanced Benchmark for Out-of-Distribution Detection",
+   "paper_id": "c9865321e44ab1969877ea92a0019001b1803b21",
+   "arxiv": "2306.09301",
+   "published": "2023-06-15",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "The compared training strategies include Baseline (standard cross-entropy loss), Mixup [25], Pixmix [49], Augmix [61], Cutmix [10], RegMixup [26], and SURE [14], following the OpenOOD benchmark [1], [2].",
+   "page": 8,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Plugin estimators for selective classification with out-of-distribution detection",
+   "paper_id": "8fc5a630910c78f6e899a8c930fb092f991b78d8",
+   "arxiv": "2301.12386",
+   "published": "2023-01-29",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "This technical constraint naturally leads to methodologies focused on merely strengthening or modifying a single post-hoc signal to find a compromise between ID and OOD tasks [7], [36].",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "A Call to Reflect on Evaluation Practices for Failure Detection in Image Classification",
+   "paper_id": "4b6f6f69d6400d4f0daa6a174b33925bb76696c1",
+   "arxiv": "2211.15259",
+   "published": "2022-11-28",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Recognizing the limitations of isolated evaluations, prior works [24], [34], [35], [36] have advocated for the necessity of testing classification systems in mixed ID and OOD settings.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "OpenOOD: Benchmarking Generalized Out-of-Distribution Detection",
+   "paper_id": "4e9e30f4702f64af5aacbb5791172c5b37510dc3",
+   "arxiv": "2210.07242",
+   "published": "2022-10-13",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "The compared training strategies include Baseline (standard cross-entropy loss), Mixup [25], Pixmix [49], Augmix [61], Cutmix [10], RegMixup [26], and SURE [14], following the OpenOOD benchmark [1], [2].",
+   "page": 8,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Augmenting Softmax Information for Selective Classification with Out-of-Distribution Data",
+   "paper_id": "35cc22754293d678dc94cd5148c9f446c9f7e54f",
+   "arxiv": "2207.07506",
+   "published": "2022-07-15",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "SIRC [7] adopts a selective classification perspective [6], [24], combining multiple post-hoc scores to filter unreliable predictions and better separate system failures from reliable outputs.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Failure Detection in Medical Image Classification: A Reality Check and Benchmarking Testbed",
+   "paper_id": "8b1b7f372f6e5f6649801249e4bdcaf6c812ee3f",
+   "arxiv": "2205.14094",
+   "published": "2022-05-27",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "For instance, Jaeger et al. [24] and Bernhardt et al. [35] systematically reveal that improvements in OOD detection do not necessarily translate to better failure detection, calling for a holistic evaluation of all potential risk sources.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "A Unified Benchmark for the Unknown Detection Capability of Deep Neural Networks",
+   "paper_id": "7f7caa30898e6c9f3db48f6d2b54c5648e8c2f1a",
+   "arxiv": "2112.00337",
+   "published": "2021-12-01",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "For instance, Jaeger et al. [24] and Bernhardt et al. [35] systematically reveal that improvements in OOD detection do not necessarily translate to better failure detection, calling for a holistic evaluation of all potential risk sources.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Friendly Sharpness-Aware Minimization",
+   "paper_id": "ce871754f3ce42c507f4643082c17573509e54a6",
+   "arxiv": "2403.12350",
+   "published": "2024-03-19",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Optimization techniques like SAM [27] and F-SAM [28] encourage flat minima, while weight averaging approaches like SWA [29] and SWAG [30] improve stability and calibration.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Revisiting Confidence Estimation: Towards Reliable Failure Prediction",
+   "paper_id": "2aff2a89e13928be538203c98011e90329a9c190",
+   "arxiv": "2403.02886",
+   "published": "2023-12-13",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "More recent pipelines such as FMFP [31] and SURE [14] integrate these ideas, achieving strong performance in failure prediction and robustness.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "OpenMix: Exploring Outlier Samples for Misclassification Detection",
+   "paper_id": "ed85c27f749e4b956d7e5f4ebf502e7bbad3650b",
+   "arxiv": "2303.17093",
+   "published": "2023-03-30",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "The training-based methods explicitly modify the learning process, for example, by incorporating auxiliary outliers [17], [18], masking ID inputs [19], or applying regularization losses [20], to make models more sensitive to OOD data.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Rethinking Confidence Calibration for Failure Prediction",
+   "paper_id": "07975b0df907e775908cec198cade7ff2a6154c5",
+   "arxiv": "2303.02970",
+   "published": "2023-03-06",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "The second is failure prediction [4], [5], which estimates whether a classifier’s prediction on an in-distribution (ID) sample is correct.",
+   "page": 1,
+   "quote_check": "strict"
+  },
+  {
+   "title": "PixMix: Dreamlike Pictures Comprehensively Improve Safety Measures",
+   "paper_id": "fe34bca61e451a532f45c680c232cb78bdc558cf",
+   "arxiv": "2112.05135",
+   "published": "2021-12-09",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Specifically, (i) RegMixup [26] regularizes decision boundaries through label-preserving feature interpolation, and (ii) RegPixMix, inspired by PixMix [49], enforces robustness under stronger pixel-level perturbations.",
+   "page": 6,
+   "quote_check": "strict"
+  },
+  {
+   "title": "DINOv3",
+   "paper_id": "b49c1adc847c8e2cb9f1b97358366e4887e532ce",
+   "arxiv": "2508.10104",
+   "published": "2025-08-13",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Exponential Moving Average of Weights in Deep Learning: Dynamics and Benefits",
+   "paper_id": "42c658e1ad85f2b4f054d6aa699f36ad34fddedd",
+   "arxiv": "2411.18704",
+   "published": "2024-11-27",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "In or Out? Fixing ImageNet Out-of-Distribution Detection Evaluation",
+   "paper_id": "8ed7e26223c1d606c3074c6fe9250692da4071f2",
+   "arxiv": "2306.00826",
+   "published": "2023-06-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Rethinking Out-of-distribution (OOD) Detection: Masked Image Modeling is All You Need",
+   "paper_id": "0efa4d128dd140a2d3ad36b9f452fc3b80223667",
+   "arxiv": "2302.02615",
+   "published": "2023-02-06",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Post-hoc Uncertainty Learning using a Dirichlet Meta-Model",
+   "paper_id": "0647c14721528fc1950f883036e0806d7b3be6f9",
+   "arxiv": "2212.07359",
+   "published": "2022-12-14",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Out-of-distribution Detection with Deep Nearest Neighbors",
+   "paper_id": "8b1233107bff00355d4d1656795ec62d4f85e523",
+   "arxiv": "2204.06507",
+   "published": "2022-04-13",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "ViM: Out-Of-Distribution with Virtual-logit Matching",
+   "paper_id": "3b0284d501e9b1b6c199d8b07c6826a165c4b4f2",
+   "arxiv": "2203.10807",
+   "published": "2022-03-21",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "How to Exploit Hyperspherical Embeddings for Out-of-Distribution Detection?",
+   "paper_id": "ef81bbfae3c77c177e3a5fd007c8b66a2ee7322b",
+   "arxiv": "2203.04450",
+   "published": "2022-03-08",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "ReAct: Out-of-distribution Detection With Rectified Activations",
+   "paper_id": "7f9760a76e9cf424da0b72d42f75594cefc4a329",
+   "arxiv": "2111.12797",
+   "published": "2021-11-24",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "DICE: Leveraging Sparsification for Out-of-Distribution Detection",
+   "paper_id": "1a250108e2a4d6c0d472b56bf2cbb2e07d2eedbb",
+   "arxiv": "2111.09805",
+   "published": "2021-11-18",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Generalized Out-of-Distribution Detection: A Survey",
+   "paper_id": "7b2180d7fa0d65e8756401cb077bf3dea3f9b575",
+   "arxiv": "2110.11334",
+   "published": "2021-10-21",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "SLURP: Side Learning Uncertainty for Regression Problems",
+   "paper_id": "daba5f8845640eafae8d3e4dd7b0b18b0852528a",
+   "arxiv": "2110.11182",
+   "published": "2021-10-21",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Open-Set Recognition: A Good Closed-Set Classifier is All You Need",
+   "paper_id": "ba4dc8bdf6f1b9756def3a9b6a52fd797d13f4d4",
+   "arxiv": "2110.06207",
+   "published": "2021-10-12",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "On the Importance of Gradients for Detecting Distributional Shifts in the Wild",
+   "paper_id": "3b316377f1d7cbcf3c907c4d8b08c05f4521b541",
+   "arxiv": "2110.00218",
+   "published": "2021-10-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Learning to Predict Trustworthiness with Steep Slope Loss",
+   "paper_id": "9686a86ca780901169d7848689c403b2a9628cea",
+   "arxiv": "2110.00054",
+   "published": "2021-09-30",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Unsolved Problems in ML Safety",
+   "paper_id": "05c2e1ee203be217f100d2da05bdcc52004f00b6",
+   "arxiv": "2109.13916",
+   "published": "2021-09-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "ImageNet-21K Pretraining for the Masses",
+   "paper_id": "0d5406775fab3e71848908327fb5504df5f60f92",
+   "arxiv": "2104.10972",
+   "published": "2021-04-22",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Training data-efficient image transformers & distillation through attention",
+   "paper_id": "ad7ddcc14984caae308c397f1a589aae75d4ab71",
+   "arxiv": "2012.12877",
+   "published": "2020-12-23",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Energy-based Out-of-distribution Detection",
+   "paper_id": "35b966347dae2f0d496ea713edf03a68211838a5",
+   "arxiv": "2010.03759",
+   "published": "2020-10-08",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Sharpness-Aware Minimization for Efficiently Improving Generalization",
+   "paper_id": "a2cd073b57be744533152202989228cb4122270a",
+   "arxiv": "2010.01412",
+   "published": "2020-10-03",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Confidence-Aware Learning for Deep Neural Networks",
+   "paper_id": "66ec09722934308519b7e9064691021588093d9e",
+   "arxiv": "2007.01458",
+   "published": "2020-07-03",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Addressing Failure Prediction by Learning Model Confidence",
+   "paper_id": "5a05dd1e5e2859ecb845ee75e4ede22805fb22a6",
+   "arxiv": "1910.04851",
+   "published": "2019-10-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "On Mixup Training: Improved Calibration and Predictive Uncertainty for Deep Neural Networks",
+   "paper_id": "7b2e26fd3e862c5f58c522a13ae86a768aaaccad",
+   "arxiv": "1905.11001",
+   "published": "2019-05-27",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "CutMix: Regularization Strategy to Train Strong Classifiers With Localizable Features",
+   "paper_id": "ed17929e66da7f8fbc3666bf5eb613d302ddde0c",
+   "arxiv": "1905.04899",
+   "published": "2019-05-13",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "A Simple Baseline for Bayesian Uncertainty in Deep Learning",
+   "paper_id": "36aa6c01c9683783499395953c6bc856d6101feb",
+   "arxiv": "1902.02476",
+   "published": "2019-02-07",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Deep Anomaly Detection with Outlier Exposure",
+   "paper_id": "2d8c97db4bae00ff243d122b957091a236a697a7",
+   "arxiv": "1812.04606",
+   "published": "2018-09-27",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "A Simple Unified Framework for Detecting Out-of-Distribution Samples and Adversarial Attacks",
+   "paper_id": "d03ca175e2b2745126e792fdc31dfadae4c63afa",
+   "arxiv": "1807.03888",
+   "published": "2018-07-10",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Places: A 10 Million Image Database for Scene Recognition",
+   "paper_id": "f986968735459e789890f24b6b277b0920a9725d",
+   "arxiv": null,
+   "published": "2018-06-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Bias-Reduced Uncertainty Estimation for Deep Neural Classifiers",
+   "paper_id": "dfb58733b367005945a2f2c2028145e4678efd7a",
+   "arxiv": "1805.08206",
+   "published": "2018-05-21",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Dynamic Few-Shot Visual Learning Without Forgetting",
+   "paper_id": "a40f97770296c7fca2e5361cbceba3f4aae399e0",
+   "arxiv": "1804.09458",
+   "published": "2018-04-25",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Averaging Weights Leads to Wider Optima and Better Generalization",
+   "paper_id": "b8989afff14fb630ca58b6afa917fb42574228ee",
+   "arxiv": "1803.05407",
+   "published": "2018-03-14",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Class Rectification Hard Mining for Imbalanced Deep Learning",
+   "paper_id": "ea0c0c9bc5a79cbf3cc51ae22bb7e52dd3c60b26",
+   "arxiv": "1712.03162",
+   "published": "2017-10-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "The iNaturalist Species Classification and Detection Dataset",
+   "paper_id": "05eb6eb4ea7d2b332295dfa5aeb64d5f47c1e628",
+   "arxiv": null,
+   "published": "2017-07-20",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Enhancing The Reliability of Out-of-distribution Image Detection in Neural Networks",
+   "paper_id": "547c854985629cfa9404a5ba8ca29367b5f8c25f",
+   "arxiv": "1706.02690",
+   "published": "2017-06-08",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Selective Classification for Deep Neural Networks",
+   "paper_id": "2ed7cc027367295b1a7d7cd49406acfa5c580138",
+   "arxiv": "1705.08500",
+   "published": "2017-05-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "A Baseline for Detecting Misclassified and Out-of-Distribution Examples in Neural Networks",
+   "paper_id": "6ff2a434578ff2746b9283e45abf296887f48a2d",
+   "arxiv": "1610.02136",
+   "published": "2016-10-07",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "SGDR: Stochastic Gradient Descent with Warm Restarts",
+   "paper_id": "b022f2a277a4bf5f42382e86e4380b96340b9e86",
+   "arxiv": "1608.03983",
+   "published": "2016-08-13",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Deep Residual Learning for Image Recognition",
+   "paper_id": "2c03df8b48bf3fa39054345bafabfeff15bfd11d",
+   "arxiv": "1512.03385",
+   "published": "2015-12-10",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Towards Open Set Deep Networks",
+   "paper_id": "d094fb0af5bc6a26fa9c27d638c4a3a0725d8b5c",
+   "arxiv": "1511.06233",
+   "published": "2015-11-19",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Describing Textures in the Wild",
+   "paper_id": "18c125ce0f64e85577f7d30132cf0e92ec664bf4",
+   "arxiv": "1311.3618",
+   "published": "2013-11-14",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "ImageNet: A large-scale hierarchical image database",
+   "paper_id": "d2c733e34d48784a37d717fe43d9e93277a8c53e",
+   "arxiv": null,
+   "published": "2009-06-20",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Using Mixup as a Regularizer Can Surprisingly Improve Accuracy & Out-of-Distribution Robustness",
+   "paper_id": "d7722adfdedd5b273e409ac2e2ab08e625e541f3",
+   "arxiv": null,
+   "published": "2022",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Scaling Out-of-Distribution Detection for Real-World Settings",
+   "paper_id": "919441bd618c2aff89dfa5affdb62cf6e0c4e293",
+   "arxiv": "1911.11132",
+   "published": "2022",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "SUBMITTED TO IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE through attention",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2021",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "“Augmix: A simple method to improve robustness and uncertainty under data shift,”",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2020",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Tiny ImageNet Visual Recognition Challenge",
+   "paper_id": "384ce792cf2b2afbe001f2168bfe7d5e7804c736",
+   "arxiv": null,
+   "published": "2015",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Reading Digits in Natural Images with Unsupervised Feature Learning",
+   "paper_id": "02227c94dd41fe0b439e050d377b0beb5d427cda",
+   "arxiv": null,
+   "published": "2011",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Learning Multiple Layers of Features from Tiny Images",
+   "paper_id": "5d90f06bb70a0a3dced62413346235c02b1aa086",
+   "arxiv": null,
+   "published": "2009",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "The mnist database of handwritten digits",
+   "paper_id": "dc52d1ede1b90bf9d296bc5b34c9310b7eaa99a2",
+   "arxiv": null,
+   "published": "2005",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  }
+ ],
+ "status": "draft",
+ "labelers": [
+  "claude-draft"
+ ],
+ "disagreements": [],
+ "labeled_at": "2026-10-31"
+}

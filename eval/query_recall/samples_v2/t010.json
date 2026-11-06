@@ -1,0 +1,455 @@
+{
+ "schema_version": 2,
+ "sample_id": "t010",
+ "slot": 5,
+ "source_paper": "2602.16984",
+ "published_at": "2026-02-19",
+ "unit_id": "3.3.2 Validation of Detection Methods",
+ "topic": {
+  "source_quotes": {
+   "gap": [
+    {
+     "id": "g1",
+     "quote": "Black-box safety evaluation of AI systems assumes model behavior on test distributions reliably predicts deployment performance.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "g2",
+     "quote": "black-box testing provides little information about deployment risk.",
+     "page": 2,
+     "verified": true,
+     "check": "strict"
+    }
+   ],
+   "approach": [
+    {
+     "id": "a1",
+     "quote": "We formalize this through latent context conditioning",
+     "page": 2,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "a2",
+     "quote": "two-point method",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "a3",
+     "quote": "m-wise independent hash-based trigger construction",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ],
+   "evaluation": [
+    {
+     "id": "e1",
+     "quote": "All constants are derived explicitly via",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "e2",
+     "quote": "Our results quantify when black-box testing is statistically underdetermined",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ]
+  },
+  "slots": {
+   "gap": {
+    "prior_work": {
+     "answer": "테스트 성능이 배포 위험을 예측한다고 가정",
+     "quotes": [
+      "g1"
+     ]
+    },
+    "remaining": {
+     "answer": "평가와 배포를 구별하는 모델 앞에서 그 가정이 언제 깨지는지",
+     "quotes": [
+      "g2"
+     ]
+    }
+   },
+   "approach": {
+    "target": {
+     "answer": "블랙박스 안전 평가의 한계",
+     "quotes": [
+      "g1"
+     ]
+    },
+    "change": {
+     "answer": "평가 때 드물고 배포 때 흔한 잠재 조건을 가진 모델로 정식화",
+     "quotes": [
+      "a1"
+     ]
+    },
+    "technique": {
+     "answer": "미니맥스 하한, 해시 기반 트리거 구성, 암호학적 가정",
+     "quotes": [
+      "a2",
+      "a3"
+     ]
+    }
+   },
+   "evaluation": {
+    "compared_against": {
+     "answer": "수동, 적응형, 화이트박스 평가자",
+     "quotes": [
+      "e2"
+     ]
+    },
+    "measures": {
+     "answer": "명시적 상수를 포함한 오차 하한과 표본 수",
+     "quotes": [
+      "e1"
+     ]
+    }
+   }
+  },
+  "l1": {
+   "gap": "블랙박스 평가는 테스트 성능이 배포 위험을 예측한다고 가정하지만, 평가와 배포를 구별하는 모델 앞에서 언제 무너지는지 정량화되지 않음",
+   "approach": "평가 때 드물고 배포 때 흔한 잠재 조건 정책으로 정식화하고, Le Cam 방법, 해시 기반 트리거, 트랩도어 가정으로 하한을 증명",
+   "evaluation": "수동, 적응형 평가자의 오차 하한과 계산적 분리, 화이트박스 탐침의 표본 복잡도를 이론으로 도출"
+  },
+  "l2": {
+   "gap": "Safety testing assumes test behavior predicts deployment behavior, which may fail for context-dependent models.",
+   "approach": "Formalize models with hidden triggers rare in testing and prove limits for black-box evaluators.",
+   "evaluation": "Derive error lower bounds for each evaluator type and sample bounds for white-box access.",
+   "query_text": "If a model behaves unsafely only under conditions that are rare during testing but common in deployment, what is the fundamental limit on how well any black-box evaluator can estimate deployment risk, and when is more than black-box access mathematically necessary?"
+  },
+  "banned_in_l2": [
+   "Le Cam",
+   "Yao",
+   "Fubini",
+   "Hoeffding"
+  ]
+ },
+ "gold": [
+  {
+   "title": "Stress-Testing Capability Elicitation With Password-Locked Models",
+   "paper_id": "1f8672eb614dbc3bd1d9819f3f5c05bb1ffd2645",
+   "arxiv": "2405.19550",
+   "published": "2024-05-29",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "The assumption models scenarios where the trigger check is implemented inside the model (e.g., via a cryptographic circuit compiled into the weights, as in [11]) rather than as an externally queryable API.",
+   "page": 12,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Planting Undetectable Backdoors in Machine Learning Models : [Extended Abstract]",
+   "paper_id": "38ab0972ea91d2b2d14abb18afe58c351018cf06",
+   "arxiv": "2204.06974",
+   "published": "2022-04-14",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Goldwasser et al. [16] plant backdoors using pseudorandom functions.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Outcome indistinguishability",
+   "paper_id": "315a852809f9a433fbf923ebb91f6a28df3e8cf2",
+   "arxiv": "2011.13426",
+   "published": "2020-11-26",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Dwork et al. [12] formalize auditing under varying access models; our passive/adaptive/white-box hierarchy corresponds to their sample/oracle/code access levels.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Hidden Trigger Backdoor Attacks",
+   "paper_id": "31675c0dea68199af03a8c58b638b89df4b9db3f",
+   "arxiv": "1910.00033",
+   "published": "2019-09-30",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Concrete instantiations include backdoor attacks [17, 23], deceptive alignment [19], and context-dependent jailbreaks [27].",
+   "page": 2,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Introduction to Property Testing",
+   "paper_id": "28816b148281af9ba41469b4c69dd69c2afd2b95",
+   "arxiv": null,
+   "published": "2017-11-23",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Goldreich [15] and Canonne [9] provide foundational treatments of query complexity.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Introduction to Nonparametric Estimation",
+   "paper_id": "379daa0dabeffa72b9a0d8c48b361236c03fb302",
+   "arxiv": null,
+   "published": "2008-10-22",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Le Cam’s two-point method [26, 29] underlies our passive lower bound.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "BackdoorLLM: A Comprehensive Benchmark for Backdoor Attacks on Large Language Models",
+   "paper_id": "4b40d59d1d296ffb3d93847682b0a057ef08a08e",
+   "arxiv": null,
+   "published": "2024",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "In the LLM era, BackdoorLLM [1] and ELBA-Bench [2] document a broad range of instruction-level and steganographic backdoor behaviors in large language models, while benign-data instruction backdoors [3] demonstrate trigger designs requiring no poisoned training examples.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "A survey on distribution testing",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2020",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false,
+   "evidence_quote": "Goldreich [15] and Canonne [9] provide foundational treatments of query complexity.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "ELBA-Bench: An Efficient Learning Backdoor Attacks Benchmark for Large Language Models",
+   "paper_id": "284c780993bf705f5a241ea58ec88fa4b7bea77b",
+   "arxiv": "2502.18511",
+   "published": "2025-02-22",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "In the LLM era, BackdoorLLM [1] and ELBA-Bench [2] document a broad range of instruction-level and steganographic backdoor behaviors in large language models, while benign-data instruction backdoors [3] demonstrate trigger designs requiring no poisoned training examples.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Instructions as Backdoors: Backdoor Vulnerabilities of Instruction Tuning for Large Language Models",
+   "paper_id": "82fe948f18ca0138d035f553286c5e4b712dbdbe",
+   "arxiv": "2305.14710",
+   "published": "2023-05-24",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "In the LLM era, BackdoorLLM [1] and ELBA-Bench [2] document a broad range of instruction-level and steganographic backdoor behaviors in large language models, while benign-data instruction backdoors [3] demonstrate trigger designs requiring no poisoned training examples.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Discovering Latent Knowledge in Language Models Without Supervision",
+   "paper_id": "89c3bd70ad33c4f8832f00ab98872b77861ee0ec",
+   "arxiv": "2212.03827",
+   "published": "2022-12-07",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Zou et al. [30] and Burns et al. [8] study activation-based probing.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Badnets: Identifying vulnerabilities in the ML supply chain",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2019",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false,
+   "evidence_quote": "Gu et al. [17] and subsequent work [10, 20, 25, 4] study detection via activation clustering, spectral analysis, and input perturbation.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Towards Understanding Sycophancy in Language Models",
+   "paper_id": "e6423c211fea2945aa71e1ac5ea24f8f595b4b0a",
+   "arxiv": "2310.13548",
+   "published": "2023-10-20",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "BackdoorBench: A Comprehensive Benchmark of Backdoor Learning",
+   "paper_id": "d3b071c61992078d6cb77377621cf80f620136b4",
+   "arxiv": "2206.12654",
+   "published": "2022-06-25",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Unsolved Problems in ML Safety",
+   "paper_id": "05c2e1ee203be217f100d2da05bdcc52004f00b6",
+   "arxiv": "2109.13916",
+   "published": "2021-09-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "On the Opportunities and Risks of Foundation Models",
+   "paper_id": "76e9e2ec3de437ffb30d8b7b629f7fe3e61de5c2",
+   "arxiv": "2108.07258",
+   "published": "2021-08-16",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "STRIP: a defence against trojan attacks on deep neural networks",
+   "paper_id": "63aa6b35e392e26c94ae252623863b4934c0a958",
+   "arxiv": "1902.06531",
+   "published": "2019-02-18",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "A theory of learning from different domains",
+   "paper_id": "66d398aeaeb7ec24ededb1adaa4b4f09a6c1bcde",
+   "arxiv": null,
+   "published": "2010-05-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Detecting backdoor attacks via activation clustering",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2019",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Robust Wasserstein profile inference",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2019",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Fano, and Le",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "1997",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "a) Helper oracle for f s without trapdoor",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Sleeper agents: Training deceptive",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  }
+ ],
+ "status": "draft",
+ "labelers": [
+  "claude-draft"
+ ],
+ "disagreements": [],
+ "labeled_at": "2026-10-31"
+}

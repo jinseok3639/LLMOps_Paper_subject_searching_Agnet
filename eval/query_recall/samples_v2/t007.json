@@ -1,0 +1,1060 @@
+{
+ "schema_version": 2,
+ "sample_id": "t007",
+ "slot": 2,
+ "source_paper": "2602.05353",
+ "published_at": "2026-02-05",
+ "unit_id": null,
+ "topic": {
+  "source_quotes": {
+   "gap": [
+    {
+     "id": "g1",
+     "quote": "many deployed agentic systems operate as black boxes to users.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "g2",
+     "quote": "Explaining agent behaviors is crucial for trustworthy AI, yet opacity remains a significant hurdle",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ],
+   "approach": [
+    {
+     "id": "a1",
+     "quote": "that approximates a black-box system using only input–output access.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "a2",
+     "quote": "employs Monte Carlo Tree Search enhanced by a scoring-based",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ],
+   "evaluation": [
+    {
+     "id": "e1",
+     "quote": "We compare AgentXRay with four categories of methods",
+     "page": 5,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "e2",
+     "quote": "reduces token consumption compared to unpruned search",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ]
+  },
+  "slots": {
+   "gap": {
+    "prior_work": {
+     "answer": "명시적 구조의 프레임워크가 있지만 배포된 시스템 다수는 내부가 가려져 있음",
+     "quotes": [
+      "g1"
+     ]
+    },
+    "remaining": {
+     "answer": "입출력만으로 내부 흐름을 설명 가능한 형태로 얻는 방법",
+     "quotes": [
+      "g1",
+      "g2"
+     ]
+    }
+   },
+   "approach": {
+    "target": {
+     "answer": "블랙박스 에이전트 시스템",
+     "quotes": [
+      "a1"
+     ]
+    },
+    "change": {
+     "answer": "입출력만으로 대체 워크플로를 합성하는 과제를 새로 정의",
+     "quotes": [
+      "a1"
+     ]
+    },
+    "technique": {
+     "answer": "역할과 도구 조합을 몬테카를로 트리 탐색과 가지치기로 탐색",
+     "quotes": [
+      "a2"
+     ]
+    }
+   },
+   "evaluation": {
+    "compared_against": {
+     "answer": "행동 복제 등 네 종류의 방법, 가지치기 없는 탐색",
+     "quotes": [
+      "e1",
+      "e2"
+     ]
+    },
+    "measures": {
+     "answer": "출력 유사도와 토큰 사용량",
+     "quotes": [
+      "e2"
+     ]
+    }
+   }
+  },
+  "l1": {
+   "gap": "배포된 에이전트 시스템은 내부 워크플로가 가려져 있어, 입출력만으로 해석과 수정이 가능한 형태를 얻을 수 없음",
+   "approach": "입출력 쌍만으로 명시적 대체 워크플로를 합성하는 과제를 정의하고, 역할과 도구 조합을 MCTS와 점수 기반 가지치기로 탐색",
+   "evaluation": "여러 도메인에서 행동 복제 등과 비교해 출력 유사도와 토큰 사용량을 측정"
+  },
+  "l2": {
+   "gap": "Deployed agent systems hide their internal workflows from users.",
+   "approach": "Search for an explicit stand-in workflow of agent roles and tools using only input-output pairs.",
+   "evaluation": "Compare output similarity and token cost with cloning and unpruned search.",
+   "query_text": "Many deployed multi-agent LLM systems are opaque. Given only input-output pairs from such a system, can we synthesize an explicit, editable workflow of agent roles and tools that behaves similarly, and how can that combinatorial search be made affordable?"
+  },
+  "banned_in_l2": [
+   "AgentXRay",
+   "AWR",
+   "Red-Black"
+  ]
+ },
+ "gold": [
+  {
+   "title": "Multi-Agent Collaboration via Evolving Orchestration",
+   "paper_id": "e1938a3fbd505d9666ed252b191aaf96ffd5f0d7",
+   "arxiv": "2505.19591",
+   "published": "2025-05-26",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Second, Dang et al. (2025) show that when an orchestrator is trained to dynamically coordinate agents without explicit topological constraints, effective coordination can still be realized as a compact chain-like policy under efficiency pressures.",
+   "page": 2,
+   "quote_check": "strict"
+  },
+  {
+   "title": "AFlow: Automating Agentic Workflow Generation",
+   "paper_id": "53132ea6c107479d4557631299d3ed525109b464",
+   "arxiv": "2410.10762",
+   "published": "2024-10-14",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "search-based methods like AFlow (Zhang et al., 2025a) and ADAS (Hu et al., 2025)",
+   "page": 9,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Automated Design of Agentic Systems",
+   "paper_id": "c9537f656e7d9713fd4108ce7bf512290f48e562",
+   "arxiv": "2408.08435",
+   "published": "2024-08-15",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "search-based methods like AFlow (Zhang et al., 2025a) and ADAS (Hu et al., 2025)",
+   "page": 9,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Scaling Large-Language-Model-based Multi-Agent Collaboration",
+   "paper_id": "208d489c73ebf182faa974191355fb2505ce8da5",
+   "arxiv": "2406.07155",
+   "published": "2024-06-11",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "We reconstruct work-flows on five open-ended, tool-augmented domains covering both open-source multi-agent frameworks (ChatDev, MetaGPT, TeachMaster) and proprietary assistants (Chat-GPT, Gemini).",
+   "page": 5,
+   "quote_check": "loose"
+  },
+  {
+   "title": "Explaining the Behaviour of Reinforcement Learning Agents in a Multi-Agent Cooperative Environment Using Policy Graphs",
+   "paper_id": "c13cd8f870e78f0e5b7de6333eb6730dd412ce01",
+   "arxiv": null,
+   "published": "2024-01-31",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Another related line aims to explain or interpret agent behaviors and decisions (Domenech i Vila et al., 2024; Gimenez-Abalos et al., 2024).",
+   "page": 9,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Language Agent Tree Search Unifies Reasoning Acting and Planning in Language Models",
+   "paper_id": "700bd9681f1b9e9e2212e10415d27b11c7e6836b",
+   "arxiv": "2310.04406",
+   "published": "2023-10-06",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "and LATS (Zhou et al., 2024) integrate MCTS with LLMs to guide multi-step",
+   "page": 9,
+   "quote_check": "strict"
+  },
+  {
+   "title": "ChatDev: Communicative Agents for Software Development",
+   "paper_id": "9474b463654fd92a62c103b21f95aed94b087907",
+   "arxiv": "2307.07924",
+   "published": "2023-07-16",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Multi-agent frameworks such as CAMEL (Li et al., 2023a), ChatDev (Qian et al., 2024), and MetaGPT (Hong et al., 2023) coordinate multiple agents through natural language to divide roles and collaboratively solve complex tasks.",
+   "page": 9,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+   "paper_id": "2f3822eb380b5e753a6d579f31dfc3ec4c4a0820",
+   "arxiv": "2305.10601",
+   "published": "2023-05-17",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Across five diverse domains spanning both multi-agent frameworks and proprietary assistants, AgentXRay achieves higher proxy fidelity (Static Functional Equivalence) than behavior cloning (SFT) and an unpruned MCTS baseline (AFlow), while reducing practical search cost under a fixed budget.",
+   "page": 9,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Intention-aware policy graphs: answering what, how, and why in opaque agents",
+   "paper_id": "4397c55e3a4c0e2892334b5b57f706d722b1c55d",
+   "arxiv": "2409.19038",
+   "published": "2024-09-27",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": null,
+   "page": null,
+   "quote_check": "not_found"
+  },
+  {
+   "title": "MetaGPT: Meta Programming for Multi-Agent Collaborative Framework",
+   "paper_id": "703035b483c181953de1b55b5fd59cd4cd4cf211",
+   "arxiv": "2308.00352",
+   "published": "2023-08-01",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Extending AWR to purely natural language domains (e.g., creative writing, open-ended dialogue) would require new evaluation ap-proaches—combining embedding-based semantic similarity with human judgment or LLM-as-judge protocols (Zheng et al., 2023).",
+   "page": 9,
+   "quote_check": "loose"
+  },
+  {
+   "title": "Llama 2: Open Foundation and Fine-Tuned Chat Models",
+   "paper_id": "104b0bb1da562d53cbda87aec79ef6a2827d191a",
+   "arxiv": "2307.09288",
+   "published": "2023-07-18",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": null,
+   "page": null,
+   "quote_check": "not_found"
+  },
+  {
+   "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+   "paper_id": "99832586d55f540f603637e458a292406a0ed75d",
+   "arxiv": "2210.03629",
+   "published": "2022-10-06",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": null,
+   "page": null,
+   "quote_check": "not_found"
+  },
+  {
+   "title": "Beyond Single Systems: How Multi-Agent AI Is Reshaping Ethics in Radiology",
+   "paper_id": "fab42f0155eb065a27984b7b0e086e00dd5601e0",
+   "arxiv": null,
+   "published": "2025-10-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Qwen3 Technical Report",
+   "paper_id": "d2d84d56f730f81d276a02b48d5d44db5bde0b4a",
+   "arxiv": "2505.09388",
+   "published": "2025-05-14",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "AgentRM: Enhancing Agent Generalization with Reward Modeling",
+   "paper_id": "8d8ed23be9525cf54a6defb889983abefc2de252",
+   "arxiv": "2502.18407",
+   "published": "2025-02-25",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Agent AI with LangGraph: A Modular Framework for Enhancing Machine Translation Using Large Language Models",
+   "paper_id": "e3d16e07a04487c6a4b71e3172ca15f4f7032c51",
+   "arxiv": "2412.03801",
+   "published": "2024-12-05",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Cut the Crap: An Economical Communication Pipeline for LLM-based Multi-Agent Systems",
+   "paper_id": "aebfeb42bbd155c1541a67fddf0a6e2bc5d6ae34",
+   "arxiv": "2410.02506",
+   "published": "2024-10-03",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "The Llama 3 Herd of Models",
+   "paper_id": "9da8ea6466d7142703d8771d8dcea44e19304abb",
+   "arxiv": "2407.21783",
+   "published": "2024-07-31",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "MatPlotAgent: Method and Evaluation for LLM-Based Agentic Scientific Data Visualization",
+   "paper_id": "8410e4416df27c6f72df3b691edded84a4e86f16",
+   "arxiv": "2402.11453",
+   "published": "2024-02-18",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Math-Shepherd: Verify and Reinforce LLMs Step-by-step without Human Annotations",
+   "paper_id": "4ba57555bef02f988f2ed3bab2f102733dc55221",
+   "arxiv": "2312.08935",
+   "published": "2023-12-14",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "TaskWeaver: A Code-First Agent Framework",
+   "paper_id": "833f5f0d9d271b9b04e742c11a1f3e33bbada3b9",
+   "arxiv": "2311.17541",
+   "published": "2023-11-29",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "OVM, Outcome-supervised Value Models for Planning in Mathematical Reasoning",
+   "paper_id": "288e64e8adb23d81e291a2cb51e3a56b315023b7",
+   "arxiv": "2311.09724",
+   "published": "2023-11-16",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "MINT: Evaluating LLMs in Multi-turn Interaction with Tools and Language Feedback",
+   "paper_id": "12b233752c7097ea6525622bed238ae2d2193c5a",
+   "arxiv": "2309.10691",
+   "published": "2023-09-19",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "The Rise and Potential of Large Language Model Based Agents: A Survey",
+   "paper_id": "0c72450890a54b68d63baa99376131fda8f06cf9",
+   "arxiv": "2309.07864",
+   "published": "2023-09-14",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Siren's Song in the AI Ocean: A Survey on Hallucination in Large Language Models",
+   "paper_id": "d00735241af700d21762d2f3ca00d920241a15a4",
+   "arxiv": "2309.01219",
+   "published": "2023-09-03",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation",
+   "paper_id": "9ea0757c750ab1222a7442d3485a74d1c526b04c",
+   "arxiv": "2308.08155",
+   "published": "2023-08-16",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "AgentBench: Evaluating LLMs as Agents",
+   "paper_id": "5dbf93a68b7fda600521f046dea35ea8ba9e884f",
+   "arxiv": "2308.03688",
+   "published": "2023-08-07",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "ToolLLM: Facilitating Large Language Models to Master 16000+ Real-world APIs",
+   "paper_id": "0bfc804e31eecfd77f45e4ee7f4d629fffdcd628",
+   "arxiv": "2307.16789",
+   "published": "2023-07-31",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "WebArena: A Realistic Web Environment for Building Autonomous Agents",
+   "paper_id": "e41482f4ee984f17382f6cdd900df094d928be06",
+   "arxiv": "2307.13854",
+   "published": "2023-07-25",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "SciBench: Evaluating College-Level Scientific Problem-Solving Abilities of Large Language Models",
+   "paper_id": "4993258852711c4e3d0011325ac3db680eae84f4",
+   "arxiv": "2307.10635",
+   "published": "2023-07-20",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "RestGPT: Connecting Large Language Models with Real-World RESTful APIs",
+   "paper_id": "ed30969f0e4811473144ffe83c1baa6d54f02202",
+   "arxiv": "2306.06624",
+   "published": "2023-06-11",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Judging LLM-as-a-judge with MT-Bench and Chatbot Arena",
+   "paper_id": "a0a79dad89857a96f8f71b14238e5237cbfc4787",
+   "arxiv": "2306.05685",
+   "published": "2023-06-09",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "ToolAlpaca: Generalized Tool Learning for Language Models with 3000 Simulated Cases",
+   "paper_id": "455866ca838f356b53a7e3e5b344834f9e93dbbc",
+   "arxiv": "2306.05301",
+   "published": "2023-06-08",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Let's Verify Step by Step",
+   "paper_id": "be8db99310602d66bba64bcf41a572c45816fbfc",
+   "arxiv": "2305.20050",
+   "published": "2023-05-31",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Voyager: An Open-Ended Embodied Agent with Large Language Models",
+   "paper_id": "f197bf0fc2f228483f6af3285000d54d8d97f9eb",
+   "arxiv": "2305.16291",
+   "published": "2023-05-25",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Gorilla: Large Language Model Connected with Massive APIs",
+   "paper_id": "7d8905a1fd288068f12c8347caeabefd36d0dd6c",
+   "arxiv": "2305.15334",
+   "published": "2023-05-24",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Reasoning with Language Model is Planning with World Model",
+   "paper_id": "5dbffedcabe3fa43060ebbe2b1789500edfd871f",
+   "arxiv": "2305.14992",
+   "published": "2023-05-24",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "API-Bank: A Comprehensive Benchmark for Tool-Augmented LLMs",
+   "paper_id": "19c222d1f18317d58cc85491f37479bc0dc49f41",
+   "arxiv": "2304.08244",
+   "published": "2023-04-14",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Generative Agents: Interactive Simulacra of Human Behavior",
+   "paper_id": "5278a8eb2ba2429d4029745caf4e661080073c81",
+   "arxiv": "2304.03442",
+   "published": "2023-04-07",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Self-Refine: Iterative Refinement with Self-Feedback",
+   "paper_id": "3aaf6a2cbad5850ad81ab5c163599cb3d523436f",
+   "arxiv": "2303.17651",
+   "published": "2023-03-30",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "ART: Automatic multi-step reasoning and tool-use for large language models",
+   "paper_id": "0d42221038c05cee8443c5b5af838505ee137dc3",
+   "arxiv": "2303.09014",
+   "published": "2023-03-16",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "GPT-4 Technical Report",
+   "paper_id": "163b4d6a79a5b19af88b8585456363340d9efd04",
+   "arxiv": "2303.08774",
+   "published": "2023-03-15",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Toolformer: Language Models Can Teach Themselves to Use Tools",
+   "paper_id": "53d128ea815bcc0526856eb5a9c42cc977cb36a7",
+   "arxiv": "2302.04761",
+   "published": "2023-02-09",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Solving math word problems with process- and outcome-based feedback",
+   "paper_id": "6d7b8a478801bd9d21df82d5f33ae6eced90da5e",
+   "arxiv": "2211.14275",
+   "published": "2022-11-25",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Large Language Models Struggle to Learn Long-Tail Knowledge",
+   "paper_id": "75f7e9e2b59fb640ef9d1dff94097175daf46c4d",
+   "arxiv": "2211.08411",
+   "published": "2022-11-15",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "GLM-130B: An Open Bilingual Pre-trained Model",
+   "paper_id": "1d26c947406173145a4665dd7ab255e03494ea28",
+   "arxiv": "2210.02414",
+   "published": "2022-10-05",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Chain of Thought Prompting Elicits Reasoning in Large Language Models",
+   "paper_id": "1b6e810ce0afd0dd093f789d2b2742d047e316d5",
+   "arxiv": "2201.11903",
+   "published": "2022-01-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Unsolved Problems in ML Safety",
+   "paper_id": "05c2e1ee203be217f100d2da05bdcc52004f00b6",
+   "arxiv": "2109.13916",
+   "published": "2021-09-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "On the Opportunities and Risks of Foundation Models",
+   "paper_id": "76e9e2ec3de437ffb30d8b7b629f7fe3e61de5c2",
+   "arxiv": "2108.07258",
+   "published": "2021-08-16",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Program Synthesis with Large Language Models",
+   "paper_id": "a38e0f993e4805ba8a9beae4c275c91ffcec01df",
+   "arxiv": "2108.07732",
+   "published": "2021-08-16",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Evaluating Large Language Models Trained on Code",
+   "paper_id": "acbdbf49f9bc3f151b93d9ca9a06009f4f6eb269",
+   "arxiv": "2107.03374",
+   "published": "2021-07-07",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Extractive Research Slide Generation Using Windowed Labeling Ranking",
+   "paper_id": "adf3e9bd9b71dd2f30cc1257ffd4cf8e7083cde6",
+   "arxiv": "2106.03246",
+   "published": "2021-06-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Understanding the Failure Modes of Out-of-Distribution Generalization",
+   "paper_id": "1b4a54670bb4fe15bcb0d06de0391d5b6d10ace2",
+   "arxiv": "2010.15775",
+   "published": "2020-10-29",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "ALFWorld: Aligning Text and Embodied Environments for Interactive Learning",
+   "paper_id": "398a0625e8707a0b41ac58eaec51e8feb87dd7cb",
+   "arxiv": "2010.03768",
+   "published": "2020-10-08",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "CodeBLEU: a Method for Automatic Evaluation of Code Synthesis",
+   "paper_id": "f23a0e443fe931aa2fed932421bf47c1a4fcf619",
+   "arxiv": "2009.10297",
+   "published": "2020-09-22",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+   "paper_id": "659bf9ce7175e1ec266ff54359e2bd76e0b7ff31",
+   "arxiv": "2005.11401",
+   "published": "2020-05-22",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks",
+   "paper_id": "93d63ec754f29fa22572615320afe0521f7ec66d",
+   "arxiv": "1908.10084",
+   "published": "2019-08-14",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Causal Confusion in Imitation Learning",
+   "paper_id": "c441a7e9b1c7ecf54f583cd61e896faa10b60358",
+   "arxiv": "1905.11979",
+   "published": "2019-05-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "BERTScore: Evaluating Text Generation with BERT",
+   "paper_id": "295065d942abca0711300b2b4c39829551060578",
+   "arxiv": "1904.09675",
+   "published": "2019-04-21",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Stealing Machine Learning Models via Prediction APIs",
+   "paper_id": "8a95423d0059f7c5b1422f0ef1aa60b9e26aab7e",
+   "arxiv": "1609.02943",
+   "published": "2016-08-10",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Concrete Problems in AI Safety",
+   "paper_id": "e86f71ca2948d17b003a5f068db1ecb2b77827f7",
+   "arxiv": "1606.06565",
+   "published": "2016-06-21",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Camel Robert Irwin",
+   "paper_id": "2e4f00d44a5ae07b48864ec16371987889b32495",
+   "arxiv": null,
+   "published": "2012-03-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "A Survey of Monte Carlo Tree Search Methods",
+   "paper_id": "c37f1baac3c8ba30250084f067167ac3837cf6fd",
+   "arxiv": null,
+   "published": "2012-02-03",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning",
+   "paper_id": "79ab3c49903ec8cb339437ccf5cf998607fc313e",
+   "arxiv": "1011.0686",
+   "published": "2010-11-02",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Bandit Based Monte-Carlo Planning",
+   "paper_id": "e635d81a617d1239232a9c9a11a196c53dab8240",
+   "arxiv": null,
+   "published": "2006-09-18",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Finite-time Analysis of the Multiarmed Bandit Problem",
+   "paper_id": "1e1d35136b1bf3b13ef6b53f6039f39d9ee820e3",
+   "arxiv": null,
+   "published": "2002-05-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Efficient Training of Artificial Neural Networks for Autonomous Navigation",
+   "paper_id": "8d652a1980e743c7c85ff6066409ea1e3be4d685",
+   "arxiv": null,
+   "published": "1991-03-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "DeepSeek-V3 Technical Report",
+   "paper_id": "5b6fdb2aea424d02c141da81d62b04d739d62b96",
+   "arxiv": null,
+   "published": "2024",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in Hugging Face",
+   "paper_id": "d1120d67b700e4dfe8b39eb1e48fbdea4e1a0c43",
+   "arxiv": "2303.17580",
+   "published": "2023",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Dynamic LLM-Agent Network: An LLM-agent Collaboration Framework with Agent Team Optimization",
+   "paper_id": "98ce7af921e7c52d81df64d632d34eb09522cd75",
+   "arxiv": null,
+   "published": "2023",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "3d object localization in rgb-d scans using natural language",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2020",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Evaluation. We validate AgentXRay across five domains ( code generation, data analysis, education, scientific computing, 3D modeling ) by reconstructing representative systems (e.g.,",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Generative teaching via code",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Xagent: An autonomous agent for complex task solving",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  }
+ ],
+ "status": "draft",
+ "labelers": [
+  "claude-draft"
+ ],
+ "disagreements": [],
+ "labeled_at": "2026-10-31"
+}

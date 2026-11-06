@@ -1,0 +1,1121 @@
+{
+ "schema_version": 2,
+ "sample_id": "t002",
+ "slot": 2,
+ "source_paper": "2602.01322",
+ "published_at": "2026-02-01",
+ "unit_id": null,
+ "topic": {
+  "source_quotes": {
+   "gap": [
+    {
+     "id": "g1",
+     "quote": "Standard SAEs reconstruct activations as weighted sums of independent features",
+     "page": 2,
+     "verified": true
+    },
+    {
+     "id": "g2",
+     "quote": "However, SAEs assume features combine additively through linear reconstruction, an assumption that cannot capture compositional structure",
+     "page": 1,
+     "verified": true
+    },
+    {
+     "id": "g3",
+     "quote": "This forces SAEs to allocate monolithic features for compound concepts rather than decomposing them into interpretable constituents.",
+     "page": 1,
+     "verified": true
+    }
+   ],
+   "approach": [
+    {
+     "id": "a1",
+     "quote": "We introduce PolySAE, which extends the SAE decoder with higher-order terms to model feature interactions while preserving the linear encoder essential for interpretability.",
+     "page": 1,
+     "verified": true
+    },
+    {
+     "id": "a2",
+     "quote": "Through low-rank tensor factorization on a shared projection subspace, PolySAE captures pairwise and triple feature interactions with small parameter overhead",
+     "page": 1,
+     "verified": true
+    }
+   ],
+   "evaluation": [
+    {
+     "id": "e1",
+     "quote": "Throughout, we compare PolySAE to a vanilla Top-K SAE trained under identical conditions.",
+     "page": 16,
+     "verified": true
+    },
+    {
+     "id": "e2",
+     "quote": "We evaluate models along two axes: (Q1) reconstruction fidelity and (Q2) semantic modeling of the learned representations.",
+     "page": 5,
+     "verified": true
+    },
+    {
+     "id": "e3",
+     "quote": "We evaluate the linear separability of semantic concepts in the learned sparse representations by training logistic regression classifiers",
+     "page": 6,
+     "verified": true
+    },
+    {
+     "id": "e4",
+     "quote": "We therefore additionally compute the 1-Wasserstein distance between class-conditional activation distributions.",
+     "page": 6,
+     "verified": true
+    }
+   ]
+  },
+  "slots": {
+   "gap": {
+    "prior_work": {
+     "answer": "활성값을 독립 특징의 가중합으로 재구성하는 희소 오토인코더",
+     "quotes": [
+      "g1"
+     ]
+    },
+    "remaining": {
+     "answer": "선형 가정으로는 합성 구조를 표현하지 못해 복합 개념이 하나의 특징으로 뭉침",
+     "quotes": [
+      "g2",
+      "g3"
+     ]
+    }
+   },
+   "approach": {
+    "target": {
+     "answer": "희소 오토인코더의 디코더",
+     "quotes": [
+      "a1"
+     ]
+    },
+    "change": {
+     "answer": "선형 인코더는 유지하고 디코더에 고차 상호작용 항을 추가",
+     "quotes": [
+      "a1"
+     ]
+    },
+    "technique": {
+     "answer": "공유 투영 부분공간에서의 저랭크 텐서 분해",
+     "quotes": [
+      "a2"
+     ]
+    }
+   },
+   "evaluation": {
+    "compared_against": {
+     "answer": "같은 조건에서 학습한 기본 Top-K SAE",
+     "quotes": [
+      "e1"
+     ]
+    },
+    "measures": {
+     "answer": "재구성 충실도, 로지스틱 회귀 프로빙, 클래스별 1-Wasserstein 거리",
+     "quotes": [
+      "e2",
+      "e3",
+      "e4"
+     ]
+    }
+   }
+  },
+  "l1": {
+   "gap": "SAE는 활성값을 독립 특징의 선형 합으로 재구성해, 합성 구조를 표현하지 못하고 복합 개념을 하나의 특징으로 뭉침",
+   "approach": "선형 인코더를 유지하고, 공유 투영 부분공간의 저랭크 텐서 분해로 디코더에 2차와 3차 상호작용 항을 추가",
+   "evaluation": "기본 Top-K SAE와 재구성 충실도, 프로빙 F1, 클래스별 1-Wasserstein 거리를 비교"
+  },
+  "l2": {
+   "gap": "Sparse autoencoders assume additive features and cannot represent compositional concepts.",
+   "approach": "Add higher-order feature interaction terms to the decoder while keeping a linear encoder.",
+   "evaluation": "Compare reconstruction and semantic separability with a standard sparse autoencoder.",
+   "query_text": "Sparse autoencoders for mechanistic interpretability assume that features combine additively, so they cannot represent compositional concepts as interactions between simpler features. How can a sparse autoencoder model higher-order feature interactions in its decoder while keeping a linear encoder?"
+  },
+  "banned_in_l2": [
+   "PolySAE",
+   "SAEBench",
+   "Top-K",
+   "GPT-2",
+   "Gemma",
+   "Pythia"
+  ]
+ },
+ "gold": [
+  {
+   "title": "Finding Manifolds With Bilinear Autoencoders",
+   "paper_id": "d1a4d8388db534e7e66ddee956ad7a5a4eff6235",
+   "arxiv": "2510.16820",
+   "published": "2025-10-19",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "The work most closely related to ours is the Bilinear Autoencoder (BAE) (Dooms & Gauderis, 2025), which similarly introduces interaction terms for interpretability.",
+   "page": 3,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Learning Multi-Level Features with Matryoshka Sparse Autoencoders",
+   "paper_id": "f67b4718b8425aff8c4156757ec0d9c9958ab7d0",
+   "arxiv": "2503.17547",
+   "published": "2025-03-21",
+   "grade": "core",
+   "role": "baseline",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Through low-rank tensor factorization, PolySAE adds small parameter overhead (3% for GPT2 small) and can be readily applied to existing SAE variants (TopK, BatchTopK, Matryoshka).",
+   "page": 3,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "BatchTopK Sparse Autoencoders",
+   "paper_id": "8c1a913f7c0626e28e07fad8021f85457eb2f5d6",
+   "arxiv": "2412.06410",
+   "published": "2024-12-09",
+   "grade": "core",
+   "role": "baseline",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Through low-rank tensor factorization, PolySAE adds small parameter overhead (3% for GPT2 small) and can be readily applied to existing SAE variants (TopK, BatchTopK, Matryoshka).",
+   "page": 3,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Bilinear MLPs enable weight-based mechanistic interpretability",
+   "paper_id": "1ac2d6f203b3bdd3503357b0839c24a485d6ce1d",
+   "arxiv": "2410.08417",
+   "published": "2024-10-10",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Recent work has explored multiplicative interactions for interpretability: Bilinear MLPs (Pearce et al., 2025) model pairwise feature interactions enabling weight-based interpretability, while Gauderis & Dooms (2025) propose fully interpretable architectures based on tensor networks.",
+   "page": 3,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Recurrent Neural Networks Learn to Store and Generate Sequences using Non-Linear Representations",
+   "paper_id": "11ec7f3adbda26b0ca8cb83a3c3aebd561ba5cc6",
+   "arxiv": "2408.10920",
+   "published": "2024-08-20",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "However, recent work has highlighted fundamental limitations of the SAE paradigm due to their reliance on the “strong” linear representation hypothesis (Engels et al., 2025; Csordás et al., 2024).",
+   "page": 2,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Scaling and evaluating sparse autoencoders",
+   "paper_id": "0d24c5680efe9769e6d7ea579db0499ec819a8c7",
+   "arxiv": "2406.04093",
+   "published": "2024-06-06",
+   "grade": "core",
+   "role": "baseline",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Sparse Autoencoders (SAEs) recently emerged as a leading paradigm for feature discovery in large language models (Huben et al., 2024; Bricken et al., 2023), scaling to millions of features (Gao et al., 2025).",
+   "page": 3,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Not All Language Model Features Are One-Dimensionally Linear",
+   "paper_id": "24ae90b670d83d092bb966dc1d145e69a18d99d8",
+   "arxiv": "2405.14860",
+   "published": "2024-05-23",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "However, recent work has highlighted fundamental limitations of the SAE paradigm due to their reliance on the “strong” linear representation hypothesis (Engels et al., 2025; Csordás et al., 2024).",
+   "page": 2,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Sparse Autoencoders Find Highly Interpretable Features in Language Models",
+   "paper_id": "edb548fe7574d99454b352ffdb61bca93c3072ba",
+   "arxiv": "2309.08600",
+   "published": "2023-09-15",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Sparse Autoencoders (SAEs) recently emerged as a leading paradigm for feature discovery in large language models (Huben et al., 2024; Bricken et al., 2023), scaling to millions of features (Gao et al., 2025).",
+   "page": 3,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Deep Polynomial Neural Networks",
+   "paper_id": "520c5f8e1224d9d4995a2efe16a17f7d27996d3e",
+   "arxiv": "2006.13026",
+   "published": "2020-06-20",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": true,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "(Volterra, 1959) represent nonlinear systems as sums of multilinear kernels, second-order pooling (Carreira et al., 2012; Gao et al., 2016) captures feature co-occurrences via outer products, and polynomial networks (Chrysos et al., 2022b) parameterize functions as products of linear projections.",
+   "page": 4,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Towards monosemanticity: De-composing language models with dictionary learning",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2023-10-04",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false,
+   "evidence_quote": "hypothesis in mechanistic interpretability posits that learned features should correspond to directions in activation space (Elhage et al., 2022; Bricken et al., 2023), a view supported by the success of linear probes for extracting semantic content (Belinkov, 2022; Alain & Bengio, 2016).",
+   "page": 4,
+   "quote_check": "strict",
+   "self_citation_checked": "author_names",
+   "source_url": "https://transformer-circuits.pub/2023/monosemantic-features",
+   "source_type": "Transformer Circuits Thread",
+   "indexed": false
+  },
+  {
+   "title": "Jumping Ahead: Improving Reconstruction Fidelity with JumpReLU Sparse Autoencoders",
+   "paper_id": "1a80429448d7379ca1157a33a36bd5130257e3e9",
+   "arxiv": "2407.14435",
+   "published": "2024-07-19",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": null,
+   "page": null,
+   "quote_check": "not_found"
+  },
+  {
+   "title": "Improving Dictionary Learning with Gated Sparse Autoencoders",
+   "paper_id": "bbf218fd97d3c18801eb6eb09345bb38e7bcc871",
+   "arxiv": "2404.16014",
+   "published": "2024-04-24",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": null,
+   "page": null,
+   "quote_check": "not_found"
+  },
+  {
+   "title": "Toy Models of Superposition",
+   "paper_id": "9d125f45b1d2dea01f05281470bc08e12b6c7cba",
+   "arxiv": "2209.10652",
+   "published": "2022-09-21",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "linear representation hypothesis in mechanistic interpretability posits that learned features should correspond to directions in activation space (Elhage et al., 2022; Bricken et al., 2023), a view supported by the success of linear probes for extracting semantic content (Belinkov, 2022; Alain &",
+   "page": 4,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Multiplicative Interactions and Where to Find Them",
+   "paper_id": "caa31faab39d34ecbb8100911640dfaec76f9ee9",
+   "arxiv": null,
+   "published": "2020-04-30",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Multiplicative interactions between features have a rich history in deep learning (Jayakumar et al., 2020), from early bilinear models for visual data (Tenenbaum & Freeman, 1996; Freeman & Tenenbaum, 1997) to modern gating mechanisms (Shazeer, 2020).",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Higher-Order Factorization Machines",
+   "paper_id": "3f3b3dc86415ebda1043d2be55e75a29ffe2bd95",
+   "arxiv": "1607.07195",
+   "published": "2016-07-25",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "This alignment principle underlies factorized interaction models (Ren-dle, 2010; Blondel et al., 2016) and compact bilinear pooling (Gao et al., 2016; Kim et al., 2017).",
+   "page": 4,
+   "quote_check": "loose"
+  },
+  {
+   "title": "Tensor Product Variable Binding and the Representation of Symbolic Structures in Connectionist Systems",
+   "paper_id": "9438172bfbb74a6a4ea4242b180d4335bb1f18b7",
+   "arxiv": null,
+   "published": "1991",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Smolensky (1990) proposed tensor product variable binding as a solution: features bind through multilinear interactions rather than linear superposition, allowing networks to maintain atomic constituents while representing their combinations.",
+   "page": 2,
+   "quote_check": "strict"
+  },
+  {
+   "title": "SAEBench",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false,
+   "evidence_quote": "We evaluate learned features using SAEBench (Karvonen et al., 2025), which reports reconstruction metrics on held-out data from the training distribution and sparse probing performance on six classification tasks : Bias in Bios (De-Arteaga et al., 2019), AG News (Zhang et al., 2015), EuroParl",
+   "page": 5,
+   "quote_check": "loose"
+  },
+  {
+   "title": "Scalable inter-pretability via polynomials",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false,
+   "evidence_quote": null,
+   "page": null,
+   "quote_check": "not_found"
+  },
+  {
+   "title": "Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet",
+   "paper_id": "1b6e16cc72aee038eb1879b8686b53776be3d51f",
+   "arxiv": "2605.29358",
+   "published": "2026-05-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": true
+  },
+  {
+   "title": "Beyond Linear Probes: Dynamic Safety Monitoring for Language Models",
+   "paper_id": "2e6a281d7aa008f52e48b5001866c05fa0c91bcc",
+   "arxiv": "2509.26238",
+   "published": "2025-09-30",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Towards Interpretability Without Sacrifice: Faithful Dense Layer Decomposition with Mixture of Decoders",
+   "paper_id": "e2054b79d174d5874f5e62004468ee068dd9d258",
+   "arxiv": "2505.21364",
+   "published": "2025-05-27",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Hadamard Product in Deep Learning: Introduction, Advances and Challenges",
+   "paper_id": "6936ef180a7c843819ac7c62882b46d46ba4d116",
+   "arxiv": "2504.13112",
+   "published": "2025-04-15",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Compositionality Unlocks Deep Interpretable Models",
+   "paper_id": "fca9f4d90b5e9ab115033aace5e4e083a5087c9c",
+   "arxiv": "2504.02667",
+   "published": "2025-04-03",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "International AI Safety Report",
+   "paper_id": "d7630a918b68e6281318e0106dfe7bdacdb7161c",
+   "arxiv": "2501.17805",
+   "published": "2025-01-29",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "AxBench: Steering LLMs? Even Simple Baselines Outperform Sparse Autoencoders",
+   "paper_id": "bb94ea8f2e600a2729d11c359c3787bcff2d4f6a",
+   "arxiv": "2501.17148",
+   "published": "2025-01-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Gemma 2: Improving Open Language Models at a Practical Size",
+   "paper_id": "ec2ce4e38af8bc82f1b8928ba51a84911bad0cc6",
+   "arxiv": "2408.00118",
+   "published": "2024-07-31",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Transcoders Find Interpretable LLM Feature Circuits",
+   "paper_id": "3c6da6f1601aee99b8e5b8dcf2d21c42d9252b04",
+   "arxiv": "2406.11944",
+   "published": "2024-06-17",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Mechanistic Interpretability for AI Safety - A Review",
+   "paper_id": "8b750488d139f9beba0815ff8f46ebe15ebb3e58",
+   "arxiv": "2404.14082",
+   "published": "2024-04-22",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Steering Llama 2 via Contrastive Activation Addition",
+   "paper_id": "edd1dc1e8d7989f36c0e54f69f4aeb5e597edc8b",
+   "arxiv": "2312.06681",
+   "published": "2023-12-09",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "The Geometry of Truth: Emergent Linear Structure in Large Language Model Representations of True/False Datasets",
+   "paper_id": "d59523889679aee15992c4bf6e52b134186d07d3",
+   "arxiv": "2310.06824",
+   "published": "2023-10-10",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Pythia: A Suite for Analyzing Large Language Models Across Training and Scaling",
+   "paper_id": "be55e8ec4213868db08f2c3168ae666001bea4b8",
+   "arxiv": "2304.01373",
+   "published": "2023-04-03",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Locating and Editing Factual Associations in GPT",
+   "paper_id": "996445d847f06e99b0bd259345408a0cf1bce87e",
+   "arxiv": "2202.05262",
+   "published": "2022-02-10",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Poly-NL: Linear Complexity Non-local Layers With 3rd Order Polynomials",
+   "paper_id": "3bda4938e11faf19e63d8755888bdae4561a2144",
+   "arxiv": null,
+   "published": "2021-10-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Unsolved Problems in ML Safety",
+   "paper_id": "05c2e1ee203be217f100d2da05bdcc52004f00b6",
+   "arxiv": "2109.13916",
+   "published": "2021-09-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Poly-NL: Linear Complexity Non-local Layers with Polynomials",
+   "paper_id": "bbb84d2be6b69269820ba033ee79d4ed04ba5434",
+   "arxiv": "2107.02859",
+   "published": "2021-07-06",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Leveraging Sparse Linear Layers for Debuggable Deep Networks",
+   "paper_id": "e72afa01a38d51945c1b893921d96616f834b892",
+   "arxiv": "2105.04857",
+   "published": "2021-05-11",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Augmenting Deep Classifiers with Polynomial Neural Networks",
+   "paper_id": "54b119bab0dbcbbe03d5740afaeff478a2168778",
+   "arxiv": "2104.07916",
+   "published": "2021-04-16",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Conditional Generation Using Polynomial Expansions",
+   "paper_id": "f77027d1d73047870c52e857dc23a6d46641db4b",
+   "arxiv": "2104.05077",
+   "published": "2021-04-11",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Probing Classifiers: Promises, Shortcomings, and Advances",
+   "paper_id": "3dcfa05a1c162e6cab927c5b08d0444f7b6691f4",
+   "arxiv": "2102.12452",
+   "published": "2021-02-24",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "The Pile: An 800GB Dataset of Diverse Text for Language Modeling",
+   "paper_id": "db1afe3b3cd4cd90e41fbba65d3075dd5aebb61e",
+   "arxiv": "2101.00027",
+   "published": "2020-12-31",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "P–nets: Deep Polynomial Neural Networks",
+   "paper_id": "0e346811d870f5090077d99c9b135a53bc196de8",
+   "arxiv": "2003.03828",
+   "published": "2020-03-08",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "GLU Variants Improve Transformer",
+   "paper_id": "bdbf780dfd6b3eb0c9e980887feae5f23af15bc4",
+   "arxiv": "2002.05202",
+   "published": "2020-02-12",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Encrypted Speech Recognition Using Deep Polynomial Networks",
+   "paper_id": "3509da83d4928c4fa0b96443386324e900d6d5a4",
+   "arxiv": "1905.05605",
+   "published": "2019-05-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Bias in Bios: A Case Study of Semantic Representation Bias in a High-Stakes Setting",
+   "paper_id": "c4afa2b3eda95a1194313394901e0e96e24cefaa",
+   "arxiv": "1901.09451",
+   "published": "2019-01-27",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "FiLM: Visual Reasoning with a General Conditioning Layer",
+   "paper_id": "7cfa5c97164129ce3630511f639040d28db1d4b7",
+   "arxiv": "1709.07871",
+   "published": "2017-09-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "A Learned Representation For Artistic Style",
+   "paper_id": "99542f614d7e4146cad17196e76c997e57a69e4d",
+   "arxiv": "1610.07629",
+   "published": "2016-10-24",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Understanding intermediate layers using linear classifier probes",
+   "paper_id": "5e23a28063b395bdaf784dc548a046885cb90cf2",
+   "arxiv": "1610.01644",
+   "published": "2016-10-05",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Concrete Problems in AI Safety",
+   "paper_id": "e86f71ca2948d17b003a5f068db1ecb2b77827f7",
+   "arxiv": "1606.06565",
+   "published": "2016-06-21",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Compact Bilinear Pooling",
+   "paper_id": "327dc2fd203a7049f3409479ab68e5e2a83cd352",
+   "arxiv": "1511.06062",
+   "published": "2015-11-19",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Character-level Convolutional Networks for Text Classification",
+   "paper_id": "51a55df1f023571a7e07e338ee45a3e3d66ef73e",
+   "arxiv": "1509.01626",
+   "published": "2015-09-04",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Simple, Efficient, and Neural Algorithms for Sparse Coding",
+   "paper_id": "841f5786474fe2f226f88cbaa6bad5579c3fe873",
+   "arxiv": "1503.00778",
+   "published": "2015-03-02",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Zero-bias autoencoders and the benefits of co-adapting features",
+   "paper_id": "bd19dd1ccd9412171c6932d1556eeb47131b30ce",
+   "arxiv": "1402.3337",
+   "published": "2014-02-13",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "A literature survey of low‐rank tensor approximation techniques",
+   "paper_id": "e603dbdf275ce8c4d2aaf1c137b557b96a555209",
+   "arxiv": "1302.7121",
+   "published": "2013-02-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Semantic Segmentation with Second-Order Pooling",
+   "paper_id": "28fa525ca1e101335e877bb1f6999b6ccf476959",
+   "arxiv": null,
+   "published": "2012-10-07",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Stochastic Gradient Descent on Riemannian Manifolds",
+   "paper_id": "7450d8d30a82362b22d83d634ec1c5696855cdf9",
+   "arxiv": "1111.5280",
+   "published": "2011-11-22",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Lexical Meaning in Context: A Web of Words",
+   "paper_id": "d1f3cfcff6b013bdb46d2f6a3cea481d026fc14b",
+   "arxiv": null,
+   "published": "2011-04-29",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Factorization Machines",
+   "paper_id": "df93596d4ed71d2863532c063c4c693711216abf",
+   "arxiv": null,
+   "published": "2010-12-13",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Sparse deep belief net model for visual area V2",
+   "paper_id": "202cbbf671743aefd380d2f23987bd46b9caaf97",
+   "arxiv": null,
+   "published": "2007-12-03",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Theory of Functionals and of Integral and Integro-Differential Equations",
+   "paper_id": "141e97a1cdf859b7c66be8dd047c93de33f349a0",
+   "arxiv": null,
+   "published": "2005-01-27",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Independent component analysis: algorithms and applications",
+   "paper_id": "577d19a115f9ef6f002483fcf88adbb3b5479556",
+   "arxiv": null,
+   "published": "2000-05-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "The Geometry of Algorithms with Orthogonality Constraints",
+   "paper_id": "75c94cd2de9da32e86873fdcd1cd7898f481f5d5",
+   "arxiv": "physics/9806030",
+   "published": "1998-06-19",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Sparse coding with an overcomplete basis set: a strategy employed by V1?",
+   "paper_id": "2805537bec87a6177037b18f9a3a9d3f1038867b",
+   "arxiv": null,
+   "published": "1997-12-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Learning bilinear models for two-factor problems in vision",
+   "paper_id": "2a6b10ab0dddcfbd10e16b4219086a875198b15c",
+   "arxiv": null,
+   "published": "1997-06-17",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Separating Style and Content",
+   "paper_id": "fa236a1ef29c6632fd3aebdfcbfdb04d945e48d7",
+   "arxiv": null,
+   "published": "1996-12-03",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Matching pursuits with time-frequency dictionaries",
+   "paper_id": "0b6e98a6a8cf8283fd76fe1100b23f11f4cfa711",
+   "arxiv": null,
+   "published": "1993-08-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "The pi-sigma network: an efficient higher-order neural network for pattern classification and function approximation",
+   "paper_id": "c909ecf40f772017f3bd7ba855d697d520991802",
+   "arxiv": null,
+   "published": "1991-07-08",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Connectionism and cognitive architecture: a critical analysis.",
+   "paper_id": "d80676034bfabfea59f35698af0f715a555fcf50",
+   "arxiv": null,
+   "published": "1988-09-09",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Bridging Language and Items for Retrieval and Recommendation",
+   "paper_id": "13965d8d68217308ff8c7e738ced637739c6a1b8",
+   "arxiv": null,
+   "published": "2024",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Open-WebText corpus",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2019",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Hadamard product for low-rank bilinear pooling",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2017",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Dictionary learning for sparse coding: Algorithms and analysis",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2016",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Understanding morphology",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2013",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Optimization algorithms on matrix manifolds",
+   "paper_id": "f7b4c27abb76dff4c017849049541f3fc91e77be",
+   "arxiv": null,
+   "published": "2009",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Supporting Online Material for Reducing the Dimensionality of Data with Neural Networks",
+   "paper_id": "7c59908c946a4157abc030cdbe2b63d08ba97db3",
+   "arxiv": null,
+   "published": "2006",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Europarl: A Parallel Corpus for Statistical Machine Translation",
+   "paper_id": "694b3c58712deefb59502847ba1b52b192c413e5",
+   "arxiv": null,
+   "published": "2005",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Lexical semantics and compositionality.",
+   "paper_id": "07d2993d7b5cce0058c29010d5f85d4f2dc02067",
+   "arxiv": null,
+   "published": "1995",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Events in the Semantics of English: A Study in Subatomic Semantics",
+   "paper_id": "8ff703240303808d2d54b0d7723550820d17a7ca",
+   "arxiv": null,
+   "published": "1990",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "The Chebyshev polynomials",
+   "paper_id": "79f850a464fea866621ac45f2aab1bcb86165f15",
+   "arxiv": null,
+   "published": "1974",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "CodeParrot",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Language models are un-supervised multitask learners",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "PolySAE: Modeling Feature Interactions in Sparse 2025",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "On the biology of a large language model",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  }
+ ],
+ "status": "draft",
+ "labelers": [
+  "claude-draft"
+ ],
+ "disagreements": [],
+ "labeled_at": "2026-10-31"
+}

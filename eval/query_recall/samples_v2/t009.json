@@ -1,0 +1,1039 @@
+{
+ "schema_version": 2,
+ "sample_id": "t009",
+ "slot": 4,
+ "source_paper": "2601.02671",
+ "published_at": "2026-01-06",
+ "unit_id": null,
+ "topic": {
+  "source_quotes": {
+   "gap": [
+    {
+     "id": "g1",
+     "quote": "recent work shows that substantial amounts of copyrighted text can be extracted from open-weight models.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "g2",
+     "quote": "it remains an open question if similar extraction is feasible for production LLMs, given the safety measures these systems implement.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ],
+   "approach": [
+    {
+     "id": "a1",
+     "quote": "a two-phase procedure: (1) an initial probe to test for extraction feasibility, which sometimes uses a Best-of-N (BoN) jailbreak, followed by (2) iterative continuation prompts to attempt to extract the book.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ],
+   "evaluation": [
+    {
+     "id": "e1",
+     "quote": "we measure extraction success with a score computed from a block-based approximation of longest common substring (nv-recall).",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ]
+  },
+  "slots": {
+   "gap": {
+    "prior_work": {
+     "answer": "공개 가중치 모델에서 저작권 텍스트를 다량 추출",
+     "quotes": [
+      "g1"
+     ]
+    },
+    "remaining": {
+     "answer": "안전 장치가 있는 상용 모델에서도 가능한지",
+     "quotes": [
+      "g2"
+     ]
+    }
+   },
+   "approach": {
+    "target": {
+     "answer": "상용 LLM의 책 암기",
+     "quotes": [
+      "g2"
+     ]
+    },
+    "change": {
+     "answer": "공개 가중치가 아닌 상용 서비스를 대상으로 책 전체 추출 시도",
+     "quotes": [
+      "a1"
+     ]
+    },
+    "technique": {
+     "answer": "첫 탐침(필요시 탈옥)과 반복 이어쓰기 프롬프트",
+     "quotes": [
+      "a1"
+     ]
+    }
+   },
+   "evaluation": {
+    "compared_against": {
+     "answer": "상용 LLM 4종과 책 원문",
+     "quotes": [
+      "e1"
+     ]
+    },
+    "measures": {
+     "answer": "최장 공통 부분 문자열 기반 추출 점수",
+     "quotes": [
+      "e1"
+     ]
+    }
+   }
+  },
+  "l1": {
+   "gap": "공개 가중치 모델의 책 추출은 확인됐지만, 안전 장치가 있는 상용 LLM에서도 가능한지는 밝혀지지 않음",
+   "approach": "첫 문장 탐침에 필요시 Best-of-N 탈옥을 쓰고, 이후 반복 이어쓰기 프롬프트로 책 전체 추출을 시도",
+   "evaluation": "상용 LLM 4종에서 원문과의 블록 기반 최장 공통 부분 문자열 점수(nv-recall)를 측정"
+  },
+  "l2": {
+   "gap": "Book extraction was shown for open-weight models but not for production systems with safeguards.",
+   "approach": "Probe with a short prefix, jailbreak if needed, then repeatedly ask for continuation.",
+   "evaluation": "Measure near-verbatim overlap between generated text and the original book.",
+   "query_text": "Open-weight language models can reproduce large parts of copyrighted books. Can long passages also be extracted from commercial production LLMs despite their model-level and system-level safeguards, and how much near-verbatim text can be recovered?"
+  },
+  "banned_in_l2": [
+   "nv-recall",
+   "Claude",
+   "GPT-4.1",
+   "Gemini",
+   "Grok",
+   "Harry Potter",
+   "BoN"
+  ]
+ },
+ "gold": [
+  {
+   "title": "Extracting memorized pieces of (copyrighted) books from open-weight language models",
+   "paper_id": "3a94ed5a18a85c0ebf644c19ebabb1d61a7b3eb5",
+   "arxiv": "2505.12546",
+   "published": "2025-05-18",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "In recent work, Cooper et al. (2025) show that memorization of in-copyright books in open-weight LLMs is far more significant than previously understood",
+   "page": 2,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Constitutional Classifiers: Defending against Universal Jailbreaks across Thousands of Hours of Red Teaming",
+   "paper_id": "a0a9bf86c00b6ff2756053d01ab7e3a8aac804f7",
+   "arxiv": "2501.18837",
+   "published": "2025-01-31",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "(2025); Section 3.2); it is known with certainty that the extracted data were members of the training dataset.",
+   "page": 11,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Measuring memorization in language models via probabilistic extraction",
+   "paper_id": "93fc072956ccd9424ea2e0f97e62ac6101ae9d68",
+   "arxiv": "2410.19482",
+   "published": "2024-10-25",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "sequence of known training data, divides it into a prefix and suffix (50 tokens each), prompts the LLM with the prefix, and deems extraction to be successful if it generates the suffix verbatim (Carlini et al., 2023; Hayes et al., 2025b; Gemini Team et al., 2024; Grattafiori et al., 2024).",
+   "page": 4,
+   "quote_check": "strict"
+  },
+  {
+   "title": "The Files are in the Computer: Copyright, Memorization, and Generative AI",
+   "paper_id": "3a9d79d44eae3b455a5d5a71cd51011caec6eebc",
+   "arxiv": "2404.12590",
+   "published": "2024-04-19",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "As others have noted, it may be infeasible to produce perfect safeguards; in such circumstances, preventing the generation of copyrighted or otherwise undesirable material may depend on “reasonable best efforts” (Cooper et al., 2024).",
+   "page": 19,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Scalable Extraction of Training Data from (Production) Language Models",
+   "paper_id": "fc7ee1828030a818f52518022a39f6a3ada60222",
+   "arxiv": "2311.17035",
+   "published": "2023-11-28",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Brief qualitative inspection of this text for all of our experiments reveals that, for all books and frontier LLMs, additional text frequently contains text that replicates plot elements, themes, and character names from the book from which the Phase 1 prefix is drawn.",
+   "page": 15,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Jailbroken: How Does LLM Safety Training Fail?",
+   "paper_id": "929305892d4ddae575a0fc23227a8139f7681632",
+   "arxiv": "2307.02483",
+   "published": "2023-07-05",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Much prior work demonstrates that jailbreaks work in production settings (Wei et al., 2023; Anil et al., 2024; Hughes et al., 2024).",
+   "page": 4,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Quantifying Memorization Across Neural Language Models",
+   "paper_id": "28c7e583d90ccfc5c3078dfc1d6b80a9ad90248d",
+   "arxiv": "2202.07646",
+   "published": "2022-02-15",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "sequence of known training data, divides it into a prefix and suffix (50 tokens each), prompts the LLM with the prefix, and deems extraction to be successful if it generates the suffix verbatim (Carlini et al., 2023; Hayes et al., 2025b; Gemini Team et al., 2024; Grattafiori et al., 2024).",
+   "page": 4,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Deduplicating Training Data Makes Language Models Better",
+   "paper_id": "4566c0d22ebf3c31180066ab23b6c445aeec78d5",
+   "arxiv": "2107.06499",
+   "published": "2021-07-14",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "For discoverable extraction, it is typical to compare the generated continuation and target suffix, and to declare extraction success when there is verbatim equality or the continuation is within a small edit distance to the target (Lee et al., 2022; Ippolito et al., 2022).",
+   "page": 7,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Extracting Training Data from Large Language Models",
+   "paper_id": "df7d26339adf4eb0c07160947b9d2973c24911ba",
+   "arxiv": "2012.07805",
+   "published": "2020-12-14",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "copyright litigation (Gianella, 2025), long-standing, clear, and sound technical facts remain: LLMs memorize portions of their training data (Carlini et al., 2021; 2023), these memorized data are encoded in the model’s weights (Nasr et al., 2023; Carlini, 2025; Schwarzschild et al., 2024),",
+   "page": 20,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Rethinking LLM Memorization through the Lens of Adversarial Compression",
+   "paper_id": "13f2985246d6b91f788bb222360a199967af32c8",
+   "arxiv": "2404.15146",
+   "published": "2024-04-23",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": null,
+   "page": null,
+   "quote_check": "not_found"
+  },
+  {
+   "title": "Report of the 1st Workshop on Generative AI and Law",
+   "paper_id": "5698d1f43d2ee9fafbfab839706fd51585dd0fed",
+   "arxiv": "2311.06477",
+   "published": "2023-11-11",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "At a high level, memorization means that information about whether a model was trained on a particular data example can be recovered from the model itself (Cooper et al., 2023).",
+   "page": 4,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Talkin' 'Bout AI Generation: Copyright and the Generative-AI Supply Chain (The Short Version)",
+   "paper_id": "095a1d8e58091a44f4416673277d573b4b2926d5",
+   "arxiv": "2309.08133",
+   "published": "2023-09-15",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Adversarial use, like the use of jailbreaks, may matter for copyright infringement analysis (Lee et al., 2023b; Cooper & Grimmelmann, 2024).",
+   "page": 19,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Universal and Transferable Adversarial Attacks on Aligned Language Models",
+   "paper_id": "47030369e97cc44d4b2e3cf1be85da0fd134904a",
+   "arxiv": "2307.15043",
+   "published": "2023-07-27",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Nevertheless, such alignment mechanisms can be circumvented—for instance, through jailbreaks , which use adversarial prompting techniques to elicit harmful or otherwise restricted outputs (Hendrycks et al. (2021); Zou et al. (2023); Section 3.1).",
+   "page": 4,
+   "quote_check": "loose"
+  },
+  {
+   "title": "Comparison requires valid measurement: Rethinking attack success rate comparisons in AI red teaming",
+   "paper_id": "0b9e37621b6f5940cd2f7b55b5663694501bccf7",
+   "arxiv": "2601.18076",
+   "published": "2026-01-26",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": true
+  },
+  {
+   "title": "The inadequacy of offline large language model evaluations: A need to account for personalization in model behavior",
+   "paper_id": "9fe4d074f34724d8c04cb040c53d80703121c269",
+   "arxiv": null,
+   "published": "2025-12-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Hubble: a Model Suite to Advance the Study of LLM Memorization",
+   "paper_id": "af53de2322059587202eb22f8e8554b5b32abe8c",
+   "arxiv": "2510.19811",
+   "published": "2025-10-22",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Exploring the limits of strong membership inference attacks on large language models",
+   "paper_id": "9c97dfbd3b0114a9de358c09d41ad31b8082ade5",
+   "arxiv": "2505.18773",
+   "published": "2025-05-24",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Generative AI, Reproductions Inside the Model, and the Making Available to the Public",
+   "paper_id": "6bcacab25f3fd0bd50c34c58d6b853add1273702",
+   "arxiv": null,
+   "published": "2025-03-10",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Context-Aware Membership Inference Attacks against Pre-trained Large Language Models",
+   "paper_id": "b1856118892a5e4258629a1ac420074d55393f5e",
+   "arxiv": "2409.13745",
+   "published": "2024-09-11",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context",
+   "paper_id": "c811bedbe8f4c21d0cba9f9175f7c2eb203284a7",
+   "arxiv": "2403.05530",
+   "published": "2024-03-08",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Generative AI meets copyright",
+   "paper_id": "367a161324a3b6d1b64b75bb8b44a797fc6a948b",
+   "arxiv": null,
+   "published": "2023-07-14",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Pythia: A Suite for Analyzing Large Language Models Across Training and Scaling",
+   "paper_id": "be55e8ec4213868db08f2c3168ae666001bea4b8",
+   "arxiv": "2304.01373",
+   "published": "2023-04-03",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Training language models to follow instructions with human feedback",
+   "paper_id": "d766bffc357127e0dc86dd69561d5aeb520d6f4c",
+   "arxiv": "2203.02155",
+   "published": "2022-03-04",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Unsolved Problems in ML Safety",
+   "paper_id": "05c2e1ee203be217f100d2da05bdcc52004f00b6",
+   "arxiv": "2109.13916",
+   "published": "2021-09-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Finetuned Language Models Are Zero-Shot Learners",
+   "paper_id": "ff0b2681d7b05e16c46dfb71d980cc2f605907cd",
+   "arxiv": "2109.01652",
+   "published": "2021-09-03",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Evaluating Large Language Models Trained on Code",
+   "paper_id": "acbdbf49f9bc3f151b93d9ca9a06009f4f6eb269",
+   "arxiv": "2107.03374",
+   "published": "2021-07-07",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Developers",
+   "paper_id": "4213b2ae8a55deb622562adede5ed4a38b966fbe",
+   "arxiv": null,
+   "published": "2020-12-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Measurement of Text Similarity: A Survey",
+   "paper_id": "e3661f6a474e24a8919bffb8dfcfda6c79d47fc0",
+   "arxiv": null,
+   "published": "2020-08-31",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Fine-Tuning Language Models from Human Preferences",
+   "paper_id": "7a15950dc71079285a4eaf195de5aadd87c41b40",
+   "arxiv": "1909.08593",
+   "published": "2019-09-18",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Does learning require memorization? a short tale about a long tail",
+   "paper_id": "0ada4f23141e774dcac63cb8569730ddacda75c4",
+   "arxiv": "1906.05271",
+   "published": "2019-06-12",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Deep Reinforcement Learning from Human Preferences",
+   "paper_id": "5bbb6f9a8204eb13070b6f033e61c84ef8ee68dd",
+   "arxiv": "1706.03741",
+   "published": "2017-06-12",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Hunger Games",
+   "paper_id": "11d40f2562fb7bcdc5bfe4b858930d7afe5f73b0",
+   "arxiv": null,
+   "published": "2013-06-11",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Structural alignment of plain text books",
+   "paper_id": "c5561c088c98ae7020f7e25efe638d8d6b52a61b",
+   "arxiv": null,
+   "published": "2012-05-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "ANALISIS IMPLIKATUR PADA NASKAH FILM HARRY POTTER AND THE GOBLET OF FIRE",
+   "paper_id": "13c0bda32a755805c3181868de29df70fff6ba5e",
+   "arxiv": null,
+   "published": "2010-01-12",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "The Great Gatsby.",
+   "paper_id": "44b775055f42ffc796d492f74ad32ca136ed49da",
+   "arxiv": null,
+   "published": "2009-12-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Finding near-duplicate web pages: a large-scale evaluation of algorithms",
+   "paper_id": "b6f3576c31ee197afcc91ae7ef23c82eab41aad5",
+   "arxiv": null,
+   "published": "2006-08-06",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Methods for Identifying Versioned and Plagiarized Documents",
+   "paper_id": "e01ec60bf6cbc4643fcb0ff01018ccea146b285a",
+   "arxiv": null,
+   "published": "2003-02-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Harry Potter and the Sorcerer's Stone",
+   "paper_id": "31548c5bb163895211f9b8813c494840bfce4a65",
+   "arxiv": null,
+   "published": "2002-04-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Beloved",
+   "paper_id": "510928565e219f8e99a4d8dc60bd36ef9bd19ae1",
+   "arxiv": null,
+   "published": "2000-01-01",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Scalable Extraction of Training Data from Aligned, Production Language Models",
+   "paper_id": "31d2ec5d827b5c0f4420035d14eb9dd62e5c8cfe",
+   "arxiv": null,
+   "published": "2025",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Machine Unlearning Doesn't Do What You Think: Lessons for Generative AI Policy, Research, and Practice",
+   "paper_id": "24cb3df34d2c90603e4c0116307ecbfbcfcbb0ce",
+   "arxiv": null,
+   "published": "2024",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Many-shot Jailbreaking",
+   "paper_id": "af5633c94ed2beb282f6a53c595eb437e8e7b630",
+   "arxiv": null,
+   "published": "2024",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Microsoft CEO of AI: Your online content is ’freeware’ fodder for training models",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2024",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "AI and Law: The Next Generation",
+   "paper_id": "c38d7f05cf71b9e98f959f4d727069143fbf8f02",
+   "arxiv": null,
+   "published": "2023",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "The Authors Guild",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2023",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Preventing Verbatim Memorization in Language Models Gives a False Sense of Privacy",
+   "paper_id": "1819c5c8c556db205ec9a49d5ba4a8c2afb28a4a",
+   "arxiv": null,
+   "published": "2022",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Project Zero",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2021",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Nineteen Eighty-Four",
+   "paper_id": "55743fa65028f1e25fd797b86c51cc89fd46edf8",
+   "arxiv": null,
+   "published": "2015",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Authors Guild v. Google, Inc. 804 f.3d 202 (2d cir",
+   "paper_id": null,
+   "arxiv": null,
+   "published": "2015",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Catcher In The Rye",
+   "paper_id": "f17af758ca153d4348abdfa0778d8a7c32533701",
+   "arxiv": null,
+   "published": "2012",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Catch-22.",
+   "paper_id": "e3abf69bd36abb861bd5412a6110fc3755cc7875",
+   "arxiv": null,
+   "published": "2001",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Frankenstein",
+   "paper_id": "f513e6b7c0bbb7f45c7482ad212f110d8a5538c2",
+   "arxiv": null,
+   "published": "1995",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Claude 3.7 Sonnet System Card",
+   "paper_id": "9ff93dfa8f445c932415d335c88852ef47f1201e",
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Meta tells court AI software does not violate author copy-rights,",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Google Cloud",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Kadrey et al. v. Meta Platforms, Inc. United States District Court for the Northern District of California, March 2025",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Ellipses and dash-like hyphens",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Word scrambling. For each text token longer than three characters, we shuffle its interior characters (leave first and last fixed) with probability σ 1 / 2",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Linkedin post regarding gema v. openai appeal, December 2025",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Word order shuffle",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "The ai copyright battle: Why openai and google are pushing for fair use",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Capitalization. Iterates over every alphabetic character and flips its case with probability p ∈ [0 , 1] (we use p ∈ { 0 . 2 , 0 . 5 } )",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "What my privacy papers (don’t) have to say about copyright and generative",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "difflib SequenceMatcher",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Random capitalization",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "“The knowledge cut-off date of Grok 3 and Grok 4 is November, 2024.”",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "U.S. Code § 503",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Bartz Judgment. Order on Fair Use, Bartz et al. v.",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "ASCII noising",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Introducing GPT-4.1 in the API,",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "OpenAI declares AI race “over”’ if training on copyrighted works isn’t fair use",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "Anthropic CEO Doubles Down on Fair Use Defense–“The Law Will Back Us Up”’",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "OpenAI used song lyrics in violation of copyright laws, German court says",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  }
+ ],
+ "status": "draft",
+ "labelers": [
+  "claude-draft"
+ ],
+ "disagreements": [],
+ "labeled_at": "2026-10-31"
+}

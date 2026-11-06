@@ -1,0 +1,626 @@
+{
+ "schema_version": 2,
+ "sample_id": "t008",
+ "slot": 3,
+ "source_paper": "2608.04896",
+ "published_at": "2026-08-05",
+ "unit_id": "4.4 Objective Proxies Can Lead to Unintended Consequences",
+ "topic": {
+  "source_quotes": {
+   "gap": [
+    {
+     "id": "g1",
+     "quote": "Defensive driving scores are useful only when they preserve distinctions between policies that observe surrounding actors and those that do not.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "g2",
+     "quote": "When agent and reference share an unstable rollout transformation, this rule can propagate shared reference failures into broad compliance credit.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ],
+   "approach": [
+    {
+     "id": "a1",
+     "quote": "We audit this risk in NAVSIM v2.2 original scene single-stage scoring.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "a2",
+     "quote": "We contribute an audit protocol requiring score basis and stack disclosure, blind probes, overwrite reporting, and rollout stability tests",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    },
+    {
+     "id": "a3",
+     "quote": "A same-source dependency stack control and an exact-input diagnostic isolate dependency-sensitive numerical behavior",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ],
+   "evaluation": [
+    {
+     "id": "e1",
+     "quote": "outrank human replay and PDM-Closed over the complete 12,146-token navtest split.",
+     "page": 1,
+     "verified": true,
+     "check": "strict"
+    }
+   ]
+  },
+  "slots": {
+   "gap": {
+    "prior_work": {
+     "answer": "재시뮬레이션 점수를 방어 운전의 증거로 사용하고, 사람 기록이 실패한 항목은 면제",
+     "quotes": [
+      "g1",
+      "g2"
+     ]
+    },
+    "remaining": {
+     "answer": "공유된 변환의 실패가 면제로 번져 점수가 무의미해지는지",
+     "quotes": [
+      "g2"
+     ]
+    }
+   },
+   "approach": {
+    "target": {
+     "answer": "자율주행 벤치마크의 평가 점수",
+     "quotes": [
+      "a1"
+     ]
+    },
+    "change": {
+     "answer": "주변 차량을 보지 않는 정책을 넣어 점수의 타당성을 감사",
+     "quotes": [
+      "a2"
+     ]
+    },
+    "technique": {
+     "answer": "눈가림 정책, 의존성 대조, 동일 입력 진단",
+     "quotes": [
+      "a2",
+      "a3"
+     ]
+    }
+   },
+   "evaluation": {
+    "compared_against": {
+     "answer": "사람 주행 기록과 PDM-Closed",
+     "quotes": [
+      "e1"
+     ]
+    },
+    "measures": {
+     "answer": "눈가림 정책의 순위와 점수",
+     "quotes": [
+      "e1"
+     ]
+    }
+   }
+  },
+  "l1": {
+   "gap": "방어 운전 점수는 주변 차량을 보는 정책을 구별해야 하는데, 에이전트와 기준이 불안정한 변환을 공유하면 기준의 실패가 면제로 번져 구별이 사라질 수 있음",
+   "approach": "주변 차량을 보지 않는 눈가림 정책으로 NAVSIM 점수를 감사하고, 의존성 대조와 동일 입력 진단으로 수치 불안정 원인을 분리한 뒤 감사 절차를 제안",
+   "evaluation": "눈가림 정책이 사람 주행 기록과 PDM-Closed보다 높은 순위를 받는지 전체 데이터에서 확인하고, 솔버 교체 대조로 검증"
+  },
+  "l2": {
+   "gap": "Benchmark driving scores may stop separating planners that observe other road users from those that do not.",
+   "approach": "Audit the score with policies blind to other road users and isolate the failure with controlled diagnostics.",
+   "evaluation": "Check whether blind policies outrank human driving logs and strong planners.",
+   "query_text": "Autonomous driving benchmarks forgive a planner when the logged human reference also fails a check. If both pass through the same unstable numerical transformation, could policies that ignore other road users receive high scores, and how should such metrics be audited?"
+  },
+  "banned_in_l2": [
+   "NAVSIM",
+   "Ignore-All",
+   "PDM-Closed",
+   "EPDMS"
+  ]
+ },
+ "gold": [
+  {
+   "title": "Do Open-Loop Metrics Predict Closed-Loop Driving? A Cross-Benchmark Correlation Study of NAVSIM and Bench2Drive",
+   "paper_id": "07ccea329b5986e2fb1c581d8b234d0e13952931",
+   "arxiv": "2605.00066",
+   "published": "2026-04-30",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Closed-loop benchmarks such as nuPlan instead expose the planner to evolving simulated traffic [2], while cross-benchmark studies ask whether offline and pseudo-simulation scores predict closed-loop performance [33].",
+   "page": 3,
+   "quote_check": "loose"
+  },
+  {
+   "title": "Pseudo-Simulation for Autonomous Driving",
+   "paper_id": "b837e0737a677992d022d9ff6caca9ca94b5f2b3",
+   "arxiv": "2506.04218",
+   "published": "2025-06-04",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "NAVSIM and PDM-style metrics roll out proposed ego trajectories over real-scene abstractions and aggregate progress, comfort, collision, time-to-collision, and map compliance terms at scale [4,11,12].",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "NAVSIM: Data-Driven Non-Reactive Autonomous Vehicle Simulation and Benchmarking",
+   "paper_id": "a5e61c6d84fa0b558cb04f2731f80cc46d0e4016",
+   "arxiv": "2406.15349",
+   "published": "2024-06-21",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "NAVSIM and PDM-style metrics roll out proposed ego trajectories over real-scene abstractions and aggregate progress, comfort, collision, time-to-collision, and map compliance terms at scale [4,11,12].",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Is Ego Status All You Need for Open-Loop End-to-End Autonomous Driving?",
+   "paper_id": "37262eae27907fce421698c66e48e1a996c64f19",
+   "arxiv": "2312.03031",
+   "published": "2023-12-05",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "AD-MLP and BEV-Planner show that ego-status or no-perception policies can appear competitive under open-loop nuScenes metrics [22, 35], and hidden-bias analyses identify related brittleness in end-to-end driving models [18].",
+   "page": 4,
+   "quote_check": "loose"
+  },
+  {
+   "title": "Parting with Misconceptions about Learning-based Vehicle Motion Planning",
+   "paper_id": "34847169f8ec239292abdefc094b60569b4ef5bd",
+   "arxiv": "2306.07962",
+   "published": "2023-06-13",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "NAVSIM and PDM-style metrics roll out proposed ego trajectories over real-scene abstractions and aggregate progress, comfort, collision, time-to-collision, and map compliance terms at scale [4,11,12].",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Hidden Biases of End-to-End Driving Models",
+   "paper_id": "e52e220ebfd2a10dfbd44c7038199118bed0b8a4",
+   "arxiv": "2306.07957",
+   "published": "2023-06-13",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "AD-MLP and BEV-Planner show that ego-status or no-perception policies can appear competitive under open-loop nuScenes metrics [22, 35], and hidden-bias analyses identify related brittleness in end-to-end driving models [18].",
+   "page": 4,
+   "quote_check": "loose"
+  },
+  {
+   "title": "Rethinking the Open-Loop Evaluation of End-to-End Autonomous Driving in nuScenes",
+   "paper_id": "b11dad0a84fa93f6e5e13c31819c782dc05c2fb3",
+   "arxiv": "2305.10430",
+   "published": "2023-05-17",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "AD-MLP and BEV-Planner show that ego-status or no-perception policies can appear competitive under open-loop nuScenes metrics [22, 35], and hidden-bias analyses identify related brittleness in end-to-end driving models [18].",
+   "page": 4,
+   "quote_check": "loose"
+  },
+  {
+   "title": "The Effects of Reward Misspecification: Mapping and Mitigating Misaligned Models",
+   "paper_id": "10b9ca173c665e3f2c322c2d5ce9b9d433fe4629",
+   "arxiv": "2201.03544",
+   "published": "2022-01-10",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "More generally, Goodhart-and Campbell-style effects describe how optimized proxies can diverge from their intended meaning [3, 24], while research on reward hacking and reward misspecification examines failures of proxy objectives [1,15,26,32].",
+   "page": 4,
+   "quote_check": "loose"
+  },
+  {
+   "title": "Categorizing Variants of Goodhart's Law",
+   "paper_id": "80939dd8a5cad405053c88ed856c28791bdc0582",
+   "arxiv": "1803.04585",
+   "published": "2018-03-13",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "More generally, Goodhart-and Campbell-style effects describe how optimized proxies can diverge from their intended meaning [3, 24], while research on reward hacking and reward misspecification examines failures of proxy objectives [1,15,26,32].",
+   "page": 4,
+   "quote_check": "loose"
+  },
+  {
+   "title": "LEAD: Minimizing Learner-Expert Asymmetry in End-to-End Driving",
+   "paper_id": "94fbaf32a5beaae4b1b23f5fde7333774a09e653",
+   "arxiv": "2512.20563",
+   "published": "2025-12-23",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "We compare these probes with human replay, PDM-Closed, DiffusionDrive, and the released LEAD planner’s LTFV6 configuration and checkpoint, denoted LTFV6 [25].",
+   "page": 7,
+   "quote_check": "strict"
+  },
+  {
+   "title": "DiffusionDrive: Truncated Diffusion Model for End-to-End Autonomous Driving",
+   "paper_id": "71d62a6c0b84604a376174cf728e36d6f3c23f1e",
+   "arxiv": "2411.15139",
+   "published": "2024-11-22",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "NAVSIM-oriented planners such as Hydra-MDP [20] and DiffusionDrive [23] use pseudo-simulation as an evaluation target.",
+   "page": 4,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Hydra-MDP: End-to-end Multimodal Planning with Multi-target Hydra-Distillation",
+   "paper_id": "d701227b0589b89e93485a82df4ae92918e1a3a2",
+   "arxiv": "2406.06978",
+   "published": "2024-06-11",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "NAVSIM-oriented planners such as Hydra-MDP [20] and DiffusionDrive [23] use pseudo-simulation as an evaluation target.",
+   "page": 4,
+   "quote_check": "strict"
+  },
+  {
+   "title": "nuPlan: A closed-loop ML-based planning benchmark for autonomous vehicles",
+   "paper_id": "b88b38ec61a4881173ab94647d1e97500f4af15b",
+   "arxiv": "2106.11810",
+   "published": "2021-06-22",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": null,
+   "page": null,
+   "quote_check": "not_found"
+  },
+  {
+   "title": "Concrete Problems in AI Safety",
+   "paper_id": "e86f71ca2948d17b003a5f068db1ecb2b77827f7",
+   "arxiv": "1606.06565",
+   "published": "2016-06-21",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": null,
+   "page": null,
+   "quote_check": "not_found"
+  },
+  {
+   "title": "Defining and Characterizing Reward Gaming",
+   "paper_id": "597f869a3ae3572e16de3643a7bd285ea2f1eabd",
+   "arxiv": null,
+   "published": "2022",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "More generally, Goodhart-and Campbell-style effects describe how optimized proxies can diverge from their intended meaning [3, 24], while research on reward hacking and reward misspecification examines failures of proxy objectives [1,15,26,32].",
+   "page": 4,
+   "quote_check": "loose"
+  },
+  {
+   "title": "BEVFormer: Learning Bird’s-Eye-View Representation From LiDAR-Camera via Spatiotemporal Transformers",
+   "paper_id": "53e9cf17eb4e54c80cfc5c5b20809527fbabd94b",
+   "arxiv": null,
+   "published": "2024-12-10",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "EMMA: End-to-End Multimodal Model for Autonomous Driving",
+   "paper_id": "4d9e66789ea1fe8930a482194a4ae36679506359",
+   "arxiv": "2410.23262",
+   "published": "2024-10-30",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "DriveLM: Driving with Graph Visual Question Answering",
+   "paper_id": "3c8cc9a5ee373d51e0bf71621b6eb6901c762e8f",
+   "arxiv": "2312.14150",
+   "published": "2023-12-21",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "VAD: Vectorized Scene Representation for Efficient Autonomous Driving",
+   "paper_id": "aae2e7454945b904ca1d438d2ae4d4941ba11409",
+   "arxiv": "2303.12077",
+   "published": "2023-03-21",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Planning-oriented Autonomous Driving",
+   "paper_id": "fdd7d5b0f6b8641c356e170fd264cd11f70ba657",
+   "arxiv": "2212.10156",
+   "published": "2022-12-20",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "PlanT: Explainable Planning Transformers via Object-Level Representations",
+   "paper_id": "3ae834fa44b94761574641458070cdd3c5133d44",
+   "arxiv": "2210.14222",
+   "published": "2022-10-25",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Safety-Enhanced Autonomous Driving Using Interpretable Sensor Fusion Transformer",
+   "paper_id": "a3335ad0d5e4061edda2b66567e517022642ea96",
+   "arxiv": "2207.14024",
+   "published": "2022-07-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Trajectory-guided Control Prediction for End-to-end Autonomous Driving: A Simple yet Strong Baseline",
+   "paper_id": "40717baa413da976571bf82410ea5542b0be86db",
+   "arxiv": "2206.08129",
+   "published": "2022-06-16",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "TransFuser: Imitation With Transformer-Based Sensor Fusion for Autonomous Driving",
+   "paper_id": "1a8ac422f4e594155af1721837009264ce14fe32",
+   "arxiv": "2205.15997",
+   "published": "2022-05-31",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Learning from All Vehicles",
+   "paper_id": "7374daf70ad0464d47de6b1e75b6cfb8e5039fa1",
+   "arxiv": "2203.11934",
+   "published": "2022-03-22",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Unsolved Problems in ML Safety",
+   "paper_id": "05c2e1ee203be217f100d2da05bdcc52004f00b6",
+   "arxiv": "2109.13916",
+   "published": "2021-09-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Learning to drive from a world on rails",
+   "paper_id": "0614d0da5f49ff902ffd9209482f29b902a1a824",
+   "arxiv": "2105.00636",
+   "published": "2021-05-03",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Multi-Modal Fusion Transformer for End-to-End Autonomous Driving",
+   "paper_id": "c0559fc7e7d6ea0f783ba791ddd5deaa74cf58a9",
+   "arxiv": "2104.09224",
+   "published": "2021-04-19",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "MP3: A Unified Model to Map, Perceive, Predict and Plan",
+   "paper_id": "1ba56df34200b028eace2f6cbdd62cb8bc2de20c",
+   "arxiv": "2101.06806",
+   "published": "2021-01-18",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "The Value Equivalence Principle for Model-Based Reinforcement Learning",
+   "paper_id": "5d5805b54cc933f7cef3c9c5e7c3d287234ad601",
+   "arxiv": "2011.03506",
+   "published": "2020-11-06",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Lift, Splat, Shoot: Encoding Images From Arbitrary Camera Rigs by Implicitly Unprojecting to 3D",
+   "paper_id": "4def603277e077d11eb6ce030df931330d758207",
+   "arxiv": "2008.05711",
+   "published": "2020-08-13",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Learning Invariant Representations for Reinforcement Learning without Reconstruction",
+   "paper_id": "518b827e340c26582b5093401283a4f5cff605b9",
+   "arxiv": "2006.10742",
+   "published": "2020-06-18",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Learning by Cheating",
+   "paper_id": "ca5045c9d9e0bf2e95f6694dff657e28ffcd4f07",
+   "arxiv": "1912.12294",
+   "published": "2019-12-27",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "INTERACTION Dataset: An INTERnational, Adversarial and Cooperative moTION Dataset in Interactive Driving Scenarios with Semantic Maps",
+   "paper_id": "0e12be89cfe05315a18aaa6d43ef1d336b7e476e",
+   "arxiv": "1910.03088",
+   "published": "2019-09-30",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "End-to-End Driving Via Conditional Imitation Learning",
+   "paper_id": "880a018f1e0a587b39a4ca9a5c9f6ba4029e2ea1",
+   "arxiv": "1710.02410",
+   "published": "2017-10-06",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Assessing the Impact of Planned Social Change*",
+   "paper_id": "37dc104890153ba7cb3856d6fc1256ef1abb725e",
+   "arxiv": null,
+   "published": "2010-11-26",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Metrics for Finite Markov Decision Processes",
+   "paper_id": "2c85356cd182c16e0a2e5c4a97112efbc1132cdf",
+   "arxiv": "1207.4114",
+   "published": "2004-07-07",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "self_citation_checked": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  }
+ ],
+ "status": "draft",
+ "labelers": [
+  "claude-draft"
+ ],
+ "disagreements": [],
+ "labeled_at": "2026-10-31"
+}
