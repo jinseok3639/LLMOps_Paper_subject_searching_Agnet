@@ -1,0 +1,4618 @@
+{
+ "strategy": "facet",
+ "modes": [
+  "references",
+  "verify"
+ ],
+ "repeat": 1,
+ "limit": 20,
+ "note": "1~3 실험",
+ "results": [
+  {
+   "sample_id": "t001",
+   "mode": "references",
+   "repeat": 1,
+   "queries": [
+    "adversarial attacks reward models",
+    "reward model vulnerabilities",
+    "automated adversarial generation",
+    "black box reward hacking",
+    "reward model sentence space attacks"
+   ],
+   "fos": null,
+   "before": "2026-04-02",
+   "score": {
+    "core_total": 9,
+    "core_hit": 0,
+    "core_recall": 0.0,
+    "gold_total": 33,
+    "gold_hit": 0,
+    "pooled": 96,
+    "hit_titles": [],
+    "missed_titles": [
+     "A Long Way to Go: Investigating Length Correlations in RLHF",
+     "Adversarial Training of Reward Models",
+     "Cheating Automatic LLM Benchmarks: Null Models Achieve High Win Rates",
+     "Is LLM-as-a-Judge Robust? Investigating Universal Adversarial Attacks on Zero-shot LLM Assessment",
+     "One Token to Fool LLM-as-a-Judge",
+     "Open Problems and Fundamental Limitations of Reinforcement Learning from Human Feedback",
+     "Red Teaming Language Models with Language Models",
+     "Scaling Laws for Reward Model Overoptimization",
+     "Towards Understanding Sycophancy in Language Models"
+    ],
+    "per_query_core_hit": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "searches": [
+    {
+     "query": "adversarial attacks reward models",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "cbf787c996d82d7ab8153e467adf5fcc69283543",
+       "title": "Enhancing Diffusion-based Unrestricted Adversarial Attacks via Adversary Preferences Alignment",
+       "year": 2025
+      },
+      {
+       "paperId": "2e25ecd7757a5b155bf0e422f54cd8287012ace6",
+       "title": "From Large Language Models to Adversarial Malware: How far are we",
+       "year": 2025
+      },
+      {
+       "paperId": "7b3e9eddc3c3879425a30d9c28f678768d0940c9",
+       "title": "Policy Disruption in Reinforcement Learning:Adversarial Attack with Large Language Models and Critical State Identification",
+       "year": 2025
+      },
+      {
+       "paperId": "f16bf5bd52d8026167c223faf6c933fac16a70ae",
+       "title": "Reward Under Attack: Analyzing the Robustness and Hackability of Process Reward Models",
+       "year": 2026
+      },
+      {
+       "paperId": "c3c3f54bfe374c4a45413599d1af40b43f06cdd0",
+       "title": "Efficient Adversarial Attacks on High-dimensional Offline Bandits",
+       "year": 2026
+      },
+      {
+       "paperId": "291e307548f0fae2545ceb954010563343d9c7a7",
+       "title": "Beware Untrusted Simulators - Reward-Free Backdoor Attacks in Reinforcement Learning",
+       "year": 2026
+      },
+      {
+       "paperId": "20696c6c27fe09abfafcd1eaa1587cebab7d579a",
+       "title": "Understanding adversarial attacks on observations in deep reinforcement learning",
+       "year": 2021
+      },
+      {
+       "paperId": "423e710608c18e5b63696139f849499c2453681f",
+       "title": "Unifying Adversarial Robustness and Training Across Text Scoring Models",
+       "year": 2026
+      },
+      {
+       "paperId": "d3ee9ab2b145e9e6a94441c5fff61a95bb875bb2",
+       "title": "RLHFPoison: Reward Poisoning Attack for Reinforcement Learning with Human Feedback in Large Language Models",
+       "year": 2023
+      },
+      {
+       "paperId": "e0768d2a552a8cec701589f4db5145076bc1912a",
+       "title": "Robust Multiple-Path Orienteering Problem: Securing Against Adversarial Attacks",
+       "year": 2020
+      },
+      {
+       "paperId": "332a92ddb16827e89dd688c69770680f0c9b3d4e",
+       "title": "Black-Box Reward Attacks Against Deep Reinforcement Learning Based on Successor Representation",
+       "year": 2022
+      },
+      {
+       "paperId": "43157697f67711654c10f2ff778c8622de62bd01",
+       "title": "Adversarial Examples Detection for XSS Attacks Based on Generative Adversarial Networks",
+       "year": 2020
+      },
+      {
+       "paperId": "9164b03032d67cec93527820aa7188b08554200c",
+       "title": "Adversarial Preference Learning for Robust LLM Alignment",
+       "year": 2025
+      },
+      {
+       "paperId": "bf06547a7296a994cf77c1baa793dee6e337a865",
+       "title": "Fight Fire with Fire: Defending Against Malicious RL Fine-Tuning via Reward Neutralization",
+       "year": 2025
+      },
+      {
+       "paperId": "c84695a2ad2e1ac54a77431120ca14cc3c6d7a3c",
+       "title": "RLVS: A Reinforcement Learning-Based Sparse Adversarial Attack Method for Black-Box Video Recognition",
+       "year": 2025
+      },
+      {
+       "paperId": "14597d2c029bcf04b7667e327b2752d1f04853ff",
+       "title": "Adversarial Reinforcement Learning for Offensive and Defensive Agents in a Simulated Zero-Sum Network Environment",
+       "year": 2025
+      },
+      {
+       "paperId": "5249928f169f303da03fed3fdec9b6f86e0c478e",
+       "title": "Exploring Potential Vulnerabilities in DRL-Based Congestion Control with Adversarial Policy",
+       "year": 2025
+      },
+      {
+       "paperId": "a9d342a67c3730923b17bbc985e8104ab48d4dac",
+       "title": "Ferret: Faster and Effective Automated Red Teaming with Reward-Based Scoring Technique",
+       "year": 2024
+      },
+      {
+       "paperId": "27a0bd3d39c0d63261d7daa94ab361e1d8f49579",
+       "title": "Jailbreaking as a Reward Misspecification Problem",
+       "year": 2024
+      },
+      {
+       "paperId": "c952318a0fd4f4c35a0869783016f8852c853ed7",
+       "title": "TCRL: Temporal-Coupled Adversarial Training for Robust Constrained Reinforcement Learning in Worst-Case Scenarios",
+       "year": 2026
+      }
+     ]
+    },
+    {
+     "query": "reward model vulnerabilities",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "03098d3ce18e781d916375cea3bc5d190b0801cb",
+       "title": "Multi-Faceted Attack: Exposing Cross-Model Vulnerabilities in Defense-Equipped Vision-Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "46324c6926242907c997ac16c20ef6c9664bc864",
+       "title": "Reward Hacking in Reinforcement Learning and RLHF: A Multidisciplinary Examination of Vulnerabilities, Mitigation Strategies, and Alignment Challenges",
+       "year": 2025
+      },
+      {
+       "paperId": "8dca4b652cf9f476a2048d01319dd2140ca7c917",
+       "title": "SecCodePRM: A Process Reward Model for Code Security",
+       "year": 2026
+      },
+      {
+       "paperId": "7d49f330d114ec3d65ffb67eb9dc79aea7b8befc",
+       "title": "Spontaneous Reward Hacking in Iterative Self-Refinement",
+       "year": 2024
+      },
+      {
+       "paperId": "0685db379c603bf69e6c13938de821a3262ecb34",
+       "title": "Are My Optimized Prompts Compromised? Exploring Vulnerabilities of LLM-based Optimizers",
+       "year": 2025
+      },
+      {
+       "paperId": "1143d0b3d8ddbb16c338f6e95f510dfa05eec4ec",
+       "title": "Hit The Bullseye On The First Shot: Improving LLMs Using Multi-Sample Self-Reward Feedback for Vulnerability Repair",
+       "year": 2025
+      },
+      {
+       "paperId": "c50b9b97227971f5ed7a8fc0e5a1e45c6b4cb5c0",
+       "title": "BadGPT: Exploring Security Vulnerabilities of ChatGPT via Backdoor Attacks to InstructGPT",
+       "year": 2023
+      },
+      {
+       "paperId": "52c5320e98655de39472491b211d7e1658d706ab",
+       "title": "Adversarial Reward Auditing for Active Detection and Mitigation of Reward Hacking",
+       "year": 2026
+      },
+      {
+       "paperId": "00e1d07a01f36f7c59286a36d78d964cca44bdb4",
+       "title": "A Semi-Decentralized PKI Based on Blockchain With a Stake-Based Reward-Punishment Mechanism",
+       "year": 2024
+      },
+      {
+       "paperId": "1c3b90db450290040aa2d22e1e1442ea9d18553f",
+       "title": "A Survey on Autonomy-Induced Security Risks in Large Model-Based Agents",
+       "year": 2025
+      },
+      {
+       "paperId": "3797e0380a1188b7fd249c32547499b9a9909540",
+       "title": "TROJail: Trajectory-Level Optimization for Multi-Turn Large Language Model Jailbreaks with Process Rewards",
+       "year": 2025
+      },
+      {
+       "paperId": "46b1677c69e15a1d871d3e2f48e98d29bb1e5ba4",
+       "title": "Grey-Box Fuzzing Based on Reinforcement Learning for XSS Vulnerabilities",
+       "year": 2023
+      },
+      {
+       "paperId": "f284bc4a4430ac83dd5bd7ab0f239e6ccb3c81ba",
+       "title": "Inter-Temporal Reward Decisions with Strategic Ethical Hackers",
+       "year": 2023
+      },
+      {
+       "paperId": "cd5515dd4be1ff6ebf675994347130d4ba752768",
+       "title": "Foster carer experience in Spain: Analysis of the vulnerabilities of a permanent model.",
+       "year": 2016
+      },
+      {
+       "paperId": "1a0ba23d3c057fef91d4edb0885bfa4774e7331e",
+       "title": "The differential vulnerabilities of Per2 knockout mice to the addictive properties of methamphetamine and cocaine.",
+       "year": 2023
+      },
+      {
+       "paperId": "1195f307503da0a8997d17c5544252a31a8e905a",
+       "title": "DiveR-CT: Diversity-enhanced Red Teaming Large Language Model Assistants with Relaxing Constraints",
+       "year": 2024
+      },
+      {
+       "paperId": "8013d32d0aa073501c7dab1cf5ad25a4625b872b",
+       "title": "Role of Reward Sensitivity and Processing in Major Depressive and Bipolar Spectrum Disorders",
+       "year": 2016
+      },
+      {
+       "paperId": "55e194af4541f1baa617b15e4c65397cd2494550",
+       "title": "Food and drug reward: overlapping circuits in human obesity and addiction.",
+       "year": 2012
+      },
+      {
+       "paperId": "21251d14f97926bf4c19b8cfaab8a3d101f7fa71",
+       "title": "Chasing Moving Targets with Online Self-Play Reinforcement Learning for Safer Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "7b90a66978b45ceb0884fb4b808d52699fe5fea7",
+       "title": "Jailbreak-R1: Exploring the Jailbreak Capabilities of LLMs via Reinforcement Learning",
+       "year": 2025
+      }
+     ]
+    },
+    {
+     "query": "automated adversarial generation",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "4b0ca60398cdb899b78f19b1abcd3c166dcc08fe",
+       "title": "Automated Generation of Multiple-Choice Questions for Computer Science Education Using Conditional Generative Adversarial Networks",
+       "year": 2025
+      },
+      {
+       "paperId": "6227f9765887c9eea65f423671b02571b0cccafc",
+       "title": "Automated site layout generation for buildings using graph constrained generative adversarial network",
+       "year": 2025
+      },
+      {
+       "paperId": "3c5bf9a26695a4296063230accc13c22145396c3",
+       "title": "Automated Mass Malware Factory: The Convergence of Piggybacking and Adversarial Example in Android Malicious Software Generation",
+       "year": 2025
+      },
+      {
+       "paperId": "984dcd067e218eea6b831d5f88391b2424ad8215",
+       "title": "A-SEA3L-QA: A Fully Automated Self-Evolving, Adversarial Workflow for Arabic Long-Context Question-Answer Generation",
+       "year": 2025
+      },
+      {
+       "paperId": "57d53ffc98709d041dbb7f4c72248cfd3ca54988",
+       "title": "AutoRed: A Free-form Adversarial Prompt Generation Framework for Automated Red Teaming",
+       "year": 2025
+      },
+      {
+       "paperId": "bac533c460d80afe6b1635fe3a4563ee7bb88bcb",
+       "title": "Automated Malware Source Code Generation via Uncensored LLMs and Adversarial Evasion of Censored Model",
+       "year": 2025
+      },
+      {
+       "paperId": "35c9988345f7d8c16b91af8b50830d1d9cf1e5a4",
+       "title": "ProWGAN a hybrid generative adversarial network for automated landscape generation in media and video games",
+       "year": 2025
+      },
+      {
+       "paperId": "96f098be3a3b7ed347484da7df149458440c2976",
+       "title": "Automated Malware Assembly Line: Uniting Piggybacking and Adversarial Example in Android Malware Generation",
+       "year": 2025
+      },
+      {
+       "paperId": "7b5a43659eb1570e0f6e014813bf033b9b851874",
+       "title": "Adversarial generation method for smart contract fuzz testing seeds guided by chain-based LLM",
+       "year": 2024
+      },
+      {
+       "paperId": "90c94c248486cc5d7a37bd72583cafb8190f2809",
+       "title": "A Step towards Automated and Generalizable Tactile Map Generation using Generative Adversarial Networks",
+       "year": 2024
+      },
+      {
+       "paperId": "647489e4a194bd09efb173c4f64432bbaf95ddd0",
+       "title": "LLM-Attacker: Enhancing Closed-Loop Adversarial Scenario Generation for Autonomous Driving With Large Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "07b98b209c23bd53a177ca648f6630714bc455a2",
+       "title": "Learning-Based Automated Adversarial Red-Teaming for Robustness Evaluation of Large Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "99fc8ec2c69d669a518be8c09e8131cf222eee66",
+       "title": "Defensive Adversarial CAPTCHA: A Semantics-Driven Framework for Natural Adversarial Example Generation",
+       "year": 2025
+      },
+      {
+       "paperId": "3ea63f3a356b1b31734eb6ab0b3324bb4df9cc52",
+       "title": "Generation of Realistic Synthetic Raw Radar Data for Automated Driving Applications using Generative Adversarial Networks",
+       "year": 2023
+      },
+      {
+       "paperId": "c96c2a704bb0835d4ac3503c3d50f3a1a9d84e8a",
+       "title": "Automated Adversarial Discovery for Safety Classifiers",
+       "year": 2024
+      },
+      {
+       "paperId": "b18113859405685d1b5c256eb1f58ee75e172205",
+       "title": "Generative Adversarial Network-based Approach for Automated Generation of Adversarial Attacks Against a Deep-Learning based XSS Attack Detection Model",
+       "year": 2023
+      },
+      {
+       "paperId": "b47da13650356ab225ffc6fa08ff3f3568daf03e",
+       "title": "Automated Voice-to-Image Generation Using Generative Adversarial Networks in Machine Learning",
+       "year": 2023
+      },
+      {
+       "paperId": "dd018401fc6ba35d87effe8eaf32028a0b5d58d8",
+       "title": "Quantum generative adversarial network with automated noise suppression mechanism based on WGAN-GP",
+       "year": 2025
+      },
+      {
+       "paperId": "f553f127cbfdd48f42cb5d88462346c783c3f05e",
+       "title": "AUE-Net: Automated Generation of Ultrasound Elastography Using Generative Adversarial Network",
+       "year": 2022
+      },
+      {
+       "paperId": "78580ff827d4c7a7cf327d6fd919c3d464a60725",
+       "title": "Automated Software Test Data Generation With Generative Adversarial Networks",
+       "year": 2022
+      }
+     ]
+    },
+    {
+     "query": "black box reward hacking",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "b986f997fd679e48f213887897f32c40e24346ee",
+       "title": "READY: Reward Discovery for Meta-Black-Box Optimization",
+       "year": 2026
+      },
+      {
+       "paperId": "adc8c71591ee5b043447a7d7db8ae09a8a9f1251",
+       "title": "Interpretable Preferences via Multi-Objective Reward Modeling and Mixture-of-Experts",
+       "year": 2024
+      },
+      {
+       "paperId": "e7efb61777f2a320aae07a521230c7ee29d4972d",
+       "title": "Diffusion Reinforcement Learning via Centered Reward Distillation",
+       "year": 2026
+      },
+      {
+       "paperId": "0a5f086289d4851ed1e76b4cfae57adcb68e6412",
+       "title": "Interpretable All-Type Audio Deepfake Detection with Audio LLMs via Frequency-Time Reinforcement Learning",
+       "year": 2026
+      },
+      {
+       "paperId": "7d0cd786215f2ffa4f21c59643dc2da30be17ae8",
+       "title": "Offline Model-Based Optimization: Comprehensive Review",
+       "year": 2025
+      },
+      {
+       "paperId": "cbf787c996d82d7ab8153e467adf5fcc69283543",
+       "title": "Enhancing Diffusion-based Unrestricted Adversarial Attacks via Adversary Preferences Alignment",
+       "year": 2025
+      },
+      {
+       "paperId": "a0fb61c80459e1a327665213086f322b4cd23c71",
+       "title": "Technical Risks of (Lethal) Autonomous Weapons Systems",
+       "year": 2025
+      },
+      {
+       "paperId": "5ee0f56e61151e72b61d11dcb0f612335e444cbc",
+       "title": "DeepSeek vs. ChatGPT: prospects and challenges",
+       "year": 2025
+      },
+      {
+       "paperId": "86a0131e04ff6db5105db8bdb7a079f326971c8f",
+       "title": "Universal Black-Box Reward Poisoning Attack against Offline Reinforcement Learning",
+       "year": 2024
+      },
+      {
+       "paperId": "332a92ddb16827e89dd688c69770680f0c9b3d4e",
+       "title": "Black-Box Reward Attacks Against Deep Reinforcement Learning Based on Successor Representation",
+       "year": 2022
+      },
+      {
+       "paperId": "05719e9665f61f753e147eb879d601578c0828d9",
+       "title": "Opening the black box of Growth Hacking: Insights into the microfoundations of Lean Startup Capabilities",
+       "year": 2025
+      },
+      {
+       "paperId": "cf2f7735c9bef822dbdecabbd904eb037e31801c",
+       "title": "Universal Black-Box Targeted Reward Poisoning Attack Against Online Deep Reinforcement Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "c5e7e436df8119b051b9896c2832ffbd631743d9",
+       "title": "A Reward-Driven Controller for Text Generation with Black-Box Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "66256ee5d917cabc7a4ec8b6ec987db59ac26000",
+       "title": "Hacking the Black Box: Prompt Injection for Visualizing LLM Reasoning as Graphs",
+       "year": 2025
+      },
+      {
+       "paperId": "83e4b1c286facab374e432d621106b7ee5f4976b",
+       "title": "Black box meta-learning intrinsic rewards for sparse-reward environments",
+       "year": 2024
+      },
+      {
+       "paperId": "d824b7154ad6df729fef49030ee170466911414b",
+       "title": "PRCA: Fitting Black-Box Large Language Models for Retrieval Question Answering via Pluggable Reward-Driven Contextual Adapter",
+       "year": 2023
+      },
+      {
+       "paperId": "c6d757cf650f7a7d87915b42a4e0023a00a85f54",
+       "title": "Black-Box On-Policy Distillation of Large Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "54341adc034dec4000000020154408c4db43e1db",
+       "title": "Black-Box Targeted Reward Poisoning Attack Against Online Deep Reinforcement Learning",
+       "year": 2023
+      },
+      {
+       "paperId": "a3280219edf565d0cd2e1c83159c86876f266be8",
+       "title": "SMGO-$\\Delta$: Balancing Caution and Reward in Global Optimization with Black-Box Constraints",
+       "year": 2022
+      },
+      {
+       "paperId": "5ad388aa7e74a5e1b51390b73e2b2a436262b98f",
+       "title": "SMGO-<mml:math xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" altimg=\"si75.svg\"><mml:mrow><mml:mi mathvariant=\"normal\">Δ</mml:mi></mml:mrow></mml:math>: Balancing Caution and Reward in Global Optimization with Black-Box Constraints",
+       "year": 2022
+      }
+     ]
+    },
+    {
+     "query": "reward model sentence space attacks",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "fa1a96f9d1879c19d00628d7bbd71151dedb2f05",
+       "title": "Text adversarial attacks using policy gradients against deep learning classifiers",
+       "year": 2025
+      },
+      {
+       "paperId": "11f3ad04f6010eedc5e9e8df2a7fa5447b9371cc",
+       "title": "A Constraint-Enforcing Reward for Adversarial Attacks on Text Classifiers",
+       "year": 2024
+      },
+      {
+       "paperId": "5eecd7a6cb7b2694391e5fec3009ec89a5ba1557",
+       "title": "Information Leakage of Sentence Embeddings via Generative Embedding Inversion Attacks",
+       "year": 2025
+      },
+      {
+       "paperId": "3a0a2ca0fda97e2e5959b7f29239916f591c57f9",
+       "title": "A Sentence-Semantic-Based Watermark for Large Language Models Against Paraphrasing Attacks",
+       "year": 2025
+      },
+      {
+       "paperId": "e9b9200ef71a1296ed178e0ac607505ec9bc407c",
+       "title": "Leverage NLP Models Against Other NLP Models: Two Invisible Feature Space Backdoor Attacks",
+       "year": 2024
+      },
+      {
+       "paperId": "06e23ce4082ddd63a26e7a12457fa760cad09695",
+       "title": "An Off-Policy Learning Approach for Steering Sentence Generation towards Personalization",
+       "year": 2025
+      },
+      {
+       "paperId": "fb09b581589e1195ff018179c6a11668587c6d64",
+       "title": "Vision-Language Models are Zero-Shot Reward Models for Reinforcement Learning",
+       "year": 2023
+      },
+      {
+       "paperId": "a7591e4f96de4e73cdc1e12acf7472fe3fa4b7c8",
+       "title": "Enhancing Security in Deep Reinforcement Learning: A Comprehensive Survey on Adversarial Attacks and Defenses",
+       "year": 2025
+      },
+      {
+       "paperId": "dd18e594a8a9f5ba5232a9d90da4ba5f098f1f13",
+       "title": "ASTrA: Adversarial Self-supervised Training with Adaptive-Attacks",
+       "year": 2025
+      },
+      {
+       "paperId": "291e307548f0fae2545ceb954010563343d9c7a7",
+       "title": "Beware Untrusted Simulators - Reward-Free Backdoor Attacks in Reinforcement Learning",
+       "year": 2026
+      },
+      {
+       "paperId": "ea9d49db23eb1f2970f3515d4399cade084ba56f",
+       "title": "Promoting or Hindering: Stealthy Black-Box Attacks Against DRL-Based Traffic Signal Control",
+       "year": 2024
+      },
+      {
+       "paperId": "27a0bd3d39c0d63261d7daa94ab361e1d8f49579",
+       "title": "Jailbreaking as a Reward Misspecification Problem",
+       "year": 2024
+      },
+      {
+       "paperId": "03426a6f0e6d74387b3386de7111046259f3a756",
+       "title": "Emoti-Attack: Zero-Perturbation Adversarial Attacks on NLP Systems via Emoji Sequences",
+       "year": 2025
+      },
+      {
+       "paperId": "9fe7c5c30ef89ec5347cf594b6f6283548afc859",
+       "title": "ALGEN: Few-shot Inversion Attacks on Textual Embeddings using Alignment and Generation",
+       "year": 2025
+      },
+      {
+       "paperId": "cfb2ef83e662968abc924989a5323dbad36cbf18",
+       "title": "TrojanTO: Action-Level Backdoor Attacks against Trajectory Optimization Models",
+       "year": 2025
+      },
+      {
+       "paperId": "c3bfc5892144c69d3f5883ac1ab5a40f2ab0e0a8",
+       "title": "S3A: State-Attention Inducing Adversarial Attacks on Closed-Box Proximal Policy Optimization Models",
+       "year": 2025
+      },
+      {
+       "paperId": "c90ab581ca175411ec363ffad677fa6a82e01349",
+       "title": "Self-game safe driving decision against robust attacks",
+       "year": 2025
+      },
+      {
+       "paperId": "f88411c138583c3875009db49291e1daafc825ba",
+       "title": "xJailbreak: Representation Space Guided Reinforcement Learning for Interpretable LLM Jailbreaking",
+       "year": 2025
+      },
+      {
+       "paperId": "31f5864ada5fb08b69da74b6d5ad99e385dcc737",
+       "title": "Sentence Simplification with Deep Reinforcement Learning",
+       "year": 2017
+      },
+      {
+       "paperId": "6ab3f185d9e4f0c8cfa0331810e15f5db09035c3",
+       "title": "Sentence Mover’s Similarity: Automatic Evaluation for Multi-Sentence Texts",
+       "year": 2019
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "sample_id": "t001",
+   "mode": "verify",
+   "repeat": 1,
+   "queries": [
+    "token space reward model attacks",
+    "reinforcement learning adversarial patterns",
+    "black box reward token space exploration"
+   ],
+   "fos": null,
+   "target_paper_id": "1d574660a114e83368e2a2cd118e5e1f240052d4",
+   "score": {
+    "found": false,
+    "best_rank": null,
+    "per_query_rank": [
+     null,
+     null,
+     null
+    ]
+   },
+   "searches": [
+    {
+     "query": "token space reward model attacks",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "5a2d52a4f03e26707710a40af96e997bd49e1544",
+       "title": "Learning to Watermark LLM-generated Text via Reinforcement Learning",
+       "year": 2024
+      },
+      {
+       "paperId": "171cfd2aa8b0b47649a36a4eb5620806007c34c8",
+       "title": "Reward Model Interpretability via Optimal and Pessimal Tokens",
+       "year": 2025
+      },
+      {
+       "paperId": "78ab64c6ec4b806f0124886c7a81322f9345cba5",
+       "title": "CoDA: Exploring Chain-of-Distribution Attacks and Post-Hoc Token-Space Repair for Medical Vision-Language Models",
+       "year": 2026
+      },
+      {
+       "paperId": "1ab869a224fae2e0f868419ee7da21d4dcf7cc43",
+       "title": "Direction-Aware Token Credit Assignment with Reward-Model Gradients",
+       "year": 2026
+      },
+      {
+       "paperId": "640d7529b67c8d93e699754d69c2498e496c9785",
+       "title": "Token-Wise Asymmetric Contrastive Learning in Countering Unknown Attacks for Face Anti-Spoofing",
+       "year": 2025
+      },
+      {
+       "paperId": "3c9830fee2c168c2ab69e964dd89b395372e8e57",
+       "title": "Unsupervised Corpus Poisoning Attacks in Continuous Space for Dense Retrieval",
+       "year": 2025
+      },
+      {
+       "paperId": "11f3ad04f6010eedc5e9e8df2a7fa5447b9371cc",
+       "title": "A Constraint-Enforcing Reward for Adversarial Attacks on Text Classifiers",
+       "year": 2024
+      },
+      {
+       "paperId": "876658aca8337afb6e1b329000fd398663bab5b3",
+       "title": "GUARD-SLM: Token Activation-Based Defense Against Jailbreak Attacks for Small Language Models",
+       "year": 2026
+      },
+      {
+       "paperId": "04f94ef16da433fc22949ffe267151bae3fd3510",
+       "title": "Adaptive Segment-level Reward: Bridging the Gap Between Action and Reward Space in Alignment",
+       "year": 2024
+      },
+      {
+       "paperId": "8fe9ba5ec118c32b3410b0b817b79666ff0951d4",
+       "title": "SpectralGuard: Detecting Memory Collapse Attacks in State Space Models",
+       "year": 2026
+      },
+      {
+       "paperId": "7c8585c8391d63174049279e64e26f76399a42b2",
+       "title": "Position Matters: Feature Inversion Attacks in ViT Split Inference with Token Reduction and Shuffling",
+       "year": 2026
+      },
+      {
+       "paperId": "d9a2284105ded74d1877277820c8e24722645c86",
+       "title": "Judging in Latent Space: Efficient Generative Reward Modeling via Semantics-Preserving Compression",
+       "year": 2026
+      },
+      {
+       "paperId": "07c5411ef54c8ff1560980a882115755a2d6731b",
+       "title": "When Rewards Disagree: Reward Weighting for Token-Efficient Video Reasoning",
+       "year": 2026
+      },
+      {
+       "paperId": "6637ab7772365ec860984c9a0214f62eb09ad291",
+       "title": "Action-Level Backdoor Attacks Against Deep Reinforcement Learning Systems via Adaptive Reward Exploration",
+       "year": 2026
+      },
+      {
+       "paperId": "9286bd219ad9584c011efef04999cdc0920d7d03",
+       "title": "PASA: A Principled Embedding-Space Watermarking Approach for LLM-Generated Text under Semantic-Invariant Attacks",
+       "year": 2026
+      },
+      {
+       "paperId": "0576c5be53db2c04d644637308763a4fc2db3a36",
+       "title": "Seek in the Dark: Reasoning via Test-Time Instance-Level Policy Gradient in Latent Space",
+       "year": 2025
+      },
+      {
+       "paperId": "1dcf87e89630ee86196bc844d5a1de35689266dd",
+       "title": "A Privacy-Preserving DAO Model Using NFT Authentication for the Punishment not Reward Blockchain Architecture",
+       "year": 2024
+      },
+      {
+       "paperId": "7bc12f113a6739d5727cefe4d0cb8f2bd57291da",
+       "title": "STShield: Single-Token Sentinel for Real-Time Jailbreak Detection in Large Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "0c376ff30bb065941b9133e39ffd4790fa95d272",
+       "title": "Diversity or Precision? A Deep Dive into Next Token Prediction",
+       "year": 2025
+      },
+      {
+       "paperId": "a7591e4f96de4e73cdc1e12acf7472fe3fa4b7c8",
+       "title": "Enhancing Security in Deep Reinforcement Learning: A Comprehensive Survey on Adversarial Attacks and Defenses",
+       "year": 2025
+      }
+     ]
+    },
+    {
+     "query": "reinforcement learning adversarial patterns",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "057fd1158b27d44e9178f621e5f35ee372a3ea98",
+       "title": "Adversarial Reinforcement Learning for Large Language Model Agent Safety",
+       "year": 2025
+      },
+      {
+       "paperId": "37f8bed1f492113eb8b8558427c7bd858885e0cd",
+       "title": "Adapting Under Fire: Multi-Agent Reinforcement Learning for Adversarial Drift in Network Security",
+       "year": 2025
+      },
+      {
+       "paperId": "8d09742f5895e33d8a5b09f93db56a4c92c3835d",
+       "title": "Adaptive Adversarial Learning in Multi-Agent Combat: A Deep Reinforcement Learning Approach for Border Evasion Scenarios",
+       "year": 2025
+      },
+      {
+       "paperId": "da5ea86634d182a39025d81944580b22b116ca90",
+       "title": "AR2: Adversarial Reinforcement Learning for Abstract Reasoning in Large Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "119e722d4ffe24c90fc75b3c2bb24408a3779d10",
+       "title": "Beyond Conventional Defenses: Proactive and Adversarial-Resilient Hardware Malware Detection using Deep Reinforcement Learning",
+       "year": 2024
+      },
+      {
+       "paperId": "69398733ca4c3654d35cf82418dcdc4520393598",
+       "title": "Active Object Tracking with Occluded Targets Estimation and Adversarial Reinforcement Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "6db85bd5d5dab30c343e3b5dee91d4b77c85f7d4",
+       "title": "Intelligent Multi-Objective Tugboat–Barge Scheduling for Inland Waterway Operations Using Generative Adversarial Learning and Reinforcement-Based Optimization",
+       "year": 2025
+      },
+      {
+       "paperId": "2c1674d05bddd6da11147f9feffd22ea6325482e",
+       "title": "Soft Adversarial Offline Reinforcement Learning via Reducing the Attack Strength for Generalization",
+       "year": 2024
+      },
+      {
+       "paperId": "52e6ccc0a77130d7854115954946e87afe79c407",
+       "title": "SEAD: Self-aware Adversarial Detection for Black-box Reinforcement Learning",
+       "year": 2024
+      },
+      {
+       "paperId": "5bead90e54c77dc55e1d26710c2ef7b01d0e10c5",
+       "title": "Adversarial Reinforcement Learning Against Statistic Inference on Agent Identity",
+       "year": 2024
+      },
+      {
+       "paperId": "8b3e42ad4c6694bfdb0a7fe7cb5babe2abbfe654",
+       "title": "A Game-Theoretic Framework for Generic Second-Order Traffic Flow Models Using Mean Field Games and Adversarial Inverse Reinforcement Learning",
+       "year": 2024
+      },
+      {
+       "paperId": "9ec04b92bebf8c6bfaa65470f8df37bf8bb76449",
+       "title": "Human–machine collaborative model for dynamic translation of intangible cultural heritage patterns based on generative adversarial network and reinforcement learning from human feedback",
+       "year": 2026
+      },
+      {
+       "paperId": "71a69a839c686f8fd8d2bf9df48addcf995400fb",
+       "title": "Amoeba: Circumventing ML-supported Network Censorship via Adversarial Reinforcement Learning",
+       "year": 2023
+      },
+      {
+       "paperId": "b2b30470b2893f38b9f7e3581b2a05f3c1f3c69b",
+       "title": "MAB-Malware: A Reinforcement Learning Framework for Blackbox Generation of Adversarial Malware",
+       "year": 2022
+      },
+      {
+       "paperId": "a1827435d88fdc47361618c6b3c3fcb7acceb7fc",
+       "title": "AI-powered cyber resilience: a reinforcement learning approach for automated threat hunting in 5G networks",
+       "year": 2025
+      },
+      {
+       "paperId": "eb1ff98f6b849f9527c96d46a8237ca71c83b64b",
+       "title": "Exploring Weaknesses in Function Call Models via Reinforcement Learning: An Adversarial Data Augmentation Approach",
+       "year": 2026
+      },
+      {
+       "paperId": "68dfd6d8387715f64963679321e0da57c901af17",
+       "title": "6GAN: IPv6 Multi-Pattern Target Generation via Generative Adversarial Nets with Reinforcement Learning",
+       "year": 2021
+      },
+      {
+       "paperId": "259334a8e7c397179f7d8ba2ae0a9b370ea3e0f1",
+       "title": "Privacy-Aware Electricity Energy Management via Adversarial Safe Reinforcement Learning",
+       "year": 2026
+      },
+      {
+       "paperId": "daf6daea75d8fb86b65230b879651ff5485d8df4",
+       "title": "Adversarial SQLi Detection Using Character-Level CNN and Reinforcement Learning",
+       "year": 2026
+      },
+      {
+       "paperId": "319e8f7374b35dc011a92a7fb9bbb9134ba14cd9",
+       "title": "Dynamic Classification Method for Encrypted Traffic Using Reinforcement Learning and Lightweight Adversarial Training",
+       "year": 2026
+      }
+     ]
+    },
+    {
+     "query": "black box reward token space exploration",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "7edfb7b503eef0657c8e6aa5402b560688abb80b",
+       "title": "A Bayesian Optimization Approach via Iteratively Least Squares for High-Dimensional Black-Box Systems' Design Space Exploration",
+       "year": 2024
+      },
+      {
+       "paperId": "637b83387320609cd32d8556e7a1ea78d025d44e",
+       "title": "A Cost-Aware Multi-Agent System for Black-Box Design Space Exploration",
+       "year": 2024
+      },
+      {
+       "paperId": "332a92ddb16827e89dd688c69770680f0c9b3d4e",
+       "title": "Black-Box Reward Attacks Against Deep Reinforcement Learning Based on Successor Representation",
+       "year": 2022
+      },
+      {
+       "paperId": "c5e7e436df8119b051b9896c2832ffbd631743d9",
+       "title": "A Reward-Driven Controller for Text Generation with Black-Box Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "69ce2ce6be28c4a7b7fbb2e1a593a89ffe4608d6",
+       "title": "Dual surrogate-based optimization for expensive black-box multimodal problems using Louvain-identified niches for automatic space reduction",
+       "year": 2025
+      },
+      {
+       "paperId": "aa0cc64359eb214866a421aaf9d3e79eaae18342",
+       "title": "BDTIAG: Reliable and Efficient Black-Box Adversarial Text-to-Image Generation via Decision Boundary Exploration",
+       "year": 2025
+      },
+      {
+       "paperId": "8d70683d8dc837d5fa6426643e9dacdddea2531a",
+       "title": "PPO-MI: Efficient Black-Box Model Inversion via Proximal Policy Optimization",
+       "year": 2025
+      },
+      {
+       "paperId": "469be10bde22cd50af752fcb3cac7007b9a9e140",
+       "title": "Efficient Design Space Exploration of OpenCL Kernels for FPGA Targets Using Black Box Optimization",
+       "year": 2021
+      },
+      {
+       "paperId": "83e4b1c286facab374e432d621106b7ee5f4976b",
+       "title": "Black box meta-learning intrinsic rewards for sparse-reward environments",
+       "year": 2024
+      },
+      {
+       "paperId": "0bd0df645b54632f1ebf4442eedd7fcef87b167b",
+       "title": "BETA: Automated Black-box Exploration for Timing Attacks in Processors",
+       "year": 2024
+      },
+      {
+       "paperId": "a130d59366b75f76b02ad444e803a3047e081be9",
+       "title": "Meta-Black-Box-Optimization through Offline Q-function Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "d824b7154ad6df729fef49030ee170466911414b",
+       "title": "PRCA: Fitting Black-Box Large Language Models for Retrieval Question Answering via Pluggable Reward-Driven Contextual Adapter",
+       "year": 2023
+      },
+      {
+       "paperId": "abb2cc04a152719c4c4a88c4b8a43e9272437f4f",
+       "title": "From Black-Box to Transparent DTA: Token-Level and Global Interpretable XAI Explanations for SMILES-Based Affinity Prediction",
+       "year": 2026
+      },
+      {
+       "paperId": "057bb1cf2e3450cd2a441f885a587bccbaddc7ba",
+       "title": "Diffusion Model for Data-Driven Black-Box Optimization",
+       "year": 2024
+      },
+      {
+       "paperId": "559d26d4c298d208b228e044c0808754bb38be94",
+       "title": "Black-Box Performance Evaluation of Elastic Block Storage: Contract, Rate-Limiting Model, and Software Exploration",
+       "year": 2026
+      },
+      {
+       "paperId": "835f305627fbe5beb09186187105bb4e223ab139",
+       "title": "When Reasoning Leaks Membership: Membership Inference Attack on Black-box Large Reasoning Models",
+       "year": 2026
+      },
+      {
+       "paperId": "2fb1d5deadf633a890861745f5a93a81f441a010",
+       "title": "Prompt-Induced Over-Generation as Denial-of-Service: A Black-Box Attack-Side Benchmark",
+       "year": 2025
+      },
+      {
+       "paperId": "c656190470dc531f23bf89a67144e479f60f4951",
+       "title": "AgenticDSE: A Multi-Agent Design Space Exploration Framework with Multi-Phase Bayesian Optimization for Chiplet Accelerators",
+       "year": 2026
+      },
+      {
+       "paperId": "d1caffc780158754d7bf2d50d56890eb01d5bc73",
+       "title": "Exploration of new chemical materials using black-box optimization with the D-wave quantum annealer",
+       "year": 2023
+      },
+      {
+       "paperId": "b618d99405f81c013243da9f3b288612eb18e3e8",
+       "title": "Gaussian Process Bandits for Constraint Black Box Lever Optimization",
+       "year": 2026
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "sample_id": "t002",
+   "mode": "references",
+   "repeat": 1,
+   "queries": [
+    "sparse autoencoder disentanglement",
+    "linear superposition sparse coding",
+    "factorized representations learning",
+    "concept decomposition limitations",
+    "sparse autoencoder compositionality"
+   ],
+   "fos": null,
+   "before": "2026-01-31",
+   "score": {
+    "core_total": 9,
+    "core_hit": 0,
+    "core_recall": 0.0,
+    "gold_total": 71,
+    "gold_hit": 0,
+    "pooled": 85,
+    "hit_titles": [],
+    "missed_titles": [
+     "BatchTopK Sparse Autoencoders",
+     "Bilinear MLPs enable weight-based mechanistic interpretability",
+     "Deep Polynomial Neural Networks",
+     "Finding Manifolds With Bilinear Autoencoders",
+     "Learning Multi-Level Features with Matryoshka Sparse Autoencoders",
+     "Not All Language Model Features Are One-Dimensionally Linear",
+     "Recurrent Neural Networks Learn to Store and Generate Sequences using Non-Linear Representations",
+     "Scaling and evaluating sparse autoencoders",
+     "Sparse Autoencoders Find Highly Interpretable Features in Language Models"
+    ],
+    "per_query_core_hit": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "searches": [
+    {
+     "query": "sparse autoencoder disentanglement",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "9970f62af2c29bb233db11e6b28104184e475a1c",
+       "title": "SAEdit: Token-level control for continuous image editing via Sparse AutoEncoder",
+       "year": 2025
+      },
+      {
+       "paperId": "73646d4a5bed7cb8f335bff1d07e195ac9ba8ea4",
+       "title": "Data Whitening Improves Sparse Autoencoder Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "6f4b1caaec3342214fc92c5e6161daa75ffd9ea8",
+       "title": "Modelling Cellular Perturbations with the Sparse Additive Mechanism Shift Variational Autoencoder",
+       "year": 2023
+      },
+      {
+       "paperId": "a1dc2a0ee413b2e0b8b14d47ba41009f40b19e5b",
+       "title": "ProtSAE: Disentangling and Interpreting Protein Language Models via Semantically-Guided Sparse Autoencoders",
+       "year": 2025
+      },
+      {
+       "paperId": "92bed992992131cb6805063ca138daf054e00034",
+       "title": "Preference or Intent? Double Disentangled Collaborative Filtering",
+       "year": 2023
+      },
+      {
+       "paperId": "6f3566f174cec05adfaf2b6cdc578197e3f4875a",
+       "title": "AI Discovering a Coordinate System of Chemical Elements: Dual Representation by Variational Autoencoders",
+       "year": 2020
+      },
+      {
+       "paperId": "2f85c93ab918aa4276cf6fad4638c83b228a8561",
+       "title": "Route Sparse Autoencoder to Interpret Large Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "b2888ad5e1360955b1eb30a8362e14c7326f7995",
+       "title": "SAEs Can Improve Unlearning: Dynamic Sparse Autoencoder Guardrails for Precision Unlearning in LLMs",
+       "year": 2025
+      },
+      {
+       "paperId": "473ab2cd396ad8ad5048704d7c68f64f32651f19",
+       "title": "Interpretable Reward Model via Sparse Autoencoder",
+       "year": 2025
+      },
+      {
+       "paperId": "f205c47e03cadae03a571f2d7de51f22c657d5d2",
+       "title": "Drive-by damage detection based on the use of CWT and sparse autoencoder applied to steel truss railway bridge",
+       "year": 2025
+      },
+      {
+       "paperId": "897d5b26083a8879215d30eac68f9c08a3212c86",
+       "title": "SAIF: A Sparse Autoencoder Framework for Interpreting and Steering Instruction Following of Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "d7c37ff4a8de31c5a30346ff85aec79056e30b48",
+       "title": "Sparse Autoencoder Features for Classifications and Transferability",
+       "year": 2025
+      },
+      {
+       "paperId": "f139eb6451a2e064d08e66547228fe0a7a796ec3",
+       "title": "Diversity-driven Data Selection for Language Model Tuning through Sparse Autoencoder",
+       "year": 2025
+      },
+      {
+       "paperId": "58b3fa51d688db4c74f79e3196f947832186c62a",
+       "title": "SAFE: A Sparse Autoencoder-Based Framework for Robust Query Enrichment and Hallucination Mitigation in LLMs",
+       "year": 2025
+      },
+      {
+       "paperId": "f3ac16759e6cae637fec775a00741184df735224",
+       "title": "Incorporating Hierarchical Semantics in Sparse Autoencoder Architectures",
+       "year": 2025
+      },
+      {
+       "paperId": "ae1879c446c17e5707314ef76068a1bd0bd7483c",
+       "title": "Enhancing LLM Steering through Sparse Autoencoder-Based Vector Refinement",
+       "year": 2025
+      },
+      {
+       "paperId": "646dd2262ac7408df7ab2d632be55cbda5a8975b",
+       "title": "Sparse Autoencoder as a Zero-Shot Classifier for Concept Erasing in Text-to-Image Diffusion Models",
+       "year": 2025
+      },
+      {
+       "paperId": "d5f55bed31688be23cebf9407ebe0b5740253384",
+       "title": "CorrSteer: Generation-Time LLM Steering via Correlated Sparse Autoencoder Features",
+       "year": 2025
+      },
+      {
+       "paperId": "915ee638f70dd259af24c9cbb9d257e9df45e482",
+       "title": "Revising and Falsifying Sparse Autoencoder Feature Explanations",
+       "year": 2025
+      },
+      {
+       "paperId": "f64f0b8d2b0886196aa38edff165f3797c76108a",
+       "title": "The Geometry of Concepts: Sparse Autoencoder Feature Structure",
+       "year": 2024
+      }
+     ]
+    },
+    {
+     "query": "linear superposition sparse coding",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "fe626a26d6c1e230c8e9292aac34b1ef34117358",
+       "title": "From superposition to sparse codes: interpretable representations in neural networks",
+       "year": 2025
+      },
+      {
+       "paperId": "612a0dcdb349d18899da7d4ef311775c54f7725d",
+       "title": "Rain Detection and Removal via Shrinkage-based Sparse Coding and Learned Rain Dictionary",
+       "year": 2020
+      },
+      {
+       "paperId": "4237b0ed3c0a1c6cf1752d23b5e1324af950f342",
+       "title": "Kinematic Frequencies of Rotating Equipment Identified with Sparse Coding and Dictionary Learning",
+       "year": 2019
+      },
+      {
+       "paperId": "d9970f41936ec735d4bb12a97ebaf166adbaa779",
+       "title": "Visual object detection using deformable sparse coding model",
+       "year": 2016
+      },
+      {
+       "paperId": "dc9a8237b3d73bb50765c75da7cc3d70ee8e17cd",
+       "title": "Threshold saturation of spatially coupled sparse superposition codes for all memoryless channels",
+       "year": 2016
+      },
+      {
+       "paperId": "ee72ed382ba0b045ba8b38909d92a2637578a96a",
+       "title": "Nonlinear Spike-And-Slab Sparse Coding for Interpretable Image Encoding",
+       "year": 2015
+      },
+      {
+       "paperId": "45ea9f9ae5368774d921e56e28fade358d171b2f",
+       "title": "Linear Algebraic Structure of Word Senses, with Applications to Polysemy",
+       "year": 2016
+      },
+      {
+       "paperId": "94be5b1c4a2fd21ed59a607fc707f0118ddb25e9",
+       "title": "Sparse Coding Of Time-Varying Natural Images",
+       "year": 2010
+      },
+      {
+       "paperId": "0f89f84cf74f849c85baca0468f26798dcaed55a",
+       "title": "Comparison Of Sparse Coding And Jpeg Coding Schemes For Blurred Retinal Images.",
+       "year": 2007
+      },
+      {
+       "paperId": "03fae371f4bfece6e03e092a2efd3930f0626ef9",
+       "title": "Sparse regression codes for multi-terminal source and channel coding",
+       "year": 2012
+      },
+      {
+       "paperId": "b8a6abdaa8cfd2c02c4a6b776a7834866e00ed87",
+       "title": "Sparse superposition codes for Gaussian vector quantization",
+       "year": 2010
+      },
+      {
+       "paperId": "bd73a42f59a30bd144d6dc6795676e811f6b0e77",
+       "title": "Least Squares Superposition Codes of Moderate Dictionary Size Are Reliable at Rates up to Capacity",
+       "year": 2012
+      },
+      {
+       "paperId": "3b584c8c13a19c6753808c42f9adfc2f56bdd4c0",
+       "title": "Broadcast approach for the sparse-input random-sampled MIMO Gaussian channel",
+       "year": 2014
+      },
+      {
+       "paperId": "b8ec011fa7b936b0209c84fb280ab8d8509c44dc",
+       "title": "Learning Sparse Image Codes using a Wavelet Pyramid Architecture",
+       "year": 2000
+      },
+      {
+       "paperId": "95ad436b48f9130293eb65a77b15be07af23a9d5",
+       "title": "Dictionary construction in sparse methods for image restoration",
+       "year": 2010
+      },
+      {
+       "paperId": "fcedb25a91979d2991bc3030afa7a3effeccacc2",
+       "title": "Modeling Visual Patterns by Intergrating Descriptive and Generative Methods",
+       "year": 2002
+      },
+      {
+       "paperId": "0a52195972ed46ad44349c66ce8d4834dddd2d44",
+       "title": "Are V1 Simple Cells Optimized for Visual Occlusions? A Comparative Study",
+       "year": 2013
+      },
+      {
+       "paperId": "c2186fc8e434c50023c4aca4c5f427070b5a472c",
+       "title": "The Maximal Causes of Natural Scenes are Edge Filters",
+       "year": 2010
+      },
+      {
+       "paperId": "83b328b932857a7529d48e7c7d93dfb5aeff94e5",
+       "title": "Maximal Causes for Exponential Family Observables",
+       "year": 2020
+      },
+      {
+       "paperId": "c28f810187c9c9983313e27ed6d2e5567a4298de",
+       "title": "What Are the Invariant Occlusive Components of Image Patches? A Probabilistic Generative Approach",
+       "year": 2013
+      }
+     ]
+    },
+    {
+     "query": "factorized representations learning",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "18805570b635698d355a30a2a0281caef8949b73",
+       "title": "Learning Distributions over Permutations and Rankings with Factorized Representations",
+       "year": 2025
+      },
+      {
+       "paperId": "211c42a6d949d60fa7eaaf5a7b7b28ebef36da9f",
+       "title": "Learning Factorized Representations for Open-set Domain Adaptation",
+       "year": 2018
+      },
+      {
+       "paperId": "c268468e6fa17aea7afc0ea2d6aed2636f8aa512",
+       "title": "Learning Identifiable Factorized Causal Representations of Cellular Responses",
+       "year": 2024
+      },
+      {
+       "paperId": "1153e5379790c30b9c2c9bb111aec55965a1500f",
+       "title": "Factorized Learning Assisted with Large Language Model for Gloss-free Sign Language Translation",
+       "year": 2024
+      },
+      {
+       "paperId": "4a9dc6e17b47362897d0499351fde97554543986",
+       "title": "Improved Disentangled Speech Representations Using Contrastive Learning in Factorized Hierarchical Variational Autoencoder",
+       "year": 2022
+      },
+      {
+       "paperId": "4228fb3c5713be37dbe2ae0ffc036969087a48f2",
+       "title": "Divide, Discover, Deploy: Factorized Skill Learning with Symmetry and Style Priors",
+       "year": 2025
+      },
+      {
+       "paperId": "034f1c5589644a6b42f50bf61b1628a1c5607fd9",
+       "title": "Learning Factorized Multimodal Representations",
+       "year": 2018
+      },
+      {
+       "paperId": "22dacb28a1d9822399db730ebc637f7f1a3b1088",
+       "title": "Contrastive Predictive Coding Supported Factorized Variational Autoencoder For Unsupervised Learning Of Disentangled Speech Representations",
+       "year": 2021
+      },
+      {
+       "paperId": "893e87ef529edaaedb507c845b776a0d5b3d334e",
+       "title": "Factorized Diffusion Autoencoder for Unsupervised Disentangled Representation Learning",
+       "year": 2024
+      },
+      {
+       "paperId": "e1b2a35a000ca296c32284b323c7e36a28fe0693",
+       "title": "Factorized Contrastive Learning: Going Beyond Multi-view Redundancy",
+       "year": 2023
+      },
+      {
+       "paperId": "6253615a7a28004f2a6e744de02cbfbe3ea42680",
+       "title": "Factorized Graph Representations for Semi-Supervised Learning from Sparse Data",
+       "year": 2020
+      },
+      {
+       "paperId": "ae52090320b461b7e656904c90a78ae76fbc4688",
+       "title": "Flow Factorized Representation Learning",
+       "year": 2023
+      },
+      {
+       "paperId": "99132f565124885c9ea600a13e8f3c12d318e6b9",
+       "title": "F4D: Factorized 4D Convolutional Neural Network for Efficient Video-level Representation Learning",
+       "year": 2023
+      },
+      {
+       "paperId": "33cb4280dd019c85e116045b21595be36b7ecc35",
+       "title": "Investigation of Factorized Optical Flows as Mid-Level Representations",
+       "year": 2022
+      },
+      {
+       "paperId": "9d2b3a656dc3aec1f52b9ba856240efc53e2ccf9",
+       "title": "VI-Net: Boosting Category-level 6D Object Pose Estimation via Learning Decoupled Rotations on the Spherical Representations",
+       "year": 2023
+      },
+      {
+       "paperId": "0b41d8989d6c5b24557dbeec2f00ac44446f9e16",
+       "title": "Disentangled Speech Representation Learning Based on Factorized Hierarchical Variational Autoencoder with Self-Supervised Objective",
+       "year": 2021
+      },
+      {
+       "paperId": "8e9ad6f8b2bc97f0412fa0cc243ac6975864534a",
+       "title": "Multi-modal Factorized Bilinear Pooling with Co-attention Learning for Visual Question Answering",
+       "year": 2017
+      },
+      {
+       "paperId": "0a525977523869260aa5d94b03638b11471fcb4c",
+       "title": "ConcaveQ: Non-Monotonic Value Function Factorization via Concave Representations in Deep Multi-Agent Reinforcement Learning",
+       "year": 2023
+      },
+      {
+       "paperId": "1dfbfdb76c414688ddd035a43feaad1b6ccf7f6b",
+       "title": "Learning Hybrid Representation by Robust Dictionary Learning in Factorized Compressed Space",
+       "year": 2019
+      },
+      {
+       "paperId": "8bc82df82463c87d2b5d3a085f3557dd6ca2f2a4",
+       "title": "GAIR: Location-aware self-supervised contrastive pre-training with geo-aligned implicit representations",
+       "year": 2025
+      }
+     ]
+    },
+    {
+     "query": "concept decomposition limitations",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "8941f42d5f2a3fc919cd19993293584ee5c5e1d8",
+       "title": "CDTR: Semantic Alignment for Video Moment Retrieval Using Concept Decomposition Transformer",
+       "year": 2025
+      },
+      {
+       "paperId": "029523965f95c5005365aafe27aba55aee7a1bda",
+       "title": "Cross-Modality Image Interpretation via Concept Decomposition Vector of Visual-Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "e685506b33cf73b9848cfc125863078c11386c2a",
+       "title": "Semi-supervised multi-view concept decomposition",
+       "year": 2023
+      },
+      {
+       "paperId": "2b24d508674ebfd25e435844cea2fd865a6e179e",
+       "title": "Literature Review on Thermodynamic and Kinetic Limitations of Thermal Decomposition of Methane",
+       "year": 2024
+      },
+      {
+       "paperId": "d7c2de617ae841b4ac7fabe56d8a4b88b6e41f5c",
+       "title": "Metallic Supported Pd-Ag Membranes for Simultaneous Ammonia Decomposition and H2 Separation in a Membrane Reactor: Experimental Proof of Concept",
+       "year": 2023
+      },
+      {
+       "paperId": "425d360f636f834b68b9e0f3f93216f705b972e9",
+       "title": "Concepts from Representations: Post-hoc Concept Bottleneck Models via Sparse Decomposition of Visual Representations",
+       "year": 2026
+      },
+      {
+       "paperId": "3fa137246cebb1adb79208da17501312c664e05f",
+       "title": "A Comprehensive Survey on Visual Concept Mining in Text-to-image Diffusion Models",
+       "year": 2025
+      },
+      {
+       "paperId": "069861179e137936a9a2f5d5fff1f9e5491cf642",
+       "title": "High‐Fidelity Solution Decomposition Fluorescence Tomography in the Presence of Background Interference",
+       "year": 2025
+      },
+      {
+       "paperId": "fc03ca8b14648d4bec9d81291647e345dc4fd51a",
+       "title": "Ordinal-Optimization Concept Enabled Decomposition and Coordination of Mixed-Integer Linear Programming Problems",
+       "year": 2020
+      },
+      {
+       "paperId": "77125b8a295a19fe708c5cc36c928e082933d0df",
+       "title": "A manifold learning approach to nonlinear model order reduction of quasi-static problems in solid mechanics: proof of concept and parameter study",
+       "year": 2025
+      },
+      {
+       "paperId": "8daf9baddbe122cad3734e9f19b5366f63d5d8fb",
+       "title": "Density decomposition on large static and dynamic graphs: algorithms and applications",
+       "year": 2025
+      },
+      {
+       "paperId": "6a5d5221fbd40ce7949d57d8ff8f4ca9a6b46c18",
+       "title": "TACCO: Unified annotation transfer and decomposition of cell identities for single-cell and spatial omics",
+       "year": 2023
+      },
+      {
+       "paperId": "b479d3f37715b964c16a0e7f200d8d65d6a40579",
+       "title": "Efficient Algorithms for Density Decomposition on Large Static and Dynamic Graphs",
+       "year": 2024
+      },
+      {
+       "paperId": "411153fbe9c5686c3ff173df91d68c5b5f927c21",
+       "title": "Exploring the Capability of Spectral Detector Computed Tomography to Identify Zinc and Magnesium in the Prostate Gland: A Proof‐of‐Concept Study",
+       "year": 2025
+      },
+      {
+       "paperId": "a2f37a7a678ebebd4498a3aae37b9e45bc60c38f",
+       "title": "Applications in Traffic Signal Control: A Distributed Policy Gradient Decomposition Algorithm",
+       "year": 2024
+      },
+      {
+       "paperId": "dbfba3d198e706dcbc3f9e44299dfe3cf06fdf59",
+       "title": "Bilinear Convolution Decomposition for Causal RL Interpretability",
+       "year": 2024
+      },
+      {
+       "paperId": "1a513802b0716afdbb10add2b98db4f311f4644c",
+       "title": "Electrical energy input efficiency limitations in CO2‐to‐CO electrolysis and attempts for improvement",
+       "year": 2023
+      },
+      {
+       "paperId": "cbe892775f94690fdf80567435053514ee20388a",
+       "title": "Economic value added (EVA): clarification of the concept and financial aspect.",
+       "year": 2024
+      },
+      {
+       "paperId": "8d54099d3381de3e9ce5476dc0706d29bf90bb6c",
+       "title": "IoMT-based Automated Leukemia Classification using CNN and Higher Order Singular Value Decomposition",
+       "year": 2023
+      },
+      {
+       "paperId": "74e1e2e1afc7f0c43679f3d2c28f4be188c8e39b",
+       "title": "On the benefits and limitations of Echo State Networks for turbulent flow prediction",
+       "year": 2022
+      }
+     ]
+    },
+    {
+     "query": "sparse autoencoder compositionality",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "6f4b1caaec3342214fc92c5e6161daa75ffd9ea8",
+       "title": "Modelling Cellular Perturbations with the Sparse Additive Mechanism Shift Variational Autoencoder",
+       "year": 2023
+      },
+      {
+       "paperId": "ff137710a091ba238d81e243eb0d23918e54c0d2",
+       "title": "Bridging Compositional and Distributional Semantics: A Survey on Latent Semantic Geometry via AutoEncoder",
+       "year": 2025
+      },
+      {
+       "paperId": "2f85c93ab918aa4276cf6fad4638c83b228a8561",
+       "title": "Route Sparse Autoencoder to Interpret Large Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "b2888ad5e1360955b1eb30a8362e14c7326f7995",
+       "title": "SAEs Can Improve Unlearning: Dynamic Sparse Autoencoder Guardrails for Precision Unlearning in LLMs",
+       "year": 2025
+      },
+      {
+       "paperId": "473ab2cd396ad8ad5048704d7c68f64f32651f19",
+       "title": "Interpretable Reward Model via Sparse Autoencoder",
+       "year": 2025
+      },
+      {
+       "paperId": "8fb3a639c6b87d29d4be5ccbd4ca6f66b7aa8bc2",
+       "title": "Model Unlearning via Sparse Autoencoder Subspace Guided Projections",
+       "year": 2025
+      },
+      {
+       "paperId": "f205c47e03cadae03a571f2d7de51f22c657d5d2",
+       "title": "Drive-by damage detection based on the use of CWT and sparse autoencoder applied to steel truss railway bridge",
+       "year": 2025
+      },
+      {
+       "paperId": "d7c37ff4a8de31c5a30346ff85aec79056e30b48",
+       "title": "Sparse Autoencoder Features for Classifications and Transferability",
+       "year": 2025
+      },
+      {
+       "paperId": "897d5b26083a8879215d30eac68f9c08a3212c86",
+       "title": "SAIF: A Sparse Autoencoder Framework for Interpreting and Steering Instruction Following of Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "f139eb6451a2e064d08e66547228fe0a7a796ec3",
+       "title": "Diversity-driven Data Selection for Language Model Tuning through Sparse Autoencoder",
+       "year": 2025
+      },
+      {
+       "paperId": "58b3fa51d688db4c74f79e3196f947832186c62a",
+       "title": "SAFE: A Sparse Autoencoder-Based Framework for Robust Query Enrichment and Hallucination Mitigation in LLMs",
+       "year": 2025
+      },
+      {
+       "paperId": "f3ac16759e6cae637fec775a00741184df735224",
+       "title": "Incorporating Hierarchical Semantics in Sparse Autoencoder Architectures",
+       "year": 2025
+      },
+      {
+       "paperId": "ae1879c446c17e5707314ef76068a1bd0bd7483c",
+       "title": "Enhancing LLM Steering through Sparse Autoencoder-Based Vector Refinement",
+       "year": 2025
+      },
+      {
+       "paperId": "646dd2262ac7408df7ab2d632be55cbda5a8975b",
+       "title": "Sparse Autoencoder as a Zero-Shot Classifier for Concept Erasing in Text-to-Image Diffusion Models",
+       "year": 2025
+      },
+      {
+       "paperId": "d5f55bed31688be23cebf9407ebe0b5740253384",
+       "title": "CorrSteer: Generation-Time LLM Steering via Correlated Sparse Autoencoder Features",
+       "year": 2025
+      },
+      {
+       "paperId": "9970f62af2c29bb233db11e6b28104184e475a1c",
+       "title": "SAEdit: Token-level control for continuous image editing via Sparse AutoEncoder",
+       "year": 2025
+      },
+      {
+       "paperId": "f64f0b8d2b0886196aa38edff165f3797c76108a",
+       "title": "The Geometry of Concepts: Sparse Autoencoder Feature Structure",
+       "year": 2024
+      },
+      {
+       "paperId": "38a858d491358347fabdbdeea7d517116c3fa9b9",
+       "title": "SAFER: Probing Safety in Reward Models with Sparse Autoencoder",
+       "year": 2025
+      },
+      {
+       "paperId": "696d78d4621522f4dc6ac24b83473b36ecaa2bd5",
+       "title": "An Innovative Study for Tool Wear Prediction Based on Stacked Sparse Autoencoder and Ensemble Learning Strategy",
+       "year": 2025
+      },
+      {
+       "paperId": "509237c03600a88f1747768a1f0b84a431fe6b23",
+       "title": "Uncorrelated Sparse Autoencoder With Long Short-Term Memory for State-of-Charge Estimations in Lithium-Ion Battery Cells",
+       "year": 2024
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "sample_id": "t002",
+   "mode": "verify",
+   "repeat": 1,
+   "queries": [
+    "sparse autoencoder linear assumption",
+    "low rank tensor decomposition decoder",
+    "higher order interactions sparse autoencoder"
+   ],
+   "fos": null,
+   "target_paper_id": "11a4c3f6391fa9404fd20761ac7bda2df24b6611",
+   "score": {
+    "found": false,
+    "best_rank": null,
+    "per_query_rank": [
+     null,
+     null,
+     null
+    ]
+   },
+   "searches": [
+    {
+     "query": "sparse autoencoder linear assumption",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "9384e90ef262efc9dc2873e32966d5390a562b8a",
+       "title": "The Geometric Wall: Manifold Structure Predicts Layerwise Sparse Autoencoder Scaling Laws",
+       "year": 2026
+      },
+      {
+       "paperId": "4369418f66393b877f13388f423755674f17ae0c",
+       "title": "M L ] 2 J un 2 01 8 Autoencoders Learn Generative Linear Models",
+       "year": 2018
+      },
+      {
+       "paperId": "2e5edd3e997ff3d28fde96e354f528878028c1be",
+       "title": "Novel semi-supervised sparse stacked autoencoder integrated with local linear embedding for industrial soft sensing.",
+       "year": 2025
+      },
+      {
+       "paperId": "86d346f55c1e6e6a2d0a8f167dbd339e73d4af83",
+       "title": "Research on Unsupervised Fault Diagnosis based on Sparse Autoencoder and Locally Linear Embedding",
+       "year": 2023
+      },
+      {
+       "paperId": "15e3b61b7f69e9e751994f46c9bebdd7107c8189",
+       "title": "Understanding sparse autoencoder scaling in the presence of feature manifolds",
+       "year": 2025
+      },
+      {
+       "paperId": "73646d4a5bed7cb8f335bff1d07e195ac9ba8ea4",
+       "title": "Data Whitening Improves Sparse Autoencoder Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "f64f0b8d2b0886196aa38edff165f3797c76108a",
+       "title": "The Geometry of Concepts: Sparse Autoencoder Feature Structure",
+       "year": 2024
+      },
+      {
+       "paperId": "f0ca3bb7de01105dae70f13835718914df7b72f1",
+       "title": "Revisiting End-To-End Sparse Autoencoder Training: A Short Finetune Is All You Need",
+       "year": 2025
+      },
+      {
+       "paperId": "8ee20d30640e1967076123576785032b6145b71c",
+       "title": "Time-varying Factor Augmented Vector Autoregression with Grouped Sparse Autoencoder",
+       "year": 2025
+      },
+      {
+       "paperId": "3755b2b9e4e9a29d0acbd9f83c8e4769efe6610f",
+       "title": "Explainable Predictive Modeling for EEG-Based Epilepsy Detection Using Sparse Autoencoder and Random Forest",
+       "year": 2025
+      },
+      {
+       "paperId": "db54c45c42d314f0c24327d2355119b4dca58bca",
+       "title": "Quality‐related process monitoring approach based on sparse autoencoder and comprehensive KPLS",
+       "year": 2025
+      },
+      {
+       "paperId": "7e3e23ec31c95a9f4cc00f2156fb57152888f609",
+       "title": "Classifying Solar Flares with kNN on Sparse Autoencoder Representations",
+       "year": 2025
+      },
+      {
+       "paperId": "d220f1e5b149e698cf8167262b2d5b80c7af0e0a",
+       "title": "Attention-based convolutional dual sparse autoencoder for analyzing air, water and heat stress in poultry farms for egg production",
+       "year": 2024
+      },
+      {
+       "paperId": "c597b9ebe158e1dee39ab0bcb442929c0b52b370",
+       "title": "Comparison of POD and Autoencoder as Reduced Order Models for Reconstruction and Prediction of Turbine Blade Temperature Field with Sparse Data",
+       "year": 2025
+      },
+      {
+       "paperId": "3e597870ce085365eeb1f9c7c472b70c1ccfb07d",
+       "title": "Fast Dual-Regularized Autoencoder for Sparse Biological Data",
+       "year": 2024
+      },
+      {
+       "paperId": "841a7b51e67ff068d14bf65d72382ec47bfa6131",
+       "title": "A mobile Deep Sparse Wavelet autoencoder for Arabic acoustic unit modeling and recognition",
+       "year": 2024
+      },
+      {
+       "paperId": "0b32ae1ecb5109d63f5e2dec1494b642f0cb7b28",
+       "title": "Test-Time Unlearning via Sparse Autoencoder",
+       "year": 2026
+      },
+      {
+       "paperId": "0488ae8589bc024a9f9a0ea77dc1655e61f60263",
+       "title": "An Explainable Sparse Autoencoder–CNN Framework for Robust Cardiovascular Disease Prediction Using Enhanced Feature Representations",
+       "year": 2026
+      },
+      {
+       "paperId": "ed807daf092971962103e4301a55b1cdf8b6108e",
+       "title": "An Explainable AI Framework Integrating Variational Sparse Autoencoder and Random Forest for EEG-Based Epilepsy Detection",
+       "year": 2025
+      },
+      {
+       "paperId": "e5643da3ea7610944fc9de784b5580b90c883aad",
+       "title": "Electroencephalogram Sensor Data Compression Using an Asymmetrical Sparse Autoencoder with a Discrete Cosine Transform Layer",
+       "year": 2023
+      }
+     ]
+    },
+    {
+     "query": "low rank tensor decomposition decoder",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "bf92809975c4577a8db4793f19e8c8bc578c927d",
+       "title": "Task-Aware Low-Rank Adaptation of Segment Anything Model",
+       "year": 2024
+      },
+      {
+       "paperId": "1d4a50393ef5770518a8a7eac2844dad5814b437",
+       "title": "A Novel Unified Model for Multi-exposure Stereo Coding Based on Low Rank Tucker-ALS and 3D-HEVC",
+       "year": 2021
+      },
+      {
+       "paperId": "6bf6725e747e9f42fb989f421ae68aba4db6e092",
+       "title": "A New Comprehensive Framework for Multi-Exposure Stereo Coding Utilizing Low Rank Tucker-ALS and 3D-HEVC Techniques",
+       "year": 2021
+      },
+      {
+       "paperId": "5a202115efc18ef9b5f24f08e55a0c2dbc4afd51",
+       "title": "Compact video content representation for video coding using low multi-linear tensor rank approximation with dynamic core tensor order",
+       "year": 2017
+      },
+      {
+       "paperId": "55f546209c01530a7717d4170aa24947c6b92775",
+       "title": "Low-Rank HOCA: Efficient High-Order Cross-Modal Attention for Video Captioning",
+       "year": 2019
+      },
+      {
+       "paperId": "4ce1e9b468c463c301327f0aae2414ddd969eaa7",
+       "title": "Reduced-Order Modeling of Parameterized Visco-Plastic Shallow Flows",
+       "year": 2026
+      },
+      {
+       "paperId": "a9145535eb76357d36a068e2a390a31d635872bb",
+       "title": "Higher Order Transformers: Enhancing Stock Movement Prediction On Multimodal Time-Series Data",
+       "year": 2024
+      },
+      {
+       "paperId": "409c0e731eed47e20770b727413ea60b5e38f3b5",
+       "title": "Speckle Denoising of Dynamic Contrast- Enhanced Ultrasound Using Low-Rank Tensor Decomposition",
+       "year": 2025
+      },
+      {
+       "paperId": "8a2d71419247c930a8e190de1edf91109576f00e",
+       "title": "Temporal Denoising of Infrared Images via Total Variation and Low-Rank Bidirectional Twisted Tensor Decomposition",
+       "year": 2025
+      },
+      {
+       "paperId": "76eb9e72015cf62b4afd403d5e604874336e90bc",
+       "title": "Multivariate Poisson intensity estimation via low-rank tensor decomposition",
+       "year": 2025
+      },
+      {
+       "paperId": "5b7f48fd9128158886d38d7ebff859a91260742a",
+       "title": "SAR Images Despeckling Using Subaperture Decomposition and Non-Local Low-Rank Tensor Approximation",
+       "year": 2025
+      },
+      {
+       "paperId": "5b10da400037872770e90eca35abec127628d8a1",
+       "title": "Low-Rank Tensor Train Dynamic Mode Decomposition: An Enhanced Multivariate Signal Processing Method for Mechanical Fault Diagnosis",
+       "year": 2025
+      },
+      {
+       "paperId": "c207868ac063615e795ea209b061792bea264449",
+       "title": "Tensor Decomposition Dictionary Learning With Low-Rank Regularization for Seismic Data Denoising",
+       "year": 2025
+      },
+      {
+       "paperId": "1c90ab275fc6469ecd7cab0a045e9c94f9422945",
+       "title": "Adaptive Regularized Low-Rank Tensor Decomposition for Hyperspectral Image Denoising and Destriping",
+       "year": 2024
+      },
+      {
+       "paperId": "de53047ef8c23070deec22b33bfc07a38628282c",
+       "title": "Low-Rank and Sparse Tensor Decomposition: Toward Real-Time Dynamic EIT Reconstruction",
+       "year": 2025
+      },
+      {
+       "paperId": "bc5c438b32fed57e18b1147bd5dcf3d4919bf0c1",
+       "title": "Electricity Measurement Missing Data Recovery Method Based on Low-Rank Tensor Completion With Triangular Canonical Polyadic Decomposition",
+       "year": 2025
+      },
+      {
+       "paperId": "21197c679f2ae38ca9ab4880a85c6f1defc32732",
+       "title": "Multichannel Enhanced Millimeter-Wave SAR Imaging via Low-Rank Tensor-Train Decomposition",
+       "year": 2025
+      },
+      {
+       "paperId": "0784b8c34a12157cda3bd5f771a7ee412a1c99c2",
+       "title": "Transformed Low-rank Adaptation via Tensor Decomposition and Its Applications to Text-to-image Models",
+       "year": 2025
+      },
+      {
+       "paperId": "0613b41612c360aa366b3107ba0e4976d8fb787a",
+       "title": "LowRankOcc: Tensor Decomposition and Low-Rank Recovery for Vision-Based 3D Semantic Occupancy Prediction",
+       "year": 2024
+      },
+      {
+       "paperId": "9a48580be3feff4113d0171bb4a9292900e76127",
+       "title": "Enhanced MRI brain tumor detection and classification via topological data analysis and low-rank tensor decomposition",
+       "year": 2024
+      }
+     ]
+    },
+    {
+     "query": "higher order interactions sparse autoencoder",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "478a2f1bf0de124044feccae4c4fa7aa13919be0",
+       "title": "Higher-order neuromorphic Ising machines—autoencoders and Fowler-Nordheim annealers are all you need for scalability",
+       "year": 2025
+      },
+      {
+       "paperId": "6ae4db99c7f8b1abd3eb46c509c4e29959fa2718",
+       "title": "透過語音特徵建構基於堆疊稀疏自編碼器演算法之婚姻治療中夫妻互動行為量表自動化評分系統 (Automating Behavior Coding for Distressed Couples Interactions Based on Stacked Sparse Autoencoder Framework using Speech-acoustic Features) [In Chinese]",
+       "year": 2015
+      },
+      {
+       "paperId": "e10129180dc3aaea7de3bc86b909716cd7d481d0",
+       "title": "Hypergraph Masked Autoencoder for Drug Repositioning.",
+       "year": 2026
+      },
+      {
+       "paperId": "6631233f0d56011dbe2d3760a7b154976b5ca268",
+       "title": "DeepNanoHi-C: deep learning enables accurate single-cell nanopore long-read data analysis and 3D genome interpretation",
+       "year": 2025
+      },
+      {
+       "paperId": "efd55c75df3f7a2277e82436fc1fb5e4a05999ae",
+       "title": "Social polarization promoted by sparse higher-order interactions",
+       "year": 2025
+      },
+      {
+       "paperId": "d1f5931754d10f539d0293a2cfced9b11835d323",
+       "title": "Modeling Higher-Order Interactions in Sparse and Heavy-Tailed Neural Population Activity",
+       "year": 2023
+      },
+      {
+       "paperId": "46c64be2251605e573dbec99bf5b2c0fd5220837",
+       "title": "Learning Higher-Order Interactions in Brain Networks via Topological Signal Processing",
+       "year": 2025
+      },
+      {
+       "paperId": "05488916ec9bed11d78a48a13bd11515124a9a21",
+       "title": "Cluster synchronization on sparse simplicial complexes with higher-order repulsive coupling",
+       "year": 2025
+      },
+      {
+       "paperId": "fbda135691ec3b2a9078656d872d28ef992f007a",
+       "title": "Tensor Convolutional Network for Higher-Order Interaction Prediction in Sparse Tensors",
+       "year": 2025
+      },
+      {
+       "paperId": "1883519aa3ec3cd15dca3480ca755f3f2889b35c",
+       "title": "Enhancing NMF-Based Community Detection via A Higher-Order Proximity-Incorporated Graph Attention Autoencoder",
+       "year": 2024
+      },
+      {
+       "paperId": "ae8014827c46cae6a3eba3f31da3ef16d1a349ff",
+       "title": "Higher-order interactions in fitness landscapes are sparse.",
+       "year": 2020
+      },
+      {
+       "paperId": "fcd820eb19583a00ce6d11a7a5afb94a60bac755",
+       "title": "Explicit Modeling of Higher-Order Feature Interactions with an Attention-Based Deep Cross-Product Network",
+       "year": 2025
+      },
+      {
+       "paperId": "36acfad907bc5cc367408287bc69201a52c0b69f",
+       "title": "A Hodge-FAST Framework for High-Resolution Dynamic Functional Connectivity Analysis of Higher Order Interactions in EEG Signals",
+       "year": 2025
+      },
+      {
+       "paperId": "b0afa6c1ca1c8b510452f4624bef0b7a1ad763ba",
+       "title": "Stacked sparse autoencoder in hyperspectral data classification using spectral-spatial, higher order statistics and multifractal spectrum features",
+       "year": 2017
+      },
+      {
+       "paperId": "83581ca0f7149e45ebf61a6d36e0286b2d0d521d",
+       "title": "Using Information Geometry to Characterize Higher-Order Interactions in EEG",
+       "year": 2025
+      },
+      {
+       "paperId": "4876ef9ba9b37b1e66482159de807b6869bc3ef0",
+       "title": "Amplitude death in delay-coupled complex networks with higher-order interactions.",
+       "year": 2025
+      },
+      {
+       "paperId": "8d7f99368e893a9200d480c179bd7a2bc131636c",
+       "title": "Effect of hidden geometry and higher-order interactions on the synchronization and hysteresis behavior of phase oscillators on 5-clique simplicial assemblies.",
+       "year": 2023
+      },
+      {
+       "paperId": "24e1b184561bb1db2eb406287aa1b3ad56d7ef16",
+       "title": "A novel modulation classification method in cognitive radios using higher-order cumulants and denoising stacked sparse autoencoder",
+       "year": 2016
+      },
+      {
+       "paperId": "b154c6b02624cdfdb40e3028f370534fb6297b9e",
+       "title": "Identification of missing higher-order interactions in complex networks",
+       "year": 2024
+      },
+      {
+       "paperId": "94a2f9a554abd23ad27a525c7163fd3cf3152910",
+       "title": "All-to-all reconfigurability with sparse and higher-order Ising machines",
+       "year": 2023
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "sample_id": "t003",
+   "mode": "references",
+   "repeat": 1,
+   "queries": [
+    "BCI robustness authentication",
+    "neural interface signal fidelity",
+    "brain-computer privacy attacks",
+    "BCI task performance degradation",
+    "end-to-end BCI security evaluation"
+   ],
+   "fos": null,
+   "before": "2026-07-06",
+   "score": {
+    "core_total": 9,
+    "core_hit": 0,
+    "core_recall": 0.0,
+    "gold_total": 25,
+    "gold_hit": 0,
+    "pooled": 99,
+    "hit_titles": [],
+    "missed_titles": [
+     "Adversarial artifact detection in EEG-based brain–computer interfaces",
+     "Concrete Problems in AI Safety",
+     "EEGNet: a compact convolutional neural network for EEG-based brain–computer interfaces",
+     "Evaluating the Robustness of Neural Networks: An Extreme Value Theory Approach",
+     "Formal Guarantees on the Robustness of a Classifier against Adversarial Manipulation",
+     "Risks from Learned Optimization in Advanced Machine Learning Systems",
+     "Safety Verification and Robustness Analysis of Neural Networks via Quadratic Constraints and Semidefinite Programming",
+     "Security in brain-computer interfaces: State-of-the-art, opportunities, and future challenges",
+     "Universal adversarial perturbations for CNN classifiers in EEG-based BCIs"
+    ],
+    "per_query_core_hit": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "searches": [
+    {
+     "query": "BCI robustness authentication",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "3fb8e76da58392321e274ca5aff7ea3137ed46e3",
+       "title": "PBFE-DAN:Personal Biological Feature Enhanced Domain Adaptation Network for Cross-Session Brainprint Recognition",
+       "year": 2025
+      },
+      {
+       "paperId": "322f824ae29d7dcf8f6fa779de4b7eb469bbbd74",
+       "title": "EEG-Based Biometrics: Challenges And Applications",
+       "year": 2018
+      },
+      {
+       "paperId": "b5b9493e62dcaf692e31414defb09f68e68351bb",
+       "title": "Identification With Your Mind: A Hybrid BCI-Based Authentication Approach for Anti-Shoulder-Surfing Attacks Using EEG and Eye Movement Data",
+       "year": 2023
+      },
+      {
+       "paperId": "2b8e71f3a2ba0b7ecf16bbeb5cb02e507c22a776",
+       "title": "Lightweight Authentication Scheme for Healthcare With Robustness to Desynchronization Attacks",
+       "year": 2023
+      },
+      {
+       "paperId": "b5dd780af58334a4460031c8dd3be9b3b5388fe9",
+       "title": "Enhanced System Robustness of Asynchronous BCI in Augmented Reality Using Steady-State Motion Visual Evoked Potential",
+       "year": 2022
+      },
+      {
+       "paperId": "d0354f0309f9e634d401201eb2b47268fd36a1e2",
+       "title": "Beyond Privacy: Generating Privacy-Preserving Faces Supporting Robust Image Authentication",
+       "year": 2025
+      },
+      {
+       "paperId": "fa01356520bd08de4bde852b5784ddb77cbbd792",
+       "title": "SaS-BCI: a new strategy to predict image memorability and use mental imagery as a brain-based biometric authentication",
+       "year": 2020
+      },
+      {
+       "paperId": "fdf710d2a26182e99329994a91c236ed07db64be",
+       "title": "User-Specific Channel Selection Method to Improve SSVEP BCI Decoding Robustness Against Variable Inter-Stimulus Distance",
+       "year": 2019
+      },
+      {
+       "paperId": "dd6be676606d3f2e1fb7c600a64f6fda60b00e13",
+       "title": "Alignment-Based Adversarial Training (ABAT) for Improving the Robustness and Accuracy of EEG-Based BCIs",
+       "year": 2024
+      },
+      {
+       "paperId": "958cf46dde4f4f4857773ecc15dc28ac7023cace",
+       "title": "Brainwave Biometrics: A Secure and Scalable Brain–Computer Interface-Based Authentication System",
+       "year": 2025
+      },
+      {
+       "paperId": "dacd00f2c0760a854248a6c9e11d27d3a1cc227f",
+       "title": "Evolution of the Brain Computing Interface (BCI) and Proposed Electroencephalography (EEG) Signals Based Authentication Model",
+       "year": 2018
+      },
+      {
+       "paperId": "dae8218f1bf65330876a4bb90fb24f97b2c594b8",
+       "title": "NeuroPIN: EEG-based Imagined Digit Recognition for Robust and Contactless PIN Authentication",
+       "year": 2025
+      },
+      {
+       "paperId": "e2197c1f6042af13d49e5566f4fbb08873f08f4f",
+       "title": "Deep Cancelable Multibiometric Finger Vein and Fingerprint Authentication With Non-Negative Matrix Factorization",
+       "year": 2024
+      },
+      {
+       "paperId": "e71bc4ebeb5e586b13c7cc12ff011abfcef3970c",
+       "title": "Towards Brain-Computer Interface (BCI) and Gestural-Based Authentication for Individuals who are Blind",
+       "year": 2017
+      },
+      {
+       "paperId": "134bf3d3b8b2ae0cbf27e77cbed45734385fb39f",
+       "title": "Multisensory BCI promotes motor recovery via high-order network-mediated interhemispheric integration in chronic stroke",
+       "year": 2025
+      },
+      {
+       "paperId": "cfdcd32c93c27b8545a85ad60126553d322b9eb8",
+       "title": "Identity-Based Authentication in VANETs: A Review",
+       "year": 2025
+      },
+      {
+       "paperId": "899a435488652ceb976ad75fa4e402dadcd13b84",
+       "title": "Authentication with a one-dimensional CNN model using EEG-based brain-computer interface",
+       "year": 2024
+      },
+      {
+       "paperId": "f49af121c02a679fc68c6985f00eb72b68861e0b",
+       "title": "A Review of the Authentication Techniques for Internet of Things Devices in Smart Cities: Opportunities, Challenges, and Future Directions",
+       "year": 2025
+      },
+      {
+       "paperId": "fd887c0cf03d83e8f83f58e159f6f81778220703",
+       "title": "P300-BCI-based authentication system",
+       "year": 2016
+      },
+      {
+       "paperId": "6d36cc8d44d2343feb7200871cf02001091b5f0d",
+       "title": "The Feasibility of EEG Based Multifactor Authentication",
+       "year": 2024
+      }
+     ]
+    },
+    {
+     "query": "neural interface signal fidelity",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "04298b5c27745b7931f8bda90971c60d2da9edcf",
+       "title": "A Zwitterionic Conductive Hydrogel Interface for Enhanced Electrocorticography Signal Fidelity via High Conductivity, Antifouling, and Brain-Matched Mechanics.",
+       "year": 2025
+      },
+      {
+       "paperId": "980d8ff5b67eebb6b25ddcd20d6ba3d8552df6cc",
+       "title": "Data Compression Versus Signal Fidelity Tradeoff in Wired-OR Analog-to-Digital Compressive Arrays for Neural Recording",
+       "year": 2023
+      },
+      {
+       "paperId": "cb66240bc043676c644e3ff6c23a770cac9487e5",
+       "title": "Multifunctional Composite Coating-Enhanced Flexible Microelectrodes for Chronic, High-Fidelity Neural Signal Recording",
+       "year": 2025
+      },
+      {
+       "paperId": "bb13f160fd751445fb1200ffa4b659b92cd5c99f",
+       "title": "Low-power analog and mixed-signal circuit techniques for next-generation miniature implantable neural interface systems",
+       "year": 2026
+      },
+      {
+       "paperId": "2eed3237d0b3cbff0e2958271bb0ef9b758d4a98",
+       "title": "An Active, Multimodal Neural Interface for Real‐Time Monitoring of Cortical Electrical, Thermal, and Optical Dynamics",
+       "year": 2025
+      },
+      {
+       "paperId": "8cf9bb69daa7cb3b8ed65a96fb9f93510470e533",
+       "title": "NeuroIncept Decoder for High-Fidelity Speech Reconstruction from Neural Activity",
+       "year": 2025
+      },
+      {
+       "paperId": "376ee1e66f56440ed2ea41165d4e07c0b4aab142",
+       "title": "A Wireless Neural Signal Acquisition System for Interventional Brain–Computer Interface",
+       "year": 2026
+      },
+      {
+       "paperId": "d308ab2da7f4232a0851f5327c36042df42a9ae1",
+       "title": "Lossless Compression Methods for Wireless, Real-Time Streaming of Neural Data From Neural Interface Devices",
+       "year": 2026
+      },
+      {
+       "paperId": "d616c623136e6f1f7b529438173f06af788e88ba",
+       "title": "Eye-Blink and SSVEP-Based Selective Attention Interface for XR User Authentication: An Explainable Neural Decoding and Machine Learning Approach to Reducing Visual Fatigue",
+       "year": 2025
+      },
+      {
+       "paperId": "93d5dec5337e0f4f82e85f5e7ff457675fecb717",
+       "title": "A neuromorphic physiological signal processing system based on VO2 memristor for next-generation human-machine interface",
+       "year": 2023
+      },
+      {
+       "paperId": "3a2b6e29038683207835e9d965e01139434c3406",
+       "title": "Optimizing signal coding in neural interface system-on-a-chip modules",
+       "year": 2003
+      },
+      {
+       "paperId": "464a65fa6881bf6309e8fbd7c9a6e3de6c1f0c61",
+       "title": "A wireless transmission neural interface system for unconstrained non-human primates",
+       "year": 2015
+      },
+      {
+       "paperId": "e4716f0ca0e69605ceda5b3fc8794ce5c6de06b0",
+       "title": "Technical system of electroencephalography-based brain–computer interface: Advances, applications, and challenges",
+       "year": 2025
+      },
+      {
+       "paperId": "3e0d7e94842ee787b98fa01183b6cfaffac0cb91",
+       "title": "Real-time self-supervised denoising for high-speed fluorescence neural imaging",
+       "year": 2025
+      },
+      {
+       "paperId": "fe92d897d6e373c1f000add4ab229d748ec7dc3a",
+       "title": "Semiconductor Neural Interfaces with Ultrahigh Capacitance via Ohmic-Contacted V2O5 Nanowires.",
+       "year": 2025
+      },
+      {
+       "paperId": "43264a431049cab9b4758c7d4219009524ad7986",
+       "title": "A soft electrode array with reconfigurable hydrogel interfaces for high-fidelity neurophysiological monitoring during craniotomy",
+       "year": 2026
+      },
+      {
+       "paperId": "96b29a9d99a2d6b817d6e025e67f666010d82f89",
+       "title": "Optimized Single‐Shank Silicon Neural Probe for Neural Recording in Non‐Human Primates",
+       "year": 2025
+      },
+      {
+       "paperId": "ebc65ed49e478fbd36d02b483db2488eaad5fb90",
+       "title": "Spatial richness of neural magnetic fields",
+       "year": 2025
+      },
+      {
+       "paperId": "527272d780fdf79bd7483eb380faaca504a0ea6a",
+       "title": "Highly Adaptive Conductive Polymer Electronics Enhance Neural Data and Learning Accuracy",
+       "year": 2025
+      },
+      {
+       "paperId": "e3420d33832e4885114dfd4ed9a794e58f324654",
+       "title": "Evaluation of the OpenBCI Neural Interface for Controlling a Quadrotor Simulation",
+       "year": 2014
+      }
+     ]
+    },
+    {
+     "query": "brain-computer privacy attacks",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "b715174ed96934b6466908bba7be89905695703c",
+       "title": "Security and Privacy in IoT-Enabled EEG Brain–Computer Interfaces: A Survey and Comparative Analysis",
+       "year": 2025
+      },
+      {
+       "paperId": "1ede0844657a43ca82b2a92857b328fd718b2088",
+       "title": "Accurate, Secure and Privacy-Preserving Brain-Computer Interfaces: Keynote Address",
+       "year": 2023
+      },
+      {
+       "paperId": "42482685329f9d9b648eaac780445ab27cfc390e",
+       "title": "Neuro-Symbolic AI Agents in the Context of Privacy Enhanced Cybersecurity in Brain-Computer Interfaces: A Comprehensive Review",
+       "year": 2026
+      },
+      {
+       "paperId": "0b17959aaa46085950945619d923daf2d03fb736",
+       "title": "Evaluating Robustness and Detection of Adversarial Attacks in EEG-Based Brain-Computer Interfaces",
+       "year": 2026
+      },
+      {
+       "paperId": "d7f17697b5a5017d2def8db5b7b081d636b33399",
+       "title": "A Framework for Preserving Privacy and Cybersecurity in Brain-Computer Interfacing Applications",
+       "year": 2022
+      },
+      {
+       "paperId": "a17864a01a5ecbf435fbe13edb6c904d11d714e1",
+       "title": "Enhancing the Security & Privacy of Wearable Brain-Computer Interfaces",
+       "year": 2022
+      },
+      {
+       "paperId": "65dd82c6687a34bcca6b702bf2cf7dbbfbec7582",
+       "title": "Cybersecurity in Brain Computer Interface-Assisted Hemiplegia Rehabilitation: A Blockchain-Centric Perspective",
+       "year": 2023
+      },
+      {
+       "paperId": "a47d6ef1a96247c30b3263d145979ba2cdb605db",
+       "title": "Securing Brain-Computer Interfaces in Healthcare: A Systematic Review of Threats, Defenses, and Regulatory Challenges",
+       "year": 2026
+      },
+      {
+       "paperId": "f08965964f16411358ef4ad8dd72c294f2c4e107",
+       "title": "Brain-Computer Interface applications: Security and privacy challenges",
+       "year": 2015
+      },
+      {
+       "paperId": "222bf369100bb6fdf715323c2f3cacbb3dfee585",
+       "title": "Privacy in the Age of Neurotechnology: Investigating Public Attitudes towards Brain Data Collection and Use",
+       "year": 2023
+      },
+      {
+       "paperId": "26274abf0a2ac0cf9573e026fc6f6cc5858c8d13",
+       "title": "Cybersecurity Framework for P300-based Brain Computer Interface",
+       "year": 2020
+      },
+      {
+       "paperId": "9b5d8c2fa1ff6850df71165e07b97e45c212b324",
+       "title": "Optimized Global Perturbation Attacks For Brain Tumour ROI Extraction From Binary Classification Models",
+       "year": 2022
+      },
+      {
+       "paperId": "e539c31d75f185d7c6226a01e76a46d5825ba3c5",
+       "title": "A Privacy-Preserving Generative Adversarial Network Method for Securing EEG Brain Signals",
+       "year": 2020
+      },
+      {
+       "paperId": "5d2e9b381c3ccc88279a9fd94f797024f4de7667",
+       "title": "Investigating Membership Inference Attacks Against CNN Models for BCI Systems",
+       "year": 2025
+      },
+      {
+       "paperId": "a99c89702ddbe640d76aecaef73aa3cac6f09ec1",
+       "title": "Side-channel attacks against the human brain: the PIN code case study (extended version)",
+       "year": 2017
+      },
+      {
+       "paperId": "3dd016a8545898a90dfb69bacbc20dcd244bf57e",
+       "title": "Q-DP-GAN: Improving EEG Data Privacy Through Quantum-Inspired Differential Privacy-Based GAN",
+       "year": 2026
+      },
+      {
+       "paperId": "77e2c97412227c6098eba234e65d5762ce866c59",
+       "title": "Asymptotically Stable Privacy Protection Technique for fMRI Shared Data over Distributed Computer Networks",
+       "year": 2020
+      },
+      {
+       "paperId": "b5b9493e62dcaf692e31414defb09f68e68351bb",
+       "title": "Identification With Your Mind: A Hybrid BCI-Based Authentication Approach for Anti-Shoulder-Surfing Attacks Using EEG and Eye Movement Data",
+       "year": 2023
+      },
+      {
+       "paperId": "d388ffaf722565c233f7ca545e43d8316c767983",
+       "title": "Cyberattacks on Miniature Brain Implants to Disrupt Spontaneous Neural Signaling",
+       "year": 2020
+      },
+      {
+       "paperId": "db5d956a6b9e9c6183d0f9bc7f4d1405cf84cdcf",
+       "title": "Changing the outlook of security and privacy with approaches to deep learning",
+       "year": 2021
+      }
+     ]
+    },
+    {
+     "query": "BCI task performance degradation",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "7a8a5ebd74364b1c2e77863bf840c139635208f9",
+       "title": "Evaluation of performance and heart rate variability during intensive usage of a BCI-controlled hand exoskeleton",
+       "year": 2020
+      },
+      {
+       "paperId": "f44dc62f961ad1df73a05f9152d528cd1969c582",
+       "title": "Test-Time Training for Inter-Subject Generalization in SSVEP-Based BCI",
+       "year": 2025
+      },
+      {
+       "paperId": "5d809d5581cc5938994fdade2967e3756b0cc184",
+       "title": "Enhancing SSVEP-Based Brain-Computer Interface with Two-Step Task-Related Component Analysis",
+       "year": 2021
+      },
+      {
+       "paperId": "66906aba27a0c30b8a37cf306f917fe40c3d8ec4",
+       "title": "A novel channel reduction concept to enhance the classification of motor imagery tasks in brain-computer interface systems",
+       "year": 2025
+      },
+      {
+       "paperId": "cf0e95ca53442e04b3169359fb9851bfe29e60e2",
+       "title": "An Integrated Deep Learning Approach for Simultaneous Motor Imagery Decoding and Fatigue Estimation",
+       "year": 2026
+      },
+      {
+       "paperId": "c482c70bf4565d94b7202c18ce482a8ef98c04ba",
+       "title": "An improved self-supervised learning for EEG classification.",
+       "year": 2022
+      },
+      {
+       "paperId": "ff5dfc8a3da3f610b2a37e5eca2984f22bcb6469",
+       "title": "Improvement of Information Transfer Rates Using a Hybrid EEG-NIRS Brain-Computer Interface with a Short Trial Length: Offline and Pseudo-Online Analyses",
+       "year": 2018
+      },
+      {
+       "paperId": "ff16f3951ee750521e27f3ad4b57491a1844f517",
+       "title": "Task-oriented EEG denoising generative adversarial network for enhancing SSVEP-BCI performance",
+       "year": 2024
+      },
+      {
+       "paperId": "3f42404592c956f9c69bf555c79d8fa4d9ca5571",
+       "title": "Improving the Performance of Individually Calibrated SSVEP-BCI by Task- Discriminant Component Analysis",
+       "year": 2021
+      },
+      {
+       "paperId": "82c999ef1de285dcd382ecd09566145e5994aaa0",
+       "title": "TFTL: A Task-Free Transfer Learning Strategy for EEG-Based Cross-Subject and Cross-Dataset Motor Imagery BCI",
+       "year": 2024
+      },
+      {
+       "paperId": "ab11986a5f68a2f7a6b30fac0086b25032864e35",
+       "title": "Enhancing SSVEP-BCI Performance Under Fatigue State Using Dynamic Stopping Strategy",
+       "year": 2024
+      },
+      {
+       "paperId": "e100893ae326396b48e45135dcb2ae0a61e22d94",
+       "title": "Enhancing the performance of SSVEP-based BCIs by combining task-related component analysis and deep neural network",
+       "year": 2025
+      },
+      {
+       "paperId": "8b2d71d7b19de83d6adc70b62b7d3e0e72e65402",
+       "title": "Sensorimotor Rhythm BCI with Simultaneous High Definition-Transcranial Direct Current Stimulation Alters Task Performance",
+       "year": 2016
+      },
+      {
+       "paperId": "b2ab24c66d2793ea8faf392223ee4755597873bd",
+       "title": "Aggregating Intrinsic Information to Enhance BCI Performance through Federated Learning",
+       "year": 2023
+      },
+      {
+       "paperId": "1408dbb55d057c7ba2d1018d270d3fc12d2ce0d1",
+       "title": "Multimodal pre-screening can predict BCI performance variability: A novel subject-specific experimental scheme",
+       "year": 2023
+      },
+      {
+       "paperId": "1d3c662a5a0288aaf83b4c31b2ae47ac732d6e49",
+       "title": "Stable speech BCI performance during slow progression of ALS: A longitudinal ECoG study",
+       "year": 2026
+      },
+      {
+       "paperId": "10adc1615000eb00264abe1e1e29462a538fe1c8",
+       "title": "Reliable predictor of BCI motor imagery performance using median nerve stimulation",
+       "year": 2025
+      },
+      {
+       "paperId": "b16bbbfcc67b6d1bdd5b12fd56fecb0d276b7384",
+       "title": "Performance Comparison of a SSVEP BCI Task by Individual Stereoscopic 3D Susceptibility",
+       "year": 2013
+      },
+      {
+       "paperId": "31d954d9036ae3c7234c5d9cfff8a6ecea578ad1",
+       "title": "Unsupervised adaptation of an ECoG based brain–computer interface using neural correlates of task performance",
+       "year": 2022
+      },
+      {
+       "paperId": "e78ab06c120adbb0391d57cb8651f5612acc424c",
+       "title": "Motor-Imagery BCI Task Classification Using Riemannian Geometry and Averaging with Mean Absolute Deviation",
+       "year": 2019
+      }
+     ]
+    },
+    {
+     "query": "end-to-end BCI security evaluation",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "38a93e2f3ad781ec049b11d3b0ba2ffbf83bfc94",
+       "title": "Evaluation of the early impacts of the better cotton initiative on smallholder cotton producers in Kurnool District, India: Baseline report",
+       "year": 2016
+      },
+      {
+       "paperId": "da6ec8b7ae3991feef0878b88ea3449354208996",
+       "title": "Evaluation of the Communication Efficiency in MQTT 5.0 End-to-End Security Architecture",
+       "year": 2024
+      },
+      {
+       "paperId": "5f00ad09fb0ef259687b2966d4473d865231f90f",
+       "title": "End-to-End Security Policy Automation with Multi-LLM Agents in Cloud-Native Systems",
+       "year": 2025
+      },
+      {
+       "paperId": "f0edfcb87bcf92308daffb6b88469ffd3bfbd0d5",
+       "title": "End-to-End Real-Time DDoS Attack Detection System: Combining Neural Networks & Web Technologies for Practical Network Security",
+       "year": 2025
+      },
+      {
+       "paperId": "42ac5855d1f9a4714fbc09d9518f6f33f744302b",
+       "title": "AgentSentinel: An End-to-End and Real-Time Security Defense Framework for Computer-Use Agents",
+       "year": 2025
+      },
+      {
+       "paperId": "fb4937375747663a6d3f2be35fae10de0abe7011",
+       "title": "Enforcing End-to-end Security for Remote Conference Applications",
+       "year": 2024
+      },
+      {
+       "paperId": "ca0fe2b8cd097a39149a14f9ceab4db7bf0b3664",
+       "title": "Security Evaluation of Password Managers: A Comparative Analysis and Penetration Testing of Existing Solutions",
+       "year": 2025
+      },
+      {
+       "paperId": "9bd7824c8f22066326a03176a74f14874f9ff5b4",
+       "title": "Ensuring End-to-End Security With Fine-Grained Access Control for Connected and Autonomous Vehicles",
+       "year": 2023
+      },
+      {
+       "paperId": "d86c23298fd0dbdd20bc575360c2a11ae644a01a",
+       "title": "How Well Do Large Language Models Serve as End-to-End Secure Code Agents for Python?",
+       "year": 2024
+      },
+      {
+       "paperId": "decbca9c95ddedcfc86451b70e9c4022d7ece8eb",
+       "title": "FCSec: An Open-source Testbed for Security Evaluation on UAV Communications",
+       "year": 2024
+      },
+      {
+       "paperId": "0c7c282758123866922855155496e7e46d2a57f4",
+       "title": "Design of Information Security Evaluation Model in English Teaching under Embedded Network",
+       "year": 2024
+      },
+      {
+       "paperId": "b4a3ec0fdc0c16193a1a1c697b199082eb407a8d",
+       "title": "Performance Evaluation of 5G Roaming Security Based on PRINS",
+       "year": 2025
+      },
+      {
+       "paperId": "26dc51b238c56df8bfe6c7f71f2b480f06db39ea",
+       "title": "CFE: Secure Filtered Words in End-to-End Encrypted Messaging System",
+       "year": 2024
+      },
+      {
+       "paperId": "25f11a20f47bffcf8775ca25870d5e9f9d5ec7c7",
+       "title": "Bringing BCI Controlled Devices to End-Users: A User Centred Approach and Evaluation",
+       "year": 2013
+      },
+      {
+       "paperId": "2cb104a7b36c5e3afee80d49160e35500a036e95",
+       "title": "End-to-end security scheme for mobility enabled healthcare Internet of Things",
+       "year": 2016
+      },
+      {
+       "paperId": "802f419dd087b5025a2ae7a1969bb94cd3e06e24",
+       "title": "End-to-End Security for Distributed Event-driven Enclave Applications on Heterogeneous TEEs",
+       "year": 2022
+      },
+      {
+       "paperId": "00123d4b43ca013947b955d54d3bd42eb1382ced",
+       "title": "Security Analysis of End-to-End Encryption for Zoom Meetings",
+       "year": 2021
+      },
+      {
+       "paperId": "22da54995c4d63b3e3718a197d95bcb20745561c",
+       "title": "Two-factor Password-authenticated Key Exchange with End-to-end Security",
+       "year": 2021
+      },
+      {
+       "paperId": "b034cad5fff2a2255bcb95aee29ea50a176fe2cb",
+       "title": "Reconciling Safety and Privacy: A Systematic Review of Moderation in End-to-End Encrypted Messaging",
+       "year": 2025
+      },
+      {
+       "paperId": "f3aaff3b2e7e53166431167565ffad2b0d06c446",
+       "title": "“It's Time. Time for Digital Security.”: An End User Study on Actionable Security and Privacy Advice",
+       "year": 2025
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "sample_id": "t003",
+   "mode": "verify",
+   "repeat": 1,
+   "queries": [
+    "brain-computer interface robustness certification",
+    "empirical audit framework alignment failure",
+    "alignment failure brain-computer interface"
+   ],
+   "fos": null,
+   "target_paper_id": "3edfa103e1baa79812565579242590093ecc95c1",
+   "score": {
+    "found": true,
+    "best_rank": 1,
+    "per_query_rank": [
+     null,
+     1,
+     null
+    ]
+   },
+   "searches": [
+    {
+     "query": "brain-computer interface robustness certification",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "34745eb795a545d3e3aaa8c4c37c2d2a5bf5d898",
+       "title": "Exploring Imagined Movement for Brain–Computer Interface Control: An fNIRS and EEG Review",
+       "year": 2025
+      },
+      {
+       "paperId": "1526b4167bad015eff66479c9dd56567b279d4e7",
+       "title": "Towards Predictive Communication: The Fusion of Large Language Models and Brain–Computer Interface",
+       "year": 2025
+      },
+      {
+       "paperId": "3897d56c772481aa58404c47cdcce103f69d604e",
+       "title": "Multi-scale convolutional transformer network for motor imagery brain-computer interface",
+       "year": 2025
+      },
+      {
+       "paperId": "c9713f1a9dae86641e432b15dfa1f18828806612",
+       "title": "A multi-day and high-quality EEG dataset for motor imagery brain-computer interface",
+       "year": 2025
+      },
+      {
+       "paperId": "3c9a5430a9e067a8c1e5c4647e6dda75116a6a9f",
+       "title": "AdaBrain-Bench: Benchmarking Brain Foundation Models for Brain-Computer Interface Applications",
+       "year": 2025
+      },
+      {
+       "paperId": "ad1a58229b5e3db5f26599fd21bbfd451b30853d",
+       "title": "The role of eye movement signals in non-invasive brain-computer interface typing system",
+       "year": 2024
+      },
+      {
+       "paperId": "a99451051c019706e81701cb53275f16cb05ea02",
+       "title": "A Novel Transfer Learning‐Based Hybrid EEG‐fNIRS Brain‐Computer Interface for Intracerebral Hemorrhage Rehabilitation",
+       "year": 2025
+      },
+      {
+       "paperId": "338f125dfc76d469010b8cfd71d33041a77fc2b9",
+       "title": "Real-time decoding of full-spectrum Chinese using brain-computer interface",
+       "year": 2025
+      },
+      {
+       "paperId": "6d5a826cc672966b32c710b716518bfde0a385c4",
+       "title": "SCSP-3: A Spectrally Augmented Common Spatial Pattern Approach for Robust Motor Imagery-Based Brain–Computer Interface",
+       "year": 2024
+      },
+      {
+       "paperId": "0212559885ede2787483b4ca2e30290833ce960c",
+       "title": "Brain-Computer Interface Security: Vulnerabilities of the Capsule Network Model",
+       "year": 2024
+      },
+      {
+       "paperId": "6e1fe66cdac30397d14455ef59eb0d715eb65b20",
+       "title": "A Comprehensive Survey of Brain–Computer Interface Technology in Health care: Research Perspectives",
+       "year": 2025
+      },
+      {
+       "paperId": "b1f022cae5f1e06d70a92e3dbab35813abb08142",
+       "title": "MXene-Based Microneedle Electrode for Brain-Computer Interface in Diverse Scenarios.",
+       "year": 2025
+      },
+      {
+       "paperId": "df7902b064de08e31dd1244add2242145acebbe8",
+       "title": "Integrating Biological and Machine Intelligence: Attention Mechanisms in Brain-Computer Interfaces",
+       "year": 2025
+      },
+      {
+       "paperId": "9df4bfb1e0e003d2decbb61762ba6be40fe47b62",
+       "title": "QSVM-QNN: Quantum Support Vector Machine Based Quantum Neural Network Learning Algorithm for Brain–Computer Interfacing Systems",
+       "year": 2025
+      },
+      {
+       "paperId": "d30e6aac9a6182d51abff5c1f80267f409521ebf",
+       "title": "CGAN-rIRN: a data-augmented deep learning approach to accurate classification of mental tasks for a fNIRS-based brain-computer interface.",
+       "year": 2023
+      },
+      {
+       "paperId": "c83494db419178b0e0a5723305f37d4dc1818b4f",
+       "title": "Real Time Signal Decoding in Closed Loop Brain Computer Interface for Cognitive Modulation",
+       "year": 2025
+      },
+      {
+       "paperId": "bc2c9b65b182893f6fe33af88888d7015451f944",
+       "title": "Filter bank CSP with Riemannian weighting for disability-centric motor imagery brain computer interface",
+       "year": 2026
+      },
+      {
+       "paperId": "6c9fd66e61a0f284e9825e720d2474129f269575",
+       "title": "Advances in brain computer interface for amyotrophic lateral sclerosis communication",
+       "year": 2025
+      },
+      {
+       "paperId": "66d93779651774799e46bd4e8253fb27ba1b3ba2",
+       "title": "Ethical and Safety Challenges of Implantable Brain-Computer Interface",
+       "year": 2025
+      },
+      {
+       "paperId": "ce4c9426c98e20174e2510c20b27c8d162d9f291",
+       "title": "EEG based real time classification of consecutive two eye blinks for brain computer interface applications",
+       "year": 2025
+      }
+     ]
+    },
+    {
+     "query": "empirical audit framework alignment failure",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "3edfa103e1baa79812565579242590093ecc95c1",
+       "title": "When Certificates Fail: A Unified Safety Framework for Embedded Neural Interface Models",
+       "year": 2026
+      },
+      {
+       "paperId": "bc11ff308d9f95e18b50e76ecd2adc4a99be8349",
+       "title": "A Generalizable Distribution Structure Analysis Algorithm with Audit-Ready Framework for Medical Research",
+       "year": 2025
+      },
+      {
+       "paperId": "a5c25e308645af14144df9637324f14c838ee28b",
+       "title": "P69 A cross-sectional audit of antibiotic utilization and AWaRe stewardship alignment in hospitalized patients",
+       "year": 2026
+      },
+      {
+       "paperId": "e11e408ad43e0b2395ac447d6559fe43e8d73eed",
+       "title": "RAG-E: Quantifying Retriever-Generator Alignment and Failure Modes",
+       "year": 2026
+      },
+      {
+       "paperId": "87e6413fe8125e280e9a596eec4c0c614de3a428",
+       "title": "Integrating evaluation into performance audit: an empirical framework for governance accountability",
+       "year": 2026
+      },
+      {
+       "paperId": "1710cf4eb7ee2e69e1fca9d106eac8b405ce1343",
+       "title": "A Human Capital Audit Framework: Detecting Capability Impairment in Organizations and Economies",
+       "year": 2026
+      },
+      {
+       "paperId": "b430a6d20852d251706302d9b4d2cbac33931b6a",
+       "title": "EXPLAINABLE SUPPLIER RISK PREDICTION FOR CRITICAL TELECOMMUNICATIONS INFRASTRUCTURE PROCUREMENT: AN EMPIRICAL XGBOOST–SHAP FRAMEWORK",
+       "year": 2024
+      },
+      {
+       "paperId": "8ff423c2fa549a29f99d0888c16bf2a280bc8881",
+       "title": "A Hierarchical Validity-Audit Framework for Neural Mass Models in Simulation-Based Inference: From Observational Coverage to Mechanistic Interpretation",
+       "year": 2026
+      },
+      {
+       "paperId": "faef76063d0ed26c6ce8626762ad20cdbf50c2b0",
+       "title": "A Prescriptive Design Framework for CRM-Integrated Agentic AI in Hospital Patient Services: Design Science Development and Empirical Proof-of-Concept Evaluation",
+       "year": 2026
+      },
+      {
+       "paperId": "ca3a927b623c565dcffbc8845b65ce565b47dfc6",
+       "title": "The Alignment Auditor: A Bayesian Framework for Verifying and Refining LLM Objectives",
+       "year": 2025
+      },
+      {
+       "paperId": "ea3d24854e06bc4673c3afa7acd7fe5f706dc161",
+       "title": "Knowledge Audit in HEIs: A Framework for its Strategic Management",
+       "year": 2025
+      },
+      {
+       "paperId": "e30aa0d5268078e79f33213caafcc74e4fba12b2",
+       "title": "From Paper Compliance to Strategic Defense: A Game Theoretic Framework for Incentive Alignment in Sierra Leone Anti Money Laundering Regime",
+       "year": 2025
+      },
+      {
+       "paperId": "39096b52e59395f282fa0f34bca94dc10ce8145d",
+       "title": "Risk Profiling in Public E-Procurement: Empirical Insights from Indonesia’s Supreme Audit Institution (BPK RI)",
+       "year": 2026
+      },
+      {
+       "paperId": "e3ee033df25412a40f661cdbb46111252e79458a",
+       "title": "Reengineering Inland Waterways: System Alignment and the Political Economy of Infrastructure Failure in Nigeria’s Niger–Benue Corridor",
+       "year": 2026
+      },
+      {
+       "paperId": "97017b8144e638f770bc626040210f4317ef6b00",
+       "title": "Toward Alignment Scaling Laws: A Framework and First Preregistered Measurements",
+       "year": 2026
+      },
+      {
+       "paperId": "c6497efef89b5ed70bdb6fb33e2ce2d0ad84c509",
+       "title": "From It Audit Findings to Cybersecurity Governance: A Risk-Based Remediation Framework for Critical Digital Infrastructure",
+       "year": 2026
+      },
+      {
+       "paperId": "60542d2501183162d560f19f00d4790229e69c55",
+       "title": "An algorithmic framework for sustainable marketing audit and prioritization in consulting engagements: The PRISM-Bridge Model",
+       "year": 2026
+      },
+      {
+       "paperId": "a2648c921705d88937ad38729eed1bf1cc26c9ef",
+       "title": "Definitional alignment before capability alignment: a Design-Science framework for adjudicating claims about AGI",
+       "year": 2026
+      },
+      {
+       "paperId": "f92638c3e2f2a8d2fc733d238192a36ca388d7e3",
+       "title": "Audit-Informed Digital Pathways to Rural Ecological Revitalization: A Configurational Governance Framework Applied to 30 Provincial-Level Regions in China (2018–2022)",
+       "year": 2026
+      },
+      {
+       "paperId": "46308b6470ad55549ead4448ede238ed12a1fbbc",
+       "title": "Beyond Identifier Matching: An Empirical Characterization of Failure Modes in Biomedical Knowledge Graph Integration",
+       "year": 2026
+      }
+     ]
+    },
+    {
+     "query": "alignment failure brain-computer interface",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "290d3fc62b8cde6fa37e980d70fec54958f936ca",
+       "title": "Analytical Study of Key Techniques for Cross-Modal Feature Alignment and Decision-Level Fusion in Brain–Computer Interface-Virtual Reality Systems",
+       "year": 2026
+      },
+      {
+       "paperId": "e5ad491cde60ad8effb41d56aac13e4c12d73f06",
+       "title": "Neural electrodes for brain‐computer interface system: From rigid to soft",
+       "year": 2025
+      },
+      {
+       "paperId": "fc31ed17e1d2a56a0b23bd5e30fb9bcec56c90f7",
+       "title": "Tangent space alignment: Transfer learning for Brain-Computer Interface",
+       "year": 2022
+      },
+      {
+       "paperId": "c9ae2a6994383bec75a3985bc34bffec9350b0ad",
+       "title": "Stabilization of a brain-computer interface via the alignment of low-dimensional spaces of neural activity",
+       "year": 2020
+      },
+      {
+       "paperId": "81597d5c78a506d7d4883ccf28057de8844b6bdd",
+       "title": "Sub-band target alignment common spatial pattern in brain-computer interface",
+       "year": 2021
+      },
+      {
+       "paperId": "7ade12ba3efe0e5a542c808ea276b6d3c4cbf7bf",
+       "title": "Quantifying the alignment error and the effect of incomplete somatosensory feedback on motor performance in a virtual brain–computer-interface setup",
+       "year": 2021
+      },
+      {
+       "paperId": "99f9fbafeb8eb24baa775aef0f1ba191a515a6ad",
+       "title": "STeCANet: spatio-temporal cross attention network for brain computer interface systems using EEG-fNIRS signals",
+       "year": 2025
+      },
+      {
+       "paperId": "ffaed7f5a14e5ebd20e41c6efb0f1f24af1632cd",
+       "title": "Intersession Robust Hybrid Brain–Computer Interface: Safe and User-Friendly Approach with LED Activation Mechanism",
+       "year": 2025
+      },
+      {
+       "paperId": "74154753d3e829185ea5bb8454b75edb5750912e",
+       "title": "Utilizing statistical analysis for motion imagination classification in brain-computer interface systems",
+       "year": 2025
+      },
+      {
+       "paperId": "392b372366c27125bb8105ed2d6b3d03e718bbd8",
+       "title": "Online Adaptation via Dual-Stage Alignment and Self-Supervision for Fast-Calibration Brain-Computer Interfaces",
+       "year": 2025
+      },
+      {
+       "paperId": "b0ebc11b0ab86922f27026d1495e0b79055bf277",
+       "title": "Revisiting Euclidean alignment for transfer learning in EEG-based brain–computer interfaces",
+       "year": 2025
+      },
+      {
+       "paperId": "37eabfc017b08f7e4a52dadd12ab354d47ca2d47",
+       "title": "Advancing Brain-Computer Interface Systems: Asynchronous Classification of Error Potentials",
+       "year": 2024
+      },
+      {
+       "paperId": "1be6a08345266b738a1032767e25e2847abc9e6f",
+       "title": "Impact of adaptive filtering-based component analysis method on steady-state visual evoked potential based brain computer interface systems",
+       "year": 2024
+      },
+      {
+       "paperId": "ee5dd1bbd4dd81b4572cd5874fd9077228dd419a",
+       "title": "Signal alignment for cross-datasets in P300 brain-computer interfaces",
+       "year": 2024
+      },
+      {
+       "paperId": "9b48bd705b07c95bd3c858db0f4bd5536f0dba39",
+       "title": "UAV Target Detection and Tracking Integrating a Dynamic Brain–Computer Interface",
+       "year": 2026
+      },
+      {
+       "paperId": "b8d5da8ca8c56dc1e49479d2cffd218590f1c5a3",
+       "title": "A Data-Centric Analysis of the Impact of Training Data Quality vs. Quantity on P300 Brain-Computer Interface Performance (Student Abstract)",
+       "year": 2026
+      },
+      {
+       "paperId": "d3aa2597dc6e97a5ec82dc65d5ccd210aa2829e6",
+       "title": "BAMBI: A Ca2+ Imaging-Based Brain-Computer Interface for Longitudinal Neuronal Tracking in Freely Behaving Mice.",
+       "year": 2026
+      },
+      {
+       "paperId": "ae324c30938b1c7a871c2de5104cd5a780e52d71",
+       "title": "Extracting Semantic-Dynamic Features for Long-Term Stable Brain Computer Interface",
+       "year": 2023
+      },
+      {
+       "paperId": "00ab6e4c10657d8757b0a47cd4ad8739595a5a59",
+       "title": "EEG-Based Brain-Computer Interface for Educational Games: Cognitive State Monitoring in AI-Driven Financial Literacy Learning",
+       "year": 2026
+      },
+      {
+       "paperId": "0e9bb5ec9c7b3f15d0ff88cc33a9867f57f7c2ff",
+       "title": "Spatio-Temporal Joint Filtering for Transfer Learning in Brain-Computer Interface of Motion Imaginery",
+       "year": 2023
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "sample_id": "t004",
+   "mode": "references",
+   "repeat": 1,
+   "queries": [
+    "semantic transfer reinforcement learning",
+    "policy feature leakage trajectories",
+    "cross-domain representation drift",
+    "behavioral characteristic generalization",
+    "trajectory-based policy transfer"
+   ],
+   "fos": null,
+   "before": "2026-04-15",
+   "score": {
+    "core_total": 5,
+    "core_hit": 0,
+    "core_recall": 0.0,
+    "gold_total": 19,
+    "gold_hit": 0,
+    "pooled": 100,
+    "hit_titles": [],
+    "missed_titles": [
+     "ALVINN, an autonomous land vehicle in a neural network",
+     "Distilling LLM Agent into Small Models with Retrieval and Code Tools",
+     "Distilling the Knowledge in a Neural Network",
+     "Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training",
+     "Subliminal Learning: Language models transmit behavioral traits via hidden signals in data"
+    ],
+    "per_query_core_hit": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "searches": [
+    {
+     "query": "semantic transfer reinforcement learning",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "c6f7697fdbc51d7088cd185007dd1887b7730730",
+       "title": "Semantic-Selection-Strategy: A Transfer Reinforcement Learning Framework for Visual Interference",
+       "year": 2023
+      },
+      {
+       "paperId": "0aefae99e10281f7f64e7100b8da572ba4351d82",
+       "title": "Disentangled World Models: Learning to Transfer Semantic Knowledge from Distracting Videos for Reinforcement Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "1d54b4d768d49383718f359a95e833ee4e82d3d1",
+       "title": "Semantic-aware, graph-based, event-triggered federated transfer-learning multi-agent reinforcement learning (SAGE-Fed TL-MARL) for congestion control in VANETs",
+       "year": 2025
+      },
+      {
+       "paperId": "dcd09fc7f5f866749e86a35b8b88164e81c9b1c3",
+       "title": "STRuCT-LLM: Unifying Tabular and Graph Reasoning with Reinforcement Learning for Semantic Parsing",
+       "year": 2025
+      },
+      {
+       "paperId": "600ac092e0cd1cb5d4afcd28d0cac1ea62297061",
+       "title": "Reinforcement Learning-Based Layered Lossy Image Semantic Coding",
+       "year": 2025
+      },
+      {
+       "paperId": "e9c3513331262c3bca112d250ea926fb7898f645",
+       "title": "A Transfer Approach Using Graph Neural Networks in Deep Reinforcement Learning",
+       "year": 2024
+      },
+      {
+       "paperId": "985a1140bfbbb9622fd22dcd5eb1c6aa2ddbcc25",
+       "title": "SemiNFT: Learning to Transfer Presets from Imitation to Appreciation via Hybrid-Sample Reinforcement Learning",
+       "year": 2026
+      },
+      {
+       "paperId": "b61ce2d23a7423998bbd4a35641da322fba1d66f",
+       "title": "Exploiting semantic segmentation to boost reinforcement learning in video game environments",
+       "year": 2022
+      },
+      {
+       "paperId": "6d32eb3a43594c723e1435dcbdad9cf4a5c78a61",
+       "title": "Learning to Manipulate Anywhere: A Visual Generalizable Framework For Reinforcement Learning",
+       "year": 2024
+      },
+      {
+       "paperId": "1c7ef87a6a75187e2e2fdf4576e356cdd5fa5b76",
+       "title": "Triangle-Reward Reinforcement Learning: A Visual-Linguistic Semantic Alignment for Image Captioning",
+       "year": 2021
+      },
+      {
+       "paperId": "c24b85ed78d5880bf31072221b649280ce6d6595",
+       "title": "LLM4Band: Enhancing Reinforcement Learning with Large Language Models for Accurate Bandwidth Estimation",
+       "year": 2025
+      },
+      {
+       "paperId": "189bfac265187508d2ffb61b6589390c60695f38",
+       "title": "Reinforcement Learning Based Text Style Transfer without Parallel Training Corpus",
+       "year": 2019
+      },
+      {
+       "paperId": "517a378421c20e516218c7cff33de9c4e42917ff",
+       "title": "Real–Sim–Real Transfer for Real-World Robot Control Policy Learning with Deep Reinforcement Learning",
+       "year": 2020
+      },
+      {
+       "paperId": "d040a046768e09e263187f5eaf1d7492fdd364d5",
+       "title": "VLD: Visual Language Goal Distance for Reinforcement Learning Navigation",
+       "year": 2025
+      },
+      {
+       "paperId": "5166605149e62a0cd641c75ab179bdcc40f82774",
+       "title": "Reinforcement Learning for Robotic Insertion of Flexible Cables in Industrial Settings",
+       "year": 2025
+      },
+      {
+       "paperId": "e3b0ac29d27b9d1806c9116147b48ec39002edbb",
+       "title": "The Application of Reinforcement Learning in the Personalized Learning Path Planning of Bilingual Study Tour Products",
+       "year": 2025
+      },
+      {
+       "paperId": "19135dd2d7ecc8f0bda1c66393bf84cb643b1735",
+       "title": "AI-Native 6G Networks: Adaptive Resource Allocation Through Edge-Integrated Deep Reinforcement Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "ceada147a0db90677bd8c6e3825653c01bf36723",
+       "title": "RLNVR: Reinforcement Learning from Non-Verified Real-World Rewards",
+       "year": 2025
+      },
+      {
+       "paperId": "aa3db5cdbe06055809484e4bde3144d4ed763eba",
+       "title": "Dr Genre: Reinforcement Learning from Decoupled LLM Feedback for Generic Text Rewriting",
+       "year": 2025
+      },
+      {
+       "paperId": "7a6f75dbbc6361fa9618338a232938c60c261bf1",
+       "title": "Zero Experience Required: Plug & Play Modular Transfer Learning for Semantic Visual Navigation",
+       "year": 2022
+      }
+     ]
+    },
+    {
+     "query": "policy feature leakage trajectories",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "8ad651aa7ae8967df3bf64a3b86df2e3a3cc1731",
+       "title": "VoicePrivacy 2022 System Description: Speaker Anonymization with Feature-matched F0 Trajectories",
+       "year": 2022
+      },
+      {
+       "paperId": "df25e902da58f27ace97add3c257913918972047",
+       "title": "A Multi-Policy Framework for Manipulator Trajectory Tracking Based on Feature Extraction and RL Compensation",
+       "year": 2024
+      },
+      {
+       "paperId": "ddb5cd7f8dbbae1f4ee0f0d2fc5e67546a4676d3",
+       "title": "A Unified Framework Combining Feature Extraction and Reward Estimation for Cognitive Radar Policy Prediction",
+       "year": 2025
+      },
+      {
+       "paperId": "2a3c477899e768d518f200ab3ecf72b09abd5dcf",
+       "title": "mindmap: Spatial Memory in Deep Feature Maps for 3D Action Policies",
+       "year": 2025
+      },
+      {
+       "paperId": "b25349bb1ea291e34ee4d312ddce62de388ccf3f",
+       "title": "3D trajectory personalization privacy protection method based on multi-feature classification and spatio-temporal attention",
+       "year": 2025
+      },
+      {
+       "paperId": "7486705ccb0706cce78fc2613dfa85ef8b9454d7",
+       "title": "Strategies for synergistic reduction of plastic leakage and greenhouse gas emissions in China",
+       "year": 2026
+      },
+      {
+       "paperId": "9f17f9df31347a48b30f94f0b50d775f307be770",
+       "title": "Human or Machine: A Novel Deep Learning Framework for Autonomous Driver Identification Based on Vehicle Trajectories",
+       "year": 2026
+      },
+      {
+       "paperId": "97fc977b8d167ff648c5c6672aea4d05f98fd79e",
+       "title": "3D Diffuser Actor: Policy Diffusion with 3D Scene Representations",
+       "year": 2024
+      },
+      {
+       "paperId": "b5bfa799cf2b1625b2806579856a1d446a6ae597",
+       "title": "A Leakage-Aware Data Layer For Student Analytics: The Capire Framework For Multilevel Trajectory Modeling",
+       "year": 2025
+      },
+      {
+       "paperId": "87a12bad9d2068b761b064649ea930a4ad3c7851",
+       "title": "A Visual Feature-Based Inverse Reinforcement Learning Approach for Reward Reconstruction from Image Observations",
+       "year": 2025
+      },
+      {
+       "paperId": "8173e1088ef147246ba7c1290f7f394aeba9e4ac",
+       "title": "HFCANet: heterogeneous feature driven cascade association network for multiple object tracking",
+       "year": 2025
+      },
+      {
+       "paperId": "c5d34c0ded46ab203fdd8130e472b198d204c9c9",
+       "title": "A 0.2 V Window Feature-Driven Cascaded Machine Learning Pipeline for Joint State of Health and Remaining Useful Life Estimation of Lithium-Ion Batteries",
+       "year": 2026
+      },
+      {
+       "paperId": "e7b7c076c903a4e47bdf0dbd84cd92f5d6d077e9",
+       "title": "Adaptive Vision-Admittance-Based Leakage-Type Sliding Mode Control for Uncertain Collaborative Robot With Actuator Saturation",
+       "year": 2025
+      },
+      {
+       "paperId": "ff16318722490ee5588e00a9371b71a818e810da",
+       "title": "From static thresholds to dynamic trends: Reassessing serum calcium in anastomotic leakage prediction",
+       "year": 2025
+      },
+      {
+       "paperId": "22b6184aad0227a8b433573503a8267bbaa74392",
+       "title": "MCU Function Recognition Method Based on the Frequency-Domain Constellation Trajectory Figure of Chip Electromagnetic Leakage and Convolutional Neural Networks",
+       "year": 2025
+      },
+      {
+       "paperId": "f9cea1293a0a9434e3dbf453aa2a05f6521a0452",
+       "title": "AdaCred: Adaptive Causal Decision Transformers with Feature Crediting",
+       "year": 2024
+      },
+      {
+       "paperId": "2d2788fe2a743a2084328f7b5f6e1f7daea0d87c",
+       "title": "Research on infrared image gas leakage detection method based on spatiotemporal multifeature fusion",
+       "year": 2025
+      },
+      {
+       "paperId": "4cb93255c88870370b400ff56f7be55442097349",
+       "title": "Language Learning Trajectories: Pupils’ Perspectives, Structural Factors and Demographics at General Certificate of Secondary Education",
+       "year": 2025
+      },
+      {
+       "paperId": "2a7f72fba9483cf80e31d7a01767e141b9ee94c0",
+       "title": "GrowthPredict: A toolbox and tutorial-based primer for fitting and forecasting growth trajectories using phenomenological growth models",
+       "year": 2024
+      },
+      {
+       "paperId": "a01d6888a34215b7bbb3aca7da6af25e21b01001",
+       "title": "Effect of Leading Edge Erosion on the Tip Leakage Flow in a Compressor Cascade",
+       "year": 2024
+      }
+     ]
+    },
+    {
+     "query": "cross-domain representation drift",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "2d9f9f26036cdceb9bbb017188b2943282ac57fe",
+       "title": "FairFRL: Fairness-aware Federated Representation Learning for Cross-domain Sequential Recommendation",
+       "year": 2026
+      },
+      {
+       "paperId": "6ca9d6044e91b2b3d3b8e6c73b1c437d7a6b8375",
+       "title": "RUNet: A Zero-Calibration Framework for Cross-Domain EEG Decoding via Riemannian and Unsupervised Representation Learning",
+       "year": 2026
+      },
+      {
+       "paperId": "3f42c5c05b4702e3cc11ab1a8f2b433865957e13",
+       "title": "Align-for-Fusion: Harmonizing Triple Preferences via Dual-oriented Diffusion for Cross-domain Sequential Recommendation",
+       "year": 2025
+      },
+      {
+       "paperId": "582fcbcf8b17ac6f2b9e7429324bfc652f6295ff",
+       "title": "FedPKT: Robust Cross-Domain Few-Shot Intrusion Detection via Prototypical Knowledge Transfer",
+       "year": 2025
+      },
+      {
+       "paperId": "549d351fea499bfbde99d7575c1fb10cb9040ea7",
+       "title": "Hierarchical Attention Network with Correction for Cross-Domain User Association",
+       "year": 2026
+      },
+      {
+       "paperId": "918fd21c6148d40e14aa0021b96c4eb4e81b8013",
+       "title": "Hierarchical Federated Learning with Decoupled Low-Rank Adaptation for Cross-Domain Heterogeneity",
+       "year": 2026
+      },
+      {
+       "paperId": "5f00da61fdae46c0a90f96eeb87236968dae0947",
+       "title": "PI-FSL: Physics-Informed Few-Shot Domain Adaptation for Robust Cross-Domain Condition Monitoring",
+       "year": 2026
+      },
+      {
+       "paperId": "970dac73b568057487d29a91f4482805accd275a",
+       "title": "Multi-Modal Cross-Subject Emotion Feature Alignment and Recognition With EEG and Eye Movements",
+       "year": 2025
+      },
+      {
+       "paperId": "82a0cd0ad238f03e7d396ed53ef8030588f0354f",
+       "title": "Stable-Drift: A Patient-Aware Latent Drift Replay Method for Stabilizing Representations in Continual Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "1a7a39ea6b1019c512f840890d7c58a846412278",
+       "title": "Mamba Learns in Context: Structure-Aware Domain Generalization for Multi-Task Point Cloud Understanding",
+       "year": 2026
+      },
+      {
+       "paperId": "990f6e54965a7e24cc69eb9b59ecf721048e5372",
+       "title": "A Unified Meta Learning and Domain Adaptation Framework for Credit Fraud Detection in Dynamic Environments",
+       "year": 2026
+      },
+      {
+       "paperId": "9ea41f810d32e711e93a8b0009493d3d2d791323",
+       "title": "Cross-Cloud Transfer Learning for AI Training Capacity Forecasting under Workload and Topology Distribution Shift",
+       "year": 2024
+      },
+      {
+       "paperId": "5ba1b6f1c3b89b910ebeeda651f9e82c31176987",
+       "title": "Contrastive single-domain generalized diagnosis framework for bearing fault diagnosis under anonymous target operating conditions",
+       "year": 2026
+      },
+      {
+       "paperId": "235ac18b72835ed206eeb2043c6428d3ae7be70f",
+       "title": "Contrastive Learning-Based Semantic Recognition Model for Cross-Departmental Documents in Public Organizations",
+       "year": 2026
+      },
+      {
+       "paperId": "b9a186a8fcb3f496eaaa5d91f9949820b8cb8997",
+       "title": "Query representation for cross-temporal information retrieval",
+       "year": 2013
+      },
+      {
+       "paperId": "e06b95b962158b92b851edda377ff25691592921",
+       "title": "Taxonomy of the Retrieval System Framework: Pitfalls and Paradigms",
+       "year": 2026
+      },
+      {
+       "paperId": "13a6ed56110c6ad384c68e75d2bc9fc16c8f6714",
+       "title": "StefaLand: An Efficient Geoscience Foundation Model That Improves Dynamic Land-Surface Predictions",
+       "year": 2025
+      },
+      {
+       "paperId": "0d3ca8f61b8524e8952149912d2b32b973c7cc83",
+       "title": "A Two‐Stage GAF‐CNN Anomaly Detection and Conditional Residual Transformer Data Imputation Method for Crack‐Width Monitoring Data",
+       "year": 2026
+      },
+      {
+       "paperId": "db9d26248c4e9c9fa982c99001ddeac00c6902a3",
+       "title": "Physics-Aligned Spectral Mamba: Decoupling Semantics and Dynamics for Few-Shot Hyperspectral Target Detection",
+       "year": 2026
+      },
+      {
+       "paperId": "95a261cff2a3afe55c98b2c8f5d23e6cca82adb2",
+       "title": "Spectrum-guided Multi-granularity Referring Video Object Segmentation",
+       "year": 2023
+      }
+     ]
+    },
+    {
+     "query": "behavioral characteristic generalization",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "d22939f6da3b95d78da23d62f1647786f7fe370c",
+       "title": "Enhanced disgust generalization in obsessive–compulsive disorder is related to insula and putamen hyperactivity",
+       "year": 2025
+      },
+      {
+       "paperId": "a6e2f87bbf5ebd4bc3e83e3d96a9f0fa1c82a453",
+       "title": "First Impressions of Strangers Rely on Generalization of Behavioral Traits Associated with previously Seen Facial Features",
+       "year": 2017
+      },
+      {
+       "paperId": "61dc7b8eb942cd0b68124c12908f403e45044378",
+       "title": "Fear Generalization and Anxiety: Behavioral and Neural Mechanisms.",
+       "year": 2015
+      },
+      {
+       "paperId": "1bf3365626ef9511a29aec1cb512589de3f6a26d",
+       "title": "mGluR5 in amygdala modulates fear memory generalization",
+       "year": 2023
+      },
+      {
+       "paperId": "c3b017a65316ceb76415c7d7703030c7b06deaa8",
+       "title": "Deficiency of Tet3 in nucleus accumbens enhances fear generalization and anxiety‐like behaviors in mice",
+       "year": 2022
+      },
+      {
+       "paperId": "ae867300e35b35e2beda5386a44b948c1725d92f",
+       "title": "Contextual Fear Conditioning and Fear Generalization in Individuals With Panic Attacks",
+       "year": 2019
+      },
+      {
+       "paperId": "da12625c0d9b35626036d27132692982a118abd8",
+       "title": "Human Intention Understanding From Multiple Demonstrations and Behavior Generalization in Dynamic Movement Primitives Framework",
+       "year": 2019
+      },
+      {
+       "paperId": "def78abeae75e151aa2656dc32eae43bbde9da42",
+       "title": "The phencyclidine (PCP) analog N-[1-(2-benzo(B)thiophenyl) cyclohexyl]piperidine shares cocaine-like but not other characteristic behavioral effects with PCP, ketamine and MK-801.",
+       "year": 1989
+      },
+      {
+       "paperId": "63b35e4698fbd62cb9de7c6d5db2cce672275696",
+       "title": "Ventromedial hypothalamic neurons control a defensive emotion state",
+       "year": 2015
+      },
+      {
+       "paperId": "7cd2c3ed1cf8d08df6f57b3d2cf2ba737ae6a250",
+       "title": "Disrupting reconsolidation: pharmacological and behavioral manipulations.",
+       "year": 2011
+      },
+      {
+       "paperId": "918789ed7a959031f0c6683d52f8dedff7eaa171",
+       "title": "Automatic Generation Control Strategy for Integrated Energy System Based on Ubiquitous Power Internet of Things",
+       "year": 2023
+      },
+      {
+       "paperId": "46a46472c8b1a515a353175e80cbccaa3d3dee96",
+       "title": "Treatment of cognitive dysfunctions and behavioral deficits in schizophrenia.",
+       "year": 1992
+      },
+      {
+       "paperId": "48b6c0f34caed0d6a6dc910756d21a95eed286fb",
+       "title": "On the Relation Between Generalization and Generality",
+       "year": 1979
+      },
+      {
+       "paperId": "2f91a747ab649f06b7b4d23f56a36dbe5fa4fa65",
+       "title": "A behavioral and immunohistochemical study on the development of perirhinal cortical kindling: a comparison with other types of limbic kindling.",
+       "year": 1998
+      },
+      {
+       "paperId": "66f8623acc61e463f394ba8f7bc199e7d5e0c024",
+       "title": "Prolonged contextual fear memory in AMPA receptor palmitoylation-deficient mice",
+       "year": 2022
+      },
+      {
+       "paperId": "a2f72e2de2d1143ea560b23292c96f5308c4c29c",
+       "title": "An instrumented vehicle assessment of problem behavior and driving style: do younger males really take more risks?",
+       "year": 2002
+      },
+      {
+       "paperId": "c14c83a3ed3811a0dd46123d6d6af8f555a36b53",
+       "title": "Hypo-Responsiveness as a Behavioral Correlate of Brain-Damage in Children",
+       "year": 1967
+      },
+      {
+       "paperId": "06be767c01b37d86d814d93efa3f93f89090537f",
+       "title": "The Mobile Territorial Lab: a multilayered and dynamic view on parents’ daily lives",
+       "year": 2016
+      },
+      {
+       "paperId": "7b36fe6369263dc6f4959b2dc365f75f116e0380",
+       "title": "Logical word learning: The case of kinship",
+       "year": 2019
+      },
+      {
+       "paperId": "99aaaebc5d099adde994dda1b167d57b56ee5b02",
+       "title": "Drug discrimination in human postaddicts: agonist-antagonist opioids.",
+       "year": 1989
+      }
+     ]
+    },
+    {
+     "query": "trajectory-based policy transfer",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "2b6e20a9b1d63c2221b62844fab0b31706044b4b",
+       "title": "Contrastive Trajectory Learning for Multi-Agent Reinforcement Learning Policy Transfer",
+       "year": 2025
+      },
+      {
+       "paperId": "0299cdbe8567e739a4ca18d319e078d1fba1e1c3",
+       "title": "Post-Convergence Sim-to-Real Policy Transfer: A Principled Alternative to Cherry-Picking",
+       "year": 2025
+      },
+      {
+       "paperId": "e2d7c5bf9c5b515c34bca0e2aad694fd0aa9c80d",
+       "title": "Transfer Learning for Joint Trajectory Control and Task Offloading in Large-Scale Partially Observable UAV-Assisted MEC",
+       "year": 2025
+      },
+      {
+       "paperId": "490e0ec59a9a26da42f20ef7d72b3b3be42029f0",
+       "title": "Disturbance-Observer-Based Tracking Controller for Neural Network Driving Policy Transfer",
+       "year": 2020
+      },
+      {
+       "paperId": "a30df310bb9cf9b9f0146857510d83832be85f62",
+       "title": "Zero-shot Deep Reinforcement Learning Driving Policy Transfer for Autonomous Vehicles based on Robust Control",
+       "year": 2018
+      },
+      {
+       "paperId": "df932386d6edfd2c6ee0d1acdcb27c35d384e11a",
+       "title": "xTED: Cross-Domain Policy Adaptation via Diffusion-Based Trajectory Editing",
+       "year": 2024
+      },
+      {
+       "paperId": "649e13bf3d52df9549e8507a03699622fac8666e",
+       "title": "Hybrid-RIS Empowered UAV-Assisted ISAC Systems: Transfer Learning-Based DRL",
+       "year": 2025
+      },
+      {
+       "paperId": "e2595de7dda8a062c0fc311c43f4e401c5543ef1",
+       "title": "Intelligent Land-Vehicle Model Transfer Trajectory Planning Method Based on Deep Reinforcement Learning",
+       "year": 2018
+      },
+      {
+       "paperId": "106d82062897990c4a863ca83c57a0fb682e9c0a",
+       "title": "Multi-AUV Trajectory Learning for Sustainable Underwater IoT With Acoustic Energy Transfer",
+       "year": 2026
+      },
+      {
+       "paperId": "99b17f5d5b0f3bd9ee1d7b0baca4e5c2e8a48438",
+       "title": "Trajectory Generation for Space Manipulators Capturing Moving Targets Using Transfer Learning",
+       "year": 2023
+      },
+      {
+       "paperId": "ce006ddacdb856587fc562e1f305594b880948e1",
+       "title": "Trajectory Optimization for Multi-UAV-Enabled Wireless-Powered MEC with Graph-Based MADRL",
+       "year": 2025
+      },
+      {
+       "paperId": "643e3814f2a9907ded7962e874ba2eccd210bfef",
+       "title": "DRL-Based Resource Allocation and Trajectory Optimization in UAV-Assisted Maritime Networks",
+       "year": 2025
+      },
+      {
+       "paperId": "fe186e62657e9f73780787f5def1a1d440202333",
+       "title": "Joint Optimization of Data Acquisition and Trajectory Planning for UAV-Assisted Wireless Powered Internet of Things",
+       "year": 2025
+      },
+      {
+       "paperId": "a7df1639acd0bddadbfa94764bb4d8006fe46ce0",
+       "title": "Obstacle-free Trajectory Planning of an Uncertain Space Manipulator: Learning from a Fixed-Based Manipulator",
+       "year": 2024
+      },
+      {
+       "paperId": "5e7cf2ac1345d93fdc85ef3477bd6ade12ad64cc",
+       "title": "SRL-TR2: A Safe Reinforcement Learning Based TRajectory TRacker Framework",
+       "year": 2023
+      },
+      {
+       "paperId": "4ef217dc3f22c0f417b1b1f008b1466c116607d8",
+       "title": "A Pedestrian Trajectory Prediction Model Based on Generative Adversarial Mimicry Learning",
+       "year": 2024
+      },
+      {
+       "paperId": "bf2b72d7d8a7bee016ee28b0d91b2a781de2796e",
+       "title": "On Evaluation of discrete RL agents for Traffic Scheduling and Trajectory Optimization of UAV-based IoT Network with multiple RIS unit",
+       "year": 2024
+      },
+      {
+       "paperId": "f48166e379610a2795e547ac7308de6eed0cdd05",
+       "title": "NavDP: Learning Sim-to-Real Navigation Diffusion Policy with Privileged Information Guidance",
+       "year": 2025
+      },
+      {
+       "paperId": "75f367196ac7711e7f5cfa3ab05507bf4d83c160",
+       "title": "Fairness-Guaranteed Joint Access Control, 3-D UAV Trajectory Planning, and Task Scheduling in AGINs",
+       "year": 2025
+      },
+      {
+       "paperId": "83b7256773cafe8db7d17c3de0909cae492fdc93",
+       "title": "Implementation of an autonomous exploration system in unknown environments based on transfer learning",
+       "year": 2024
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "sample_id": "t004",
+   "mode": "verify",
+   "repeat": 1,
+   "queries": [
+    "semantic transfer behavior policy",
+    "safe trajectory distillation",
+    "safe trajectory distillation reinforcement learning"
+   ],
+   "fos": null,
+   "target_paper_id": "671bdfb2e1e3831e399e47266c7182dff67485a8",
+   "score": {
+    "found": false,
+    "best_rank": null,
+    "per_query_rank": [
+     null,
+     null,
+     null
+    ]
+   },
+   "searches": [
+    {
+     "query": "semantic transfer behavior policy",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "643e4a21a0c2f32a8abe6fba6273c646b8e3e5b6",
+       "title": "Learning intent and behavior models from motion trajectories for unsupervised semantic labeling",
+       "year": 2021
+      },
+      {
+       "paperId": "f87404c443ce4f5c7571e6c368607b9ed1d53533",
+       "title": "KeyGen: Unsupervised Keypoint based Object-Centric Representations for Category-Level Policy Generalization",
+       "year": 2026
+      },
+      {
+       "paperId": "b7739059272a35880d74831184f5288f3ea5571f",
+       "title": "Task-Level Decisions to Gait Level Control: A Hierarchical Policy Approach for Quadruped Navigation",
+       "year": 2026
+      },
+      {
+       "paperId": "93dca907ff738c4eb5df8d53ee5b8414e84a9048",
+       "title": "Language-Informed Transfer Learning for Embodied Household Activities",
+       "year": 2023
+      },
+      {
+       "paperId": "639170dcab605fb88524cd4ea4080ad2b65c0a34",
+       "title": "Measure Before You Manage: Evaluating Agent Working Memory in Coding Agents",
+       "year": 2026
+      },
+      {
+       "paperId": "73a0f35078493cd1aa324269607d03219cd75898",
+       "title": "BRL: Learning behavior representations of Reversi players",
+       "year": 2022
+      },
+      {
+       "paperId": "18ced3b9f25dc586ebab82d3c2ee18ed01deb54d",
+       "title": "Decoupling the Declarative from the Procedural in Vision-Language-Action Models",
+       "year": 2026
+      },
+      {
+       "paperId": "d1e02fc0b88a1877cd787ee1bfe57ca1b8b26949",
+       "title": "EgoLoc: A Generalizable Solution for Temporal Interaction Localization in Egocentric Videos",
+       "year": 2025
+      },
+      {
+       "paperId": "2252e16e2021dd0e3534b54da43e34307cd464e6",
+       "title": "OpenReliOps: A Safety-Constrained Architecture for Autonomous Reliability in Open-Weight Model Services",
+       "year": 2026
+      },
+      {
+       "paperId": "b35358d0bd4a8852bfc118122d9e20d38b4e7601",
+       "title": "Wireless Power Transfer Meets Semantic Communication for Resource-Constrained IoT Networks: A Joint Transmission Mode Selection and Resource Management Approach",
+       "year": 2025
+      },
+      {
+       "paperId": "cd312f4d2d68b5f27ec79e02f1eda2fef8094b74",
+       "title": "How Transfer Behavior Impacts Consumer Perceptions and Intentions Toward College Athletes Who Pursue Name, Image, and/or Likeness Activities",
+       "year": 2024
+      },
+      {
+       "paperId": "9e306ac9494f402c218f4a9a661618a7f7a30bee",
+       "title": "The Influence of Farmers’ Cognition on Forest Land Transfer Behavior: A Case Study of Chengdu City",
+       "year": 2023
+      },
+      {
+       "paperId": "c94e53324491fc3d9c24af08330c8d481769b757",
+       "title": "Farmers’ policy cognition, psychological constructs and behavior of land transfer: empirical analysis based on household surveys in Beijing",
+       "year": 2023
+      },
+      {
+       "paperId": "b5796a4e903c67cf347d8c0420e618a0ba7aea92",
+       "title": "A Framework for Few-Shot Policy Transfer Through Observation Mapping and Behavior Cloning",
+       "year": 2023
+      },
+      {
+       "paperId": "c6afb25a21b6ee8afd2f760bc26f9daf3fada40f",
+       "title": "IOB: integrating optimization transfer and behavior transfer for multi-policy reuse",
+       "year": 2023
+      },
+      {
+       "paperId": "99001a8b4c3d4c96315a72fbc600be8625cb1a18",
+       "title": "RAVEN: Resilient Aerial Navigation via Open-Set Semantic Memory and Behavior Adaptation",
+       "year": 2025
+      },
+      {
+       "paperId": "b0094a8d0b45886165daab2e6a87d81e151f4724",
+       "title": "Sim-to-Real Transfer of Image-Based Autonomous Guidewire Navigation Trained by Deep Deterministic Policy Gradient with Behavior Cloning for Fast Learning",
+       "year": 2022
+      },
+      {
+       "paperId": "896140ffd6f61c03bfd9399ba11c2c5d65812643",
+       "title": "Semantic Belief Behavior Graph: Enabling Autonomous Robot Inspection in Unknown Environments",
+       "year": 2024
+      },
+      {
+       "paperId": "aaa5d85787ce317c83d194f1b4d2ac66fda97b65",
+       "title": "EAGER: Two-Stream Generative Recommender with Behavior-Semantic Collaboration",
+       "year": 2024
+      },
+      {
+       "paperId": "46168a5ff72e9f9e0c98e3d63f5758f475af5183",
+       "title": "Constructing a Good Behavior Basis for Transfer using Generalized Policy Updates",
+       "year": 2021
+      }
+     ]
+    },
+    {
+     "query": "safe trajectory distillation",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "90ca5d95e55f8cb908e65bf76023ce0a47ffe7a8",
+       "title": "Drive-JEPA: Video JEPA Meets Multimodal Trajectory Distillation for End-to-End Driving",
+       "year": 2026
+      },
+      {
+       "paperId": "c20c5673e9745e3b9e57b0cd74f2681f7b5e3612",
+       "title": "Age of Information Minimization for UAV-Assisted Internet of Things Networks: A Safe Actor-Critic With Policy Distillation Approach",
+       "year": 2024
+      },
+      {
+       "paperId": "143b5af94b106f86aa080603115549aab077cfe5",
+       "title": "LaKD: Length-agnostic Knowledge Distillation for Trajectory Prediction with Any Length Observations",
+       "year": 2024
+      },
+      {
+       "paperId": "76d8817d27a7d5b1cee3232cbc3b12bb50f8a095",
+       "title": "Map-Free Trajectory Prediction with Map Distillation and Hierarchical Encoding",
+       "year": 2024
+      },
+      {
+       "paperId": "e0f43332e0cbf5ef78df601405cd3361d91739d7",
+       "title": "Self-Training Knowledge Distillation-Based Multimodal Trajectory Prediction for Pedestrians",
+       "year": 2026
+      },
+      {
+       "paperId": "67596d79a0607fd77351257f0135260d06c70e84",
+       "title": "TaPD: Temporal-adaptive Progressive Distillation for Observation-Adaptive Trajectory Forecasting in Autonomous Driving",
+       "year": 2026
+      },
+      {
+       "paperId": "190fa637f1ec0d268e5e6492116109f83f73ae66",
+       "title": "Reducing the Safety Tax in LLM Safety Alignment with On-Policy Self-Distillation",
+       "year": 2026
+      },
+      {
+       "paperId": "616061f8c5516f7027fb1bf55326413dc930c8cb",
+       "title": "Near-Policy: Accelerating On-Policy Distillation via Asynchronous Generation and Selective Packing",
+       "year": 2026
+      },
+      {
+       "paperId": "7a2bca4a371ae3313429f298b0c58dd31a3c425f",
+       "title": "Outcome-Confounded Local Supervision in On-Policy Distillation",
+       "year": 2026
+      },
+      {
+       "paperId": "6e25417370844f2f5ee97e62961682b0a8c59ab5",
+       "title": "FPD-Drive: Future Policy Distillation for End-to-End Autonomous Driving",
+       "year": 2026
+      },
+      {
+       "paperId": "fe40cbda85545c93a29b3b18bb090026089da2e3",
+       "title": "Recover to Predict: Progressive Retrospective Learning for Variable-Length Trajectory Prediction",
+       "year": 2026
+      },
+      {
+       "paperId": "61b9ffe46141d0ea3c620d77e7a10d70ca5055d6",
+       "title": "Safe Cooperative Decision-Making for Multi-UAV Pursuit–Evasion Games via Opponent Intent Inference",
+       "year": 2026
+      },
+      {
+       "paperId": "ee938ffd33a191d9c2a1dd3486b9fba5bd47ac5f",
+       "title": "Flow-Map Distillation on Relation Manifolds for Image Restoration",
+       "year": 2026
+      },
+      {
+       "paperId": "84bc4f285bacb8ff67574c1abbfa104eb550441d",
+       "title": "GUARD: Natural Forgetting in Large Reasoning Models via Guided Answer-Reasoning Distillation",
+       "year": 2026
+      },
+      {
+       "paperId": "7c5c4cec1b4dcd28dda7f540d7d7e7d59c47f771",
+       "title": "Improving Autonomous Driving Safety with POP: A Framework for Accurate Partially Observed Trajectory Predictions",
+       "year": 2023
+      },
+      {
+       "paperId": "363081c7400c7cbcd4a753fdabdc295ce958c2e5",
+       "title": "ConsisGuard: Aligning Safety Deliberation with Policy Enforcement in LLM Guardrails",
+       "year": 2026
+      },
+      {
+       "paperId": "1313b1a6fce884b1388cafee7e3ebe0d6945d42e",
+       "title": "Planning-Oriented End-to-End Autonomous Driving: Architectures, Evaluation, and Emerging Paradigms",
+       "year": 2026
+      },
+      {
+       "paperId": "657afeaa016d4d598da7953295b08072ac2e74b9",
+       "title": "StepSafe: Learning Timely Intervention with Context-Aware Safety Reasoning",
+       "year": 2026
+      },
+      {
+       "paperId": "b0ef230f57f016cd1aa0351684a71b7204038cee",
+       "title": "Safety-critical Control of Quadrupedal Robots with Rolling Arms for Autonomous Inspection of Complex Environments",
+       "year": 2023
+      },
+      {
+       "paperId": "0c9796f5f6716ffdd40e2a8158221f5b631c44f6",
+       "title": "One Diffusion Step to Real-World Super-Resolution via Flow Trajectory Distillation",
+       "year": 2025
+      }
+     ]
+    },
+    {
+     "query": "safe trajectory distillation reinforcement learning",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "616061f8c5516f7027fb1bf55326413dc930c8cb",
+       "title": "Near-Policy: Accelerating On-Policy Distillation via Asynchronous Generation and Selective Packing",
+       "year": 2026
+      },
+      {
+       "paperId": "1abe629edae984ad81f412352ddc75a49f53cc26",
+       "title": "Inverse Reinforcement Learning for Personalized and Safe Trajectory Planning in Autonomous Driving",
+       "year": 2025
+      },
+      {
+       "paperId": "25f1849bc6c1bf2bf6433f7d759f80b8243976b4",
+       "title": "Trajectory optimization of train cooperative energy-saving operation using a safe deep reinforcement learning approach",
+       "year": 2025
+      },
+      {
+       "paperId": "e61d89f1adc8f68a7e0804ae87ab0cf768e92db9",
+       "title": "Learning Agentic Time Series Forecasting via Trajectory Distillation and Memory-Based Reinforcement Learning",
+       "year": 2026
+      },
+      {
+       "paperId": "dbd51472fd88995f3d14123b9fc7767590d6646c",
+       "title": "State-Based Reinforcement Learning Safe Trajectory Tracking for Autonomous Vehicles via Geometric Safety Representation and Lagrangian-PPO",
+       "year": 2026
+      },
+      {
+       "paperId": "3745f5d7f92ad72563fd61ba73a68afeae1d5845",
+       "title": "Constrained Multi-Agent Reinforcement Learning with MAF-Net for Safe Trajectory Planning",
+       "year": 2026
+      },
+      {
+       "paperId": "2105aebe02eddfefec3bd133cce44f848590780f",
+       "title": "Adaptive-Slack Prescribed-Performance Control: Achieving Safe Trajectory Tracking in Cluttered Environments via Reinforcement Learning.",
+       "year": 2026
+      },
+      {
+       "paperId": "0775baffb9d77ed73610c3739951fc332683b527",
+       "title": "MOSDT: Self-Distillation-Based Decision Transformer for Multi-Agent Offline Safe Reinforcement Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "404b408aa877c3bccfb525042abc3d59c9fbab04",
+       "title": "Safe Trajectory Planning for RIS-Assisted UAV Communications Using Reinforcement Learning",
+       "year": 2026
+      },
+      {
+       "paperId": "fd437cd63984ba40c2a7d3dfbcfe167fe7e8e18d",
+       "title": "Safe trajectory design for indoor drones using reinforcement-learning-based methods",
+       "year": 2023
+      },
+      {
+       "paperId": "10a5ecd2838e66b3a1f565bcf20a5e8033ef6e14",
+       "title": "CarPlanner: Consistent Auto-regressive Trajectory Planning for Large-scale Reinforcement Learning in Autonomous Driving",
+       "year": 2025
+      },
+      {
+       "paperId": "adfd1bd6be2b703c62f1082dd44e7618d1b4884b",
+       "title": "Safe Trajectory Sampling in Model-Based Reinforcement Learning",
+       "year": 2023
+      },
+      {
+       "paperId": "e6e38f77c8aab92c4304d32bffae3c0bf7b7e8af",
+       "title": "Distributed Safe Multi-Agent Reinforcement Learning: Joint Design of THz-Enabled UAV Trajectory and Channel Allocation",
+       "year": 2024
+      },
+      {
+       "paperId": "831ae22cf62ff51b1d363b8b0c336698ed6ad9df",
+       "title": "Trajectory tracking control based on deep reinforcement learning and ensemble random network distillation for robotic manipulator",
+       "year": 2024
+      },
+      {
+       "paperId": "bfd9648cb4a9f57dc63fea7d899ae5a01585e86c",
+       "title": "Enhancing Offline Safe Reinforcement Learning with Trajectory-Constrained Diffusion Planning",
+       "year": 2025
+      },
+      {
+       "paperId": "6cd3fdb4eb672bd81fe0d97dd699977af2c5359a",
+       "title": "SafeSlice: Enabling SLA-Compliant O-RAN Slicing via Safe Deep Reinforcement Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "a156ac66848746a2408700f4c6afe831b0bf644b",
+       "title": "A Knowledge Distillation Based Reinforcement Learning Scheme for Multi-AUV Trajectory Planning in Network Localization",
+       "year": 2024
+      },
+      {
+       "paperId": "a08259112c53918e0f8a1fe50a69171a3f5b05e4",
+       "title": "Offline Safe Reinforcement Learning Using Trajectory Classification",
+       "year": 2024
+      },
+      {
+       "paperId": "b6b5a2ab6563aa8b3d7235880dc8ff5472ad005d",
+       "title": "From Text to Trajectory: Exploring Complex Constraint Representation and Decomposition in Safe Reinforcement Learning",
+       "year": 2024
+      },
+      {
+       "paperId": "6b306ea4482550220f462d0f6a4d08b695153009",
+       "title": "Trajectory Tracking Control Based on Deep Reinforcement Learning for a Robotic Manipulator with an Input Deadzone",
+       "year": 2025
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "sample_id": "t005",
+   "mode": "references",
+   "repeat": 1,
+   "queries": [
+    "safe proxy amplification risk",
+    "reward maximization safety failure",
+    "alignment tax optimization",
+    "proxy model error propagation",
+    "safety filtering reward hacking"
+   ],
+   "fos": null,
+   "before": "2026-08-23",
+   "score": {
+    "core_total": 9,
+    "core_hit": 0,
+    "core_recall": 0.0,
+    "gold_total": 24,
+    "gold_hit": 0,
+    "pooled": 98,
+    "hit_titles": [],
+    "missed_titles": [
+     "Bestof-n jailbreaking",
+     "Defining and Characterizing Reward Gaming",
+     "Is Best-of-N the Best of Them? Coverage, Scaling, and Optimality in Inference-Time Alignment",
+     "Llama Guard: LLM-based Input-Output Safeguard for Human-AI Conversations",
+     "On Almost Surely Safe Alignment of Large Language Models at Inference-Time",
+     "Regularized Best-of-N Sampling with Minimum Bayes Risk Objective for Language Model Alignment",
+     "Safe Inference-Time Alignment via Lagrangian Reward Augmentation",
+     "Scaling Laws for Reward Model Overoptimization",
+     "ShieldGemma: Generative AI Content Moderation Based on Gemma"
+    ],
+    "per_query_core_hit": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "searches": [
+    {
+     "query": "safe proxy amplification risk",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "bf9efa64835e12b8bacb685092f0cd5a5436f0a0",
+       "title": "Modeling individual noise-induced hearing loss risk with proxy measurements of external-ear amplification.",
+       "year": 2021
+      },
+      {
+       "paperId": "071cca8ddc86f780a8443444303e3611d666ebe9",
+       "title": "CO2 Storage Risk Assessment: Leveraging Machine Learning Proxy Modeling for Predicting Fracture Growth and Leakage",
+       "year": 2025
+      },
+      {
+       "paperId": "15f786e07aac9f37d5239b6696dcb5390d271fe5",
+       "title": "Safe Haven or Dangerous Place? Stereotype Amplification and Americans’ Perceived Risk of Terrorism, Violent Street Crime, and Mass Shootings",
+       "year": 2020
+      },
+      {
+       "paperId": "3ab86be7bde082e1af0876c23f5ea50331664e1b",
+       "title": "Application Research of Topographic Slope as A Proxy for Seismic Site-Conditions and Amplification in China Earthquake Risk Assessment",
+       "year": 2018
+      },
+      {
+       "paperId": "9a9006f24467d89e1bb9e5869f5d17c08d3fe1f0",
+       "title": "Exploring inferred geomorphological sediment thickness as a new site proxy to predict ground-shaking amplification at regional scale: application to Europe and eastern Türkiye",
+       "year": 2024
+      },
+      {
+       "paperId": "2aa1acf81ac90731fd4769628a67ac72660bec54",
+       "title": "Blockchain-based proxy re-encryption access control method for biological risk privacy protection of agricultural products",
+       "year": 2024
+      },
+      {
+       "paperId": "015f759fc594455827d975d1bde9f236d58acec3",
+       "title": "HTTP/2 Tsunami: Investigating HTTP/2 proxy amplification DDoS attacks",
+       "year": 2017
+      },
+      {
+       "paperId": "c98f9ff3ddb007285a7b97368d0856bc7f0e9310",
+       "title": "Development of loop-mediated isothermal amplification (LAMP) assay using SYBR safe and gold-nanoparticle probe for detection of Leishmania in HIV patients",
+       "year": 2021
+      },
+      {
+       "paperId": "09d8a183d7c3f747cbc72dff9de914b0c4184528",
+       "title": "Introducing inferred geomorphological sediment thickness as a new site proxy to predict ground-shaking amplification at regional scale. Application to Europe and Eastern Turkey",
+       "year": 2023
+      },
+      {
+       "paperId": "3bb4e42938384f9cbb23876979078b52ce4492ac",
+       "title": "But They Told Us It Was Safe! Carbon Dioxide Removal, Fracking, and Ripple Effects in Risk Perceptions",
+       "year": 2021
+      },
+      {
+       "paperId": "12dd7edacb7413b426433e922b44836da0450832",
+       "title": "Development and validation of the ASGARD risk score for safe monitoring in asymptomatic nonsevere aortic stenosis.",
+       "year": 2024
+      },
+      {
+       "paperId": "84201b0a48c27fa65134c1c658ac3b500c5ba465",
+       "title": "Multiplex recombinase polymerase amplification for high-risk and low-risk type HPV detection, as potential local use in single tube",
+       "year": 2023
+      },
+      {
+       "paperId": "3375565d442b398d2d7a28ad831586f56fca72b2",
+       "title": "“As safe as possible”: a qualitative study of opioid withdrawal and risk behavior among people who use illegal opioids",
+       "year": 2023
+      },
+      {
+       "paperId": "b83cffc5a460f3427f302997c524c207d59289fc",
+       "title": "Is it safe to remove a dam at the risk of a sprawl by exotic fish species?",
+       "year": 2021
+      },
+      {
+       "paperId": "614a8055060a164d7e494fcf703c3e4c790d3898",
+       "title": "Risk-Adjusted Mortality Rates as a Quality Proxy Outperform Volume in Surgical Oncology—A New Perspective on Hospital Centralization Using National Population-Based Data",
+       "year": 2022
+      },
+      {
+       "paperId": "4546a287e92786c90bc5ad843817119aa795bf71",
+       "title": "Harm Amplification in Text-to-Image Models",
+       "year": 2024
+      },
+      {
+       "paperId": "fe4f44239c21e14576b2083a4a0bf2d971ef55b7",
+       "title": "Blockchain and Cloud-Based Secure Healthcare: Attribute-Based Proxy Re-Encryption with Multi-Factor Authentication for Data Integrity and Access Control",
+       "year": 2024
+      },
+      {
+       "paperId": "1e8bf79b498a82dece5154e634c2cabacd7111cb",
+       "title": "Urban scale risk assessment including SSI and site amplification",
+       "year": 2022
+      },
+      {
+       "paperId": "97ff6377a89358f8391c34741bcb6a4f2e1ed638",
+       "title": "Safe Learning for Contact-Rich Robot Tasks: A Survey from Classical Learning-Based Methods to Safe Foundation Models",
+       "year": 2025
+      },
+      {
+       "paperId": "ed5f3fdbee389ca7f7131995dd7121ba8f5821e3",
+       "title": "Social amplification of risk and \"probable vaccine damage\": A typology of vaccination beliefs in 28 European countries.",
+       "year": 2021
+      }
+     ]
+    },
+    {
+     "query": "reward maximization safety failure",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "0736a3013ab644d7f33b8755e3fee7f1c5ec265f",
+       "title": "CAMP: Counterexamples, Abstraction, MDPs, and Policy Refinement for Enhancing Safety, Stability, and Rewards in Reinforcement Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "27fb202342b4df259d677f7e1fdab37a0da8cd6f",
+       "title": "Off-Policy Primal-Dual Safe Reinforcement Learning",
+       "year": 2024
+      },
+      {
+       "paperId": "fe3eb8cdb8eb1fb85abd3ded0c35722afa246cd7",
+       "title": "Beyond Roko’s Basilisk: Mathematical And Ethical Analysis Of Coercive Optimization In Advanced AI Systems",
+       "year": 2026
+      },
+      {
+       "paperId": "f638b7109ff3c3c331c1b0007b443f8d8e999a41",
+       "title": "Uncertainty Estimation for Safety-critical Scene Segmentation via Fine-grained Reward Maximization",
+       "year": 2023
+      },
+      {
+       "paperId": "8957291c0f6171302fefa9ceb21a13e2b5f196c4",
+       "title": "Modeling human road crossing decisions as reward maximization with visual perception limitations",
+       "year": 2023
+      },
+      {
+       "paperId": "08f3b6f717536b56f8ccdab99437698175723549",
+       "title": "Development of Reward-Based Crowd Management System and Field Evaluation of Safety and Profitability",
+       "year": 2024
+      },
+      {
+       "paperId": "79cc7cb576b7eed9e7cf0d6a92fe36105fa7aad8",
+       "title": "Data-adaptive Safety Rules for Training Reward Models",
+       "year": 2025
+      },
+      {
+       "paperId": "6fe5fa5fb9fc6100679fdbf21f072a9b9e2a0631",
+       "title": "A reward-based performability modelling of a fault-tolerant safety–critical system",
+       "year": 2023
+      },
+      {
+       "paperId": "46d9af5d580229e17c12c3326da1e02a6f4c0485",
+       "title": "Design of Reward Functions for Autonomous Driving Based on Reinforcement Learning: Balancing Safety and Efficiency",
+       "year": 2025
+      },
+      {
+       "paperId": "a4bed011e8ebee47950a511ff8482e019d924682",
+       "title": "ReMAV: Reward Modeling of Autonomous Vehicles for Finding Likely Failure Events",
+       "year": 2023
+      },
+      {
+       "paperId": "2389fafc2a97e13fa810c4014babe73bd886c06f",
+       "title": "Offline Reinforcement Learning with Failure Under Sparse Reward Environments",
+       "year": 2024
+      },
+      {
+       "paperId": "d5c5422252cc825a5bb24ed2ecf9bbbcc05c4d85",
+       "title": "Discovery of the reward function for embodied reinforcement learning agents",
+       "year": 2025
+      },
+      {
+       "paperId": "ec7275410a9653ac427d5c75e52ae114a7dd0df6",
+       "title": "A theoretical approach to animal's impulsive preference: Impulsive choice behavior is interpreteded as a result of reward-maximization failure",
+       "year": 2012
+      },
+      {
+       "paperId": "096714bf7096f275c0f803dd877c5c76433094eb",
+       "title": "Reward Hacking in Language Model Agents: Revisiting AI Safety Gridworlds",
+       "year": 2026
+      },
+      {
+       "paperId": "790a8a464d37b96783a42be6e0ca5077eb5e7009",
+       "title": "PREFINE: Preference-based Implicit Reward and Cost Fine-tuning for Safety Alignment",
+       "year": 2026
+      },
+      {
+       "paperId": "6cc0e1f63cabdc638fb8e2e276dda3052172181e",
+       "title": "Beyond Reward Margin: Rethinking and Resolving Likelihood Displacement in Diffusion Models via Video Generation",
+       "year": 2025
+      },
+      {
+       "paperId": "223fa69e688ed51bcc31cbb42789628f3704952e",
+       "title": "LongRM: Revealing and Unlocking the Context Boundary of Reward Modeling",
+       "year": 2025
+      },
+      {
+       "paperId": "571e73c1291db1b9dd2be5e947e2ef054b1dd9e8",
+       "title": "Assessing the safety and reliability of type-3 high-pressure composite tanks: a comprehensive analysis of failure metrics",
+       "year": 2024
+      },
+      {
+       "paperId": "e4d4b61aded543fbdbfaef94fbd0561d87d15060",
+       "title": "Comparative effectiveness and safety of 36 therapies or interventions for pregnancy outcomes with recurrent implantation failure: a systematic review and network meta-analysis",
+       "year": 2023
+      },
+      {
+       "paperId": "e5963f91172d7d5c710980d003dfd805920c08b9",
+       "title": "Truthful or Fabricated? Using Causal Attribution to Mitigate Reward Hacking in Explanations",
+       "year": 2025
+      }
+     ]
+    },
+    {
+     "query": "alignment tax optimization",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "8fde60e3f88ed92b79622ae70118f5aa146e09bf",
+       "title": "Mitigating the Safety Alignment Tax with Null-Space Constrained Policy Optimization",
+       "year": 2025
+      },
+      {
+       "paperId": "6fe7e6ce3cc0ebd038caa456d73fd7472e7d6c38",
+       "title": "Controllable Preference Optimization: Toward Controllable Multi-Objective Alignment",
+       "year": 2024
+      },
+      {
+       "paperId": "9c9ca3a8320c0babd9fc331cc376ffff32fe1f67",
+       "title": "Online Merging Optimizers for Boosting Rewards and Mitigating Tax in Alignment",
+       "year": 2024
+      },
+      {
+       "paperId": "c7aa6374f1f522027c11e0fe91ccc3c12bf19065",
+       "title": "Reinforcement Learning with Semantic Rewards Enables Low-Resource Language Expansion without Alignment Tax",
+       "year": 2026
+      },
+      {
+       "paperId": "c870546bd8e24e0c8e39ffa5363a72d010d10236",
+       "title": "Value Alignment Tax: Measuring Value Trade-offs in LLM Alignment",
+       "year": 2026
+      },
+      {
+       "paperId": "5023ceb689a6908dabf8dcf55af946d973b9daed",
+       "title": "Promoting remanufacturing through subsidy and environment tax: Channel co-opetition, incentive alignment and regulation optimization",
+       "year": 2022
+      },
+      {
+       "paperId": "774df57b5b181379aea5d4c0faa5654179e1ba49",
+       "title": "Research on the Optimization of the Path of Green Fiscal and Tax Policies to Enable the “Dual Carbon” Goals",
+       "year": 2025
+      },
+      {
+       "paperId": "4034a8dbaa35dfb0d0a74397a6c9751d3468ce65",
+       "title": "Overcoming State Inertia: Minimally Invasive Temporal Alignment for Evolving Contexts",
+       "year": 2025
+      },
+      {
+       "paperId": "0ba986720b529cc28361b471f0e21c1d3643db98",
+       "title": "Contextual Bilevel Reinforcement Learning for Incentive Alignment",
+       "year": 2024
+      },
+      {
+       "paperId": "bbaa25a5ae556edf7713bef8b3d525ad287dcd0b",
+       "title": "MapReduce LoRA: Advancing the Pareto Front in Multi-Preference Optimization for Generative Models",
+       "year": 2025
+      },
+      {
+       "paperId": "ddbe0f2335097f97afc4853533412114305e9f79",
+       "title": "Transfer pricing as a means of the state tax base optimization",
+       "year": 2019
+      },
+      {
+       "paperId": "d4f36cdd1e9df58d9e869e1ec0027041dbf8a587",
+       "title": "A Decision Support Framework for Solar PV System Selection in SMMEs Using a Multi-Objective Optimization by Ratio Analysis Technique",
+       "year": 2025
+      },
+      {
+       "paperId": "17339975a60cf4cdddaec50fc6db3e0d20686034",
+       "title": "VISA: Value Injection via Shielded Adaptation for Personalized LLM Alignment",
+       "year": 2026
+      },
+      {
+       "paperId": "d1f844e7c23b5ae4e25637cf114d26eaa0649dfb",
+       "title": "Current paths of tax for business entities: Financial, economic and legal aspects",
+       "year": 2024
+      },
+      {
+       "paperId": "21546d79b81b3f17d39ab4dc9073c5d68dda4f81",
+       "title": "Determination of Restaurant Tax Revenue Targets (Case Study in Sumedang Regency)",
+       "year": 2024
+      },
+      {
+       "paperId": "e944015ea9b511a1daabbaceb59989ee9989de96",
+       "title": "RLearner-LLM: Balancing Logical Grounding and Fluency in Large Language Models via Hybrid Direct Preference Optimization",
+       "year": 2026
+      },
+      {
+       "paperId": "5f838b417c979e3aefe944144911e183c464dc3a",
+       "title": "Don't Mix Rewards, Mix Policies: Policy Decomposition and Optimization for Multi-Reward RL",
+       "year": 2026
+      },
+      {
+       "paperId": "4cba1df6fed5067c01a6c6258c93e73e5b8d3acc",
+       "title": "The Rust Tax: Measuring the Cost of Memory Safety and Safely Recovering What You Can",
+       "year": 2026
+      },
+      {
+       "paperId": "55fa8e9398d20626b9838501a598d73d56e66606",
+       "title": "Economic Consequences of Current Precarious Employment, Alignment Paths and Development Trends",
+       "year": 2020
+      },
+      {
+       "paperId": "b7d7c4079cdd56d57c5144d686182f3ac7ae272f",
+       "title": "AI and climate: an ethical sustainability framework for balancing risks and responsibilities",
+       "year": 2025
+      }
+     ]
+    },
+    {
+     "query": "proxy model error propagation",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "284a5d14bbf8753530a689639b97d0c079e52de1",
+       "title": "Construction Method of Shock Wave Field Proxy Model Based on Physical Information Neural Network",
+       "year": 2024
+      },
+      {
+       "paperId": "707e4a325edef09f84f950f7f9b9e184f81b5723",
+       "title": "How Modality Shapes Perception and Reasoning: A Study of Error Propagation in ARC-AGI",
+       "year": 2025
+      },
+      {
+       "paperId": "e2be2c17c947e9fc79bf608ea3566167d7865dd0",
+       "title": "Propagation-Aware Node Selection for GNN-Based Kriging in Resource-Constrained Wireless Sensor Networks",
+       "year": 2025
+      },
+      {
+       "paperId": "92a0021adf96999e69ddee8faca9b1d2b3d9e3ca",
+       "title": "Uncertainty and error quantification for data-driven Reynolds-averaged turbulence modelling with mean-variance estimation networks",
+       "year": 2025
+      },
+      {
+       "paperId": "5313b6d528a5aa640d884548dc025620e79a45ff",
+       "title": "Document-Level Multi-Event Extraction with Event Proxy Nodes and Hausdorff Distance Minimization",
+       "year": 2023
+      },
+      {
+       "paperId": "e1fcc86fafea02ccfc9b7f1bccb1d0c1b0248da7",
+       "title": "The International Transmission of US Tax Shocks: A Proxy-SVAR Approach",
+       "year": 2021
+      },
+      {
+       "paperId": "14cc148b08145ae0ca6c60b6fdab26ab10a36b22",
+       "title": "Risk estimate under a time-varying autoregressive model for data-driven reproduction number estimation",
+       "year": 2024
+      },
+      {
+       "paperId": "91edf6e012a7835eedaa39cf8bcab623440e05d3",
+       "title": "Training hybrid neural networks with multimode optical nonlinearities using digital twins",
+       "year": 2025
+      },
+      {
+       "paperId": "cde3738386857bcf2b181c42f551b0fb618c4aba",
+       "title": "Spatiotemporal variation and key environmental drivers of Chlorophyll-a in Qionghai Lake: insights from Sentinel-2 satellite and machine learning models",
+       "year": 2025
+      },
+      {
+       "paperId": "3f6ccd7a9d17dc1ef589a1067e84df70b84d98ee",
+       "title": "Influence of proxy data uncertainty on data assimilation for the past climate",
+       "year": 2016
+      },
+      {
+       "paperId": "2b1d87f75eb15381218016a6e6e06268a42ca3df",
+       "title": "Population Growth, Environmental Quality and Poverty Propagation in Nigerian Economy: A Case for Sustainable Environmental Policy",
+       "year": 2018
+      },
+      {
+       "paperId": "0fe25cb08cdfbc837bc41e811df2877c98df6ab9",
+       "title": "T‐NET, a dynamic model for simulating daily stream temperature at the regional scale based on a network topology",
+       "year": 2016
+      },
+      {
+       "paperId": "56966d3e4bd1a42000b9341d47c73f239d7cd39f",
+       "title": "Critical properties of disordered XY model on sparse random graphs",
+       "year": 2017
+      },
+      {
+       "paperId": "e813e8b00dffa063332eb1d7585ad3703f96b2b1",
+       "title": "Was atmospheric CO2 capped at 1000 ppm over the past 300 million years",
+       "year": 2016
+      },
+      {
+       "paperId": "401dfc76fd90d200220aee5438aeacb85ecaf615",
+       "title": "Optimal Arrangement of Structural Sensors in Landfill Based on Stress Wave Detection Technology",
+       "year": 2022
+      },
+      {
+       "paperId": "f3b8a022b2eb4e7578133efb8fa5f3a77e528888",
+       "title": "Peak ground acceleration prediction using artificial neural networks for Kachchh, Gujarat, India",
+       "year": 2022
+      },
+      {
+       "paperId": "b5ac14b9ff1c680a08349f5ee428df0284485354",
+       "title": "A global positioning system–based climatology for the total electron content in the ionosphere",
+       "year": 2010
+      },
+      {
+       "paperId": "3084475cefddb94cf8ea0baf864cab6d66d0fb39",
+       "title": "A Performance Enhancing Proxy for terrestrial-satellite hybrid networks",
+       "year": 2008
+      },
+      {
+       "paperId": "5c1e719cf15beb2ac2408f0c5c95bcf0b47f494e",
+       "title": "Temi di discussione",
+       "year": 2019
+      },
+      {
+       "paperId": "06f183a90e37eb37700abf709eea56ce9390f69c",
+       "title": "Model Error Propagation via Learned Contraction Metrics for Safe Feedback Motion Planning of Unknown Systems",
+       "year": 2021
+      }
+     ]
+    },
+    {
+     "query": "safety filtering reward hacking",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "7863f50d20f317ffb50d5b1cb91b5cc936dc6e43",
+       "title": "Bias at the End of the Score",
+       "year": 2026
+      },
+      {
+       "paperId": "209e31d411108c8c0d4348a3316ad9a759f4df48",
+       "title": "Overoptimization Failures and Specification Gaming in Multi-agent Systems",
+       "year": 2018
+      },
+      {
+       "paperId": "f29cd5cab35c06518b9fab95168c11ab55ae2170",
+       "title": "Natural Emergent Misalignment from Reward Hacking in Production RL",
+       "year": 2025
+      },
+      {
+       "paperId": "1465aff7f7a0916287a43f8b0f0c0d6e5fe5719e",
+       "title": "Inference-Time Reward Hacking in Large Language Models",
+       "year": 2025
+      },
+      {
+       "paperId": "a714fb63b82be469bab3014e8ccffb9278bb4881",
+       "title": "Pedagogical Safety in Educational Reinforcement Learning: Formalizing and Detecting Reward Hacking in AI Tutoring Systems",
+       "year": 2026
+      },
+      {
+       "paperId": "096714bf7096f275c0f803dd877c5c76433094eb",
+       "title": "Reward Hacking in Language Model Agents: Revisiting AI Safety Gridworlds",
+       "year": 2026
+      },
+      {
+       "paperId": "e5963f91172d7d5c710980d003dfd805920c08b9",
+       "title": "Truthful or Fabricated? Using Causal Attribution to Mitigate Reward Hacking in Explanations",
+       "year": 2025
+      },
+      {
+       "paperId": "e7aa79811754e5882e7c3a30bbb4201406b8e361",
+       "title": "From Words to Safety: Language-Conditioned Safety Filtering for Robot Navigation",
+       "year": 2025
+      },
+      {
+       "paperId": "a552d3d9ac3e686e2eaddcb0e381b6acfc04bce1",
+       "title": "Modification-Considering Value Learning for Reward Hacking Mitigation in RL",
+       "year": 2026
+      },
+      {
+       "paperId": "e0739369308c908da5807166609f2552db9c8ea4",
+       "title": "InfoRM: Mitigating Reward Hacking in RLHF via Information-Theoretic Reward Modeling",
+       "year": 2024
+      },
+      {
+       "paperId": "f71379b765f01c333ebaab5736dbf7f1005b19c9",
+       "title": "Detecting and Mitigating Reward Hacking in Reinforcement Learning Systems: A Comprehensive Empirical Study",
+       "year": 2025
+      },
+      {
+       "paperId": "6d3a7b453048673a98b082a73bc864366fbd1cf4",
+       "title": "RRM: Robust Reward Model Training Mitigates Reward Hacking",
+       "year": 2024
+      },
+      {
+       "paperId": "c7364b8cac691f7abf1e20d05675ce7622c0185b",
+       "title": "Multimodal Reward Hacking in Reinforcement Learning",
+       "year": 2026
+      },
+      {
+       "paperId": "b9a3fc3edb2e9b9754542a4fd79d9002d9adaadd",
+       "title": "Information-Theoretic Reward Modeling for Stable RLHF: Detecting and Mitigating Reward Hacking",
+       "year": 2025
+      },
+      {
+       "paperId": "cd0e63c31e503e14fa414f26735ba042b44d6434",
+       "title": "Extending MONA in Camera Dropbox: Reproduction, Learned Approval, and Design Implications for Reward-Hacking Mitigation",
+       "year": 2026
+      },
+      {
+       "paperId": "0251f714533fb20e545b2098befa5056f4bd5f5b",
+       "title": "Beyond Safety Filtering: Control Barrier Function-Informed Reinforcement Learning for Connected and Automated Vehicles",
+       "year": 2026
+      },
+      {
+       "paperId": "865e96cdbbdb72a6dfa9f9a9f01fcf57233f9df5",
+       "title": "Greed Is Learned: Visible Incentives as Reward-Hacking Triggers",
+       "year": 2026
+      },
+      {
+       "paperId": "7075375b0106ddea3dabc6567ed55489a4f80a18",
+       "title": "Mitigating Reward Hacking via Information-Theoretic Reward Modeling",
+       "year": 2024
+      },
+      {
+       "paperId": "7e32b3a757fd923b199f10fc141c9ca455980d9f",
+       "title": "Monitoring Emergent Reward Hacking During Generation via Internal Activations",
+       "year": 2026
+      },
+      {
+       "paperId": "702c4333eae4b577e67b2fc38e1cb98ea57e0fbd",
+       "title": "Uncertainty-Aware Reward Discounting for Mitigating Reward Hacking",
+       "year": 2026
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "sample_id": "t005",
+   "mode": "verify",
+   "repeat": 1,
+   "queries": [
+    "safe proxy error amplification",
+    "reward maximization safety bound",
+    "distribution proximity constraint reward"
+   ],
+   "fos": null,
+   "target_paper_id": "4a691073b7ea63d5c78e7bf502c661d7e983d111",
+   "score": {
+    "found": true,
+    "best_rank": 1,
+    "per_query_rank": [
+     null,
+     1,
+     null
+    ]
+   },
+   "searches": [
+    {
+     "query": "safe proxy error amplification",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "2d89d780f664e6530056e21a1eb7c6eb3c5f61ac",
+       "title": "Low-error RNA sequencing techniques for detecting RNA editing by APOBECs: Circular RNAseq assay and safe-sequencing system (SSS).",
+       "year": 2025
+      },
+      {
+       "paperId": "1282c02990b951ebc7bca01ac38812b89358e9e7",
+       "title": "Development of a site and motion proxy-based site amplification model for shallow bedrock profiles using machine learning",
+       "year": 2025
+      },
+      {
+       "paperId": "ecd4d1655919ed8c8c116d0d48f8673ed151b78c",
+       "title": "Haptic Error Modulation Outperforms Visual Error Amplification When Learning a Modified Gait Pattern",
+       "year": 2019
+      },
+      {
+       "paperId": "ed4ed7e93fc5057b5bfdd4d3c1bf22bc6cf92d63",
+       "title": "Analysis of an Academic Medical Center’s Corrective Action Plan in Response to Fatal Medication Error Using the Institute for Safe Medication Practices’ Hierarchy of Effectiveness",
+       "year": 2024
+      },
+      {
+       "paperId": "f1915d0e056df748001eb3626b7bd3c777a986d3",
+       "title": "Forecast-Time-Safe Load Forecasting for Connected and Automated EV Charging Operation: Periodicity-Aware Residual Correction on a Processed Distribution Load Proxy with Public EV Charging Validation",
+       "year": 2026
+      },
+      {
+       "paperId": "2af4d8a6d53b4f41c4c0204d0b712257843ea443",
+       "title": "Localization-Safe Error Recovery: Ensuring Comprehension and Operability Across Languages and Scripts in High-Integrity User Journeys",
+       "year": 2026
+      },
+      {
+       "paperId": "f15d7bed19ab023225f6514b385d11b8bdebf757",
+       "title": "Error Amplification in Code-based Cryptography",
+       "year": 2018
+      },
+      {
+       "paperId": "0ea914c31e708dc96a5f3a6ae309b83560e2ffe0",
+       "title": "Safe Adaptive Resilience Configuration for Microservice Backends",
+       "year": 2026
+      },
+      {
+       "paperId": "95781fb8fac1e349bf2d9cfb994f019bb58fec4d",
+       "title": "Leakage-Safe Machine Learning for Retail Demand Forecasting and Inventory Optimization via Hybrid Ensembling",
+       "year": 2026
+      },
+      {
+       "paperId": "0a0ca1acb101c3d0633cc160f95e8554f2fe0eca",
+       "title": "Safe and Sharp Honest Inference for Nonparametric Estimation via Empirical Bernstein Calibration",
+       "year": 2026
+      },
+      {
+       "paperId": "0d897d552117c3b9b6a499421364fc6903e024f4",
+       "title": "Solar PV Forecasting for Electricity Markets: A Revenue-Space Evaluation Framework with Leakage-Safe Controls",
+       "year": 2026
+      },
+      {
+       "paperId": "bd4a3363329fb7fa50106e7b74d0c15aa85313ab",
+       "title": "Better safe than sorry: Divergent error-related negativity and error positivity in shame-prone adolescents.",
+       "year": 2022
+      },
+      {
+       "paperId": "071cca8ddc86f780a8443444303e3611d666ebe9",
+       "title": "CO2 Storage Risk Assessment: Leveraging Machine Learning Proxy Modeling for Predicting Fracture Growth and Leakage",
+       "year": 2025
+      },
+      {
+       "paperId": "f0e899eee311c76b8931cf0afa7f13cf7c43c927",
+       "title": "Proxy-Based Programming: Making Programming More Accessible through Virtual, Physical, and Social Embodiment",
+       "year": 2025
+      },
+      {
+       "paperId": "9cb51471e41ddaeaae6f93513f4ce20128248cfd",
+       "title": "Ethical and legal considerations in healthcare AI: innovation and policy for safe and fair use",
+       "year": 2025
+      },
+      {
+       "paperId": "7ab77c9f302dd640ae34c475656fb5face8a709c",
+       "title": "Abstract 6599: A comprehensive benchmark study of multiple library amplification solutions for NGS",
+       "year": 2025
+      },
+      {
+       "paperId": "7b2c0293756b9877cfc785220783f2ac4687fcde",
+       "title": "Spatiotemporal estimation of analysis errors in the operational global data assimilation system at the China Meteorological Administration using a modified SAFE method",
+       "year": 2023
+      },
+      {
+       "paperId": "c451d389fb9122e453fd6af8e0f60adf332facc1",
+       "title": "Dimensionality-modulated generative AI for safe biomedical dataset augmentation",
+       "year": 2025
+      },
+      {
+       "paperId": "1fb10028b5468c0cdd6b13c6dd19092b76203deb",
+       "title": "How Proxy Race Distorts Regression-Based Fairness Audits",
+       "year": 2026
+      },
+      {
+       "paperId": "f3e8c42b56bf8406726eaaccc68398df2eaccc61",
+       "title": "Efficient Learning of Safe Driving Policy via Human-AI Copilot Optimization",
+       "year": 2022
+      }
+     ]
+    },
+    {
+     "query": "reward maximization safety bound",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "4a691073b7ea63d5c78e7bf502c661d7e983d111",
+       "title": "Safety Hacking in Constrained Best-of-N Inference-time Scaling",
+       "year": 2026
+      },
+      {
+       "paperId": "d72d910feb6ccca3f91efe4eb83ce2e120f42c34",
+       "title": "Incentivizing Safer Actions in Policy Optimization for Constrained Reinforcement Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "f638b7109ff3c3c331c1b0007b443f8d8e999a41",
+       "title": "Uncertainty Estimation for Safety-critical Scene Segmentation via Fine-grained Reward Maximization",
+       "year": 2023
+      },
+      {
+       "paperId": "62f4ea6aa43005429904b8fe1a5076568f9f00fd",
+       "title": "Model Selection for Average Reward RL with Application to Utility Maximization in Repeated Games",
+       "year": 2024
+      },
+      {
+       "paperId": "8957291c0f6171302fefa9ceb21a13e2b5f196c4",
+       "title": "Modeling human road crossing decisions as reward maximization with visual perception limitations",
+       "year": 2023
+      },
+      {
+       "paperId": "219c631e4fe902543d69989e2f6e32922e4c2f9a",
+       "title": "Reward Bound for Behavioral Guarantee of Model-based Planning Agents",
+       "year": 2024
+      },
+      {
+       "paperId": "8db3139f62ae937f402fcee5fe5587abbf37727c",
+       "title": "On Truthful Item-Acquiring Mechanisms for Reward Maximization",
+       "year": 2024
+      },
+      {
+       "paperId": "79cc7cb576b7eed9e7cf0d6a92fe36105fa7aad8",
+       "title": "Data-adaptive Safety Rules for Training Reward Models",
+       "year": 2025
+      },
+      {
+       "paperId": "6bb4f9abee97bbf0b2a8e6074c3d9db8a0297d21",
+       "title": "A Farewell to Arms: Sequential Reward Maximization on a Budget with a Giving Up Option",
+       "year": 2020
+      },
+      {
+       "paperId": "b7b915fd8cb9bb7b846347b22533cf2e72cfcd21",
+       "title": "Unified theory of upper confidence bound policies for bandit problems targeting total reward, maximal reward, and more",
+       "year": 2024
+      },
+      {
+       "paperId": "95797bfe76daebfe780db13c94643712a9d88e84",
+       "title": "Reward Maximization Under Uncertainty: Leveraging Side-Observations on Networks",
+       "year": 2017
+      },
+      {
+       "paperId": "a6a01ed79c5d94c9b6e959c06ae317720ec13e8f",
+       "title": "Multilevel Constrained Bandits: A Hierarchical Upper Confidence Bound Approach with Safety Guarantees",
+       "year": 2025
+      },
+      {
+       "paperId": "80db12feb1c10c1b094aba3e33dd2c0fdebc1efc",
+       "title": "Calculating Mutual Information between a Reward Maximizer and its Environment",
+       "year": 2026
+      },
+      {
+       "paperId": "0db1126a58d8143c31e24d22e2943ace09b18625",
+       "title": "Greedy algorithms for stochastic monotone k-submodular maximization under full-bandit feedback",
+       "year": 2024
+      },
+      {
+       "paperId": "416908dee133533bc8a08f7507718c5697190467",
+       "title": "Reinforcement Learning from Human Feedback with High-Confidence Safety Constraints",
+       "year": 2025
+      },
+      {
+       "paperId": "e5963f91172d7d5c710980d003dfd805920c08b9",
+       "title": "Truthful or Fabricated? Using Causal Attribution to Mitigate Reward Hacking in Explanations",
+       "year": 2025
+      },
+      {
+       "paperId": "d7189aae0e1bb7df49f50fa08dc2a344676149fc",
+       "title": "Online non-monotone diminishing return submodular maximization in the bandit setting",
+       "year": 2024
+      },
+      {
+       "paperId": "0736a3013ab644d7f33b8755e3fee7f1c5ec265f",
+       "title": "CAMP: Counterexamples, Abstraction, MDPs, and Policy Refinement for Enhancing Safety, Stability, and Rewards in Reinforcement Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "39c286c7caea29f450055a438caca458b9997c42",
+       "title": "Randomized Greedy Learning for Non-monotone Stochastic Submodular Maximization Under Full-bandit Feedback",
+       "year": 2023
+      },
+      {
+       "paperId": "b98a16d59c69103758bef12700c7b502f2e271ba",
+       "title": "Embedding Safety into RL: A New Take on Trust Region Methods",
+       "year": 2024
+      }
+     ]
+    },
+    {
+     "query": "distribution proximity constraint reward",
+     "retried_query": null,
+     "cached": false,
+     "results": [
+      {
+       "paperId": "ffc460262f4c61b2c3eb045855eed172668af0fd",
+       "title": "Effect of node mobility on highway mobile infostation networks",
+       "year": 2003
+      },
+      {
+       "paperId": "857db7cdf087f36ec54b7ed1487666f3f14de80d",
+       "title": "SCOPED: Score-Curvature Out-of-distribution Proximity Evaluator for Diffusion",
+       "year": 2025
+      },
+      {
+       "paperId": "c5209fefd739f6411597599da6fe3cda96cbf468",
+       "title": "Navigating the Proximity-Safety Balance: Constraint Decomposition for Human Following in Pedestrian Crowds",
+       "year": 2026
+      },
+      {
+       "paperId": "ef6996347841f58617d7da2df89e79b9d13a7924",
+       "title": "GeoCycler: Reward-Aligned 3D Diffusion for Constraint-Conditioned Cyclic Peptide Design",
+       "year": 2026
+      },
+      {
+       "paperId": "5b19d4f3312370048407ee931f34f980ed653680",
+       "title": "Adaptive Reward Shifting Based on Behavior Proximity for Offline Reinforcement Learning",
+       "year": 2023
+      },
+      {
+       "paperId": "8922340576cdd7be2c386c58cad0cd24ce8bc1d4",
+       "title": "Autonomous Volt/Var Control in Active Distribution Networks via LLM-Driven Dynamic Reward Shaping",
+       "year": 2026
+      },
+      {
+       "paperId": "ac317878f7aa888664e59979af5945cd932d1aae",
+       "title": "Constrained Dirichlet Distribution Policy: Guarantee Zero Constraint Violation Reinforcement Learning for Continuous Robotic Control",
+       "year": 2024
+      },
+      {
+       "paperId": "3d400a18c4eeed11625013d8b32892fad3567a27",
+       "title": "Biopotential-Informed Reward Inference and Constraint Design for Consecutive Upper-Limb Motor Coordination Tasks in Robot Manipulation",
+       "year": 2026
+      },
+      {
+       "paperId": "5a2dda1327d7b23706ef9a62c8106bf02970918f",
+       "title": "FlowR2A: Learning Reward-to-Action Distribution for Multimodal Driving Planning",
+       "year": 2026
+      },
+      {
+       "paperId": "981cb2eaf9d238c61a62b8e489f6a2a29a6ceb01",
+       "title": "Low-Carbon Economic Dispatch of a Distribution-Level Integrated Energy System Considering Time-Varying Multi-Energy Carbon Emissions and Reward-Penalty Ladder Carbon Trading",
+       "year": 2026
+      },
+      {
+       "paperId": "6f9489424adb10ffb63c64a7f53dc8bcfe9660b8",
+       "title": "Analysis of a Contribution-Aware Reward Distribution Method in Participatory Sensing",
+       "year": 2026
+      },
+      {
+       "paperId": "34e6cc059b06730d1bcfe6afa2997bb8c5154969",
+       "title": "MIRA: Towards Mitigating Reward Hacking in Inference-Time Alignment of T2I Diffusion Models",
+       "year": 2025
+      },
+      {
+       "paperId": "dc0ee332af5cff428ccf0298ec2b84a128b72240",
+       "title": "Alignment and Safety of Diffusion Models via Reinforcement Learning and Reward Modeling: A Survey",
+       "year": 2025
+      },
+      {
+       "paperId": "0f64338853dc18000626cc14910680eb5d4b1a1d",
+       "title": "Beyond Non-Expert Demonstrations: Outcome-Driven Action Constraint for Offline Reinforcement Learning",
+       "year": 2025
+      },
+      {
+       "paperId": "d8d40171df3365c7c91834a3cbfc5ee6b6f98b17",
+       "title": "Deep Reinforcement Learning for Adaptive Epsilon Constraint Handling in Constrained Multi-Objective Optimization",
+       "year": 2025
+      },
+      {
+       "paperId": "a9c452bc73421a317b8d60a91619c7bb03d6d692",
+       "title": "Hierarchical production control and distribution planning under retail uncertainty with reinforcement learning",
+       "year": 2025
+      },
+      {
+       "paperId": "96cf799e708f1cf4c0e1a09f8ecbc3b5224cb3f2",
+       "title": "GROVE: A Generalized Reward for Learning Open-Vocabulary Physical Skill",
+       "year": 2025
+      },
+      {
+       "paperId": "c58eb0d89bf59e70e8b0089fe4cceffd2de2061a",
+       "title": "Support-Proximity Augmented Diffusion Estimation for Offline Black-Box Optimization",
+       "year": 2026
+      },
+      {
+       "paperId": "4ef72c05c88ccab2402d7f669758294f3dfa091a",
+       "title": "Mean-Field Critic with Linear Graph Transformer in Sparse-Reward Multi-Agent Reinforcement Learning",
+       "year": 2026
+      },
+      {
+       "paperId": "09db5fd7d7f01cdb14d009fd3649cb70b0f4ee94",
+       "title": "Manifold Drift in Flow Preference Optimization: A Root Cause of Reward Hacking",
+       "year": 2026
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
