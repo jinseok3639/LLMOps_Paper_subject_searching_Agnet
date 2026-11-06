@@ -23,4 +23,4 @@ Review fields. For each criticism, name the specific claim, explain the problem 
 - already_done: core parts already done by a nearest paper, naming its id (for example [N1]); empty if none. Absence of overlap in these cards does not establish novelty.
 - suggestion: the most consequential concrete design improvement or minimal discriminating test, with rationale. Do not replace the core idea unnecessarily.
 
-Write every note and review field in Korean. Keep technical terms, paper titles and ids in English.
+Language: write every note and every review field (unsupported, vague, already_done, suggestion) entirely in Korean sentences, even though the input is in English. Do not switch to English sentences or clauses. Keep quoted English originals exactly as they are and do not translate them: paper titles, problem titles, verbatim quotes, proper nouns such as dataset and model names, and ids. Technical terms may appear as single English words inside a Korean sentence.
