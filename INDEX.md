@@ -94,9 +94,9 @@ app → agents → tools → paper_db, store, clients
 | `src/embed.py` | `src/paper_db/index.py` | |
 | `src/textnorm.py` | `src/core/` | |
 | `src/config.py` | `src/core/` | `PROPOSALS` 하드코딩은 `store` 조회로 교체 |
-| `src/recommend.py`, `src/topic.py`, `src/chat.py` | `src/agents/chat/` | |
+| `src/recommend.py`, `src/chat.py` | `src/agents/chat/` | |
 | `src/prompts/extract_open_problems.md` | `src/paper_db/prompts/` | |
-| `src/prompts/recommend_*.md`, `topic_generate.md`, `chat_followup.md` | `src/agents/chat/prompts/` | |
+| `src/prompts/recommend_*.md`, `chat_followup.md` | `src/agents/chat/prompts/` | |
 
 `src/agents/tools/`의 `search_papers`는 구현되어 있지만 에이전트에는 아직 연결하지 않았습니다. `default_toolbox()`로 묶어 씁니다.
 
