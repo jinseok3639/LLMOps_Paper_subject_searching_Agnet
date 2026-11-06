@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from src import config, multi_agent as ma, research
 from src.references import Queries, Screening, search_references
-from src.research import generate_research
+from src.research import Presentation, TopicKo, generate_research
 from src.runs import BudgetExceeded, Cancelled
 
 PROFILE = {"lab_name": "lab", "lab_topics": "model safety", "interests": "one GPU"}
@@ -53,12 +53,15 @@ class PipelineTests(unittest.TestCase):
     def test_orchestration_handoff_and_progress_steps(self):
         generated = {'candidates': [{'id': 'c1', 'refined': {'title': 'Topic', 'support': ['ref-001']}}], 'chosen': ['c1']}
         steps = []
-        with patch('src.research.search_references', return_value={'refs': [REF], 'search_trace': [{'query': 'q'}], 'context': 'conversation'}) as search, patch('src.research.run_sample', return_value=generated), patch('src.research.llm.chat_text', return_value='후보 설명') as presenter:
+        with patch('src.research.search_references', return_value={'refs': [REF], 'search_trace': [{'query': 'q'}], 'context': 'conversation'}) as search, patch('src.research.run_sample', return_value=generated), patch('src.research.llm.chat_json', return_value=Presentation(intro='후보 설명', topics=[TopicKo(id='c1', summary='요약', gap='공백', approach='방법', evaluation='평가')])) as presenter:
             result = generate_research(PROFILE, [], PROBLEM, lambda *a, step=None, **k: steps.append(step))
         self.assertEqual(steps, ['queries', 'generate', 'present'])
         self.assertEqual(search.call_args.args[:3], (PROFILE, [], PROBLEM))
         self.assertNotIn('run_id', result)  # 저장은 서버가 한다 (src.runs)
-        self.assertEqual(result['topics'], [{'id': 'c1', 'title': 'Topic', 'support': ['ref-001']}])
+        # 후보 필드는 영어 그대로 두고 화면용 한국어만 ko에 붙인다 (이슈 #39)
+        self.assertEqual(result['topics'], [{'id': 'c1', 'title': 'Topic', 'support': ['ref-001'],
+                                             'ko': {'summary': '요약', 'gap': '공백', 'approach': '방법', 'evaluation': '평가'}}])
+        self.assertEqual(result['presentation'], '후보 설명')
         self.assertEqual((result['trace'], result['generation']), ([{'query': 'q'}], generated))
         self.assertFalse(result['novelty_checked'])
         self.assertIn('ref-001', presenter.call_args.args[0][1]['content'])

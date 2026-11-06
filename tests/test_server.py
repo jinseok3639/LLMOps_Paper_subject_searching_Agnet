@@ -319,7 +319,7 @@ class SrcTests(TempRuns):
             if schema is rec.Selection:
                 return rec.Selection(problem_ids=[other, "made-up"])
             return rec.Answer(intro="소개", note="", recommendations=[
-                rec.RecommendationText(problem_id=other, reason="이유", connection="연결")])
+                rec.RecommendationText(problem_id=other, summary_ko="한국어 요약", reason="이유", connection="연결")])
 
         query_vec = (vecs[0] + vecs[1]).tolist()  # 거절한 문제와 다른 문제 모두 상위에 오는 질의
         with patch.object(llm, "chat_json", side_effect=chat_json), patch.object(llm, "embed", return_value=[query_vec]):

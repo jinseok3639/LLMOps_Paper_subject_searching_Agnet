@@ -48,7 +48,9 @@ def build_context(profile: dict, recommend_run: dict | None = None, research_run
 
     if research_run:
         lines.append("\n## 연구 주제 후보와 검색 참고문헌 (중복 판정 미실행)")
-        lines.append(json.dumps({"topics": research_run["topics"], "references": reference_view(research_run)},
+        # 화면용 한국어(ko)는 영어 필드와 내용이 같아 입력만 늘리므로 뺀다 (이슈 #39)
+        topics = [{k: v for k, v in t.items() if k != "ko"} for t in research_run["topics"]]
+        lines.append(json.dumps({"topics": topics, "references": reference_view(research_run)},
                                 ensure_ascii=False))
     if verify_run:
         lines += ["", verify_view(verify_run)]
