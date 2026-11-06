@@ -1,18 +1,20 @@
 """Profile/conversation -> Semantic Scholar bibliography agent."""
 import hashlib
 import json
-import os
-import time
 from datetime import date
-from pathlib import Path
 
-import requests
 from pydantic import BaseModel, Field
 
 from src import calllog, config, llm
+from src.clients import semantic_scholar as s2
 
 MAX_REFS = 25  # 후보 생성에 넘기는 참고문헌 상한 (설계서 J-6)
 FILTER_ABSTRACT_CHARS = 1_000  # 관련성 필터에는 초록 앞부분만 넣는다. 한 번에 최대 100편이 들어가기 때문
+# openAccessPdf, externalIds: ④ V6이 PDF 주소를 S2에 다시 묻지 않도록 검색할 때 같이 받는다 (cards.fetch_pdf)
+SEARCH_FIELDS = "title,abstract,year,url,authors,openAccessPdf,externalIds"
+SEARCH_LIMIT = 20
+SEARCH_TRIES = 4  # 사용자가 기다리는 ③④ 검색이라 짧게
+PDF_FIELDS = ("openAccessPdf", "externalIds")
 
 
 class Queries(BaseModel):
@@ -35,7 +37,8 @@ def researcher_context(profile, history, problem):
 
 
 def _search(query):
-    """S2 제목·초록 검색 (하루 캐시). 호출 로그에는 캐시에서 읽은 것도 status cache로 남긴다."""
+    """S2 제목·초록 검색 (하루 캐시, S2 대기열을 지남). 호출 로그에는 캐시에서 읽은 것도 status cache로 남긴다.
+    실패하면 s2.S2Error."""
     with calllog.timed("s2", "paper/search", query) as c:
         cache = config.DB_DIR / "search_cache"
         cache.mkdir(parents=True, exist_ok=True)
@@ -45,23 +48,11 @@ def _search(query):
             rows = json.loads(path.read_text("utf-8"))
             c.status, c.output = "cache", _ids(rows)
             return rows
-        headers = {}
-        if os.getenv("S2_API_KEY"):
-            headers["x-api-key"] = os.environ["S2_API_KEY"]
-        for attempt in range(4):
-            response = requests.get("https://api.semanticscholar.org/graph/v1/paper/search",
-                params={"query": query, "limit": 20,
-                        "fields": "title,abstract,year,url,authors"}, headers=headers, timeout=40)
-            if response.status_code == 429 or response.status_code >= 500:
-                if attempt < 3:
-                    time.sleep(min(2 ** (attempt + 1), 8))
-                    continue
-            response.raise_for_status()
-            rows = response.json().get("data", [])
-            path.write_text(json.dumps(rows, ensure_ascii=False), "utf-8")
-            c.output = _ids(rows)
-            return rows
-        raise RuntimeError("S2 search failed")
+        rows = s2.search_papers(query, SEARCH_FIELDS, limit=SEARCH_LIMIT, fields_of_study=None,
+                                tries=SEARCH_TRIES).get("data") or []
+        path.write_text(json.dumps(rows, ensure_ascii=False), "utf-8")
+        c.output = _ids(rows)
+        return rows
 
 
 def _ids(rows):
@@ -134,7 +125,8 @@ def search_references(profile, history, problem, progress=lambda message: None):
     # 첫 검색어가 대부분을 차지하지 않게 검색어별로 번갈아 뽑는다.
     picked = _round_robin([[r for r in rows if r["paperId"] not in drop] for _, rows in found], MAX_REFS)
     refs = [{"id": f"ref-{n:03}", "paper_id": r["paperId"], "title": r["title"], "abstract": r["abstract"],
-             "year": r.get("year"), "url": r.get("url", ""), "query": found[i][0]}
+             "year": r.get("year"), "url": r.get("url", ""), "query": found[i][0],
+             **{k: r[k] for k in PDF_FIELDS if k in r}}
             for n, (i, r) in enumerate(picked, 1)]
     for i, (entry, (_, rows)) in enumerate(zip(trace, found)):
         entry["unrelated"] = sum(r["paperId"] in drop for r in rows)

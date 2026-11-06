@@ -38,6 +38,10 @@ def near(pid, problem, method, assumptions="different", evaluation="different", 
     return {"paper_id": pid, "year": year, "card": {"level": level}, "comparison": {f: {"match": v} for f, v in m.items()}}
 
 
+def no_pdf(p, should_cancel=None):
+    raise cards.NoPdf("no_url")
+
+
 def row(pid, year=2024, title=None):
     return {"paperId": pid, "title": title or f"Paper {pid}", "abstract": f"Abstract of {pid}", "year": year,
             "url": f"https://s2/{pid}"}
@@ -172,7 +176,7 @@ class VerifyTests(unittest.TestCase):
                 patch("src.references._search", side_effect=lambda q: results.get(q, [])) as self.search, \
                 patch("src.verify.cards.abstract_card", side_effect=lambda p: card(p["paper_id"])) as self.abstract, \
                 patch("src.verify.studio.agent_id", **agent), \
-                patch("src.verify.cards.fulltext_card", side_effect=fulltext or (lambda p, should_cancel=None: None)) as self.fulltext:
+                patch("src.verify.cards.fulltext_card", side_effect=fulltext or no_pdf) as self.fulltext:
             return vf.verify(PROFILE, PROBLEM, TOPIC, refs, progress=progress, should_cancel=lambda: False, limits=limits)
 
     def steps(self):
@@ -232,7 +236,9 @@ class VerifyTests(unittest.TestCase):
             seen.append((p["paper_id"], should_cancel()))
             if p["paper_id"] == "p03":
                 raise studio.StudioError("job failed")
-            return card("p01", "fulltext") if p["paper_id"] == "p01" else None
+            if p["paper_id"] == "p02":
+                raise cards.NoPdf("not_pdf")
+            return card("p01", "fulltext")
 
         result = self.run_verify(refs, {}, studio_ready=True, fulltext=fulltext)
         self.embed_mock.assert_not_called()  # 15편 이하면 줄이지 않는다
@@ -241,7 +247,7 @@ class VerifyTests(unittest.TestCase):
         n1 = result["nearest"][0]
         self.assertEqual((n1["paper_id"], n1["level"], n1["comparison"]["method"]["page"]), ("p01", "fulltext", 3))
         self.assertEqual({p["paper_id"]: p["fulltext_status"] for p in result["nearest"]},
-                         {"p01": "ok", "p02": "no_pdf", "p03": "studio_error: job failed"})
+                         {"p01": "ok", "p02": "no_pdf: not_pdf", "p03": "studio_error: job failed"})
         self.assertEqual((result["verdict"], result["verdict_basis"]), ("solved", ["p01"]))
         self.assertEqual(result["flags"], [vf.FLAG_ABSTRACT])  # p02, p03은 초록 수준
         self.assertEqual(result["scope"]["fulltext_read"], 1)
@@ -250,6 +256,24 @@ class VerifyTests(unittest.TestCase):
                                                          "evaluation": ["different", "different"]}])
         self.assertEqual(result["trace"]["calls"], {"solar": 1 + 5 + 5 + 1 + 1, "s2": 6 + 3, "studio": 3, "embed": 0})
         self.assertEqual([e[2]["current"] for e in self.events if e[0] == "fulltext"], [0, 1, 2, 3])
+
+    def test_pdf_fields_from_search_skip_s2_lookup(self):
+        oa = {"openAccessPdf": {"url": "https://oa/p.pdf"}, "externalIds": {"ArXiv": "2401.1"}}
+        refs = [{"id": f"ref-{i:03}", "paper_id": f"p{i:02}", "title": f"Paper p{i:02}", "abstract": f"Abstract of p{i:02}",
+                 "year": 2024, "url": "u", **oa} for i in range(1, 4)]
+        results = {QUERIES[0]: [{**row("p04"), **oa}]}
+        self.specs = {"p01": {"problem": "same", "method": "partial"}, "p04": {"problem": "same", "method": "partial"}}
+        got = []
+
+        def fulltext(p, should_cancel=None):
+            got.append({k: p.get(k) for k in cards.PDF_FIELDS})
+            raise cards.NoPdf("download_failed")
+
+        result = self.run_verify(refs, results, studio_ready=True, fulltext=fulltext)
+        self.assertEqual(got, [oa] * 3)  # ③ 참고문헌과 ④ 검색 결과 모두 PDF 정보가 fetch_pdf까지 간다
+        self.assertEqual(result["trace"]["calls"]["s2"], 1 + 2 * 2)  # 검색만 (빈 결과 2개는 재검색). PDF 주소 조회 없음
+        self.assertEqual({p["fulltext_status"] for p in result["nearest"]}, {"no_pdf: download_failed"})
+        self.assertEqual(result["flags"][0], vf.FLAG_ABSTRACT)
 
     def test_long_queries_are_cut_to_six_words(self):
         refs = [{"id": "ref-001", "paper_id": "p01", "title": "Paper p01", "abstract": "Abstract of p01", "year": 2024, "url": "u"}]

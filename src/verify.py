@@ -146,7 +146,7 @@ def _cached(folder, paper, suffix) -> bool:
 def _paper(row, source, **extra) -> dict:
     return {"paper_id": (row.get("paper_id") or row.get("paperId") or "").strip(), "title": row.get("title") or "",
             "abstract": row.get("abstract") or "", "year": row.get("year"), "url": row.get("url") or "",
-            "source": source, **extra}
+            "source": source, **{k: row[k] for k in cards.PDF_FIELDS if k in row}, **extra}
 
 
 def _merge(papers) -> list[dict]:
@@ -248,16 +248,19 @@ def _studio_ready() -> bool:
 
 
 def _fulltext(paper, should_cancel):
-    """V6 한 편 → (본문 카드 또는 None, 상태). None이면 초록 카드를 그대로 쓴다. 취소는 그대로 올린다."""
+    """V6 한 편 → (본문 카드 또는 None, 상태). None이면 초록 카드를 그대로 쓴다. 취소는 그대로 올린다.
+    상태: ok | studio_unavailable | no_pdf: {cards.NO_PDF_REASONS 중 하나} | studio_error: {메시지}"""
     try:
         card = cards.fulltext_card(paper, should_cancel=should_cancel)
     except studio.StudioCancelled:
         raise
     except studio.StudioUnavailable:
         return None, "studio_unavailable"
+    except cards.NoPdf as e:
+        return None, f"no_pdf: {e.reason}"
     except studio.StudioError as e:
         return None, f"studio_error: {str(e)[:200]}"
-    return (card, "ok") if card else (None, "no_pdf")
+    return card, "ok"
 
 
 def _critique(profile, problem, topic, nearest) -> dict:
@@ -330,9 +333,11 @@ def _run(s, budget, profile, problem, topic, refs, emit, should_cancel):
 
     ready = _studio_ready()
     jobs = [p for p in nearest if ready or _cached(cards.STUDIO_CARD_DIR, p, ".card.json")]
-    new = sum(not _cached(cards.STUDIO_CARD_DIR, p, ".card.json") for p in jobs)
-    budget.take("studio", new)
-    budget.take("s2", new)  # fetch_pdf의 PDF 주소 조회
+    new = [p for p in jobs if not _cached(cards.STUDIO_CARD_DIR, p, ".card.json")]
+    budget.take("studio", len(new))
+    # fetch_pdf의 PDF 주소 조회. 검색 결과에 PDF 정보가 있거나 PDF를 이미 받았으면 S2를 부르지 않는다
+    budget.take("s2", sum(not set(cards.PDF_FIELDS) <= p.keys() and not _cached(cards.PAPER_PDF_DIR, p, ".pdf")
+                          for p in new))
     emit("fulltext", f"본문 분석 중 (0/{len(jobs)})" if jobs else "Studio 에이전트가 없어 초록 카드로 비교합니다",
          current=0, total=len(jobs))
     done = _parallel(lambda p: _fulltext(p, should_cancel), jobs,

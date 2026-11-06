@@ -18,9 +18,21 @@ DESIGN = (("gap", "연구 공백 (gap)"), ("approach", "방법 (approach)"), ("e
 VERDICT = {"solved": "이미 한 연구가 있음 (solved)", "partial": "일부 겹침 (partial)",
            "not_addressed": "같은 문제·방법을 한 논문을 찾지 못함 (not_addressed)",
            "not_verified": "검증 안 함", "none": "판정 없음"}
-FLAG_NOTE = {"초록 수준": "본문을 읽지 못해 초록 카드로 비교한 논문이 있습니다.",
+FLAG_NOTE = {"초록 수준": "본문을 읽지 못해 초록 카드로 비교한 논문이 있습니다. "
+                       "초록에 없는 방법·평가 세부는 비교하지 못했으니 원문 링크에서 확인하세요.",
              "확인 못 한 요소 있음": "카드에 없거나 인용 대조에 실패해 판단하지 못한 문제·방법 요소가 있습니다."}
 LEVEL = {"fulltext": "본문", "abstract": "초록"}
+# ④ fulltext_status → 본문을 못 읽은 이유 (static/modules/verify.js UNREAD와 같게 맞춘다)
+UNREAD = {"no_pdf: s2_failed": "논문 정보 조회 실패", "no_pdf: no_url": "공개된 PDF 없음",
+          "no_pdf: not_pdf": "PDF 대신 웹페이지가 옴", "no_pdf: download_failed": "PDF 내려받기 실패",
+          "no_pdf": "PDF를 받지 못함", "studio_unavailable": "본문 분석 설정 없음", "studio_error": "본문 분석 실패"}
+
+
+def unread_reason(status) -> str:
+    """본문을 못 읽은 이유. 읽었거나 상태가 없으면 빈 문자열."""
+    if not status or status == "ok":
+        return ""
+    return UNREAD.get(status) or UNREAD.get(status.split(":")[0], "")
 SCOPE = ("queries", "search_returned", "searched", "from_references", "narrowed", "fulltext_read", "date")
 
 
@@ -39,7 +51,7 @@ def _nearest(n: dict) -> dict:
     return {"id": n.get("id") or "", "paper_id": n.get("paper_id") or "", "title": n.get("title") or "",
             "year": n.get("year"), "url": n.get("url") or "",
             "level": n.get("level") or (n.get("card") or {}).get("level") or "abstract",
-            "fulltext_status": n.get("fulltext_status"),
+            "fulltext_status": n.get("fulltext_status"), "unread_reason": unread_reason(n.get("fulltext_status")),
             "comparison": {k: _element(comp.get(k)) for k, _ in ELEMENTS}}
 
 
@@ -182,7 +194,8 @@ def to_markdown(card: dict) -> str:
     if not card["nearest"]:
         out += ["검증을 하지 않아 비교한 논문이 없습니다." if v["verdict"] == "not_verified" else "비교한 논문이 없습니다.", ""]
     for n in card["nearest"]:
-        out += [f"### [{n['id']}] {_link(n['title'], n['url'])}{_year(n['year'])} · {LEVEL.get(n['level'], n['level'])} 수준", "",
+        unread = f" (본문 못 읽음: {n['unread_reason']})" if n["level"] == "abstract" and n["unread_reason"] else ""
+        out += [f"### [{n['id']}] {_link(n['title'], n['url'])}{_year(n['year'])} · {LEVEL.get(n['level'], n['level'])} 수준{unread}", "",
                 "| 요소 | 일치 | 이유 | 논문 근거 |", "|---|---|---|---|"]
         for k, label in ELEMENTS:
             e = n["comparison"][k]
