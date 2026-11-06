@@ -278,16 +278,21 @@ def _critique(profile, problem, topic, nearest) -> dict:
     return {"requirements": req, **{k: getattr(out, k).strip() for k in REVIEW_FIELDS}}
 
 
+def write_queries(topic) -> tuple[list[str], list[str]]:
+    """V1 (Solar 1회) → (Solar 원본 검색어, 검색에 쓸 검색어). eval/query_recall도 이 함수로 검색어를 만든다."""
+    plan = _chat("verify_queries", f"Research candidate:\n{candidate_text(topic)}", Queries)
+    # Solar가 7단어를 자주 쓴다. 버리지 않고 6단어로 자른다 (J-6)
+    queries = list(dict.fromkeys(" ".join(q.split()[:6]) for q in plan.queries if len(q.split()) >= 3))
+    if not queries:
+        raise ValueError("검증 검색어 형식이 맞지 않습니다. 다시 시도해 주세요.")
+    return plan.queries, queries
+
+
 def _run(s, budget, profile, problem, topic, refs, emit, should_cancel):
     """V1~V9. 결과는 s에 쌓는다 (예산에서 멈춰도 한 데까지 남도록)."""
     emit("queries", "검증 검색어 작성")
     budget.take("solar")
-    plan = _chat("verify_queries", f"Research candidate:\n{candidate_text(topic)}", Queries)
-    s["queries_raw"] = plan.queries
-    # Solar가 7단어를 자주 쓴다. 버리지 않고 6단어로 자른다 (J-6)
-    s["queries"] = list(dict.fromkeys(" ".join(q.split()[:6]) for q in plan.queries if len(q.split()) >= 3))
-    if not s["queries"]:
-        raise ValueError("검증 검색어 형식이 맞지 않습니다. 다시 시도해 주세요.")
+    s["queries_raw"], s["queries"] = write_queries(topic)
 
     found = []
     for i, q in enumerate(s["queries"], 1):
