@@ -5,23 +5,30 @@
      로그인하면 이 탭에서 비로그인으로 만든 세션을 계정으로 옮길지 묻는다 (A-5). 프로필 기본값은 계정에 둔다 (P-3).
    메시지에는 재시도를 위해 job(작업 종류)과 note(중단·실패 안내)가 더 붙을 수 있다.
 
+   화면은 하나의 대화다 (이슈 #15). 추천·후보·검증·확정 결과도 대화 메시지로 아래에 쌓인다.
+   - 결과 메시지는 kind(problems, problem, topics, verify, final)와 run_id를 가진다. content는 LLM에 넘길 짧은 요약이다.
+   - 버튼이 살아 있는 카드는 맨 아래 결과 메시지 하나뿐이다. 지나간 카드는 고른 것(picked)만 표시한다.
+     앞 단계로 되돌아가는 기능은 없다. 방향을 바꾸면 새 메시지가 아래에 붙는다.
+   - 오른쪽 패널은 현재 단계를 보여 주기만 한다. 눌러서 이동하지 않는다.
+   - stage와 picks는 지금 위치와 마지막 선택이다. 대화 API와 다음 작업 요청에 쓴다.
+
    확장 모듈 (static/modules/<기능>.js, app.js 다음에 실행되고 첫 화면은 DOMContentLoaded 때 그린다):
-   App.registerPanel(stage, {render(el, s), summary(s), reachable(s)})
-       stage(verify, final 등)의 가운데 화면. summary는 오른쪽 상태 패널의 한 줄, reachable은 눌러서 갈 수 있는지.
-       등록하지 않은 stage는 "준비 중"으로 보인다.
-   App.addAction(stage, {label, enabled(s), run(s)})   그 stage 화면 아래에 버튼을 더한다 (예: refine에 "검증").
-   App.registerJob(kind, start(s, {replace}))          "재시도" 버튼이 부를 시작 함수.
-   App.addCardExtra(fn(kind, s, item) -> Node|null)    카드 끝에 붙일 요소 (예: 피드백 버튼).
-       kind: "problem"(① 추천 카드, item = 추천 항목) · "topic"(③ 후보 카드, item = 후보).
+   App.registerCard(kind, render(el, s, m, active))   kind 메시지의 본문을 그린다. active면 다음 단계 버튼을 단다.
+   App.registerStage(stage, summary(s))               오른쪽 패널에서 그 단계 아래에 보일 한 줄.
+   App.registerJob(kind, start(s, {replace}))          "재시도"와 App.startJob이 부를 시작 함수.
+   App.startJob(kind, s)                              등록한 작업을 시작한다 (예: 검증 카드에서 finalize).
+   App.addCardExtra(fn(kind, s, item, m) -> Node|null) 카드 끝에 붙일 요소 (예: 피드백 버튼).
+       kind: "problem"(① 추천 카드, item = 추천 항목) · "topic"(③ 후보 카드, item = 후보). m은 카드가 든 메시지.
    App.runTask({kind, label, url, body, stream, replace, onResult(s, data)}) -> Promise<"result"|"cancelled"|"error"|"budget">
        SSE 작업 하나를 돌린다. body에 session_id를 붙이고, 끝날 때까지 그 세션의 입력을 잠근다 (G-2).
        다른 세션으로 가면 abort하고 시작한 세션에 "중단됨" 메시지(받은 부분 응답 포함)를 남긴다 (G-1, G-3, G-4).
        onResult는 끝까지 성공했을 때만 시작한 세션 객체로 불린다. stage 변경은 여기서 한다 (G-6).
-       onResult가 {role, content} 메시지를 돌려주면 대화에 넣는다. replace는 재시도로 대신할 메시지 id.
-   App.getSession() / App.updateSession(id, fn) / App.setStage(stage) / App.msg(role, content)
+       onResult가 {role, content, kind, run_id} 메시지를 돌려주면 대화에 넣는다. replace는 재시도로 대신할 메시지 id.
+   App.getSession() / App.updateSession(id, fn) / App.msg(role, content, extra)
    App.getRun(run_id)   /api/runs 결과 캐시. 처음에는 undefined를 돌려주고, 불러오면 다시 그린다.
    App.loading(run_id)  getRun이 undefined일 때 보여 줄 요소. 불러오는 중이면 안내, 실패했으면 오류와 "다시 불러오기".
-   App.isBusy() / App.render() / App.h(tag, attrs, ...children) / App.md(text)
+   App.isBusy() / App.render() / App.h(tag, attrs, ...children) / App.md(text) / App.mdBlock(text)
+   App.btn(label, onclick, cls)  버튼. cls는 "primary"(검은 버튼) · ""(테두리 버튼) · "ghost"(글자 버튼)
 */
 (() => {
   const STAGES = [["browse", "① 둘러보기"], ["explore", "② 문제 파고들기"], ["refine", "③ 주제 다듬기"],
@@ -39,7 +46,8 @@
   let account = null, accountProfile = null, notice = "";
   const versions = {}, chains = {}, pendingSave = new Set(), fullLoading = new Set(), fullErrors = {};
   let job = null;  // 도는 작업은 늘 화면의 세션 것 하나뿐이다 (세션을 옮기면 취소되므로)
-  const runCache = {}, panels = {}, actions = {}, jobs = {}, drafts = {}, formErrors = {};
+  const runCache = {}, cards = {}, stageSummary = {}, jobs = {}, drafts = {}, formErrors = {};
+  let scrollKey = "", scrollTarget = null, stickBottom = false;
 
   // ---------- 도구 ----------
   const $ = sel => document.querySelector(sel);
@@ -66,6 +74,7 @@
     return esc(text).replace(/\n/g, "<br>");
   }
   function mdBlock(text, id) { const d = h("div", {class: "md", id}); d.innerHTML = md(text); return d; }
+  const btn = (label, onclick, cls = "", extra = {}) => h("button", {type: "button", class: `btn ${cls}`.trim(), onclick, ...extra}, label);
 
   // ---------- 세션 저장: 비로그인은 sessionStorage, 로그인은 서버 ----------
   function persist() {
@@ -239,8 +248,6 @@
     if (t && t.trim()) updateSession(s.id, x => { x.title = t.trim(); });
   }
 
-  function setStage(stage) { if (!isBusy()) updateSession(currentId, x => { x.stage = stage; }); }
-
   function getRun(id) {
     if (!id) return undefined;
     if (!(id in runCache)) {
@@ -258,7 +265,8 @@
   function loading(id) {
     const r = runCache[id];
     if (r && r.error) return h("p", {class: "err"}, `결과를 불러오지 못했습니다: ${r.error} `,
-                               h("button", {onclick: () => { delete runCache[id]; render(); }}, "다시 불러오기"));
+                               btn("다시 불러오기", () => { delete runCache[id]; render(); }, "ghost"),
+                               h("span", {class: "caption"}, " 결과는 24시간 보관됩니다."));
     return h("p", {class: "caption"}, "결과를 불러오는 중...");
   }
 
@@ -344,29 +352,73 @@
 
   function showJob(j) {  // 스트리밍 중에는 바뀐 곳만 고친다
     if (j.sid !== currentId) return;
-    const lines = $("#job-lines"), text = $("#stream-text");
+    const sc = $("#scroll"), near = sc.scrollHeight - sc.scrollTop - sc.clientHeight < 120;
+    const lines = $("#job-lines"), text = $("#stream-text"), now = $("#job-activity");
     if (lines) lines.replaceChildren(...j.lines.map(l => h("li", {}, l)));
-    if (text) text.innerHTML = md(j.partial);
+    if (text && j.partial) { text.className = "md"; text.innerHTML = md(j.partial); }
+    if (now) now.textContent = j.activity;
     $("#activity").textContent = j.activity;
+    if (near) sc.scrollTop = sc.scrollHeight;  // 사용자가 위로 올려 읽는 중이면 끌어내리지 않는다
   }
 
-  function jobBox() {
-    return h("div", {class: "jobbox"}, h("b", {}, `${job.label} 진행 중 `),
-             h("button", {"data-keep": "1", onclick: () => cancelJob()}, "중단"),
-             h("ul", {id: "job-lines"}, job.lines.map(l => h("li", {}, l))));
+  const avatar = () => h("div", {class: "avatar", "aria-hidden": "true"}, "✦");
+
+  function jobBubble() {  // 도는 작업은 대화 맨 아래에 도우미 메시지로 보인다
+    if (job.stream)
+      return h("div", {class: "msg assistant"}, avatar(), h("div", {class: "body"},
+        job.partial ? mdBlock(job.partial, "stream-text")
+                    : h("div", {id: "stream-text", class: "typing"}, h("i"), h("i"), h("i"))));
+    return h("div", {class: "msg assistant"}, avatar(), h("div", {class: "body"},
+      h("div", {class: "jobbox"},
+        h("div", {class: "job-head"}, h("span", {class: "spinner"}), h("b", {}, job.label),
+          btn("중단", () => cancelJob(), "ghost", {"data-keep": "1"})),
+        h("div", {id: "job-activity", class: "caption"}, job.activity),
+        h("details", {}, h("summary", {}, "진행 기록"), h("ol", {id: "job-lines"}, job.lines.map(l => h("li", {}, l)))))));
+  }
+
+  // ---------- 대화 메시지 도구 ----------
+  const say = (x, role, content, extra) => { x.messages.push(msg(role, content, extra)); };
+  function mark(x, m, key, value) { const y = x.messages.find(z => z.id === m.id); if (y) y[key] = value; }
+  const cardIndex = s => s.messages.findLastIndex(m => m.kind && cards[m.kind] && m.status === "done");
+  const profileText = p => [`연구실: ${p.lab_name}`, `연구 주제: ${p.lab_topics}`, p.interests ? `관심사: ${p.interests}` : ""]
+    .filter(Boolean).join("\n");
+
+  function migrate(s) {  // 대화형으로 바꾸기 전에 만든 세션: picks로 결과 메시지를 만들어 대화 앞에 넣는다
+    if (s.stub || s.v === 2) return;
+    s.v = 2;
+    if (s.messages.some(m => m.kind)) return;
+    const p = s.picks || {}, front = [];
+    if (s.profile) front.push(msg("user", profileText(s.profile), {kind: "profile"}));
+    if (p.recommend_run_id) front.push(msg("assistant", "추천한 Open Problem", {kind: "problems", run_id: p.recommend_run_id, picked: p.problem_id}));
+    if (p.problem_id) front.push(msg("assistant", "선택한 문제", {kind: "problem", run_id: p.recommend_run_id, problem_id: p.problem_id}));
+    if (p.research_run_id) front.push(msg("assistant", "연구 주제 후보", {kind: "topics", run_id: p.research_run_id, picked: p.topic_id}));
+    if (p.verify_run_id) front.push(msg("assistant", "검증 결과", {kind: "verify", run_id: p.verify_run_id,
+                                                                  research_run_id: p.research_run_id, topic_id: p.topic_id}));
+    if (p.final_run_id) front.push(msg("assistant", "최종 주제 카드", {kind: "final", run_id: p.final_run_id}));
+    s.messages.unshift(...front);
   }
 
   // ---------- 기본 작업: 추천, 후보 생성, 대화 ----------
   function startRecommend(s, {replace} = {}) {
     return runTask({kind: "recommend", label: "문제 추천", url: "/api/recommend", replace,
                     body: {profile: s.profile, rejections: s.rejections},
-                    onResult: (x, d) => { x.picks = {recommend_run_id: d.run_id}; x.stage = "browse"; }});
+                    onResult: (x, d) => {
+                      x.picks = {recommend_run_id: d.run_id};
+                      x.stage = "browse";
+                      const list = (d.recommendations || []).map((c, i) => `${i + 1}. ${c.title}`).join("\n");
+                      return msg("assistant", list ? `추천한 Open Problem:\n${list}` : "관련 문제를 찾지 못했습니다.",
+                                 {kind: "problems", run_id: d.run_id});
+                    }});
   }
 
   function startResearch(s, {replace} = {}) {
     return runTask({kind: "research", label: "참고문헌 검색·후보 생성", url: "/api/research", replace,
                     body: {profile: s.profile, problem_id: s.picks.problem_id, messages: s.messages},
-                    onResult: (x, d) => { keepPicks(x, "research_run_id", {research_run_id: d.run_id}); x.stage = "refine"; }});
+                    onResult: (x, d) => {
+                      keepPicks(x, "research_run_id", {research_run_id: d.run_id});
+                      x.stage = "refine";
+                      return msg("assistant", d.presentation || "연구 주제 후보를 만들었습니다.", {kind: "topics", run_id: d.run_id});
+                    }});
   }
 
   function startChat(s, {question, replace} = {}) {
@@ -390,19 +442,19 @@
 
   function retry(s, m) { if (!isBusy() && jobs[m.job]) jobs[m.job](s, {replace: m.id}); }
 
-  // ---------- 화면: ① 둘러보기 ----------
+  // ---------- 시작: 프로필 ----------
   function profileForm(s) {
     const last = account ? accountProfile : JSON.parse(sessionStorage.getItem(LAST) || "null");
     const d = drafts[s.id] ||= {...(s.profile || last ||
                                     {lab_name: "", lab_topics: "", interests: ""})};
     const errs = formErrors[s.id] || [];
-    return h("form", {onsubmit: e => { e.preventDefault(); submitProfile(s); }},
+    return h("form", {class: "profile-form", onsubmit: e => { e.preventDefault(); submitProfile(s); }},
       FIELDS.map(([key, text, required, placeholder]) => h("label", {class: "field"},
-        h("div", {}, text, required ? h("span", {class: "req"}, " *") : ""),
+        h("div", {class: "field-label"}, text, required ? h("span", {class: "req"}, " *") : ""),
         h(key === "lab_name" ? "input" : "textarea", {name: key, placeholder, value: d[key] || "", rows: 2,
                                                       oninput: e => { d[key] = e.target.value; }}),
         errs.includes(key) ? h("div", {class: "err"}, "입력해 주세요") : "")),
-      h("button", {type: "submit", class: "primary"}, "문제 추천 받기"));
+      h("div", {class: "row end"}, h("button", {type: "submit", class: "btn primary"}, "문제 추천 받기")));
   }
 
   function submitProfile(s) {
@@ -413,36 +465,57 @@
       accountProfile = p;
       fetch("/api/profile", {method: "PUT", headers: JSON_HDR, body: JSON.stringify(p)}).catch(() => null);
     } else sessionStorage.setItem(LAST, JSON.stringify(p));
-    updateSession(s.id, x => { x.profile = p; });  // P-4: 세션은 시작 시점의 프로필을 복사해 둔다
+    updateSession(s.id, x => {  // P-4: 세션은 시작 시점의 프로필을 복사해 둔다
+      x.profile = p;
+      say(x, "user", profileText(p), {kind: "profile"});
+    });
     startRecommend(find(s.id));
   }
 
-  function problemCard(s, c, n) {
-    const rejected = s.rejections.find(r => r.target_id === c.problem_id);
-    const picked = s.picks.problem_id === c.problem_id;
-    const reason = h("input", {placeholder: "제외 이유 (다음 추천에 반영)"});
-    return h("div", {class: "card" + (picked ? " picked" : "") + (rejected ? " rejected" : "")},
-      h("h3", {}, `${n}. ${c.title}`, picked ? h("span", {class: "badge"}, "선택한 문제") : ""),
-      h("p", {}, c.summary),
-      c.reason ? h("p", {}, c.reason) : "",
-      h("p", {class: "caption"}, "출처: ", h("a", {href: safeUrl(c.paper.url), target: "_blank", rel: "noopener"}, c.paper.title),
-        ` (${c.paper.year}) · ${c.section_title} · p.${c.page}`),
-      h("details", {}, h("summary", {}, "원문 근거"), h("blockquote", {}, c.quote)),
-      rejected
-        ? h("p", {class: "caption"}, `제외함${rejected.reason ? ": " + rejected.reason : ""} `,
-            h("button", {onclick: () => updateSession(s.id, x => { x.rejections = x.rejections.filter(r => r.target_id !== c.problem_id); })}, "제외 취소"))
-        : h("div", {class: "row"},
-            h("button", {class: "primary", onclick: () => pickProblem(s, c)}, "이 문제 파고들기"),
-            h("details", {class: "inline"}, h("summary", {}, "제외"), reason,
-              h("button", {onclick: () => rejectProblem(s, c, reason.value)}, "제외하기"))),
-      extras("problem", s, c));
+  function welcome(s) {  // 저장하지 않는 첫 안내. 프로필을 넣기 전에는 가운데에 크게 보인다
+    const text = "연구실 정보와 관심사를 알려 주시면 관련 AI 논문의 Open Problem을 추천합니다. " +
+                 "고른 문제로 연구 주제 후보를 만들고, 기존 연구와 겹치는지 검증한 뒤 최종 주제를 정리해 드립니다.";
+    if (!s.profile) return h("div", {class: "hero"}, h("h2", {}, "어떤 연구를 하고 계신가요?"), h("p", {class: "caption"}, text),
+                             h("div", {class: "card form-card"}, profileForm(s)));
+    return h("div", {class: "msg assistant"}, avatar(), h("div", {class: "body"}, h("p", {}, text)));
   }
 
-  function pickProblem(s, c) {
+  // ---------- ① 추천 메시지 ----------
+  const sourceLine = c => h("p", {class: "caption"}, "출처: ",
+    h("a", {href: safeUrl(c.paper.url), target: "_blank", rel: "noopener"}, c.paper.title),
+    ` (${c.paper.year}) · ${c.section_title} · p.${c.page}`);
+
+  function problemCard(s, m, c, n, active) {
+    const rejected = s.rejections.find(r => r.target_id === c.problem_id);
+    const picked = m.picked === c.problem_id;
+    const reason = h("input", {placeholder: "제외 이유 (다음 추천에 반영)"});
+    let foot = "";
+    if (rejected)
+      foot = h("p", {class: "caption"}, `제외함${rejected.reason ? ": " + rejected.reason : ""} `,
+        active ? btn("제외 취소", () => updateSession(s.id, x => {
+          x.rejections = x.rejections.filter(r => r.target_id !== c.problem_id); }), "ghost") : "");
+    else if (active)
+      foot = h("div", {class: "row"}, btn("이 문제로 진행", () => pickProblem(s, m, c, n), "primary"),
+        h("details", {class: "inline"}, h("summary", {class: "btn ghost"}, "제외"),
+          h("div", {class: "row"}, reason, btn("제외하기", () => rejectProblem(s, c, reason.value)))));
+    return h("div", {class: "card" + (picked ? " picked" : "") + (rejected ? " rejected" : "")},
+      h("div", {class: "card-title"}, h("span", {class: "num"}, n), c.title, picked ? h("span", {class: "badge"}, "선택함") : ""),
+      h("p", {}, c.summary),
+      c.reason ? h("p", {class: "reason"}, c.reason) : "",
+      sourceLine(c),
+      h("details", {}, h("summary", {}, "원문 근거"), h("blockquote", {}, c.quote)),
+      foot,
+      extras("problem", s, c, m));
+  }
+
+  function pickProblem(s, m, c, n) {
     updateSession(s.id, x => {
-      if (x.picks.problem_id !== c.problem_id) keepPicks(x, "problem_id", {problem_id: c.problem_id});  // 같은 문제면 후보 재사용 (F-3)
+      mark(x, m, "picked", c.problem_id);
+      keepPicks(x, "problem_id", {problem_id: c.problem_id});
       x.stage = "explore";
       if (x.title === DEFAULT_TITLE) x.title = c.title;  // S-6
+      say(x, "user", `${n}번 문제로 진행할게요: ${c.title}`);
+      say(x, "assistant", `선택한 문제: ${c.title}\n${c.summary}`, {kind: "problem", run_id: m.run_id, problem_id: c.problem_id});
     });
   }
 
@@ -453,76 +526,98 @@
     });
   }
 
-  function renderBrowse(el, s) {
-    const id = s.picks.recommend_run_id, run = getRun(id);
-    if (!run) return el.append(loading(id), h("button", {onclick: () => startRecommend(s)}, "다시 추천 받기"));
+  function renderProblems(el, s, m, active) {
+    const run = getRun(m.run_id);
+    if (!run) return el.append(loading(m.run_id));
     if (run.intro) el.append(mdBlock(run.intro));
-    run.recommendations.forEach((c, i) => el.append(problemCard(s, c, i + 1)));
+    run.recommendations.forEach((c, i) => el.append(problemCard(s, m, c, i + 1, active)));
     if (run.note) el.append(h("p", {class: "info"}, run.note));
-    el.append(h("button", {onclick: () => startRecommend(s)},
-                s.rejections.length ? "제외한 문제를 반영해 다시 추천 받기" : "다시 추천 받기"));
+    if (active) el.append(h("div", {class: "row"}, btn(
+      s.rejections.length ? "제외한 문제를 반영해 다시 추천 받기" : "다시 추천 받기", () => startRecommend(s))));
   }
 
-  // ---------- 화면: ② 문제 파고들기, ③ 주제 다듬기 ----------
-  const problemOf = s => getRun(s.picks.recommend_run_id)?.recommendations.find(c => c.problem_id === s.picks.problem_id);
-
-  function renderExplore(el, s) {
-    const c = problemOf(s);
-    el.append(h("h2", {}, c ? c.title : s.picks.problem_id),
-      c ? h("details", {}, h("summary", {}, "문제 내용과 원문 근거"), h("p", {}, c.summary), h("blockquote", {}, c.quote),
-            h("p", {class: "caption"}, `출처: ${c.paper.title} · p.${c.page}`)) : "",
-      h("div", {class: "row"},
-        h("button", {onclick: () => setStage("browse")}, "다른 문제 둘러보기"),
-        h("button", {class: "primary", onclick: () => startResearch(s)},
-          s.picks.research_run_id ? "현재 대화를 반영해 다시 검색·생성" : "참고문헌 검색하고 후보 생성")),
-      h("p", {class: "caption"}, "대화로 조건을 더한 뒤 생성 버튼을 누르면 프로필·대화·선택한 문제를 바탕으로 참고문헌을 검색합니다."));
-    if (s.stage === "explore" && s.picks.research_run_id)
-      el.append(h("p", {class: "caption"}, "이전에 만든 후보가 있습니다. 오른쪽 ③ 주제 다듬기를 눌러 다시 볼 수 있습니다."));
+  // ---------- ② 고른 문제 메시지 ----------
+  function renderProblem(el, s, m, active) {
+    const run = getRun(m.run_id);
+    if (!run) return el.append(loading(m.run_id));
+    const c = run.recommendations.find(x => x.problem_id === m.problem_id);
+    el.append(h("p", {}, "좋습니다. 이 문제로 연구 주제 후보를 만들겠습니다."),
+      c ? h("div", {class: "card quiet"}, h("div", {class: "card-title"}, c.title), h("p", {}, c.summary), sourceLine(c),
+            h("details", {}, h("summary", {}, "원문 근거"), h("blockquote", {}, c.quote))) : h("p", {}, m.problem_id),
+      h("p", {}, "보유 GPU, 쓸 수 있는 데이터셋, 기간처럼 고려할 조건이 있으면 먼저 아래 입력창으로 알려 주세요. " +
+                 "대화 내용도 참고문헌 검색과 후보 생성에 반영됩니다. 준비되면 버튼을 눌러 주세요."));
+    if (active) el.append(h("div", {class: "row"}, btn("참고문헌 검색하고 후보 만들기", () => startResearch(s), "primary"),
+                            h("span", {class: "caption"}, "수 분 걸립니다")));
   }
 
-  function topicCard(s, t) {
-    const picked = s.picks.topic_id === t.id;
+  // ---------- ③ 후보 메시지 ----------
+  function topicCard(s, m, t, n, active) {
+    const picked = m.picked === t.id;
+    const verified = s.messages.some(v => v.kind === "verify" && v.research_run_id === m.run_id && v.topic_id === t.id);
     return h("div", {class: "card" + (picked ? " picked" : "")},
-      h("h4", {}, t.title, picked ? h("span", {class: "badge"}, "선택한 후보") : ""),
+      h("div", {class: "card-title"}, h("span", {class: "num"}, n), t.title,
+        picked ? h("span", {class: "badge"}, "선택함") : "", verified ? h("span", {class: "badge gray"}, "검증함") : ""),
       t.summary ? h("p", {}, t.summary) : "",
       h("details", {}, h("summary", {}, "자세히"),
         ["gap", "approach", "evaluation"].filter(k => t[k]).map(k => h("p", {}, h("b", {}, `${k}: `), t[k])),
         t.support ? h("p", {class: "caption"}, `근거 참고문헌: ${t.support.join(", ")}`) : ""),
-      picked ? "" : h("button", {onclick: () => pickTopic(s, t)}, "이 후보 선택"),
-      extras("topic", s, t));
+      active ? h("div", {class: "row"}, btn("이 후보 검증", () => pickTopic(s, m, t, n, true), "primary"),
+                 btn("이 후보 더 다듬기", () => pickTopic(s, m, t, n, false))) : "",
+      extras("topic", s, t, m));
   }
 
-  function pickTopic(s, t) {
+  function pickTopic(s, m, t, n, verify) {
     updateSession(s.id, x => {
-      keepPicks(x, "topic_id", {topic_id: t.id});
-      x.messages.push(msg("user", `이 후보를 다듬겠습니다: ${t.title}`));
+      mark(x, m, "picked", t.id);
+      keepPicks(x, "research_run_id", {research_run_id: m.run_id, topic_id: t.id});
+      x.stage = "refine";
+      if (verify) say(x, "user", `${n}번 후보를 검증해 주세요: ${t.title}`);
     });
+    if (verify) startJob("verify", find(s.id));
+    else startChat(find(s.id), {question: `${n}번 후보를 더 구체화하고 싶어요: ${t.title}`});
   }
 
-  function renderRefine(el, s) {
-    renderExplore(el, s);
-    const id = s.picks.research_run_id, run = getRun(id);
-    if (!run) return el.append(loading(id));
-    el.append(h("div", {class: "msg assistant"}, h("div", {class: "who"}, "후보 설명 (중복 판정은 ④ 검증에서)"), mdBlock(run.presentation)),
-      h("details", {}, h("summary", {}, `검색 참고문헌 ${run.references.length}편 · 검색 과정`),
+  function renderTopics(el, s, m, active) {
+    const run = getRun(m.run_id);
+    if (!run) return el.append(loading(m.run_id));
+    if (m.repost) el.append(mdBlock(m.content));  // 검증 뒤 "다른 후보 검증": 설명은 위에 있으니 카드만 다시 보인다
+    else el.append(mdBlock(run.presentation),
+      h("details", {}, h("summary", {}, `검색한 참고문헌 ${run.references.length}편 · 검색 과정`),
         run.trace ? h("pre", {}, JSON.stringify(run.trace, null, 1)) : "",
         h("ul", {}, run.references.map(r => h("li", {}, `[${r.id}] `,
-          safeUrl(r.url) ? h("a", {href: safeUrl(r.url), target: "_blank", rel: "noopener"}, r.title) : r.title, ` (${r.year ?? "연도 없음"})`)))),
-      h("h3", {}, "다듬을 후보 선택"),
-      ...run.topics.map(t => topicCard(s, t)));
+          safeUrl(r.url) ? h("a", {href: safeUrl(r.url), target: "_blank", rel: "noopener"}, r.title) : r.title,
+          ` (${r.year ?? "연도 없음"})`)))));
+    el.append(h("p", {class: "caption"}, "기존 연구와 겹치는지는 아직 확인하지 않았습니다. 후보를 검증하면 가장 가까운 논문과 비교합니다."));
+    run.topics.forEach((t, i) => el.append(topicCard(s, m, t, i + 1, active)));
+    if (active && !m.repost)
+      el.append(h("div", {class: "row"}, btn("지금까지 대화를 반영해 후보 다시 만들기", () => startResearch(s))));
   }
 
   // ---------- 화면 그리기 ----------
+  const ICON = {
+    edit: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>',
+    trash: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>',
+    send: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>',
+    stop: '<svg viewBox="0 0 24 24" width="14" height="14"><rect x="5" y="5" width="14" height="14" rx="2" fill="currentColor"/></svg>',
+  };
+  function iconBtn(title, icon, onclick) {
+    const b = h("button", {type: "button", class: "icon-btn", title, "aria-label": title, onclick});
+    b.innerHTML = icon;
+    return b;
+  }
+
   function renderAccount() {
     const el = $("#account"), A = window.Auth;
     if (!el) return;
     const kids = [];
     if (account)
-      kids.push(h("div", {class: "caption", title: account.email || ""}, `${account.name || account.email} · 대화가 계정에 저장됩니다`),
-                h("div", {class: "row"}, h("button", {onclick: () => A.signOut()}, "로그아웃"),
-                  h("button", {onclick: deleteAccount}, "계정 삭제")));
+      kids.push(h("div", {class: "who-row"}, h("span", {class: "user-dot"}, (account.name || account.email || "?").slice(0, 1)),
+                  h("div", {class: "who-text", title: account.email || ""}, h("div", {}, account.name || account.email),
+                    h("div", {class: "caption"}, "대화가 계정에 저장됩니다"))),
+                h("div", {class: "row"}, btn("로그아웃", () => A.signOut(), "ghost small"),
+                  btn("계정 삭제", deleteAccount, "ghost small danger")));
     else if (A && A.enabled())
-      kids.push(h("button", {class: "primary", onclick: () => A.signIn()}, "Google로 로그인"),
+      kids.push(btn("Google로 로그인", () => A.signIn(), "primary wide"),
                 h("div", {class: "caption"}, "로그인하지 않으면 대화는 이 탭에만 저장되고 탭을 닫으면 사라집니다."));
     if (notice) kids.push(h("p", {class: "err"}, notice));
     el.replaceChildren(...kids);
@@ -530,12 +625,12 @@
 
   function renderStub(s) {  // 아직 전체를 받지 않은 세션
     const err = fullErrors[s.id];
-    $("#stage-view").replaceChildren(err
+    $("#messages").replaceChildren(err
       ? h("p", {class: "err"}, `세션을 불러오지 못했습니다: ${err} `,
-          h("button", {onclick: () => { delete fullErrors[s.id]; render(); }}, "다시 불러오기"))
-      : h("p", {class: "caption"}, "세션을 불러오는 중..."));
-    $("#messages").replaceChildren();
+          btn("다시 불러오기", () => { delete fullErrors[s.id]; render(); }, "ghost"))
+      : h("p", {class: "caption center"}, "세션을 불러오는 중..."));
     $("#stages").replaceChildren();
+    $("#topbar-title").textContent = s.title;
     $("#chat-form").hidden = true;
     loadFull(s.id);
   }
@@ -543,54 +638,72 @@
   function renderSessions() {
     $("#session-list").replaceChildren(...sessions.map(s => h("li", {class: s.id === currentId ? "current" : ""},
       h("a", {href: "#", title: s.title, onclick: e => { e.preventDefault(); openSession(s.id); }},
-        s.title + (job && job.sid === s.id ? " (진행 중)" : "")),
-      h("button", {title: "이름 바꾸기", onclick: () => renameSession(s)}, "이름"),
-      h("button", {title: "삭제", onclick: () => removeSession(s)}, "삭제"))));
+        s.title, job && job.sid === s.id ? h("span", {class: "live", title: "진행 중"}) : ""),
+      h("span", {class: "item-actions"}, iconBtn("이름 바꾸기", ICON.edit, () => renameSession(s)),
+        iconBtn("삭제", ICON.trash, () => removeSession(s))))));
   }
 
-  function renderStates(s) {
-    $("#stages").replaceChildren(...STAGES.map(([key, text]) => {
-      const p = panels[key];
-      if (!p) return h("li", {}, `○ ${text} · 준비 중`);
-      const current = s.stage === key, reachable = !p.reachable || p.reachable(s);
-      const summary = reachable && p.summary ? p.summary(s) : "";
-      const label = current ? `▶ ${text}` : reachable && !isBusy()
-        ? h("a", {href: "#", onclick: e => { e.preventDefault(); setStage(key); }}, text) : text;
-      return h("li", {class: (current ? "current " : "") + (reachable ? "reachable" : "")}, label,
-               summary ? h("div", {class: "caption"}, summary) : "");
+  function renderStates(s) {  // 진행 표시만 한다. 눌러서 이동하지 않는다 (이슈 #15)
+    const started = s.messages.some(m => m.kind === "problems");
+    const cur = STAGES.findIndex(([k]) => k === s.stage);
+    $("#stages").replaceChildren(...STAGES.map(([key, text], i) => {
+      const state = !started ? "todo" : i < cur ? "done" : i === cur ? "current" : "todo";
+      const summary = state !== "todo" && stageSummary[key] ? stageSummary[key](s) : "";
+      return h("li", {class: state}, h("span", {class: "dot"}, state === "done" ? "✓" : String(i + 1)),
+               h("div", {}, h("div", {class: "label"}, text.slice(2)), summary ? h("div", {class: "caption"}, summary) : ""));
     }));
     $("#activity").textContent = isBusy() ? job.activity : "";
   }
 
-  function renderStage(s) {
-    const el = $("#stage-view");
-    el.replaceChildren();
-    if (!s.picks.recommend_run_id) el.append(profileForm(s));
-    else {
-      const p = s.profile || {};
-      el.append(h("p", {class: "caption"}, [p.lab_name, p.lab_topics, p.interests].filter(Boolean).join(" · ")));
-      const panel = panels[s.stage];
-      if (panel) panel.render(el, s);
-      else el.append(h("p", {class: "info"}, `${(STAGES.find(x => x[0] === s.stage) || [, s.stage])[1]}: 준비 중입니다.`));
-      const buttons = (actions[s.stage] || []).map(a => h("button", {onclick: () => a.run(s), disabled: a.enabled && !a.enabled(s)}, a.label));
-      if (buttons.length) el.append(h("div", {class: "row"}, buttons));
-    }
-    if (isBusy() && !job.stream) el.append(jobBox());
+  function messageEl(s, m, active, retryable) {
+    if (m.role === "user") return h("div", {class: "msg user"}, h("div", {class: "bubble"}, m.content));
+    const failed = m.status === "cancelled" || m.status === "error";
+    const body = h("div", {class: "body"}), card = !failed && m.kind && cards[m.kind];
+    if (card) card(body, s, m, active);
+    else if (m.content) body.append(mdBlock(m.content));
+    if (failed) body.append(h("div", {class: "status"}, m.note || (m.status === "cancelled" ? "중단됨" : "실패"), " ",
+                              retryable && jobs[m.job] ? btn("재시도", () => retry(s, m), "small") : ""));
+    return h("div", {class: `msg assistant ${m.status}`, "data-id": m.id}, avatar(), body);
   }
 
   function renderMessages(s) {
-    const el = $("#messages");
-    el.replaceChildren(...s.messages.map(m => {
-      const failed = m.status === "cancelled" || m.status === "error";
-      return h("div", {class: `msg ${m.role} ${m.status}`},
-        h("div", {class: "who"}, m.role === "user" ? "나" : "도우미"),
-        m.content ? (m.role === "user" ? h("div", {class: "text"}, m.content) : mdBlock(m.content)) : "",
-        failed ? h("div", {class: "status"}, m.note || (m.status === "cancelled" ? "중단됨" : "실패"), " ",
-                   jobs[m.job] ? h("button", {onclick: () => retry(s, m)}, "재시도") : "") : "");
-    }));
-    if (isBusy() && job.stream)
-      el.append(h("div", {class: "msg assistant"}, h("div", {class: "who"}, "도우미 (작성 중) ",
-                  h("button", {"data-keep": "1", onclick: () => cancelJob()}, "중단")), mdBlock(job.partial, "stream-text")));
+    const last = cardIndex(s), busy = isBusy();
+    const kids = [welcome(s), ...s.messages.map((m, i) => messageEl(s, m, i === last && !busy, i > last))];
+    if (busy) kids.push(jobBubble());
+    $("#messages").replaceChildren(...kids);
+    const sc = $("#scroll"), key = `${s.id}|${s.messages.length}|${busy ? job.kind : ""}`;
+    if (key !== scrollKey) {
+      const lastMsg = s.messages[s.messages.length - 1];
+      if (!busy && lastMsg && lastMsg.role === "assistant" && lastMsg.kind && scrollKey.startsWith(s.id + "|"))
+        scrollTarget = lastMsg;  // 새 결과 카드는 처음부터 읽도록 메시지 위쪽을 맞춘다
+      else { scrollTarget = null; stickBottom = true; }
+      scrollKey = key;
+    }
+    if (stickBottom) {  // 세션을 열었거나 새 메시지가 붙으면 맨 아래로. 결과를 불러오는 동안 높이가 바뀌니 다 불러올 때까지
+      sc.scrollTop = sc.scrollHeight;
+      if (!Object.values(runCache).includes("loading")) stickBottom = false;
+    }
+    if (!scrollTarget) return;
+    const el = $(`#messages [data-id="${scrollTarget.id}"]`);
+    if (el) sc.scrollTop += el.getBoundingClientRect().top - sc.getBoundingClientRect().top - 16;
+    const r = runCache[scrollTarget.run_id];  // 결과를 다 불러와 높이가 정해질 때까지 맞춘다
+    if (!el || !scrollTarget.run_id || (r && r !== "loading")) scrollTarget = null;
+  }
+
+  function renderComposer(s) {
+    const input = $("#chat-input"), send = $("#send"), ready = !!s.profile, busy = isBusy();
+    $("#chat-form").hidden = false;
+    input.disabled = !ready || busy;
+    input.placeholder = !ready ? "먼저 위에서 연구실 정보를 입력해 주세요"
+      : busy ? "작업이 끝나면 입력할 수 있습니다" : "질문하거나 연구 조건을 알려 주세요";
+    send.className = busy ? "send stop" : "send";
+    send.type = busy ? "button" : "submit";
+    send.title = busy ? "중단" : "보내기";
+    send.setAttribute("aria-label", send.title);
+    send.innerHTML = busy ? ICON.stop : ICON.send;
+    send.onclick = busy ? () => cancelJob() : null;
+    if (busy) send.dataset.keep = "1"; else delete send.dataset.keep;
+    send.disabled = !busy && (!ready || !input.value.trim());
   }
 
   function render() {
@@ -599,53 +712,63 @@
     renderAccount();
     renderSessions();
     if (s.stub) return renderStub(s);
+    migrate(s);
+    $("#topbar-title").textContent = s.title;
     renderStates(s);
-    renderStage(s);
     renderMessages(s);
-    $("#chat-form").hidden = !s.picks.recommend_run_id;
-    $("#chat-input").disabled = $("#chat-form button").disabled = isBusy();  // 채팅 입력란은 다시 그리지 않으므로 직접 푼다
+    renderComposer(s);
     if (isBusy())  // G-2: 작업 중에는 그 세션의 입력을 잠근다
       document.querySelectorAll("main button, main input, main textarea, main select")
         .forEach(x => { if (!x.dataset.keep) x.disabled = true; });
   }
 
   // ---------- 확장 훅 ----------
-  function registerPanel(stage, panel) { panels[stage] = panel; }
-  function addAction(stage, action) { (actions[stage] ||= []).push(action); }
+  function registerCard(kind, renderFn) { cards[kind] = renderFn; }
+  function registerStage(stage, summary) { stageSummary[stage] = summary; }
   function registerJob(kind, start) { jobs[kind] = start; }
+  function startJob(kind, s) { if (jobs[kind] && s && !isBusy()) return jobs[kind](s, {}); }
   const cardExtras = [];
   function addCardExtra(fn) { cardExtras.push(fn); }
-  function extras(kind, s, item) { return cardExtras.map(fn => fn(kind, s, item)); }
+  function extras(kind, s, item, m) { return cardExtras.map(fn => fn(kind, s, item, m)); }
 
-  registerPanel("browse", {render: renderBrowse, reachable: s => !!s.picks.recommend_run_id, summary: s => {
+  registerCard("problems", renderProblems);
+  registerCard("problem", renderProblem);
+  registerCard("topics", renderTopics);
+  registerStage("browse", s => {
     const run = getRun(s.picks.recommend_run_id);
     if (!run) return "";
     return (run.recommendations.length ? `추천 ${run.recommendations.length}개` : "관련 문제 없음") +
            (s.rejections.length ? ` · 제외 ${s.rejections.length}개` : "");
-  }});
-  registerPanel("explore", {render: renderExplore, reachable: s => !!s.picks.problem_id,
-                            summary: s => problemOf(s)?.title || ""});
-  registerPanel("refine", {render: renderRefine, reachable: s => !!s.picks.research_run_id, summary: s => {
+  });
+  registerStage("explore", s => getRun(s.picks.recommend_run_id)?.recommendations
+    .find(c => c.problem_id === s.picks.problem_id)?.title || "");
+  registerStage("refine", s => {
     const run = getRun(s.picks.research_run_id);
     const topic = run?.topics.find(t => t.id === s.picks.topic_id);
     return run ? `후보 ${run.topics.length}개` + (topic ? ` · 선택: ${topic.title}` : "") : "";
-  }});
+  });
   registerJob("recommend", startRecommend);
   registerJob("research", startResearch);
   registerJob("chat", startChat);
 
-  window.App = {STAGES, registerPanel, addAction, registerJob, addCardExtra, runTask, getSession, updateSession, setStage,
-                getRun, loading, isBusy, render, h, md, msg};
+  window.App = {STAGES, registerCard, registerStage, registerJob, startJob, addCardExtra, runTask, getSession, updateSession,
+                getRun, loading, isBusy, render, h, md, mdBlock, msg, btn};
 
   document.addEventListener("DOMContentLoaded", () => {
     $("#new-session").onclick = () => openSession(newSession().id);
     const input = $("#chat-input");
+    const fit = () => { input.style.height = "auto"; input.style.height = Math.min(input.scrollHeight, 200) + "px"; };
     $("#chat-form").onsubmit = e => {
       e.preventDefault();
       const s = getSession(), text = input.value.trim();
-      if (!s || !text || isBusy()) return;
+      if (!s || !s.profile || !text || isBusy()) return;
       input.value = "";
+      fit();
       startChat(s, {question: text});
+    };
+    input.oninput = () => {
+      fit();
+      if (!isBusy()) $("#send").disabled = !input.value.trim();
     };
     input.onkeydown = e => {
       if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("#chat-form").requestSubmit(); }

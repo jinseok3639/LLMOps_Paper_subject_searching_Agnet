@@ -85,6 +85,9 @@ sessionStorage와 서버 DB가 **같은 형식**을 씁니다. 그래야 로그�
 | `stage` | `browse` · `explore` · `refine` · `verify` · `final` | F-1 |
 | `picks` | 상태별로 고른 것. 다시 열 때 이 값과 `/api/runs`로 화면을 복원 | S-5 |
 | `messages[].status` | `done` · `cancelled` · `error`. 취소된 부분 응답도 남김 | G-4 |
+| `messages[].kind` | 결과 메시지의 종류: `profile` · `problems` · `problem` · `topics` · `verify` · `final`. 없으면 일반 대화. 화면은 `run_id`로 카드를 그리고, `content`는 LLM에 넘길 짧은 요약 | C-5 |
+| `messages[].run_id` 등 | 결과 메시지가 가리키는 `run_id`. `problem_id`(고른 문제), `picked`(그 카드에서 고른 항목), `research_run_id`·`topic_id`(검증한 후보), `repost`(후보 카드를 다시 보인 메시지)가 붙을 수 있음. 서버 작업 API는 무시함 | C-5 |
+| `v` | 세션 형식 버전. `2`는 결과가 대화 메시지로 들어간 형식. 없으면 화면이 열 때 `picks`로 결과 메시지를 만들어 넣음 | S-5 |
 | `rejections` | 거절한 문제와 이유. 다음 추천 요청에 함께 보냄 | C-6 |
 
 ### 2.3 오류
@@ -295,6 +298,7 @@ Google 로그인 하나만 지원합니다 (A-4). 로그인 처리는 **Supabase
 | 2026-11-05 | 여러 탭 | 비로그인은 탭마다 독립이라 충돌 없음. 로그인 사용자만 `job_running`, `version_conflict`로 처리 |
 | 2026-11-06 | 세션 만들기 | `POST /api/sessions` 대신 `PUT /api/sessions/{id}`(`base_updated_at: null`). id는 화면이 만듦 |
 | 2026-11-06 | 로그인 사용자 결과 | `runs`를 Supabase에 저장. 비로그인 결과는 그대로 서버 디스크에 24시간 |
+| 2026-11-06 | 화면 흐름 (이슈 #15) | 단계별 화면 대신 하나의 대화. 결과는 `kind`가 붙은 메시지로 쌓고, 앞 상태로 돌아가는 기능(F-3)은 없앰. 작업 API는 바꾸지 않음 |
 
 ### 알아 둘 점: 탭 복제
 

@@ -1,22 +1,19 @@
-/* ⑤ 확정 화면 (설계서 5장, 요구사항 R-1, R-2). app.js의 App 훅만 쓴다.
-   "최종 주제 카드 만들기" → /api/finalize → picks.final_run_id. 카드는 서버가 만든 마크다운을 그대로 보여 주고,
-   "마크다운으로 내보내기"는 같은 문자열을 브라우저에서 파일로 내려받는다. 검증 없이 만들면 판정은 "검증 안 함". */
+/* ⑤ 확정 메시지 (설계서 5장, 요구사항 R-1, R-2). app.js의 App 훅만 쓴다.
+   ④ 검증 카드의 "이 주제로 확정" → /api/finalize → 대화에 kind "final" 메시지, picks.final_run_id, stage "final".
+   카드는 서버가 만든 마크다운을 그대로 보여 주고, "마크다운으로 내보내기"는 같은 문자열을 브라우저에서 파일로 내려받는다.
+   내보내기는 다음 단계로 가는 버튼이 아니라서 지나간 카드에서도 누를 수 있다. */
 (() => {
-  const {h} = App;
+  const {h, btn} = App;
   const PICKS = ["recommend_run_id", "problem_id", "research_run_id", "topic_id", "verify_run_id"];
-  // 카드를 만든 뒤 후보를 바꾸거나 다시 검증했으면 카드가 낡은 것이다
-  const stale = (s, run) => ["research_run_id", "topic_id", "verify_run_id"]
-    .some(k => (run.card.source?.[k] || "") !== (s.picks[k] || ""));
-
-  document.head.append(h("style", {}, `
-    .final-card table { border-collapse: collapse; width: 100%; margin: 6px 0; font-size: 14px; }
-    .final-card th, .final-card td { border: 1px solid #ddd; padding: 4px 6px; text-align: left; vertical-align: top; }
-    .final-card th { background: #f4f4f6; }`));
 
   function startFinalize(s, {replace} = {}) {
     return App.runTask({kind: "finalize", label: "최종 주제 카드 만들기", url: "/api/finalize", replace,
       body: Object.fromEntries(PICKS.map(k => [k, s.picks[k] || ""])),
-      onResult: (x, d) => { x.picks = {...x.picks, final_run_id: d.run_id}; x.stage = "final"; }});
+      onResult: (x, d) => {
+        x.picks = {...x.picks, final_run_id: d.run_id};
+        x.stage = "final";
+        return App.msg("assistant", `최종 주제 카드: ${d.card?.topic?.title || ""}`, {kind: "final", run_id: d.run_id});
+      }});
   }
 
   function download(run) {
@@ -29,29 +26,19 @@
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
-  function renderFinal(el, s) {
-    const id = s.picks.final_run_id, run = App.getRun(id);
-    const make = label => h("button", {class: "primary", onclick: () => startFinalize(s)}, label);
-    el.append(h("h2", {}, "⑤ 확정: 최종 주제 카드"));
-    if (!id) return el.append(
-      h("p", {class: "caption"}, s.picks.verify_run_id
-        ? "저장된 추천·후보·검증 결과로 카드를 만듭니다 (LLM 호출 없음)."
-        : "검증 결과가 없어 판정은 \"검증 안 함\"으로 들어갑니다. ③에서 \"선택한 후보 검증\"을 먼저 할 수 있습니다."),
-      make("최종 주제 카드 만들기"));
-    if (!run) return el.append(App.loading(s.picks.final_run_id),
-                               h("p", {class: "caption"}, "결과는 24시간 보관됩니다. 지났으면 다시 만드세요."), make("다시 만들기"));
-    if (stale(s, run)) el.append(h("p", {class: "info"}, "카드를 만든 뒤 후보나 검증 결과가 바뀌었습니다. ",
-                                   make("현재 결과로 다시 만들기")));
+  function renderFinal(el, s, m) {
+    const run = App.getRun(m.run_id);
+    if (!run) return el.append(App.loading(m.run_id));
     const body = h("div", {class: "md card final-card"});
     body.innerHTML = App.md(run.markdown);
-    el.append(h("div", {class: "row"}, h("button", {onclick: () => download(run)}, "마크다운으로 내보내기")), body);
+    el.append(h("p", {}, "최종 주제 카드를 만들었습니다. 내보내서 보관하거나, 궁금한 점은 이어서 물어보세요."), body,
+              h("div", {class: "row"}, btn("마크다운으로 내보내기", () => download(run), "primary")));
   }
 
-  App.registerPanel("final", {render: renderFinal,
-    reachable: s => !!(s.picks.final_run_id || (s.picks.research_run_id && s.picks.topic_id)),
-    summary: s => {
-      const run = App.getRun(s.picks.final_run_id);
-      return run ? `카드 완성 · 판정: ${run.card.verdict.label}` : "";
-    }});
+  App.registerCard("final", renderFinal);
+  App.registerStage("final", s => {
+    const run = App.getRun(s.picks.final_run_id);
+    return run ? `카드 완성 · 판정: ${run.card.verdict.label}` : "";
+  });
   App.registerJob("finalize", startFinalize);
 })();

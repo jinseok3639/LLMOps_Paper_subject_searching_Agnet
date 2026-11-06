@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>연구 주제 탐색</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="/style.css">
 <script defer src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
@@ -14,23 +15,31 @@
 </head>
 <body>
 <aside id="sidebar">
-  <div id="account"></div>
-  <button id="new-session" type="button">+ 새 대화</button>
+  <div class="brand">연구 주제 탐색</div>
+  <button id="new-session" type="button" class="new-chat">
+    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+    새 대화
+  </button>
+  <div class="list-label">대화</div>
   <ul id="session-list"></ul>
+  <div id="account"></div>
 </aside>
 <main>
-  <h1>연구 주제 탐색</h1>
-  <section id="stage-view"><p class="caption">불러오는 중...</p></section>
-  <section id="messages"></section>
+  <header id="topbar"><span id="topbar-title"></span></header>
+  <div id="scroll">
+    <section id="messages"><p class="caption center">불러오는 중...</p></section>
+  </div>
   <form id="chat-form" hidden>
-    <textarea id="chat-input" rows="2" placeholder="질문하거나 연구 조건을 알려 주세요 (Enter 보내기, Shift+Enter 줄바꿈)"></textarea>
-    <button type="submit">보내기</button>
+    <div class="composer">
+      <textarea id="chat-input" rows="1" placeholder="질문하거나 연구 조건을 알려 주세요"></textarea>
+      <button id="send" class="send" type="submit" aria-label="보내기" title="보내기"></button>
+    </div>
+    <p class="hint">Enter로 보내고 Shift+Enter로 줄을 바꿉니다. 추천과 후보는 틀릴 수 있으니 원문 근거를 확인하세요.</p>
   </form>
 </main>
 <aside id="state-panel">
-  <h3>현재 상태</h3>
+  <h3>진행 상황</h3>
   <ol id="stages"></ol>
-  <p class="caption">문제 선택 → 탐색 / 후보 생성 → 다듬기 / 후보 검증 → 검증 / 판정 수용 → 확정</p>
   <div id="activity"></div>
 </aside>
 </body>
