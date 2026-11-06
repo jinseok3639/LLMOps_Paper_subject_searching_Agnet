@@ -28,3 +28,4 @@ DB/logs/
 DB/feedback.jsonl
 
 DB/test_tmp/
+eval/query_recall/cache/
