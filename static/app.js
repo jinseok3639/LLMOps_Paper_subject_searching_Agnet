@@ -505,7 +505,7 @@
       h("p", {}, c.summary),
       c.reason ? h("p", {class: "reason"}, c.reason) : "",
       sourceLine(c),
-      h("details", {}, h("summary", {}, "원문 근거"), h("blockquote", {}, c.quote)),
+      h("details", {}, h("summary", {}, "원문 인용"), h("blockquote", {}, c.quote)),
       foot,
       extras("problem", s, c, m));
   }
@@ -513,7 +513,8 @@
   function pickProblem(s, m, c, n) {
     updateSession(s.id, x => {
       mark(x, m, "picked", c.problem_id);
-      keepPicks(x, "problem_id", {problem_id: c.problem_id});
+      // 앞선 추천 카드에서 골라도 그 카드의 결과를 가리키게 한다 (대화 컨텍스트, ⑤의 추천 이유가 이 결과를 읽는다)
+      keepPicks(x, "recommend_run_id", {recommend_run_id: m.run_id, problem_id: c.problem_id});
       x.stage = "explore";
       if (x.title === DEFAULT_TITLE) x.title = c.title;  // S-6
       say(x, "user", `${n}번 문제로 진행할게요: ${c.title}`);
@@ -525,11 +526,13 @@
     const run = getRun(m.run_id);
     if (!run) return el.append(loading(m.run_id));
     if (run.intro) el.append(mdBlock(run.intro));
-    run.recommendations.forEach((c, i) => el.append(problemCard(s, m, c, i + 1, active)));
+    // 다시 추천을 받아도 문제를 고르기 전까지는 앞선 추천 카드에서도 고를 수 있다
+    const i = s.messages.findIndex(x => x.id === m.id);
+    const pickable = active || (!isBusy() && !s.messages.slice(i + 1).some(x => x.kind && x.kind !== "problems" && cards[x.kind]));
+    run.recommendations.forEach((c, n) => el.append(problemCard(s, m, c, n + 1, pickable)));
     if (run.note) el.append(h("p", {class: "info"}, run.note));
     if (active && (run.recommendations.length || !shownProblems(s).length))  // 다 보여 줘서 빈 결과면 다시 눌러도 같다
-      el.append(h("div", {class: "row"}, btn("다시 추천 받기", () => startRecommend(s)),
-                  h("span", {class: "caption"}, "앞에서 보여 드린 문제는 빼고 추천합니다")));
+      el.append(h("div", {class: "row"}, btn("다시 추천 받기", () => startRecommend(s))));
   }
 
   // ---------- ② 고른 문제 메시지 ----------
@@ -539,7 +542,7 @@
     const c = run.recommendations.find(x => x.problem_id === m.problem_id);
     el.append(h("p", {}, "좋습니다. 이 문제로 연구 주제 후보를 만들겠습니다."),
       c ? h("div", {class: "card quiet"}, h("div", {class: "card-title"}, c.title), h("p", {}, c.summary), sourceLine(c),
-            h("details", {}, h("summary", {}, "원문 근거"), h("blockquote", {}, c.quote))) : h("p", {}, m.problem_id),
+            h("details", {}, h("summary", {}, "원문 인용"), h("blockquote", {}, c.quote))) : h("p", {}, m.problem_id),
       h("p", {}, "보유 GPU, 쓸 수 있는 데이터셋, 기간처럼 고려할 조건이 있으면 먼저 아래 입력창으로 알려 주세요. " +
                  "대화 내용도 참고문헌 검색과 후보 생성에 반영됩니다. 준비되면 버튼을 눌러 주세요."));
     if (active) el.append(h("div", {class: "row"}, btn("참고문헌 검색하고 후보 만들기", () => startResearch(s), "primary"),
