@@ -1,0 +1,499 @@
+{
+ "schema_version": 2,
+ "sample_id": "t005",
+ "slot": 5,
+ "source_paper": "2608.22915",
+ "published_at": "2026-08-24",
+ "unit_id": "4.3 Objective Proxies Can Be Brittle",
+ "topic": {
+  "source_quotes": {
+   "gap": [
+    {
+     "id": "g1",
+     "quote": "Existing work on reward overoptimization shows that excessive optimization against an imperfect reward proxy can eventually reduce the true reward",
+     "page": 1,
+     "verified": true
+    },
+    {
+     "id": "g2",
+     "quote": "Our setting adds a distinct source of misspecification: the optimization domain is itself defined by an imperfect safety proxy.",
+     "page": 1,
+     "verified": true
+    },
+    {
+     "id": "g3",
+     "quote": "but it cannot determine which responses were wrongly admitted by a safety proxy.",
+     "page": 2,
+     "verified": true
+    },
+    {
+     "id": "g4",
+     "quote": "Pessimistic inference can provide scaling-monotonic guarantees for reward overoptimization under suitable conditions",
+     "page": 2,
+     "verified": true
+    }
+   ],
+   "approach": [
+    {
+     "id": "a1",
+     "quote": "For constrained Best-of-N sampling, we derive finite-N bounds governed by the joint upper reward tails of safe and unsafe outputs within the proxy-feasible set.",
+     "page": 1,
+     "verified": true
+    },
+    {
+     "id": "a2",
+     "quote": "We derive N-independent safety-hacking bounds under coverage control and study cPes as a concrete instance.",
+     "page": 2,
+     "verified": true
+    },
+    {
+     "id": "a3",
+     "quote": "An exact finite-N decomposition separates exposure to unsafe-but-feasible responses from the probability that they outrank every safe candidate.",
+     "page": 2,
+     "verified": true
+    }
+   ],
+   "evaluation": [
+    {
+     "id": "e1",
+     "quote": "compare random feasible selection, CBoN, and cPes for N",
+     "page": 8,
+     "verified": true
+    },
+    {
+     "id": "e2",
+     "quote": "we use the HarmBench classifier as the operational safety criterion and define a safety-hacking event as selecting a response that passes Llama Guard but is classified as unsafe by HarmBench.",
+     "page": 8,
+     "verified": true
+    },
+    {
+     "id": "e3",
+     "quote": "Our evaluation uses 714 test and 179 validation prompts",
+     "page": 8,
+     "verified": true
+    }
+   ]
+  },
+  "slots": {
+   "gap": {
+    "prior_work": {
+     "answer": "불완전한 보상 프록시의 과최적화를 분석하고, 비관적 추론으로 완화",
+     "quotes": [
+      "g1",
+      "g4"
+     ]
+    },
+    "remaining": {
+     "answer": "최적화 범위 자체를 불완전한 안전 프록시가 정할 때 생기는 실패",
+     "quotes": [
+      "g2",
+      "g3"
+     ]
+    }
+   },
+   "approach": {
+    "target": {
+     "answer": "샘플을 안전 모델로 거른 뒤 보상이 높은 답을 고르는 추론 파이프라인",
+     "quotes": [
+      "a1"
+     ]
+    },
+    "change": {
+     "answer": "안전 필터 오염과 보상 최대화 증폭을 분리해 함께 분석",
+     "quotes": [
+      "a3"
+     ]
+    },
+    "technique": {
+     "answer": "보상 꼬리 기반 유한 N 경계, 커버리지 제어 기반 N 무관 경계",
+     "quotes": [
+      "a1",
+      "a2"
+     ]
+    }
+   },
+   "evaluation": {
+    "compared_against": {
+     "answer": "무작위 가능 선택, 제약 Best-of-N, 제약 비관 샘플링",
+     "quotes": [
+      "e1"
+     ]
+    },
+    "measures": {
+     "answer": "안전 필터는 통과했지만 HarmBench가 위험으로 판정한 답을 고른 비율",
+     "quotes": [
+      "e2"
+     ]
+    }
+   }
+  },
+  "l1": {
+   "gap": "보상 과최적화 연구는 있지만, 불완전한 안전 프록시가 최적화 범위까지 정할 때의 실패는 분석되지 않음",
+   "approach": "제약 Best-of-N에서 안전과 비안전 출력의 보상 꼬리로 유한 N 경계를 유도하고, 커버리지 제어로 N 무관 경계를 제시",
+   "evaluation": "무작위 가능 선택, CBoN, cPes를 비교해 Llama Guard는 통과했지만 HarmBench가 위험으로 판정한 답의 선택 비율을 측정"
+  },
+  "l2": {
+   "gap": "Reward overoptimization is studied, but not when an imperfect safety filter defines the search domain.",
+   "approach": "Derive bounds on selecting unsafe outputs from reward tails and limit concentration with coverage control.",
+   "evaluation": "Compare selection strategies as the sample budget grows using an independent safety classifier.",
+   "query_text": "Inference-time pipelines sample many responses, filter them with a learned safety model, and return the highest-reward response. How do errors of the safety filter interact with reward maximization as the number of samples grows, and what theoretical bounds limit selection of unsafe outputs?"
+  },
+  "banned_in_l2": [
+   "safety hacking",
+   "cPes",
+   "CBoN",
+   "HarmBench",
+   "Llama Guard",
+   "JailbreakBench"
+  ]
+ },
+ "gold": [
+  {
+   "title": "Safe Inference-Time Alignment via Lagrangian Reward Augmentation",
+   "paper_id": "b6056fbf40d160e54fd3aa46a29f0f5ce3695334",
+   "arxiv": "2607.02781",
+   "published": "2026-07-02",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "While Chittepu et al. [2026] optimize against the learned cost signal, we instead study a misspecified hard safety filter.",
+   "page": 3,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Is Best-of-N the Best of Them? Coverage, Scaling, and Optimality in Inference-Time Alignment",
+   "paper_id": "5f5094d357065302cc18dfcc40fa00c840bfa12f",
+   "arxiv": "2503.21878",
+   "published": "2025-03-27",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "1-8B [Liu et al., 2025], while keeping the candidate pools, safety filter, and HarmBench labels fixed.",
+   "page": 10,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "On Almost Surely Safe Alignment of Large Language Models at Inference-Time",
+   "paper_id": "75acc2173df357ac8f2e47e2431100c1dbc47e18",
+   "arxiv": "2502.01208",
+   "published": "2025-02-03",
+   "grade": "core",
+   "role": "closest_work",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "A typical pipeline samples candidate responses, rejects those deemed unsafe by a safety model, and ranks the remainder with a reward model [Wang et al., 2025; Ji et al., 2025; Inan et al., 2023; Zeng et al., 2024b].",
+   "page": 1,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "ShieldGemma: Generative AI Content Moderation Based on Gemma",
+   "paper_id": "c650d58aaf13cb0847e2a10dc955843ef3e709b6",
+   "arxiv": "2407.21772",
+   "published": "2024-07-31",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Repeating the analysis with a calibration-matched google/shieldgemma-2b [Zeng et al., 2024a] filter gives the same pattern, but a smaller overall increase in safety hacking: unsafe-only exposure falls with N , while competitive unsafe wins become more common (Appendix B.2).",
+   "page": 9,
+   "quote_check": "loose",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Regularized Best-of-N Sampling with Minimum Bayes Risk Objective for Language Model Alignment",
+   "paper_id": "7647707b6b68c963314de0aab1514176b11732df",
+   "arxiv": "2404.01054",
+   "published": "2024-04-01",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Also, regularized Bo N has been studied under a minimum-Bayes-risk objective [Jinnai et al., 2025].",
+   "page": 3,
+   "quote_check": "loose",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Llama Guard: LLM-based Input-Output Safeguard for Human-AI Conversations",
+   "paper_id": "8b28792f8405b737229afb92c99c579b86d8aa98",
+   "arxiv": "2312.06674",
+   "published": "2023-12-07",
+   "grade": "core",
+   "role": "method_basis",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "A typical pipeline samples candidate responses, rejects those deemed unsafe by a safety model, and ranks the remainder with a reward model [Wang et al., 2025; Ji et al., 2025; Inan et al., 2023; Zeng et al., 2024b].",
+   "page": 1,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Scaling Laws for Reward Model Overoptimization",
+   "paper_id": "fb3dc5e20e0a71134ca916f0d6d8d41f01225b4b",
+   "arxiv": "2210.10760",
+   "published": "2022-10-19",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Existing work on reward overoptimization shows that excessive optimization against an imperfect reward proxy can eventually reduce the true reward [Skalse et al., 2022; Gao et al., 2023].",
+   "page": 1,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Defining and Characterizing Reward Gaming",
+   "paper_id": "597f869a3ae3572e16de3643a7bd285ea2f1eabd",
+   "arxiv": null,
+   "published": "2022",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Existing work on reward overoptimization shows that excessive optimization against an imperfect reward proxy can eventually reduce the true reward [Skalse et al., 2022; Gao et al., 2023].",
+   "page": 1,
+   "quote_check": "strict",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Bestof-n jailbreaking",
+   "paper_id": "6013f0db89accef0275c8168d325b04610d911a5",
+   "arxiv": "2412.03556",
+   "published": "2024-12-04",
+   "grade": "core",
+   "role": "gap_evidence",
+   "self_citation": false,
+   "s2_resolved": "title_match",
+   "after_topic_date": false,
+   "evidence_quote": "Bo N jailbreaking shows that repeated randomized attempts can substantially increase attack success rates [Hughes et al., 2024], demonstrating that search can expose rare safety failures.",
+   "page": 3,
+   "quote_check": "loose",
+   "matched_title": "Best-of-N Jailbreaking",
+   "self_citation_checked": true
+  },
+  {
+   "title": "Safety Reasoning with Guidelines",
+   "paper_id": "4864aad54669b37e01e24369aa40da97d932deed",
+   "arxiv": "2502.04040",
+   "published": "2025-02-06",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "A typical pipeline samples candidate responses, rejects those deemed unsafe by a safety model, and ranks the remainder with a reward model [Wang et al., 2025; Ji et al., 2025; Inan et al., 2023; Zeng et al., 2024b].",
+   "page": 1,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters",
+   "paper_id": "8292083dd8f6ae898ea0ee54a6b97997d1a51c9d",
+   "arxiv": "2408.03314",
+   "published": "2024-08-06",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "Foundation-model inference increasingly relies on learned models both to enforce safety and to assess response quality [Snell et al., 2024; Amodei et al., 2016; Hendrycks et al., 2021].",
+   "page": 1,
+   "quote_check": "strict"
+  },
+  {
+   "title": "JailbreakBench: An Open Robustness Benchmark for Jailbreaking Large Language Models",
+   "paper_id": "c9c0324fcdc92cf7e24f9c4230864851a552f953",
+   "arxiv": "2404.01318",
+   "published": "2024-03-28",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "HarmBench [Mazeika et al., 2024], JailbreakBench [Chao et al., 2024], and StrongREJECT [Souly et al., 2024] provide benchmarks for harmful behavior, jailbreak, and refusal robustness.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "A StrongREJECT for Empty Jailbreaks",
+   "paper_id": "f2e88c26bc1ebdd4adc5f83ab56cb4276120745d",
+   "arxiv": "2402.10260",
+   "published": "2024-02-15",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "HarmBench [Mazeika et al., 2024], JailbreakBench [Chao et al., 2024], and StrongREJECT [Souly et al., 2024] provide benchmarks for harmful behavior, jailbreak, and refusal robustness.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "HarmBench: A Standardized Evaluation Framework for Automated Red Teaming and Robust Refusal",
+   "paper_id": "b82ccc66c14f531a444c74d2a9a9d86a86a8be99",
+   "arxiv": "2402.04249",
+   "published": "2024-02-06",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "HarmBench [Mazeika et al., 2024], JailbreakBench [Chao et al., 2024], and StrongREJECT [Souly et al., 2024] provide benchmarks for harmful behavior, jailbreak, and refusal robustness.",
+   "page": 3,
+   "quote_check": "strict"
+  },
+  {
+   "title": "Safe RLHF: Safe Reinforcement Learning from Human Feedback",
+   "paper_id": "0f7308fbcae43d22813f70c334c2425df0b1cce1",
+   "arxiv": "2310.12773",
+   "published": "2023-10-19",
+   "grade": "related",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false,
+   "evidence_quote": "0-reward [Dai et al., 2024].",
+   "page": 8,
+   "quote_check": "strict"
+  },
+  {
+   "title": "OpenAI GPT-5 System Card",
+   "paper_id": "6f9e6a47b8c2a65d3fa758bb4062f096b4afd34d",
+   "arxiv": "2601.03267",
+   "published": "2025-12-19",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Skywork-Reward-V2: Scaling Preference Data Curation via Human-AI Synergy",
+   "paper_id": "69fc0065c18cb1240cb9d033218a918dda35e621",
+   "arxiv": "2507.01352",
+   "published": "2025-07-02",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Constitutional AI: Harmlessness from AI Feedback",
+   "paper_id": "3936fd3c6187f606c6e4e2e20b196dbc41cc4654",
+   "arxiv": "2212.08073",
+   "published": "2022-12-15",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Why Should Adversarial Perturbations be Imperceptible? Rethink the Research Paradigm in Adversarial NLP",
+   "paper_id": "e6c832118529361cd2e8ae834767a8ab79a9ec19",
+   "arxiv": "2210.10683",
+   "published": "2022-10-19",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Training language models to follow instructions with human feedback",
+   "paper_id": "d766bffc357127e0dc86dd69561d5aeb520d6f4c",
+   "arxiv": "2203.02155",
+   "published": "2022-03-04",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Unsolved Problems in ML Safety",
+   "paper_id": "05c2e1ee203be217f100d2da05bdcc52004f00b6",
+   "arxiv": "2109.13916",
+   "published": "2021-09-28",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Learning to summarize from human feedback",
+   "paper_id": "053b1d7b97eb2c91fc3921d589c160b0923c70b1",
+   "arxiv": "2009.01325",
+   "published": "2020-09-02",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Categorizing Variants of Goodhart's Law",
+   "paper_id": "80939dd8a5cad405053c88ed856c28791bdc0582",
+   "arxiv": "1803.04585",
+   "published": "2018-03-13",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Concrete Problems in AI Safety",
+   "paper_id": "e86f71ca2948d17b003a5f068db1ecb2b77827f7",
+   "arxiv": "1606.06565",
+   "published": "2016-06-21",
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": true,
+   "after_topic_date": false
+  },
+  {
+   "title": "Qwen Team",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  },
+  {
+   "title": "AI @ Meta Llama Team",
+   "paper_id": null,
+   "arxiv": null,
+   "published": null,
+   "grade": "background",
+   "role": null,
+   "self_citation": false,
+   "s2_resolved": false,
+   "after_topic_date": false
+  }
+ ],
+ "status": "draft",
+ "labelers": [
+  "claude-draft"
+ ],
+ "disagreements": [],
+ "labeled_at": "2026-10-31"
+}

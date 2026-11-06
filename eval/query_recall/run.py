@@ -39,7 +39,7 @@ from pydantic import BaseModel  # noqa: E402
 
 from src.clients import semantic_scholar as s2  # noqa: E402
 
-SAMPLES_DIR = HERE / "samples"
+SAMPLE_SETS = {"v1": HERE / "samples", "v2": HERE / "samples_v2"}  # v2: evaluation_v2의 t001~t010, topic은 l1
 CACHE_DIR = HERE / "cache"
 RUNS_DIR = HERE / "runs"
 SUMMARY = HERE / "summary.md"
@@ -51,7 +51,7 @@ REFS_PER_SEED = 20    # graph: seed마다 참고문헌을 인용 수 순으로 �
 N_RECS = 100          # recommend: 추천 받을 논문 수 (검색어 5개 × 20편과 같게)
 REC_URL = "https://api.semanticscholar.org/recommendations/v1/papers"
 LIMIT = references.SEARCH_LIMIT  # 앱과 같은 검색어당 결과 수
-FIELDS = "title,year,publicationDate"
+FIELDS = "title,year,publicationDate,abstract"  # 초록은 앱 25편 컷 시뮬레이션(관련성 필터)에만 쓰고 저장하지 않는다
 MODES = ("references", "verify")
 
 
@@ -138,14 +138,14 @@ def _rows(rows, before):
         when = r.get("publicationDate") or (f"{r['year']}-01-01" if r.get("year") else None)
         if before and (not when or when > before):
             continue
-        out.append({"paperId": r["paperId"], "title": r.get("title"), "year": r.get("year")})
+        out.append({"paperId": r["paperId"], "title": r.get("title"), "year": r.get("year"), "abstract": r.get("abstract")})
     return out
 
 
 def seed_references(seed_id, before):
     """seed의 참고문헌 중 인용 수 상위 REFS_PER_SEED편 (S2 1회, 캐시)."""
     data, cached = _cached_get(f"/paper/{seed_id}/references",
-                               {"fields": "title,year,publicationDate,citationCount", "limit": 1000})
+                               {"fields": "title,year,publicationDate,citationCount,abstract", "limit": 1000})
     rows = sorted((d.get("citedPaper") or {} for d in data.get("data") or []),
                   key=lambda r: r.get("citationCount") or 0, reverse=True)
     return _rows(rows, before)[:REFS_PER_SEED], cached
@@ -161,7 +161,7 @@ def recommend_papers(seed_ids, before):
         data = json.loads(file.read_text("utf-8"))
     else:
         data = _post(REC_URL, {"positivePaperIds": seed_ids, "negativePaperIds": []},
-                     {"fields": "title,year,publicationDate", "limit": N_RECS})
+                     {"fields": FIELDS, "limit": N_RECS})
         file.write_text(json.dumps(data, ensure_ascii=False), "utf-8")
     return _rows(data.get("recommendedPapers") or [], before), cached
 
@@ -169,7 +169,7 @@ def recommend_papers(seed_ids, before):
 def recommend_for_paper(seed_id, before):
     """seed 한 편의 이웃을 CS 전체(from=all-cs)에서 추천받아 날짜 거른 뒤 상위 REFS_PER_SEED편 (S2 1회, 캐시).
     여러 편을 넣는 POST 추천은 최근 논문만 돌려줘서(2026년 98/100) ③에는 이것을 쓴다."""
-    params = {"fields": "title,year,publicationDate", "limit": 100, "from": "all-cs"}
+    params = {"fields": FIELDS, "limit": 100, "from": "all-cs"}
     CACHE_DIR.mkdir(exist_ok=True)
     file = CACHE_DIR / (hashlib.sha256(json.dumps(["forpaper", seed_id, params], sort_keys=True).encode()).hexdigest() + ".json")
     cached = file.exists()
@@ -181,7 +181,7 @@ def recommend_for_paper(seed_id, before):
     return _rows(data.get("recommendedPapers") or [], before)[:REFS_PER_SEED], cached
 
 
-def _post(url, body, params, tries=6, method="POST"):
+def _post(url, body, params, tries=10, method="POST"):
     """S2 Recommendations 호출 (graph/v1 밖이라 s2.get을 못 쓴다). 앱 클라이언트와 같은 대기열을 지난다.
     실험용이라 여기 둔다 (채택하면 clients로 옮긴다)."""
     key = s2._api_key()
@@ -278,7 +278,8 @@ def search_like_app(query, before=None, fos=None):
         rows, c2 = search(used, before, fos)
         cached = cached and c2
     return {"query": query, "retried_query": used if used != query else None, "cached": cached,
-            "results": [{"paperId": r["paperId"], "title": r.get("title"), "year": r.get("year")} for r in rows]}
+            "results": [{"paperId": r["paperId"], "title": r.get("title"), "year": r.get("year"),
+                         "abstract": r.get("abstract")} for r in rows]}
 
 
 def source_paper_id(arxiv_id):
@@ -300,6 +301,32 @@ def score_references(searches, gold):
             "per_query_core_hit": [len(core.keys() & {r["paperId"] for r in s["results"]}) for s in searches]}
 
 
+def app_cut(context, lists):
+    """앱 ③과 같은 마지막 단계: 초록 없는 결과를 빼고, 관련성 필터(Solar 1회)로 확실히 무관한 것을 뺀 뒤,
+    목록별로 번갈아 MAX_REFS(25)편을 뽑는다. lists는 검색어별 결과와 확장 목록(seed별)이다."""
+    lists = [[r for r in rows if r.get("abstract")] for rows in lists]
+    unique = {}
+    for rows in lists:
+        for r in rows:
+            unique.setdefault(r["paperId"], r)
+    if not unique:
+        return [], {"status": "empty", "candidates": 0, "unrelated": 0}
+    drop, status = references._drop_unrelated(context, list(unique.values()))
+    picked = references._round_robin([[r for r in rows if r["paperId"] not in drop] for rows in lists], references.MAX_REFS)
+    return [r["paperId"] for _, r in picked], {"status": status, "candidates": len(unique), "unrelated": len(drop)}
+
+
+def score_cut(picked, gold):
+    core = {g["paper_id"]: g["title"] for g in gold if g["grade"] == "core" and g.get("paper_id")}
+    hit = sorted(core[i] for i in core.keys() & set(picked))
+    return {"core_total": len(core), "core_hit": len(hit), "hit_titles": hit, "picked": len(picked)}
+
+
+def _strip(searches):
+    """저장용: 초록을 뺀다."""
+    return [{**s, "results": [{k: v for k, v in r.items() if k != "abstract"} for r in s["results"]]} for s in searches]
+
+
 def score_verify(searches, target_id):
     """원 논문이 어느 검색어에서 몇 위로 나왔는지. best_rank는 검색어별 순위 중 가장 높은 것 (1부터)."""
     ranks = [next((i for i, r in enumerate(s["results"], 1) if r["paperId"] == target_id), None) for s in searches]
@@ -309,13 +336,19 @@ def score_verify(searches, target_id):
 
 # ---------- 실행 ----------
 
-def load_samples(ids=None):
-    samples = [json.loads(p.read_text("utf-8")) for p in sorted(SAMPLES_DIR.glob("t*.json"))]
+def topic_of(sample) -> dict:
+    """v1은 topic이 곧 {gap, approach, evaluation}, v2는 topic.l1이 같은 형식이다."""
+    topic = sample["topic"]
+    return topic["l1"] if "l1" in topic else topic
+
+
+def load_samples(ids=None, sample_set="v1"):
+    samples = [json.loads(p.read_text("utf-8")) for p in sorted(SAMPLE_SETS[sample_set].glob("t*.json"))]
     return [s for s in samples if not ids or s["sample_id"] in ids]
 
 
 def run_one(strategy, mode, sample):
-    topic, spec = sample["topic"], STRATEGIES[strategy]
+    topic, spec = topic_of(sample), STRATEGIES[strategy]
     before = (date.fromisoformat(sample["published_at"]) - timedelta(days=1)).isoformat() if mode == "references" else None
     fos = spec.get("fos")
 
@@ -336,22 +369,38 @@ def run_one(strategy, mode, sample):
     out = {"queries": queries, "fos": fos, **({"trace": trace} if trace else {})}
     if mode == "references":
         only = {"score_search_only": score_references(searches, sample["gold"])} if extra else {}
-        return {**out, "before": before, "score": score_references(searches + extra, sample["gold"]), **only,
-                "searches": searches, "extra": extra}
+        try:
+            picked, cut = app_cut(references_input(topic), [s["results"] for s in searches + extra])
+            at25 = {"score_at_25": score_cut(picked, sample["gold"]), "cut": cut}
+        except Exception as e:  # 필터 호출 실패도 남긴다
+            at25 = {"cut": {"status": f"error: {type(e).__name__}: {str(e)[:200]}"}}
+        return {**out, "before": before, "score": score_references(searches + extra, sample["gold"]), **only, **at25,
+                "searches": _strip(searches), "extra": _strip(extra)}
     target = source_paper_id(sample["source_paper"])
     only = {"score_search_only": score_verify(searches, target)} if extra else {}
     return {**out, "target_paper_id": target, "score": score_verify(searches + extra, target), **only,
-            "searches": searches, "extra": extra}
+            "searches": _strip(searches), "extra": _strip(extra)}
 
 
 def summarize(results, mode):
     rows = [r for r in results if r["mode"] == mode and "skipped" not in r]
     if not rows:
         return None
+    reps = sorted({r["repeat"] for r in rows})
     if mode == "references":
-        hit = sum(r.get("score", {}).get("core_hit", 0) for r in rows)
-        total = sum(r.get("score", {}).get("core_total", 0) or 0 for r in rows)
-        return f"core {hit}/{total} ({hit / total:.0%})" if total else "core 0/0"
+        def per_rep(key):
+            return [sum((r.get(key) or {}).get("core_hit", 0) for r in rows if r["repeat"] == k) for k in reps]
+        total = sum((r.get("score") or {}).get("core_total", 0) or 0 for r in rows if r["repeat"] == reps[0])
+        pool, cut = per_rep("score"), per_rep("score_at_25")
+
+        def fmt(xs):
+            mean = sum(xs) / len(xs)
+            return f"{mean:.1f}/{total} ({mean / total:.0%})" + (f" [{min(xs)}~{max(xs)}]" if len(xs) > 1 else "")
+        return f"core {fmt(pool)}, 25편 {fmt(cut)}" if total else "core 0/0"
+    if len(reps) > 1:
+        per = [sum(bool((r.get("score") or {}).get("found")) for r in rows if r["repeat"] == k) for k in reps]
+        n = len(rows) // len(reps)
+        return f"원 논문 평균 {sum(per) / len(per):.1f}/{n} [{min(per)}~{max(per)}]"
     found = [r for r in rows if r.get("score", {}).get("found")]
     ranks = sorted(r["score"]["best_rank"] for r in found)
     return f"원 논문 {len(found)}/{len(rows)}, 순위 {ranks}"
@@ -363,13 +412,14 @@ def main():
     ap.add_argument("--mode", default="references,verify", help="references, verify 중 쉼표로")
     ap.add_argument("--repeat", type=int, default=1, help="샘플마다 검색어 생성을 몇 번 반복할지")
     ap.add_argument("--samples", default="", help="예: t001,t004 (비우면 전부)")
+    ap.add_argument("--sample-set", default="v1", choices=sorted(SAMPLE_SETS), help="v1: t001~t005, v2: t001~t010 (topic l1)")
     ap.add_argument("--note", default="", help="summary.md에 남길 메모")
     args = ap.parse_args()
     modes = [m for m in args.mode.split(",") if m]
     unknown = [m for m in modes if m not in MODES] + [s for s in args.strategy.split(",") if s not in STRATEGIES]
     if unknown:
         ap.error(f"모르는 값: {unknown}")
-    samples = load_samples(set(filter(None, args.samples.split(","))))
+    samples = load_samples(set(filter(None, args.samples.split(","))), args.sample_set)
     RUNS_DIR.mkdir(exist_ok=True)
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
 
@@ -382,13 +432,15 @@ def main():
                          **run_one(strategy, mode, sample)}
                     results.append(r)
                     sc = r.get("score") or {}
-                    shown = (f"core {sc.get('core_hit')}/{sc.get('core_total')}" if mode == "references"
+                    shown = (f"core {sc.get('core_hit')}/{sc.get('core_total')}, 25편 {(r.get('score_at_25') or {}).get('core_hit')}"
+                             if mode == "references"
                              else f"found={sc.get('found')} rank={sc.get('best_rank')}") if sc else (r.get("error") or r.get("skipped"))
                     print(f"[{strategy}] {sample['sample_id']} {mode} #{rep}: {shown} | {r['queries']}")
         out = RUNS_DIR / f"{stamp}_{strategy}.json"
         out.write_text(json.dumps({"strategy": strategy, "modes": modes, "repeat": args.repeat, "limit": LIMIT,
-                                   "note": args.note, "results": results}, ensure_ascii=False, indent=1), "utf-8")
-        line = (f"| {stamp} | {strategy} | {len(samples)}×{args.repeat} | "
+                                   "sample_set": args.sample_set, "note": args.note, "results": results},
+                                  ensure_ascii=False, indent=1), "utf-8")
+        line = (f"| {stamp} | {strategy} | {args.sample_set} {len(samples)}×{args.repeat} | "
                 f"{summarize(results, 'references') or '-'} | {summarize(results, 'verify') or '-'} | "
                 f"[{out.name}](runs/{out.name}) | {args.note} |")
         if not SUMMARY.exists():
