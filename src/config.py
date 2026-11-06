@@ -27,7 +27,6 @@ EMBEDDINGS_META_PATH = DB_DIR / "embeddings.json"              # {model, generat
 RETRIEVE_K = 30          # 임베딩 검색 후보 수
 MIN_SCORE = 0.40         # 최고 유사도가 이보다 낮으면 "관련 항목 없음". 임시값 (보정은 추후 과제, plan/실행 계획.md 5절)
 MAX_RECOMMENDATIONS = 5
-TOPIC_COUNT = 3          # 선택한 Open Problem 하나에서 만드는 연구 주제 후보 수
 RESEARCH_LLM_BUDGET = 250  # ③ 후보 생성의 Solar 호출 상한 (설계서 J-7). 실제 사용은 약 130회
 PROMPT_DIR = Path(__file__).resolve().parent / "prompts"
 
