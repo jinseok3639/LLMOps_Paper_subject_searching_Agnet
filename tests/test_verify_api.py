@@ -11,7 +11,7 @@ from unittest.mock import patch
 from fastapi.testclient import TestClient
 
 import server
-from src import calllog, runs, store, studio
+from src import calllog, paper_cache, runs, store, studio
 from src.api import sse, verify as api
 
 PROFILE = {"lab_name": "보안 연구실", "lab_topics": "AI 보안", "interests": ""}
@@ -23,7 +23,8 @@ def setUpModule():  # 호출 로그(src.calllog)는 임시 폴더에 쓴다
     tmp = tempfile.TemporaryDirectory()
     unittest.addModuleCleanup(tmp.cleanup)
     for p in (patch.object(calllog, "ROOT", Path(tmp.name)),  # 로그인 저장소도 Supabase 대신 임시 폴더
-              patch.object(store, "backend", store.LocalStore(Path(tmp.name) / "users"))):
+              patch.object(store, "backend", store.LocalStore(Path(tmp.name) / "users")),
+              patch.object(paper_cache, "backend", None)):  # 카드 캐시도 Supabase에 쓰지 않는다
         p.start()
         unittest.addModuleCleanup(p.stop)
 

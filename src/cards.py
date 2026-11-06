@@ -4,6 +4,7 @@
 - quote는 코드가 원문과 대조한다 (초록 카드는 LaTeX·태그를 걷어낸 초록, 본문 카드는 Studio 파싱 결과).
   대조에 실패한 필드(quote 없이 text만 있는 경우 포함)는 비우고 이름을 quote_failed에 적는다.
 - 같은 논문은 다시 만들지 않는다: 초록 카드 DB/abstract_cards/, 본문 카드 data/papers/studio/ (6.1).
+  Supabase가 설정되어 있으면 cache 테이블에도 저장하고, 로컬에 없으면 거기서 읽는다 (src/paper_cache.py).
 - Studio 콘솔 설정용 지침과 스키마: prompts/studio_card_instruction.md, prompts/studio_card_schema.json
   (중첩 객체를 받지 않으면 studio_card_schema_flat.json. 두 형식 모두 읽는다)
 """
@@ -21,7 +22,7 @@ from typing import Callable, Literal
 import requests
 from pydantic import BaseModel, Field
 
-from src import calllog, config, llm, studio
+from src import calllog, config, llm, paper_cache, studio
 from src.clients import arxiv
 from src.clients import semantic_scholar as s2
 from src.textnorm import contains
@@ -130,8 +131,9 @@ def abstract_card(paper: dict) -> dict:
     key = _key(paper)
     path = ABSTRACT_CARD_DIR / f"{key}.json"
     with _lock("abstract:" + key):
-        if path.exists():
-            return json.loads(path.read_text("utf-8"))
+        cached = paper_cache.load("abstract_card", paper["paper_id"], path)
+        if cached is not None:
+            return cached
         abstract = clean_abstract(paper.get("abstract") or "")
         if not abstract:
             return _verified(paper, paper.get("title") or "", "abstract", {}, "")
@@ -144,7 +146,7 @@ def abstract_card(paper: dict) -> dict:
         fields = {n: CardField(text=getattr(out, n).text.strip(), quote=getattr(out, n).quote.strip())
                   for n in FIELDS}
         card = _verified(paper, paper.get("title") or "", "abstract", fields, abstract)
-        _write_json(path, card)
+        paper_cache.save("abstract_card", paper["paper_id"], path, card)
         return card
 
 
@@ -311,8 +313,9 @@ def fulltext_card(paper: dict, should_cancel: Callable[[], bool] | None = None) 
     key = _key(paper)
     path = STUDIO_CARD_DIR / f"{key}.card.json"
     with _lock("fulltext:" + key):
-        if path.exists():
-            return json.loads(path.read_text("utf-8"))["card"]
+        cached = paper_cache.load("studio_card", paper["paper_id"], path)
+        if cached is not None:
+            return cached["card"]
         agent = studio.agent_id()
         pdf = fetch_pdf(paper)
         result = studio.run_agent(pdf, agent=agent, should_cancel=should_cancel)
@@ -323,8 +326,16 @@ def fulltext_card(paper: dict, should_cancel: Callable[[], bool] | None = None) 
         final = result["final"]
         card = _verified(paper, paper.get("title") or _str(final.get("title")), "fulltext",
                          _studio_fields(final), parse_text)
-        _write_json(path, {"card": card, "parse_text": parse_text, "job_id": result["job_id"],
-                           "agent_id": result["agent_id"], "steps": [s["step"] for s in result["steps"]],
-                           "elapsed_sec": result["elapsed_sec"],
-                           "created_at": datetime.now(timezone.utc).isoformat(timespec="seconds")})
+        paper_cache.save("studio_card", paper["paper_id"], path,
+                         {"card": card, "parse_text": parse_text, "job_id": result["job_id"],
+                          "agent_id": result["agent_id"], "steps": [s["step"] for s in result["steps"]],
+                          "elapsed_sec": result["elapsed_sec"],
+                          "created_at": datetime.now(timezone.utc).isoformat(timespec="seconds")})
         return card
+
+
+def prefetch(papers: list[dict], level: Literal["abstract", "fulltext"]) -> None:
+    """Supabase에만 있는 카드를 로컬 파일로 한 번에 받아 둔다. ④가 예산을 세기 전에 부른다."""
+    folder, suffix, kind = ((ABSTRACT_CARD_DIR, ".json", "abstract_card") if level == "abstract"
+                            else (STUDIO_CARD_DIR, ".card.json", "studio_card"))
+    paper_cache.prefetch(kind, {p["paper_id"]: folder / f"{_key(p)}{suffix}" for p in papers})

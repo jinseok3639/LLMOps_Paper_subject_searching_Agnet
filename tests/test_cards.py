@@ -8,7 +8,9 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from src import calllog, cards, studio
+import requests
+
+from src import calllog, cards, paper_cache, studio
 from src.clients import arxiv, semantic_scholar
 from src.clients.ratequeue import RateQueue
 from src.cards import AbstractCardOut, Quoted
@@ -48,11 +50,31 @@ def studio_result(final=STUDIO_FINAL, parse_text=PARSE_TEXT):
             "steps": [{"step": "step_1_parse"}, {"step": "step_2_extract"}], "elapsed_sec": 1.0, "raw": {"id": "job_1"}}
 
 
+class FakeRemote:
+    """Supabase cache 테이블 대신. fail=True면 HTTP 오류."""
+
+    def __init__(self, fail=False):
+        self.rows, self.fail, self.gets, self.puts = {}, fail, [], []
+
+    def get_many(self, kind, keys):
+        self.gets.append((kind, list(keys)))
+        if self.fail:
+            raise requests.ConnectionError("down")
+        return {k: self.rows[(kind, k)] for k in keys if (kind, k) in self.rows}
+
+    def put(self, kind, key, data):
+        self.puts.append((kind, key))
+        if self.fail:
+            raise requests.HTTPError("500")
+        self.rows[(kind, key)] = json.loads(json.dumps(data))
+
+
 class TmpDirs(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         root = Path(self.tmp.name)
-        self.patches = [patch.object(cards, "ABSTRACT_CARD_DIR", root / "abstract_cards"),
+        self.patches = [patch.object(paper_cache, "backend", None),
+                        patch.object(cards, "ABSTRACT_CARD_DIR", root / "abstract_cards"),
                         patch.object(cards, "PAPER_PDF_DIR", root / "pdf"),
                         patch.object(cards, "STUDIO_CARD_DIR", root / "studio"),
                         patch.dict(os.environ, {"STUDIO_CARD_AGENT_ID": "agt_test"})]
@@ -106,6 +128,74 @@ class AbstractCardTest(TmpDirs):
             card = cards.abstract_card({**PAPER, "paper_id": "ARXIV:hep/123"})
         self.assertEqual(card["paper_id"], "ARXIV:hep/123")
         self.assertTrue((cards.ABSTRACT_CARD_DIR / "ARXIV_hep_123.json").exists())
+
+
+class RemoteCacheTest(TmpDirs):
+    """로컬 파일이 지워져도(Render 재배포) Supabase cache 테이블에서 카드를 다시 읽는다."""
+
+    def wipe_local(self):
+        for folder in (cards.ABSTRACT_CARD_DIR, cards.STUDIO_CARD_DIR):
+            for p in folder.glob("*") if folder.exists() else []:
+                p.unlink()
+
+    def test_abstract_card_survives_local_wipe(self):
+        remote = FakeRemote()
+        with patch.object(paper_cache, "backend", remote), \
+                patch("src.cards.llm.chat_json", return_value=ABSTRACT_OUT) as chat:
+            card = cards.abstract_card(PAPER)
+            self.wipe_local()
+            again = cards.abstract_card(PAPER)
+        self.assertEqual(chat.call_count, 1)
+        self.assertEqual(card, again)
+        self.assertEqual(remote.puts, [("abstract_card", "s2abc")])
+        self.assertTrue((cards.ABSTRACT_CARD_DIR / "s2abc.json").exists())  # 받아 온 카드를 로컬에도 둔다
+
+    def test_studio_card_survives_local_wipe(self):
+        remote = FakeRemote()
+        with patch.object(paper_cache, "backend", remote), \
+                patch("src.cards.fetch_pdf", return_value=cards.PAPER_PDF_DIR / "s2abc.pdf"), \
+                patch("src.cards.studio.run_agent", return_value=studio_result()) as run:
+            card = cards.fulltext_card(PAPER)
+            self.wipe_local()
+            again = cards.fulltext_card(PAPER)
+        self.assertEqual(run.call_count, 1)
+        self.assertEqual(card, again)
+        self.assertEqual(remote.rows[("studio_card", "s2abc")]["parse_text"], PARSE_TEXT)
+
+    def test_prefetch_one_request_and_raw_paper_id(self):
+        remote = FakeRemote()
+        remote.rows[("abstract_card", "ARXIV:hep/123")] = {"paper_id": "ARXIV:hep/123", "level": "abstract"}
+        papers = [{"paper_id": "ARXIV:hep/123"}, {"paper_id": "s2abc"}]
+        with patch.object(paper_cache, "backend", remote):
+            cards.prefetch(papers, "abstract")
+            cards.prefetch(papers[:1], "abstract")  # 이미 로컬에 있으면 묻지 않는다
+        self.assertEqual(remote.gets, [("abstract_card", ["ARXIV:hep/123", "s2abc"])])
+        self.assertTrue((cards.ABSTRACT_CARD_DIR / "ARXIV_hep_123.json").exists())
+        self.assertFalse((cards.ABSTRACT_CARD_DIR / "s2abc.json").exists())
+
+    def test_supabase_failure_falls_back_to_local(self):
+        remote = FakeRemote(fail=True)
+        with patch.object(paper_cache, "backend", remote), \
+                patch("src.cards.llm.chat_json", return_value=ABSTRACT_OUT) as chat, \
+                self.assertLogs("src.paper_cache", "WARNING"):
+            card = cards.abstract_card(PAPER)
+            again = cards.abstract_card(PAPER)
+        self.assertEqual(chat.call_count, 1)
+        self.assertEqual(card, again)
+        self.assertEqual(len(remote.puts), 1)
+
+    def test_remote_request_format(self):
+        remote = paper_cache.Remote("https://x.supabase.co/", "service")
+        resp = unittest.mock.MagicMock(status_code=200, content=b"[]")
+        resp.json.return_value = [{"key": 'a"b', "json": {"x": 1}}]
+        with patch("src.paper_cache.requests.get", return_value=resp) as get, \
+                patch("src.paper_cache.requests.post", return_value=resp) as post:
+            self.assertEqual(remote.get_many("studio_card", ['a"b', "c"]), {'a"b': {"x": 1}})
+            remote.put("studio_card", "c", {"y": 2})
+        self.assertEqual(get.call_args.args[0], "https://x.supabase.co/rest/v1/cache")
+        self.assertEqual(get.call_args.kwargs["params"]["key"], 'in.("a\\"b","c")')
+        self.assertEqual(post.call_args.kwargs["params"], {"on_conflict": "kind,key"})
+        self.assertIn("merge-duplicates", post.call_args.kwargs["headers"]["Prefer"])
 
 
 class FulltextCardTest(TmpDirs):

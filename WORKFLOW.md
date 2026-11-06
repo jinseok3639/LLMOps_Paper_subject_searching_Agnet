@@ -32,10 +32,10 @@ DB 관련 파일은 `DB` 폴더에 모읍니다.
 | `DB/all.json` | 추천에 사용하는 Open Problem 통합 데이터 |
 | `DB/embeddings.npy` | 추천 검색용 임베딩 배열 |
 | `DB/embeddings.json` | 임베딩 ID·모델 등 메타데이터 |
-| `DB/search_cache` | 날짜와 검색어를 기준으로 재사용하는 검색 응답 캐시 |
+| `DB/abstract_cards` | ④ 초록 카드 캐시 (`paper_id`별). Supabase `cache` 테이블의 로컬 사본 |
 | `DB/runs` | 작업 결과 (① 추천, ③ 후보·참고문헌·검색 기록·생성 과정). `run_id`로 조회, 24시간 보관 |
 
-`src.extract`와 `src.embed`도 위 DB 경로에 결과를 저장합니다. 검색 캐시와 실행 결과는 Git 추적에서 제외합니다.
+`src.extract`와 `src.embed`도 위 DB 경로에 결과를 저장합니다. 카드 캐시와 실행 결과는 Git 추적에서 제외합니다. S2 검색 응답은 캐시하지 않습니다.
 
 ## 상태 전환
 

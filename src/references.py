@@ -5,7 +5,7 @@ from datetime import date
 
 from pydantic import BaseModel, Field
 
-from src import calllog, config, llm
+from src import calllog, llm
 from src.clients import semantic_scholar as s2
 
 MAX_REFS = 25  # 후보 생성에 넘기는 참고문헌 상한 (설계서 J-6)
@@ -37,20 +37,11 @@ def researcher_context(profile, history, problem):
 
 
 def _search(query):
-    """S2 제목·초록 검색 (하루 캐시, S2 대기열을 지남). 호출 로그에는 캐시에서 읽은 것도 status cache로 남긴다.
-    실패하면 s2.S2Error."""
+    """S2 제목·초록 검색 (S2 대기열을 지남). 캐시하지 않는다: 검색어를 Solar가 매번 새로 써서 같은 검색어가 거의 다시
+    나오지 않는다. 비싼 것은 논문별 카드라 그쪽을 캐시한다 (src/paper_cache.py). 실패하면 s2.S2Error."""
     with calllog.timed("s2", "paper/search", query) as c:
-        cache = config.DB_DIR / "search_cache"
-        cache.mkdir(parents=True, exist_ok=True)
-        key = hashlib.sha256((date.today().isoformat() + query).encode()).hexdigest()
-        path = cache / f"{key}.json"
-        if path.exists():
-            rows = json.loads(path.read_text("utf-8"))
-            c.status, c.output = "cache", _ids(rows)
-            return rows
         rows = s2.search_papers(query, SEARCH_FIELDS, limit=SEARCH_LIMIT, fields_of_study=None,
                                 tries=SEARCH_TRIES).get("data") or []
-        path.write_text(json.dumps(rows, ensure_ascii=False), "utf-8")
         c.output = _ids(rows)
         return rows
 

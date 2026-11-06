@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from src import cards, config, llm, studio, verify as vf
+from src import cards, config, llm, paper_cache, studio, verify as vf
 
 PROFILE = {"lab_name": "lab", "lab_topics": "AI security", "interests": "reward model robustness"}
 PROBLEM = {"problem_id": "p1", "title": "Reward hacking"}
@@ -135,7 +135,8 @@ class VerifyTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         root = Path(self.tmp.name)
-        self.patches = [patch.object(cards, "ABSTRACT_CARD_DIR", root / "abstract_cards"),
+        self.patches = [patch.object(paper_cache, "backend", None),
+                        patch.object(cards, "ABSTRACT_CARD_DIR", root / "abstract_cards"),
                         patch.object(cards, "STUDIO_CARD_DIR", root / "studio")]
         for p in self.patches:
             p.start()
