@@ -5,6 +5,8 @@ picks = {recommend_run_id, problem_id, research_run_id, topic_id} (API 명세 2.
 """
 import json
 
+from pydantic import BaseModel
+
 from src import config, llm, runs
 from src.recommend import load_index
 
@@ -23,7 +25,7 @@ def build_context(profile: dict, recommend_run: dict | None = None, research_run
     lines.append("\n## 추천한 Open Problems")
     if not recs:
         lines.append("(없음: 관련 항목을 찾지 못함)")
-    for i, r in enumerate(recs, 1):
+    for i, r in enumerate(recs, (recommend_run or {}).get("first_number", 1)):  # 화면 번호와 맞춘다
         p = r["paper"]
         lines += [
             f"{i}. {r['title']} [{r['problem_id']}]",
@@ -56,6 +58,41 @@ def build_context(profile: dict, recommend_run: dict | None = None, research_run
         if topic:
             lines.append(f"\n## 사용자가 다듬기로 고른 후보\n- {topic['title']} [{topic['id']}]")
     return "\n".join(lines)
+
+
+class Intent(BaseModel):
+    action: str
+    target: str = ""
+
+
+INTENT_HISTORY_MESSAGES = 4  # 판별에 넣는 최근 대화. "그걸로 하자"처럼 앞 말을 가리키는 경우를 위해서다
+INTENT_HISTORY_CHARS = 200  # 메시지마다 앞부분만 넣는다. 긴 답변이 판별을 흐리지 않게
+
+
+STAGE_HINTS = {  # 판별에 넣는 현재 단계 설명. 다음에 무엇을 할지 유추하게 한다
+    "browse": "① 둘러보기: 추천한 Open Problem 목록을 보는 중. 다음은 문제 하나를 고르는 것이다 (다시 추천도 가능).",
+    "explore": "② 문제 파고들기: 문제를 골랐다. 사용자가 조건(GPU, 기간 등)을 알려 줄 수 있고, 다음은 참고문헌을 검색해 연구 주제 후보를 만드는 것이다.",
+    "refine": "③ 주제 다듬기: 연구 주제 후보를 보는 중.",
+    "verify": "④ 검증: 고른 후보의 검증 결과를 보는 중.",
+    "final": "⑤ 확정: 최종 주제를 정리했다.",
+}
+
+
+def decide_action(history: list[dict], user_msg: str, actions: list[dict], stage: str = "") -> dict | None:
+    """채팅이 actions 중 하나를 요청하면 그 항목을, 질문이거나 애매하면 None을 돌려준다.
+    LLM이 고른 name과 target이 목록에 그대로 있을 때만 행동으로 본다."""
+    listing = "\n".join(f"- action: {a['name']} | target: {a['target'] or '(none)'} | {a['label']}" for a in actions)
+    recent = [{"role": m["role"], "content": m["content"][:INTENT_HISTORY_CHARS]} for m in history[-INTENT_HISTORY_MESSAGES:]]
+    user = (f"현재 단계: {STAGE_HINTS.get(stage, '알 수 없음')}\n\n"
+            f"최근 대화 (메시지마다 앞부분만):\n{json.dumps(recent, ensure_ascii=False)}\n\n"
+            f"할 수 있는 행동:\n{listing}\n\n사용자 메시지:\n{user_msg}")
+    messages = [{"role": "system", "content": (config.PROMPT_DIR / "chat_intent.md").read_text(encoding="utf-8")},
+                {"role": "user", "content": user}]
+    got = llm.chat_json(messages, Intent)
+    name, target = got.action.strip(), got.target.strip()
+    if target == "(none)":
+        target = ""
+    return next((a for a in actions if a["name"] == name and (a["target"] or "") == target), None)
 
 
 def reply_stream(profile: dict, picks: dict, history: list[dict], user_msg: str):

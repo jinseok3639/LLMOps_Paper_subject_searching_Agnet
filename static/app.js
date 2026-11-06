@@ -410,14 +410,20 @@
     return [...ids];
   }
 
+  function problemOffset(s, m) {  // m 앞의 추천 카드에서 보여 준 문제 수. 다시 추천한 문제는 번호를 이어 매긴다 (이슈 #23)
+    const i = s.messages.findIndex(x => x.id === m.id);
+    return shownProblems({messages: i < 0 ? s.messages : s.messages.slice(0, i)}).length;
+  }
+
   function startRecommend(s, {replace} = {}) {
     return runTask({kind: "recommend", label: "문제 추천", url: "/api/recommend", replace,
                     body: {profile: s.profile, rejections: s.rejections, exclude: shownProblems(s)},
                     onResult: (x, d) => {
+                      const first = d.first_number || shownProblems(x).length + 1;
                       x.picks = {recommend_run_id: d.run_id};
                       x.stage = "browse";
                       const recs = d.recommendations || [];
-                      const list = recs.map((c, i) => `${i + 1}. ${c.title}`).join("\n");
+                      const list = recs.map((c, i) => `${first + i}. ${c.title}`).join("\n");
                       return msg("assistant", list ? `추천한 Open Problem:\n${list}` : "관련 문제를 찾지 못했습니다.",
                                  {kind: "problems", run_id: d.run_id, problem_ids: recs.map(c => c.problem_id)});
                     }});
@@ -448,8 +454,49 @@
       });
     }
     return runTask({kind: "chat", label: "답변", url: "/api/chat", stream: true, replace,
-                    body: {profile: s.profile, picks: s.picks, messages: history, message: question},
-                    onResult: (x, d) => msg("assistant", d.content)});
+                    body: {profile: s.profile, picks: s.picks, messages: history, message: question, actions: chatActions(s), stage: s.stage},
+                    onResult: (x, d) => {
+                      if (!d.action) return msg("assistant", d.content);
+                      setTimeout(() => runAction(x.id, d.action));  // 작업 잠금이 풀린 뒤 버튼과 같은 함수를 부른다
+                      return null;
+                    }});
+  }
+
+  // ---------- 채팅으로 다음 단계 진행 (이슈 #23) ----------
+  // 지금 단계에서 버튼으로 할 수 있는 행동을 서버에 보내면, 서버가 채팅이 그중 하나를 요청하는지 판별해 돌려준다.
+  function chatActions(s) {
+    const last = s.messages[cardIndex(s)];
+    if (!last) return [];
+    if (last.kind === "problem") return [{name: "start_research", target: "", label: "고른 문제로 참고문헌을 검색하고 연구 주제 후보 만들기"}];
+    if (last.kind !== "problems") return [];
+    // 번호가 추천 카드 사이에서 겹치지 않으니 화면 번호를 target으로 쓴다. LLM이 긴 id를 베끼지 않아도 된다
+    const acts = pickableProblems(s).map(({n, c}) => ({name: "pick_problem", target: String(n), label: `${n}번 문제로 진행: ${c.title}`}));
+    const lastRun = getRun(last.run_id);
+    if (lastRun && (lastRun.recommendations.length || !shownProblems(s).length))
+      acts.push({name: "re_recommend", target: "", label: "앞에서 보여 준 문제를 빼고 Open Problem 다시 추천"});
+    return acts;
+  }
+
+  function pickableProblems(s) {  // 문제를 고르기 전이면 앞선 추천 카드에서도 고를 수 있다. [{n, m, c}]
+    const from = s.messages.findLastIndex(x => x.kind && x.kind !== "problems" && cards[x.kind]) + 1;
+    const out = [];
+    for (const m of s.messages.slice(from)) {
+      const run = m.kind === "problems" && m.status === "done" && getRun(m.run_id);
+      if (!run) continue;
+      const off = problemOffset(s, m);
+      run.recommendations.forEach((c, i) => out.push({n: off + i + 1, m, c}));
+    }
+    return out;
+  }
+
+  function runAction(sid, a) {
+    const s = find(sid);
+    if (!s || s.id !== currentId || isBusy()) return;
+    if (a.name === "pick_problem") {
+      const hit = pickableProblems(s).find(p => String(p.n) === a.target);
+      if (hit) pickProblem(s, hit.m, hit.c, hit.n, {echo: false});
+    } else if (a.name === "re_recommend") startRecommend(s);
+    else if (a.name === "start_research") startResearch(s);
   }
 
   function retry(s, m) { if (!isBusy() && jobs[m.job]) jobs[m.job](s, {replace: m.id}); }
@@ -510,14 +557,14 @@
       extras("problem", s, c, m));
   }
 
-  function pickProblem(s, m, c, n) {
+  function pickProblem(s, m, c, n, {echo = true} = {}) {  // echo: 채팅으로 고르면 사용자 말이 이미 대화에 있다
     updateSession(s.id, x => {
       mark(x, m, "picked", c.problem_id);
       // 앞선 추천 카드에서 골라도 그 카드의 결과를 가리키게 한다 (대화 컨텍스트, ⑤의 추천 이유가 이 결과를 읽는다)
       keepPicks(x, "recommend_run_id", {recommend_run_id: m.run_id, problem_id: c.problem_id});
       x.stage = "explore";
       if (x.title === DEFAULT_TITLE) x.title = c.title;  // S-6
-      say(x, "user", `${n}번 문제로 진행할게요: ${c.title}`);
+      if (echo) say(x, "user", `${n}번 문제로 진행할게요: ${c.title}`);
       say(x, "assistant", `선택한 문제: ${c.title}\n${c.summary}`, {kind: "problem", run_id: m.run_id, problem_id: c.problem_id});
     });
   }
@@ -529,7 +576,8 @@
     // 다시 추천을 받아도 문제를 고르기 전까지는 앞선 추천 카드에서도 고를 수 있다
     const i = s.messages.findIndex(x => x.id === m.id);
     const pickable = active || (!isBusy() && !s.messages.slice(i + 1).some(x => x.kind && x.kind !== "problems" && cards[x.kind]));
-    run.recommendations.forEach((c, n) => el.append(problemCard(s, m, c, n + 1, pickable)));
+    const off = problemOffset(s, m);
+    run.recommendations.forEach((c, n) => el.append(problemCard(s, m, c, off + n + 1, pickable)));
     if (run.note) el.append(h("p", {class: "info"}, run.note));
     if (active && (run.recommendations.length || !shownProblems(s).length))  // 다 보여 줘서 빈 결과면 다시 눌러도 같다
       el.append(h("div", {class: "row"}, btn("다시 추천 받기", () => startRecommend(s))));
@@ -544,7 +592,7 @@
       c ? h("div", {class: "card quiet"}, h("div", {class: "card-title"}, c.title), h("p", {}, c.summary), sourceLine(c),
             h("details", {}, h("summary", {}, "원문 인용"), h("blockquote", {}, c.quote))) : h("p", {}, m.problem_id),
       h("p", {}, "보유 GPU, 쓸 수 있는 데이터셋, 기간처럼 고려할 조건이 있으면 먼저 아래 입력창으로 알려 주세요. " +
-                 "대화 내용도 참고문헌 검색과 후보 생성에 반영됩니다. 준비되면 버튼을 눌러 주세요."));
+                 "대화 내용도 참고문헌 검색과 후보 생성에 반영됩니다. 준비되면 버튼을 누르거나 \"후보 만들어 줘\"라고 말해 주세요."));
     if (active) el.append(h("div", {class: "row"}, btn("참고문헌 검색하고 후보 만들기", () => startResearch(s), "primary"),
                             h("span", {class: "caption"}, "수 분 걸립니다")));
   }
