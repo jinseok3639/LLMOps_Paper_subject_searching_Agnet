@@ -9,16 +9,17 @@ from unittest.mock import patch
 from fastapi.testclient import TestClient
 
 import server
-from src import calllog, config, runs
+from src import calllog, config, runs, store
 from src.finalize import build_card, to_markdown
 
 
 def setUpModule():  # 호출 로그(src.calllog)는 임시 폴더에 쓴다
     tmp = tempfile.TemporaryDirectory()
     unittest.addModuleCleanup(tmp.cleanup)
-    p = patch.object(calllog, "ROOT", Path(tmp.name))
-    p.start()
-    unittest.addModuleCleanup(p.stop)
+    for p in (patch.object(calllog, "ROOT", Path(tmp.name)),  # 로그인 저장소도 Supabase 대신 임시 폴더
+              patch.object(store, "backend", store.LocalStore(Path(tmp.name) / "users"))):
+        p.start()
+        unittest.addModuleCleanup(p.stop)
 
 PAPER = {"paper_id": "2109.13916v5", "title": "Unsolved Problems in ML Safety", "year": 2021, "url": "https://arxiv.org/abs/2109.13916"}
 PROBLEM = {"problem_id": "2109.13916v5:5.1:3", "title": "Backdoor detection", "summary": "문제 요약", "quote": "We need detectors.",

@@ -1,4 +1,8 @@
-/* 연구 주제 탐색 화면. 비로그인 세션은 sessionStorage에 API 명세 2.2 형식으로 저장한다.
+/* 연구 주제 탐색 화면. 세션은 API 명세 2.2 형식이다.
+   - 비로그인: sessionStorage에 저장한다. 탭을 닫으면 사라진다 (S-3).
+   - 로그인 (static/auth.js): 바뀐 세션을 PUT /api/sessions/{id}로 서버(Supabase)에 저장한다 (S-1, S-2).
+     목록은 요약만 받고 세션을 열 때 전체를 받는다. 다른 탭이 먼저 저장했으면(409) 서버 것으로 바꾼다.
+     로그인하면 이 탭에서 비로그인으로 만든 세션을 계정으로 옮길지 묻는다 (A-5). 프로필 기본값은 계정에 둔다 (P-3).
    메시지에는 재시도를 위해 job(작업 종류)과 note(중단·실패 안내)가 더 붙을 수 있다.
 
    확장 모듈 (static/modules/<기능>.js, app.js 다음에 실행되고 첫 화면은 DOMContentLoaded 때 그린다):
@@ -27,10 +31,13 @@
                   ["interests", "사용자 관심사", false, "예: LLM 에이전트 프롬프트 인젝션 방어 (선택)"]];
   const PICK_ORDER = ["recommend_run_id", "problem_id", "research_run_id", "topic_id"];
   const DEFAULT_TITLE = "새 대화";
-  const KEY = "rta.sessions", CUR = "rta.current", LAST = "rta.last_profile";
+  const KEY = "rta.sessions", CUR = "rta.current", LAST = "rta.last_profile", SKIP_IMPORT = "rta.skip_import";
+  const JSON_HDR = {"Content-Type": "application/json"};
 
-  let sessions = JSON.parse(sessionStorage.getItem(KEY) || "[]");
+  let sessions = [];  // 로그인 때는 아직 전체를 받지 않은 세션이 {id, title, stage, updated_at, stub: true}로 들어 있다
   let currentId = sessionStorage.getItem(CUR);
+  let account = null, accountProfile = null, notice = "";
+  const versions = {}, chains = {}, pendingSave = new Set(), fullLoading = new Set(), fullErrors = {};
   let job = null;  // 도는 작업은 늘 화면의 세션 것 하나뿐이다 (세션을 옮기면 취소되므로)
   const runCache = {}, panels = {}, actions = {}, jobs = {}, drafts = {}, formErrors = {};
 
@@ -60,17 +67,132 @@
   }
   function mdBlock(text, id) { const d = h("div", {class: "md", id}); d.innerHTML = md(text); return d; }
 
-  // ---------- 세션 (sessionStorage) ----------
-  function persist() { sessionStorage.setItem(KEY, JSON.stringify(sessions)); sessionStorage.setItem(CUR, currentId || ""); }
+  // ---------- 세션 저장: 비로그인은 sessionStorage, 로그인은 서버 ----------
+  function persist() {
+    if (!account) sessionStorage.setItem(KEY, JSON.stringify(sessions));
+    sessionStorage.setItem(CUR, currentId || "");
+  }
+
+  async function getJSON(url) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error?.message || `HTTP ${res.status}`);
+    return res.json();
+  }
+
+  function setNotice(text) { notice = text; renderAccount(); }
+
+  function enqueue(id, fn) {  // 한 세션의 저장·삭제는 차례대로 보낸다
+    chains[id] = (chains[id] || Promise.resolve()).then(fn).catch(e => setNotice(`저장 실패: ${e.message || e}`));
+  }
+
+  function queueSave(id) {  // 이미 기다리는 저장이 있으면 그것이 최신 내용을 보낸다
+    if (pendingSave.has(id)) return;
+    pendingSave.add(id);
+    enqueue(id, async () => { pendingSave.delete(id); await saveOnce(id); });
+  }
+
+  function replaceSession(s, data) { for (const k of Object.keys(s)) delete s[k]; Object.assign(s, data); }
+
+  async function saveOnce(id) {
+    const s = find(id);
+    if (!account || !s || s.stub) return;
+    const res = await fetch(`/api/sessions/${encodeURIComponent(id)}`, {method: "PUT", headers: JSON_HDR,
+      body: JSON.stringify({session: s, base_updated_at: versions[id] ?? null})});
+    const d = await res.json().catch(() => ({}));
+    if (res.ok) {
+      versions[id] = d.updated_at;
+      if (notice.startsWith("저장 실패")) setNotice("");
+      return;
+    }
+    const current = d.error?.code === "version_conflict" && d.error.current;
+    if (!current) throw new Error(d.error?.message || `HTTP ${res.status}`);
+    if (job && job.sid === id) cancelJob(true);  // 다른 탭이 먼저 저장했다. 서버 것을 따른다
+    replaceSession(s, current);
+    versions[id] = current.updated_at;
+    notice = "다른 탭에서 먼저 바뀐 세션이라 최신 내용을 다시 불러왔습니다.";
+    render();
+  }
+
+  function deleteOnServer(id) {
+    enqueue(id, async () => {
+      if (versions[id] === undefined) return;  // 서버에 저장된 적 없는 세션
+      const res = await fetch(`/api/sessions/${encodeURIComponent(id)}`, {method: "DELETE"});
+      if (!res.ok && res.status !== 404) throw new Error(`HTTP ${res.status}`);
+      delete versions[id];
+    });
+  }
+
+  function loadFull(id) {  // 목록에서 고른 세션의 전체 내용을 받는다
+    if (fullLoading.has(id) || fullErrors[id]) return;
+    fullLoading.add(id);
+    fetch(`/api/sessions/${encodeURIComponent(id)}`).then(async res => {
+      const s = find(id), d = await res.json().catch(() => ({}));
+      if (res.status === 404) sessions = sessions.filter(x => x.id !== id);
+      else if (!res.ok) fullErrors[id] = d.error?.message || `HTTP ${res.status}`;
+      else if (s && s.stub) { replaceSession(s, d); versions[id] = d.updated_at; }
+    }).catch(e => { fullErrors[id] = String(e.message || e); })
+      .finally(() => { fullLoading.delete(id); render(); });
+  }
+
+  async function offerImport() {  // A-5: 비로그인 때 이 탭에서 만든 세션을 계정으로 옮긴다
+    const all = JSON.parse(sessionStorage.getItem(KEY) || "[]");
+    const local = all.filter(s => s.messages?.length || s.picks?.recommend_run_id);
+    if (!local.length || sessionStorage.getItem(SKIP_IMPORT) === account.id) return;
+    if (!confirm(`로그인 전에 이 탭에서 만든 대화 ${local.length}개를 계정에 저장할까요?\n` +
+                 "취소하면 계정에 저장하지 않고, 로그아웃하면 이 탭에서 다시 볼 수 있습니다.")) {
+      sessionStorage.setItem(SKIP_IMPORT, account.id);
+      return;
+    }
+    const res = await fetch("/api/sessions/import", {method: "POST", headers: JSON_HDR, body: JSON.stringify({sessions: local})});
+    if (!res.ok) return setNotice("대화를 계정으로 옮기지 못했습니다.");
+    const moved = Object.fromEntries((await res.json()).imported.map(x => [x.old_id, x.new_id]));
+    if (moved[currentId]) currentId = moved[currentId];
+    sessionStorage.setItem(KEY, JSON.stringify(all.filter(s => !(s.id in moved))));
+  }
+
+  async function loadSessions() {
+    for (const k of Object.keys(versions)) delete versions[k];
+    for (const k of Object.keys(fullErrors)) delete fullErrors[k];
+    accountProfile = null;
+    if (!account) { sessions = JSON.parse(sessionStorage.getItem(KEY) || "[]"); return; }
+    try {
+      await offerImport();
+      const [list, profile] = await Promise.all([getJSON("/api/sessions"), getJSON("/api/profile")]);
+      sessions = list.map(x => ({...x, stub: true}));
+      list.forEach(x => { versions[x.id] = x.updated_at; });
+      accountProfile = profile;
+    } catch (e) {
+      sessions = [];
+      notice = `저장된 대화를 불러오지 못했습니다: ${e.message || e}`;
+    }
+  }
+
+  async function switchAccount(user) {  // 로그인·로그아웃. 도는 작업은 취소하고 결과를 버린다 (G-7)
+    if (job) cancelJob(true);
+    account = user;
+    notice = "";
+    for (const k of Object.keys(drafts)) delete drafts[k];
+    await loadSessions();
+    render();
+  }
+
+  async function deleteAccount() {
+    if (!confirm("계정과 저장된 모든 대화를 삭제할까요? 되돌릴 수 없습니다.")) return;
+    const res = await fetch("/api/me", {method: "DELETE"});
+    if (!res.ok) return setNotice("계정을 삭제하지 못했습니다.");
+    await window.Auth.signOut().catch(() => null);
+  }
   const find = id => sessions.find(s => s.id === id);
   const getSession = () => find(currentId);
 
   function updateSession(id, fn) {  // 결과는 항상 id로 찾은 세션에만 쓴다 (G-1). 지워진 세션이면 버린다 (G-7)
     const s = find(id);
     if (!s) return;
+    if (s.stub) return;
     fn(s);
     s.updated_at = now();
     persist();
+    if (account) queueSave(id);
     render();
   }
 
@@ -106,6 +228,7 @@
     if (!confirm(`"${s.title}" 세션을 삭제할까요?`)) return;
     if (job && job.sid === s.id) cancelJob(true);  // G-7: 취소하고 결과는 버린다
     sessions = sessions.filter(x => x.id !== s.id);
+    if (account) deleteOnServer(s.id);
     if (currentId === s.id) currentId = (sessions[0] || newSession()).id;
     persist();
     render();
@@ -269,7 +392,8 @@
 
   // ---------- 화면: ① 둘러보기 ----------
   function profileForm(s) {
-    const d = drafts[s.id] ||= {...(s.profile || JSON.parse(sessionStorage.getItem(LAST) || "null") ||
+    const last = account ? accountProfile : JSON.parse(sessionStorage.getItem(LAST) || "null");
+    const d = drafts[s.id] ||= {...(s.profile || last ||
                                     {lab_name: "", lab_topics: "", interests: ""})};
     const errs = formErrors[s.id] || [];
     return h("form", {onsubmit: e => { e.preventDefault(); submitProfile(s); }},
@@ -285,7 +409,10 @@
     const p = Object.fromEntries(FIELDS.map(([k]) => [k, (drafts[s.id][k] || "").trim()]));
     formErrors[s.id] = FIELDS.filter(([k, , required]) => required && !p[k]).map(([k]) => k);  // P-5
     if (formErrors[s.id].length) return render();
-    sessionStorage.setItem(LAST, JSON.stringify(p));
+    if (account) {  // P-3: 다음 세션에서 다시 입력하지 않도록 계정에 둔다
+      accountProfile = p;
+      fetch("/api/profile", {method: "PUT", headers: JSON_HDR, body: JSON.stringify(p)}).catch(() => null);
+    } else sessionStorage.setItem(LAST, JSON.stringify(p));
     updateSession(s.id, x => { x.profile = p; });  // P-4: 세션은 시작 시점의 프로필을 복사해 둔다
     startRecommend(find(s.id));
   }
@@ -386,6 +513,33 @@
   }
 
   // ---------- 화면 그리기 ----------
+  function renderAccount() {
+    const el = $("#account"), A = window.Auth;
+    if (!el) return;
+    const kids = [];
+    if (account)
+      kids.push(h("div", {class: "caption", title: account.email || ""}, `${account.name || account.email} · 대화가 계정에 저장됩니다`),
+                h("div", {class: "row"}, h("button", {onclick: () => A.signOut()}, "로그아웃"),
+                  h("button", {onclick: deleteAccount}, "계정 삭제")));
+    else if (A && A.enabled())
+      kids.push(h("button", {class: "primary", onclick: () => A.signIn()}, "Google로 로그인"),
+                h("div", {class: "caption"}, "로그인하지 않으면 대화는 이 탭에만 저장되고 탭을 닫으면 사라집니다."));
+    if (notice) kids.push(h("p", {class: "err"}, notice));
+    el.replaceChildren(...kids);
+  }
+
+  function renderStub(s) {  // 아직 전체를 받지 않은 세션
+    const err = fullErrors[s.id];
+    $("#stage-view").replaceChildren(err
+      ? h("p", {class: "err"}, `세션을 불러오지 못했습니다: ${err} `,
+          h("button", {onclick: () => { delete fullErrors[s.id]; render(); }}, "다시 불러오기"))
+      : h("p", {class: "caption"}, "세션을 불러오는 중..."));
+    $("#messages").replaceChildren();
+    $("#stages").replaceChildren();
+    $("#chat-form").hidden = true;
+    loadFull(s.id);
+  }
+
   function renderSessions() {
     $("#session-list").replaceChildren(...sessions.map(s => h("li", {class: s.id === currentId ? "current" : ""},
       h("a", {href: "#", title: s.title, onclick: e => { e.preventDefault(); openSession(s.id); }},
@@ -442,7 +596,9 @@
   function render() {
     let s = getSession();
     if (!s) { s = sessions[0] || newSession(); currentId = s.id; persist(); }
+    renderAccount();
     renderSessions();
+    if (s.stub) return renderStub(s);
     renderStates(s);
     renderStage(s);
     renderMessages(s);
@@ -499,8 +655,20 @@
       const j = job;
       cancelJob(true);
       const s = find(j.sid);
-      if (s) { place(s, failure(j, "cancelled", {}), j.replace); persist(); }
+      if (!s) return;
+      place(s, failure(j, "cancelled", {}), j.replace);
+      persist();
+      if (account && versions[s.id] !== undefined)  // 페이지가 닫혀도 보내지도록 keepalive. 실패하면 중단 기록만 빠진다
+        fetch(`/api/sessions/${encodeURIComponent(s.id)}`, {method: "PUT", headers: JSON_HDR, keepalive: true,
+          body: JSON.stringify({session: s, base_updated_at: versions[s.id]})}).catch(() => null);
     });
-    render();
+    const A = window.Auth;
+    (A ? A.ready : Promise.resolve(null)).catch(() => null).then(async user => {
+      account = user;
+      await loadSessions();
+      if (A && A.error()) notice = A.error();
+      render();
+      if (A) A.onChange(switchAccount);
+    });
   });
 })();

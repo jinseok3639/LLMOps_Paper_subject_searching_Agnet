@@ -19,7 +19,7 @@ Streamlit 화면을 HTML + JavaScript 화면과 FastAPI 서버로 나누기 위�
         ▼
 FastAPI
   ├─ /api/me        로그인 사용자 확인 (Supabase Auth 토큰 검증)
-  ├─ /api/sessions  로그인 사용자의 세션 저장 (지금은 DB/ 폴더, 이후 Supabase)
+  ├─ /api/sessions  로그인 사용자의 세션 저장 (Supabase. 설정이 없으면 DB/users/ 폴더)
   ├─ /api/recommend, /api/research, /api/chat   작업 (src/ 함수 호출)
   ├─ /api/runs/*    작업 결과 조회
   └─ /              정적 파일 (index.html, app.js)
@@ -167,12 +167,14 @@ Google 로그인 하나만 지원합니다 (A-4). 로그인 처리는 **Supabase
 | GET | `/api/profile` | | 프로필 또는 `null` | P-3 |
 | PUT | `/api/profile` | 프로필 | 저장된 프로필 | P-3 |
 | GET | `/api/sessions` | | `[{id, title, stage, updated_at}]`, 최근 순 | S-4 |
-| POST | `/api/sessions` | 세션 (`id` 없이) | 세션 | S-4 |
 | GET | `/api/sessions/{id}` | | 세션 전체 | S-5 |
-| PUT | `/api/sessions/{id}` | 세션 전체 | 세션. `updated_at`이 다르면 409 | S-2, S-6 |
+| PUT | `/api/sessions/{id}` | `{session: 세션 전체, base_updated_at}` | 저장된 세션 (`updated_at`은 서버가 정함). 없으면 새로 만듦. `base_updated_at`이 서버 값과 다르면 409 `version_conflict` + `current` | S-2, S-4, S-6 |
 | DELETE | `/api/sessions/{id}` | | 204 | S-7 |
 | POST | `/api/sessions/import` | `{sessions: [세션, ...]}` | `{imported: [{old_id, new_id}]}` | A-5 |
 
+- 세션 id는 화면이 만듭니다(`s_` + 16진수). 저장하기 전에도 작업 요청의 `session_id`로 써야 하기 때문입니다. 그래서 만들기도 `PUT`으로 하고, 처음 저장할 때는 `base_updated_at`을 `null`로 보냅니다.
+- `base_updated_at`은 화면이 서버에서 마지막으로 받은 `updated_at`입니다. 409 응답의 `error.current`에 서버의 최신 세션이 있어 화면은 그것으로 바꿉니다.
+- 세션을 지우면 그 세션의 작업 결과(`runs`)도 지웁니다. `import`는 세션이 가리키는 비로그인 결과도 계정으로 옮깁니다.
 - 세션은 **통째로 저장**합니다(`PUT`). 메시지 하나를 추가할 때도 전체를 보냅니다. 세션 하나는 메시지 수십 개라 크지 않고, 부분 수정 API를 따로 만들지 않아도 됩니다.
 - 다른 사용자의 세션 ID로 요청하면 403이 아니라 404로 응답합니다. 세션이 있는지 없는지도 알려 주지 않기 위해서입니다 (S-1).
 
@@ -291,6 +293,8 @@ Google 로그인 하나만 지원합니다 (A-4). 로그인 처리는 **Supabase
 | 2026-11-05 | 비로그인 결과 보관 | 브라우저는 탭과 함께 삭제. 서버 결과 파일은 24시간 후 삭제 (6.5) |
 | 2026-11-05 | 로그인·저장 | Supabase Auth로 Google 로그인. 사용자 데이터와 결과는 Supabase로 (설계서 6.3) |
 | 2026-11-05 | 여러 탭 | 비로그인은 탭마다 독립이라 충돌 없음. 로그인 사용자만 `job_running`, `version_conflict`로 처리 |
+| 2026-11-06 | 세션 만들기 | `POST /api/sessions` 대신 `PUT /api/sessions/{id}`(`base_updated_at: null`). id는 화면이 만듦 |
+| 2026-11-06 | 로그인 사용자 결과 | `runs`를 Supabase에 저장. 비로그인 결과는 그대로 서버 디스크에 24시간 |
 
 ### 알아 둘 점: 탭 복제
 
