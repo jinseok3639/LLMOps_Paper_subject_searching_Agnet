@@ -7,6 +7,7 @@ job(progress, delta) -> 결과 dict
 - 이벤트: progress, delta, 마지막에 result | error | budget 하나. 모두 session_id가 붙는다 (G-1).
 - 호출 로그 (O-1): 작업 스레드에서 calllog 문맥(session_id, 작업 종류 = 경로 끝, progress의 step)을 세우고,
   끝나면 provider "job" 줄 하나를 남긴다 (run_id, ok · error · cancelled · budget, 총 시간, 호출 수).
+  LangSmith가 켜져 있으면 같은 자리에서 작업 하나가 trace 하나가 된다 (src/tracing.py).
 - 로그인 사용자 (API 명세 7장): 결과를 그 사용자 것으로 저장하고(runs.set_owner), 같은 세션의 작업이 이미 돌고 있으면
   409 job_running (다른 탭). 잠금은 작업 스레드가 끝날 때 푼다. 비로그인은 화면의 입력 잠금으로 충분하다.
 """
@@ -85,9 +86,9 @@ def stream_job(request, session_id: str, job, kind: str | None = None, lock: boo
             emit("delta", {"text": text})
 
         def work():
-            calllog.start(session_id, run_kind)
+            calllog.start(session_id, run_kind, user["id"] if user else None)
             runs.set_owner(user["id"] if user else None)
-            status, run_id, error = "ok", None, None
+            status, run_id, error, result = "ok", None, None, None
             try:
                 result = job(progress, delta)
                 run_id = result.get("run_id")
@@ -103,7 +104,7 @@ def stream_job(request, session_id: str, job, kind: str | None = None, lock: boo
                 log.exception("작업 실패: %s", session_id)
                 emit("error", {"error": error_body(e)})
             finally:
-                calllog.finish(status, run_id, error)
+                calllog.finish(status, run_id, error, output=result)
                 release()
 
         threading.Thread(target=work, daemon=True).start()

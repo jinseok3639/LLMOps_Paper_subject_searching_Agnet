@@ -17,7 +17,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
 
 import src.api
-from src import runs
+from src import runs, tracing
 from src.api.common import ApiError
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -27,6 +27,7 @@ STATIC_DIR = Path(__file__).resolve().parent / "static"
 async def lifespan(app):
     runs.cleanup()  # 24시간 지난 비로그인 결과 삭제 (API 명세 6.5)
     yield
+    tracing.flush()  # 아직 안 보낸 LangSmith run
 
 
 app = FastAPI(title="연구 주제 탐색", lifespan=lifespan)

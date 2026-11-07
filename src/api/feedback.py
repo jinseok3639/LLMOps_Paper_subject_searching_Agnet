@@ -4,6 +4,7 @@
   후보 id(s1-assumption 등)는 작업마다 다시 쓰이므로 run_id를 붙인다) · final (⑤ 확정 주제).
 - 한 줄씩 쌓기만 한다 (calllog.append → DB/feedback.jsonl, Supabase 단계에서는 feedback 테이블).
   같은 대상에 여러 번 누르면 마지막 줄이 유효하다.
+- LangSmith가 켜져 있으면 그 대상을 만든 작업의 trace에도 점수를 단다 (up=1, down=0, 키 user_{target}). src/tracing.py.
 """
 import secrets
 from datetime import datetime, timezone
@@ -12,7 +13,7 @@ from typing import Annotated, Literal
 from fastapi import APIRouter, Response
 from pydantic import BaseModel, StringConstraints
 
-from src import calllog
+from src import calllog, tracing
 
 router = APIRouter()
 Text = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=300)]
@@ -30,4 +31,5 @@ class Body(BaseModel):
 def post_feedback(body: Body):
     calllog.append("feedback", {"id": "f_" + secrets.token_hex(8), **body.model_dump(),
                                 "created_at": datetime.now(timezone.utc).isoformat(timespec="seconds")})
+    tracing.feedback(body.session_id, body.target, body.target_id, body.value, body.comment)
     return Response(status_code=204)
