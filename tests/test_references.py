@@ -4,6 +4,7 @@ import unittest
 from unittest.mock import patch
 
 from src import llm, references as rf
+from src.clients import semantic_scholar as s2
 
 PROFILE = {"lab_name": "lab", "lab_topics": "AI security", "interests": "backdoor detection"}
 PROBLEM = {"problem_id": "p1", "title": "Backdoor Detection Algorithms"}
@@ -90,6 +91,41 @@ class SearchReferencesTests(unittest.TestCase):
             result = rf.search_references(PROFILE, [], PROBLEM)
         self.assertEqual([r["paper_id"] for r in result["refs"]], ["a2", "b1", "c1", "b2", "c2"])
         self.assertEqual(result["search_trace"][-1]["status"], "ok")
+
+    def search_with_failures(self, fail):
+        """fail: 검색어 → 실패할 횟수. 나머지 호출은 rows로 답한다."""
+        left, calls = dict(fail), []
+
+        def search(q):
+            calls.append(q)
+            if left.get(q):
+                left[q] -= 1
+                raise s2.S2Error("S2 재시도 초과 /paper/search: 429", 429)
+            return rows(q[0], 2)
+        screening = lambda messages, schema, temperature=0.0: (
+            rf.Queries(queries=QUERIES) if schema is rf.Queries else rf.Screening(verdicts=[]))
+        messages = []
+        with patch("src.references.llm.chat_json", side_effect=screening), patch("src.references._search", side_effect=search):
+            result = rf.search_references(PROFILE, [], PROBLEM, progress=messages.append)
+        return result, calls, messages
+
+    def test_failed_query_is_retried_after_the_others(self):
+        result, calls, messages = self.search_with_failures({QUERIES[0]: 1})
+        self.assertEqual(calls, [QUERIES[0], QUERIES[1], QUERIES[2], QUERIES[0]])
+        self.assertIn(f"참고문헌 다시 검색: {QUERIES[0]}", messages)
+        self.assertEqual([r["paper_id"] for r in result["refs"][:3]], ["b1", "t1", "p1"])
+        self.assertNotIn("error", result["search_trace"][0])
+
+    def test_query_that_keeps_failing_is_skipped(self):
+        result, calls, _ = self.search_with_failures({QUERIES[1]: 2})
+        self.assertEqual(calls.count(QUERIES[1]), 2)
+        self.assertEqual([r["paper_id"] for r in result["refs"]], ["b1", "p1", "b2", "p2"])
+        self.assertIn("429", result["search_trace"][1]["error"])
+        self.assertEqual((result["search_trace"][1]["returned"], result["search_trace"][1]["passed"]), (0, 0))
+
+    def test_every_query_failing_raises(self):
+        with self.assertRaises(s2.S2Error):
+            self.search_with_failures({q: 2 for q in QUERIES})
 
     def test_filter_truncates_long_abstracts(self):
         long = [{"paperId": "l", "title": "Long", "abstract": "x" * 5000}]
