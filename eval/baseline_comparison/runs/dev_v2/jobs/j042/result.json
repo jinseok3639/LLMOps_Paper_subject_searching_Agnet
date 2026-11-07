@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x3",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x2",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x3 provides a clearer experimental path: adapt quadratic-constraint bounds to EEGNet, convert bounds into instance-specific certificates, and compare certified accuracy, empirical attacks, and computationally simpler bounds (ref-001, ref-005, ref-020, ref-022). It appropriately distinguishes SDP certificates from the sampling-based score in ref-009. y2 targets a similarly useful gap, but its training modification is less specified and it groups CLEVER with methods for measuring certified radii, although ref-009 describes an estimated robustness metric. x3's claimed EEG-specific perturbation sets remain underdeveloped, but its central experiment is stronger.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x2 leaves the simulated harm model and confirmation mechanism underspecified, and prediction invariance does not itself establish command correctness or physical safety. Nevertheless, its gate is a distinct, testable extension with relevant baselines and explicit safety-throughput outcomes, grounded in ref-020, ref-022, ref-021, and ref-017. y3 has more fundamental coherence problems: its proposed application of ref-005 to EEGNet is also its comparison baseline, ref-020 does not support the attributed piecewise-linear-bound ablation, and its asymmetric Hamming costs lack an application-based justification. Its medical-certification claim exceeds what the proposed classifier robustness experiment establishes.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X offers three meaningfully different research questions: whether robustness findings transfer across datasets, whether certificates improve runtime control decisions, and whether useful certificates can be obtained for compact EEG networks. They share components but have different experimental endpoints. All three Y candidates principally apply SDP or Lipschitz methods to EEGNet; Parseval training and multi-paradigm evaluation provide limited differentiation.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "X supplies a stronger leading candidate and more useful alternatives. In particular, x1 connects the generalization concerns in ref-007 to the detector and attack results in ref-021 and ref-024, while extending beyond ref-021's existing unknown-attack evaluation. X's projects still need tighter scope and operational details. Y has additional grounding and validation weaknesses: y1's named dataset assignments are unsupported by the supplied references, and its empirical attack evaluation does not establish its promised formal guarantees; y2 and y3 also blur estimated robustness, verified invariance, or application safety. X would better support an informed research choice.",
+  "verdict": "X"
+ }
+}

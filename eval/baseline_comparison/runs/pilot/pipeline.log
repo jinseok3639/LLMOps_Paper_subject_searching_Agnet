@@ -1,0 +1,89 @@
+== Sat Nov  7 01:42:36     2026 generate
+01:42:37 t003 A 시작 (참고문헌 25편)
+01:42:50 t003 A 완료 (13.6초)
+01:42:50 t003 C 시작 (참고문헌 25편)
+01:43:22 t003 C 완료 (31.6초)
+01:43:22 t003 B 시작 (참고문헌 25편)
+01:43:22 t003 시작: 참고문헌 25편
+01:43:48 t003 1/4 제안 완료 (호출 5)
+01:44:08 t003 2/4 검토와 수정 4/12 (호출 28)
+01:44:58 t003 2/4 검토와 수정 8/12 (호출 45)
+01:45:27 t003 2/4 검토와 수정 완료: 후보 12개 (호출 56)
+01:47:00 t003 3/4 토너먼트 슬롯 3 완료, 1/3 (호출 120)
+01:47:26 t003 3/4 토너먼트 슬롯 2 완료, 2/3 (호출 120)
+01:47:52 t003 3/4 토너먼트 슬롯 1 완료, 3/3 (호출 128)
+01:47:52 t003 4/4 최종 선별 완료: 후보 3개 (호출 128)
+01:47:52 t003 B 완료 (269.8초)
+01:47:52 t004 A 시작 (참고문헌 20편)
+01:48:08 t004 A 완료 (16.4초)
+01:48:08 t004 C 시작 (참고문헌 20편)
+01:48:38 t004 C 완료 (30.0초)
+01:48:38 t004 B 시작 (참고문헌 20편)
+01:48:38 t004 시작: 참고문헌 20편
+01:49:27 t004 B 실패: ValueError: Candidate format validation failed: hypothesis 2: summary reports results; describe a proposal instead (49.2초)
+01:49:27 t005 A 시작 (참고문헌 24편)
+01:49:40 t005 A 완료 (12.8초)
+01:49:40 t005 C 시작 (참고문헌 24편)
+01:50:13 t005 C 완료 (33.3초)
+01:50:13 t005 B 시작 (참고문헌 24편)
+01:50:13 t005 시작: 참고문헌 24편
+01:51:06 t005 B 실패: ValueError: Candidate format validation failed: hypothesis 3: summary has 33 words (53.0초)
+== Sat Nov  7 01:51:07     2026 pack
+작업 52개 {'score': 21, 'novelty': 21, 'pairwise': 10}, 빠진 세트 [('t004', 'B'), ('t005', 'B')]
+== Sat Nov  7 01:51:08     2026 judge
+남은 작업 52개, 동시 3개
+[1/52] j003 pairwise 완료
+[2/52] j001 pairwise 완료
+[3/52] j002 novelty 완료
+[4/52] j004 score 완료
+[5/52] j005 score 완료
+[6/52] j006 score 완료
+[7/52] j008 score 완료
+[8/52] j007 score 완료
+[9/52] j010 score 완료
+[10/52] j009 novelty 완료
+[11/52] j012 pairwise 완료
+[12/52] j011 novelty 완료
+[13/52] j013 novelty 완료
+[14/52] j014 novelty 완료
+[15/52] j015 novelty 완료
+[16/52] j016 score 완료
+[17/52] j017 score 완료
+[18/52] j018 score 완료
+[19/52] j019 pairwise 완료
+[20/52] j021 score 완료
+[21/52] j023 score 완료
+[22/52] j020 novelty 완료
+[23/52] j022 novelty 완료
+[24/52] j024 score 완료
+[25/52] j026 score 완료
+[26/52] j027 score 완료
+[27/52] j025 novelty 완료
+[28/52] j029 novelty 완료
+[29/52] j028 pairwise 완료
+[30/52] j031 novelty 완료
+[31/52] j030 novelty 완료
+[32/52] j032 score 완료
+[33/52] j033 score 완료
+[34/52] j035 novelty 완료
+[35/52] j036 score 완료
+[36/52] j034 novelty 완료
+[37/52] j039 score 완료
+[38/52] j037 novelty 완료
+[39/52] j038 pairwise 완료
+[40/52] j040 novelty 완료
+[41/52] j042 score 완료
+[42/52] j041 novelty 완료
+[43/52] j043 novelty 완료
+[44/52] j044 novelty 완료
+[45/52] j045 score 완료
+[46/52] j048 score 완료
+[47/52] j046 pairwise 완료
+[48/52] j047 pairwise 완료
+[49/52] j051 novelty 완료
+[50/52] j049 pairwise 완료
+[51/52] j050 pairwise 완료
+[52/52] j052 novelty 완료
+완료 52, 실패 0 []
+== Sat Nov  7 02:07:32     2026 aggregate
+== Sat Nov  7 02:07:32     2026 end

@@ -1,0 +1,12 @@
+{
+ "title": "Adaptive Inference-Time Safety via Difficulty-Aware Best-of-N Sampling",
+ "summary": "This paper proposes a method to improve safety-efficiency tradeoffs in LLM inference by adaptively allocating Best-of-N (BoN) sampling iterations based on estimated prompt difficulty. A lightweight classifier predicts difficulty from features like perplexity and syntactic complexity, enabling dynamic N selection. The approach is evaluated on HarmBench and StrongREJECT against fixed-N baselines, with ablations isolating the difficulty estimator's impact.",
+ "gap": "While ref-007 shows BoN sampling improves safety with increasing N, it applies fixed N across all prompts. No prior work explicitly allocates N based on prompt difficulty to optimize safety-efficiency tradeoffs.",
+ "approach": "Two-stage process: (1) Train a difficulty estimator on prompt features (perplexity, syntactic complexity scores from spaCy, cosine distance to safety guideline embeddings) and binary safety labels. (2) At inference, use the estimator to predict difficulty score s ∈ [0,1], then set N = floor(s * N_max + 1), where N_max is a hyperparameter. The estimator is a 2-layer MLP trained on ref-014/021 datasets. The core difference from ref-007 is dynamic N selection based on s, whereas ref-007 uses fixed N.",
+ "evaluation": "Tested on HarmBench and StrongREJECT against fixed-N baselines (N=1, 10, 100). Metrics: attack success rate (ASR), false positive rate (FPR), and compute cost (total N samples). Ablations: (1) Random N allocation (N ~ Uniform[1,N_max]) vs. estimated N; (2) Estimator trained without perplexity/syntactic/embedding features. The central claim is tested by comparing ASR/FPR at equal total compute cost across methods.",
+ "support": [
+  "ref-007",
+  "ref-014",
+  "ref-021"
+ ]
+}

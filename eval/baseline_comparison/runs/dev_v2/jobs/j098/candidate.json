@@ -1,0 +1,14 @@
+{
+ "title": "Detecting and Mitigating Subliminal Bias Transfer in Multi-Agent LLM Distillation",
+ "summary": "This paper proposes a method to detect and mitigate subliminal bias transfer in multi-agent LLM distillation frameworks. We hypothesize that biases in teacher models can propagate to student models through non-semantic data patterns during distillation. Our approach introduces a bias-aware distillation loss that penalizes student models for reproducing biased associations identified via mechanistic interpretability. Validation involves measuring bias amplification in student outputs using standardized social impact benchmarks before and after mitigation.",
+ "gap": "Current multi-agent LLM distillation frameworks (ref-004, ref-009) do not explicitly address subliminal bias transfer. While ref-004's evaluator agent provides quality assurance, it does not target bias propagation through non-semantic patterns (ref-014, ref-010). Ref-003's social impact framework identifies bias categories but is not integrated into distillation processes to prevent bias transfer.",
+ "approach": "We implement a three-stage process: (1) mechanistic analysis of teacher model weights to identify bias-correlated neuron populations using regression and statistical tests (ref-010), (2) bias-aware distillation loss that penalizes student models for activating these populations during training, and (3) automated bias auditing of student outputs using ref-003's social impact framework. The distillation loss combines standard KL-divergence with a regularization term weighted by neuron activation patterns linked to biased associations.",
+ "evaluation": "We evaluate using the FACET framework (ref-004) with teacher models exhibiting known biases from ref-003's social impact categories (bias, stereotypes, and representational harms). Baselines include (a) FACET with evaluator agent disabled and (b) standard distillation with only the regularization term. Measures include bias amplification scores (ref-003), task performance retention (>95%), and mechanistic similarity between teacher/student neuron populations. Success requires <5% bias amplification increase while maintaining >95% task performance.",
+ "support": [
+  "ref-004",
+  "ref-009",
+  "ref-014",
+  "ref-010",
+  "ref-003"
+ ]
+}

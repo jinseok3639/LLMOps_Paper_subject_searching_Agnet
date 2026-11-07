@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The sole support, ref-005, establishes diffusion-policy vulnerabilities, offline perturbations transferable across frames, and physical patch attacks. It does not describe existing adversarial training methods or establish their failure across policy versions and environments. Calling adversarial safety unexplored also overlooks the attack study that ref-005 itself reports.",
+  "score": 1
+ },
+ "gap": {
+  "rationale": "Robustness training and transfer across policy versions are not resolved in ref-005, so a defensible research gap exists. However, the candidate motivates it through unsupported claims about existing defenses and bundles policy-version transfer, environmental transfer, and physical robustness rather than isolating one concrete limitation.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The target, ensemble-based perturbation generation, noise-schedule diversity, digital and simulated patch training, and curriculum are concrete enough to begin experiment design. Baseline categories and measures are provided, but the manipulation tasks, policy-version construction, attack budgets, and non-transferable training baseline remain unspecified; ref-005 does not supply those details in the provided abstract.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Training on ensemble-generated digital and patch attacks plausibly addresses robustness to the vulnerabilities demonstrated in ref-005. However, perturbation transferability measures attack generalization rather than directly measuring defense generalization, and the evaluation omits an explicit clean-performance measure despite promising maintained task performance. Its four scenarios also conflate the offline/online and global/patch dimensions described in ref-005.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Whether transferable adversarial training improves robustness without sacrificing manipulation success would meaningfully inform defenses against the attacks in ref-005. The contribution remains narrow as written: it combines several training techniques without isolating which change matters or specifying a decisive comparison that could alter broader method choices.",
+  "score": 3
+ }
+}

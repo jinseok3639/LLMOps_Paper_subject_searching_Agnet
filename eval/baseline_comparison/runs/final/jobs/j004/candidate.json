@@ -1,0 +1,12 @@
+{
+ "title": "Latent Space Backdoor Detection via Activation Consistency Testing",
+ "summary": "This paper proposes a backdoor detection method that identifies inconsistencies in latent representations when inputs are perturbed. By measuring the stability of activation patterns under controlled transformations, the approach flags models with hidden triggers that produce unstable or divergent representations. Evaluated on backdoored LLMs and vision models, the method achieves high detection rates without requiring trigger knowledge.",
+ "gap": "Existing backdoor detection techniques (ref-009, ref-011) rely on trigger-specific patterns or require white-box access, leaving a gap in black-box detection methods that work without trigger examples.",
+ "approach": "Adapt outcome indistinguishability principles (ref-019) to measure activation consistency. For each input, generate perturbed variants and compare latent representations; backdoored models exhibit higher variance in trigger regions. Use statistical tests to identify anomalies in activation stability across perturbed inputs.",
+ "evaluation": "Baselines: STRIP (ref-009), spectral signature analysis (ref-011). Measures: detection accuracy on backdoored models from BackdoorBench (ref-011), false positive rate on clean models. Validation via controlled perturbation experiments with varying trigger sizes and model architectures.",
+ "support": [
+  "ref-009",
+  "ref-011",
+  "ref-019"
+ ]
+}

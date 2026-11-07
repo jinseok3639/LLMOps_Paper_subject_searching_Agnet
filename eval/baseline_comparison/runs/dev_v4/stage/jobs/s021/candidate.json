@@ -1,0 +1,14 @@
+{
+ "title": "Inference-Time Pessimism with MBR Regularization for Scalable Safe Alignment",
+ "summary": "We propose integrating InferenceTimePessimism with Minimum Bayes Risk (MBR) regularization to improve safety alignment during inference. The method combines pessimistic rejection sampling with MBR's proximity regularization to mitigate reward hacking while ensuring safe response generation. It is validated on safety benchmarks like HarmBench and StrongREJECT, comparing against BoN and LARA baselines using AU-PRC and attack success rate metrics.",
+ "gap": "Existing inference-time alignment methods like BoN and LARA either degrade with increased compute or lack formal safety guarantees under imperfect reward models.",
+ "approach": "Adapt InferenceTimePessimism's rejection sampling framework to incorporate MBR's proximity regularization. During decoding, candidate responses are scored using both a reward model and an MBR-derived proximity term, with pessimistic thresholds dynamically adjusted based on reward uncertainty.",
+ "evaluation": "Compare against BoN, LARA, and vanilla MBR decoding on HarmBench and StrongREJECT. Use AU-PRC for safety classification and attack success rate for jailbreaking robustness. Include ablations on MBR weight and pessimism thresholds.",
+ "support": [
+  "ref-004",
+  "ref-003",
+  "ref-012",
+  "ref-014",
+  "ref-021"
+ ]
+}

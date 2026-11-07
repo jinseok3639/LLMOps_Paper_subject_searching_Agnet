@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The core descriptions of EEGNet's compact architecture and cross-paradigm performance, and MOABB's benchmarking role, are supported by ref-001 and ref-007. However, ref-001 already evaluates limited training data; it does not establish that the ≤10-trial regime is unstudied or that its temporal filters are paradigm-invariant. Ref-007 does not confirm availability of the four proposed paradigm datasets. Ref-012 supplies only a title, and ref-015 supports CNN/FBCSP comparisons without specifically establishing the stated shallow-CNN MOABB baseline.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Optimizing EEGNet's initialization for rapid adaptation is a clear distinction from the architecture and classification evaluations described in ref-001, and none of the supplied abstracts resolves that question. However, the claimed limited-data omission is not demonstrated: ref-001 explicitly reports performance with limited training data. The gap would be stronger if framed around adaptation-oriented training rather than an asserted absence of ≤10-trial studies.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies EEGNet, MAML's inner and outer objectives, five adaptation steps, a 1–10-trial budget, named baseline families, and accuracy and convergence measures. These are sufficient to begin experimental design using ref-001 and ref-007. Remaining ambiguities include actual dataset identities, task construction across paradigms, input/output compatibility, whether trial budgets are per class, and whether CKA compares activations or weights.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Training an initialization to minimize post-adaptation loss directly addresses rapid adaptation, and few-shot accuracy can test that claim. However, leaving out a dataset does not necessarily leave out its paradigm, weakening the connection to the promised new-paradigm adaptation in ref-001's setting. Comparing meta-initialization only with random initialization also fails to separate the benefit of meta-learning from ordinary multi-dataset pretraining. Ref-007 motivates broader validation but does not resolve these design issues.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A reliable reduction in calibration data could influence how researchers train and adapt EEGNet, particularly given ref-001's limited-data results and ref-007's evidence of poor generalization across datasets. The likely contribution is meaningful but focused. Without a conventional pretrained-and-fine-tuned EEGNet control, the proposed results would provide limited evidence that adaptation-specific optimization changes method choices beyond the value of access to additional source data.",
+  "score": 3
+ }
+}

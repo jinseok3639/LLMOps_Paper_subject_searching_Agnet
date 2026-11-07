@@ -1,0 +1,19 @@
+{
+ "title": "Adversarial Compression Ratio Meets Book-Level Extraction: A Graded, Prompt-Length-Aware Memorization Measure for Copyright Analysis",
+ "summary": "Existing memorization definitions either require a specific extraction recipe (a prefix and a greedy or probabilistic suffix) or measure the shortest adversarial prompt for individual strings. For copyright, what matters is how much of a whole book can be reconstructed and how cheaply. This proposal combines the two ideas, computing compression ratios over whole-book passages and aggregating into a book-level profile. We would test whether this profile predicts probabilistic extraction success and scales with duplication, model size and training exposure on models with known training data, and compare it to membership inference scores.",
+ "gap": "Compression-ratio memorization is defined per string, and book-level extraction relies on a fixed prefix-based recipe. Neither provides a book-level measure that accounts for prompt length and sampling randomness. The relationship between such measures and membership inference or training exposure is unclear.",
+ "approach": "Compute the adversarial compression ratio for sliding passages across each book on open models with known training data and controlled insertions. Aggregate into coverage curves (fraction of book with ratio above a threshold). Estimate probabilistic extraction success for the same passages. Relate both to passage duplication count, model size and training stage, and to strong or context-aware membership inference scores.",
+ "evaluation": "Correlation between the book-level compression profile and probabilistic extraction rates, and with inserted-versus-not-inserted ground truth in controlled-insertion models. Test scaling with duplication, parameters, and forgetting over training checkpoints. Baselines: discoverable (greedy) extraction, probabilistic extraction and membership inference AUC. Check per-passage stability across seeds.",
+ "support": [
+  "ref-009",
+  "ref-044",
+  "ref-029",
+  "ref-043",
+  "ref-045",
+  "ref-048",
+  "ref-022",
+  "ref-040",
+  "ref-011",
+  "ref-035"
+ ]
+}

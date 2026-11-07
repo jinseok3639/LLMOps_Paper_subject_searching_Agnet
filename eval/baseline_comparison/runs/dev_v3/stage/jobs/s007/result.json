@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet visualization, MOABB benchmarking, ConvNet feature visualization, and adversarial detection/distribution analysis are supported by ref-001, ref-007, ref-015, and ref-021. However, ref-007 does not identify the named datasets, and no supplied reference establishes the proposed ground-truth biomarker topographies. Ref-012 supplies only a title, limiting support for the baseline.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied references leave perturbation–biomarker correspondence untested: ref-001 and ref-015 visualize learned features, while ref-021 evaluates adversarial detection and distributions. This is a focused, natural question, although the candidate does not establish a concrete limitation of existing visualization methods or justify treating ref-021 as the closest work.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate specifies models, an attack objective, perturbation budget, comparison with random noise, and a numerical alignment measure. However, it does not define biomarker ground truth, how continuous perturbations become masks for Dice scoring, input scaling for epsilon, or how attacks are generated for FBCSP (ref-012). Dataset selection is not substantiated by ref-007.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Comparing perturbation maps with biomarker masks addresses the stated correspondence question and extends ref-021 coherently. However, the approach maximizes classification error while calling its perturbations targeted, and an absolute Dice cutoff does not directly test the summary's comparative claim that EEGNet aligns better than other models. The cross-paradigm claim also lacks an explicit cross-paradigm analysis (ref-001).",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A reliable result could inform whether adversarial sensitivity provides useful complementary evidence for the EEG feature interpretations in ref-001 and ref-015. The likely contribution is meaningful but narrow: spatial or temporal overlap alone would not establish physiological validity or improve robustness, and the candidate does not connect its findings to a concrete decoding or defense decision.",
+  "score": 3
+ }
+}

@@ -1,0 +1,374 @@
+{
+ "sample": "t007",
+ "condition": "D",
+ "n_refs": 71,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "DAgger-Distilled Orchestrators: Imitating MCTS-Searched Multi-Agent Workflows with Aggregated On-Policy Data",
+   "summary": "Search-based workflow optimizers find strong agent sequences but are expensive at run time, while RL-trained orchestrators are costly to train. I propose using Monte Carlo Tree Search to produce expert agent-scheduling trajectories, then distilling them into a small orchestrator with DAgger-style dataset aggregation. The orchestrator is queried on its own induced state distribution and relabeled by search. I expect this to reduce compounding errors from plain behavioral cloning. Validation compares it with plain cloning, an RL puppeteer, and full search on visualization, coding and math tasks, measuring accuracy, token cost, and robustness to unseen task types.",
+   "gap": "Existing orchestrators are either trained by reinforcement learning or found by costly per-task tree search. Imitation of searched multi-agent schedules is not studied, and the distribution-shift problem that no-regret imitation addresses is ignored for LLM agent scheduling.",
+   "approach": "1) Run MCTS over agent-selection sequences (state = task plus partial outputs; actions = which agent acts next) with execution feedback to produce expert schedules. 2) Train a small LLM orchestrator by behavioral cloning on these. 3) Iterate DAgger: roll out the current orchestrator, relabel visited states with a budgeted search expert, aggregate data, and retrain. 4) Ablate the number of iterations and the search budget of the expert.",
+   "evaluation": "Baselines: behavioral cloning without aggregation, RL-trained puppeteer orchestrator, static multi-agent topologies, automated workflow search at inference, and single-agent ReAct/Self-Refine. Metrics: task success on code-generation, scientific plotting and math benchmarks, tokens/cost per task, number of agent calls, and held-out-task generalization. Also measure the state-distribution gap between cloned and aggregated policies.",
+   "support": [
+    "ref-002",
+    "ref-003",
+    "ref-008",
+    "ref-022",
+    "ref-016",
+    "ref-070",
+    "ref-001",
+    "ref-021",
+    "ref-031",
+    "ref-044"
+   ]
+  },
+  {
+   "title": "Policy Graphs for Explaining Orchestrated LLM Multi-Agent Systems: Fidelity and Reliability of Surrogate Explanations",
+   "summary": "Multi-agent LLM systems with a learned orchestrator are opaque, and the compound opacity of coordinated agents is a recognized concern. I propose abstracting orchestrator traces into discrete predicates (task state, last agent output status, error flags) and building a policy graph and intention-aware probabilistic model over agent-calling decisions. A surrogate rule-based orchestrator is generated from the graph and compared behaviorally with the original. The hypothesis is that predicates describing other agents' outputs are needed for high fidelity. Validation uses fidelity, success-rate parity, and explanation reliability across multi-agent frameworks.",
+   "gap": "Policy-graph explanation has been applied to RL agents in grid-like cooperative environments, and radiology work discusses compound opacity of multi-agent AI only conceptually. No work builds and measures behavior-faithful policy graphs for LLM orchestrators that dynamically schedule agents.",
+   "approach": "Define predicates from orchestration traces (e.g., stage, whether code executed, verifier verdict, which agents already acted, cycle count). Fit a policy graph over predicate states and agent-selection actions, add intention estimates via a probabilistic graphical model, and derive a surrogate interpretable orchestrator. Answer 'what/how/why' queries (next agent, plan, reason). Ablate predicate sets with and without information about other agents' outputs.",
+   "evaluation": "Compare surrogate against original orchestrator: action agreement, task success parity, and divergence of trajectories. Measure interpretability (graph size/entropy) and reliability of explanations. Baselines: graphs using only task-level predicates, a random or frequency-based scheduler, and LLM-generated post-hoc rationales. Test on a trained orchestrator and static-topology systems; report whether cyclic compact structures show up as graph loops.",
+   "support": [
+    "ref-013",
+    "ref-040",
+    "ref-025",
+    "ref-002",
+    "ref-044",
+    "ref-042",
+    "ref-012",
+    "ref-009",
+    "ref-050"
+   ]
+  },
+  {
+   "title": "Outcome-Supervised Step Value Models for Agent Orchestration: Auto-Labeled Process Rewards from Tree Rollouts Guiding Test-Time Agent Selection",
+   "summary": "Training or searching agent orchestration needs credit assignment across multi-agent steps, but step-level labels are expensive. I propose estimating the value of each partial multi-agent trajectory from rollout outcomes, in the manner of automatically labeled process supervision, and training an outcome-supervised value model to guide step-level beam search over which agent acts next. Validation compares against outcome-only reranking, a reinforcement-learned orchestrator, and unguided tree search on plotting, tool-use and reasoning tasks, measuring accuracy, cost, and transfer to unseen tasks and larger models.",
+   "gap": "Process and outcome reward models have been developed for math reasoning and for single-agent trajectory search, and orchestrators are trained with sparse RL reward. Value models that score partial multi-agent coordination states, labeled without human step annotations, have not been tested to guide agent selection.",
+   "approach": "Collect multi-agent rollouts under varied orchestration choices on training tasks. Label each intermediate state by the empirical success rate of completions from it (Monte Carlo estimate), as in automatic process supervision, and train a value model on state-to-outcome targets. At inference, run best-of-N or step-level beam search in which the value model ranks candidate next-agent choices. Compare pure outcome, human-style process labels (where available), and MC-estimated labels.",
+   "evaluation": "Baselines: RL puppeteer, best-of-N with outcome reward only, UCT-based tree search with LLM self-evaluation, static agent topologies. Metrics: task accuracy on MatPlotBench-style plotting, tool-use and math benchmarks, token cost, search budget scaling curves, weak-to-strong transfer to a larger backbone, and agreement between value predictions and final outcomes.",
+   "support": [
+    "ref-015",
+    "ref-038",
+    "ref-039",
+    "ref-047",
+    "ref-067",
+    "ref-002",
+    "ref-008",
+    "ref-059",
+    "ref-033",
+    "ref-006",
+    "ref-070",
+    "ref-001"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [],
+   "raw": {
+    "duration_api_ms": 21945,
+    "stop_reason": "tool_use",
+    "session_id": "4e203fdb-52f6-4830-b934-1a94eaf97581",
+    "total_cost_usd": 0.14597269999999998,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 29604,
+     "cache_read_input_tokens": 1127,
+     "output_tokens": 2744,
+     "output_tokens_details": {
+      "thinking_tokens": 493
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 29604,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2744,
+       "cache_read_input_tokens": 1127,
+       "cache_creation_input_tokens": 29604,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 29604
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2744,
+      "cacheReadInputTokens": 1127,
+      "cacheCreationInputTokens": 29604,
+      "webSearchRequests": 0,
+      "costUSD": 0.14597269999999998,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 493,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 29604,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"DAgger-Distilled Orchestrators: Imitating MCTS-Searched Multi-Agent Workflows with Aggregated On-Policy Data\",\"summary\":\"Search-based workflow optimizers find strong agent sequences but are expensive at run time, while RL-trained orchestrators are costly to train. I propose using Monte Carlo Tree Search to produce expert agent-scheduling trajectories, then distilling them into a small orchestrator with DAgger-style dataset aggregation. The orchestrator is queried on its own induced state distribution and relabeled by search. I expect this to reduce compounding errors from plain behavioral cloning. Validation compares it with plain cloning, an RL puppeteer, and full search on visualization, coding and math tasks, measuring accuracy, token cost, and robustness to unseen task types.\",\"gap\":\"Existing orchestrators are either trained by reinforcement learning or found by costly per-task tree search. Imitation of searched multi-agent schedules is not studied, and the distribution-shift problem that no-regret imitation addresses is ignored for LLM agent scheduling.\",\"approach\":\"1) Run MCTS over agent-selection sequences (state = task plus partial outputs; actions = which agent acts next) with execution feedback to produce expert schedules. 2) Train a small LLM orchestrator by behavioral cloning on these. 3) Iterate DAgger: roll out the current orchestrator, relabel visited states with a budgeted search expert, aggregate data, and retrain. 4) Ablate the number of iterations and the search budget of the expert.\",\"evaluation\":\"Baselines: behavioral cloning without aggregation, RL-trained puppeteer orchestrator, static multi-agent topologies, automated workflow search at inference, and single-agent ReAct/Self-Refine. Metrics: task success on code-generation, scientific plotting and math benchmarks, tokens/cost per task, number of agent calls, and held-out-task generalization. Also measure the state-distribution gap between cloned and aggregated policies.\",\"support\":[\"ref-002\",\"ref-003\",\"ref-008\",\"ref-022\",\"ref-016\",\"ref-070\",\"ref-001\",\"ref-021\",\"ref-031\",\"ref-044\"]},{\"title\":\"Policy Graphs for Explaining Orchestrated LLM Multi-Agent Systems: Fidelity and Reliability of Surrogate Explanations\",\"summary\":\"Multi-agent LLM systems with a learned orchestrator are opaque, and the compound opacity of coordinated agents is a recognized concern. I propose abstracting orchestrator traces into discrete predicates (task state, last agent output status, error flags) and building a policy graph and intention-aware probabilistic model over agent-calling decisions. A surrogate rule-based orchestrator is generated from the graph and compared behaviorally with the original. The hypothesis is that predicates describing other agents' outputs are needed for high fidelity. Validation uses fidelity, success-rate parity, and explanation reliability across multi-agent frameworks.\",\"gap\":\"Policy-graph explanation has been applied to RL agents in grid-like cooperative environments, and radiology work discusses compound opacity of multi-agent AI only conceptually. No work builds and measures behavior-faithful policy graphs for LLM orchestrators that dynamically schedule agents.\",\"approach\":\"Define predicates from orchestration traces (e.g., stage, whether code executed, verifier verdict, which agents already acted, cycle count). Fit a policy graph over predicate states and agent-selection actions, add intention estimates via a probabilistic graphical model, and derive a surrogate interpretable orchestrator. Answer 'what/how/why' queries (next agent, plan, reason). Ablate predicate sets with and without information about other agents' outputs.\",\"evaluation\":\"Compare surrogate against original orchestrator: action agreement, task success parity, and divergence of trajectories. Measure interpretability (graph size/entropy) and reliability of explanations. Baselines: graphs using only task-level predicates, a random or frequency-based scheduler, and LLM-generated post-hoc rationales. Test on a trained orchestrator and static-topology systems; report whether cyclic compact structures show up as graph loops.\",\"support\":[\"ref-013\",\"ref-040\",\"ref-025\",\"ref-002\",\"ref-044\",\"ref-042\",\"ref-012\",\"ref-009\",\"ref-050\"]},{\"title\":\"Outcome-Supervised Step Value Models for Agent Orchestration: Auto-Labeled Process Rewards from Tree Rollouts Guiding Test-Time Agent Selection\",\"summary\":\"Training or searching agent orchestration needs credit assignment across multi-agent steps, but step-level labels are expensive. I propose estimating the value of each partial multi-agent trajectory from rollout outcomes, in the manner of automatically labeled process supervision, and training an outcome-supervised value model to guide step-level beam search over which agent acts next. Validation compares against outcome-only reranking, a reinforcement-learned orchestrator, and unguided tree search on plotting, tool-use and reasoning tasks, measuring accuracy, cost, and transfer to unseen tasks and larger models.\",\"gap\":\"Process and outcome reward models have been developed for math reasoning and for single-agent trajectory search, and orchestrators are trained with sparse RL reward. Value models that score partial multi-agent coordination states, labeled without human step annotations, have not been tested to guide agent selection.\",\"approach\":\"Collect multi-agent rollouts under varied orchestration choices on training tasks. Label each intermediate state by the empirical success rate of completions from it (Monte Carlo estimate), as in automatic process supervision, and train a value model on state-to-outcome targets. At inference, run best-of-N or step-level beam search in which the value model ranks candidate next-agent choices. Compare pure outcome, human-style process labels (where available), and MC-estimated labels.\",\"evaluation\":\"Baselines: RL puppeteer, best-of-N with outcome reward only, UCT-based tree search with LLM self-evaluation, static agent topologies. Metrics: task accuracy on MatPlotBench-style plotting, tool-use and math benchmarks, token cost, search budget scaling curves, weak-to-strong transfer to a larger backbone, and agreement between value predictions and final outcomes.\",\"support\":[\"ref-015\",\"ref-038\",\"ref-039\",\"ref-047\",\"ref-067\",\"ref-002\",\"ref-008\",\"ref-059\",\"ref-033\",\"ref-006\",\"ref-070\",\"ref-001\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "DAgger-Distilled Orchestrators: Imitating MCTS-Searched Multi-Agent Workflows with Aggregated On-Policy Data",
+       "summary": "Search-based workflow optimizers find strong agent sequences but are expensive at run time, while RL-trained orchestrators are costly to train. I propose using Monte Carlo Tree Search to produce expert agent-scheduling trajectories, then distilling them into a small orchestrator with DAgger-style dataset aggregation. The orchestrator is queried on its own induced state distribution and relabeled by search. I expect this to reduce compounding errors from plain behavioral cloning. Validation compares it with plain cloning, an RL puppeteer, and full search on visualization, coding and math tasks, measuring accuracy, token cost, and robustness to unseen task types.",
+       "gap": "Existing orchestrators are either trained by reinforcement learning or found by costly per-task tree search. Imitation of searched multi-agent schedules is not studied, and the distribution-shift problem that no-regret imitation addresses is ignored for LLM agent scheduling.",
+       "approach": "1) Run MCTS over agent-selection sequences (state = task plus partial outputs; actions = which agent acts next) with execution feedback to produce expert schedules. 2) Train a small LLM orchestrator by behavioral cloning on these. 3) Iterate DAgger: roll out the current orchestrator, relabel visited states with a budgeted search expert, aggregate data, and retrain. 4) Ablate the number of iterations and the search budget of the expert.",
+       "evaluation": "Baselines: behavioral cloning without aggregation, RL-trained puppeteer orchestrator, static multi-agent topologies, automated workflow search at inference, and single-agent ReAct/Self-Refine. Metrics: task success on code-generation, scientific plotting and math benchmarks, tokens/cost per task, number of agent calls, and held-out-task generalization. Also measure the state-distribution gap between cloned and aggregated policies.",
+       "support": [
+        "ref-002",
+        "ref-003",
+        "ref-008",
+        "ref-022",
+        "ref-016",
+        "ref-070",
+        "ref-001",
+        "ref-021",
+        "ref-031",
+        "ref-044"
+       ]
+      },
+      {
+       "title": "Policy Graphs for Explaining Orchestrated LLM Multi-Agent Systems: Fidelity and Reliability of Surrogate Explanations",
+       "summary": "Multi-agent LLM systems with a learned orchestrator are opaque, and the compound opacity of coordinated agents is a recognized concern. I propose abstracting orchestrator traces into discrete predicates (task state, last agent output status, error flags) and building a policy graph and intention-aware probabilistic model over agent-calling decisions. A surrogate rule-based orchestrator is generated from the graph and compared behaviorally with the original. The hypothesis is that predicates describing other agents' outputs are needed for high fidelity. Validation uses fidelity, success-rate parity, and explanation reliability across multi-agent frameworks.",
+       "gap": "Policy-graph explanation has been applied to RL agents in grid-like cooperative environments, and radiology work discusses compound opacity of multi-agent AI only conceptually. No work builds and measures behavior-faithful policy graphs for LLM orchestrators that dynamically schedule agents.",
+       "approach": "Define predicates from orchestration traces (e.g., stage, whether code executed, verifier verdict, which agents already acted, cycle count). Fit a policy graph over predicate states and agent-selection actions, add intention estimates via a probabilistic graphical model, and derive a surrogate interpretable orchestrator. Answer 'what/how/why' queries (next agent, plan, reason). Ablate predicate sets with and without information about other agents' outputs.",
+       "evaluation": "Compare surrogate against original orchestrator: action agreement, task success parity, and divergence of trajectories. Measure interpretability (graph size/entropy) and reliability of explanations. Baselines: graphs using only task-level predicates, a random or frequency-based scheduler, and LLM-generated post-hoc rationales. Test on a trained orchestrator and static-topology systems; report whether cyclic compact structures show up as graph loops.",
+       "support": [
+        "ref-013",
+        "ref-040",
+        "ref-025",
+        "ref-002",
+        "ref-044",
+        "ref-042",
+        "ref-012",
+        "ref-009",
+        "ref-050"
+       ]
+      },
+      {
+       "title": "Outcome-Supervised Step Value Models for Agent Orchestration: Auto-Labeled Process Rewards from Tree Rollouts Guiding Test-Time Agent Selection",
+       "summary": "Training or searching agent orchestration needs credit assignment across multi-agent steps, but step-level labels are expensive. I propose estimating the value of each partial multi-agent trajectory from rollout outcomes, in the manner of automatically labeled process supervision, and training an outcome-supervised value model to guide step-level beam search over which agent acts next. Validation compares against outcome-only reranking, a reinforcement-learned orchestrator, and unguided tree search on plotting, tool-use and reasoning tasks, measuring accuracy, cost, and transfer to unseen tasks and larger models.",
+       "gap": "Process and outcome reward models have been developed for math reasoning and for single-agent trajectory search, and orchestrators are trained with sparse RL reward. Value models that score partial multi-agent coordination states, labeled without human step annotations, have not been tested to guide agent selection.",
+       "approach": "Collect multi-agent rollouts under varied orchestration choices on training tasks. Label each intermediate state by the empirical success rate of completions from it (Monte Carlo estimate), as in automatic process supervision, and train a value model on state-to-outcome targets. At inference, run best-of-N or step-level beam search in which the value model ranks candidate next-agent choices. Compare pure outcome, human-style process labels (where available), and MC-estimated labels.",
+       "evaluation": "Baselines: RL puppeteer, best-of-N with outcome reward only, UCT-based tree search with LLM self-evaluation, static agent topologies. Metrics: task accuracy on MatPlotBench-style plotting, tool-use and math benchmarks, token cost, search budget scaling curves, weak-to-strong transfer to a larger backbone, and agreement between value predictions and final outcomes.",
+       "support": [
+        "ref-015",
+        "ref-038",
+        "ref-039",
+        "ref-047",
+        "ref-067",
+        "ref-002",
+        "ref-008",
+        "ref-059",
+        "ref-033",
+        "ref-006",
+        "ref-070",
+        "ref-001"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 5104,
+    "type": "result",
+    "duration_ms": 22053,
+    "uuid": "9378c7bf-def6-431c-ad5e-36f13e51c997",
+    "ttft_stream_ms": 1418,
+    "time_to_request_ms": 88,
+    "time_to_request_phases_ms": {
+     "other": 3,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 2,
+     "input_attachments": 28,
+     "input_hooks": 2,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 32,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 0,
+     "model_config_wait": 1,
+     "autocompact": 1,
+     "request_announcements": 3,
+     "query_setup": 0,
+     "model_gates": 1,
+     "tool_schema_build": 1,
+     "message_normalization": 2,
+     "client_creation": 2,
+     "request_build": 3
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 38,
+    "time_to_request_cpu_ms": 109,
+    "time_to_request_major_faults": 6056,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 20,
+     "cpu_ms": 47,
+     "major_faults": 3119,
+     "setup_ms": 0,
+     "prompt_producers_ms": 3,
+     "ambient_start_ms": 2,
+     "ambient_wait_ms": 20,
+     "render_ms": 1,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 0,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 0,
+     "after_ms": 1,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 0,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 1418,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  }
+ ],
+ "calls": 1,
+ "usage": [
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 29604,
+    "cache_read_input_tokens": 1127,
+    "output_tokens": 2744,
+    "output_tokens_details": {
+     "thinking_tokens": 493
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 29604,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2744,
+      "cache_read_input_tokens": 1127,
+      "cache_creation_input_tokens": 29604,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 29604
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.14597269999999998,
+   "duration_ms": 22053,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2744,
+     "cacheReadInputTokens": 1127,
+     "cacheCreationInputTokens": 29604,
+     "webSearchRequests": 0,
+     "costUSD": 0.14597269999999998,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 493,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 29604,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ],
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "seconds": 25.2
+}

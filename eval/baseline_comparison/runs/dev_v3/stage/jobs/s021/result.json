@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-005 supports attacks on diffusion policies, reduced manipulation success, and physical patches. However, its abstract does not establish that prior attacks are exclusively static; it also includes online attacks. refs-007 and ref-015 motivate safety research broadly but provide no evidence for the proposed dynamic-attack distinction or training technique.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Robustness training against temporally evolving physical perturbations is a focused extension of ref-005's attack study. However, the supplied abstract does not establish whether its online attacks already involve temporal variation, so the claimed omission is only partially substantiated.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies a diffusion-policy target, simulator-based temporal attack optimization, three attack scenarios, success-retention and detectability metrics, and static-training ablations extending ref-005. Experiment design could begin, but the attack-specific loss, physical constraints and perturbation budgets, named robust BC baselines, and transferability protocol remain unspecified.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Training on optimized temporal perturbations and measuring attacked task success directly tests the proposed robustness improvement over ref-005's policies. However, static-only comparisons do not fully separate temporal optimization from domain randomization, and the evaluation does not specify physical experiments to substantiate the claimed real-world resilience.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "Given ref-005's demonstrated vulnerability, determining whether temporal adversarial training preserves manipulation success could inform diffusion-policy training choices. The contribution is meaningful but narrow: its broader implications depend on realistic attack constraints, physical validation, and robustness gains beyond ordinary domain randomization.",
+  "score": 3
+ }
+}

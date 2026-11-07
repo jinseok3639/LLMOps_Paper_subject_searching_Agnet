@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The sole support, ref-005, supports diffusion-policy performance, adversarial vulnerability, transferable offline perturbations across frames, and physical patch attacks. It does not describe existing adversarial training methods or establish their failure across policy versions and physical environments. Calling adversarial safety unexplored also overlooks ref-005's own extensive investigation.",
+  "score": 1
+ },
+ "gap": {
+  "rationale": "Robustness training and transfer across policy versions remain unaddressed in the supplied abstract of ref-005, so a defensible gap exists. However, the candidate motivates it through unsupported limitations of existing adversarial training and fails to distinguish clearly its proposed transfer across versions from the transfer across frames already demonstrated in ref-005.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate specifies ensemble policies with diverse noise schedules, digital and simulated patch training, a curriculum, two baselines, and success-retention and transferability measures. These permit initial experiment design. However, the non-transferable training baseline, perturbation budgets, policy-version construction, and physical evaluation setup remain undefined; ref-005 supplies only general manipulation-task context.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Adversarial training plausibly addresses the vulnerabilities demonstrated in ref-005, and attacked task success plus cross-version transfer could test robustness. However, transferability of generated attacks does not itself demonstrate transferable defense, which requires explicit held-out policy and environment tests. Simulated patches also provide limited support for the claimed physical robustness, and combining ensembles, patch training, and curriculum obscures the single proposed difference.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A defense that preserves manipulation performance while resisting the digital and physical attacks in ref-005 would be useful, and testing reuse of attacks across policy updates could inform training choices. The proposal nevertheless leaves its central contribution distributed across several training ingredients, limiting how clearly either outcome would change broader methodological assumptions.",
+  "score": 3
+ }
+}

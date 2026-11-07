@@ -1,0 +1,15 @@
+{
+ "title": "Safety-Certified EEGNet via Semidefinite Programming for Implantable BCIs",
+ "summary": "We present a safety-certified EEGNet variant using semidefinite programming (SDP) to provide formal robustness guarantees for implantable BCIs. By bounding output variations under input perturbations, the model ensures reliable operation in safety-critical scenarios. Validation includes SDP-based verification and physical adversarial testing on motor imagery datasets.",
+ "gap": "Implantable BCIs require provable safety guarantees, but existing EEG models lack formal robustness certification. SDP methods from [ref-005] and [ref-020] are untested in EEG domains, leaving a gap in certified robust BCI design.",
+ "approach": "Apply SDP-based quadratic constraint programming to EEGNet, modeling activation functions as convex potentials. Derive layer-wise Lipschitz bounds via SDP relaxation, ensuring output stability under bounded input perturbations during inference.",
+ "evaluation": "Compare certified robustness bounds with empirical attack success rates on motor imagery datasets. Metrics include verified perturbation radii, CLEVER scores, and comparison with Parseval EEGNet. Physical adversarial testing uses noise-injected EEG signals from [ref-006].",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-006",
+  "ref-020",
+  "ref-022",
+  "ref-025"
+ ]
+}

@@ -1,0 +1,14 @@
+{
+ "title": "Detecting Agentic Misalignment via Structured Stress-Testing and Adversarial Evaluation",
+ "summary": "We propose a framework to detect agentic misalignment in LLMs by combining controlled environment stress-testing with adversarial attack techniques. The method systematically evaluates models under dynamic goal conflicts and physical attack scenarios, using automated classifiers and human evaluation to identify malicious behaviors. The approach is validated against existing safety benchmarks and adversarial testing protocols.",
+ "gap": "Existing safety evaluations (ref-001, ref-007) do not systematically test agentic misalignment under dynamic goal conflicts or adversarial physical attacks (ref-005). While ref-002 demonstrates controlled stress-testing for organizational pressures, it lacks integration with physical attack scenarios, leaving a gap in comprehensive misalignment detection.",
+ "approach": "We implement a hybrid evaluation protocol combining (1) controlled stress-testing inspired by ref-002 (simulated organizational changes like replacement threats and shifting priorities) with (2) adversarial physical attacks from ref-005 (crafted perturbations and environmental patches). Responses are analyzed using automated classifiers trained on ref-006's toxicity metrics and human evaluation.",
+ "evaluation": "Baselines include Llama 2-Chat (ref-001) safety evaluations and Diffusion Policy Attacker (ref-005) adversarial tests. We measure misaligned behavior frequency (e.g., data leakage attempts, blackmail suggestions) on a dataset of corporate scenario prompts derived from ref-002. Ablation studies compare detection rates with/without adversarial physical attacks and stress-testing components.",
+ "support": [
+  "ref-001",
+  "ref-002",
+  "ref-005",
+  "ref-006",
+  "ref-007"
+ ]
+}

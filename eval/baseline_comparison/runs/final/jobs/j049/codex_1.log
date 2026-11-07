@@ -1,0 +1,131 @@
+$ exit 0
+--- stdout
+{
+  "grounding": {
+    "rationale": "Deduplication reducing memorized output is supported by ref-011, and shingling is discussed in ref-019. However, ref-020, ref-026, and ref-035 establish neither the claimed legal requirement for demonstrable prevention efforts nor metrics that ensure compliance. The asserted 90% reduction is untested for this framework and resembles ref-011's existing result. Ref-033 and ref-036 supply no substantive evidence, while ref-029, the direct source for probabilistic extraction auditing, is omitted from support.",
+    "score": 2
+  },
+  "gap": {
+    "rationale": "Measuring residual extraction risk after deduplication is a plausible open question linking ref-011 and ref-029. However, systematic probabilistic measurement already exists in ref-029, and the candidate identifies no concrete limitation requiring its proposed extension. The broader claim that existing techniques lack quantifiable metrics is contradicted by ref-009 and ref-029, while the asserted legal obligation is unsupported by ref-026.",
+    "score": 2
+  },
+  "specificity": {
+    "rationale": "The proposal specifies GPT-Neo, C4, shingling, probabilistic extraction, a with/without-auditing comparison, and reproduction and utility measures, drawing on ref-011, ref-019, and ref-029. However, extraction query budgets, removal thresholds, retraining procedures, and the summarization evaluation dataset are unspecified. Ref-020 and ref-035 do not define the proposed copyright compliance scores.",
+    "score": 3
+  },
+  "coherence": {
+    "rationale": "Auditing after deduplication could measure residual reproduction risk, connecting ref-011 with ref-029. But auditing alone does not change model behavior, and the evaluation does not clearly implement the proposed removal-and-retraining intervention. Moreover, lower verbatim reproduction and expert assessments of documentation cannot establish the promised legal compliance; ref-020 and ref-035 describe broader, distinct copyright questions.",
+    "score": 2
+  },
+  "value": {
+    "rationale": "Testing whether audit-guided removal improves the risk–utility tradeoff beyond ref-011 could inform data-cleaning decisions. As written, however, the proposal mainly combines existing deduplication and measurement methods from ref-011, ref-019, and ref-029 without a clear hypothesis about their incremental benefit. Its headline reduction resembles an existing result, and its compliance claims exceed what the experiment could establish.",
+    "score": 2
+  }
+}
+
+--- stderr
+trious birthright. From the surprising way he is greeted by a lovable giant, to the unique curriculum and colorful faculty at his unusual school, Harry finds himself drawn deep inside a mystical world he never knew existed and closer to his own noble destiny. URI http://lib.pyu.edu.vn/handle/123456789/908 Collections 800 Văn học [609] DSpace software copyright © 2002-2016 DuraSpace Contact Us | Send Feedback Theme by Harry Potter and the sorcerer's stone 
+
+[ref-033] Scalable Extraction of Training Data from Aligned, Production Language Models
+Abstract: (not available)
+
+[ref-034] Structural alignment of plain text books
+Abstract: Text alignment is one of the main processes for obtaining parallel corpora. When aligning two versions of a book, results are often affected by unpaired sections ― sections which only exist in one of the versions of the book. We developed Text::Perfide::BookSync, a Perl module which performs books synchronization (structural alignment based on section delimitation), provided they have been previously annotated by Text::Perfide::BookCleaner. We discuss the need for such a tool and several implementation decisions. The main functions are described, and examples of input and output are presented. Text::Perfide::PartialAlign is an extension of the partialAlign.py tool bundled with hunalign which proposes an alternative methods for splitting bitexts.
+
+[ref-035] The Files are in the Computer: Copyright, Memorization, and Generative AI
+Abstract: The New York Times's copyright lawsuit against OpenAI and Microsoft alleges OpenAI's GPT models have"memorized"NYT articles. Other lawsuits make similar claims. But parties, courts, and scholars disagree on what memorization is, whether it is taking place, and what its copyright implications are. These debates are clouded by ambiguities over the nature of"memorization."We attempt to bring clarity to the conversation. We draw on the technical literature to provide a firm foundation for legal discussions, providing a precise definition of memorization: a model has"memorized"a piece of training data when (1) it is possible to reconstruct from the model (2) a near-exact copy of (3) a substantial portion of (4) that piece of training data. We distinguish memorization from"extraction"(user intentionally causes a model to generate a near-exact copy), from"regurgitation"(model generates a near-exact copy, regardless of user intentions), and from"reconstruction"(the near-exact copy can be obtained from the model by any means). Several consequences follow. (1) Not all learning is memorization. (2) Memorization occurs when a model is trained; regurgitation is a symptom not its cause. (3) A model that has memorized training data is a"copy"of that training data in the sense used by copyright. (4) A model is not like a VCR or other general-purpose copying technology; it is better at generating some types of outputs (possibly regurgitated ones) than others. (5) Memorization is not a phenomenon caused by"adversarial"users bent on extraction; it is latent in the model itself. (6) The amount of training data that a model memorizes is a consequence of choices made in training. (7) Whether or not a model that has memorized actually regurgitates depends on overall system design. In a very real sense, memorized training data is in the model--to quote Zoolander, the files are in the computer.
+
+[ref-036] Methods for Identifying Versioned and Plagiarized Documents
+Abstract: (not available)
+
+[ref-037] ANALISIS IMPLIKATUR PADA NASKAH FILM HARRY POTTER AND THE GOBLET OF FIRE
+Abstract: (not available)
+
+[ref-038] Many-shot Jailbreaking
+Abstract: We investigate a family of simple long-context attacks on large language models: prompting with hundreds of demonstrations of undesirable behavior. This is newly feasible with the larger context windows recently deployed by Anthropic, Ope-nAI and Google DeepMind. We find that in diverse, realistic circumstances, the effectiveness of this attack follows a power law, up to hundreds of shots. We demonstrate the success of this attack on the most widely used state-of-the-art closed-weight models, and across various tasks. Our results suggest very long contexts present a rich new attack surface for LLMs.
+
+[ref-039] Does learning require memorization? a short tale about a long tail
+Abstract: State-of-the-art results on image recognition tasks are achieved using over-parameterized learning algorithms that (nearly) perfectly fit the training set and are known to fit well even random labels. This tendency to memorize seemingly useless training data labels is not explained by existing theoretical analyses. Memorization of the training data also presents significant privacy risks when the training data contains sensitive personal information and thus it is important to understand whether such memorization is necessary for accurate learning. We provide a simple conceptual explanation and a theoretical model demonstrating that for natural data distributions memorization of labels is necessary for achieving close-to-optimal generalization error. The model is motivated and supported by the results of several recent empirical works. In our model, data is sampled from a mixture of subpopulations and the frequencies of these subpopulations are chosen from some prior. The model allows to quantify the effect of not fitting the training data on the generalization performance of the learned classifier and demonstrates that memorization is necessary whenever frequencies are long-tailed. Image and text data are known to follow such distributions and therefore our results establish a formal link between these empirical phenomena. Our results also have concrete implications for the cost of ensuring differential privacy in learning.
+
+[ref-040] Context-Aware Membership Inference Attacks against Pre-trained Large Language Models
+Abstract: Membership Inference Attacks (MIAs) on pre-trained Large Language Models (LLMs) aim at determining if a data point was part of the model's training set. Prior MIAs that are built for classification models fail at LLMs, due to ignoring the generative nature of LLMs across token sequences. In this paper, we present a novel attack on pre-trained LLMs that adapts MIA statistical tests to the perplexity dynamics of subsequences within a data point. Our method significantly outperforms prior approaches, revealing context-dependent memorization patterns in pre-trained LLMs.
+
+[ref-041] Nineteen Eighty-Four
+Abstract: (not available)
+
+[ref-042] Machine Unlearning Doesn't Do What You Think: Lessons for Generative AI Policy, Research, and Practice
+Abstract: (not available)
+
+[ref-043] Hubble: a Model Suite to Advance the Study of LLM Memorization
+Abstract: We present Hubble, a suite of fully open-source large language models (LLMs) for the scientific study of LLM memorization. Hubble models come in standard and perturbed variants: standard models are pretrained on a large English corpus, and perturbed models are trained in the same way but with controlled insertion of text (e.g., book passages, biographies, and test sets) designed to emulate key memorization risks. Our core release includes 8 models -- standard and perturbed models with 1B or 8B parameters, pretrained on 100B or 500B tokens -- establishing that memorization risks are determined by the frequency of sensitive data relative to size of the training corpus (i.e., a password appearing once in a smaller corpus is memorized better than the same password in a larger corpus). Our release also includes 6 perturbed models with text inserted at different pretraining phases, showing that sensitive data without continued exposure can be forgotten. These findings suggest two best practices for addressing memorization risks: to dilute sensitive data by increasing the size of the training corpus, and to order sensitive data to appear earlier in training. Beyond these general empirical findings, Hubble enables a broad range of memorization research; for example, analyzing the biographies reveals how readily different types of private information are memorized. We also demonstrate that the randomized insertions in Hubble make it an ideal testbed for membership inference and machine unlearning, and invite the community to further explore, benchmark, and build upon our work.
+
+[ref-044] Extracting memorized pieces of (copyrighted) books from open-weight language models
+Abstract: Plaintiffs and defendants in copyright lawsuits over generative AI often make sweeping, opposing claims about the extent to which large language models (LLMs) memorize protected expression from books in their training data. We show that these polarized positions dramatically oversimplify the relationship between memorization and copyright. To do so, we develop a technique to measure memorization of books, which we apply to 200 books and 14 open-weight LLMs. Through over 3000 experiments, we show that memorization varies both by model and book. With respect to our specific extraction methodology, we find that most LLMs do not memorize most books -- either in whole or in part; however, there are notable exceptions. For instance, Llama 3.1 70B entirely memorizes some books, like Harry Potter and the Sorcerer's Stone; memorization is so extensive that one can deterministically extract the whole book almost verbatim using the book's first few words as an initial prompt. We discuss why our results have significant implications for copyright cases, though not ones that unambiguously favor either side.
+
+[ref-045] Pythia: A Suite for Analyzing Large Language Models Across Training and Scaling
+Abstract: How do large language models (LLMs) develop and evolve over the course of training? How do these patterns change as models scale? To answer these questions, we introduce \textit{Pythia}, a suite of 16 LLMs all trained on public data seen in the exact same order and ranging in size from 70M to 12B parameters. We provide public access to 154 checkpoints for each one of the 16 models, alongside tools to download and reconstruct their exact training dataloaders for further study. We intend \textit{Pythia} to facilitate research in many areas, and we present several case studies including novel results in memorization, term frequency effects on few-shot performance, and reducing gender bias. We demonstrate that this highly controlled setup can be used to yield novel insights toward LLMs and their training dynamics. Trained models, analysis code, training code, and training data can be found at \url{https://github.com/EleutherAI/pythia}.
+
+[ref-046] Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context
+Abstract: In this report, we introduce the Gemini 1.5 family of models, representing the next generation of highly compute-efficient multimodal models capable of recalling and reasoning over fine-grained information from millions of tokens of context, including multiple long documents and hours of video and audio. The family includes two new models: (1) an updated Gemini 1.5 Pro, which exceeds the February version on the great majority of capabilities and benchmarks; (2) Gemini 1.5 Flash, a more lightweight variant designed for efficiency with minimal regression in quality. Gemini 1.5 models achieve near-perfect recall on long-context retrieval tasks across modalities, improve the state-of-the-art in long-document QA, long-video QA and long-context ASR, and match or surpass Gemini 1.0 Ultra's state-of-the-art performance across a broad set of benchmarks. Studying the limits of Gemini 1.5's long-context ability, we find continued improvement in next-token prediction and near-perfect retrieval (>99%) up to at least 10M tokens, a generational leap over existing models such as Claude 3.0 (200k) and GPT-4 Turbo (128k). Finally, we highlight real-world use cases, such as Gemini 1.5 collaborating with professionals on completing their tasks achieving 26 to 75% time savings across 10 different job categories, as well as surprising new capabilities of large language models at the frontier; when given a grammar manual for Kalamang, a language with fewer than 200 speakers worldwide, the model learns to translate English to Kalamang at a similar level to a person who learned from the same content.
+
+[ref-047] Frankenstein
+Abstract: Book file PDF easily for everyone and every device. You can download and read online Frankenstein file PDF Book only if you are registered here. And also you can download or read online all Book PDF file that related with Frankenstein book. Happy reading Frankenstein Bookeveryone. Download file Free Book PDF Frankenstein at Complete PDF Library. This Book have some digital formats such us :paperbook, ebook, kindle, epub, fb2 and another formats. Here is The Complete PDF Book Library. It's free to register here to get Book file PDF Frankenstein.
+
+[ref-048] Quantifying Memorization Across Neural Language Models
+Abstract: Large language models (LMs) have been shown to memorize parts of their training data, and when prompted appropriately, they will emit the memorized training data verbatim. This is undesirable because memorization violates privacy (exposing user data), degrades utility (repeated easy-to-memorize text is often low quality), and hurts fairness (some texts are memorized over others). We describe three log-linear relationships that quantify the degree to which LMs emit memorized training data. Memorization significantly grows as we increase (1) the capacity of a model, (2) the number of times an example has been duplicated, and (3) the number of tokens of context used to prompt the model. Surprisingly, we find the situation becomes more complicated when generalizing these results across model families. On the whole, we find that memorization in LMs is more prevalent than previously believed and will likely get worse as models continues to scale, at least without active mitigations.
+
+[ref-049] The Authors Guild
+Abstract: (not available)
+
+[ref-050] Extracting Training Data from Large Language Models
+Abstract: It has become common to publish large (billion parameter) language models that have been trained on private datasets. This paper demonstrates that in such settings, an adversary can perform a training data extraction attack to recover individual training examples by querying the language model. We demonstrate our attack on GPT-2, a language model trained on scrapes of the public Internet, and are able to extract hundreds of verbatim text sequences from the model's training data. These extracted examples include (public) personally identifiable information (names, phone numbers, and email addresses), IRC conversations, code, and 128-bit UUIDs. Our attack is possible even though each of the above sequences are included in just one document in the training data. We comprehensively evaluate our extraction attack to understand the factors that contribute to its success. For example, we find that larger models are more vulnerable than smaller models. We conclude by drawing lessons and discussing possible safeguards for training large language models.
+
+[ref-051] The inadequacy of offline large language model evaluations: A need to account for personalization in model behavior
+Abstract: Standard offline evaluations for language models fail to capture how these models actually behave in practice, where personalization fundamentally alters model behavior. In this work, we provide empirical evidence showcasing this phenomenon by comparing offline evaluations to field evaluations conducted by having 800 real users of ChatGPT and Gemini pose benchmark and other questions to their chat interfaces.
+</file>
+
+<file name="candidate.json">
+{
+ "title": "Legal Compliance through Training Data Deduplication and Memorization Auditing",
+ "summary": "We develop a framework combining dataset deduplication with probabilistic memorization auditing to ensure legal compliance of generative AI systems. By removing near-duplicates and quantifying residual memorization risks, our method reduces verbatim reproduction by 90% while maintaining model utility. The framework provides auditable evidence for copyright and privacy compliance.",
+ "gap": "Current deduplication methods reduce memorization but lack systematic auditing of residual risks. Legal frameworks like EU copyright law require demonstrable efforts to prevent unauthorized reproduction, which existing techniques fail to provide through quantifiable metrics.",
+ "approach": "We extend [ref-011]'s deduplication algorithm with shingling-based near-duplicate detection, then apply probabilistic extraction audits on the cleaned dataset. A compliance dashboard visualizes memorization probabilities per training example, enabling targeted data removal for high-risk sequences while preserving model performance.",
+ "evaluation": "We train GPT-Neo models on deduplicated C4 datasets with/without auditing. Metrics include verbatim reproduction rate, ROUGE scores on summarization, and copyright compliance scores based on [ref-020] and [ref-035]. Legal experts assess documentation adequacy for compliance with US and EU copyright standards.",
+ "support": [
+  "ref-011",
+  "ref-019",
+  "ref-020",
+  "ref-026",
+  "ref-033",
+  "ref-035",
+  "ref-036",
+  "ref-044"
+ ]
+}
+</file>
+2026-11-07T03:51:59.916173Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out
+codex
+{
+  "grounding": {
+    "rationale": "Deduplication reducing memorized output is supported by ref-011, and shingling is discussed in ref-019. However, ref-020, ref-026, and ref-035 establish neither the claimed legal requirement for demonstrable prevention efforts nor metrics that ensure compliance. The asserted 90% reduction is untested for this framework and resembles ref-011's existing result. Ref-033 and ref-036 supply no substantive evidence, while ref-029, the direct source for probabilistic extraction auditing, is omitted from support.",
+    "score": 2
+  },
+  "gap": {
+    "rationale": "Measuring residual extraction risk after deduplication is a plausible open question linking ref-011 and ref-029. However, systematic probabilistic measurement already exists in ref-029, and the candidate identifies no concrete limitation requiring its proposed extension. The broader claim that existing techniques lack quantifiable metrics is contradicted by ref-009 and ref-029, while the asserted legal obligation is unsupported by ref-026.",
+    "score": 2
+  },
+  "specificity": {
+    "rationale": "The proposal specifies GPT-Neo, C4, shingling, probabilistic extraction, a with/without-auditing comparison, and reproduction and utility measures, drawing on ref-011, ref-019, and ref-029. However, extraction query budgets, removal thresholds, retraining procedures, and the summarization evaluation dataset are unspecified. Ref-020 and ref-035 do not define the proposed copyright compliance scores.",
+    "score": 3
+  },
+  "coherence": {
+    "rationale": "Auditing after deduplication could measure residual reproduction risk, connecting ref-011 with ref-029. But auditing alone does not change model behavior, and the evaluation does not clearly implement the proposed removal-and-retraining intervention. Moreover, lower verbatim reproduction and expert assessments of documentation cannot establish the promised legal compliance; ref-020 and ref-035 describe broader, distinct copyright questions.",
+    "score": 2
+  },
+  "value": {
+    "rationale": "Testing whether audit-guided removal improves the risk–utility tradeoff beyond ref-011 could inform data-cleaning decisions. As written, however, the proposal mainly combines existing deduplication and measurement methods from ref-011, ref-019, and ref-029 without a clear hypothesis about their incremental benefit. Its headline reduction resembles an existing result, and its compliance claims exceed what the experiment could establish.",
+    "score": 2
+  }
+}
+tokens used
+11,027

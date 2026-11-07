@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet’s cross-paradigm performance, Parseval constraints, CLEVER, and EEG attack vulnerability are supported by ref-001, ref-010, ref-009, ref-021, and ref-024. However, the references do not establish that spectral normalization enforces Parseval tight frames, or that Lipschitz continuity alone preserves predictions and accuracy. Ref-005 supplies a verification framework, not an EEGNet robustness guarantee.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The references leave a focused question about whether Parseval constraints improve EEGNet robustness: ref-010 evaluates vision datasets, while ref-021 and ref-024 address EEG detection and attacks. This follows naturally from the corpus, although the categorical claim that these methods are unexplored throughout EEG research exceeds the supplied evidence.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate specifies EEGNet, convolutional constraints, FGSM/PGD attacks, CLEVER, accuracy, and leave-one-subject-out evaluation (ref-001, ref-009). However, the separate Parseval-network baseline lacks an EEG adaptation specification, datasets are identified only indirectly, and perturbation budgets and training details remain unspecified.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Constraining EEGNet and comparing clean and attacked performance addresses the empirical robustness question motivated by ref-024. Two links remain weak: the proposed spectral normalization is not shown to implement ref-010’s constraints, and attack results plus CLEVER estimates (ref-009) cannot establish the formal guarantees emphasized in the gap (ref-005).",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A controlled robustness–accuracy comparison could inform whether EEG practitioners should adopt constraints demonstrated in vision (ref-010), given established EEG attack vulnerability (ref-024). However, the proposal largely transfers an existing technique to EEGNet (ref-001); without stronger certification or broader validation, its likely contribution is useful but narrow.",
+  "score": 3
+ }
+}

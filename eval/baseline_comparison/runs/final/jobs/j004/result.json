@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The central characterization of prior work is unsupported: STRIP explicitly detects secret triggers through perturbations and prediction entropy, without requiring trigger examples or internal activations (ref-009). BackdoorBench's abstract does not establish the claimed access restrictions or describe spectral signature analysis (ref-011). Outcome indistinguishability concerns outcome predictors and distinguishers, not activation consistency or elevated variance around triggers (ref-019).",
+  "score": 1
+ },
+ "gap": {
+  "rationale": "The stated gap is contradicted by STRIP's prediction-based detection of inputs containing unknown triggers (ref-009). A narrower gap concerning failures of STRIP that activation measurements could address might be worthwhile, but the candidate identifies no such concrete limitation in ref-009 or ref-011.",
+  "score": 1
+ },
+ "specificity": {
+  "rationale": "Perturbing inputs, comparing activations, and testing anomalies provide a recognizable experimental outline, with STRIP and BackdoorBench supplying a baseline and evaluation setting (ref-009, ref-011). However, transformations, activation layers, consistency statistics, statistical tests, and thresholds are unspecified. The evaluation also does not explain how input-level anomalies become model-level detection decisions.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Accessing latent representations conflicts with the stated goal of black-box detection. The proposed higher-variance signature is also unmotivated: STRIP establishes low prediction entropy under perturbation, while outcome indistinguishability supplies no connection to activation variance (ref-009, ref-019). Detection accuracy and false positives could evaluate a completed detector, but the current design does not resolve these central links.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Testing whether activation stability adds useful detection information beyond STRIP could yield a meaningful empirical finding using BackdoorBench (ref-009, ref-011). As written, however, the candidate neither identifies a demonstrated failure it would remedy nor explains why its additional internal access would change detector choices. Its potential contribution remains weakly justified.",
+  "score": 2
+ }
+}

@@ -1,0 +1,13 @@
+{
+ "title": "Dynamic Constraint Adjustment for Safe Inference-Time Alignment via Prompt Difficulty Classification",
+ "summary": "We propose dynamically adjusting safety constraints during inference based on prompt difficulty and model uncertainty to balance helpfulness and harmlessness. Unlike fixed or calibrated multipliers, our approach modifies constraints per prompt using a classifier trained on adversarial prompts and uncertainty metrics. Evaluation compares against LARA and Best-of-N on safety benchmarks, measuring tradeoff curves, attack success rate reduction, and computational overhead.",
+ "gap": "LARA (ref-012) uses a single calibrated Lagrangian multiplier for all prompts, which may be suboptimal for varying prompt difficulty. No method yet adjusts safety constraints per prompt based on its risk level and model uncertainty.",
+ "approach": "We train a prompt-difficulty classifier using adversarial prompts from ref-017 and model uncertainty metrics (token entropy, ref-003). The classifier outputs a risk score, which maps to a Lagrangian multiplier via a learned function. This multiplier adjusts the safety constraint in LARA's augmented reward during inference. The core difference from LARA is per-prompt multiplier adjustment instead of a single calibrated value.",
+ "evaluation": "We compare our method with LARA (ref-012) and Best-of-N (ref-003) on JailbreakBench (ref-017) and ShieldGemma (ref-005). Metrics include the helpfulness-harmlessness tradeoff curve (area under the curve), attack success rate reduction (using JailbreakBench's 100 behavior categories), and calibration error of the difficulty classifier. Ablation studies isolate the impact of dynamic adjustment by comparing against a LARA variant that uses the same classifier but applies fixed thresholds. Computational overhead is measured as inference time per token relative to LARA.",
+ "support": [
+  "ref-012",
+  "ref-003",
+  "ref-005",
+  "ref-017"
+ ]
+}

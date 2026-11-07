@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x2 proposes a focused extension of quadratic-constraint certification to EEGNet's architecture, connecting ref-001 with ref-005/ref-020. Its certified robust accuracy and cross-subject evaluation directly test whether the extension yields useful guarantees. It still needs to establish what its constraints add beyond the general frameworks. y1 offers a clear, useful adaptation of ref-010, but its implementation conflates spectral normalization with maintaining Parseval tight frames: bounding norms alone does not establish the required frame structure. Its accuracy and CLEVER measurements also do not directly establish the prediction guarantees motivating the proposal. x2 has the stronger alignment between its intended contribution and evaluation.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x3 bundles spectral normalization, adversarial training, and frequency-energy constraints, making the single contribution and its attribution unclear. Its formal-guarantee claim also exceeds what attack success rates and the estimated CLEVER metric establish (ref-009). Nevertheless, its experiments address EEG decoding and robustness grounded in ref-001/ref-010/ref-024. y3 has a more fundamental evidence mismatch: ref-006 records intracortical neuronal activity for robotic-arm control, rather than supplying the EEG signals claimed for its physical testing. Motor-imagery EEG experiments therefore do not substantiate its implantable-BCI safety claims, and ref-025 does not supply that missing validation bridge.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "Y offers three meaningfully different directions: constrained training based on Parseval networks, reproducible multi-dataset adversarial training and transfer evaluation, and post-training SDP certification. X concentrates on robustness bounds for EEGNet; x1 and x2 substantially overlap in their proposed EEG-specific quadratic constraints and SDP machinery, while x3 adds constrained training. Y covers a broader range of research decisions despite weaknesses in individual proposals.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X provides the stronger research starting point through x2 and avoids y3's central recording-modality mismatch. Its advantage is limited by redundancy, x1's insufficiently specified physiological constraints—which must preserve the claimed perturbation set for certificate comparisons to be valid—and x3's bundled interventions. Y's broader selection is useful, but y1's stated training procedure does not establish Parseval structure, while y2 overstates the absence of multi-dataset and attack-transfer evaluations: ref-021 already evaluates three datasets, four attack types, and transfer to unknown attacks, and ref-024 studies UAP transferability. A larger MOABB robustness benchmark remains valuable under ref-007, but y2 needs a narrower gap and clearer cross-paradigm splits. X would require less fundamental repair to yield a coherent experiment.",
+  "verdict": "X"
+ }
+}

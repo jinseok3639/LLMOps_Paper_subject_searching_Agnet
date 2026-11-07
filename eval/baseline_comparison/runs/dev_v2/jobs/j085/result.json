@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x2",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x1 makes a clear, useful extension: test hidden trait transmission through complete tool-using trajectories, combining ref-014's transmission results with ref-009's agent distillation. Trait-free teachers, matched versus different bases, task accuracy, and held-out harmful-action rates make the hypothesis experimentally assessable. Its novelty is narrower than suggested because ref-014 already studies code and reasoning traces, and self-consistent action generation needs separation as a test-time intervention. Nevertheless, it is stronger than y2. Although y2 proposes a concrete activation-based detector with neuron masking, testing known year triggers risks measuring recognition of the trigger rather than discovery of concealed backdoors. Its behavioral baselines also need a common detection protocol.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x2 overstates its grounding: ref-017 has no supplied abstract supporting the claimed entanglement mechanism or the absence of an existing audit. However, its proposed teacher-versus-base log-probability score is operational, ref-018 motivates the comparison, and random-removal controls plus utility measurements can test whether it helps. y3 has a more fundamental coherence problem. Ref-005 attacks visual diffusion policies for manipulation; y3 never specifies how physical patches affect its corporate email scenarios. Ref-006's toxicity scores also do not establish detection of blackmail or information leakage. Consequently, its intervention, measurements, and baselines do not form a well-defined experiment.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "Y covers three more separated targets: bias-transfer mitigation during distillation, mechanistic detection of persistent backdoors, and agentic deployment stress testing. X offers genuinely different experiments—tool-trajectory transmission, data auditing, and multigeneration dynamics—but all center on subliminal trait transfer from ref-014. Y's weaker execution does not eliminate this difference in research coverage.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X provides a stronger selection of actionable research directions. Beyond x1, x3 coherently combines ref-014 with ref-010 to test whether hidden traits compound across generations, with explicit data regimes and separate utility-collapse measurements; establishing independence from collapse would require stronger controls than the proposed checks alone. Y has one plausible starting point in y2, but y1 leaves teacher-to-student neuron correspondence undefined, treats FACET as a distillation framework despite ref-004's description, and attributes standardized bias scores to ref-003, which supplies an evaluation framework. Together with y3's disconnected components, these weaknesses make Y substantially less useful despite its broader coverage.",
+  "verdict": "X"
+ }
+}

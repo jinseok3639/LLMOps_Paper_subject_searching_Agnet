@@ -1,0 +1,11 @@
+{
+ "title": "Adversarial Training for Robustness Against Policy Manipulation in Diffusion Policies",
+ "summary": "We propose adversarial training to harden diffusion policies against manipulation attacks. By generating targeted perturbations during training, the model learns to maintain task performance under adversarial conditions. Evaluation includes digital and physical-world attack scenarios, measuring success rate degradation and transferability of adversarial examples.",
+ "gap": "Diffusion policies (ref-005) achieve state-of-the-art performance but lack defenses against adversarial manipulation. While ref-005 introduces DP-Attacker for crafting adversarial attacks, no work addresses training diffusion policies to resist these attacks. Existing safety training (ref-001) focuses on dialogue safety, not policy robustness.",
+ "approach": "Adapt DP-Attacker (ref-005) to create a dynamic adversarial training loop. During training, the model receives both natural and adversarially perturbed inputs. The training objective combines task success with a regularization term measuring L2 distance between clean and perturbed policy outputs. Perturbations are generated using DP-Attacker's offline attack method, with strength controlled by epsilon.",
+ "evaluation": "Test on the three manipulation tasks from ref-005 (push T, pick-and-place, and block stacking). Compare against standard diffusion policy training and a baseline with only L2 regularization. Metrics include success rate under attack, perturbation transferability across tasks, and real-world physical patch effectiveness measured on the block stacking task using 10cm x 10cm patches. Ablation isolates adversarial training by comparing models trained with/without perturbations but identical regularization.",
+ "support": [
+  "ref-001",
+  "ref-005"
+ ]
+}

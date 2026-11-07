@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The central claim contradicts ref-012, which explicitly evaluates sequence-level BoN with a calibrated dual variable and reports its helpfulness–harmlessness performance. Neither the finite-calibration probability guarantee nor the claim that manual penalties fail across domains or reward models is supported by the supplied references. Ref-003 specifically proposes MBR-regularized BoN, making its characterization as standard BoN imprecise.",
+  "score": 1
+ },
+ "gap": {
+  "rationale": "The proposed gap is already addressed by ref-012: calibration on a small set, augmented reward scoring for BoN, and an expected-cost constrained interpretation are all explicitly described. The candidate identifies no clear remaining difference from that work.",
+  "score": 1
+ },
+ "specificity": {
+  "rationale": "The candidate specifies the scoring mechanism, 50 calibration prompts, datasets, baselines, metrics, and a penalty ablation, providing a workable experimental outline. However, it leaves the models, safety cost, constraint threshold, confidence calculation, and N sweep unspecified. Llama Guard (ref-016) also needs a defined role as a generation-system baseline.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Dual calibration and fixed-penalty comparisons fit the helpfulness–safety objective in ref-012. However, the percentage of responses exceeding a safety threshold does not directly test a bound on expected cost, and the evaluation does not specify how to validate the claimed probability guarantee over calibration sets. Scaling N is relevant, but its connection to that guarantee remains unclear.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "As written, this largely repeats the method and comparison already reported in ref-012. Additional benchmark results could provide replication evidence, but without a distinct hypothesis or a developed finite-sample guarantee, the outcome is unlikely to change methodological choices.",
+  "score": 1
+ }
+}

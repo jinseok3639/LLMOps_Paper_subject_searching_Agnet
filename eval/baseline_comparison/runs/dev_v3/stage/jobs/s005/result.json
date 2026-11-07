@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The core combination is supported: ref-001 supplies EEGNet, ref-010 supplies approximate Parseval constraints maintained during SGD, and refs-009 and ref-020 supply robustness metrics and Lipschitz bounds. However, refs-005 and ref-020 describe verification and bound estimation, not enforcing Parseval constraints during training. Ref-010 does not establish that the proposed modifications guarantee an overall EEGNet Lipschitz constant ≤ 1. Ref-007 also does not confirm the specified paradigm coverage.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The references leave EEGNet-specific robustness certification open: ref-001 evaluates decoding and generalization, ref-021 evaluates adversarial detection, and ref-024 demonstrates EEG CNN vulnerability. This is a reasonably scoped extension of the general methods in refs-010 and ref-020, although the candidate does not identify a concrete obstacle to applying those methods to EEGNet.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The target architecture, constraint family, baseline models, paradigms, sample count, and named metrics are concrete. However, the projection and SDP training procedures are not integrated precisely, datasets and perturbation budgets are unspecified, and no detector is defined for the detection AUC borrowed from ref-021. The baseline without Parseval constraints largely duplicates standard EEGNet.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "The SDP upper bound from ref-020 directly tests whether constraints reduce the Lipschitz bound, and CLEVER from ref-009 provides complementary robustness evidence. However, detection AUC measures a separate capability without a specified detector. The promised formal classification guarantee is also not connected to an instance-specific perturbation radius, as exemplified by ref-022. Clean decoding performance and attacked classification accuracy are missing.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether Parseval constraints preserve EEGNet's decoding utility while improving robustness could inform BCI model choices, given the vulnerabilities demonstrated in ref-024. The contribution is primarily a transfer of ref-010 to ref-001, with meaningful but narrow potential impact. Without accuracy–robustness tradeoffs or comparison to robust training such as ref-013, the proposed evaluation would provide limited guidance on which defense to adopt.",
+  "score": 3
+ }
+}

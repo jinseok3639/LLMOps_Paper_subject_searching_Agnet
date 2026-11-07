@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-008 supports persistent backdoors, year-dependent code behavior, and misleading safety impressions after adversarial training. ref-019 supports behavioral jailbreak evaluation, and ref-016 motivates inspecting internal model states. However, neither ref-008 nor ref-019 establishes that its methods cannot isolate mechanisms. Calling ref-008's adversarial training a detection baseline also mischaracterizes an intervention intended to remove unsafe behavior. ref-007 provides only general evaluation motivation.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Detecting backdoors that survive safety training addresses a concrete limitation in ref-008, and ref-016 supplies a natural motivation for using internal access. None of the supplied abstracts resolves this detection problem through neuron analysis. However, the gap shifts between detecting hidden backdoors and explaining their persistence, which are distinct research targets.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate specifies ref-008's year-triggered code task, activation-based classification, neuron masking, named comparisons, and detection and false-positive rates. However, the relationship between activation clustering and classifier training is unspecified, as are training labels, held-out splits, neuron selection, and the activation-distance measure. The procedures for turning ref-008's training intervention and ref-019's jailbreak attacks into comparable detectors are also unclear.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Activation analysis and neuron masking could connect internal signals to backdoor behavior, consistent with the access advantages in ref-016. However, detecting the known year condition from ref-008 does not establish detection of unsafe behavior or explain persistence through safety training. The evaluation lacks an explicit measure of masking's effect on insecure code generation and comparisons across safety-training stages. Its clustering ablation also does not clearly match the classifier-based approach.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A reliable internal detector could improve audits when behavioral safety training gives false reassurance, as motivated by ref-008 and ref-016. As proposed, however, the experiment could mainly discover neurons encoding a known year trigger. Without testing generalization, preserved coding performance, or causal effects on unsafe outputs, either outcome would offer limited guidance about practical auditing choices or backdoor persistence.",
+  "score": 3
+ }
+}

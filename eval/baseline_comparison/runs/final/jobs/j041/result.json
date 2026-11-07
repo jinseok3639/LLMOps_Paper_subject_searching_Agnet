@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The central ingredients are supported: ref-009 defines ACR, ref-029 measures extraction probability across queries, and ref-011 studies deduplication. However, their abstracts do not establish that ref-009 excludes probabilistic sampling or deduplication. Ref-050 does not describe the attributed greedy discoverable-extraction baseline; ref-029 does. Exact matches do not establish copyright violations, as the distinctions in ref-035 and qualified conclusions in ref-044 illustrate. Several support ids add no direct evidence, particularly ref-001 and abstractless ref-033.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Measuring how short a prompt can be while maintaining reliable extraction is a plausible, scoped extension connecting ref-009 and ref-029. However, efficient reconstruction from short prompts is already the central concern of ref-009. The remaining gap is specifically probability-constrained ACR, and the supplied abstract does not establish whether ref-009 already accommodates this. Deduplication from ref-011 is an experimental setting rather than a clearly motivated additional gap.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies inputs, outputs, a prompt-length objective, extraction baselines, metrics, and component ablations using ref-009 and ref-029. However, it leaves unspecified the prompt-search technique, the required success probability, sampling settings, query budgets, and target model. It also does not explain how copyrighted-book targets from ref-044 relate to the deduplicated C4 evaluation from ref-011.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Optimizing prompt length subject to reliable reconstruction directly connects the compression measure in ref-009 with the extraction probabilities in ref-029, and the proposed ablations could test that combination. The evaluation weakens this connection by leaving the C4-to-book target relationship unclear. Its legal-compliance claim is also unsupported by the measurements: exact reconstruction measures a technical behavior, while ref-035 distinguishes relevant concepts and ref-044 explicitly presents qualified copyright implications.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A reliable short-prompt extraction measure could improve comparisons of memorization risk, building on the measurement limitations identified in ref-029 and the adversarial perspective of ref-009. Nevertheless, the proposal currently offers a narrow integration without a clear hypothesis about when it changes model rankings or mitigation choices. Deduplication already reduces memorized emissions in ref-011, and the proposed exact-match test cannot deliver the claimed copyright-compliance decision given ref-035 and ref-044.",
+  "score": 3
+ }
+}

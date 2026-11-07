@@ -1,0 +1,15 @@
+{
+ "title": "Pessimistic Lagrangian Best-of-N: Making Constrained Inference-Time Safety Alignment Monotonic in N Under Imperfect Cost Models",
+ "summary": "Propose combining Lagrangian reward augmentation, which trades helpfulness against a learned safety cost, with a pessimism or proximity penalty so the constrained Best-of-N selector does not degrade as N grows. The augmented score is reward minus a calibrated multiplier times cost, minus an uncertainty or MBR-style proximity term. We test whether this keeps true harmlessness and helpfulness from declining at large N, when the cost model is imperfect. Validation uses a held-out gold safety judge distinct from the cost model, sweeping N and comparing to plain Lagrangian BoN and unconstrained BoN.",
+ "gap": "Lagrangian inference-time alignment calibrates a dual variable assuming the reward and cost models are accurate, while theory and empirical work show that Best-of-N against imperfect proxies suffers reward hacking as N grows. Nobody has examined whether constrained BoN's safety guarantee survives cost-model error at large N, or combined constraint handling with pessimism or proximity regularization.",
+ "approach": "Take a reward model and cost model, estimate the dual variable on a small calibration set as in the Lagrangian method, then add a pessimism term (a rejection-sampling style penalty on responses where proxy scores are likely overestimated) or an MBR-based proximity regularizer to the augmented score. Re-calibrate the dual variable under the regularized objective so the expected-cost constraint is still met. Derive when the combined selector is scaling-monotonic and implement it for N from 1 to several thousand.",
+ "evaluation": "Compare to vanilla BoN, Lagrangian BoN, MBR-BoN, pessimism-only BoN, and a constrained fine-tuning baseline. Measure the gold-judge harmful rate and the helpfulness reward from an independent reward model as a function of N, plotting gold-versus-proxy curves in the style of overoptimization studies. Use cost models trained on varied preference data sizes to vary proxy quality. Report whether the combined method keeps true safety and helpfulness non-decreasing in N and the win rate against the baselines.",
+ "support": [
+  "ref-012",
+  "ref-004",
+  "ref-003",
+  "ref-006",
+  "ref-019",
+  "ref-020"
+ ]
+}

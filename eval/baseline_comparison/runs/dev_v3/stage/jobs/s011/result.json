@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The descriptions of adaptive compute in ref-002 and latent-MDP safety constraints in ref-020 are supported, and the support ids are relevant. However, ref-014 does not establish HarmBench risk scores or task accuracy, ref-015 does not specify Advbench v2.0, and ref-005 reports moderation AU-PRC rather than establishing it as a measure of generated-response safety.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Risk-dependent allocation between safety reasoning and task execution is a specific question left open by the supplied abstracts: ref-002 adapts compute to difficulty, while ref-020 applies safety constraints. The positioning is incomplete because ref-007 directly studies safety reasoning and ref-011 already describes routing based on query characteristics; neither is discussed as adjacent work.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The router size, split range, MSE training, named baselines, compute metric, and fixed-split ablations provide concrete starting points. However, constructing optimal split targets and defining the FLOPs-weighted objective remain unspecified, while the proposed HarmBench and ShieldGemma measures are not established for their assigned roles by ref-014 and ref-005.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "The router and fixed-split ablation directly address dynamic allocation, but the evaluation cannot adequately establish the claimed safety-performance tradeoff. Ref-014 describes adversarial robustness evaluation rather than general task accuracy, and ref-005's moderation AU-PRC measures discrimination rather than the frequency of harmful generated responses. The source of benign utility tasks is also missing.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Determining whether risk-dependent safety reasoning improves outcomes at fixed compute could inform inference-budget choices, connecting ref-002's compute allocation with ref-007's safety reasoning. The likely contribution is meaningful but narrow until it demonstrates useful task performance alongside safety and clarifies its advantage over ref-020 and simpler fixed allocations.",
+  "score": 3
+ }
+}

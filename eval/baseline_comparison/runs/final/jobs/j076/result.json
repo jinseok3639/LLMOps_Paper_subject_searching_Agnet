@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-001 supports iterative debugging and visual feedback, and ref-004 supports neural API retrieval over 16,464 RESTful APIs. However, ref-001 does not establish a fixed API set, and describing ref-007 as using pre-planned sequences misrepresents its explicitly online, coarse-to-fine planning. These unsupported characterizations underpin the claimed distinction and baselines.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Error-conditioned API retrieval for visualization is not explicitly addressed in the supplied abstracts, but the candidate does not establish that existing systems cannot adapt API choices during execution. In particular, ref-007's online planning weakens the asserted limitation. The proposed question is scoped, but its justification rests on unsupported restrictions.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate specifies MatPlotBench (ref-001), an error-conditioned cross-encoder retriever, a three-iteration limit, named baselines, and a controlled retrieval ablation. Experiment design could begin, although training error-log construction, visualization-relevant API coverage within ref-004's corpus, and the scoring rule for final visualization accuracy remain unspecified.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Conditioning retrieval on execution errors and comparing dynamic against static retrieval could test whether adaptation improves correction beyond ref-001. However, needing multiple refinement cycles does not establish error propagation, and the connection between ref-004's RESTful APIs and visualization-code errors is unexplained. Execution success also needs to be distinguished from visual correctness.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A controlled result could inform whether visualization agents should add error-conditioned retrieval to ref-001's feedback loop, making this a meaningful but narrow engineering question. Its broader significance is limited by the unestablished API-related failure bottleneck and the lack of evidence that ref-004's API collection addresses those failures.",
+  "score": 3
+ }
+}

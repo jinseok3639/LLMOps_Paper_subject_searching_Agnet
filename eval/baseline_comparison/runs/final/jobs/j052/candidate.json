@@ -1,0 +1,14 @@
+{
+ "title": "Context-Aware Memorization Detection in Code-Generating LLMs via Gradient-Guided Suffix Search",
+ "summary": "We propose a method to detect memorized code in code-generating LLMs by training a classifier to identify adversarial suffixes that maximize exact-match extraction. The approach uses gradient-guided search to generate suffixes that trigger verbatim reproductions of training data, validated on Codex and open-source models. Evaluation compares extraction rates with prefix-based baselines and assesses the impact of deduplication.",
+ "gap": "While ref-007 and ref-050 demonstrate adversarial suffix attacks for general LLMs, they do not focus on code models or compare suffix-based extraction with prefix-based methods. Ref-044 shows deterministic extraction of entire books but does not evaluate code-specific memorization. The core gap is that no work has systematically compared adversarial suffix-based extraction with prefix-based methods in code models, nor has it quantified how deduplication (ref-011) affects memorization rates in this setting.",
+ "approach": "We implement a gradient-guided suffix search algorithm that iteratively modifies suffix tokens to maximize the probability of generating exact code sequences. The algorithm uses the model's logits to compute gradients with respect to suffix token embeddings, selecting tokens that increase the likelihood of the target code. Inputs are code prefixes from a test set; outputs are suffixes that maximize exact-match extraction. The objective is to find minimal-length suffixes that achieve >90% token overlap with the target code. The core difference from ref-007's divergence attacks is that we focus on code-specific extraction and explicitly compare suffix-based extraction with prefix-based baselines.",
+ "evaluation": "We evaluate on the HumanEval (ref-001) benchmark, which contains 164 Python code snippets. Baselines include (1) prefix-based extraction (using the first 50% of each snippet as prefix) and (2) random suffix sampling. Metrics include exact-match extraction rate (token-level, temperature=0.2) and the average number of gradient steps required to find a successful suffix. We ablate by testing on models trained with (ref-011) deduplication versus non-deduplicated models, measuring how deduplication reduces extraction rates. The evaluation isolates the proposed suffix mechanism by fixing prefix length and sampling temperature across all methods.",
+ "support": [
+  "ref-001",
+  "ref-007",
+  "ref-011",
+  "ref-044",
+  "ref-050"
+ ]
+}

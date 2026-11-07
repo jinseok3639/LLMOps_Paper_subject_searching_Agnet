@@ -1,0 +1,14 @@
+{
+ "title": "Guideline-Driven Safety Reasoning for Generalizable Jailbreak Resistance",
+ "summary": "We propose training models to perform safety reasoning by synthesizing guidelines that reflect diverse safety perspectives. This method explicitly elicits latent safety knowledge, improving generalization against OOD jailbreak attacks. We evaluate on JailbreakBench and HarmBench, comparing to Refusal Training (RT) and BoN-based safety improvements, using ASR and human evaluations to measure robustness.",
+ "gap": "Refusal Training (RT) fails to generalize against OOD jailbreak attacks, and while BoN improves safety, it does not address the root cause of non-generalizable representation mappings. Current methods lack a principled way to elicit latent safety knowledge during inference.",
+ "approach": "We synthesize reasoning supervision from safety guidelines, training models to generate step-by-step justifications for refusal decisions. This encourages deeper reasoning and better utilization of latent safety knowledge, even for unseen attack patterns.",
+ "evaluation": "We test on JailbreakBench (ref-017) and HarmBench (ref-014), comparing ASR against state-of-the-art jailbreak methods. We also measure performance on benign queries to ensure no trade-off in helpfulness. Human evaluations assess the quality of safety reasoning.",
+ "support": [
+  "ref-007",
+  "ref-014",
+  "ref-017",
+  "ref-021",
+  "ref-024"
+ ]
+}

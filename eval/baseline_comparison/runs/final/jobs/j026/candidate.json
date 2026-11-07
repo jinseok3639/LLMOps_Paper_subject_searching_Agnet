@@ -1,0 +1,15 @@
+{
+ "title": "Flat Minima Optimization for Joint Misclassification and OOD Detection via Confidence Gap Maximization",
+ "summary": "This work proposes optimizing flat minima to simultaneously improve misclassification detection and out-of-distribution (OOD) detection by maximizing the confidence gap between correct/incorrect in-distribution (ID) and OOD samples. The approach integrates a sharpness-aware minimization framework with a confidence gap loss term that enforces separability in softmax scores. Validation involves benchmarking on ImageNet-scale datasets with diverse OOD sources and comparing against calibration/OOD baselines using FPR95 and AUROC metrics.",
+ "gap": "Existing calibration methods often degrade confidence separation between correct and incorrect ID predictions ([ref-059]), while flat minima research focuses on generalization without explicitly addressing confidence gaps ([ref-030]). Current OOD detection methods lack systematic evaluation of their impact on ID confidence separation.",
+ "approach": "The approach combines Sharpness-Aware Minimization (SAM) with a confidence gap loss term. SAM minimizes loss sharpness via adversarial weight perturbations within an epsilon-ball around EMA weights (epsilon=0.05, rho=0.5). The confidence gap loss maximizes margins between softmax scores of correct ID (y_true), incorrect ID (y_incorrect), and OOD samples (y_OOD): L_gap = max(0, m - (p(y_true) - p(y_incorrect)) - (p(y_true) - p(y_OOD))). Total loss: L_total = L_classification + lambda * L_sharpness + gamma * L_gap (lambda=1/3, gamma=1/3).",
+ "evaluation": "Baselines: Temperature scaling ([ref-033]), ODIN ([ref-015]), SAM ([ref-010]), and F-SAM ([ref-030]). Metrics: FPR95 for OOD detection, misclassification detection AUROC, and top-1 accuracy. Datasets: ImageNet-1K with CIFAR-10/100, Textures, and OpenImage-O as OOD. Ablation studies isolate SAM (epsilon=0.05), L_gap (gamma=1/3), and their combination. Comparisons against [ref-002] and [ref-059] use identical covariate-shift scenarios from [ref-059].",
+ "support": [
+  "ref-002",
+  "ref-010",
+  "ref-015",
+  "ref-030",
+  "ref-033",
+  "ref-059"
+ ]
+}

@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet's architecture and visualizations, Parseval constraints, and EEG adversarial vulnerability are supported by ref-001, ref-010, ref-021, and ref-024. However, the claims that adversarial training is data-intensive and unsuitable for EEG structure are unsupported. Spectral normalization is not established as enforcing Parseval tight frames by ref-010. CLEVER is an attack-independent robustness metric in ref-009, not an attack or the formal certification procedure claimed; ref-009 is also absent from the support list.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied references leave open whether Parseval constraints improve EEGNet robustness across paradigms: ref-001 studies decoding, ref-010 studies robustness on image datasets, and ref-021/ref-024 establish EEG security concerns. However, the stated limitation of adversarial training is unsupported, and the gap in formal guarantees is not narrowed to a specific guarantee the proposed method would deliver.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The target architecture, modified convolutional layers, four paradigms, comparison models, and primary metrics are concrete (ref-001, ref-010). Experiment design could begin, but perturbation norms and budgets, dataset splits, and the exact constraint implementation remain unspecified. The CLEVER-based attack is undefined and conflicts with CLEVER's role in ref-009.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Constraining sensitivity and comparing clean and attacked accuracy directly tests the central robustness hypothesis, consistent with ref-010. However, Lipschitz estimates and CLEVER scores do not establish the promised formal guarantees without a valid bound and decision-margin calculation; ref-020 and ref-022 distinguish guaranteed bounds and instance-specific guarantees. The claimed preservation of interpretability also lacks an evaluation.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A demonstrated robustness–accuracy benefit without adversarial examples could influence EEGNet training choices across the paradigms in ref-001, given the vulnerabilities in ref-021 and ref-024. Negative results could also clarify whether the benefits in ref-010 transfer to EEG. As specified, however, this is principally a useful architectural adaptation, with limited evidence that it would establish broader safety or certification conclusions.",
+  "score": 3
+ }
+}

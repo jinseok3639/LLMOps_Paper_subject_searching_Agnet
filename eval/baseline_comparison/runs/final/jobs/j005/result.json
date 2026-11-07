@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-060 supports the specified KL-based gradient norm, and ref-015 and ref-023 support the named baselines. However, ref-007 does not identify ImageNet-C or explicitly establish the claimed covariate-shift result. ref-008 concerns in-domain medical classification, not CIFAR-10-C or covariate shift. The references also do not establish that gradient norms adapt to perturbations or that ref-060 uses the claimed fixed threshold.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The supplied references do not describe this exact learned combination, leaving a plausible experimental question. However, the gap is framed mainly as an absent combination rather than a demonstrated limitation. ref-059 already addresses failure prediction under covariate shift, while ref-020 and ref-042 establish learned confidence approaches; the candidate does not explain precisely why these approaches need the proposed change.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The target, two input signals, two-layer MLP, corruption severity levels, baselines, measures, and ablations are concrete. The gradient construction follows ref-060, and ref-015 and ref-023 identify reproducible comparison methods. Missing details include how the MLP produces a threshold, how correctness labels supervise training, and how training corruptions and severities are separated from evaluation.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Combining confidence signals and measuring failure discrimination could test whether gradients add useful information beyond softmax, consistent with the evaluation concerns in ref-007. However, the connection between an MLP binary predictor and severity-adaptive thresholding is unclear. AUROC requires a ranking score, and changing only an operating threshold does not improve that ranking. The ablations also need to distinguish learned signal fusion from threshold adaptation.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether the OOD gradient signal in ref-060 helps identify classification errors under corruption would be useful, since ref-008 and ref-059 warn that better OOD detection need not improve failure prediction. The likely contribution is nevertheless narrow: a learned combination of existing signals. Comparison with the shift-aware failure-prediction approach in ref-059 would make the result more consequential for method selection.",
+  "score": 3
+ }
+}

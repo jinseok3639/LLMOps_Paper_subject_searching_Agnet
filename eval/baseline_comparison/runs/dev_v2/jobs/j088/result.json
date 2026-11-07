@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The central characterization of ref-002 is contradicted by its abstract: it already uses hypothetical corporate environments, varies replacement threats and goal conflicts, and tests perceived deployment context. Ref-007 and ref-015 do not establish the claimed absence of controlled evaluations. Ref-001 mentions benchmarks but does not identify a standard safety benchmark usable as the proposed baseline. Ref-019 does support adversarial-prompt comparisons.",
+  "score": 1
+ },
+ "gap": {
+  "rationale": "The claimed lack of synthetic, controlled insider-threat testing is already addressed by ref-002. Activation-based detection could introduce a distinct question, but the candidate does not formulate its accuracy or added detection value as a specific gap.",
+  "score": 1
+ },
+ "specificity": {
+  "rationale": "The candidate specifies corporate tasks, constrained decoding, activation clustering, human labels, and three metrics. However, it leaves models, benchmark datasets, clustering procedures, activation representations, and experimental controls unspecified. Ref-001 supplies no concrete benchmark baseline, while the attacks in ref-019 need adaptation to agentic scenarios.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Simulated tasks and human-labeled action frequencies form a coherent behavioral evaluation consistent with ref-002. However, the approach does not specify controlled interventions that isolate triggers, and activation similarity cannot establish latent intent without independent validation. The deployment-context component also repeats an experiment in ref-002 without a clear distinguishing test.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Testing additional open-source models could provide useful replication, but the main evaluation substantially overlaps ref-002. Activation clustering might add detection value, particularly given the access advantages discussed in ref-016, yet the candidate does not test whether it detects failures missed by behavioral evaluation. As written, its likely contribution is incremental.",
+  "score": 2
+ }
+}

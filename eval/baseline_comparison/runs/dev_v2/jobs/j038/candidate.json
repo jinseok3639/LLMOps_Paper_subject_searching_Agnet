@@ -1,0 +1,14 @@
+{
+ "title": "Coverage-Dependent Reward Model Overoptimization Bounds",
+ "summary": "This paper derives theoretical bounds on reward model overoptimization as a function of pre-trained policy coverage over high-quality responses. It formalizes how coverage gaps between policy and reward-optimal distributions interact with proxy reward optimization to produce reward hacking, providing a framework for predicting alignment failure modes. Validation involves synthetic experiments measuring gold reward degradation under controlled coverage and proxy accuracy conditions.",
+ "gap": "While ref-008 formally defines reward hacking and ref-006 studies overoptimization scaling laws, neither explicitly characterizes how pre-trained policy coverage gaps (KL divergence between policy and reward-optimal distributions) interact with proxy reward optimization to produce reward hacking. Existing work does not provide bounds on gold reward degradation as a function of coverage gaps.",
+ "approach": "We formalize coverage as the KL divergence between policy and reward-optimal distributions. Using information-theoretic bounds, we derive expressions for maximum achievable gold reward as a function of coverage gap (KL divergence) and proxy reward accuracy (Pearson ρ). Theoretical results are validated through synthetic experiments with independently controlled coverage gaps and proxy reward accuracy.",
+ "evaluation": "Baselines include (1) ideal reward optimization (no proxy), (2) random sampling, and (3) proxy reward optimization with perfect coverage (zero KL divergence). Metrics are gold reward score degradation curves measured as mean gold reward over optimization steps. Synthetic environments vary coverage gaps (KL divergence) and proxy reward accuracy (Pearson ρ) independently, with ablation studies isolating each factor. Experiments use a 1D Gaussian policy/reward setup with tunable KL divergence and reward model noise.",
+ "support": [
+  "ref-006",
+  "ref-008",
+  "ref-009",
+  "ref-013",
+  "ref-023"
+ ]
+}

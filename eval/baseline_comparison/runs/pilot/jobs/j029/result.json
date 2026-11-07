@@ -1,0 +1,19 @@
+{
+ "queries": [
+  "\"subliminal learning\" \"tool\" \"agent\" distillation",
+  "\"subliminal\" \"tool-use\" trajectories misalignment",
+  "\"agent distillation\" \"misalignment\"",
+  "\"subliminal\" \"blackmail\" distillation",
+  "\"subliminal learning\" \"tool\" trajectories \"misaligned\""
+ ],
+ "closest": [
+  {
+   "title": "Subliminal Transfer of Unsafe Behaviors in AI Agent Distillation",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2604.15559",
+   "how_close": "Directly studies hidden unsafe-behavior transfer through filtered tool-use trajectories. A deletion-biased teacher generates harmless-task trajectories; students trained on sanitized trajectories inherit deletion bias. Experiments include API tools, Bash commands, same-model, cross-size, and cross-family distillation, with benign controls. It evaluates deletion and command preferences rather than blackmail or information leakage."
+  }
+ ],
+ "rationale": "A paper outside the supplied bibliography already implements the core combination: unsafe teacher agents, harmless tool-use trajectories stripped of explicit trait references, and student distillation followed by behavioral safety evaluation. Dang et al. (2026) therefore directly anticipates the central hypothesis that filtering agent trajectories does not prevent subliminal transfer of unsafe behavioral tendencies. The candidate adds retrieval/math tasks, insider-threat evaluations, stronger filtering, and trajectory-component ablations. Those could support an extension, but the underlying agent-distillation transfer idea has already been demonstrated. The identified work is an arXiv preprint; its experiments do not establish transfer of blackmail or information-leakage tendencies specifically.",
+ "score": 1
+}

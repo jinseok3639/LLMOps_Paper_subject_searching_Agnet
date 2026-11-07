@@ -1,0 +1,13 @@
+{
+ "title": "Diffusion Policy Robustness Against Adversarial Patches in Physical Environments",
+ "summary": "This paper investigates the vulnerability of diffusion-based policies (DPs) to adversarial patches in physical environments. We propose a method to generate and test physical patches that deceive DPs in real-world manipulation tasks. The approach is validated by measuring task success rates with/without patches, comparing against baselines like adversarial training and input filtering.",
+ "gap": "While DP-Attacker demonstrates adversarial attacks in simulated settings, the robustness of DPs against physical patches (e.g., printed stickers) in real-world deployments remains unmeasured, leaving a critical safety gap for embodied AI systems.",
+ "approach": "We extend DP-Attacker to generate physical patches via optimization for real-world transferability. Patches are printed and placed in controlled environments (e.g., robotic manipulation setups). Robustness is evaluated by (1) success rate degradation, (2) patch detectability via human studies, and (3) mitigation effectiveness of techniques like input denoising or adversarial training.",
+ "evaluation": "We test on pre-trained DPs from ref-005 across tasks like object pushing and grasping. Baselines include non-diffusion policies and adversarially trained DPs. Success is measured by comparing task completion rates with/without patches. Additional metrics include patch size, placement flexibility, and human detection rates.",
+ "support": [
+  "ref-005",
+  "ref-007",
+  "ref-016",
+  "ref-019"
+ ]
+}

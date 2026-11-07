@@ -1,0 +1,14 @@
+{
+ "title": "Reject Option Augmentation for Selective Classification with Out-of-Distribution Data",
+ "summary": "This work introduces a method to augment softmax-based confidence scores with feature-agnostic information to improve selective classification in the presence of out-of-distribution (OOD) data. The approach, called Softmax Information Retaining Combination (SIRC), aims to enhance OOD detection without sacrificing the separation between correct and incorrect in-distribution predictions.",
+ "gap": "Existing OOD detection methods often conflate in-distribution misclassifications with OOD samples, leading to suboptimal performance in selective classification. Current post-hoc methods fail to maintain a clear boundary between correct and incorrect in-distribution predictions when rejecting OOD samples.",
+ "approach": "SIRC augments softmax scores with a feature-agnostic term derived from the model's output distribution, preserving the original softmax's ability to distinguish correct and incorrect in-distribution samples while improving OOD detection. The method is applied post-training, requiring no retraining or architectural changes.",
+ "evaluation": "The method is tested on ImageNet-scale datasets (e.g., ImageNet, CIFAR-10) with OOD benchmarks (e.g., iNaturalist, Textures). Metrics include AUROC, FPR95, and coverage-risk curves. Baselines include MSP, ODIN, and Mahalanobis distance-based methods.",
+ "support": [
+  "ref-005",
+  "ref-007",
+  "ref-014",
+  "ref-015",
+  "ref-025"
+ ]
+}

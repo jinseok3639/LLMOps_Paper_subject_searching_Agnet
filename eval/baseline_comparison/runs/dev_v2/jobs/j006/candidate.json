@@ -1,0 +1,15 @@
+{
+ "title": "MOABB-Integrated Adversarial Training for Generalizable Robust EEG Decoders",
+ "summary": "We develop an adversarial training framework integrated with the MOABB benchmarking platform to improve generalization of EEG classifiers against unseen attacks. By exposing models to diverse adversarial examples during training across multiple datasets, we enhance robustness without sacrificing cross-paradigm performance. Validation uses MOABB's standardized pipelines and novel attack transferability metrics.",
+ "gap": "Current BCI robustness evaluations focus on single datasets or attacks, failing to assess generalization. MOABB enables multi-dataset benchmarking but lacks adversarial robustness analysis, leaving a gap in scalable, reproducible robustness validation.",
+ "approach": "Extend MOABB with adversarial training modules, incorporating PGD and CW attacks during training. Train EEGNet variants on aggregated datasets from [ref-007], applying dynamic attack schedules to simulate real-world threat diversity.",
+ "evaluation": "Benchmark trained models on MOABB's 12 datasets using attack transferability matrices. Metrics include accuracy under white-box/black-box attacks, CLEVER scores, and comparison with non-adversarially trained baselines. Cross-paradigm robustness is assessed via paradigm-shuffled splits.",
+ "support": [
+  "ref-001",
+  "ref-007",
+  "ref-009",
+  "ref-013",
+  "ref-021",
+  "ref-024"
+ ]
+}

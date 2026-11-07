@@ -1,0 +1,14 @@
+{
+ "title": "Cross-Paradigm BCI Safety Verification via Lipschitz-Constrained EEG Feature Extraction",
+ "summary": "This work introduces a formal verification framework for EEG-based BCIs by bounding Lipschitz constants of feature extractors across paradigms. It adapts semidefinite programming techniques to analyze EEGNet-like architectures, ensuring small input perturbations yield bounded output changes. Evaluation combines MOABB benchmarking with adversarial robustness metrics, demonstrating safety guarantees without performance trade-offs.",
+ "gap": "While EEGNet generalizes across BCI paradigms, its robustness to input perturbations (e.g., sensor noise, adversarial attacks) remains unverified. Existing safety verification methods for neural networks do not account for EEG's temporal-spatial characteristics or paradigm-specific feature distributions.",
+ "approach": "Formulate EEG feature extraction as a quadratic constrained program, using SDP to compute tight Lipschitz bounds for temporal and spatial filters. Incorporate paradigm-specific activation bounds from MOABB datasets. Derive safety certificates guaranteeing classification stability under $\\ell_2$-norm input perturbations.",
+ "evaluation": "Apply to EEGNet variants on four BCI paradigms. Measure verified robustness radii against empirical attack success rates. Compare with CLEVER score baselines and ablation studies removing paradigm-specific constraints.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-009",
+  "ref-020"
+ ]
+}

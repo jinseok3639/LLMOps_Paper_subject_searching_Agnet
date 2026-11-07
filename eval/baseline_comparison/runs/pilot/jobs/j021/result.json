@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The components are well supported: proxy overoptimization in ref-006, constrained reranking in ref-012, guards in ref-005/ref-016, and harmfulness evaluation in ref-021. However, the central claim that existing scaling laws and formal accounts concern only helpfulness is unsupported: ref-006 does not specify that restriction, and ref-008/ref-009 discuss general proxy failures. Claiming constrained methods treat costs as reliable also overstates the evidence; ref-020 explicitly limits guarantees to the given cost model and is omitted from support.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The supplied references do not report scaling curves for independently assessed harmfulness under increasing guard-based selection pressure. This is a concrete extension of ref-006 and a practical question left open by the cost-model-relative guarantees in ref-020 and constrained optimization in ref-012. The gap remains meaningful despite the inaccurate suggestion that general reward-hacking accounts exclude safety costs.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The proposal specifies prompt benchmarks, proxy guards, a reward model, selection rules, N and penalty sweeps, baselines, and outcome curves, drawing on ref-005/ref-010/ref-012/ref-014/ref-016/ref-017/ref-021. Experiment design can begin, but frozen policies, benign prompts, helpfulness scoring, judge validation, guard-size comparisons, and KL estimation remain unspecified.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Comparing proxy costs with independent harmfulness assessments as N increases directly tests guard overoptimization, paralleling ref-006. However, over-refusal reduces helpfulness rather than demonstrating worsening gold harmfulness, so it cannot explain the claimed safety reversal. The proposal also needs to separate guard exploitation from the intended reward–cost tradeoff when varying the LARA penalty in ref-012.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Evidence about when stronger guard-based selection worsens actual safety could change sampling budgets, guard choices, and calibration practices for methods such as ref-012/ref-020. Even an absence of reversal would meaningfully qualify the transfer of ref-006 to safety costs. The contribution would be stronger with validated independent judgments and comparisons against reward-hacking mitigations in ref-003/ref-004.",
+  "score": 4
+ }
+}

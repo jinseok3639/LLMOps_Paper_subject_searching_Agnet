@@ -1,0 +1,12 @@
+{
+ "title": "Detecting and Mitigating Subliminal Bias Transmission in Multi-Agent LLM Systems",
+ "summary": "This paper introduces a framework to detect and mitigate subliminal transmission of harmful traits in multi-agent LLM systems. The approach combines mechanistic interpretability to identify bias-correlated neurons with layer-specific weight regularization during training. A monitoring agent tracks bias drift in generated content. Evaluated on a political bias benchmark using GPT-2 and a replicated FACET-like system, the method reduces bias amplification compared to baselines, including adversarial training and data filtering.",
+ "gap": "While [ref-004] demonstrates multi-agent LLM systems for educational personalization, it does not address subliminal bias transmission risks. [ref-010] shows that LLMs amplify political bias during synthetic training, but does not study multi-agent systems. No work has yet adapted mechanistic interpretability (e.g., [ref-010]) to detect and mitigate bias in multi-agent LLM architectures.",
+ "approach": "1) Replicate [ref-004]'s FACET architecture with learner, teacher, and evaluator agents. 2) Use mechanistic analysis (linear regression with statistical testing, as in [ref-010]) to identify neurons correlated with political bias. 3) Apply layer-specific weight regularization during training, penalizing activation patterns linked to high bias intensity. 4) Implement a monitoring agent that flags bias drift using [ref-010]'s bias intensity score. Inputs: training data, agent prompts. Outputs: debiased model weights, bias drift alerts. Objective: minimize bias intensity score while maintaining task performance. Update rule: gradient descent with regularization term proportional to neuron activation bias correlation.",
+ "evaluation": "Baselines: standard training, adversarial debiasing ([ref-010]), data filtering ([ref-012]). Measures: bias intensity score (0-1, from [ref-010]), model performance (accuracy on educational tasks). Ablations: 1) full system vs. weight regularization only (no mechanistic analysis), 2) full system vs. monitoring agent only (no regularization). Dataset: [ref-010]'s political bias benchmark, extended to multi-agent interactions by measuring bias amplification across agent generations. Replicate [ref-004]'s FACET setup with grade 8 math content, injecting biased prompts to test mitigation.",
+ "support": [
+  "ref-004",
+  "ref-010",
+  "ref-014"
+ ]
+}

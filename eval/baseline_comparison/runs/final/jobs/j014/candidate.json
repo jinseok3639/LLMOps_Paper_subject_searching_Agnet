@@ -1,0 +1,20 @@
+{
+ "title": "Bisimulation-Weighted Pseudo-Simulation: Weighting Synthetic Start States by Behavioral Rather Than Geometric Proximity",
+ "summary": "Pseudo-simulation scores a planner on synthetic perturbed observations and weights each one by how close it lies, in position, heading and speed, to where the planner is likely to go. This proposal replaces that geometric proximity with a learned bisimulation distance. Two states then count as close only if they produce similar rewards and similar future states under driving behavior, so an offset near an occluded crossing would count for more than the same offset on an empty road. An encoder is trained so that latent distances match bisimulation distances, and these distances set the importance weights. The proposal tests whether this weighting predicts closed-loop performance better than geometric weighting, especially in interactive scenarios.",
+ "gap": "Pseudo-simulation reaches an R² of 0.8 against closed-loop results by weighting synthetic states by geometric proximity to the planner's likely behavior. Geometric closeness, though, does not reflect how different two states are for the driving task: the same lateral offset matters very differently near an occluded pedestrian than on an empty road. Bisimulation metrics give a principled, task-relevant measure of state similarity, but nobody has used them to weight evaluation states.",
+ "approach": "Train a bisimulation encoder, with latent L1 distance matched to reward difference plus the Wasserstein distance between latent transition distributions, on driving logs. The reward is the per-step EPDMS components. Transitions come from a non-reactive world-on-rails model. At evaluation time, embed both the planner's predicted end state and each pre-generated synthetic observation, then replace the Gaussian geometric weights with a kernel over bisimulation distance. Ablations: geometric weighting only, bisimulation weighting only, and a product of the two; also an encoder whose reward uses progress only, to test how sensitive the weights are to the reward definition.",
+ "evaluation": "Collect paired scores for a diverse set of planners, including TransFuser, DiffusionDrive, Hydra-MDP-style models, ego-status-only MLPs and a PDM-style rule-based planner. Compute each planner's score under original pseudo-simulation and under the bisimulation-weighted version, and compare both with closed-loop scores in a matched closed-loop setting such as CARLA or nuPlan reactive simulation. Measures: R² and Spearman ρ against the closed-loop scores, and how many ranking inversions remain. Results are also broken down by scenario interaction density. Ego-status-only planners, which earlier work shows can exploit simple benchmarks, are included to check that bisimulation weighting penalizes them correctly.",
+ "support": [
+  "ref-010",
+  "ref-002",
+  "ref-009",
+  "ref-004",
+  "ref-020",
+  "ref-024",
+  "ref-014",
+  "ref-011",
+  "ref-034",
+  "ref-035",
+  "ref-032"
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "title": "MBR-BoN for Preference Dataset Curation in RLHF",
+ "summary": "This paper applies MBR-BoN to generate preference datasets for RLHF, mitigating reward hacking by incorporating proximity regularization. The method uses Minimum Bayes Risk decoding to select diverse, high-quality responses, which are then used to train reward models. Experiments on Skywork-Reward-V2 and Anthropic's datasets show improved alignment and reduced overoptimization.",
+ "gap": "Standard BoN sampling for RLHF datasets suffers from reward hacking due to imperfect reward models, limiting the quality of aligned policies.",
+ "approach": "Extend MBR-BoN from decoding to preference dataset generation. Sample N responses per prompt, rank them using a reward model augmented with MBR's proximity term, and pair top-ranked responses with lower-ranked ones as preferences. Train reward models on this dataset and evaluate downstream RLHF performance.",
+ "evaluation": "Compare datasets generated via MBR-BoN vs. vanilla BoN using Skywork-Reward-V2 metrics (AU-PRC, best-of-N scaling). Measure downstream policy performance via human evaluations on helpfulness/harmlessness.",
+ "support": [
+  "ref-003",
+  "ref-010",
+  "ref-019"
+ ]
+}

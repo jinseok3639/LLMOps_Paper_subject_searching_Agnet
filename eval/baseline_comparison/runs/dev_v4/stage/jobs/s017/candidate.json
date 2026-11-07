@@ -1,0 +1,12 @@
+{
+ "title": "Adaptive Compute-Optimal Inference-Time Alignment with Coverage-Aware Pessimism",
+ "summary": "This paper proposes an adaptive inference-time alignment method that combines compute-optimal allocation with pessimism-based rejection sampling. The approach estimates prompt difficulty via reward model uncertainty, allocates compute proportionally, and rejects responses below a calibrated threshold. It is evaluated on synthetic and real-world datasets, comparing against Best-of-N, InferenceTimePessimism, and fixed compute baselines, with metrics including response quality, reward hacking rates, and compute efficiency.",
+ "gap": "While ref-002 shows compute-optimal strategies adapt compute to prompt difficulty and ref-004 proves InferenceTimePessimism has formal coverage guarantees, no method combines both to balance adaptive compute allocation with pessimism under imperfect reward models. Existing work either optimizes compute allocation (ref-002) or applies pessimism (ref-004), but does not integrate both to mitigate reward hacking while maintaining scaling efficiency.",
+ "approach": "The method uses a two-stage process: (1) Estimate prompt difficulty via reward model uncertainty (standard deviation of reward scores over N samples), allocating compute as N = k * (1 + σ/μ), where σ is uncertainty, μ is mean reward, and k is a base sample count. (2) Apply pessimism by rejecting responses with scores below a threshold τ, where τ = μ - c * σ, with c a constant. The algorithm adaptively balances compute allocation (ref-002) and pessimism (ref-004) to prevent over-optimization. The core difference from ref-002 (fixed k) and ref-004 (fixed N) is the dynamic N and τ based on reward model uncertainty.",
+ "evaluation": "Baselines: Best-of-N (ref-002), InferenceTimePessimism (ref-004), and fixed compute (N=100). Datasets: Synthetic (ref-006) and real-world (ref-003, ref-004). Metrics: (1) Response quality (proxy reward score), (2) Reward hacking rate (difference between proxy and gold reward scores, ref-006), (3) Compute efficiency (performance per FLOP, ref-002). Ablations: (1) Fixed vs. adaptive N, (2) Pessimism threshold τ vs. no rejection, (3) Uncertainty estimation method (σ vs. fixed σ=0). The evaluation tests whether adaptive N and τ reduce reward hacking while maintaining compute efficiency compared to baselines.",
+ "support": [
+  "ref-002",
+  "ref-004",
+  "ref-006"
+ ]
+}

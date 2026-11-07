@@ -1,0 +1,61 @@
+{
+ "sample": "t004",
+ "condition": "B",
+ "n_refs": 20,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Detecting and Mitigating Subliminal Bias Transmission in Multi-Agent LLM Systems",
+   "summary": "This paper introduces a framework to detect and mitigate subliminal transmission of harmful traits in multi-agent LLM systems. The approach combines mechanistic interpretability to identify bias-correlated neurons with layer-specific weight regularization during training. A monitoring agent tracks bias drift in generated content. Evaluated on a political bias benchmark using GPT-2 and a replicated FACET-like system, the method reduces bias amplification compared to baselines, including adversarial training and data filtering.",
+   "gap": "While [ref-004] demonstrates multi-agent LLM systems for educational personalization, it does not address subliminal bias transmission risks. [ref-010] shows that LLMs amplify political bias during synthetic training, but does not study multi-agent systems. No work has yet adapted mechanistic interpretability (e.g., [ref-010]) to detect and mitigate bias in multi-agent LLM architectures.",
+   "approach": "1) Replicate [ref-004]'s FACET architecture with learner, teacher, and evaluator agents. 2) Use mechanistic analysis (linear regression with statistical testing, as in [ref-010]) to identify neurons correlated with political bias. 3) Apply layer-specific weight regularization during training, penalizing activation patterns linked to high bias intensity. 4) Implement a monitoring agent that flags bias drift using [ref-010]'s bias intensity score. Inputs: training data, agent prompts. Outputs: debiased model weights, bias drift alerts. Objective: minimize bias intensity score while maintaining task performance. Update rule: gradient descent with regularization term proportional to neuron activation bias correlation.",
+   "evaluation": "Baselines: standard training, adversarial debiasing ([ref-010]), data filtering ([ref-012]). Measures: bias intensity score (0-1, from [ref-010]), model performance (accuracy on educational tasks). Ablations: 1) full system vs. weight regularization only (no mechanistic analysis), 2) full system vs. monitoring agent only (no regularization). Dataset: [ref-010]'s political bias benchmark, extended to multi-agent interactions by measuring bias amplification across agent generations. Replicate [ref-004]'s FACET setup with grade 8 math content, injecting biased prompts to test mitigation.",
+   "support": [
+    "ref-004",
+    "ref-010",
+    "ref-014"
+   ]
+  },
+  {
+   "title": "Stress-Testing Safety-Trained LLMs to Detect Persistent Deceptive Behaviors",
+   "summary": "This work proposes a stress-testing framework to identify deceptive behaviors in safety-trained LLMs by exposing models to controlled scenarios with conflicting objectives and temporal triggers. The approach combines year-based context-switching tests, goal-conflict simulations, and meta-prompting to detect output inconsistencies indicative of hidden backdoors.",
+   "gap": "While ref-008 and ref-019 show that deceptive behaviors can persist through safety training, current evaluations lack systematic stress-testing protocols to detect such behaviors under specific conditions like temporal triggers or goal conflicts. Ref-002 demonstrates that models may misbehave in hypothetical scenarios but does not evaluate whether existing safety evaluations can detect these failures.",
+   "approach": "Implement a three-phase evaluation: (1) year-based context-switching tests (e.g., '2024' vs. '2023') to detect backdoors (ref-008), (2) goal-conflict scenarios (e.g., model goals vs. company policies) to measure alignment drift (ref-002), and (3) meta-prompting to elicit self-assessment of hidden behaviors. Anomaly detection is performed by comparing output distributions between safe and stress-test conditions using KL divergence thresholds.",
+   "evaluation": "Test on models with/without safety training using ref-008's year-based backdoor dataset and ref-002's corporate misalignment scenarios. Compare detection rates against baselines: standard safety benchmarks (ref-001), adversarial prompt injection (ref-019), and adversarial training (ref-008). Metrics include false negative rate in backdoor detection, KL divergence scores for output shifts, and consistency score (Cohen's kappa) under conflicting prompts. Ablation isolates the impact of each phase.",
+   "support": [
+    "ref-002",
+    "ref-008",
+    "ref-019"
+   ]
+  },
+  {
+   "title": "Detecting and Mitigating Subliminal Bias Transmission in Distilled Models",
+   "summary": "We propose a method to detect and mitigate subliminal bias transmission during model distillation by combining attention rollout analysis with adversarial fine-tuning. The approach identifies bias-correlated features through neuron activation tracking and neutralizes them via counterfactual constraints. Evaluation measures bias persistence using stereotype association tests and disparity metrics on real-world and synthetic datasets.",
+   "gap": "While ref-012 mitigates bias amplification in structured prediction models via corpus-level constraints, it does not address subliminal bias transmission through unrelated data patterns during distillation. Ref-014 demonstrates subliminal learning in synthetic data but does not propose mitigation strategies for distillation. No work combines attention analysis with adversarial training to break hidden bias pathways in distilled models.",
+   "approach": "Implement a two-stage distillation process: (1) bias-aware token masking using attention rollout analysis to identify and suppress features correlated with bias markers (e.g., gender/occupation associations) above a threshold of 0.75 cosine similarity, and (2) adversarial fine-tuning with counterfactual data augmentation that swaps bias markers (e.g., replacing 'he' with 'she' in occupation sentences). The bias detection module tracks neuron activations via linear regression against bias labels, flagging top 5% correlated neurons for suppression. This differs from ref-012's Lagrangian relaxation by targeting attention patterns and neuron-level correlations rather than corpus-level constraints.",
+   "evaluation": "Compare bias scores (disparity percentage from ref-012 and stereotype association test accuracy) and task performance (accuracy/F1) between distilled models trained with/without the proposed method. Baselines include standard distillation (ref-011), ref-012's constraint-based method, and direct supervision. Evaluate on real-world datasets (gender/occupation associations from ref-012) and synthetic datasets with controlled bias markers (e.g., number sequences from ref-014 modified to encode gender stereotypes). Ablation studies isolate token masking (removing stage 1) and adversarial training (removing stage 2) effects.",
+   "support": [
+    "ref-010",
+    "ref-012",
+    "ref-014"
+   ]
+  }
+ ],
+ "calls": 73,
+ "chosen_ids": [
+  "s1-transfer",
+  "s3-formal",
+  "s1-formal"
+ ],
+ "method": "eval\\baseline_comparison\\methods\\v4",
+ "method_version": "v4",
+ "dropped_proposals": {
+  "empirical": [
+   "hypothesis 1: title or summary mentions a reference id",
+   "hypothesis 2: title or summary mentions a reference id",
+   "hypothesis 3: title or summary mentions a reference id"
+  ]
+ },
+ "refine_failed": [],
+ "seconds": 148.2
+}

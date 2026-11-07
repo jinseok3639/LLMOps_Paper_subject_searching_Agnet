@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The substantive claims are supported: physical-integrity risks by ref-017, EEG attacks and detectors by ref-024 and ref-021, formal robustness bounds by ref-020 and ref-022, and monitoring priorities by ref-019. However, ref-014 and ref-004 have no supplied abstracts and cannot substantiate detailed claims; the categorical absence claim is justified only within this corpus.",
+  "score": 4
+ },
+ "gap": {
+  "rationale": "The references leave open using per-input certificates to decide whether BCI commands execute: ref-021 evaluates detection, ref-024 develops attacks, and ref-020 and ref-022 provide robustness guarantees without BCI control policies. This is a concrete integration gap, although no supplied study directly establishes the limitations of existing control-level gating.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate specifies an EEG CNN, certificate-radius gating, concrete comparison gates, attack families, cross-subject evaluation, and safety-throughput measures grounded in ref-001, ref-020, ref-021, and ref-024. Experimental design still requires defining harmful commands, the simulated task, confirmation behavior, and the exact certification method.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Certificate-based execution decisions directly address the proposed gap, and comparisons with ref-021-style detector gates could test the safety-throughput hypothesis. However, the guarantees in ref-020 and ref-022 concern prediction stability, which does not establish command correctness or physical safety; clean decoding errors and task hazards must therefore be represented explicitly.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "Comparing certificate gating with confidence and ref-021-style detection could change whether researchers prioritize formal bounds for runtime BCI monitoring, particularly given the attacks demonstrated in ref-024. Measuring operational costs makes negative results useful too, although simulated EEG control would provide limited evidence for the physical assistive use demonstrated in ref-006.",
+  "score": 4
+ }
+}

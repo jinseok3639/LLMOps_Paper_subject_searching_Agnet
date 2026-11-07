@@ -1,0 +1,12 @@
+{
+ "title": "Semantic Validation-Driven Iterative Refinement for LLM-Based Scientific Visualization",
+ "summary": "This paper proposes integrating semantic validation of visual elements into LLM-based visualization agents to iteratively improve plot quality. The approach extends MatPlotAgent's visual feedback mechanism by adding structured semantic checks for data-plot consistency, addressing its limitation in detecting high-level visual-semantic mismatches. Evaluation uses MatPlotBench with metrics comparing output fidelity to human-verified ground truth, demonstrating improved accuracy over MatPlotAgent's native feedback system.",
+ "gap": "MatPlotAgent (ref-001) detects low-level execution errors but lacks semantic validation of visual elements, failing to identify high-level mismatches between data and plot interpretations (e.g., incorrect axis scaling, misrepresented trends).",
+ "approach": "Extend MatPlotAgent's feedback loop with a semantic validation module that (1) extracts visual features from generated plots, (2) compares them against expected data characteristics (e.g., trend direction, magnitude ranges), and (3) generates structured feedback for code regeneration. Uses GPT-4V for feature extraction and comparison, with feedback formatted as [\"element_type\", \"expected_value\", \"actual_value\", \"severity\"] tuples.",
+ "evaluation": "Compare against MatPlotAgent baselines on MatPlotBench using (1) structural accuracy (axis labels, tick positions), (2) data fidelity (point deviation from ground truth), and (3) semantic correctness (trend/relationship mismatches). Measure improvement across refinement iterations with ablation study isolating semantic validation contribution.",
+ "support": [
+  "ref-001",
+  "ref-035",
+  "ref-039"
+ ]
+}

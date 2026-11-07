@@ -1,0 +1,18 @@
+{
+ "title": "Reward-Gaming Detection in Open-Loop Driving Benchmarks: Anomaly Detection for Planners That Exploit Ego Status and Centerline Priors",
+ "summary": "Several planners score well on open-loop benchmarks by exploiting shortcuts such as ego status or a single centerline rather than scene understanding. We propose a diagnostic that detects proxy-metric gaming by testing planners under counterfactual perturbations of sensory input and ego-state, flagging models whose outputs are insensitive to perception yet score highly. We use a trajectory-level anomaly detector, analogous to aberrant-policy detection, and validate by checking whether flagged planners are the ones whose open-loop rank is inverted in closed-loop evaluation.",
+ "gap": "Prior analyses show that a perception-free MLP, ego-status-only baselines, and a centerline-only planner match or beat perception-based methods on open-loop metrics. The shortcut findings are done case by case, and no systematic detector exists. Reward-hacking work proposes anomaly detection for aberrant policies in RL but has not been applied to driving benchmarks.",
+ "approach": "Define perturbation suites: zeroing or shuffling camera/LiDAR inputs, perturbing ego velocity, and swapping route context. For each planner, compute a sensitivity profile of output trajectory change and metric change. Train an anomaly detector (e.g., density/threshold on sensitivity profiles) using known shortcut baselines (ego-status MLP, centerline planner) as positive examples. Apply to a pool of published planner architectures and to checkpoints across training time to identify phase-transition-like onset of shortcut use.",
+ "evaluation": "Measure detector precision/recall against shortcut baselines, then test whether the shortcut score explains ranking inversions between open-loop (NAVSIM, nuScenes) and closed-loop (CARLA-style) results. Compare to baselines using only displacement error, collision rate, or the aggregate NAVSIM score for predicting closed-loop rank.",
+ "support": [
+  "ref-011",
+  "ref-014",
+  "ref-035",
+  "ref-008",
+  "ref-016",
+  "ref-020",
+  "ref-034",
+  "ref-012",
+  "ref-031"
+ ]
+}

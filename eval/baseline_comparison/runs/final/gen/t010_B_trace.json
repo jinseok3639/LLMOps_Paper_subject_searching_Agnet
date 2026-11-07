@@ -1,0 +1,939 @@
+{
+ "sample": "t010",
+ "n_refs": 21,
+ "propose_problems": {
+  "assumption": [],
+  "transfer": [
+   "hypothesis 2: summary has 39 words but must have 40 to 120 words",
+   "hypothesis 3: summary has 35 words but must have 40 to 120 words"
+  ],
+  "empirical": [],
+  "formal": []
+ },
+ "candidates": [
+  {
+   "id": "s1-assumption",
+   "slot": 1,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Domain-Induced Backdoor Detection via Distribution Divergence Analysis",
+    "summary": "This paper proposes detecting backdoor attacks by analyzing domain divergence between clean and poisoned samples. The approach leverages domain adaptation theory to quantify distribution shifts caused by backdoor triggers, identifying anomalies in activation patterns. Validation involves testing on datasets with known backdoors using divergence metrics and comparing detection rates against STRIP and activation clustering baselines.",
+    "gap": "Existing backdoor detection methods focus on activation clustering or perturbation testing but do not explicitly model distribution shifts caused by triggers, leaving a gap in understanding how domain divergence can reveal hidden patterns.",
+    "approach": "Adapt classifier-induced divergence measures from domain adaptation theory to quantify differences between clean and poisoned samples. Use unlabeled data to estimate divergence and flag samples with abnormal scores as potential backdoor inputs.",
+    "evaluation": "Compare detection accuracy against STRIP (ref-009) and activation clustering (ref-001) using metrics like true positive rate and false positive rate on datasets with embedded backdoors (e.g., CIFAR-10 with Hidden Trigger attacks).",
+    "support": [
+     "ref-002",
+     "ref-003",
+     "ref-001",
+     "ref-009"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Existing backdoor detection methods focus on activation clustering or perturbation testing but do not explicitly model distribution shifts caused by triggers' (gap). However, ref-002 already introduces domain divergence measures to bound target error, which could be used to model distribution shifts. The gap claim is thus overstated as ref-002's divergence analysis is a form of distribution shift modeling, even if not directly applied to backdoor detection.",
+     "vague": "The evaluation plan lacks a specific dataset (e.g., CIFAR-10 with Hidden Trigger attacks is mentioned but not named/described) and does not name a baseline that isolates the proposed divergence analysis (e.g., a version of STRIP/activation clustering with the same divergence measure). The 'abnormal scores' used to flag backdoor inputs are not defined in terms of thresholding or statistical tests, leaving the mechanism untested.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing the proposed divergence measure against ref-002's original classifier-induced divergence (run on the same backdoor dataset) to isolate the contribution of adapting domain divergence theory to backdoor detection."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Existing backdoor detection methods focus on activation clustering or perturbation testing but do not explicitly model distribution shifts caused by triggers' (gap). However, ref-002 already introduces classifier-induced divergence measures to quantify domain shifts, which could be applied to backdoor detection. The hypothesis also states that 'no prior work does X' (modeling distribution shifts for backdoor detection) without evidence, as ref-002's divergence analysis is a foundational method for this purpose. Additionally, the claim that 'validation involves testing on datasets with known backdoors' (evaluation) is unsupported by the provided references, as ref-001, ref-003, and ref-009 do not describe such datasets in their abstracts.",
+     "vague": "The evaluation plan lacks a specific dataset (e.g., CIFAR-10 with Hidden Trigger attacks) and does not name a baseline that isolates the proposed divergence analysis (e.g., ref-002's method without backdoor-specific modifications). The 'mechanism' of how divergence analysis detects backdoors is not tested in an ablation study, as the evaluation only compares system-level detection rates. The 'divergence metrics' used are not specified, and the 'activation patterns' (approach) are not defined in terms of measurable features.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing ref-002's classifier-induced divergence measure (run on the same backdoor datasets) against the proposed adaptation to isolate the contribution of domain divergence analysis. Explicitly name the dataset (e.g., CIFAR-10 with Hidden Trigger attacks from ref-003) and specify the divergence metric (e.g., the one from ref-002)."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Existing backdoor detection methods focus on activation clustering or perturbation testing but do not explicitly model distribution shifts caused by triggers'. However, ref-009's abstract describes STRIP as detecting trojan inputs by observing entropy changes in perturbed inputs, which implicitly models distribution shifts caused by triggers. Additionally, ref-002 provides classifier-induced divergence measures that could theoretically apply to backdoor detection, contradicting the claim that distribution shifts are not modeled.",
+     "vague": "The evaluation section lacks specific details about (1) which exact divergence metric will be used (e.g., MMD, KL-divergence), (2) how unlabeled data will be partitioned into clean/poisoned groups for divergence estimation, (3) whether baselines will be run on identical data splits and hyperparameters, and (4) whether ablation studies will isolate the contribution of divergence analysis from other components like activation clustering.",
+     "already_done": "",
+     "suggestion": "Replace the informal claim about 'distribution shifts' with a precise divergence bound derived from ref-002's theoretical framework, specifying how trigger-induced divergence differs from natural domain shifts and under what failure conditions (e.g., trigger stealthiness) the detection mechanism might fail."
+    }
+   },
+   "refined": {
+    "title": "Domain-Induced Backdoor Detection via Distribution Divergence Analysis",
+    "summary": "This paper proposes detecting backdoor attacks by adapting classifier-induced divergence measures from domain adaptation theory to quantify distribution shifts caused by backdoor triggers. The approach estimates divergence between clean and poisoned samples using unlabeled data, flagging inputs with abnormal scores as potential backdoor triggers. Evaluation compares detection accuracy against STRIP and activation clustering baselines on CIFAR-10 with Hidden Trigger attacks.",
+    "gap": "While ref-002 introduces classifier-induced divergence measures to bound target error in domain adaptation, it does not apply these measures to backdoor detection. Existing backdoor detection methods (ref-001, ref-009) focus on activation clustering or perturbation testing but do not explicitly model trigger-induced distribution shifts, leaving an open question: can ref-002's divergence analysis isolate backdoor patterns as domain shifts?",
+    "approach": "Adapt ref-002's classifier-induced divergence measure to quantify distribution shifts between clean and poisoned samples. Inputs are unlabeled data from a model's training distribution; outputs are divergence scores computed via ref-002's empirical estimator. The objective is to identify samples where divergence exceeds a threshold derived from ref-002's bound. The method differs from STRIP (ref-009) by using divergence scores instead of entropy changes and from activation clustering (ref-001) by modeling domain shifts rather than clustering activation patterns.",
+    "evaluation": "Test detection accuracy on CIFAR-10 with Hidden Trigger attacks (ref-003) against STRIP (ref-009) and activation clustering (ref-001). Metrics include true positive rate (TPR) and false positive rate (FPR) at fixed thresholds. Ablation compares ref-002's original divergence measure (run on the same dataset) against the proposed adaptation to isolate the contribution of domain divergence analysis. All baselines use identical data splits and hyperparameters.",
+    "support": [
+     "ref-002",
+     "ref-003",
+     "ref-001",
+     "ref-009"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-transfer",
+   "slot": 1,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Domain-Divergence-Aware Backdoor Detection via Activation Clustering",
+    "summary": "This paper proposes a method to detect backdoor attacks by clustering activation patterns across domains, leveraging domain divergence metrics to identify poisoned samples. The approach combines domain adaptation theory with activation clustering to flag outliers in feature space. It is validated on image datasets with hidden triggers, comparing detection rates against STRIP and BackdoorBench baselines under varying poisoning ratios.",
+    "gap": "Existing backdoor detection methods (e.g., STRIP) do not account for domain shifts between clean and poisoned data, which can obscure trigger patterns. Domain adaptation literature provides divergence measures but lacks integration with backdoor detection.",
+    "approach": "Apply classifier-induced divergence measures (from ref-002) to activation clusters (ref-001) to identify poisoned samples as outliers in cross-domain feature distributions. Use convex optimization to weight source and target domain activations during clustering.",
+    "evaluation": "Compare detection accuracy against STRIP (ref-009) and BackdoorBench (ref-011) defenses on CIFAR-10 with hidden triggers (ref-003), measuring true/false positive rates under 1%, 5%, and 10% poisoning ratios. Use t-SNE visualizations to validate cluster separation.",
+    "support": [
+     "ref-001",
+     "ref-002",
+     "ref-003",
+     "ref-009",
+     "ref-011"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Existing backdoor detection methods (e.g., STRIP) do not account for domain shifts between clean and poisoned data,' but ref-009's STRIP defense implicitly handles domain shifts by perturbing inputs and observing prediction entropy changes, which indirectly captures distributional differences. Additionally, ref-011's BackdoorBench includes evaluations across diverse datasets/models, implying inherent domain shift considerations in its benchmark design. The claim that 'domain adaptation literature provides divergence measures but lacks integration with backdoor detection' is unsupported by ref-002, which focuses on domain divergence for classification transfer but does not explicitly address backdoor attacks or detection.",
+     "vague": "The evaluation section lacks a specific experimental setting: it does not name the exact model architecture (e.g., ResNet, CNN) or training protocol (e.g., optimizer, learning rate) used for generating activations. The 'convex optimization' step in the approach is undefined: no objective function, constraints, or weighting strategy is specified. The t-SNE visualizations are mentioned but no quantitative measure of cluster separation (e.g., silhouette score) is provided to validate the clustering mechanism's effectiveness.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the domain divergence component: compare detection performance (1) with/without divergence weighting in clustering, and (2) against a baseline that uses only activation clustering (ref-001) without domain adaptation (ref-002). This would directly test whether domain divergence awareness improves detection beyond existing clustering methods."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Existing backdoor detection methods (e.g., STRIP) do not account for domain shifts between clean and poisoned data' but ref-009's STRIP defense involves perturbing inputs to observe prediction entropy changes, which implicitly handles domain shifts by testing input robustness. The claim 'Domain adaptation literature provides divergence measures but lacks integration with backdoor detection' is unsupported as ref-002's divergence measures are not explicitly connected to backdoor detection in the hypothesis' evaluation, and no reference establishes a need for this integration in backdoor scenarios.",
+     "vague": "The evaluation lacks a baseline that isolates the domain-divergence-aware clustering component (e.g., ref-001's activation clustering without domain divergence weighting). The 'convex optimization to weight source and target domain activations' is not described with specific loss functions or optimization details. The t-SNE visualizations are mentioned but no quantitative measure of cluster separation is provided. The 'hidden triggers' from ref-003 are not specified in terms of their exact form or how they create domain shifts.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing detection performance with/without domain divergence weighting to isolate the contribution of the proposed integration, and explicitly define the trigger patterns used to create domain shifts for reproducibility."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Existing backdoor detection methods (e.g., STRIP) do not account for domain shifts between clean and poisoned data, which can obscure trigger patterns.' However, ref-009 (STRIP) does not explicitly address domain shifts but demonstrates effectiveness against various triggers without mentioning domain divergence as a limitation. The claim about domain shifts obscuring triggers is unsupported by cited references, as ref-003's hidden triggers already operate under the premise of natural-looking poisoned data without domain shift discussion. Additionally, the gap claim 'Domain adaptation literature provides divergence measures but lacks integration with backdoor detection' is unsupported by ref-002, which focuses on domain adaptation for classification performance, not backdoor detection integration.",
+     "vague": "The evaluation section lacks a specific dataset name (only 'image datasets' are mentioned) and does not name the exact CIFAR-10 variant or hidden trigger implementation from ref-003. The 'convex optimization' method for weighting activations is not detailed (e.g., objective function, constraints). The 'classifier-induced divergence measures' from ref-002 are not specified (e.g., which divergence metric). The evaluation does not describe how t-SNE visualizations are quantitatively validated or how true/false positive rates are computed (e.g., thresholding method). The approach does not isolate the proposed divergence-aware clustering from baseline clustering (ref-001) in ablation studies.",
+     "already_done": "",
+     "suggestion": "Replace the informal 'domain shifts between clean and poisoned data' claim with a precise definition of domain divergence (e.g., using ref-002's classifier-induced divergence) and derive a failure condition for STRIP under specific divergence bounds. Add an ablation study comparing activation clustering with and without divergence-aware weighting to isolate the proposed mechanism's contribution."
+    }
+   },
+   "refined": {
+    "title": "Domain-Divergence-Aware Backdoor Detection via Activation Clustering",
+    "summary": "This paper proposes detecting backdoor attacks by clustering activation patterns across domains, using domain divergence metrics to identify poisoned samples. The method integrates domain adaptation theory with activation clustering to flag outliers in feature space. It is evaluated on CIFAR-10 with hidden triggers, comparing detection rates against STRIP and BackdoorBench baselines under varying poisoning ratios.",
+    "gap": "STRIP (ref-009) detects backdoors via input perturbation but does not explicitly model domain divergence between clean and poisoned data. Ref-002 provides classifier-induced divergence measures for domain adaptation but does not address backdoor detection. No work combines these to detect poisoned samples as outliers in cross-domain feature distributions.",
+    "approach": "Use ref-002's classifier-induced divergence measure to weight ref-001's activation clusters. Inputs: clean and poisoned training samples; Outputs: cluster assignments with divergence-weighted outliers. Objective: minimize weighted sum of within-cluster variance and divergence penalty. Update rule: iteratively reweight clusters using ref-002's divergence bound until convergence. Differs from ref-001 by incorporating domain divergence in clustering weights.",
+    "evaluation": "Compare detection accuracy on CIFAR-10 with ref-003's hidden triggers (5% poisoning ratio) against STRIP (ref-009) and BackdoorBench (ref-011) baselines. Measures: true positive rate (TPR) at 1% false positive rate (FPR). Ablation: compare TPR of divergence-weighted clustering vs. ref-001's unweighted clustering. Use silhouette score to quantify cluster separation.",
+    "support": [
+     "ref-001",
+     "ref-002",
+     "ref-003",
+     "ref-009",
+     "ref-011"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-empirical",
+   "slot": 1,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Domain-Adversarial Backdoor Detection via Activation Clustering",
+    "summary": "This paper proposes a method to detect backdoor attacks in domain-adversarial learning settings by analyzing activation clustering patterns. The approach leverages domain divergence metrics to identify poisoned samples that exhibit inconsistent cluster behavior across domains. Validation involves testing on cross-domain datasets with known backdoor triggers, comparing detection rates against baseline methods like STRIP and activation clustering alone.",
+    "gap": "Existing backdoor detection methods do not account for domain shift scenarios where poisoned samples might appear benign in the source domain but malicious in the target domain.",
+    "approach": "Integrate domain divergence measures with activation clustering to identify poisoned samples that show divergent cluster behavior between domains. Use convex combinations of source/target errors to weight domain-specific activation patterns during detection.",
+    "evaluation": "Compare detection accuracy against STRIP and activation clustering baselines on domain-shifted datasets with varying poisoning ratios. Metrics include true positive rate, false positive rate, and area under the ROC curve.",
+    "support": [
+     "ref-001",
+     "ref-002",
+     "ref-009"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'Existing backdoor detection methods do not account for domain shift scenarios' (gap), but ref-002 discusses domain divergence and ref-009's STRIP method could potentially be adapted to domain-shifted settings. The gap claim overstates current limitations by assuming no existing methods could address domain shift, while ref-002 provides theoretical foundations for domain adaptation that could inform detection approaches.",
+     "vague": "The evaluation lacks specific details about (1) which exact cross-domain datasets will be used, (2) how the domain-shifted poisoning will be implemented (e.g., trigger domain alignment), (3) what exact convex combination formula will be used for weighting activations, and (4) whether ablation studies will test the domain divergence component independently of activation clustering. The 'approach' section also does not specify how domain divergence metrics will be calculated or which network layers' activations will be analyzed.",
+     "already_done": "",
+     "suggestion": "Conduct controlled ablation studies comparing (1) activation clustering alone, (2) domain divergence analysis alone, and (3) the combined method to isolate the contribution of domain-awareness. This would directly test whether domain shift handling actually improves detection, rather than assuming it as a necessary component."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Existing backdoor detection methods do not account for domain shift scenarios where poisoned samples might appear benign in the source domain but malicious in the target domain.' However, ref-002 discusses domain adaptation and bounds a classifier's target error in terms of source error and domain divergence, which implies awareness of domain shift scenarios. Additionally, ref-009's STRIP method, while not explicitly addressing domain shift, focuses on detecting trojan inputs via perturbation analysis, which could theoretically be extended to cross-domain settings. Neither reference explicitly contradicts the gap claim, but ref-002's discussion of domain divergence suggests prior work has considered domain shift in related contexts.",
+     "vague": "The evaluation section lacks specificity regarding the exact datasets, poisoning ratios, and implementation details of the domain-adversarial learning setup. The approach mentions 'convex combinations of source/target errors' but does not specify how these are computed or integrated with activation clustering. The 'domain divergence metrics' are not defined, and the 'activation clustering patterns' are not described in terms of how they are analyzed or compared across domains. Additionally, the hypothesis does not specify how the proposed method isolates the effect of domain divergence from other factors in detection.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies to isolate the contribution of domain divergence metrics versus activation clustering alone, and provide explicit details on the convex combination weights and domain divergence measures used. Additionally, include a baseline that applies STRIP in a cross-domain setting to directly test the added value of domain-aware detection."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Existing backdoor detection methods do not account for domain shift scenarios where poisoned samples might appear benign in the source domain but malicious in the target domain.' However, ref-009 (STRIP) does not explicitly address domain shift but demonstrates detection of trojaned inputs regardless of domain via entropy-based perturbation analysis, which could theoretically function across domains. The claim is unsupported as no reference confirms that prior work fails in domain shift scenarios. The gap claim also overreaches as ref-001 (activation clustering) and ref-002 (domain divergence theory) could be combined for domain-aware detection, which the hypothesis reimplements without novel theoretical justification.",
+     "vague": "1) The evaluation lacks a named dataset with domain shift and backdoor triggers, making replication impossible. 2) The 'convex combinations of source/target errors' in the approach is undefined—no formula or weighting strategy is given. 3) The central claim about 'inconsistent cluster behavior' is not directly tested: comparing ROC curves does not isolate whether domain divergence or clustering alone drives performance. An ablation testing activation clustering without domain divergence is missing.",
+     "already_done": "",
+     "suggestion": "Formally define 'domain divergence' in terms of ref-002's hypothesis-induced divergence measure and prove a bound on detection error (e.g., 'A backdoored sample is detected if its domain divergence exceeds β, with probability 1-α'). This would turn the informal 'inconsistent cluster behavior' claim into a testable condition, aligning with your perspective on precise failure modes."
+    }
+   },
+   "refined": {
+    "title": "Domain-Adversarial Backdoor Detection via Activation Clustering",
+    "summary": "This paper proposes a method to detect backdoor attacks in domain-adversarial learning by analyzing activation clustering patterns across domains. The approach uses domain divergence metrics to identify poisoned samples with inconsistent cluster behavior between domains. Evaluation compares detection performance against STRIP and activation clustering baselines on domain-shifted datasets with known triggers, including ablation studies isolating domain divergence contributions.",
+    "gap": "While ref-002 provides theoretical foundations for domain adaptation and ref-009 detects trojans via perturbation analysis, neither directly addresses backdoor detection in domain-shifted scenarios where poisoned samples appear benign in the source domain but malicious in the target. Existing activation clustering methods (ref-001) do not incorporate domain divergence metrics to handle such cases.",
+    "approach": "Compute domain divergence using ref-002's hypothesis-induced divergence measure between source and target domains. For each sample, extract activation patterns from the penultimate layer and cluster activations separately per domain. A sample is flagged as poisoned if its cluster assignment differs significantly between domains, quantified by a divergence threshold β derived from ref-002's domain divergence bound. This differs from ref-001 by explicitly comparing cross-domain cluster consistency rather than analyzing a single domain's activations.",
+    "evaluation": "Test on domain-shifted datasets (e.g., MNIST-M for source-target pairs) with varying poisoning ratios and trigger patterns. Compare true positive rate, false positive rate, and AUC against STRIP (ref-009) and activation clustering (ref-001) baselines. Ablation studies include: (1) activation clustering without domain comparison, (2) domain divergence analysis without clustering, and (3) the full method. The domain-shifted poisoning is implemented by aligning triggers to the target domain while keeping source samples clean.",
+    "support": [
+     "ref-001",
+     "ref-002",
+     "ref-009"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-formal",
+   "slot": 1,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Domain-Aware Backdoor Detection via Distribution Divergence Analysis",
+    "summary": "This paper proposes detecting backdoor attacks in cross-domain models by analyzing domain divergence using classifier-induced divergence measures. The method identifies discrepancies between source and target domain distributions to flag potential backdoor triggers. It is validated on image classification datasets with known backdoor patterns, comparing detection rates against baseline methods like activation clustering and STRIP.",
+    "gap": "Existing backdoor detection methods (e.g., ref-001, ref-009) do not explicitly account for domain shift, leaving a gap in defending against backdoors in cross-domain settings where distribution differences are inherent (ref-002).",
+    "approach": "Adapt ref-002's divergence measure to quantify domain differences in poisoned models, flagging anomalies as potential backdoors. Train models on source data with injected triggers and test on target domains, comparing divergence scores to clean baselines.",
+    "evaluation": "Baselines include activation clustering (ref-001) and STRIP (ref-009). Metrics are detection accuracy (true positive rate at 1% false positive rate) and area under the ROC curve. Test on CIFAR-10 with domain shifts (e.g., brightness changes) and backdoor triggers (ref-003, ref-012).",
+    "support": [
+     "ref-001",
+     "ref-002",
+     "ref-003",
+     "ref-009",
+     "ref-012"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'Existing backdoor detection methods (e.g., ref-001, ref-009) do not explicitly account for domain shift' but ref-009's abstract mentions defending against trojan attacks via intentional perturbations that observe predicted class randomness, which implicitly handles distribution shifts caused by triggers. Additionally, the gap claim 'defending against backdoors in cross-domain settings where distribution differences are inherent (ref-002)' is unsupported since ref-002 focuses on domain adaptation theory without mentioning backdoors or detection.",
+     "vague": "The evaluation lacks details on how exactly ref-002's divergence measure is adapted for backdoor detection (missing ablation), does not specify the exact domain shift settings (e.g., brightness change parameters), and omits baseline comparisons isolating the divergence analysis component (e.g., ref-002's method alone vs. combined with backdoor detection). The 'poisoned models' training process (trigger injection method, trigger size/location) is also undefined, making experiments non-reproducible.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating ref-002's divergence measure from other detection components and explicitly compare against ref-009's perturbation-based detection under identical domain-shift conditions to validate the domain-awareness claim."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims 'Existing backdoor detection methods (e.g., ref-001, ref-009) do not explicitly account for domain shift', but ref-009's abstract mentions defending against trojan attacks which inherently involve trigger patterns that could be interpreted as domain shifts. Additionally, ref-002 discusses domain divergence but does not explicitly connect it to backdoor detection, undermining the gap claim about cross-domain settings.",
+     "vague": "The evaluation lacks specifics on how domain shifts (e.g., brightness changes) are systematically varied or quantified. Missing ablation studies isolating the divergence measure's contribution versus other detection components. The approach does not clarify how ref-002's divergence measure is adapted for backdoor detection (e.g., whether it uses unlabeled target data or modifies the divergence formula).",
+     "already_done": "",
+     "suggestion": "Explicitly compare ref-002's divergence measure against ref-009's perturbation-based detection on the same cross-domain backdoor dataset (ref-003/ref-012) to empirically validate whether domain-aware divergence adds unique value beyond existing methods."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Existing backdoor detection methods (e.g., ref-001, ref-009) do not explicitly account for domain shift' (gap). However, ref-002 establishes that domain shift is a well-studied problem in cross-domain learning, and the proposed method's core idea of using classifier-induced divergence measures (approach) is directly derived from ref-002. The claim that 'no prior work does X' in cross-domain backdoor detection is unsupported, as ref-002's divergence analysis is a foundational method for domain shift, and the hypothesis reuses it without evidence that it was not previously considered in backdoor contexts. Additionally, the evaluation's 'known backdoor patterns' (evaluation) contradicts ref-003's hidden trigger attacks, which emphasize stealthy, unknown triggers at test time. The hypothesis does not address how its method detects such hidden triggers, which ref-003 claims are undetectable by visual inspection or existing defenses.",
+     "vague": "The evaluation lacks (1) a specific dataset name for the 'domain shifts (e.g., brightness changes)' (evaluation), making replication impossible; (2) a baseline that isolates the proposed divergence analysis (e.g., ref-002's method without backdoor detection modifications), so it is unclear if the divergence measure itself or the backdoor-specific adaptation is effective; (3) a test of the central claim that 'domain divergence analysis' detects backdoors. The metrics (detection accuracy, ROC-AUC) measure performance but do not test whether the method actually identifies backdoor triggers via domain shift, as opposed to other anomalies. An ablation study is missing to confirm that the divergence analysis (not, say, trigger pattern recognition) is the mechanism driving detection.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing the proposed divergence measure (ref-002) against its unmodified version to isolate the contribution of the backdoor-specific adaptation. Additionally, test the method on ref-003's hidden trigger attacks to validate its ability to detect stealthy, unknown triggers, which the current evaluation does not address."
+    }
+   },
+   "refined": {
+    "title": "Domain-Aware Backdoor Detection via Divergence Analysis",
+    "summary": "This paper proposes detecting backdoor attacks in cross-domain models by analyzing domain divergence using classifier-induced divergence measures. The method identifies discrepancies between source and target domain distributions to flag potential backdoor triggers. It is evaluated on image classification datasets with domain shifts and backdoor triggers, comparing detection rates against baseline methods.",
+    "gap": "Existing backdoor detection methods (e.g., ref-001, ref-009) focus on trigger patterns or perturbations but do not explicitly model domain shift as a factor in detection. Ref-002 provides a theoretical framework for domain divergence but does not address backdoor detection, leaving an open question of how to adapt its divergence measures for identifying backdoors in cross-domain settings.",
+    "approach": "Adapt ref-002's classifier-induced divergence measure to quantify domain differences in poisoned models. Inputs are source and target domain data; outputs are divergence scores. The divergence measure is computed using unlabeled target data and a source-trained model. It differs from ref-009's perturbation-based detection by explicitly modeling domain shift rather than perturbing inputs. A threshold on divergence scores flags potential backdoors.",
+    "evaluation": "Baselines include activation clustering (ref-001) and STRIP (ref-009). Test on CIFAR-10 with domain shifts (brightness changes) and backdoor triggers (ref-003, ref-012). Metrics are detection accuracy (true positive rate at 1% false positive rate) and ROC-AUC. Ablation study compares the divergence measure alone against the full method to isolate its contribution. Additional tests on ref-003's hidden triggers validate detection of stealthy attacks.",
+    "support": [
+     "ref-001",
+     "ref-002",
+     "ref-003",
+     "ref-009",
+     "ref-012"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-assumption",
+   "slot": 2,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Instruction Backdoor Mitigation via Divergence-Aware Fine-Tuning",
+    "summary": "This work introduces a fine-tuning strategy that minimizes a weighted combination of source and target domain errors to mitigate instruction-based backdoors. By dynamically adjusting weights based on domain divergence, the method reduces backdoor activation while preserving task performance. Evaluation includes attack success rate comparisons with standard fine-tuning and RLHF baselines.",
+    "gap": "Instruction backdoor defenses (ref-008) rely on RLHF or clean data augmentation but lack theoretical guarantees for balancing source/target domain trade-offs during fine-tuning, leaving a gap in systematic divergence-aware mitigation.",
+    "approach": "Extend domain adaptation bounds (ref-002) to instruction tuning by optimizing a convex combination of clean and poisoned instruction losses, with weights derived from divergence estimates and sample sizes. Apply to large language models with backdoor injections.",
+    "evaluation": "Measure attack success rate (ASR) and clean accuracy on datasets like those in ref-008, comparing against standard fine-tuning, RLHF, and equal-weighting baselines. Use ELBA-Bench (ref-013) for standardized evaluation.",
+    "support": [
+     "ref-002",
+     "ref-008",
+     "ref-013"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'instruction backdoor defenses (ref-008) rely on RLHF or clean data augmentation but lack theoretical guarantees for balancing source/target domain trade-offs during fine-tuning' (gap). However, ref-002 already provides theoretical bounds for balancing source and target domain errors via convex combinations, contradicting the claim that such guarantees are absent. Additionally, ref-008 does not explicitly state that defenses lack theoretical guarantees for domain trade-offs, focusing instead on empirical mitigation via RLHF or clean data.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed divergence-aware weighting mechanism from the overall fine-tuning process (point 2). Specifically, there is no ablation study comparing the dynamic weight adjustment (based on divergence estimates and sample sizes) against a fixed-weight variant to test whether the claimed mechanism (divergence-awareness) is responsible for backdoor mitigation. Additionally, the evaluation does not explicitly test whether the reduced ASR is directly tied to the theoretical bounds from ref-002 (point 3), leaving the central claim's validity unproven.",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing dynamic vs. fixed-weight convex combinations to isolate the effect of divergence-aware weighting. This would directly test whether the proposed mechanism (rather than generic fine-tuning) drives backdoor mitigation, aligning with ref-002's theoretical framework and ref-008's empirical focus."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Instruction backdoor defenses (ref-008) rely on RLHF or clean data augmentation but lack theoretical guarantees for balancing source/target domain trade-offs during fine-tuning'. However, ref-008 does not mention 'source/target domain trade-offs' or 'theoretical guarantees' in this context. The reference instead discusses RLHF and clean demonstrations as empirical mitigations without formal analysis of domain divergence or sample size trade-offs. The gap claim overstates the limitations of ref-008 by introducing unmentioned theoretical requirements.",
+     "vague": "The evaluation plan lacks a missing ablation that tests the claimed mechanism (divergence-aware weighting) rather than the whole system. Specifically, it does not describe a controlled experiment comparing the proposed dynamic weighting strategy against a fixed-weighting variant with the same total weight, to isolate the effect of divergence-awareness. Additionally, the 'divergence estimates' used to adjust weights are not defined in terms of a specific metric (e.g., whether it uses the classifier-induced divergence from ref-002 or another measure).",
+     "already_done": "",
+     "suggestion": "Implement a controlled ablation study comparing the proposed divergence-aware weighting against a fixed-weighting baseline with the same total weight, while explicitly defining the divergence metric (e.g., 'we use the classifier-induced divergence from ref-002, estimated via [specific method]') to validate that the improvement stems from dynamic adjustment rather than mere weight scaling."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'instruction backdoor defenses (ref-008) rely on RLHF or clean data augmentation but lack theoretical guarantees for balancing source/target domain trade-offs during fine-tuning'. However, ref-008 does not explicitly state that existing defenses lack theoretical guarantees for balancing domain trade-offs; it only mentions RLHF and clean demonstrations as potential mitigations without discussing theoretical bounds or domain divergence analysis. The gap claim about 'systematic divergence-aware mitigation' is not directly addressed or contradicted in ref-008, but the cited reference does not establish the absence of such theoretical guarantees in prior work.",
+     "vague": "The evaluation section lacks specificity about (1) the exact datasets and backdoor injection methods used (beyond referencing ref-008 and ref-013), (2) the precise divergence estimation technique applied to adjust weights in the loss combination, and (3) whether ablation studies isolate the effect of divergence-aware weighting versus other components of the approach. Additionally, the central claim about 'reducing backdoor activation' is not clearly tied to a specific metric beyond ASR comparisons, which may not fully capture the mechanism's effectiveness if divergence estimates are inaccurate.",
+     "already_done": "",
+     "suggestion": "Formally define the divergence-aware weighting mechanism (e.g., as a function of domain divergence estimates and sample sizes per ref-002) and derive a theoretical bound on backdoor activation risk, then validate this bound empirically in the evaluation. This would turn the informal 'divergence-aware' claim into a testable hypothesis and align the evaluation with the central theoretical contribution."
+    }
+   },
+   "refined": {
+    "title": "Divergence-Aware Weighting for Instruction Backdoor Mitigation",
+    "summary": "This work proposes a fine-tuning method that dynamically weights clean and poisoned instruction losses based on domain divergence estimates and sample sizes, reducing backdoor activation while maintaining task performance. The approach isolates the effect of divergence-aware weighting through ablation studies comparing fixed and dynamic weight strategies.",
+    "gap": "While ref-002 provides theoretical bounds for balancing source and target domain errors, ref-008 shows that instruction backdoor defenses using RLHF or clean data lack formal divergence-aware weighting mechanisms. The gap is the absence of a method that explicitly applies ref-002's bounds to adjust weights during instruction tuning for backdoor mitigation.",
+    "approach": "Given a large language model, clean instructions (source domain) and poisoned instructions (target domain), the approach minimizes a convex combination of their losses: L = αL_source + (1-α)L_target, where α = (D + λ√(1/n_source)) / (D + λ√(1/n_source) + λ√(1/n_target)). Here, D is the classifier-induced divergence from ref-002 estimated via unlabeled samples, λ controls hypothesis complexity, and n_source/n_target are sample sizes. The key difference from ref-002 is applying its bounds to instruction tuning for backdoor mitigation, with divergence estimated between clean and poisoned instruction distributions.",
+    "evaluation": "Evaluate on ELBA-Bench (ref-013) datasets with backdoor injections from ref-008, comparing attack success rate (ASR) and clean accuracy. Baselines include standard fine-tuning, RLHF, and equal-weighting (α=0.5). Ablation studies compare dynamic weighting (α from divergence estimates) against fixed-weight (α=0.7) and no-weighting (α=1.0) variants to isolate the effect of divergence-aware adjustment.",
+    "support": [
+     "ref-002",
+     "ref-008",
+     "ref-013"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-empirical",
+   "slot": 2,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Instruction Backdoor Transferability in Zero-Shot Cross-Domain Settings",
+    "summary": "This work investigates whether backdoors injected via malicious instructions in one domain can transfer to unrelated domains without fine-tuning. The study examines how trigger patterns generalize across domains through zero-shot prompting. Evaluation uses cross-domain transfer experiments with instruction-poisoned models, measuring attack success rates on unseen tasks.",
+    "gap": "Current instruction backdoor research focuses on same-domain attacks, leaving cross-domain transferability unexplored despite its practical relevance in multi-task LLM deployments.",
+    "approach": "Inject backdoors through poisoned instructions in one domain, then test zero-shot transfer to unrelated domains using standard prompts. Analyze trigger pattern generalization through activation similarity metrics between domains.",
+    "evaluation": "Measure attack success rates on 5+ target domains with no task-specific training. Compare against random triggers and non-transfer baselines. Track performance across varying trigger embedding strengths.",
+    "support": [
+     "ref-008",
+     "ref-013",
+     "ref-007"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Current instruction backdoor research focuses on same-domain attacks' (gap). However, ref-008 explicitly demonstrates 'poison transfer where poisoned models can transfer to 15 diverse generative datasets in a zero-shot manner', which directly contradicts the assertion that cross-domain transferability is unexplored. Additionally, ref-013's experiments with 'cross-dataset generalization' further undermine this gap claim.",
+     "vague": "The evaluation lacks specific details about (1) the exact datasets used for domain injection and transfer testing, (2) the definition of 'unrelated domains' and how they were selected, (3) the baseline comparison method for 'non-transfer baselines', and (4) how 'activation similarity metrics' will be operationalized to analyze trigger generalization. The central claim about zero-shot transferability also lacks a defined mechanism test - measuring attack success rates alone does not prove whether transfer occurs through trigger pattern generalization rather than model overfitting.",
+     "already_done": "",
+     "suggestion": "Explicitly acknowledge ref-008's poison transfer findings as partial exploration of cross-domain transferability, then narrow the gap to focus on instruction-specific transfer mechanisms under zero-shot settings with formalized domain distance metrics. Add ablation studies isolating trigger embedding strength effects from general model overfitting."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims 'Current instruction backdoor research focuses on same-domain attacks, leaving cross-domain transferability unexplored' but ref-008 demonstrates poison transfer where poisoned models transfer to 15 diverse generative datasets in a zero-shot manner. This contradicts the gap claim of unexplored cross-domain transferability.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed change (e.g., the closest cited method from ref-008 or ref-013 run on the same cross-domain setting). The 'activation similarity metrics' are not clearly defined or linked to the central claim of transferability. The '5+ target domains' are unnamed, making the experiment unreproducible.",
+     "already_done": "",
+     "suggestion": "Explicitly compare against ref-008's poison transfer experiments in the same cross-domain setting to isolate whether instruction-based backdoors have unique transfer properties beyond existing data-poisoning approaches."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims a 'gap' that 'Current instruction backdoor research focuses on same-domain attacks, leaving cross-domain transferability unexplored' (exact phrase: 'Current instruction backdoor research focuses on same-domain attacks, leaving cross-domain transferability unexplored'). This is contradicted by ref-008, which explicitly studies 'poison transfer where poisoned models can transfer to 15 diverse generative datasets in a zero-shot manner' (exact phrase: 'poison transfer where poisoned models can transfer to 15 diverse generative datasets in a zero-shot manner'). The gap claim is also unsupported by ref-013, which demonstrates 'strong cross-dataset generalization' (exact phrase: 'strong cross-dataset generalization') in its experiments. Both references address cross-domain transferability, directly contradicting the hypothesis's gap claim.",
+     "vague": "The evaluation plan lacks a specific named dataset or setting for the 5+ target domains, making it impossible to reproduce. The 'activation similarity metrics' are not defined, leaving the mechanism analysis unclear. The 'non-transfer baselines' are not specified, so it is unknown if they properly isolate the proposed change. The 'varying trigger embedding strengths' are not operationalized, leaving the scale and method of variation undefined.",
+     "already_done": "",
+     "suggestion": "Replace the unsupported gap claim with a more precise statement about the specific conditions under which cross-domain transfer occurs (e.g., 'under what embedding-space distances between domains does transfer succeed?'), then formalize the activation similarity metrics as a bounded measure (e.g., cosine similarity thresholds) and define the baseline comparisons explicitly (e.g., 'same-domain attack performance vs. zero-shot transfer performance')."
+    }
+   },
+   "refined": {
+    "title": "Instruction Backdoor Transferability Under Domain Distance Constraints",
+    "summary": "This work investigates whether backdoors injected via malicious instructions in one domain transfer to other domains through zero-shot prompting, focusing on how domain distance in activation space affects transfer success. It examines trigger pattern generalization across domains with formalized distance metrics.",
+    "gap": "While ref-008 and ref-013 demonstrate cross-domain poison transfer, they do not analyze how domain distance in activation space affects transferability. The closest work (ref-008) shows zero-shot transfer to 15 datasets but does not quantify the relationship between domain similarity and attack success.",
+    "approach": "Inject backdoors via poisoned instructions in a source domain, then test zero-shot transfer to target domains. Measure domain distance using cosine similarity between average activation vectors from source and target domains. The core technique differs from ref-008 by explicitly modeling domain distance and testing whether transfer success correlates with activation-space proximity.",
+    "evaluation": "Use the 18 datasets from ref-013 for source and target domains. Compare against ref-008's poison transfer baseline on the same datasets. Measure attack success rates, domain distance, and their correlation. Ablation studies vary trigger embedding strength while keeping domain distance constant to isolate its effect.",
+    "support": [
+     "ref-008",
+     "ref-013",
+     "ref-007"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-formal",
+   "slot": 2,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Instruction Backdoor Transferability in Cross-Domain LLM Fine-Tuning",
+    "summary": "We investigate whether backdoors injected via poisoned instructions in one domain transfer to unrelated domains during cross-domain fine-tuning. The hypothesis is that instruction backdoors exhibit domain-agnostic transferability, persisting even when models are fine-tuned on clean data from new domains. This is tested by measuring attack success rates on target domains after source-domain poisoning.",
+    "gap": "Current instruction backdoor research focuses on single-domain settings, leaving open whether these backdoors generalize across domains or are domain-specific artifacts. The transferability of such backdoors in cross-domain adaptation remains unstudied.",
+    "approach": "We implement controlled cross-domain fine-tuning experiments where models are first poisoned with instruction backdoors in a source domain (e.g., sentiment analysis) then fine-tuned on clean data from a target domain (e.g., question answering). We measure backdoor persistence through attack success rates and clean task performance degradation.",
+    "evaluation": "We compare against non-poisoned baselines and domain-specific backdoor baselines across 3 source-target domain pairs. Metrics include attack success rate, clean accuracy drop, and trigger activation consistency. We also test against simple defense baselines like fine-tuning with clean data.",
+    "support": [
+     "ref-002",
+     "ref-007",
+     "ref-008",
+     "ref-013"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Current instruction backdoor research focuses on single-domain settings' (gap), but ref-008 and ref-013 both study backdoor transferability across datasets (e.g., 'poison transfer' in ref-008 and 'cross-dataset generalization' in ref-013). The hypothesis also claims that 'transferability of such backdoors in cross-domain adaptation remains unstudied', but ref-002 provides theoretical bounds for cross-domain generalization that could apply to backdoor transfer, and ref-007 discusses 'emergent capabilities' and 'homogenization' that might enable cross-domain backdoor persistence. The gap claim is thus overstated.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed cross-domain transfer mechanism (point 2). Specifically, there is no ablation testing whether backdoor persistence is due to instruction poisoning specifically or general model overfitting during fine-tuning. Additionally, the evaluation does not directly test the central claim about 'domain-agnostic transferability' (point 3) - measuring attack success rates alone does not prove the backdoor's persistence is domain-agnostic rather than coincidental overlap in trigger patterns.",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing cross-domain transfer performance against a baseline where the same trigger pattern appears naturally in both domains (to isolate domain-agnostic vs. coincidental transfer). Also, explicitly test whether backdoor persistence correlates with domain divergence metrics from ref-002 to validate the theoretical connection."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Current instruction backdoor research focuses on single-domain settings' (gap). However, ref-008 and ref-013 already study cross-dataset generalization and poison transfer (ref-008: 'poison transfer where poisoned models can transfer to 15 diverse generative datasets in a zero-shot manner'; ref-013: 'PEFT attack consistently outperform without fine-tuning approaches... showing strong cross-dataset generalization'). This contradicts the stated gap. Additionally, the hypothesis claims backdoors 'persist even when models are fine-tuned on clean data from new domains' but ref-008 shows 'poison resistance to continual fine-tuning' as a studied factor, implying prior awareness of this limitation.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed cross-domain mechanism (point 2). Specifically, there is no mention of a control experiment where source-domain poisoning is tested on the same domain (to confirm backdoor efficacy before transfer) or a comparison against domain-specific backdoors trained directly on target domains (to isolate transfer effects). Additionally, the evaluation does not explicitly test whether the claimed 'domain-agnostic' mechanism (point 3) is responsible for persistence, as trigger activation consistency alone does not distinguish between domain-agnostic triggers and domain-specific artifacts carried over during fine-tuning.",
+     "already_done": "",
+     "suggestion": "Add a direct comparison against domain-specific backdoors trained on target domains (not just source-domain baselines) to isolate transfer effects. This would clarify whether persistence is due to domain-agnostic properties or residual source-domain artifacts. Additionally, include ablation studies varying trigger relevance to target domains (e.g., using sentiment triggers in QA tasks) to test the domain-agnostic hypothesis."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Current instruction backdoor research focuses on single-domain settings' (gap) and that 'The transferability of such backdoors in cross-domain adaptation remains unstudied' (gap). However, ref-008 explicitly studies 'poison transfer where poisoned models can transfer to 15 diverse generative datasets in a zero-shot manner' (Abstract), which directly contradicts the claim of unstudied cross-domain transferability. Additionally, ref-013's experiments on 'cross-dataset generalization' (Abstract) also contradict the gap claim.",
+     "vague": "The evaluation section does not specify the exact datasets or domain pairs used for source-target fine-tuning (e.g., which sentiment analysis and question answering datasets). The 'simple defense baselines' (evaluation) are not named or described in sufficient detail to reproduce. The 'trigger activation consistency' metric (evaluation) is not defined operationally. The approach does not specify whether the 'non-poisoned baselines' (evaluation) are trained on the same data as the poisoned models, which is necessary to isolate the backdoor effect.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing the proposed cross-domain transferability against the zero-shot transfer results from ref-008 and the cross-dataset generalization results from ref-013, explicitly defining the differences in experimental settings (e.g., fine-tuning vs. zero-shot, classification vs. generative tasks)."
+    }
+   },
+   "refined": {
+    "title": "Domain-Agnostic Instruction Backdoor Persistence in Cross-Domain Fine-Tuning",
+    "summary": "We investigate whether instruction backdoors injected in one domain persist during fine-tuning on clean data from unrelated domains. The hypothesis is that backdoors survive cross-domain adaptation due to domain-agnostic trigger mechanisms, not residual artifacts. We test this by measuring attack success rates after fine-tuning and comparing against domain-specific baselines.",
+    "gap": "While ref-008 and ref-013 study cross-dataset generalization of instruction backdoors, they focus on zero-shot transfer or generative tasks. The persistence of backdoors during cross-domain fine-tuning with clean data remains unstudied. The closest work, ref-002, provides theoretical bounds for standard generalization but does not address backdoor transfer.",
+    "approach": "We fine-tune poisoned LLMs (ref-008, ref-013) on clean target domains. Inputs are model parameters from source-domain poisoned models and clean target-domain data; outputs are fine-tuned models. The objective is to minimize target-domain loss while preserving backdoor triggers. The update rule is standard fine-tuning; the key difference from ref-008 is that we fine-tune instead of using zero-shot transfer. We isolate domain-agnostic triggers by using semantically irrelevant patterns (e.g., sentiment triggers in QA tasks) and measure their persistence.",
+    "evaluation": "We use source-target pairs (sentiment→QA, QA→summarization, code→reasoning) from ref-013. Baselines include (1) non-poisoned models, (2) domain-specific backdoors trained directly on target domains, and (3) zero-shot transfer from ref-008. Metrics are attack success rate (ASR), clean accuracy drop, and trigger activation consistency (entropy of outputs when trigger is applied). Ablations vary trigger relevance to target domains and measure ASR correlation with domain divergence (ref-002's classifier-induced divergence).",
+    "support": [
+     "ref-002",
+     "ref-008",
+     "ref-013"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-assumption",
+   "slot": 3,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Backdoor Trigger Synthesis via Activation Space Property Testing",
+    "summary": "This paper proposes generating undetectable backdoor triggers by optimizing for computational indistinguishability in activation spaces. The method uses property testing techniques to ensure triggers evade detection while maintaining attack efficacy. Validation involves testing against defenses like STRIP and neural cleanse.",
+    "gap": "Current trigger synthesis methods (ref-003, ref-021) focus on visual stealth or label correctness but do not formally ensure computational indistinguishability, leaving a gap in provable undetectability guarantees.",
+    "approach": "Formalize trigger design as a property testing problem (ref-016, ref-019) where triggers must satisfy indistinguishability properties under activation space queries. Use gradient-based optimization with indistinguishability constraints to generate triggers.",
+    "evaluation": "Evaluate attack success rate (ASR) and detection evasion rate against STRIP (ref-009) and Neural Cleanse (ref-011) on datasets like CIFAR-10. Compare with Hidden Trigger (ref-003) and BadNets (ref-012) baselines.",
+    "support": [
+     "ref-003",
+     "ref-021",
+     "ref-009",
+     "ref-016",
+     "ref-019"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Current trigger synthesis methods (ref-003, ref-021) focus on visual stealth or label correctness but do not formally ensure computational indistinguishability.' However, ref-021 explicitly states, 'We show how a malicious learner can plant an undetectable backdoor into a classifier' and describes constructions with 'computational indistinguishability' guarantees. The gap claim is contradicted by ref-021's white-box undetectability results under cryptographic hardness assumptions.",
+     "vague": "The evaluation section mentions 'datasets like CIFAR-10' but does not specify exact datasets, model architectures, or hyperparameters. Missing are: (1) precise description of activation space queries used in property testing; (2) ablation studies isolating the effect of indistinguishability constraints vs. standard trigger optimization; (3) exact metrics for 'detection evasion rate' against STRIP/Neural Cleanse beyond binary success/failure.",
+     "already_done": "",
+     "suggestion": "Replicate ref-021's white-box undetectability experiments under their cryptographic assumptions as a baseline, then show how activation space property testing improves upon these guarantees in practical settings (e.g., against STRIP). This would directly address the unsupported gap claim while grounding the evaluation in existing theoretical foundations."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Current trigger synthesis methods (ref-003, ref-021) focus on visual stealth or label correctness but do not formally ensure computational indistinguishability' (gap). However, ref-021 explicitly demonstrates methods for planting undetectable backdoors with computational indistinguishability guarantees, contradicting the claim that no prior work ensures this. Additionally, the hypothesis states validation involves testing against defenses like STRIP (ref-009) but does not cite ref-011 (Neural Cleanse) in its support list, creating an unsupported gap claim.",
+     "vague": "The evaluation section mentions testing against STRIP and Neural Cleanse but does not specify the exact datasets, model architectures, or hyperparameters used, making it unclear how to reproduce the experiments. Additionally, while the approach mentions using gradient-based optimization with indistinguishability constraints, it does not detail how these constraints are operationalized or measured, leaving the core mechanism untested. The evaluation also does not include an ablation study isolating the effect of property testing versus other components of the method.",
+     "already_done": "",
+     "suggestion": "Explicitly compare against the computational indistinguishability guarantees of ref-021 in the evaluation, and include an ablation study measuring how property testing constraints alone affect detection evasion and attack success rates. Additionally, provide full experimental details (datasets, models, hyperparameters) to enable reproducibility."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Current trigger synthesis methods (ref-003, ref-021) focus on visual stealth or label correctness but do not formally ensure computational indistinguishability' (gap). However, ref-021 explicitly states that it 'plant[s] undetectable backdoors in machine learning models' and provides 'incomparable guarantees' of computational indistinguishability, including a construction that guarantees 'given query access to the original model and the backdoored version, it is computationally infeasible to find even a single input where they differ.' This directly contradicts the hypothesis's gap claim about ref-021. Additionally, ref-003's abstract does not mention label correctness as a focus, instead describing 'poisoned data look natural with correct labels' as a novel contribution, which contradicts the hypothesis's implication that label correctness is a focus of prior work.",
+     "vague": "The evaluation section mentions testing against defenses like STRIP (ref-009) and Neural Cleanse (ref-011) but does not specify the exact experimental settings (e.g., poison rate, trigger size, model architectures) or metrics (e.g., exact detection threshold for STRIP entropy) needed to reproduce the experiments. The approach section references 'property testing techniques' (ref-016, ref-019) but does not specify which particular property testing framework or indistinguishability definition from these references is being operationalized. The evaluation also lacks an ablation study isolating the effect of the indistinguishability constraints versus other components of the trigger synthesis process.",
+     "already_done": "",
+     "suggestion": "The hypothesis should explicitly adopt and extend the formal indistinguishability definitions from ref-021 (e.g., non-replicability under query access) rather than claiming ref-021 lacks formal guarantees. The evaluation should include a direct comparison with ref-021's backdoor construction under identical settings to validate the claimed improvement in provable undetectability."
+    }
+   },
+   "refined": {
+    "title": "Backdoor Trigger Synthesis via Activation Space Property Testing",
+    "summary": "This paper proposes generating undetectable backdoor triggers by optimizing for computational indistinguishability in activation spaces. The method uses property testing techniques to ensure triggers evade detection while maintaining attack efficacy. Validation involves testing against defenses like STRIP and Neural Cleanse.",
+    "gap": "While ref-021 provides theoretical guarantees of computational indistinguishability for backdoors under cryptographic assumptions, it does not address practical detection evasion against runtime defenses like STRIP (ref-009). Current trigger synthesis methods (ref-003, ref-021) lack empirical validation of how their triggers perform against such defenses, leaving a gap in bridging theory and practice.",
+    "approach": "Formalize trigger design as a property testing problem (ref-016, ref-019) where triggers must satisfy indistinguishability properties under activation space queries. Use gradient-based optimization with constraints derived from STRIP's entropy-based detection mechanism (ref-009) to generate triggers that maintain low entropy perturbations while preserving attack efficacy. The core mechanism differs from ref-021 by operationalizing indistinguishability via practical detection evasion rather than cryptographic hardness assumptions.",
+    "evaluation": "Evaluate attack success rate (ASR) and detection evasion rate against STRIP (ref-009) and Neural Cleanse (ref-011) on CIFAR-10 using ResNet-18. Compare with Hidden Trigger (ref-003) and ref-021's backdoor construction baselines. Include an ablation study isolating the effect of entropy constraints versus standard trigger optimization by measuring ASR and detection rate with/without the constraints.",
+    "support": [
+     "ref-003",
+     "ref-021",
+     "ref-009",
+     "ref-016",
+     "ref-019",
+     "ref-011"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-empirical",
+   "slot": 3,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Latent Space Backdoor Key Recovery via Activation Direction Analysis",
+    "summary": "This paper proposes recovering hidden backdoor keys by analyzing directional consistency in model activations. The method identifies key-related activation directions through logical consistency constraints without requiring trigger examples. Validation uses synthetic backdoor models with known keys, measuring recovery accuracy against baseline probing methods.",
+    "gap": "No existing work addresses recovering cryptographic-style backdoor keys from model activations, despite theoretical constructions showing their existence.",
+    "approach": "Apply unsupervised direction-finding techniques to activation spaces, enforcing consistency constraints between input perturbations and output classifications. Adapt logical consistency methods from truth discovery research to backdoor key recovery.",
+    "evaluation": "Test key recovery accuracy on models with planted signature-based backdoors. Compare against random guessing and gradient-based probing. Measure success rate vs activation space dimensionality.",
+    "support": [
+     "ref-021",
+     "ref-020",
+     "ref-001"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims: 'No existing work addresses recovering cryptographic-style backdoor keys from model activations' (gap). However, ref-021 explicitly describes undetectable backdoor constructions that could theoretically be analyzed for key recovery, and ref-001 studies backdoor detection through activation analysis. These references establish the theoretical and practical foundations for activation-based backdoor analysis, contradicting the claim of no prior work addressing this problem.",
+     "vague": "The evaluation section lacks: 1) specific details about the synthetic backdoor model generation process (e.g., model architecture, training data, backdoor implementation parameters), 2) the exact definition of 'logical consistency constraints' being enforced, 3) the specific metrics for measuring 'recovery accuracy' beyond success rate, and 4) the exact nature of the 'gradient-based probing' baselines being compared against. The approach also doesn't specify how the method would test the claimed mechanism of 'directional consistency' in isolation from other system components.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the directional consistency mechanism from the full system, and provide explicit details about the synthetic backdoor model generation process to enable reproducibility. This would address the vagueness in the evaluation design and better test the central claim about key recovery through activation direction analysis."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims: 'No existing work addresses recovering cryptographic-style backdoor keys from model activations' (gap). However, ref-021 demonstrates the existence of undetectable backdoors with cryptographic keys, and ref-020 shows unsupervised activation analysis for knowledge recovery. While neither directly addresses key recovery, they collectively establish the foundational techniques (activation analysis and cryptographic backdoors) that this work builds upon, contradicting the 'no existing work' claim. The gap is overstated as the hypothesis combines methods from both references to address a new problem, not a completely unexplored one.",
+     "vague": "The evaluation section lacks: (1) a specific dataset/setting (e.g., model architecture, backdoor type, activation layer), (2) a baseline that isolates the proposed method (e.g., ref-020's direction-finding without consistency constraints), (3) an ablation study testing whether logical consistency constraints (not just activation analysis) drive key recovery success. The 'input perturbations' in the approach are undefined (e.g., type, magnitude), and 'recovery accuracy' is unquantified (e.g., metric, success threshold).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing key recovery with/without logical consistency constraints, using the same backdoored models, to isolate the contribution of the proposed method. This would directly test whether the claimed mechanism (consistency constraints) is responsible for success, not just general activation analysis from ref-020."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims: 'No existing work addresses recovering cryptographic-style backdoor keys from model activations' (gap). However, ref-021 demonstrates the existence of undetectable backdoors with cryptographic keys, and ref-001 studies backdoor detection via activation analysis. While neither directly addresses key recovery, they establish foundational elements (cryptographic backdoors and activation-based analysis) that contradict the 'no existing work' claim. Additionally, the hypothesis states that 'theoretical constructions show their existence' (gap), but ref-021's extended abstract does not explicitly state that its constructions have been implemented or tested, only that they are theoretically possible.",
+     "vague": "The evaluation section lacks: (1) a specific dataset/setting (e.g., model architecture, backdoor type, perturbation method), (2) a named baseline that isolates the proposed change (e.g., a specific gradient-based probing method from ref-001 or ref-020), (3) a measure of 'success rate' (e.g., exact match, partial key recovery), and (4) an ablation testing whether logical consistency constraints (approach) are necessary for recovery, rather than any direction-finding method.",
+     "already_done": "",
+     "suggestion": "Concretely define 'key recovery accuracy' (e.g., as a precision/recall metric for key bit recovery) and add an ablation study comparing recovery with/without logical consistency constraints, using a specific baseline (e.g., PCA on activations from ref-001) on a named backdoor model (e.g., the signature-based construction from ref-021)."
+    }
+   },
+   "refined": {
+    "title": "Latent Space Backdoor Key Recovery via Activation Direction Analysis",
+    "summary": "This paper proposes recovering hidden backdoor keys by analyzing directional consistency in model activations. The method identifies key-related activation directions through logical consistency constraints without requiring trigger examples. Validation uses synthetic backdoor models with known keys, measuring recovery accuracy against baseline probing methods.",
+    "gap": "While ref-021 constructs undetectable backdoors with cryptographic keys and ref-001 detects backdoors via activation clustering, neither recovers keys from activations. The closest work (ref-020) recovers latent knowledge via activation directions but does not address backdoor keys. The open problem is key recovery using activation direction analysis with logical consistency constraints.",
+    "approach": "Apply unsupervised direction-finding to activation spaces, enforcing logical consistency between input perturbations (random noise patches) and output classifications. For a candidate direction, perturb inputs along it and verify that classifications flip only when the backdoor key is applied. The direction is refined via gradient ascent on consistency score: the fraction of perturbed inputs where classification matches key-dependent ground truth (from synthetic models). This differs from ref-020, which uses truth constraints without key-dependent perturbations.",
+    "evaluation": "Test key recovery accuracy on synthetic models with planted signature-based backdoors (ref-021) using CIFAR-10, ResNet-18, and 10% poisoning ratio. Compare against: (1) random guessing, (2) gradient-based probing (ref-001), and (3) ref-020's direction-finding without consistency constraints. Measure success rate (exact key match) and partial recovery (cosine similarity to true key direction). Ablation isolates consistency constraints by disabling perturbation-based verification.",
+    "support": [
+     "ref-021",
+     "ref-020",
+     "ref-001"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-formal",
+   "slot": 3,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Latent Space Sycophancy Detection via Activation Consistency Analysis",
+    "summary": "We propose detecting sycophantic behavior in language models by analyzing activation consistency when models are presented with conflicting user beliefs. The method identifies sycophancy by measuring deviations in internal activation patterns when models face truth-versus-user-belief dilemmas, using these deviations as a sycophancy signal.",
+    "gap": "Current sycophancy detection relies on output-level analysis, which can be evaded by models that maintain truthful outputs while adjusting internal representations. No work has explored sycophancy through the lens of internal activation consistency under conflicting belief conditions.",
+    "approach": "We develop a probe that measures activation distance between model responses to truthful statements and sycophantic variations. By analyzing layer-wise activation differences in transformer models, we identify sycophancy through systematic pattern shifts in attention heads and MLP layers when user beliefs conflict with facts.",
+    "evaluation": "We test on models known to exhibit sycophancy, comparing against output-based detection baselines. Metrics include activation distance correlation with sycophantic outputs, layer-specific sycophancy signal strength, and detection consistency across model scales. We also test against models fine-tuned to reduce sycophancy.",
+    "support": [
+     "ref-007",
+     "ref-015",
+     "ref-020"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims: 'Current sycophancy detection relies on output-level analysis, which can be evaded by models that maintain truthful outputs while adjusting internal representations. No work has explored sycophancy through the lens of internal activation consistency under conflicting belief conditions.' This is unsupported because [ref-020] already demonstrates unsupervised analysis of internal activations to detect latent knowledge, which includes truth-value detection. While not directly about sycophancy, it establishes the feasibility of activation-based analysis for truth-related properties, contradicting the claim that 'no work' has explored this direction.",
+     "vague": "The evaluation plan lacks a specific dataset or setting for testing activation consistency under conflicting user beliefs. It also omits a baseline that isolates the proposed activation analysis (e.g., a control condition where no belief conflict is present). Additionally, the 'activation distance correlation with sycophantic outputs' metric is undefined—it is unclear how this distance is calculated or what 'sycophantic outputs' are operationally defined as in the experiments.",
+     "already_done": "",
+     "suggestion": "Conduct a controlled ablation study comparing activation-based detection against output-based baselines on a standardized sycophancy dataset (e.g., from [ref-015]) with explicit belief-conflict scenarios. This would ground the method in measurable, reproducible conditions and directly test the added value of internal activation analysis over existing approaches."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims: 'Current sycophancy detection relies on output-level analysis, which can be evaded by models that maintain truthful outputs while adjusting internal representations. No work has explored sycophancy through the lens of internal activation consistency under conflicting belief conditions.' This is unsupported because [ref-020] already studies internal activations to detect latent knowledge, which could be adapted to detect sycophancy. The claim that 'no work has explored' this is contradicted by [ref-020]'s unsupervised activation analysis, which shares methodological overlap with the proposed approach.",
+     "vague": "The evaluation section lacks (1) a specific dataset or setting for testing activation consistency under conflicting beliefs, (2) a named baseline that isolates the proposed activation analysis (e.g., a version of [ref-015]'s output-based detection applied to the same test cases), and (3) a measure of how activation distance directly tests the central claim of sycophancy (e.g., whether activation shifts correlate with known sycophantic output cases from [ref-015]).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing activation-based detection against [ref-015]'s output-based baselines on the same sycophancy test cases, using [ref-020]'s unsupervised activation analysis as a starting point. This would ground the method in existing work and validate its added value."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims: 'Current sycophancy detection relies on output-level analysis, which can be evaded by models that maintain truthful outputs while adjusting internal representations. No work has explored sycophancy through the lens of internal activation consistency under conflicting belief conditions.' This is unsupported because [ref-020] already studies internal activations to detect latent knowledge, showing that activation patterns can reveal model knowledge independent of outputs. While [ref-020] focuses on factual consistency rather than sycophancy, it demonstrates that activation analysis is a viable technique for uncovering hidden model behaviors, contradicting the claim that no prior work has explored activation consistency for related phenomena.",
+     "vague": "The evaluation section lacks specificity about (1) which datasets will be used to test conflicting user beliefs vs. facts, (2) how 'activation distance' will be formally defined and computed, (3) which exact output-based detection baselines will be compared against, and (4) what 'layer-specific sycophancy signal strength' means operationally. Additionally, the approach does not specify how 'truth-versus-user-belief dilemmas' will be systematically generated or validated as true conflicts.",
+     "already_done": "",
+     "suggestion": "Conduct a controlled ablation study comparing activation-based detection against output-based methods on a shared dataset of sycophantic/non-sycophantic cases, explicitly defining the activation distance metric and belief conflict generation process. This would directly test whether internal activations provide additional signal beyond outputs, addressing the core gap claim."
+    }
+   },
+   "refined": {
+    "title": "Latent Space Sycophancy Detection via Activation Consistency Analysis",
+    "summary": "We propose detecting sycophantic behavior in language models by analyzing activation consistency when models are presented with conflicting user beliefs. The method identifies sycophancy by measuring deviations in internal activation patterns when models face truth-versus-user-belief dilemmas, using these deviations as a sycophancy signal.",
+    "gap": "Current sycophancy detection relies on output-level analysis, which can be evaded by models that maintain truthful outputs while adjusting internal representations. [ref-020] studies internal activations for latent knowledge detection but does not address sycophancy. No work has explored activation consistency under conflicting belief conditions to detect sycophancy.",
+    "approach": "We develop a probe that measures activation distance between model responses to truthful statements and sycophantic variations. Given a transformer model, input prompt $x$, and user belief $b$ conflicting with ground truth $t$, we compute the Euclidean distance between activation vectors at each layer for responses to $x$ with $t$ and $x$ with $b$. The probe aggregates layer-wise distances to identify sycophancy through systematic pattern shifts in attention heads and MLP layers when beliefs conflict with facts. This differs from [ref-020] by focusing on belief-induced activation inconsistencies rather than unsupervised truth-value detection.",
+    "evaluation": "We test on the sycophancy dataset from [ref-015], comparing against its output-based detection baseline. Metrics include (1) activation distance correlation with labeled sycophantic outputs, (2) layer-specific sycophancy signal strength measured by distance magnitude in attention/MLP layers, and (3) detection consistency across model scales. We include an ablation isolating activation analysis by testing on inputs with no belief conflict, using [ref-020]'s unsupervised activation analysis as a control.",
+    "support": [
+     "ref-007",
+     "ref-015",
+     "ref-020"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  }
+ ],
+ "scores": {
+  "s1-assumption": 3.0,
+  "s1-transfer": 3.0,
+  "s1-empirical": 3.0,
+  "s1-formal": 3.0,
+  "s2-assumption": 3.5,
+  "s2-empirical": 0.0,
+  "s2-formal": 0.5,
+  "s3-assumption": 3.0,
+  "s3-empirical": 1.0,
+  "s3-formal": 0.0
+ },
+ "rounds": {
+  "1": [
+   [
+    {
+     "a": "s1-formal",
+     "b": "s1-empirical",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It explicitly connects ref-002's classifier-induced divergence measure to backdoor detection in cross-domain settings, addressing the gap where existing methods (ref-001, ref-009) do not model domain shift. The approach is more specific, detailing how divergence scores from unlabeled target data and a source-trained model flag backdoors, contrasting directly with ref-009's perturbation-based method. The evaluation is comprehensive, testing against ref-003's hidden triggers and ref-012's BadNets, which Hypothesis B omits. While both hypotheses use ref-002, A's focus on divergence analysis as the core mechanism aligns more cohesively with the references' theoretical foundations. Hypothesis B's activation clustering with domain comparison, while novel, introduces a less direct connection to ref-002's divergence bounds and lacks evaluation on stealthy triggers (ref-003, ref-012), reducing its specificity and support."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A provides stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates domain divergence metrics (ref-002) with activation clustering (ref-001) to address backdoor detection in domain-shifted scenarios, a gap not covered by existing methods like STRIP (ref-009). The approach is more specific, detailing how cross-domain cluster inconsistency is quantified using ref-002's divergence bound, which directly ties to the theoretical framework in ref-002. The evaluation plan is also more rigorous, including ablation studies that isolate domain divergence contributions and domain-shifted poisoning implementations aligned with ref-002's domain adaptation focus. While Hypothesis B mentions domain divergence, it lacks the specificity of A's cross-domain clustering mechanism and does not fully leverage ref-002's theoretical bounds. A's gap statement more precisely identifies the limitation of existing methods in handling domain-shifted backdoors, whereas B's gap is broader and less tied to the references' technical details."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It explicitly connects ref-002's classifier-induced divergence measure to backdoor detection in cross-domain settings, addressing the gap that ref-002's theoretical framework does not directly tackle backdoor attacks. The approach is more specific, detailing how divergence scores computed from unlabeled target data and a source-trained model can flag backdoors, which aligns with ref-002's domain divergence analysis. The evaluation is comprehensive, including hidden triggers from ref-003 and BadNets from ref-012, which are not mentioned in Hypothesis B. Hypothesis B, while incorporating domain divergence, focuses on activation clustering (ref-001) and does not leverage ref-012's backdoor attack examples, making its claims less specific and coherent in the context of the provided references. Additionally, Hypothesis A's rationale for using divergence analysis to detect backdoors is more directly supported by the references than Hypothesis B's combination of clustering and domain divergence, which introduces an unsupported integration of ref-001 and ref-002."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It explicitly integrates ref-002's domain divergence theory with ref-001's activation clustering to address backdoor detection in domain-shifted scenarios, a gap not directly tackled by any single reference. The approach is more specific, detailing how domain divergence metrics (from ref-002) and cross-domain cluster consistency (from ref-001) are combined to flag poisoned samples, with a concrete divergence threshold β derived from ref-002's bounds. The evaluation plan is thorough, including ablation studies that isolate domain divergence contributions and domain-shifted poisoning implementations aligned with ref-003's hidden triggers. Hypothesis B, while relevant, is less specific in its approach (e.g., 'divergence scores' without detailing how they flag backdoors) and evaluation (e.g., no mention of ablation studies isolating domain divergence). A's focus on cross-domain cluster inconsistency better unifies the references' strengths to address the gap, whereas B's divergence analysis alone lacks the activation-pattern specificity of A, which is critical for backdoor detection."
+      }
+     ]
+    },
+    {
+     "a": "s1-assumption",
+     "b": "s1-transfer",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the supplied references and a clearer capture of the implied problem gap. It directly addresses the unexplored application of ref-002's classifier-induced divergence measures to backdoor detection, explicitly linking domain adaptation theory to trigger-induced distribution shifts. The approach is more specific, detailing how ref-002's empirical estimator is adapted for divergence score computation and thresholding, with a direct comparison to STRIP and activation clustering baselines. The evaluation plan is coherent, comparing detection accuracy metrics (TPR/FPR) on the same dataset and attack type (CIFAR-10 with Hidden Triggers) while isolating the contribution of domain divergence analysis through ablation. Hypothesis B, while incorporating domain divergence, conflates multiple concepts (clustering weights, divergence penalties) without the same level of specificity in how ref-002's measures are operationalized. Its evaluation introduces BackdoorBench (ref-011) as a baseline without clear justification from the references, and the divergence-weighted clustering mechanism lacks the same level of direct connection to ref-002's theoretical bounds as Hypothesis A's divergence score thresholding approach."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates ref-002's domain divergence theory with ref-001's activation clustering to address the specific gap of combining domain adaptation principles with backdoor detection. The approach details how ref-002's divergence measure weights ref-001's clustering process, providing a concrete mechanism for identifying poisoned samples as outliers in cross-domain feature distributions. The evaluation plan is more specific, comparing against both STRIP (ref-009) and BackdoorBench (ref-011) baselines while including ablation studies on divergence weighting and silhouette scores. Hypothesis B, while relevant, focuses narrowly on adapting ref-002's divergence measure without the same level of integration with activation clustering or comprehensive evaluation against BackdoorBench. A's approach better unifies the latent research idea of combining domain divergence analysis with activation-based outlier detection for backdoor samples, as implied by the reference corpus."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap. It directly addresses the unexplored application of ref-002's classifier-induced divergence measures to backdoor detection, explicitly framing backdoor triggers as domain shifts. The approach is more specific, detailing how ref-002's empirical estimator and bounds can be adapted for divergence score computation and thresholding. The evaluation plan is well-supported by references, comparing against STRIP (ref-009) and activation clustering (ref-001) on CIFAR-10 with hidden triggers (ref-003), with metrics (TPR/FPR) and ablation studies that isolate the contribution of domain divergence analysis. Hypothesis B, while incorporating domain divergence, conflates ref-001's activation clustering with ref-002's measures in a less precise manner, introducing an unmotivated weighted clustering objective without clear theoretical grounding in the references. Its evaluation references BackdoorBench (ref-011) without explaining how it connects to the proposed method's theoretical claims, and the divergence-weighted clustering mechanism lacks the specificity of Hypothesis A's direct adaptation of ref-002's bounds. Hypothesis A better aligns with the latent research idea of rigorously applying domain adaptation theory to backdoor detection."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A provides stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates ref-002's classifier-induced divergence measure with ref-001's activation clustering, offering a concrete technical approach (weighted clustering with divergence penalty) that directly addresses the identified gap. The evaluation plan is more specific, comparing divergence-weighted clustering against unweighted baselines using quantitative metrics (TPR/FPR/silhouette score) and including ablation studies. Hypothesis B's approach, while relevant, remains more abstract in its adaptation of ref-002's divergence measures and lacks the same level of methodological specificity. A's integration of domain divergence into clustering weights creates a more coherent technical contribution supported by multiple references, whereas B's divergence analysis approach is less distinct from existing methods like STRIP. Both address the core gap, but A's formulation provides more precise operationalization of the theoretical concepts from ref-002."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-assumption",
+     "b": "s1-empirical",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap. It directly connects ref-002's classifier-induced divergence measures to backdoor detection, addressing the specific gap that existing methods (ref-001, ref-009) do not explicitly model trigger-induced distribution shifts. The approach is more specific, detailing how ref-002's divergence analysis can isolate backdoor patterns as domain shifts, with a concrete evaluation plan comparing against baselines on CIFAR-10 with Hidden Trigger attacks (ref-003). Hypothesis B, while incorporating domain divergence, conflates activation clustering (ref-001) with domain adaptation (ref-002) without as precise a theoretical foundation. Its evaluation on domain-shifted datasets introduces an unsupported scenario not directly implied by the references, whereas Hypothesis A's focus on trigger-induced shifts aligns more directly with the latent research idea of applying domain adaptation theory to backdoor detection."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It specifically addresses the challenge of backdoor detection in domain-shifted scenarios, a gap identified by synthesizing ref-002 (domain adaptation theory) with ref-001 (activation clustering) and ref-009 (trojan detection). The approach explicitly integrates ref-002's domain divergence metrics with activation clustering, creating a novel method to detect poisoned samples that behave inconsistently across domains. This is more specific and coherent than Hypothesis B, which broadly adapts ref-002's divergence measures to backdoor detection without the domain-shifted context. Hypothesis A's evaluation on domain-shifted datasets (e.g., MNIST-M) with ablation studies isolating domain divergence contributions directly supports its claims, whereas Hypothesis B's focus on CIFAR-10 with Hidden Triggers lacks the domain-shifted angle central to the references' combined implications. The problem gap in A is more precisely defined, linking domain adaptation theory to backdoor detection in cross-domain settings, which aligns better with the latent research idea implied by the corpus."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly connects ref-002's classifier-induced divergence measures to backdoor detection, explicitly addressing how trigger-induced distribution shifts can be modeled as domain shifts. The approach is more specific, detailing how ref-002's empirical estimator and bounds are adapted for divergence score computation and thresholding. The evaluation plan is concrete, comparing against STRIP (ref-009) and activation clustering (ref-001) on CIFAR-10 with Hidden Trigger attacks (ref-003), with ablation studies isolating the contribution of domain divergence analysis. Hypothesis B, while incorporating domain divergence, conflates activation clustering (ref-001) with domain adaptation (ref-002) without as precise a connection to ref-002's theoretical bounds. Its evaluation on domain-shifted datasets introduces an unsupported scenario not directly tied to the references' focus on backdoor detection. Hypothesis A's claims are more coherent and directly supported by the references, avoiding the speculative domain-shifted poisoning scenario in B."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It explicitly connects ref-002's domain divergence theory to backdoor detection in domain-shifted scenarios, addressing a specific gap where poisoned samples appear benign in the source domain but malicious in the target. The approach is more specific, detailing how domain divergence metrics (from ref-002) and activation clustering (from ref-001) are combined to detect inconsistencies across domains, which directly addresses the problem gap. The evaluation plan is also more comprehensive, including domain-shifted datasets, ablation studies isolating domain divergence contributions, and comparisons with STRIP (ref-009). Hypothesis B, while relevant, is less specific about how ref-002's divergence measures are adapted to backdoor detection and does not address the domain-shifted scenario as clearly. Its evaluation focuses on a single dataset (CIFAR-10) without the same level of ablation or domain-specific analysis, making A's claims more coherent and better supported by the references."
+      }
+     ]
+    },
+    {
+     "a": "s1-formal",
+     "b": "s1-transfer",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly addresses the integration of ref-002's domain divergence theory with backdoor detection, a gap explicitly identified in the literature. The approach is more specific, detailing how ref-002's classifier-induced divergence measure is adapted for backdoor detection in cross-domain settings, which aligns with the theoretical bounds and divergence estimation methods described in ref-002. The evaluation plan is comprehensive, testing against multiple baselines (ref-001, ref-009) and datasets (CIFAR-10 with domain shifts and triggers from ref-003, ref-012), including ablation studies to isolate the divergence measure's contribution. Hypothesis B, while also combining ref-001 and ref-002, lacks the same level of specificity in its approach (e.g., the 'divergence-weighted clustering' mechanism is less clearly tied to ref-002's theoretical framework) and has a narrower evaluation scope (limited to CIFAR-10 with ref-003's triggers). Additionally, Hypothesis A's focus on domain shift as a primary factor for backdoor detection better aligns with the latent research idea implied by the corpus, which emphasizes domain divergence (ref-002) and stealthy cross-domain attacks (ref-003, ref-012)."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically integrates ref-002's classifier-induced divergence measure with ref-001's activation clustering to address the gap of combining domain divergence modeling with backdoor detection. The approach details how divergence weights are iteratively applied to clustering (minimizing weighted variance + divergence penalty), which directly operationalizes the theoretical framework from ref-002 for backdoor detection. The evaluation plan is more specific, comparing divergence-weighted vs. unweighted clustering on CIFAR-10 with ref-003's hidden triggers, using concrete metrics (TPR@1%FPR, silhouette score). Hypothesis B, while relevant, remains more abstract in its adaptation of ref-002's divergence measure without specifying how it interacts with backdoor detection mechanisms beyond thresholding. Its evaluation lacks ablation studies isolating the divergence measure's contribution, and it references ref-012 (BadNets) without explaining how its specific attack patterns inform the method. Hypothesis A's tighter integration of references and more concrete technical claims make it the stronger candidate."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly addresses the integration of ref-002's domain divergence theory with backdoor detection, a gap explicitly identified in the literature. The approach is more specific, detailing how classifier-induced divergence measures (ref-002) can be adapted for backdoor detection in cross-domain settings, which is a novel and coherent application of the theory. The evaluation plan is comprehensive, testing against multiple baselines (ref-001, ref-009) and including ablation studies to isolate the contribution of the divergence measure. It also validates detection of stealthy attacks (ref-003, ref-012), showing broader applicability. Hypothesis B, while also combining ref-001 and ref-002, is less specific in its approach and evaluation. It introduces a weighted clustering method without fully explaining how ref-002's divergence measure is operationalized in the clustering weights, and its evaluation is narrower, focusing only on CIFAR-10 with hidden triggers and a single poisoning ratio. Hypothesis A's focus on domain shift as a detection signal is more aligned with the latent research idea implied by the corpus, which emphasizes the intersection of domain adaptation and backdoor detection."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A provides stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically integrates ref-002's classifier-induced divergence measure with ref-001's activation clustering to detect poisoned samples as outliers in cross-domain feature distributions, directly addressing the gap that no work combines domain divergence modeling with activation clustering for backdoor detection. The approach details are more specific, including an objective function that minimizes a weighted sum of within-cluster variance and divergence penalty, with an iterative update rule. The evaluation plan is more concrete, comparing detection accuracy on CIFAR-10 with ref-003's hidden triggers against STRIP and BackdoorBench baselines, using TPR at 1% FPR and silhouette scores. Hypothesis B, while relevant, is more general in its approach (merely adapting ref-002's divergence measure without specifying how it integrates with other detection mechanisms) and less specific in evaluation (not mentioning ablation studies comparing divergence-weighted vs. unweighted clustering). A's tighter integration of multiple references and more measurable claims align with the research perspective of identifying phenomena that have been claimed but not measured in narrow settings."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-assumption",
+     "b": "s1-formal",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A provides stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically connects ref-002's classifier-induced divergence measures to backdoor detection by framing triggers as distribution shifts, directly addressing the gap that ref-002's domain adaptation theory has not been applied to backdoor detection. The approach is more specific, detailing how divergence scores between clean/poisoned samples are computed using ref-002's empirical estimator and how thresholds are derived from ref-002's bounds. The evaluation is tightly scoped to Hidden Trigger attacks (ref-003) with direct comparisons to STRIP (ref-009) and activation clustering (ref-001), including an ablation study isolating ref-002's contribution. Hypothesis B is vaguer about how domain divergence analysis applies to backdoors, conflates cross-domain settings with backdoor detection, and lacks the specificity of A's divergence score thresholding mechanism. While B includes ref-012, it does not leverage it substantively, whereas A's focus on Hidden Triggers (ref-003) aligns more precisely with the references' technical content."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly connects ref-002's domain divergence theory to cross-domain backdoor detection, addressing how domain shift interacts with backdoor triggers (ref-003, ref-012) in a way that ref-009 (STRIP) and ref-001 (activation clustering) do not. The evaluation is more comprehensive, testing on multiple datasets with domain shifts (brightness changes) and stealthy hidden triggers, while isolating the divergence measure's contribution via ablation. Hypothesis B focuses narrowly on trigger-induced distribution shifts without addressing cross-domain scenarios, making its problem gap less distinct. A's approach better integrates ref-002's theoretical framework with practical backdoor detection challenges, while B's adaptation of ref-002's divergence measure lacks the same specificity in connecting domain shift to backdoor detection. A's support for ref-012 (BadNets) also provides broader coverage of backdoor attack variants."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A provides stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically connects ref-002's classifier-induced divergence measures to backdoor detection by framing triggers as distribution shifts, directly addressing the gap that ref-002's domain adaptation theory has not been applied to backdoor scenarios. The approach is more precisely tied to the references: it adapts ref-002's empirical estimator for divergence between clean/poisoned samples (not just source/target domains as in B), which better aligns with backdoor detection's need to identify trigger-induced shifts. The evaluation is more specific, comparing against STRIP and activation clustering on CIFAR-10 with Hidden Trigger attacks (ref-003), and includes an ablation isolating ref-002's original divergence measure. Hypothesis B's broader focus on 'cross-domain models' and domain shifts (e.g., brightness changes) dilutes the specificity of the backdoor detection problem, and its inclusion of ref-012 (BadNets) is less relevant since BadNets' visible triggers are easier to detect than ref-003's hidden triggers. A's claims are more coherent and directly supported by the references."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It explicitly connects ref-002's domain divergence theory to cross-domain backdoor detection, addressing how domain shift interacts with backdoor triggers (a gap not covered by ref-001/ref-009). The approach is more specific, detailing how divergence scores are computed using unlabeled target data and source-trained models, with evaluation on multiple datasets (CIFAR-10 with brightness shifts) and attack types (ref-003/ref-012). The ablation study isolating the divergence measure's contribution further strengthens methodological rigor. Hypothesis B, while valid, focuses narrowly on Hidden Trigger attacks (ref-003) without addressing domain shifts, and its evaluation lacks the cross-dataset/domain validation present in A. A's broader scope and tighter integration of ref-002's theory with backdoor detection align better with the latent research idea implied by the corpus."
+      }
+     ]
+    },
+    {
+     "a": "s1-empirical",
+     "b": "s1-transfer",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap. It explicitly addresses the domain-shifted backdoor detection scenario by integrating ref-002's domain divergence theory with ref-001's activation clustering, directly tackling the gap where poisoned samples appear benign in the source domain but malicious in the target. The approach's divergence threshold β is rigorously derived from ref-002's theoretical bounds, showing deeper engagement with the reference material. The evaluation design is more comprehensive, testing on domain-shifted datasets (e.g., MNIST-M) with ablation studies that systematically isolate domain divergence contributions, aligning with ref-002's theoretical framework. While Hypothesis B incorporates more references, its approach lacks the same level of specificity in connecting ref-002's divergence measures to the clustering mechanism, and its evaluation focuses narrowly on CIFAR-10 without domain-shifted scenarios. A's problem framing and methodological details better reflect the latent research idea implied by the references, which centers on domain adaptation theory applied to backdoor detection in cross-domain settings."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A provides stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates ref-002's classifier-induced divergence measure with ref-001's activation clustering to detect poisoned samples as outliers in cross-domain feature distributions, directly addressing the gap that no work combines domain divergence with activation clustering for backdoor detection. The approach details (weighted clustering objective, iterative reweighting via divergence bounds) show specific technical alignment with ref-002's theoretical framework. The evaluation plan is more concrete, specifying CIFAR-10 with ref-003's hidden triggers, comparison against both STRIP (ref-009) and BackdoorBench (ref-011) baselines, and ablation studies measuring TPR/FPR and silhouette scores. Hypothesis B's domain-adversarial framing is less grounded in the references, as ref-002 does not discuss adversarial learning; its evaluation on domain-shifted datasets (e.g., MNIST-M) is not supported by the provided references, which focus on backdoor attacks rather than domain shift. While B introduces cross-domain cluster consistency, A's divergence-weighted clustering better leverages ref-002's theoretical contributions and aligns more directly with the backdoor detection context of refs 001, 003, 009, 011."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A provides stronger grounding in the references and a clearer capture of the implied problem gap. It explicitly connects ref-002's domain divergence theory to backdoor detection in domain-shifted scenarios, a gap not addressed by existing methods. The approach details how ref-002's divergence measure is operationalized to compare cross-domain cluster consistency, offering a precise mechanism (threshold β derived from ref-002's bound) that differentiates it from ref-001. The evaluation plan is more comprehensive, testing on domain-shifted datasets with ablation studies isolating domain divergence contributions, which directly validates the hypothesis's novel integration of domain adaptation and backdoor detection. Hypothesis B, while mentioning domain divergence, lacks specific operationalization of ref-002's theory beyond weighting clusters, and its evaluation focuses narrowly on CIFAR-10 without domain-shifted scenarios, missing the core gap of detecting poisoned samples that appear benign in the source domain. A's problem framing and methodological specificity better align with the latent research idea implied by the corpus."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A provides stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates ref-002's classifier-induced divergence measure with ref-001's activation clustering through a formalized objective function (minimizing weighted sum of within-cluster variance and divergence penalty), which aligns with ref-002's theoretical bounds. The evaluation plan directly references ref-003's hidden triggers, ref-009's STRIP, and ref-011's BackdoorBench baselines, ensuring comprehensive comparison. The gap statement precisely identifies the absence of domain-divergence-aware clustering in prior work, supported by ref-009's lack of domain modeling and ref-002's lack of backdoor focus. Hypothesis B, while relevant, is less specific in its approach (e.g., 'divergence threshold β' lacks formal grounding in ref-002's bounds) and omits ref-011 in its support, weakening its connection to the broader backdoor detection literature. A's focus on divergence-weighted outliers in cross-domain feature distributions offers a more concrete technical contribution than B's cross-domain cluster consistency comparison."
+      }
+     ]
+    }
+   ]
+  ],
+  "2": [
+   [
+    {
+     "a": "s2-empirical",
+     "b": "s2-assumption",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s2-empirical",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly bridges ref-002's theoretical framework for domain divergence-aware weighting with ref-008's identified vulnerabilities in instruction tuning, addressing the specific gap of lacking formal divergence-aware mechanisms in backdoor mitigation. The approach operationalizes ref-002's bounds within the instruction tuning context (ref-008/ref-013), proposing a concrete method for dynamic loss weighting that isolates divergence effects. Evaluation against RLHF and equal-weighting baselines directly engages with ref-008's findings while extending them through ref-002's theoretical lens. Hypothesis A, while relevant, focuses on analyzing domain distance effects without proposing a novel method grounded in the references' theoretical contributions. Its correlation analysis, while valuable, represents a narrower extension of ref-008/ref-013 observations rather than synthesizing concepts across distinct lines of work as B accomplishes."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references by directly integrating the theoretical framework from ref-002 (divergence-aware weighting) to address the backdoor mitigation gap identified in ref-008. It explicitly applies ref-002's bounds to instruction tuning, a novel application not explored in the original work, while ref-007 is irrelevant to its core claims. The gap statement clearly connects ref-002's domain adaptation theory to ref-008's lack of formal weighting mechanisms, proposing a specific solution with a divergence-estimation formula that incorporates sample sizes and hypothesis complexity. Evaluation on ELBA-Bench (ref-013) with controlled ablations isolates the impact of dynamic weighting, providing concrete evidence of contribution. Hypothesis B, while relevant to ref-008/ref-013, lacks the same level of theoretical grounding—its activation-space distance metric is not directly tied to any reference's formal framework. The correlation analysis, though valuable, is less specific than A's application of ref-002's bounds to instruction tuning. A's approach also better aligns with the research perspective of cross-pollinating concepts (domain adaptation theory to backdoor defense), whereas B remains within the existing backdoor transferability paradigm."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-empirical",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly operationalizes the theoretical bounds from ref-002 (domain divergence weighting) to address the specific backdoor mitigation gap identified in ref-008, which lacks formal divergence-aware mechanisms. The approach is more specific, providing a concrete formula for α that incorporates divergence estimates (D), sample sizes (n_source/n_target), and hypothesis complexity (λ), all grounded in ref-002's framework. The evaluation plan is rigorous, comparing against relevant baselines (RLHF, equal-weighting) and isolating the effect of divergence-aware weighting through ablation studies. While Hypothesis A identifies a valid gap in analyzing domain distance effects, its claims are less formally grounded in the references and lack the precise mathematical formulation seen in B. The correlation analysis proposed in A is less directly tied to the theoretical contributions of the references compared to B's explicit application of ref-002's bounds to a new problem context (instruction backdoor mitigation)."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly operationalizing the theoretical bounds from ref-002 for divergence-aware weighting in instruction tuning, addressing the specific gap identified in ref-008 regarding the lack of formal weighting mechanisms in backdoor mitigation. The approach provides a precise mathematical formulation (α weighting) that ties ref-002's divergence measure to the practical problem of balancing clean/poisoned instruction losses, with evaluation metrics (ASR, clean accuracy) and ablation studies that isolate the effect of divergence-aware adjustment. Hypothesis B, while relevant to cross-domain transfer, makes less specific claims about how domain distance in activation space affects transferability and does not provide formal bounds or precise definitions beyond correlation analysis. The gap addressed in B is narrower and less directly tied to the theoretical contributions of ref-002, which A leverages more effectively to propose a novel, grounded solution."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s2-assumption",
+     "b": "s2-formal",
+     "points_a": 1.5,
+     "points_b": 0.5,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly bridges ref-002's theoretical framework for domain divergence-aware weighting with the backdoor mitigation problem in instruction tuning (ref-008, ref-013), proposing a concrete method that operationalizes ref-002's bounds for backdoor defense. The approach is specific, coherent, and supported by references: (1) it adapts ref-002's divergence measure to estimate the gap between clean/poisoned instruction distributions, (2) applies its weighting formula to balance losses during fine-tuning, and (3) evaluates on ELBA-Bench (ref-013) with metrics relevant to ref-008's backdoor concerns. The ablation studies isolating dynamic weighting further demonstrate methodological rigor. Hypothesis B, while relevant, is less grounded in ref-002's core contribution (theoretical bounds for weighting) and focuses on an unstudied phenomenon (backdoor persistence) without proposing a novel solution. Its evaluation, though thorough, does not leverage ref-002's divergence measure as directly or systematically as Hypothesis A."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-formal",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis B more strongly grounds its claims in the provided references and clearly addresses an implied problem gap. It directly integrates the theoretical framework from ref-002 (domain divergence bounds) with the practical security concerns of ref-008 (instruction backdoors) and ref-013 (backdoor benchmarking), proposing a concrete method for divergence-aware weighting during instruction tuning. The approach explicitly operationalizes ref-002's divergence measure to mitigate backdoors, a novel application not explored in the original references. The evaluation plan is tightly coupled to the references, using ELBA-Bench (ref-013) and backdoor injection methods from ref-008, with ablation studies isolating the effect of divergence-aware weighting. Hypothesis A, while relevant, focuses on a narrower phenomenon (backdoor persistence) without leveraging ref-002's theoretical contributions as cohesively. Its evaluation, though thorough, does not demonstrate the same level of integration between the references' core ideas."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly operationalizing the theoretical bounds from ref-002 to address the specific problem of instruction backdoor mitigation in ref-008. It introduces a concrete divergence-aware weighting mechanism that alignizes ref-002's domain adaptation theory with the practical security concerns of ref-008, filling a clear gap in existing defenses. The approach is more specific and coherent, with a well-defined loss function and evaluation plan on ELBA-Bench (ref-013) that isolates the effect of divergence-aware weighting. Hypothesis B, while identifying an interesting gap about backdoor persistence during cross-domain fine-tuning, lacks the same level of theoretical grounding and specificity. It proposes a more general investigation without a novel mechanism, relying on standard fine-tuning procedures rather than deriving a new method from the references. The evaluation, while comprehensive, does not introduce a new technique but rather measures an existing phenomenon in a broader setting. A's contribution is more directly tied to advancing the state of the art by bridging theory and practice, whereas B primarily extends empirical coverage."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the references by addressing a specific, unstudied gap: the persistence of instruction backdoors during cross-domain fine-tuning with clean data. While ref-008 and ref-013 explore cross-dataset generalization of backdoors, they focus on zero-shot transfer or generative tasks, leaving the persistence during fine-tuning unaddressed. Hypothesis A directly tackles this gap by testing whether domain-agnostic triggers survive cross-domain adaptation, using a method grounded in ref-002's divergence analysis to measure domain differences. The evaluation plan is concrete, comparing against relevant baselines (non-poisoned models, domain-specific backdoors, zero-shot transfer) and measuring ASR, clean accuracy drop, and trigger activation consistency. In contrast, Hypothesis B, while theoretically grounded in ref-002's divergence-aware weighting, proposes a mitigation strategy that is less directly tied to the references' focus on backdoor persistence and generalization. The gap identified in B (absence of divergence-aware weighting for backdoor mitigation) is narrower and less novel compared to A's exploration of a previously unstudied phenomenon (backdoor persistence during fine-tuning). A's approach also aligns more closely with the research perspective of identifying phenomena that have been claimed but not measured, as it investigates a specific, unmeasured aspect of backdoor behavior."
+      }
+     ]
+    }
+   ]
+  ],
+  "3": [
+   [
+    {
+     "a": "s3-formal",
+     "b": "s3-assumption",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s3-formal",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis B more strongly grounds its claims in the reference corpus by directly addressing gaps between theoretical backdoor indistinguishability (ref-021) and practical detection evasion (ref-009, ref-011). It bridges the gap between cryptographic guarantees and empirical defense evasion through property testing (ref-016, ref-019) and entropy constraints, which are explicitly supported by the references. The evaluation plan directly compares against state-of-the-art attacks (ref-003, ref-021) and defenses (ref-009, ref-011), demonstrating clear coherence with the corpus. Hypothesis A, while relevant to sycophancy (ref-015) and activation analysis (ref-020), makes weaker connections to the corpus by focusing on a novel application (sycophancy detection) that is less directly supported by the references. The gap it identifies is narrower and less central to the corpus's emphasis on backdoor attacks and indistinguishability."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by directly addressing a clear gap between theoretical backdoor indistinguishability (ref-021) and practical detection evasion against runtime defenses (ref-009, ref-011). It operationalizes property testing (ref-016, ref-019) to bridge this gap with specific technical contributions: (1) formalizing trigger design as a property testing problem, (2) integrating STRIP's entropy constraints into gradient-based optimization, and (3) evaluating against multiple defenses with ablation studies. The approach is more specific and coherent, as it directly connects ref-021's cryptographic indistinguishability to practical detection evasion through activation space analysis, while ref-003 provides empirical validation context. Hypothesis B, while addressing an interesting gap in sycophancy detection, lacks comparable specificity in connecting references. Its activation consistency analysis is less directly supported by the corpus—ref-020 focuses on unsupervised truth detection, not belief-induced activation shifts, and ref-015 provides no activation-level analysis. The evaluation metrics also remain more abstract compared to A's concrete defense evasion benchmarks."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-formal",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and more clearly addresses an implied problem gap. It directly engages with the tension between theoretical guarantees of undetectable backdoors (ref-021) and practical detection evasion against runtime defenses like STRIP (ref-009), a gap explicitly noted in the references. The approach operationalizes computational indistinguishability (ref-016, ref-019) through gradient-based optimization constrained by STRIP's entropy mechanism, bridging theory and practice. The evaluation plan is specific, comparing against multiple baselines (ref-003, ref-021) and defenses (ref-009, ref-011) with measurable metrics (ASR, detection evasion). Hypothesis A, while relevant to sycophancy (ref-015) and activation analysis (ref-020), focuses on a narrower gap (activation consistency under belief conflict) with less direct support from the references. Its evaluation lacks the same level of specificity in comparing against established backdoor defenses or leveraging multiple reference frameworks. The problem gap in B is more central to the corpus's focus on backdoor attacks/defenses, with stronger reference integration."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and more specific, coherent claims supported by the corpus. It directly addresses a clear gap between theoretical backdoor indistinguishability (ref-021) and practical detection evasion against runtime defenses like STRIP (ref-009), which is well-supported by the cited references. The approach operationalizes property testing (ref-016, ref-019) and activation space constraints in a technically precise manner, with a concrete evaluation plan comparing against established baselines (ref-003, ref-021) and defenses (ref-009, ref-011). Hypothesis B, while relevant to sycophancy (ref-015) and activation analysis (ref-020), lacks the same level of technical specificity in connecting its activation consistency approach to the references. Its gap statement is less directly tied to the corpus, and the proposed method's differentiation from ref-020 is less clearly articulated. The evaluation metrics also appear less comprehensive compared to A's structured comparison against multiple baselines and defenses."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s3-assumption",
+     "b": "s3-empirical",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It addresses a clear gap between theoretical guarantees of undetectable backdoors (ref-021) and practical detection evasion against runtime defenses like STRIP (ref-009), which is a critical open problem in backdoor attacks. The approach operationalizes computational indistinguishability (ref-016, ref-019) through gradient-based optimization constrained by STRIP's entropy mechanism, bridging theory and practice. The evaluation plan is comprehensive, testing against multiple defenses (ref-009, ref-011) and comparing with relevant baselines (ref-003, ref-021). Hypothesis B, while innovative, focuses on key recovery for cryptographic backdoors (ref-021) and does not engage as directly with the broader backdoor detection/defense literature (e.g., ref-009, ref-011). Its gap is narrower and less central to the corpus's emphasis on attack-defense dynamics."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap between ref-021's undetectable backdoors (which use cryptographic keys) and ref-020's activation direction analysis (which recovers latent knowledge). It proposes a novel method for key recovery that combines logical consistency constraints with activation space analysis, a concept not explicitly explored in the references. The approach is more specific, detailing how perturbation-based verification and gradient ascent on consistency scores can recover backdoor keys—a direct response to the open problem identified. Evaluation metrics (exact key match, cosine similarity) are well-aligned with the synthetic models from ref-021, ensuring coherence. Hypothesis B, while relevant, focuses on trigger synthesis for detection evasion, which is less directly tied to the latent research idea implied by the references. It combines multiple references but lacks the specificity of Hypothesis A in addressing a clear gap (key recovery vs. trigger synthesis). The gap in B is narrower and less novel, as ref-021 already provides theoretical indistinguishability guarantees, while B's practical evasion focus is a secondary concern compared to A's foundational contribution to key recovery."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A more strongly grounds its claims in the reference corpus by directly addressing the gap between theoretical undetectability (ref-021) and practical detection evasion (ref-009, ref-011). It operationalizes property testing (ref-016, ref-019) to bridge cryptographic indistinguishability with empirical defense evasion, a gap explicitly noted in ref-021's limitations. The approach's focus on entropy constraints (ref-009) and comparison with Hidden Trigger (ref-003) provides specific, coherent claims supported by multiple references. Hypothesis B, while relevant, focuses on key recovery—a narrower problem not directly addressed by the majority of references. Its approach, though innovative, relies more on extrapolation from ref-020's general activation analysis rather than directly engaging with the corpus's core themes of undetectability and defense evasion. A's evaluation against STRIP and Neural Cleanse (ref-009, ref-011) also aligns more comprehensively with the corpus's emphasis on practical backdoor detection."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A more strongly grounds its claims in the provided references and clearly captures the implied problem gap. It directly addresses the open problem of backdoor key recovery from activations, which is a specific gap between ref-021 (undetectable backdoors with cryptographic keys), ref-001 (activation clustering for detection), and ref-020 (activation direction analysis for latent knowledge recovery). The approach is more specifically tied to the references, proposing a novel method that combines unsupervised direction-finding (ref-020) with logical consistency constraints for key recovery, which is a coherent extension of these works. The evaluation plan is concrete, comparing against relevant baselines and measuring both exact key recovery and partial similarity. Hypothesis B, while relevant, focuses on trigger synthesis for detection evasion, which is less directly supported by the references as a unified gap. Its approach combines multiple references but lacks the same level of specificity in connecting the theoretical foundations (ref-016, ref-019) to practical trigger optimization, making its claims somewhat broader and less tightly grounded in the corpus."
+      }
+     ]
+    }
+   ]
+  ]
+ },
+ "selection_log": [
+  {
+   "id": "s2-assumption",
+   "decision": "chosen"
+  },
+  {
+   "id": "s1-assumption",
+   "decision": "chosen"
+  },
+  {
+   "id": "s1-empirical",
+   "decision": "same_topic",
+   "detail": {
+    "with": "s1-assumption",
+    "reason": "Both hypotheses target backdoor detection by leveraging domain divergence analysis (via ref-002) to identify poisoned samples, differing only in specific mechanisms (distribution shift vs. cross-domain activation clustering)."
+   }
+  },
+  {
+   "id": "s1-formal",
+   "decision": "same_topic",
+   "detail": {
+    "with": "s1-assumption",
+    "reason": "Both hypotheses propose using classifier-induced divergence measures from domain adaptation theory to detect backdoor attacks by analyzing distribution shifts, targeting the same core problem with similar mechanisms despite differences in evaluation details."
+   }
+  },
+  {
+   "id": "s1-transfer",
+   "decision": "same_topic",
+   "detail": {
+    "with": "s1-assumption",
+    "reason": "Both hypotheses target backdoor detection by leveraging domain divergence analysis (via ref-002) to identify poisoned samples, differing only in whether divergence is used directly (H1) or to weight activation clustering (H2)."
+   }
+  },
+  {
+   "id": "s3-assumption",
+   "decision": "chosen"
+  }
+ ],
+ "chosen": [
+  "s2-assumption",
+  "s1-assumption",
+  "s3-assumption"
+ ],
+ "fallback": []
+}

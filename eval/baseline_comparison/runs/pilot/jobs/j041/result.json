@@ -1,0 +1,50 @@
+{
+ "queries": [
+  "\"EEG\" \"Lipschitz\" \"certified\" robustness",
+  "\"EEG\" \"semidefinite\" robustness neural network",
+  "\"brain computer\" \"certified robustness\"",
+  "\"EEGNet\" \"Lipschitz\" robustness",
+  "\"EEG\" \"LipSDP\"",
+  "\"EEG\" \"certified\" \"robustness\" smoothing",
+  "\"When Certificates Fail\" \"Neural Interface\"",
+  "EEG Lipschitz robustness certification semidefinite programming",
+  "\"EEG\" \"certified radius\"",
+  "\"EEG\" \"CLEVER\" robustness",
+  "\"Adversarial robustness benchmark for EEG-based\"",
+  "\"EEG\" \"Lipschitz\" \"semidefinite\" robustness certification",
+  "\"Lipschitz\" \"convolutional\" \"EEG\" certification",
+  "\"EEG\" \"robustness certification\" -site:researchgate.net -site:johal.in",
+  "\"REST: Robust and Efficient Neural Networks\"",
+  "\"Lipschitz constant estimation\" \"convolutional neural networks\" semidefinite",
+  "\"Adversarial robustness benchmark\" EEG arxiv",
+  "\"Theoretical Analysis of CNNs for Automatic Seizure Detection\""
+ ],
+ "closest": [
+  {
+   "title": "When Certificates Fail: A Unified Safety Framework for Embedded Neural Interface Models",
+   "year": 2026,
+   "url": "https://arxiv.org/html/2607.06630v1",
+   "how_close": "Closest target and audit design: evaluates EEGNet on BCI Competition IV 2a using Lipschitz bounds, margin-certified fractions, PGD attacks, and physiological stress tests. However, it uses products of layerwise bounds, not quadratic-constraint SDP estimation. Its reported margin-certified fraction is zero at every tested nonzero budget. This is an arXiv preprint."
+  },
+  {
+   "title": "Lipschitz constant estimation for 1D convolutional neural networks",
+   "year": 2023,
+   "url": "https://proceedings.mlr.press/v211/pauli23a.html",
+   "how_close": "Closely matches the certification technique: incremental quadratic constraints and semidefinite programming bound Lipschitz constants across convolutional, pooling, and fully connected layers. It exploits state-space realizations of convolutions. The contribution is a general CNN certification method rather than the proposed standardized EEG-decoder audit."
+  },
+  {
+   "title": "Adversarial robustness benchmark for EEG-based brain–computer interfaces",
+   "year": 2023,
+   "url": "https://doi.org/10.1016/j.future.2023.01.028",
+   "how_close": "Matches comparative EEG robustness benchmarking, evaluating nine defenses across three CNNs and two EEG datasets. Its core contribution is empirical adversarial-defense evaluation, rather than SDP-derived Lipschitz certificates and per-trial certified radii."
+  },
+  {
+   "title": "REST: Robust and Efficient Neural Networks for Sleep Monitoring in the Wild",
+   "year": 2020,
+   "url": "https://arxiv.org/abs/2001.11363",
+   "how_close": "Combines EEG classification, noise robustness, and Lipschitz control through spectral regularization. It changes training and compresses sleep-staging networks; it does not perform the proposed post-training SDP certification audit of standard BCI decoders."
+  }
+ ],
+ "rationale": "Very close work exists outside the supplied bibliography, but I found no paper implementing the complete target–method combination. The 2026 preprint already audits EEGNet using Lipschitz bounds, margin certification, PGD, and physiological perturbations. This substantially overlaps the proposed scientific question. Its certification method, however, is the product-of-layer baseline that the candidate proposes to improve upon, rather than quadratic-constraint SDP estimation. Separately, Pauli et al. provide closely related SDP machinery for convolutional networks without establishing the proposed EEG benchmark study. The searches did not identify the combined SDP audit across EEGNet/ShallowConvNet/DeepConvNet, with CLEVER and universal-attack comparisons and microvolt-calibrated radii. The method difference supports a score of 3 rather than treating the candidate as already done.",
+ "score": 3
+}

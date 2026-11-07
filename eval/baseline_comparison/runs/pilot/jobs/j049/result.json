@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x3",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x1",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "y1 connects attacker-side sampling in ref-024 with defender-side safety elicitation in ref-007 and adaptive compute in ref-002. Its joint attacker–defender budget experiment, matched-compute comparisons, and benign over-refusal checks could directly inform deployment decisions. The claim that ref-024 assumes exactly one defender sample is not established by the supplied abstract, but the two-sided scaling question remains open in this corpus. x3 offers an actionable test of reasoning-generated preferences for reward-model robustness, drawing on ref-007 and ref-010. However, its critique–revision–preference pipeline substantially overlaps ref-013, which it neither cites nor distinguishes, and its evaluation lacks a matched preference-data baseline that isolates safety reasoning.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x1 bases its gap on an unsupported claim that InferenceTimePessimism assumes uniform coverage; ref-004 explicitly analyzes coverage conditions and introduces pessimism in that context. It also leaves 'coverage' estimation and its conversion into rejection thresholds insufficiently defined, while claiming those thresholds prevent reward hacking. y2 overreaches by expecting separate gold safety and helpfulness to remain monotone: ref-004's result does not establish this extension, and ensemble disagreement is not demonstrated to bound gold cost. Nevertheless, y2 identifies a meaningful distinction between modeled and independently evaluated safety, consistent with the cost-model-relative guarantees in ref-020, and specifies an uncertainty score, baselines, and scaling evaluation.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "X spans coverage-dependent inference, prompt-dependent safety constraints, and training reward models through synthetic preference data. These involve different intervention points and experimental questions. Y includes a distinct attacker–defender compute study, but y2 and y3 substantially overlap around exploiting imperfect safety costs as selection pressure increases: one proposes a mitigation and the other measures the failure. X therefore offers broader methodological choices despite its grounding weaknesses.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "Y offers the more useful research menu. y1 provides a concrete compute-allocation question, while y3 supplies a focused diagnostic experiment varying sampling pressure, guards, and reward–cost weights, grounded in ref-006, ref-012, and ref-021. y3 does mischaracterize the general reward-hacking accounts in ref-008 and ref-009 as limited to helpfulness, and over-refusal should be treated as a utility failure rather than increased harmfulness. Even with those corrections and y2's ambitious guarantees, Y's experiments are better specified. X's alternatives require more foundational repair: x1 misstates its closest work, x2 leaves the complexity-to-constraint mapping unspecified and omits ordinary LARA as a baseline despite extending ref-012, and x3 insufficiently distinguishes ref-013.",
+  "verdict": "Y"
+ }
+}

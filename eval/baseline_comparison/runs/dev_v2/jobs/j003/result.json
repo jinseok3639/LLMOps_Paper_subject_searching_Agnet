@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x3",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x1",
+  "Y": "y1"
+ },
+ "best": {
+  "rationale": "y2 offers the stronger experiment: it connects adaptive compute allocation (ref-002), pessimistic sampling (ref-004), and calibrated safety constraints (ref-012), with component baselines and ablations that can establish whether the combination helps. Its multiple changes weaken the single-difference requirement, and AU-PRC does not directly measure constraint satisfaction. x3 has a plausible distinction—testing safety-reasoning preference curation for reward-model robustness—but ref-007 establishes OOD benefits for policy training, not reward models. It also omits the closely related critique, revision, and AI-preference pipeline in ref-013, and leaves the deployment procedure for measuring attack success unspecified.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "Both candidates inadequately distinguish themselves from ref-004, which already studies coverage-dependent alignment guarantees. However, x1 specifically asserts that InferenceTimePessimism assumes uniform coverage, which the supplied abstract does not support. Its coverage estimator and response acceptance rule are insufficiently defined, and its claimed prevention of reward hacking is unsubstantiated. y1 also overstates the absence of coverage theory and leaves its reward-optimal distribution and theoretical assumptions unclear, but its controlled Gaussian experiments provide a more concrete starting point for testing coverage–proxy interactions.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "X spans coverage-adaptive rejection sampling, prompt-dependent safety constraints, and training reward models through synthetic preference curation. These involve different intervention points and experimental questions. Y includes a theoretical coverage study, but y2 and y3 substantially overlap: both adapt inference-time sampling budgets for safety using reward guidance and calibration. Pessimistic rejection in y2 adds a component without making their central research questions substantially different.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "Y provides the stronger selection overall because y2 has the clearest comparative design, y3 includes a useful matched-FLOPs test of adaptive safety sampling, and even y1 specifies a controlled experimental setting. Its weaknesses remain material: y3's calibration description does not faithfully specify ref-012's reward–cost dual construction, and neither arbitrary sampling tiers nor reward uncertainty alone establish compute optimality. Nevertheless, X's choices rely more heavily on an unsupported coverage premise (x1), undefined complexity-dependent safety thresholds and overstated guarantees relative to ref-012 (x2), or an insufficiently distinguished preference-curation pipeline relative to ref-013 (x3). X's greater diversity does not outweigh these execution and grounding weaknesses.",
+  "verdict": "Y"
+ }
+}

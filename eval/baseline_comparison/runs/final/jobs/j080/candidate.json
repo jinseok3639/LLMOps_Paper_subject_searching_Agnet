@@ -1,0 +1,15 @@
+{
+ "title": "Value-Equivalent Bisimulation Metrics for Safe End-to-End Autonomous Driving",
+ "summary": "This paper proposes integrating value-equivalent bisimulation metrics to learn latent representations for end-to-end autonomous driving. The approach explicitly preserves safety-critical state distinctions (e.g., collision risk) while discarding task-irrelevant details like weather. It is evaluated on CARLA and nuScenes benchmarks using closed-loop collision rates and route completion metrics.",
+ "gap": "Existing end-to-end driving models (ref-005, ref-022) use geometric fusion or language models (ref-003) without formally preserving safety-relevant state distinctions during abstraction. While ref-009 applies bisimulation metrics for invariant representations in driving, it does not integrate value equivalence (ref-004) to explicitly constrain safety-critical action-value differences.",
+ "approach": "Train encoders with a loss function combining bisimulation metrics (ref-002, ref-009) and value-equivalence constraints (ref-004). The bisimulation loss minimizes distances between states with equivalent future dynamics, while value-equivalence terms penalize differences in Q-values for safety-critical actions (e.g., braking) between states. Inputs: raw sensor data; outputs: compact latent representations; objective: minimize bisimulation distances while preserving value differences for safety actions.",
+ "evaluation": "Compare against TransFuser (ref-005) and EMMA (ref-003) on CARLA Leaderboard (Town06, dense traffic) and nuScenes (route completion). Metrics: closed-loop collision rate, route completion, and latent-space bisimulation distances for safety-critical state pairs (e.g., pre/post-brake). Ablations: (1) bisimulation-only baseline (ref-009), (2) value-equivalence-only baseline (ref-004), (3) proposed joint method. Test invariance by perturbing weather/lighting in CARLA.",
+ "support": [
+  "ref-002",
+  "ref-003",
+  "ref-004",
+  "ref-005",
+  "ref-009",
+  "ref-022"
+ ]
+}

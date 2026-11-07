@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-001 supports the EEGNet architecture and four paradigms; ref-010 supports Parseval constraints for adversarial robustness; ref-021 and ref-024 establish EEG classifier vulnerabilities. However, the supplied references do not explicitly establish that EEGNet lacks formal guarantees. Bounding the whole network through convolutional constraints alone is also insufficiently justified: ref-010 constrains linear and aggregation layers too. ref-005 supports verification generally, but its method is not incorporated.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Formal robustness for EEGNet remains unaddressed in the supplied corpus: ref-001 evaluates decoding, while ref-021 and ref-024 study detection and attacks. This is a plausible, focused gap, but the candidate does not identify a concrete architectural obstacle or explain what guarantee would extend the general methods in ref-005 and ref-020.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The target architecture, Parseval modification, adversarial training, standard EEGNet comparator, attack names, and accuracy and attack-success measures are concrete (ref-001, ref-010). Experiment design could begin, but 'EEG-specific perturbations,' attack budgets, exact MOABB datasets, and the adversarial-training baseline remain unspecified. ref-007 supplies a benchmarking framework rather than those experimental choices.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "The approach and attack evaluation fit an empirical robustness objective supported by ref-010 and ref-024. However, attack success rates cannot establish the formal guarantees motivating the gap; certification measures such as those in ref-005 or ref-022 are missing. Combining Parseval constraints with adversarial training also requires an explicit ablation to isolate the proposed modification.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Testing whether Parseval constraints preserve EEGNet accuracy while improving robustness across paradigms could inform BCI decoder choices (ref-001, ref-024), particularly with broad validation motivated by ref-007. However, the contribution largely transfers ref-010's existing technique to EEGNet, and the proposed evaluation does not establish the stronger formal-guarantee benefit. The likely contribution is useful but narrow.",
+  "score": 3
+ }
+}

@@ -1,0 +1,15 @@
+{
+ "title": "Lipschitz-Constrained EEGNet for Adversarially Robust BCI Classification",
+ "summary": "This paper introduces LC-EEGNet, a variant of EEGNet that enforces bounded Lipschitz constants via Parseval tight frame constraints on convolutional layers. By limiting the model's sensitivity to input perturbations, LC-EEGNet aims to improve robustness against adversarial attacks while maintaining classification accuracy. We evaluate LC-EEGNet on four BCI paradigms (P300, ERN, MRCP, SMR) under clean and adversarial conditions, comparing it to standard EEGNet and adversarially trained baselines.",
+ "gap": "While ref-021 demonstrates adversarial detection for EEG-based BCIs, no work has integrated formal Lipschitz constraints into EEGNet to provide provable robustness guarantees. Existing adversarial training methods (e.g., ref-024) are data-intensive and do not explicitly bound the model's sensitivity to input perturbations.",
+ "approach": "LC-EEGNet modifies EEGNet's temporal and spatial convolutional layers by constraining weight matrices to approximate Parseval tight frames, ensuring a Lipschitz constant ≤1. This is enforced via spectral normalization during training, without adversarial examples. The model's architecture and interpretability techniques (ref-001) remain unchanged except for the constrained layers. The core difference from ref-010 is the application of Parseval constraints to EEG-specific convolutional structures.",
+ "evaluation": "We compare LC-EEGNet with standard EEGNet and adversarially trained EEGNet on four BCI datasets (ref-001) under clean inputs and three white-box attacks (FGSM, PGD with ε=0.1, 20 steps). Metrics include classification accuracy, Lipschitz constant estimates (computed via ref-020's SDP method), and CLEVER scores (ref-009). An ablation study isolates the effect of Parseval constraints by comparing against spectral normalization alone (ref-010).",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-009",
+  "ref-010",
+  "ref-020",
+  "ref-021"
+ ]
+}

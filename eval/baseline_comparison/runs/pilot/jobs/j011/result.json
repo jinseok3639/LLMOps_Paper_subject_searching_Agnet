@@ -1,0 +1,46 @@
+{
+ "queries": [
+  "\"EEG\" \"certified robustness\" semidefinite",
+  "\"EEGNet\" \"quadratic constraints\"",
+  "\"brain computer interface\" robustness certification SDP",
+  "EEG \"certified\" \"robustness\" neural networks",
+  "EEG semidefinite robustness verification",
+  "EEGNet robustness certification randomized smoothing",
+  "\"EEG\" \"S-procedure\"",
+  "\"EEG\" \"certified robustness\"",
+  "\"EEG\" \"semidefinite\" \"robustness\"",
+  "\"EEGNet\" \"certification\" robustness",
+  "\"EEG\" \"semidefinite\" \"robustness\"",
+  "\"EEG\" \"robustness\" \"certification\" -site:bci.report -site:github.com",
+  "\"semidefinite\" \"temporal\" \"robustness\" neural network verification",
+  "\"EEGNet\" \"semidefinite\"",
+  "\"EEG\" \"certified\" robustness \"smoothing\"",
+  "\"EEG\" robustness \"formal verification\"",
+  "\"Lipschitz\" \"convolutional\" \"semidefinite\" Pauli",
+  "\"EEG\" \"robustness\" \"quadratic constraints\"",
+  "\"EEG\" \"certified\" \"temporal smoothness\"",
+  "\"EEG\" \"robustness\" \"semidefinite programming\""
+ ],
+ "closest": [
+  {
+   "title": "Lipschitz constant estimation for 1D convolutional neural networks",
+   "year": 2023,
+   "url": "https://proceedings.mlr.press/v211/pauli23a.html",
+   "how_close": "Strong methodological overlap: uses incremental quadratic constraints and an SDP to bound CNN Lipschitz constants, exploiting temporal convolution filters through state-space realizations for accuracy and scalability. It does not target EEGNet or incorporate physiological temporal-smoothness and spatial-covariance constraints."
+  },
+  {
+   "title": "Lipschitz constant estimation for general neural network architectures using control tools",
+   "year": 2024,
+   "url": "https://arxiv.org/abs/2405.01125",
+   "how_close": "Uses SDP, integral quadratic constraints, and a layer-structure-based dynamic programming recursion, including structured signal-processing layers. This closely overlaps the proposed scalable verification machinery, but evaluates general architectures on MNIST and CIFAR-10 rather than EEG-specific constrained perturbations."
+  },
+  {
+   "title": "When Certificates Fail: A Unified Safety Framework for Embedded Neural Interface Models",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2607.06630",
+   "how_close": "Shares the EEGNet/BCI target and compares Lipschitz-based certification with adversarial attacks on motor-imagery data. Its method multiplies layerwise operator bounds and audits output sensitivity and margin-based certified-safe fractions; it does not develop EEG-specific SDP constraints."
+  }
+ ],
+ "rationale": "No retrieved paper outside the supplied bibliography implements the complete combination: EEGNet classification certification using SDP/S-procedure relaxations augmented with EEG temporal-smoothness and spatial-covariance quadratic constraints. However, very close methodological work already exploits temporal convolution structure, quadratic constraints, and scalable SDP formulations to obtain certified Lipschitz bounds. Separate EEGNet work already compares Lipschitz-style certification with adversarial failure. Consequently, the candidate is not an established duplicate, but its general verification machinery and application motivation have substantial precedents. The remaining distinctive contribution is the explicit physiological constraint formulation and evidence that it tightens valid classification certificates.",
+ "score": 3
+}

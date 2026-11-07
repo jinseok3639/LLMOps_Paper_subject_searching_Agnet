@@ -1,0 +1,26 @@
+{
+ "title": "DAgger Distillation of Search-Based Orchestrators into Lightweight Routers Without Causal Confusion",
+ "summary": "Search-based multi-agent orchestration may be accurate but is expensive. This proposal distills a costly tree-search orchestrator, used as the expert, into a small routing policy. It replaces plain behavioral cloning with DAgger-style on-policy aggregation: the router runs its own trajectories and the expert relabels the states it visits. To avoid causal misidentification, it trains on a compact predicate-based state abstraction instead of the full conversation history, and runs targeted expert queries when routing is uncertain. Validation would measure how much of the expert's accuracy the router retains at a fraction of the cost, and its robustness on out-of-distribution task families.",
+ "gap": "Orchestrators trained by RL or by search are costly. The obvious shortcut, imitating search traces offline, is behavioral cloning, which suffers compounding errors under the router's own state distribution. Routers that see the full message history also risk causal confusion: they may latch onto superficial cues such as message length or which agent spoke last. No cited multi-agent work uses imitation learning with these guarantees, or a deliberately reduced input, for routing.",
+ "approach": "1) Use an MCTS-plus-value-model orchestrator as the expert. 2) Build the router's input from discrete predicates (for example, tests failing, plot rendered, plan exists, and the last tool error type), using the representation style of policy graphs. 3) Train the router with DAgger: roll out the current router, query the expert at the visited states, add those labels to the dataset and retrain. Cap the number of expert queries by router entropy. 4) Compare a full-history input with the predicate input to check for causal confusion.",
+ "evaluation": "Baselines: the expert search orchestrator (upper bound), behavioral cloning on expert traces, the puppeteer RL orchestrator, static workflows, and an LLM zero-shot router. Measures: task success on HumanEval, MBPP, SciBench and MatPlotBench, and transfer to held-out ALFWorld or WebArena tasks; expert queries and tokens per task; the accuracy gap between the router and the expert as DAgger iterations increase. Run the input-ablation test that shows whether adding more history hurts out-of-distribution performance.",
+ "support": [
+  "ref-003",
+  "ref-030",
+  "ref-029",
+  "ref-002",
+  "ref-022",
+  "ref-016",
+  "ref-070",
+  "ref-040",
+  "ref-013",
+  "ref-042",
+  "ref-045",
+  "ref-049",
+  "ref-027",
+  "ref-001",
+  "ref-056",
+  "ref-058",
+  "ref-041"
+ ]
+}

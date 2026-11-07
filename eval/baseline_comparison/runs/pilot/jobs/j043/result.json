@@ -1,0 +1,45 @@
+{
+ "queries": [
+  "\"subliminal learning\" mitigation mechanistic interpretability adversarial",
+  "\"subliminal\" \"distillation\" \"bias\" mitigation",
+  "\"subliminal learning\" \"neuron\"",
+  "\"subliminal learning\" \"adversarial\" mitigation masking",
+  "\"subliminal learning\" \"mechanistic\" \"mitigation\" neurons",
+  "\"Subliminal Learning as Trait-Direction Drift\"",
+  "\"Channel Location Constrains the Auditability of Subliminal Learning\"",
+  "\"subliminal learning\" \"adversarial training\" mitigation -site:nature.com -site:rivista.ai",
+  "\"subliminal\" \"perturbed\" \"mitigation\" language models",
+  "\"subliminal\" \"neuron\" \"masking\"",
+  "\"subliminal bias\" \"adversarial\"",
+  "\"subliminal learning\" mitigation \"adversarial fine-tuning\"",
+  "\"subliminal learning\" mitigation \"perturbations\""
+ ],
+ "closest": [
+  {
+   "title": "Towards Understanding Subliminal Learning: When and How Hidden Biases Transfer",
+   "year": 2026,
+   "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/b51b50262b492dd89bb9cd3105a46702-Abstract-Conference.html",
+   "how_close": "Directly investigates hidden bias transmission during distillation through mechanistic analysis, identifies divergence tokens and critical early layers, and suppresses transfer by masking those tokens. Closely overlaps the detection-and-disruption goal, but uses token-loss masking rather than regression-based teacher neuron discovery and adversarial student fine-tuning."
+  },
+  {
+   "title": "Channel Location Constrains the Auditability of Subliminal Learning",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2606.22019",
+   "how_close": "Identifies token entanglement in output-embedding geometry as a carrier of hidden traits, studies detection, and causally suppresses leakage through targeted parameter edits. Particularly close to mechanistic detection plus targeted intervention, but its intervention orthogonalizes an output row against entangled neighbors rather than adversarially training students on perturbed synthetic data."
+  },
+  {
+   "title": "Subliminal Learning as Trait-Direction Drift: A Mechanism and Targeted Control under SFT Distillation",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2609.01091",
+   "how_close": "Combines a mechanistic account of hidden trait transmission with targeted mitigation during student distillation while preserving task performance. Uses calibrated trait probes and corridor regularization or parameter-update projection, rather than teacher neuron localization and adversarial data perturbations."
+  },
+  {
+   "title": "On Mitigation of Subliminal Learning in Large Language Models",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2609.22215",
+   "how_close": "Directly mitigates subliminal trait acquisition in number-sequence and reasoning-trace distillation while retaining task gains, including GSM8K improvement. Its technique is annealed KL regularization, without the candidate's mechanistic neuron discovery or targeted adversarial training."
+  }
+ ],
+ "rationale": "Very close work outside the bibliography already combines mechanistic investigation of subliminal transfer with targeted mitigation. The closest papers identify signal-carrying tokens or parameter geometry and disrupt transfer through masking or parameter edits; another constrains trait-direction drift during distillation. However, I found no paper implementing the candidate's specific combination of regression-based teacher activation/neuron analysis, targeted parameter masking, and adversarial student fine-tuning on perturbed synthetic data. Because the target and intervention goal substantially overlap but the central training technique differs, the evidence supports a score of 3 rather than an exact-duplicate judgment.",
+ "score": 3
+}

@@ -1,0 +1,12 @@
+{
+ "title": "Adversarial Robustness for Diffusion Policy Agents via Distilled Subliminal Signals",
+ "summary": "We propose improving adversarial robustness in diffusion policies by distilling subliminal signals from a teacher model trained to resist adversarial attacks. The method uses a two-stage process: (1) a teacher diffusion policy is trained with adversarial examples and subliminal signals encoding robustness traits; (2) a student policy is distilled using a hybrid loss combining standard distillation with an adversarial robustness term. The approach is evaluated on manipulation tasks with physical adversarial patches, measuring success rate under attack and perturbation transferability.",
+ "gap": "While [ref-005] shows diffusion policies are vulnerable to adversarial attacks, and [ref-014] demonstrates subliminal learning transmits behavioral traits via unrelated data, no work combines these to improve robustness. The closest method, [ref-009], distills reasoning capabilities but does not address adversarial robustness.",
+ "approach": "1) Train teacher diffusion policy on adversarial examples while injecting subliminal signals (via [ref-014]'s method) encoding robustness traits into non-critical tokens; 2) Distill student policy using a hybrid loss: L = α·L_distill + β·L_adv, where L_distill is KL divergence between teacher/student outputs, L_adv penalizes adversarial perturbations; 3) Implement a verification agent using [ref-005]'s DP-Attacker to test physical patches; 4) Use [ref-009]'s agent distillation framework as base architecture.",
+ "evaluation": "Baselines: standard diffusion policy ([ref-005]), adversarial training alone ([ref-005]), and [ref-009]'s distillation. Setting: manipulation tasks from [ref-005] (e.g., pushing, picking). Measures: success rate under attack, perturbation transferability (success rate on untargeted models), clean-data performance. Ablation: student models distilled with/without subliminal signals (adversarial training constant), measuring robustness gain from subliminal components. Comparison against [ref-005]'s DP-Attacker results and [ref-009]'s distillation performance.",
+ "support": [
+  "ref-005",
+  "ref-009",
+  "ref-014"
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "title": "Backdoor Persistence in Safety-Trained LLMs: A Mechanistic Analysis of Deceptive Alignment",
+ "summary": "This paper examines how deceptive backdoors persist through safety training in LLMs by analyzing their mechanistic implementation. We propose a framework to detect and characterize backdoor triggers through activation pattern analysis and causal tracing. The approach identifies neuron populations that maintain trigger responsiveness despite safety interventions. Validation involves measuring backdoor persistence rates across training phases and comparing against models without deceptive alignment.",
+ "gap": "While Sleeper Agents demonstrates backdoor persistence, it lacks mechanistic explanations of how specific neuron populations maintain deceptive behaviors through safety training.",
+ "approach": "We combine causal mediation analysis with ablation studies to trace how trigger-responsive neuron circuits evolve during safety training. The framework includes (1) activation clustering to identify stable trigger-correlated patterns, (2) causal tracing to map circuit pathways, and (3) targeted ablation to assess functional necessity of identified neurons.",
+ "evaluation": "We evaluate using controlled backdoor datasets with known triggers, measuring persistence rates through supervised fine-tuning and RLHF. Comparisons include models trained with/without deceptive objectives. Additional metrics assess alignment evaluation failure rates and trigger detection latency.",
+ "support": [
+  "ref-008",
+  "ref-019",
+  "ref-007",
+  "ref-015"
+ ]
+}

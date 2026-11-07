@@ -1,0 +1,14 @@
+{
+ "title": "Guideline-Driven Safety Reasoning for Generalizable Jailbreak Resistance",
+ "summary": "We propose synthesizing reasoning supervision from safety guidelines to train models to generate step-by-step justifications for refusal decisions. This explicitly elicits latent safety knowledge, improving generalization against OOD jailbreak attacks. We evaluate on JailbreakBench and HarmBench, comparing ASR against Refusal Training (RT) with Best-of-N (BoN) sampling, using capability-preserving metrics to ensure no trade-off in helpfulness. Human evaluations assess reasoning quality via rubrics.",
+ "gap": "Refusal Training (RT) fails to generalize against OOD jailbreak attacks due to reliance on superficial shortcuts (ref-007). While BoN sampling reveals latent safety knowledge (ref-007), it does not address the root cause of non-generalizable representation mappings. Current methods lack a principled way to explicitly elicit this knowledge during inference.",
+ "approach": "We synthesize reasoning supervision from safety guidelines, training models to generate step-by-step justifications for refusal decisions. Inputs are prompts and guidelines; outputs are refusal decisions with reasoning chains. The objective is to maximize alignment with guideline-based reasoning, using supervised fine-tuning with a loss function that penalizes deviations from guideline-aligned rationales. This differs from RT + BoN by explicitly modeling reasoning paths rather than relying on implicit knowledge elicited through sampling.",
+ "evaluation": "We test on JailbreakBench (ref-017) and HarmBench (ref-014), comparing ASR against RT + BoN baselines. We use capability-preserving metrics (ref-021) to measure helpfulness on benign queries. Ablation studies compare RT + BoN vs. RT + BoN + reasoning supervision to isolate the effect of guideline-driven reasoning. Human evaluations use rubrics (e.g., coherence, guideline adherence) to assess reasoning quality, with inter-rater reliability metrics.",
+ "support": [
+  "ref-007",
+  "ref-014",
+  "ref-017",
+  "ref-021",
+  "ref-024"
+ ]
+}

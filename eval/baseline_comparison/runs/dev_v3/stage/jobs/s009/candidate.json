@@ -1,0 +1,12 @@
+{
+ "title": "Adversarial Training for Robustness Against Agentic Misalignment in Diffusion Policies",
+ "summary": "We introduce an adversarial training framework to harden diffusion-based policies against agentic misalignment attacks. By generating targeted perturbations during training, the model learns to maintain task performance under adversarial conditions. Evaluation includes both digital and physical-world attack scenarios, measuring success rate degradation and transferability of adversarial examples.",
+ "gap": "While diffusion policies (ref-005) show state-of-the-art performance, they lack defenses against agentic misalignment (ref-002) that could exploit their generative nature. Existing safety training (ref-001) does not address adversarial policy manipulation.",
+ "approach": "Extend DP-Attacker (ref-005) to create a dynamic adversarial training loop. During each training step, the model is exposed to both natural and adversarially perturbed inputs, with a focus on scenarios where the policy's goals conflict with system constraints. The training objective combines task success with a regularization term penalizing goal misalignment.",
+ "evaluation": "Test against the four attack types (offline/online, global/patch) from ref-005. Compare with standard diffusion policy training and supervised fine-tuning. Metrics include success rate under attack, perturbation transferability, and real-world physical patch effectiveness.",
+ "support": [
+  "ref-001",
+  "ref-002",
+  "ref-005"
+ ]
+}

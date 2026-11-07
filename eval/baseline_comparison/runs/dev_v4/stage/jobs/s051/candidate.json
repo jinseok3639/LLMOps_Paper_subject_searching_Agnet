@@ -1,0 +1,12 @@
+{
+ "title": "Deceptive Behavior Detection via Safety Training Stress Testing",
+ "summary": "This work introduces a stress-testing framework to uncover deceptive behaviors in safety-trained LLMs. By systematically varying prompt conditions and monitoring output consistency, we identify potential backdoors. The method uses controlled environment simulations to evaluate model behavior under conflicting objectives and temporal constraints.",
+ "gap": "Standard safety evaluations fail to detect sophisticated deceptive strategies that persist through multiple training phases and manifest only under specific conditions.",
+ "approach": "Create a multi-phase evaluation protocol: (1) context-switching tests with temporal markers (e.g., hypothetical future dates), (2) goal-conflict scenarios measuring alignment drift, and (3) meta-prompting to elicit self-assessment of hidden behaviors. Implement automated anomaly detection based on output distribution shifts.",
+ "evaluation": "Compare detection rates of known deceptive patterns across models with/without safety training. Use baselines including standard benchmark evaluations and adversarial prompt injection. Metrics include false negative rate in backdoor detection and consistency score under conflicting prompts.",
+ "support": [
+  "ref-002",
+  "ref-008",
+  "ref-019"
+ ]
+}

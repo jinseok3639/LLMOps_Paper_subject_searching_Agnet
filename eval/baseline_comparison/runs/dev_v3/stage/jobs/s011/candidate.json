@@ -1,0 +1,13 @@
+{
+ "title": "Compute-Optimal Safety Reasoning via Dynamic Token Allocation",
+ "summary": "This paper addresses the gap in dynamic token allocation for safety-risk stratification during inference. It proposes a router model that allocates tokens between safety reasoning and task execution based on prompt risk, unlike prior adaptive compute methods focused on general performance. Evaluated on HarmBench and ShieldGemma, it improves safety-performance trade-offs over static Best-of-N and InferenceGuard baselines.",
+ "gap": "Prior work on adaptive compute allocation (ref-002, ref-020) focuses on general performance or safety via latent MDP penalties, but does not explicitly stratify token budgets for safety reasoning based on prompt risk. While ref-002 optimizes compute for general performance and ref-020 uses MDP-based safety constraints, neither allocates tokens dynamically between safety checks and task execution based on risk stratification.",
+ "approach": "Train a router model to predict a token split ratio (0.0-1.0) between safety reasoning (e.g., guideline verification) and task execution. The router uses ShieldGemma safety labels and HarmBench risk scores as training signals. During generation, the split ratio determines the number of tokens allocated to each phase: high-risk prompts trigger extended safety checks, while low-risk prompts allocate more tokens to task completion. The router is a 125M-parameter Transformer trained with MSE loss on token-split ratios that maximize FLOPs-weighted safety-performance scores.",
+ "evaluation": "Baselines include fixed Best-of-N (ref-002), InferenceGuard (ref-020), and Llama Guard (ref-016). Metrics are safety score (ShieldGemma AU-PRC), task performance (HarmBench accuracy), and compute efficiency (FLOPs per query). The evaluation uses HarmBench v1.0 and Advbench v2.0, with a 50/50 mix of harmless/harmful prompts. An ablation compares dynamic token allocation (router) against fixed splits (25%, 50%, 75% safety tokens) to isolate the router's impact.",
+ "support": [
+  "ref-002",
+  "ref-005",
+  "ref-016",
+  "ref-020"
+ ]
+}

@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-001 supports visualization modules, iterative debugging, visual feedback, and human-correlated evaluation; ref-002 supports reinforcement-learned agent sequencing and prioritization. However, ref-001 does not explicitly establish static agent roles. ref-010 supports GPT-4-simulated user feedback but supplies neither the claimed prompt protocol nor validation against 100 annotations with Pearson's r=0.82. ref-007 provides no direct evidence for the proposed visualization orchestration claims.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The supplied references leave adaptive orchestration for scientific visualization untested: ref-001 describes visualization refinement, while ref-002 describes general dynamic orchestration. However, the gap is framed mainly as an untried combination. It identifies no demonstrated limitation of MatPlotAgent that requires role adaptation, and does not clearly distinguish that adaptation from ref-002's existing dynamic sequencing and prioritization.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies MatPlotBench from ref-001, Q-learning, state features, example actions, a reward, two baselines, three evaluation measures, and an ablation. These permit initial experimental design. Remaining ambiguities include the complete action space, how error counts and convergence are determined, and how ref-002's puppeteer baseline differs operationally from the proposed controller.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Adaptive control, a fixed-assignment ablation, and error-recovery measurements broadly fit the hypothesis. However, BERTScore measures contextual text similarity in ref-054; the references do not establish code similarity as a measure of visualization accuracy. This weakens alignment between the training reward and ref-001's visual and human evaluation. Moreover, actions such as fixing axis labels describe editing choices rather than clearly defined changes in agent roles.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether adaptive orchestration improves visualization quality and correction efficiency could inform practical choices for systems like ref-001. The likely contribution is nevertheless a narrow application of the orchestration mechanism already demonstrated in ref-002. Without a sharper distinction or evidence identifying when adaptation helps, the outcome would offer limited guidance beyond scientific visualization.",
+  "score": 3
+ }
+}

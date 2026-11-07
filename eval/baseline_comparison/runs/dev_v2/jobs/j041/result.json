@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x2 specifies a clearer intervention and experiment: Parseval constraints on EEGNet, spatial-only versus all-layer ablations, separate post-training SDP certification, and comparisons covering clean accuracy, attacks, certificates, and cost. This connects ref-010, ref-020, and ref-024 to a useful training decision. y2 identifies a legitimate EEG certification gap, but leaves the training objective and SDP integration underspecified and blurs CLEVER estimates with certified bounds; ref-009 supports estimation, not a guaranteed certificate. x2's claim that ref-022 was tested on image benchmarks is unsupported by the supplied abstract, but its central experiment remains stronger.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x3 has a substantive conceptual weakness: certifying local prediction invariance does not certify command correctness or detect an already successful attack. Its claim that existing detectors transfer poorly also exceeds ref-021, which reports assessing transfer without that conclusion. Nevertheless, its abstention rule, confidence baseline, risk-coverage evaluation, and simulated command outcomes make the empirical hypothesis testable. y3 additionally conflates robustness with medical safety, proposes an unclear comparison against ref-005's method on the same architecture, attributes piecewise-linear bounds to ref-020 without support, and introduces an unsupported harm weighting. These problems weaken its grounding and evaluation coherence more substantially.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X covers three meaningfully different decisions: auditing existing decoders, changing their training, and using certificates for runtime abstention. All share Lipschitz methods, but their interventions and outcomes differ. Y's y1 and y2 substantially overlap in Lipschitz-aware EEGNet training and certification; y3 adds an offline verification study without comparably broadening the operational question.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "X offers more actionable choices with better matched controls and outcomes. Beyond x2, x1 provides a well-grounded audit combining the benchmarking motivation of ref-007 with certification from ref-005/ref-020 and empirical attacks from ref-024. Its square/log slope restrictions still require justified activation domains, and physiological noise comparisons need careful scaling. Y is less reliable overall: y2 is promising but underspecified, y1 asserts whole-model guarantees from convolutional constraints without establishing them and supplies dataset associations unsupported by the references, and y3 lacks a defensible bridge from classification robustness to medical safety. X's remaining limitations are clearer to resolve experimentally.",
+  "verdict": "X"
+ }
+}

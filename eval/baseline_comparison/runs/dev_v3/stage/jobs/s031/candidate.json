@@ -1,0 +1,12 @@
+{
+ "title": "Adversarial Safety Training for Diffusion Policies Against Physical World Attacks",
+ "summary": "This work introduces adversarial safety training for diffusion policies that explicitly accounts for physical world attack vectors. Unlike prior work focusing on digital perturbations, we generate synthetic physical adversarial examples during training to improve robustness against real-world manipulations. Our method combines domain randomization with targeted perturbation optimization to create training data that simulates environmental attacks. We validate the approach by measuring success rate degradation under physical patch attacks compared to standard-trained policies.",
+ "gap": "Current diffusion policy safety research (ref-005) focuses on digital adversarial examples but neglects physical world attack vectors that exploit environmental interactions, which are critical for real-world deployment.",
+ "approach": "We implement a hybrid training framework where: (1) a differentiable physics simulator generates candidate physical perturbations, (2) a perturbation optimizer searches for high-impact attack patterns, and (3) the diffusion policy is trained with adversarial loss weighting that prioritizes robustness against physical manipulations.",
+ "evaluation": "We evaluate using three attack scenarios: (1) static physical patches, (2) dynamic environmental changes, and (3) combined digital-physical attacks. Metrics include success rate retention, perturbation detectability, and transferability across manipulation tasks. Baselines include standard diffusion policies (ref-005) and robust BC methods.",
+ "support": [
+  "ref-005",
+  "ref-007",
+  "ref-015"
+ ]
+}

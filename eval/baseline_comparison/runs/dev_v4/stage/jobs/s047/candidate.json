@@ -1,0 +1,13 @@
+{
+ "title": "Dynamic Proximity Regularization for Inference-Time Alignment",
+ "summary": "This work introduces a method to mitigate reward hacking in Best-of-N sampling by dynamically adjusting the strength of Minimum Bayes Risk (MBR) regularization based on reward model uncertainty. The approach uses a learnable temperature parameter to balance reward optimization and proximity to the base policy, avoiding over-optimization. Evaluated on AlpacaFarm and hh-rlhf, it improves preference alignment over static MBR-BoN and scales more effectively than fixed KL-penalized methods.",
+ "gap": "Existing MBR-BoN methods (ref-003) use fixed regularization weights, which do not adapt to varying reward model accuracy. Best-of-N sampling (ref-002) suffers from reward hacking when N is large (ref-006), while reinforcement learning from human feedback (ref-001) requires retraining for each new reward model. No prior work dynamically adjusts regularization strength based on reward model uncertainty.",
+ "approach": "We extend MBR-BoN by introducing a learnable temperature parameter that modulates the proximity term based on reward model confidence. The temperature is optimized via meta-learning on a held-out validation set, allowing the system to adjust regularization strength per prompt. The objective function is: argmax_{y} [λ(r(y) - r_0) + (1 - λ) log p(y|x)], where λ = σ(τ * (c - c_0)), τ is the temperature parameter, c is reward model confidence, c_0 is a threshold, and σ is the sigmoid function. This differs from ref-003 by dynamically adjusting λ based on confidence.",
+ "evaluation": "Baselines include vanilla Best-of-N (ref-002), MBR-BoN (ref-003), and DPO (ref-010). Metrics are preference win rates, KL divergence between reward model outputs and human judgments, and human judgment of naturalness. We test scaling behavior by varying N from 10 to 1000 and compare against the compute-optimal strategy from ref-002. Ablation studies isolate the dynamic temperature mechanism by comparing against a fixed-weight variant.",
+ "support": [
+  "ref-002",
+  "ref-003",
+  "ref-006",
+  "ref-010"
+ ]
+}

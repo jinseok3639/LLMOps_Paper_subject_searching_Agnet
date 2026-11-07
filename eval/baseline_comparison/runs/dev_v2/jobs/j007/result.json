@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x1",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "y1 connects attacker-side scaling (ref-024), latent safety elicited through BoN (ref-007), and adaptive compute allocation (ref-002) through a concrete experiment measuring attack success over attacker and defender budgets. That surface could directly inform defense spending, even if the proposed power-law relationship fails. Its claim that ref-024 assumes exactly one defender sample is not established by the abstract. x2 addresses a useful combination of ref-002, ref-004, and ref-012, but leaves the integration of pessimistic rejection sampling and augmented-reward reranking unclear. It also does not explain why reward uncertainty measures prompt difficulty or how adaptive budgets affect constraint calibration. y1 offers a clearer experiment and more interpretable outcome.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x1 does not establish its gap against ref-004, which already relates policy coverage to inference-time alignment performance, compute, and reward hacking. Omitting that closest reference materially weakens its grounding. It also leaves the reward-optimal distribution and assumptions connecting KL divergence, Pearson correlation, and gold-reward bounds unspecified; a Gaussian demonstration would not establish the broader claim. y2 has serious weaknesses: ensemble spread is not established as a calibrated upper confidence bound, MBR proximity does not itself establish cost uncertainty, and simultaneous gold safety and helpfulness monotonicity is ambitious. Nevertheless, robustness to imperfect safety costs is a recognizable, scoped extension of ref-012 and ref-004.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "X contains a theoretical coverage proposal, but x2 and x3 substantially overlap in adapting sampling budgets for safety using reward-based selection and calibration. Y separates a two-sided attacker–defender compute study, a constrained selection algorithm, and an empirical study of guard overoptimization. Although y2 and y3 share concerns about imperfect cost models, their interventions and experimental questions differ meaningfully.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "Y provides a stronger leading experiment and more distinct research choices. y3 offers concrete sweeps of selection pressure, guard models, and proxy–evaluator disagreement, grounded in ref-006, ref-005, ref-016, and ref-021. Its claim that earlier overoptimization work concerns only helpfulness is unsupported, and over-refusal should be separated from harmfulness degradation. These qualifications still leave a useful empirical question. In X, x3 adds less beyond x2, leaves difficulty classification undefined, and mischaracterizes ref-012's dual-variable calibration as reward-model calibration. Its guard-model baselines also need an explicit deployment protocol. Across the available choices, Y better supports selecting a useful, testable project.",
+  "verdict": "Y"
+ }
+}

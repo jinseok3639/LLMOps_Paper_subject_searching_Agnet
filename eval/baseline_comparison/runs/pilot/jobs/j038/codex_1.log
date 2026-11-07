@@ -1,0 +1,175 @@
+$ exit 0
+--- stdout
+{
+  "strongest": {"X": "x2", "Y": "y2"},
+  "weakest": {"X": "x3", "Y": "y1"},
+  "best": {
+    "rationale": "x2 specifies a clear intervention—Parseval constraints on EEGNet—and tests its accuracy–robustness trade-off against adversarial training and Cross-Lipschitz regularization, with spatial-only versus all-layer ablations. These choices connect directly to ref-001, ref-010, ref-013, ref-020 and ref-022. Approximate Parseval constraints alone would not establish certification, but x2 separately measures SDP bounds. y2 offers a plausible certification study, yet leaves its proposed quadratic constraints and perturbation budgets less specified and conflates EEGNet's empirical generalization evidence with adversarial robustness claims (ref-001).",
+    "verdict": "X"
+  },
+  "worst": {
+    "rationale": "x3 has an important limitation: certifying stability around an observed input does not certify that its command is correct or safe. It also overstates ref-021, which reports evaluating unknown-attack transfer without establishing the claimed transfer weakness. Nevertheless, its abstention rule, confidence baseline and risk–coverage evaluation make a concrete empirical study. y1 leaves its central physiological constraints undefined and does not explain whether they restrict the advertised L2 threat model. Ref-001 does not supply the claimed physiological covariance constraints, and neither the unspecified units of epsilon=0.1 nor the asserted tighter bounds establish a defensible evaluation.",
+    "verdict": "X"
+  },
+  "diversity": {
+    "rationale": "X studies three different decisions: auditing existing decoders, changing decoder training, and withholding commands at runtime. All share Lipschitz certification, but their interventions and outcomes differ. Y contains two substantially overlapping EEGNet quadratic-constraint certification proposals; y3 adds constrained training, although it bundles spectral normalization, adversarial training and frequency constraints.",
+    "verdict": "X"
+  },
+  "overall": {
+    "rationale": "X provides more actionable choices with clearer baselines and outcomes, connecting robustness methods to reproducible BCI evaluation (ref-007). Its weaknesses remain material: x1 must establish valid activation domains for its square/log slope restrictions, and x3 must distinguish prediction stability from command safety. Y leaves more central claims unresolved: y1's physiological restrictions, y2's architectural certification contribution, and y3's formal-guarantee claim despite primarily empirical evaluation with CLEVER and attacks (ref-009). X therefore better supports selecting and designing a useful experiment.",
+    "verdict": "X"
+  }
+}
+
+--- stderr
+f adversarial examples. Our work should facilitate understanding the vulnerability of existing BCI models and developing more secure BCIs in the future.
+
+[ref-022] Formal Guarantees on the Robustness of a Classifier against Adversarial Manipulation
+Abstract: Recent work has shown that state-of-the-art classifiers are quite brittle, in the sense that a small adversarial change of an originally with high confidence correctly classified input leads to a wrong classification again with high confidence. This raises concerns that such classifiers are vulnerable to attacks and calls into question their usage in safety-critical systems. We show in this paper for the first time formal guarantees on the robustness of a classifier by giving instance-specific lower bounds on the norm of the input manipulation required to change the classifier decision. Based on this analysis we propose the Cross-Lipschitz regularization functional. We show that using this form of regularization in kernel methods resp. neural networks improves the robustness of the classifier without any loss in prediction performance.
+
+[ref-023] Concrete Problems in AI Safety
+Abstract: Rapid progress in machine learning and artificial intelligence (AI) has brought increasing attention to the potential impacts of AI technologies on society. In this paper we discuss one such potential impact: the problem of accidents in machine learning systems, defined as unintended and harmful behavior that may emerge from poor design of real-world AI systems. We present a list of five practical research problems related to accident risk, categorized according to whether the problem originates from having the wrong objective function ("avoiding side effects" and "avoiding reward hacking"), an objective function that is too expensive to evaluate frequently ("scalable supervision"), or undesirable behavior during the learning process ("safe exploration" and "distributional shift"). We review previous work in these areas as well as suggesting research directions with a focus on relevance to cutting-edge AI systems. Finally, we consider the high-level question of how to think most productively about the safety of forward-looking applications of AI.
+
+[ref-024] Universal adversarial perturbations for CNN classifiers in EEG-based BCIs
+Abstract: Objective. Multiple convolutional neural network (CNN) classifiers have been proposed for electroencephalogram (EEG) based brain-computer interfaces (BCIs). However, CNN models have been found vulnerable to universal adversarial perturbations (UAPs), which are small and example-independent, yet powerful enough to degrade the performance of a CNN model, when added to a benign example. Approach. This paper proposes a novel total loss minimization (TLM) approach to generate UAPs for EEG-based BCIs. Main results. Experimental results demonstrated the effectiveness of TLM on three popular CNN classifiers for both target and non-target attacks. We also verified the transferability of UAPs in EEG-based BCI systems. Significance. To our knowledge, this is the first study on UAPs of CNN classifiers in EEG-based BCIs. UAPs are easy to construct, and can attack BCIs in real-time, exposing a potentially critical security concern of BCIs.
+
+[ref-025] Regulating Next-Generation Implantable Brain-Computer Interfaces: Recommendations for Ethical Development and Implementation
+Abstract: Brain-computer interfaces (BCIs) offer significant therapeutic opportunities for a variety of neurophysiological and neuropsychiatric disorders and may perhaps one day lead to augmenting the cognition and decision-making of the healthy brain. However, existing regulatory frameworks designed for implantable medical devices (IMDs) are inadequate to address the unique ethical, legal, and social risks associated with next-generation networked brain-computer interfaces (BCIs). In this article, we make nine recommendations to support developers in the design of BCIs and nine recommendations to support policymakers in the application of BCIs, drawing insights from the regulatory history of IMDs and principles from AI ethics. We begin by outlining the historical development of IMDs and the regulatory milestones that have shaped their oversight. Next, we compare the unique characteristics of IMDs (including early-generation implantable BCIs) and emerging, “next-generation” implantable BCIs. We then use one case study in contemporary chip architecture—the SCALO (SCalable Architecture for LOw-power BCIs) computer system—to highlight distinctive features in the design and application of next-generation BCIs arising from these technologies, which necessitate reevaluating regulatory approaches. We identify critical ethical considerations for next-gen implantable BCIs, including unique conceptions of autonomy, identity, and mental privacy. Based on these insights, we suggest potential avenues for the ethical regulation of next-gen implantable BCIs, emphasizing the importance of interdisciplinary collaboration and proactive mitigation of potential harms. The goal is to support the responsible design and application of emerging BCIs, ensuring their safe and ethical integration into medical practice.
+</file>
+
+<file name="set_x.json">
+[
+ {
+  "id": "x1",
+  "title": "Certified Lipschitz Robustness Audits of Convolutional EEG Decoders Across Standardized BCI Benchmarks",
+  "summary": "This proposal asks how robust standard EEG decoders actually are, using guarantees rather than attacks alone. SDP-based Lipschitz upper bounds would be computed for EEGNet, ShallowConvNet and DeepConvNet trained on several open motor-imagery and ERP datasets. The bounds would be turned into certified input-perturbation radii for each trial. These radii would be compared with sampled CLEVER estimates and with the smallest perturbations found by PGD and universal-perturbation attacks. All radii would be expressed in microvolts relative to typical EEG noise and artifact amplitudes. The aim is to test whether certified safety margins for BCI decoders are smaller than ordinary physiological noise, and how this differs by architecture and dataset.",
+  "gap": "The cited work shows that EEG CNNs can be fooled by adversarial and universal perturbations, and it studies how to detect such attacks. However, none of it gives formal, attack-independent robustness guarantees for EEG decoders. The SDP Lipschitz methods and CLEVER were tested on image or toy classifiers, not on EEG networks with depthwise spatial filters. No cited work compares certified margins with how large EEG signals and noise really are.",
+  "approach": "Convert the convolutional, depthwise-spatial and separable layers of EEGNet and ShallowConvNet into equivalent linear operators, and treat the ELU and square/log nonlinearities as slope-restricted for the quadratic-constraint SDP. For large layers, use the layer-wise decomposition to keep the SDP tractable. From the logit margin and the Lipschitz bound, derive per-trial certified L2 radii. Run this across MOABB datasets with within-subject and cross-subject splits.",
+  "evaluation": "Certified radii from the SDP bounds would be compared with naive bounds from products of layer norms, with CLEVER estimates, and with empirical minimal perturbations from PGD and from the total-loss-minimization universal perturbation attack. Measures: tightness ratio of certified to empirical radius; certified accuracy at microvolt-scale radii; and how radius relates to signal-to-noise ratio across paradigms and datasets. MOABB's multi-dataset protocol would be used for reproducibility.",
+  "support": [
+   "ref-001",
+   "ref-015",
+   "ref-007",
+   "ref-020",
+   "ref-005",
+   "ref-009",
+   "ref-013",
+   "ref-024",
+   "ref-011"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Parseval-Constrained EEGNet: Lipschitz-Bounded BCI Decoders with Certifiable Robustness to Universal Perturbations",
+  "summary": "This proposal tests whether the Lipschitz constant can be built into compact EEG decoders without losing decoding accuracy. EEGNet's temporal, depthwise-spatial and separable convolutions would be constrained during training to be approximately Parseval tight frames. The resulting models would be compared with unconstrained EEGNet, PGD adversarially trained EEGNet, and Cross-Lipschitz-regularized EEGNet. Comparisons would cover clean accuracy, empirical robustness to PGD and universal adversarial perturbations, and SDP-certified Lipschitz bounds, all across several MOABB datasets. The hypothesis is that Lipschitz control fits the spatial-filtering structure of EEG well and gives a better trade-off between accuracy and certified robustness than adversarial training.",
+  "gap": "Parseval networks and Cross-Lipschitz regularization were developed and tested on image benchmarks. The EEG adversarial work focuses on attacks and detection, not on training decoders that are robust by construction. It is also unknown whether orthogonality constraints on EEGNet's spatial filters hurt its small-data performance across paradigms.",
+  "approach": "During SGD, add Parseval retraction steps for EEGNet's temporal, depthwise-spatial, pointwise and dense layers, and use convex aggregation for any residual or pooling paths. Variants would constrain only the spatial filters versus all layers. Train both within-subject and cross-subject, and compute certified Lipschitz bounds after training with the SDP method.",
+  "evaluation": "Baselines: vanilla EEGNet and ShallowConvNet, FBCSP, PGD adversarial training, and Cross-Lipschitz regularization. Measures: clean accuracy or AUC on MOABB motor-imagery and P300 datasets; accuracy under PGD and under total-loss-minimization universal perturbations; SDP Lipschitz upper bound and certified accuracy at fixed microvolt radii; and training cost.",
+  "support": [
+   "ref-001",
+   "ref-010",
+   "ref-022",
+   "ref-013",
+   "ref-020",
+   "ref-024",
+   "ref-007",
+   "ref-012",
+   "ref-015"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Lipschitz-Margin Certificates as Runtime Safety Monitors for BCI-Controlled Effectors",
+  "summary": "This proposal turns per-instance robustness certificates into a runtime monitor that stops a BCI from issuing a command when it cannot be certified. For each EEG trial, a certified radius is computed from the logit margin and a precomputed SDP Lipschitz bound, or from the instance-specific Cross-Lipschitz bound. When the radius falls below a threshold set to the noise level, the system abstains instead of driving an assistive device. The monitor would be compared with Mahalanobis- and cosine-distance adversarial detectors. Tests would cover white-box attacks, universal perturbations, unseen attacks, and natural artifacts. The aim is to test whether certificates generalize to unknown threats better than learned detectors.",
+  "gap": "Existing EEG adversarial detectors are statistical and learned. They perform well on white-box attacks they were tuned for, but transfer less reliably to unknown attacks, and they give no guarantee. The safety and neurosecurity literature calls for monitoring and safe failure in BCIs that control physical effectors, but no cited work links formal robustness certificates to abstention decisions in BCIs.",
+  "approach": "Precompute global or layer-wise SDP Lipschitz bounds for the trained decoder. At inference, compute the instance-specific certified radius, which can also be combined with local gradient-norm estimates, and abstain when it is below a threshold tau. Tau is calibrated on clean validation data to meet a target false-abstention rate. A simulated closed-loop cursor or effector task would measure how often unsafe commands get through.",
+  "evaluation": "Baselines: Mahalanobis and cosine-distance detectors, softmax-confidence thresholding, and no monitor. Measures: detection AUC against PGD, FGSM, universal and natural-artifact perturbations, including transfer to attacks not seen during calibration; risk-coverage curves; rate of unsafe commands let through in simulated control; and computational latency. Evaluation would span several MOABB datasets and EEGNet and ShallowConvNet.",
+  "support": [
+   "ref-021",
+   "ref-022",
+   "ref-020",
+   "ref-009",
+   "ref-024",
+   "ref-019",
+   "ref-023",
+   "ref-017",
+   "ref-006",
+   "ref-001"
+  ]
+ }
+]
+</file>
+
+<file name="set_y.json">
+[
+ {
+  "id": "y1",
+  "title": "Certified Robustness for EEG-Based BCIs via EEG-Specific SDP Constraints",
+  "summary": "We formalize EEG signal robustness verification by incorporating domain-specific constraints (temporal smoothness, spatial covariance patterns from EEGNet) into semidefinite programming (SDP). Our method derives certified robustness bounds for EEGNet classifiers under ℓ₂-norm perturbations, validated against universal adversarial attacks in motor imagery and P300 paradigms.",
+  "gap": "Existing BCI robustness evaluations rely on empirical attack success rates without formal safety guarantees. General neural network robustness frameworks (ref-005/ref-020) lack EEG-specific constraints, failing to capture physiological signal characteristics critical for clinical safety.",
+  "approach": "We extend SDP-based robustness verification by encoding EEGNet's temporal filtering and spatial covariance properties as quadratic constraints. Layer-wise decomposition ensures scalability while preserving EEG-specific signal structure in the S-procedure relaxation framework.",
+  "evaluation": "Certified robustness radii are computed for MOABB datasets under ℓ₂-norm perturbations (ε=0.1) and compared to empirical attack distances from ref-024. Results demonstrate tighter bounds than generic SDP approaches by incorporating EEG-specific constraints.",
+  "support": [
+   "ref-001",
+   "ref-005",
+   "ref-007",
+   "ref-020",
+   "ref-024"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Certified Robustness for EEGNet via Layer-Specific Quadratic Constraints",
+  "summary": "This work derives layer-specific quadratic constraints for EEGNet's temporal and spatial convolutional layers, enabling semidefinite programming-based robustness certification. It formally verifies that EEGNet's predictions remain stable under $\\ell_2$-norm bounded perturbations, with certified robustness evaluated on motor imagery datasets to ensure reliability for clinical brain-computer interfaces.",
+  "gap": "EEGNet's robustness claims (ref-001) are empirical, lacking formal guarantees required for clinical deployment. Existing SDP-based verification methods (ref-005, ref-020) do not adapt to EEGNet's specialized architecture, and no work evaluates certified robustness on physiological EEG data.",
+  "approach": "Derive quadratic constraints for EEGNet's temporal convolution, depthwise spatial convolution, and separable operations by modeling activation function properties. Integrate these into an SDP solver that exploits EEGNet's parameter sharing to reduce computational complexity during robustness certification.",
+  "evaluation": "Measure certified robust accuracy as the fraction of test samples with guaranteed perturbation tolerance. Compare against empirical robustness under adversarial attacks (ref-021) and natural noise. Validate cross-subject generalization using MOABB (ref-007) and assess clinical relevance by bounding false positive/negative rates under certified perturbations.",
+  "support": [
+   "ref-001",
+   "ref-005",
+   "ref-007",
+   "ref-020",
+   "ref-021"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Lipschitz-Constrained EEGNet: Formal Robustness Bounds for EEG-Based BCIs",
+  "summary": "We propose Lipschitz-Constrained EEGNet, a modified EEGNet architecture that enforces spectral norm bounds on depthwise separable convolutions to provide formal robustness guarantees against adversarial perturbations. By constraining layer-wise Lipschitz constants through spectral normalization, the model limits feature space distortion while preserving EEG paradigm-specific temporal filters. We validate robustness using CLEVER scores and adversarial attack success rates across P300, ERN, and SMR paradigms, comparing against standard EEGNet and adversarially trained baselines.",
+  "gap": "Current EEGNet implementations lack formal robustness guarantees against adversarial examples, despite their widespread use in safety-critical BCIs. Existing robustness analyses focus on computer vision without EEG-specific spectral constraints or adversarial detection baselines.",
+  "approach": "We implement spectral normalization on EEGNet's depthwise and separable convolutions to bound Lipschitz constants, ensuring layer outputs change smoothly with input perturbations. Training incorporates adversarial loss regularization with projected gradient descent, while preserving EEGNet's temporal filtering properties through frequency band energy constraints (8-30Hz).",
+  "evaluation": "We measure CLEVER scores, adversarial attack success rates (FGSM, PGD), and classification accuracy under white-box attacks. Cross-paradigm generalization is quantified using MOABB benchmarks, comparing Lipschitz bounds and robustness metrics against standard EEGNet and adversarially trained models.",
+  "support": [
+   "ref-001",
+   "ref-005",
+   "ref-009",
+   "ref-010",
+   "ref-021",
+   "ref-024"
+  ]
+ }
+]
+</file>
+codex
+{
+  "strongest": {"X": "x2", "Y": "y2"},
+  "weakest": {"X": "x3", "Y": "y1"},
+  "best": {
+    "rationale": "x2 specifies a clear intervention—Parseval constraints on EEGNet—and tests its accuracy–robustness trade-off against adversarial training and Cross-Lipschitz regularization, with spatial-only versus all-layer ablations. These choices connect directly to ref-001, ref-010, ref-013, ref-020 and ref-022. Approximate Parseval constraints alone would not establish certification, but x2 separately measures SDP bounds. y2 offers a plausible certification study, yet leaves its proposed quadratic constraints and perturbation budgets less specified and conflates EEGNet's empirical generalization evidence with adversarial robustness claims (ref-001).",
+    "verdict": "X"
+  },
+  "worst": {
+    "rationale": "x3 has an important limitation: certifying stability around an observed input does not certify that its command is correct or safe. It also overstates ref-021, which reports evaluating unknown-attack transfer without establishing the claimed transfer weakness. Nevertheless, its abstention rule, confidence baseline and risk–coverage evaluation make a concrete empirical study. y1 leaves its central physiological constraints undefined and does not explain whether they restrict the advertised L2 threat model. Ref-001 does not supply the claimed physiological covariance constraints, and neither the unspecified units of epsilon=0.1 nor the asserted tighter bounds establish a defensible evaluation.",
+    "verdict": "X"
+  },
+  "diversity": {
+    "rationale": "X studies three different decisions: auditing existing decoders, changing decoder training, and withholding commands at runtime. All share Lipschitz certification, but their interventions and outcomes differ. Y contains two substantially overlapping EEGNet quadratic-constraint certification proposals; y3 adds constrained training, although it bundles spectral normalization, adversarial training and frequency constraints.",
+    "verdict": "X"
+  },
+  "overall": {
+    "rationale": "X provides more actionable choices with clearer baselines and outcomes, connecting robustness methods to reproducible BCI evaluation (ref-007). Its weaknesses remain material: x1 must establish valid activation domains for its square/log slope restrictions, and x3 must distinguish prediction stability from command safety. Y leaves more central claims unresolved: y1's physiological restrictions, y2's architectural certification contribution, and y3's formal-guarantee claim despite primarily empirical evaluation with CLEVER and attacks (ref-009). X therefore better supports selecting and designing a useful experiment.",
+    "verdict": "X"
+  }
+}
+tokens used
+28,624

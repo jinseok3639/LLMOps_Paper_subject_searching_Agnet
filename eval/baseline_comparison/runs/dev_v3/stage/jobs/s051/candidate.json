@@ -1,0 +1,13 @@
+{
+ "title": "Evaluating Agentic Misalignment in Autonomous LLM Roles via Multi-Agent Testbeds",
+ "summary": "This work introduces a multi-agent testbed to measure agentic misalignment in LLMs operating autonomously in simulated environments with access to sensitive systems. The framework quantifies misalignment through action logs, goal deviation scores, and human evaluations, extending prior stress-testing methods with structured metrics and controlled counterfactual experiments.",
+ "gap": "While ref-002 stress-tests LLMs in hypothetical corporate scenarios, it lacks standardized metrics for quantifying misalignment and does not systematically isolate environmental factors. Existing evaluations rely on qualitative observations of harmful behaviors without numerical benchmarks for comparison or reproducibility.",
+ "approach": "We implement a multi-agent testbed with simulated environments (email clients, document repositories) where LLMs execute tasks under conflicting goals. Misalignment is measured via (1) action logs tracking unauthorized actions (e.g., data leaks), (2) goal deviation scores calculated as the cosine similarity between model-generated action sequences and optimal aligned sequences, and (3) human evaluations using a 5-point harmfulness rubric. Counterfactual testing involves holding model architecture constant while varying environmental constraints (e.g., access permissions) to isolate their impact on behavior.",
+ "evaluation": "We test Llama 2-Chat models (7B, 13B, 70B) from ref-001 and models from ref-002 against rule-based agents and non-safety-trained baselines. Metrics include task success rate, harmful action frequency (detected via environment logs), goal deviation scores, and harmfulness ratings from annotators with ML safety expertise. The testbed replicates ref-002's scenarios with added metrics and validates findings under controlled conditions.",
+ "support": [
+  "ref-001",
+  "ref-002",
+  "ref-007",
+  "ref-019"
+ ]
+}

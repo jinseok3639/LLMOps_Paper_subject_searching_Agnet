@@ -1,0 +1,62 @@
+{
+ "sample": "t003",
+ "condition": "B",
+ "n_refs": 25,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Lipschitz-Constrained EEGNet: Formal Robustness Against Adversarial Perturbations in EEG-Based BCIs",
+   "summary": "This paper modifies EEGNet's convolutional layers using Parseval tight frame constraints and SDP-based Lipschitz optimization to enforce formal robustness guarantees against adversarial perturbations in EEG-based BCIs. By bounding the Lipschitz constant of each layer to ≤1, the model limits input-output sensitivity for perturbations within a defined ε-ball. Evaluation on P300, ERN, MRCP, and SMR datasets from MOABB demonstrates reduced attack success rates (ASR) under FGSM and PGD attacks compared to standard EEGNet, with ablation studies isolating the effect of Lipschitz constraints from adversarial training.",
+   "gap": "While EEGNet generalizes across BCI paradigms (ref-001), it lacks formal robustness guarantees against adversarial perturbations (ref-021). Existing adversarial detection methods (ref-021) do not prevent misclassification, leaving a gap in proactive robustness for safety-critical BCIs.",
+   "approach": "Modify EEGNet's depthwise and separable convolutions to enforce Parseval tight frame constraints (ref-010), ensuring each layer's Lipschitz constant ≤1. Integrate SDP-based optimization (ref-005, ref-020) during training to bound the network's global Lipschitz constant. Apply constraints to all convolutional layers, maintaining EEGNet's architecture and training procedure except for added Lipschitz regularization.",
+   "evaluation": "Compare ASR (%) under FGSM (ε=0.1) and PGD (10 steps, ε=0.1) between standard EEGNet, Parseval-constrained EEGNet (LC-EEGNet), and LC-EEGNet with adversarial training. Use MOABB's P300 (PhysioNet), ERN (BCI Competition IV), MRCP (Ephemeral), and SMR (BNCI Horizon) datasets. Report CLEVER scores (ref-009) with ε=0.1 and 100 samples. Ablation study compares LC-EEGNet with/without adversarial training to isolate constraint effects.",
+   "support": [
+    "ref-001",
+    "ref-005",
+    "ref-010",
+    "ref-020",
+    "ref-021"
+   ]
+  },
+  {
+   "title": "Certified Robustness for EEG-Based BCIs via Lipschitz-Aware Training",
+   "summary": "This work introduces a certified robustness framework for EEG classification by integrating Lipschitz constant estimation into EEGNet training. Using semidefinite programming bounds, the model guarantees minimal perturbation thresholds for misclassification across BCI paradigms. Evaluation demonstrates improved robustness certification compared to empirical defenses, validated on adversarial examples from multiple attack methods.",
+   "gap": "Current EEG-based BCIs rely on empirical robustness evaluations via attack success rates, lacking formal guarantees. While ref-005 and ref-020 provide general Lipschitz certification via SDP, these methods are untested on EEGNet's depthwise-separable convolutions (ref-001) in high-noise, low-sample BCI settings.",
+   "approach": "Extend SDP-based Lipschitz estimation to EEGNet by incorporating layer-wise quadratic constraints during training, treating temporal and spatial convolution layers separately. Optimize for minimal Lipschitz constants while preserving classification accuracy, enabling post-training certification of perturbation tolerance.",
+   "evaluation": "Measure certified robustness radii against $\\ell_2$ and $\\ell_\\infty$ perturbations using CLEVER (ref-009) and SDP bounds on MOABB datasets (ref-007), including P300, ERN, MRCP, and SMR paradigms. Compare with adversarial training and Parseval networks (ref-010) using Parseval layers. Metrics: certified accuracy vs. perturbation magnitude (AUC), with ablation isolating Lipschitz-aware training effects.",
+   "support": [
+    "ref-001",
+    "ref-005",
+    "ref-007",
+    "ref-009",
+    "ref-010",
+    "ref-020"
+   ]
+  },
+  {
+   "title": "Cross-Paradigm Safety Verification for BCI Neural Networks",
+   "summary": "We propose a framework to formally verify safety properties of EEG classifiers across BCI paradigms using semidefinite programming. By modeling activation functions with quadratic constraints, we derive worst-case input bounds for misclassification. This approach generalizes beyond single-paradigm validation, enabling safety certification of BCIs for medical use where false predictions could be life-threatening.",
+   "gap": "While ref-007 shows BCI methods fail to generalize across datasets and ref-009 quantifies worst-case robustness via CLEVER, neither combines formal verification with multi-paradigm EEG models like EEGNet (ref-001). Existing safety analyses lack worst-case bounds for BCIs across paradigms, leaving gaps in medical certification.",
+   "approach": "Apply ref-005's SDP framework to EEGNet models, abstracting ReLU/ELU activations as quadratic constraints. Derive input perturbation thresholds for misclassification across P300/MRCP/SMR paradigms by solving SDPs that enforce Lipschitz bounds. This differs from ref-005 by targeting EEG-specific architectures and multi-paradigm generalization.",
+   "evaluation": "Measure verified robustness radii on MOABB's BNCI Horizon 2014 (motor-imagery) and ref-001's P300/MRCP datasets. Compare against CLEVER (ref-009) and ref-005's method on EEGNet. Ablation tests quadratic constraints vs. piecewise linear bounds (ref-020). Validate safety thresholds via weighted Hamming loss for motor-imagery, where false negatives (no movement) cost more than false positives (phantom movement).",
+   "support": [
+    "ref-001",
+    "ref-005",
+    "ref-007",
+    "ref-009",
+    "ref-020"
+   ]
+  }
+ ],
+ "calls": 132,
+ "chosen_ids": [
+  "s1-assumption",
+  "s2-transfer",
+  "s2-assumption"
+ ],
+ "method": "eval\\baseline_comparison\\methods\\v2",
+ "method_version": "v2",
+ "dropped_proposals": {},
+ "refine_failed": [],
+ "seconds": 275.6
+}

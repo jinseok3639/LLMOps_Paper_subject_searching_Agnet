@@ -1,0 +1,66 @@
+{
+ "sample": "t006",
+ "condition": "E",
+ "n_refs": 63,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Contribution-Aware Pruning for OOD Detection via Feature Space Sparsification",
+   "summary": "This work addresses the challenge of out-of-distribution (OOD) detection by pruning non-discriminative features that introduce noise in high-dimensional activations. The method ranks neurons by their contribution to in-distribution classification, then applies structured pruning to suppress low-importance features. The approach is evaluated on ImageNet with the NINCO and OpenOOD benchmarks, showing improved OOD detection by reducing distracting dimensions. The method is compared against established baselines (MSP, ODIN, Energy) and sparsification-based methods (DICE, KNN, CIDER) using AUROC and FPR@95 metrics.",
+   "gap": "While ref-028 (KNN) and ref-029 (CIDER) use non-parametric and hyperspherical methods to filter non-discriminative features, and ref-055 (DICE) uses sparsification for OOD detection, no method explicitly ranks and prunes features based on their contribution to in-distribution classification. This leaves open the question of how to identify and remove the most distracting dimensions for OOD detection under semantic shifts.",
+   "approach": "The method ranks neurons by their contribution to in-distribution classification using gradient-based importance scores, then applies structured pruning to ResNet-50 and ViT-B/16 models. The pruning threshold is determined via cross-validation on a held-out in-distribution validation set. The pruned model is used to compute OOD scores (e.g., MSP, Energy) for detection. The key difference from ref-055 (DICE) is the use of contribution-aware pruning (vs. random or magnitude-based pruning) to target the most distracting features for OOD detection.",
+   "evaluation": "The method is evaluated on ImageNet with NINCO and OpenOOD benchmarks, comparing AUROC and FPR@95 against baselines (MSP, ODIN, Energy) and sparsification-based methods (DICE, KNN, CIDER). Ablation studies isolate the effect of contribution-aware pruning (vs. random pruning) and test robustness to varying pruning thresholds (0.1x to 0.9x of total features). Statistical significance is assessed via paired t-tests across 5 random seeds.",
+   "support": [
+    "ref-028",
+    "ref-029",
+    "ref-035",
+    "ref-045",
+    "ref-047",
+    "ref-055"
+   ]
+  },
+  {
+   "title": "Flat Minima Optimization for Joint Misclassification and OOD Detection via Confidence Gap Maximization",
+   "summary": "This work proposes optimizing flat minima to simultaneously improve misclassification detection and out-of-distribution (OOD) detection by maximizing the confidence gap between correct/incorrect in-distribution (ID) and OOD samples. The approach integrates a sharpness-aware minimization framework with a confidence gap loss term that enforces separability in softmax scores. Validation involves benchmarking on ImageNet-scale datasets with diverse OOD sources and comparing against calibration/OOD baselines using FPR95 and AUROC metrics.",
+   "gap": "Existing calibration methods often degrade confidence separation between correct and incorrect ID predictions ([ref-059]), while flat minima research focuses on generalization without explicitly addressing confidence gaps ([ref-030]). Current OOD detection methods lack systematic evaluation of their impact on ID confidence separation.",
+   "approach": "The approach combines Sharpness-Aware Minimization (SAM) with a confidence gap loss term. SAM minimizes loss sharpness via adversarial weight perturbations within an epsilon-ball around EMA weights (epsilon=0.05, rho=0.5). The confidence gap loss maximizes margins between softmax scores of correct ID (y_true), incorrect ID (y_incorrect), and OOD samples (y_OOD): L_gap = max(0, m - (p(y_true) - p(y_incorrect)) - (p(y_true) - p(y_OOD))). Total loss: L_total = L_classification + lambda * L_sharpness + gamma * L_gap (lambda=1/3, gamma=1/3).",
+   "evaluation": "Baselines: Temperature scaling ([ref-033]), ODIN ([ref-015]), SAM ([ref-010]), and F-SAM ([ref-030]). Metrics: FPR95 for OOD detection, misclassification detection AUROC, and top-1 accuracy. Datasets: ImageNet-1K with CIFAR-10/100, Textures, and OpenImage-O as OOD. Ablation studies isolate SAM (epsilon=0.05), L_gap (gamma=1/3), and their combination. Comparisons against [ref-002] and [ref-059] use identical covariate-shift scenarios from [ref-059].",
+   "support": [
+    "ref-002",
+    "ref-010",
+    "ref-015",
+    "ref-030",
+    "ref-033",
+    "ref-059"
+   ]
+  },
+  {
+   "title": "Post-Hoc Confidence Rectification via Dirichlet Meta-Modeling for Multi-Task Failure Detection",
+   "summary": "This hypothesis proposes a post-hoc Dirichlet meta-model that learns to rectify overconfident predictions by modeling uncertainty from a trained classifier's features. The meta-model, trained on pseudo-labels derived from the base model's outputs, generates calibrated confidence scores for both in-distribution misclassification and OOD detection. Evaluation uses OpenOOD benchmarks and compares against post-hoc methods like ODIN, Mahalanobis distance, and OpenMix.",
+   "gap": "Existing post-hoc methods either address OOD detection or misclassification separately (ref-015, ref-023), or combine both tasks without Dirichlet modeling (ref-062). Ref-042 uses Dirichlet modeling for uncertainty quantification but does not explicitly unify OOD detection and misclassification. No prior work combines Dirichlet modeling with a unified framework for both tasks.",
+   "approach": "Train a lightweight Dirichlet meta-model (3-layer MLP) on features from a frozen base classifier. The meta-model outputs concentration parameters α₁,...,α_K for a Dirichlet distribution, where entropy H(p) of p ~ Dir(α) serves as the confidence score. Pseudo-labels are generated by applying Gaussian noise (σ=0.1) to inputs and mixing base model predictions via CutMix (ref-038) with λ=0.5. The meta-model minimizes KL divergence between predicted α and pseudo-label distributions.",
+   "evaluation": "Baselines: ODIN (ref-015), Mahalanobis (ref-023), MC dropout (ref-050), and OpenMix (ref-062). Metrics: AUROC for OOD detection and failure prediction, FPR@95, and Expected Calibration Error (ECE). Test on ImageNet-1K with NINCO (ref-047) and CIFAR-10 with SVHN as OOD. Ablation studies compare entropy-based scores against alternative uncertainty metrics (e.g., predictive entropy, mutual information) from the same meta-model.",
+   "support": [
+    "ref-015",
+    "ref-023",
+    "ref-038",
+    "ref-042",
+    "ref-047",
+    "ref-050",
+    "ref-062"
+   ]
+  }
+ ],
+ "calls": 130,
+ "chosen_ids": [
+  "s3-formal",
+  "s1-assumption",
+  "s2-empirical"
+ ],
+ "method": "eval\\baseline_comparison\\methods\\v4",
+ "method_version": "v4",
+ "dropped_proposals": {},
+ "refine_failed": [],
+ "seconds": 426.8,
+ "copied_from": "runs/final_B_v4/gen/t006_B.json"
+}

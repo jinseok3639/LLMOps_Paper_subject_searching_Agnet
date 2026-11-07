@@ -1,0 +1,14 @@
+{
+ "title": "Constitutional AI with Adaptive Reasoning Depth for Jailbreak Resistance",
+ "summary": "This paper enhances Constitutional AI by dynamically adjusting reasoning depth based on input risk level. A lightweight classifier triggers multi-step self-critique chains for suspicious prompts, while simple queries receive direct answers. Evaluated on StrongREJECT and HarmBench, it achieves higher safety scores than fixed-depth Constitutional AI while maintaining performance on benign tasks.",
+ "gap": "Original Constitutional AI (ref-013) applies uniform reasoning depth, wasting compute on safe queries and failing to deeply analyze sophisticated jailbreaks. Current jailbreak defenses (ref-017, ref-021) lack adaptive mechanisms to balance safety and efficiency.",
+ "approach": "We implement a two-stage pipeline: (1) a fast safety classifier based on ShieldGemma (ref-005) that estimates risk level, and (2) a variable-depth reasoning module that generates 1-3 critique-revision cycles depending on the risk score. The system uses a learned threshold to decide when additional reasoning is needed.",
+ "evaluation": "Baselines include Constitutional AI (ref-013), Llama Guard (ref-016), and Safe RLHF (ref-019). Metrics are ASR on StrongREJECT, latency per query, and helpfulness on non-malicious prompts. We compare F1 scores for safety classification against ground truth labels.",
+ "support": [
+  "ref-005",
+  "ref-013",
+  "ref-016",
+  "ref-017",
+  "ref-021"
+ ]
+}

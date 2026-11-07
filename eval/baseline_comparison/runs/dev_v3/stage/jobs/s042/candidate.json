@@ -1,0 +1,16 @@
+{
+ "title": "Safety Verification of EEG-Based BCIs via Quadratic Constraint-Based Robustness Analysis",
+ "summary": "This paper applies quadratic constraint-based semidefinite programming (SDP) to formally verify the robustness of EEGNet models against input perturbations. By encoding EEG signal properties (e.g., temporal smoothness) as quadratic constraints, the method provides certified robustness bounds for BCI classifiers under bounded adversarial noise.",
+ "gap": "While ref-022 establishes formal robustness guarantees for classifiers, it does not address EEG-specific signal constraints. Current BCI robustness evaluations (e.g., ref-021, ref-024) rely on empirical attack success rates, lacking formal guarantees that incorporate domain-specific EEG signal properties.",
+ "approach": "Model EEG signal constraints (e.g., bandpass frequency limits, temporal smoothness) as quadratic inequalities and integrate them into an SDP framework to compute certified robustness bounds. Apply to EEGNet layers using the quadratic constraint abstraction method from ref-005. The core mechanism differs from ref-005 by incorporating EEG-specific constraints (e.g., 0.5-40 Hz bandpass limits) as additional quadratic inequalities in the SDP formulation. Inputs: EEGNet model parameters, EEG signal constraints. Outputs: Certified robustness radii (L2/L∞ norms) for each test sample.",
+ "evaluation": "Compare certified robustness radii against empirical attack radii (PGD, C&W) on BCI Competition IV Dataset 2a (ref-007), with L2/L∞ perturbation bounds of 0.1/0.05. Validate bounds hold for >95% of test samples. Baseline: Lipschitz-based bounds from ref-020. Ablation: Compare SDP bounds with/without EEG-specific constraints to isolate their impact.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-020",
+  "ref-021",
+  "ref-022",
+  "ref-024"
+ ]
+}

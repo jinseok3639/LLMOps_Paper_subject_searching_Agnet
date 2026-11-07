@@ -175,6 +175,46 @@ class FormatFailureTests(unittest.TestCase):
             ma.run_sample(self.method, "test", REFS, 1)
 
 
+class TopicDedupTests(unittest.TestCase):
+    """최종 선별의 같은 주제 거르기."""
+
+    def setUp(self):
+        self.method = ma.Method(config.ROOT_DIR / "src/generation_method", "")
+        self.method.prompts["same_topic"] = "Same topic?"
+        self.by_id = {i: {"refined": {"title": t}} for i, t in
+                      [("c1", "robust A"), ("c2", "robust A again"), ("c3", "other B"), ("c4", "third C"), ("c5", "robust A third")]}
+        self.calls = []
+
+        def call(system, user, schema, temperature=None):
+            self.assertIs(schema, ma.SameTopic)
+            self.calls.append(user)
+            same = "robust A" in user.split("Hypothesis 2:", 1)[0] and "robust A" in user.split("Hypothesis 2:", 1)[1]
+            return ma.SameTopic(same_topic=same, reason="r")
+        self.method.call = call
+
+    def dedup(self, on):
+        self.method.config = {**self.method.config, "final_selection": {"overlap_filter": False, "topic_dedup": on}}
+
+    def test_off_keeps_top_three_without_calls(self):
+        self.dedup(False)
+        chosen, fallback, _ = ma.select(self.method, ["c1", "c2", "c3", "c4"], self.by_id, REFS, "")
+        self.assertEqual(chosen, ["c1", "c2", "c3"])
+        self.assertEqual(self.calls, [])
+
+    def test_on_skips_same_topic(self):
+        self.dedup(True)
+        chosen, fallback, log = ma.select(self.method, ["c1", "c2", "c3", "c4"], self.by_id, REFS, "")
+        self.assertEqual(chosen, ["c1", "c3", "c4"])
+        self.assertEqual(fallback, [])
+        self.assertEqual([e["decision"] for e in log], ["chosen", "same_topic", "chosen", "chosen"])
+
+    def test_on_fills_with_skipped_when_short(self):
+        self.dedup(True)
+        chosen, fallback, _ = ma.select(self.method, ["c1", "c2", "c5", "c3"], self.by_id, REFS, "")
+        self.assertEqual(chosen, ["c1", "c3", "c2"])
+        self.assertEqual(fallback, ["c2"])
+
+
 def strip_retry(user):
     return user.split(ma.RETRY_NOTE, 1)[0]
 

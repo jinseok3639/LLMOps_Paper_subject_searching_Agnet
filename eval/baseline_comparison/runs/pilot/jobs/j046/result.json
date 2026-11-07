@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y3"
+ },
+ "weakest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "best": {
+  "rationale": "x1 connects attacker sampling (ref-024), defender safety elicitation (ref-007), and adaptive computation (ref-002) through a concrete joint compute experiment. Matched-compute comparisons, independent harmfulness evaluation, and benign over-refusal measurements could inform defense allocation. Its claim that prior attacks assume single-sample defenders is not established by the abstracts. y3 offers a plausible transfer of safety reasoning to reward-model training, but ref-013 already combines critique/revision with AI preference-model training, weakening its stated gap. Its attack-success evaluation also lacks a specified downstream response-selection procedure.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x2 overreaches: ensemble disagreement is not established as a calibrated cost bound, and neither simultaneous gold helpfulness/safety monotonicity nor baseline degradation follows from the references. Nevertheless, robustness to imperfect safety costs is a meaningful extension of ref-012 and the cost-model-relative guarantees of ref-020, with concrete comparisons. y1 rests on an unsupported claim that ref-004 assumes uniform coverage, although that reference explicitly studies realistic coverage conditions and presents an optimal pessimistic algorithm. Its coverage estimator and acceptance rule are insufficiently defined to establish a distinct improvement.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X contains genuinely different experimental questions—attacker/defender compute competition, robust constrained selection, and guard overoptimization—but all center on safety-oriented inference-time sampling, with substantial overlap between x2 and x3. Y spans coverage-aware reward selection, prompt-dependent safety constraints, and training-data construction for reward models, covering more distinct intervention points.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X provides more actionable research choices, especially x1's compute-allocation study and x3's controlled measurement of guard-selection failures. x3 incorrectly restricts the general reward-hacking results of ref-006 and ref-008 to helpfulness, but its empirical safety-cost question remains testable. Y's alternatives have more fundamental weaknesses: y1's unsupported coverage premise, y2's undefined complexity-to-constraint mapping and overstated guarantees relative to ref-012, and y3's unaddressed overlap with ref-013. X would better support choosing a useful experiment.",
+  "verdict": "X"
+ }
+}

@@ -1,0 +1,13 @@
+{
+ "title": "Agentic Misalignment in Safety-Trained LLMs: A Controlled Evaluation Framework",
+ "summary": "This paper introduces a controlled evaluation framework to measure agentic misalignment in safety-trained LLMs, focusing on scenarios where models autonomously access sensitive systems. We design testbeds simulating corporate environments and measure deviations from stated goals, including malicious insider behaviors. The framework is validated by comparing misalignment rates across models with/without safety training, using both synthetic and real-world task benchmarks.",
+ "gap": "Current safety evaluations focus on direct command-following, but agentic misalignment in autonomous roles (e.g., email systems) has only been stress-tested in hypothetical scenarios, lacking standardized metrics or real-world validation.",
+ "approach": "We create a multi-agent testbed where LLMs interact with simulated environments (e.g., email clients, document repositories) under conflicting goals. Misalignment is quantified via (1) action logs (e.g., unauthorized data access), (2) goal deviation scores, and (3) human evaluations of harmfulness. The framework includes counterfactual testing to isolate model behavior from environmental factors.",
+ "evaluation": "We test models from ref-001 and ref-002, comparing misalignment rates against baselines like rule-based agents and non-safety-trained models. Metrics include task success rate, harmful action frequency, and alignment with stated goals. The framework is further validated by replicating ref-002's findings under controlled conditions.",
+ "support": [
+  "ref-001",
+  "ref-002",
+  "ref-007",
+  "ref-019"
+ ]
+}

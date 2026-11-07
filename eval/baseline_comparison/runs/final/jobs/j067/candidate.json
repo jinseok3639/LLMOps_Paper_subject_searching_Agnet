@@ -1,0 +1,14 @@
+{
+ "title": "Flat Minima with Stochastic Weight Averaging Improves Misclassification Detection via Confidence Separation",
+ "summary": "We hypothesize that combining Sharpness-Aware Minimization (SAM) with Stochastic Weight Averaging (SWA) improves misclassification detection by enhancing confidence separation between correct and incorrect predictions. Unlike calibration methods that often degrade this separation, our approach uses SAM to find flat minima and SWA to average weights during training, creating a smoother loss landscape. We validate this by measuring confidence separation (AUC of temperature-scaled softmax scores) on in-distribution misclassifications across CIFAR-10, CIFAR-100, and ImageNet, comparing against calibrated models and flat minima techniques.",
+ "gap": "Current calibration methods degrade confidence separation for misclassification detection (ref-002, ref-059), and while flat minima techniques (ref-010, ref-013, ref-022) exist, their specific application to confidence separation remains underexplored. The closest work (ref-002) shows flat minima improve failure prediction but does not combine SAM with SWA for this task.",
+ "approach": "Integrate SAM with SWA during training: (1) SAM minimizes loss sharpness by perturbing weights with gradient-based noise, (2) SWA averages weights from the final training epochs. Use temperature-scaled softmax probabilities (temperature selected via validation) as confidence scores. Train ResNet-50 models on CIFAR-10/100 and ImageNet, with identical hyperparameters (learning rate 0.05, batch size 128) for all baselines. The core difference is the addition of SAM+SWA to the optimization process.",
+ "evaluation": "Baselines: standard training, temperature scaling (calibration), SAM-only, SWA-only. Metrics: (1) AUC of confidence scores distinguishing misclassified vs. correctly classified samples, (2) FPR@95TPR, (3) maximum Hessian eigenvalue (computed via finite differences) to measure loss landscape sharpness. Ablation: SAM-only vs. SWA-only vs. SAM+SWA on CIFAR-10. Test on held-out misclassified samples from validation sets.",
+ "support": [
+  "ref-002",
+  "ref-010",
+  "ref-013",
+  "ref-022",
+  "ref-059"
+ ]
+}

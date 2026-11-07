@@ -1,0 +1,15 @@
+{
+ "title": "Cross-Paradigm Generalization via SDP-Based Safety Verification in EEG-Based BCIs",
+ "summary": "We introduce an SDP-based safety verification framework for EEGNet to formally guarantee classification robustness across BCI paradigms. By modeling EEG signal variations as bounded input uncertainties, we derive output bounds via quadratic constraints and semidefinite programming. The method is evaluated on cross-paradigm generalization tasks, measuring verified robustness margins and classification consistency against MOABB benchmark algorithms.",
+ "gap": "Current BCI generalization evaluations lack formal robustness guarantees when transitioning between paradigms, risking deployment failures in real-world scenarios.",
+ "approach": "Apply quadratic constraint-based SDP verification to EEGNet, modeling paradigm-specific EEG variations as input uncertainty sets, and deriving worst-case output bounds to certify cross-paradigm robustness.",
+ "evaluation": "Compare verified robustness margins, cross-paradigm classification accuracy, and MOABB benchmark scores against standard EEGNet, FBCSP, and deep ConvNet baselines on four paradigms.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-009",
+  "ref-020",
+  "ref-022"
+ ]
+}

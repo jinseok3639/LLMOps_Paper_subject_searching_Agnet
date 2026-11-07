@@ -1,0 +1,12 @@
+{
+ "title": "Teacher-Agent Bias Auditing in Multi-Agent Educational Systems",
+ "summary": "We challenge the assumption that learner-agent simulations alone ensure bias-free educational materials. Our approach introduces teacher-agent-driven bias auditing using structured social impact categories, implemented via corpus-level constraints. The system is evaluated on grade 8 mathematics materials, comparing bias metrics and task suitability with and without the teacher agent's bias modules.",
+ "gap": "While ref-004's FACET framework includes an evaluator agent for quality assurance, it lacks explicit bias mitigation mechanisms. Ref-003 defines seven social impact categories for evaluating bias but does not implement them in multi-agent educational systems. No prior work integrates these categories into teacher-agent design to proactively reduce representational harms in generated materials.",
+ "approach": "Augment FACET's teacher agent with bias detection modules that evaluate generated materials against ref-003's seven social impact categories (bias/stereotypes, cultural values, etc.). Implement ref-012's corpus-level constraint methodology to enforce bias reduction during material revision. The teacher agent iteratively revises materials flagged by the bias modules, preserving task suitability while reducing representational harms. The core mechanism differs from ref-004's evaluator agent by explicitly incorporating ref-003's bias categories and ref-012's constraint optimization.",
+ "evaluation": "Test on ref-004's grade 8 mathematics materials. Compare bias metrics (ref-003's categories, ref-012's quantitative bias amplification measures) between: (1) original FACET output (baseline), (2) teacher-agent-revised materials with bias modules, and (3) teacher-agent-revised materials without bias modules (ablation). Measure task suitability via ref-004's teacher feedback metrics (structure, suitability).",
+ "support": [
+  "ref-003",
+  "ref-004",
+  "ref-012"
+ ]
+}

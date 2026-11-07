@@ -1,0 +1,15 @@
+{
+ "title": "Backdoor Trigger Synthesis via Activation Space Property Testing",
+ "summary": "This paper proposes generating undetectable backdoor triggers by optimizing for computational indistinguishability in activation spaces. The method uses property testing techniques to ensure triggers evade detection while maintaining attack efficacy. Validation involves testing against defenses like STRIP and Neural Cleanse.",
+ "gap": "While ref-021 provides theoretical guarantees of computational indistinguishability for backdoors under cryptographic assumptions, it does not address practical detection evasion against runtime defenses like STRIP (ref-009). Current trigger synthesis methods (ref-003, ref-021) lack empirical validation of how their triggers perform against such defenses, leaving a gap in bridging theory and practice.",
+ "approach": "Formalize trigger design as a property testing problem (ref-016, ref-019) where triggers must satisfy indistinguishability properties under activation space queries. Use gradient-based optimization with constraints derived from STRIP's entropy-based detection mechanism (ref-009) to generate triggers that maintain low entropy perturbations while preserving attack efficacy. The core mechanism differs from ref-021 by operationalizing indistinguishability via practical detection evasion rather than cryptographic hardness assumptions.",
+ "evaluation": "Evaluate attack success rate (ASR) and detection evasion rate against STRIP (ref-009) and Neural Cleanse (ref-011) on CIFAR-10 using ResNet-18. Compare with Hidden Trigger (ref-003) and ref-021's backdoor construction baselines. Include an ablation study isolating the effect of entropy constraints versus standard trigger optimization by measuring ASR and detection rate with/without the constraints.",
+ "support": [
+  "ref-003",
+  "ref-021",
+  "ref-009",
+  "ref-016",
+  "ref-019",
+  "ref-011"
+ ]
+}

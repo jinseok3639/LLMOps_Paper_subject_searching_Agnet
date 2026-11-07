@@ -1,0 +1,14 @@
+{
+ "title": "Interpretable Adversarial Detection in EEG-BCIs via Spectral-Spatial Feature Disentanglement",
+ "summary": "This paper proposes a Mahalanobis distance-based anomaly detection framework that disentangles spectral and spatial EEG features to improve interpretability and generalization in adversarial detection for BCIs. The method models class-conditional Gaussian distributions separately for spectral and spatial feature subspaces, enabling targeted anomaly scoring and visualization of perturbation impacts.",
+ "gap": "While ref-021 demonstrates high detection AUC using Mahalanobis distance on raw feature embeddings, it does not disentangle spectral and spatial EEG characteristics, limiting interpretability of which feature dimensions are perturbed. EEGNet (ref-001) extracts both spectral and spatial features but does not isolate their contributions to adversarial detection.",
+ "approach": "Extract EEGNet embeddings, decompose them into spectral (frequency band power) and spatial (electrode topography) subspaces via learned linear projections. Train separate class-conditional Gaussian models for each subspace. Compute anomaly scores as the sum of Mahalanobis distances in each subspace. Inputs: EEG trials; Outputs: Per-subspace anomaly scores; Objective: Minimize reconstruction error of spectral-spatial decomposition while maximizing detection AUC; Update rule: Alternating optimization of decomposition matrices and Gaussian parameters; Differs from ref-021: Explicit spectral-spatial disentanglement via subspace modeling.",
+ "evaluation": "Test on three MOABB datasets (ref-007) used in ref-021: BNCI Horizon 2014001, PhysioNet MI, and BCIC IV IIa. Compare against ref-021's Mahalanobis detector and LID baseline under FGSM, PGD, and UAP attacks. Report AUC, true positive rate at 1% false positive rate, and ablation study isolating spectral/spatial contributions. Visualize decision boundaries via t-SNE on both subspaces to demonstrate interpretability.",
+ "support": [
+  "ref-001",
+  "ref-007",
+  "ref-015",
+  "ref-021",
+  "ref-024"
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "title": "Compute Races at Inference Time: Defender-Side Best-of-N versus Best-of-N Jailbreaking",
+ "summary": "Attackers and defenders can both spend test-time compute. Best-of-N jailbreaking shows that attack success follows power-law-like scaling in attacker samples. Separately, defender-side BoN with a guard reranker, and evidence that latent safety knowledge emerges at larger N, suggest that defense also scales. This proposal measures the joint attack-success surface over attacker samples and defender samples, and proposes risk-adaptive defender compute allocation per prompt. The hypothesis is that a defender-side power law can offset the attacker's, unless augmentations push the defender's guard out of distribution. Validation uses standardized jailbreak benchmarks and a gold harmfulness evaluator.",
+ "gap": "BoN jailbreaking assumes a single fixed sample per query from the defender. Safe BoN and compute-optimal test-time scaling ignore adaptive attackers. Nobody has characterized the two-sided scaling, or allocated defense compute adaptively by prompt risk.",
+ "approach": "For each augmented attack prompt, the defender draws N_d responses and selects one with a guard-cost-plus-reward score. The attacker repeats augmentations up to N_a times. Fit the attack-success surface as a function of N_a and N_d. Then add a prompt-risk estimator, a guard score on the input, that allocates N_d adaptively in the compute-optimal spirit, analogous to routing harder or riskier queries to more compute.",
+ "evaluation": "Measure attack success rate on HarmBench and JailbreakBench behaviors, judged by the StrongREJECT evaluator, over grids of N_a and N_d. Compare fixed-N defense, adaptive-N defense, input-filter-only guarding, and refusal-trained models at matched FLOPs. Secondary metrics are over-refusal on benign prompts and the exponents of the fitted power laws.",
+ "support": [
+  "ref-024",
+  "ref-002",
+  "ref-007",
+  "ref-012",
+  "ref-016",
+  "ref-005",
+  "ref-014",
+  "ref-017",
+  "ref-021",
+  "ref-011",
+  "ref-022"
+ ]
+}

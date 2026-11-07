@@ -1,0 +1,13 @@
+{
+ "title": "MBR-BoN for Preference Dataset Curation in RLHF",
+ "summary": "This paper applies MBR-BoN to generate preference datasets for RLHF, mitigating reward hacking by incorporating proximity regularization. The method uses Minimum Bayes Risk decoding to select diverse, high-quality responses, which are then used to train reward models. Experiments on AlpacaFarm and hh-rlhf datasets show improved alignment and reduced overoptimization.",
+ "gap": "Standard BoN sampling for RLHF datasets suffers from reward hacking due to imperfect reward models (ref-003). While ref-010 shows reward models can scale with high-quality data, ref-006 demonstrates reward hacking limits policy quality when optimizing imperfect proxies. Ref-019 addresses safety constraints but does not mitigate reward hacking during dataset generation.",
+ "approach": "Extend MBR-BoN from decoding to preference dataset generation. For each prompt, sample N responses from an LLM. Rank responses using a weighted sum of (1) a reward model score and (2) an MBR proximity term measuring KL divergence from a reference policy (base LLM). Pair top-ranked responses with lower-ranked ones as preferences. Train reward models on this dataset. The MBR term is defined as -KL(p_ref || p_gen), where p_ref is the reference policy distribution and p_gen is the generated response distribution.",
+ "evaluation": "Compare datasets generated via MBR-BoN vs. vanilla BoN on AlpacaFarm and hh-rlhf using identical reward models. Measure reward model performance via AU-PRC on Anthropic's benchmarks (ref-010). Evaluate downstream policies via human evaluations on 100 prompts with 3 annotators each, measuring win rates for helpfulness/harmlessness. Ablation: compare (1) MBR-BoN, (2) vanilla BoN, and (3) MBR-only ranking without reward model to isolate the proximity term's effect.",
+ "support": [
+  "ref-003",
+  "ref-006",
+  "ref-010",
+  "ref-019"
+ ]
+}

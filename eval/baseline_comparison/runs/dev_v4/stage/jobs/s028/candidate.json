@@ -1,0 +1,14 @@
+{
+ "title": "Ethical Robustness Verification for BCI Systems: Bridging Safety and Human Rights",
+ "summary": "This paper introduces a framework for verifying BCI systems against adversarial threats while ensuring compliance with proposed neuro-rights (e.g., cognitive liberty, mental privacy). It formalizes robustness requirements as quadratic constraints and integrates them into a semidefinite programming (SDP) verification pipeline. The approach maps neuro-rights principles to specific SDP constraints, such as bounded input perturbations for private mental states, and evaluates the framework on EEG-based BCI models with sensitive data.",
+ "gap": "Current SDP-based robustness verification (ref-005) does not explicitly model BCI-specific ethical constraints, such as mental privacy. While ref-016 defines neuro-rights (e.g., right to mental privacy), ref-017 shows that existing BCI security countermeasures do not formally enforce these rights through verifiable technical constraints.",
+ "approach": "Extend ref-005's SDP framework by adding quadratic constraints derived from neuro-rights principles (e.g., bounded perturbations on EEG features linked to private mental states). The pipeline takes a trained BCI model (e.g., EEGNet from ref-001) and input uncertainty set, and outputs a certified robustness radius under ethical constraints. It differs from ref-005 by incorporating domain-specific constraints (e.g., bounded slope for ERN-related EEG channels) to enforce neuro-rights.",
+ "evaluation": "Test the framework on EEGNet (ref-001) using BCI Competition IV's ERN dataset (ref-001), with baselines including standard SDP verification (ref-005) and Parseval networks (ref-010). Measures include certification rates, classification accuracy, and perturbation bounds under ethical constraints. Ablation studies isolate the impact of neuro-rights constraints by comparing results with/without them.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-010",
+  "ref-016",
+  "ref-017"
+ ]
+}

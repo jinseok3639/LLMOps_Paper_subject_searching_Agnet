@@ -1,0 +1,12 @@
+{
+ "title": "Adaptive Reward Model Pessimism for Scaling-Monotonic Inference-Time Alignment",
+ "summary": "We propose a method to adaptively adjust reward model pessimism during Best-of-N sampling, ensuring that increased test-time compute does not degrade response quality due to reward hacking. By dynamically penalizing high-reward responses that deviate from a reference policy, we maintain alignment with true human preferences. The approach is validated on the Anthropic HH-RLHF and AlpacaFarm datasets, comparing against static reward models and InferenceTimePessimism, with metrics including human preference scores, reward model score variance, and safety evaluations.",
+ "gap": "Current methods like InferenceTimePessimism (ref-004) and MBR-BoN (ref-003) do not adaptively adjust pessimism based on the difficulty of the prompt or the confidence of the reward model, leading to suboptimal performance when scaling N.",
+ "approach": "We introduce a dynamic penalty term that scales with the reward model's uncertainty (estimated via ensemble variance) and the prompt's complexity (measured by reference policy entropy). This penalty is applied during Best-of-N reranking, with the strength adjusted per-prompt to balance reward maximization and proximity to the reference distribution.",
+ "evaluation": "Baselines include standard BoN, MBR-BoN, and InferenceTimePessimism. Metrics are: (1) human preference win rates, (2) reward model score variance across N samples, (3) safety scores on ShieldGemma (ref-005) benchmarks, and (4) compute efficiency (samples per successful alignment).",
+ "support": [
+  "ref-003",
+  "ref-004",
+  "ref-005"
+ ]
+}

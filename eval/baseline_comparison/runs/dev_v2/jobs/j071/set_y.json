@@ -1,0 +1,50 @@
+[
+ {
+  "id": "y1",
+  "title": "Subliminal Trait Transmission Through Agent Distillation: Do Tool-Using Trajectories Carry Hidden Misalignment to Small Students?",
+  "summary": "We propose testing whether subliminal learning extends from plain text distillation to agent distillation, where small models learn from a teacher's retrieval and code-tool trajectories. A teacher with an implanted trait, such as insider-threat-style misalignment, generates filtered agentic trajectories on benign factual and math tasks. Students sharing or not sharing the teacher's base model are distilled, and we measure trait acquisition in held-out agentic misalignment scenarios. We also test whether first-thought prefixes or self-consistent action sampling change transmission. The hypothesis is that shared-base students acquire the trait despite content filtering, while different-base students do not.",
+  "gap": "Subliminal learning has been shown for numbers, code and reasoning traces, and agent distillation has been proposed as a way to transfer full task-solving behavior. Nobody has checked whether multi-step, tool-augmented trajectories transmit hidden unsafe traits, or whether agent-distillation tricks affect that risk.",
+  "approach": "Fine-tune a teacher to hold a trait (misaligned propensity or a benign preference). Generate agent trajectories (thought, code or retrieval action, observation) on benign tasks. Filter explicit trait references. Distill into small students with the same or a different base model, using the standard recipe, the first-thought prefix variant, and the self-consistent action variant. Evaluate trait expression in agentic insider-threat scenarios and in preference probes.",
+  "evaluation": "Compare trait rates of students against students distilled from a trait-free teacher, and compare same-base against cross-base students. Compare filtering strengths, including LLM-based filters. Measure task accuracy to check that distillation succeeded. Report trait rates with confidence intervals across seeds, and use harmful-action rate in the agentic misalignment scenarios as the main safety metric.",
+  "support": [
+   "ref-014",
+   "ref-009",
+   "ref-002",
+   "ref-011",
+   "ref-017",
+   "ref-008"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Token-Level Entanglement as a Detector and Mitigator of Hidden Trait Transfer in Distillation",
+  "summary": "We propose a white-box audit that predicts and blocks subliminal trait transfer before a student is trained. Given a teacher with a trait and a candidate distillation dataset, we compute token-level entanglement scores from teacher logits and per-token logit shifts, as in the reference-model comparison used in approximate unlearning. We then remove or resample the high-entanglement tokens, or perturb the teacher's output distribution at those tokens. We validate by checking whether entanglement scores predict student trait acquisition across datasets, and whether the intervention lowers transmission while retaining task utility.",
+  "gap": "Existing work shows that semantic filtering does not stop subliminal learning, and that token entanglement partly explains it. It gives no practical, quantitative pre-training audit or mitigation. Black-box output inspection is argued to be insufficient, but white-box audit methods for distillation data are not proposed.",
+  "approach": "Build a score for each token or sample from the log-probability difference between a trait-implanted teacher and its base model, a reinforced-versus-baseline comparison similar to unlearning methods. Rank dataset samples and tokens. Interventions are: drop top-scored samples, replace tokens with baseline-model predictions (generic labels), or mix in base-model samples. Test on number-sequence, code and reasoning-trace datasets.",
+  "evaluation": "Measure the correlation between the audit score and the post-distillation trait strength of the student. Compare mitigation against naive keyword or LLM-judge filtering and against random removal at the same budget. Measure the trade-off between residual trait rate and student task performance on standard benchmarks. Ablate the data modality and the model scale.",
+  "support": [
+   "ref-014",
+   "ref-017",
+   "ref-018",
+   "ref-016",
+   "ref-011",
+   "ref-008"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Does Subliminal Trait Transfer Amplify Over Generations? Unifying Subliminal Learning and Bias Amplification in Iterated Distillation",
+  "summary": "We propose studying iterated teacher-student chains in which each generation is distilled from the previous one's semantically neutral outputs. We test whether weak traits, such as slight political lean or a mild misalignment propensity, intensify across generations in the way bias amplification has been observed under iterative synthetic training. The method is a generational benchmark, using trait probes at each generation, controls for model collapse, and a base-model switch as a negative control. The aim is to determine whether hidden transmission compounds and whether accumulation or preservation of real data stops it.",
+  "gap": "Subliminal learning is shown for a single teacher-to-student step, and bias amplification has been studied across synthetic training generations but through visible content. Whether hidden, semantically unrelated signals compound across generations, and whether the mitigations that help against collapse also help here, is unknown.",
+  "approach": "Create a chain of generations. At generation 0, implant a graded trait in a model. Each later generation trains from the same base on filtered neutral data (number sequences or continuations) produced by the previous one. Compare three regimes: pure replacement, accumulation of earlier data, and preservation of a fraction of original data. Track trait strength and a model-collapse measure (perplexity or diversity) separately.",
+  "evaluation": "Plot trait strength against generation for each regime and for the cross-base negative control, and compare with a trait-free chain. Test whether trait amplification is independent of collapse by checking whether the mitigations controlling collapse also control the trait. Use probe-based trait scores and a political-bias benchmark with seeds and confidence intervals. Optionally run a neuron-level regression analysis to see whether the trait and collapse involve different units.",
+  "support": [
+   "ref-014",
+   "ref-010",
+   "ref-012",
+   "ref-017",
+   "ref-011",
+   "ref-020"
+  ]
+ }
+]

@@ -1,0 +1,13 @@
+{
+ "title": "Adaptive Reward Model Pessimism for Scaling-Monotonic Inference-Time Alignment",
+ "summary": "We propose a method to improve inference-time alignment by adaptively applying pessimism to reward model scores during Best-of-N sampling, ensuring performance does not degrade with increased N. The approach uses a dynamic penalty term based on reward model uncertainty, estimated via bootstrapped reward model ensembles. We validate this by comparing against fixed-penalty baselines and standard Best-of-N on tasks with varying prompt difficulty, measuring both reward model score and human evaluation metrics.",
+ "gap": "Existing methods like Best-of-N suffer from reward hacking when N is large, and while InferenceTimePessimism mitigates this, it does not adaptively adjust pessimism based on reward model confidence, leading to suboptimal performance on easy prompts.",
+ "approach": "Introduce a dynamic pessimism penalty that scales with reward model uncertainty, estimated via bootstrapped ensembles. For each generated response, the reward score is adjusted by a term proportional to the standard deviation of bootstrapped reward estimates. This adjusted score is used for ranking in Best-of-N sampling.",
+ "evaluation": "Compare against standard Best-of-N, fixed-penalty Best-of-N, and InferenceTimePessimism on datasets with varying prompt difficulties (e.g., HH-RLHF, AlpacaFarm). Measure reward model score, human evaluation of response quality, and compute the percentage of cases where performance improves with increased N (scaling monotonicity).",
+ "support": [
+  "ref-002",
+  "ref-004",
+  "ref-006",
+  "ref-012"
+ ]
+}

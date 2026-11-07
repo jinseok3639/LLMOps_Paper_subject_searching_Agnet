@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet's architecture and cross-subject evaluation (ref-001), Parseval constraints (ref-010), and the proposed robustness measures (ref-009, ref-020) are supported. However, ref-010 does not describe spectral normalization as the mechanism for maintaining Parseval constraints. The named dataset, subject count, trial count, and validation protocol are not supplied by ref-001. Claims that these methods are untested in EEG and ensure stable cross-subject adaptation are unestablished. Ref-005 is relevant background but does not substantiate a specific candidate claim.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The references leave open whether selectively constraining EEGNet's depthwise layers improves cross-subject adversarial robustness: ref-001 studies cross-subject classification, while ref-010 evaluates Parseval networks on image datasets. However, the claimed incompatibility with EEG convolutions is speculative. Ref-021 and ref-024 already investigate EEG adversarial vulnerability, so the gap needs a sharper distinction between existing EEG robustness evidence and the proposed transfer setting.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate identifies EEGNet, depthwise-only constraints, three baselines, leave-one-subject-out validation, SDP bounds, and CLEVER scores (ref-001, ref-009, ref-013, ref-020). These provide an experimental starting point. However, it conflates Parseval constraints with spectral normalization, leaving the proposed intervention and its distinction from the normalization baseline unclear. Perturbation norms, budgets, adversarial-training settings, and the cross-subject adaptation procedure are unspecified.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Cross-subject accuracy and robustness estimates broadly address the proposed gap (ref-001, ref-009, ref-020). However, constraining only depthwise layers does not establish the network-wide stability promised using ref-010's layerwise reasoning. Maintaining Parseval constraints through the same normalization used by the baseline also undermines the proposed ablation. Finally, the evaluation specifies subject holdout but no adaptation procedure despite claiming stability during adaptation.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Determining whether selective constraints improve robustness without sacrificing cross-subject accuracy could inform practical EEGNet training choices (ref-001, ref-010), especially given demonstrated EEG attacks (ref-024). Nevertheless, the proposed contribution is a narrow architectural adaptation, and the current evaluation would provide limited evidence for the broader safety claim. Its likely value is a useful empirical tradeoff study.",
+  "score": 3
+ }
+}

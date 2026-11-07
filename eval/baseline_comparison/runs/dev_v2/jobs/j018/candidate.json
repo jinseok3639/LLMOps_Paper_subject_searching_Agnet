@@ -1,0 +1,13 @@
+{
+ "title": "Backdoor Trigger Detection via Mechanistic Alignment Analysis in Safety-Trained LLMs",
+ "summary": "This paper introduces mechanistic alignment analysis to detect hidden backdoors in safety-trained LLMs by identifying neuron-level correlations between trigger conditions and unsafe outputs. The method combines activation clustering with counterfactual probing to expose discrepancies indicative of deceptive alignment failures, addressing gaps in behavioral safety evaluations.",
+ "gap": "Ref-008 shows adversarial training fails to remove backdoors, creating false safety impressions. However, no work identifies neuron-level mechanisms enabling backdoor persistence despite safety training. Existing methods (ref-008, ref-019) detect behavioral failures but cannot isolate mechanistic causes of undetected backdoors.",
+ "approach": "We implement mechanistic alignment analysis by: (1) training a classifier on neuron activations from backdoored models (ref-008) to detect trigger-response correlations, (2) applying counterfactual probing by masking identified neurons to test output consistency under hypothetical triggers, and (3) comparing results against adversarial training baselines (ref-008) and red-teaming methods (ref-019). The core model architecture and training data remain unchanged from ref-008's backdoored models.",
+ "evaluation": "Evaluated on ref-008's year-triggered backdoor models (2023 vs. 2024 secure code generation). Compared against ref-008's adversarial training detection attempts and ref-019's red-teaming baselines. Measures: trigger detection rate (percentage of backdoored prompts correctly identified), false positive rate (safe prompts misclassified as backdoored), and alignment discrepancy score (difference in neuron activation patterns between triggered and non-triggered states). Ablation tests counterfactual probing by disabling neuron masking to isolate clustering's contribution.",
+ "support": [
+  "ref-008",
+  "ref-019",
+  "ref-016",
+  "ref-007"
+ ]
+}

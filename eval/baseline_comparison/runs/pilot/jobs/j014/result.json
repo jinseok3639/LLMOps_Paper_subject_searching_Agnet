@@ -1,0 +1,39 @@
+{
+ "queries": [
+  "\"diffusion policy\" \"adversarial training\" robustness",
+  "\"diffusion policy\" transferable perturbations ensemble physical patch defense",
+  "\"diffusion policy\" adversarial training curriculum noise schedules",
+  "\"diffusion policy\" adversarial defense robustness perturbations",
+  "\"diffusion policies\" \"adversarial training\" -site:mlsanity.com -site:bytez.com",
+  "\"diffusion policy\" transferable perturbations ensemble physical patch defense",
+  "\"diffusion policy\" \"adversarial\" \"defense\" -attacker -site:mlsanity.com -site:lacuna.tiptreesystems.com",
+  "\"diffusion policy\" \"adversarial training\" \"perturbations\"",
+  "\"diffusion policies\" \"robust\" \"adversarial\" ensemble",
+  "\"robot\" \"diffusion\" \"adversarial training\" defense",
+  "\"Ensemble Adversarial Training: Attacks and Defenses\"",
+  "\"Curriculum Adversarial Training\" paper",
+  "\"diffusion policy\" \"adversarial fine-tuning\""
+ ],
+ "closest": [
+  {
+   "title": "Ensemble Adversarial Training: Attacks and Defenses",
+   "year": 2018,
+   "url": "https://arxiv.org/abs/1705.07204",
+   "how_close": "Direct methodological overlap: improves robustness by augmenting training with adversarial perturbations transferred from other models. However, it targets image classifiers, rather than diffusion-based manipulation policies, and does not establish the proposed combination of diverse diffusion noise schedules, physical patches, and curriculum training."
+  },
+  {
+   "title": "How vulnerable is my policy? Adversarial attacks on modern behavior cloning policies",
+   "year": 2025,
+   "url": "https://arxiv.org/abs/2502.03698",
+   "how_close": "Studies diffusion policies on manipulation tasks, including offline universal perturbations and transfer across algorithms, architectures, and tasks. Its evaluated defense is randomized smoothing; it does not adversarially train policies using transferable ensemble perturbations or physical patches."
+  },
+  {
+   "title": "Curriculum Adversarial Training",
+   "year": 2018,
+   "url": "https://ijcai.org/proceedings/2018/520",
+   "how_close": "Already develops adversarial training with a curriculum of increasing attack strength while retaining clean-input performance. The target is image classification, and it does not implement diffusion-policy ensembles or combined digital and physical-patch training."
+  }
+ ],
+ "rationale": "No paper outside the supplied bibliography was found implementing the full proposed combination: hardening diffusion-based manipulation policies through transferable ensemble-generated perturbations, digital and simulated physical-patch adversarial training, and an attack curriculum. Nevertheless, close methodological precedents exist: Ensemble Adversarial Training already trains against perturbations transferred from other models, and Curriculum Adversarial Training supplies the progressive attack-strength mechanism. The closest target-specific paper studies transferable attacks on diffusion policies but uses a different defense. These are substantial partial overlaps, supporting a score of 3 rather than an exact-duplication judgment. Ref-005 was excluded from the closest papers and scoring as requested.",
+ "score": 3
+}

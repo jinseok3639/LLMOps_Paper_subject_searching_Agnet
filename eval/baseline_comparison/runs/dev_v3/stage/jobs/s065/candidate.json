@@ -1,0 +1,12 @@
+{
+ "title": "Adversarial Robustness in Diffusion Policy Systems via Timestep-Sensitive Perturbation Analysis",
+ "summary": "This work investigates adversarial vulnerabilities in diffusion policies by analyzing how perturbations at specific diffusion timesteps affect policy failure. We propose a framework that identifies critical timesteps through gradient-based sensitivity analysis and generates minimal perturbations to maximize task failure. The approach includes white-box and black-box attack variants with physical realizability constraints. Evaluation measures success rate degradation on manipulation benchmarks against baseline methods like DP-Attacker.",
+ "gap": "While ref-005 examines adversarial attacks on diffusion policies, it does not analyze how vulnerabilities manifest across individual diffusion timesteps. The paper demonstrates patch-based spatial attacks and frame-agnostic offline perturbations but does not isolate the impact of perturbing specific timesteps in the diffusion process.",
+ "approach": "The method performs gradient-based sensitivity analysis on each diffusion timestep to identify those most affecting policy output. It then applies constrained optimization to generate minimal perturbations (L2 norm) at these timesteps. The framework includes white-box attacks (full gradient access) and black-box attacks (finite difference estimation). Physical realizability is enforced via patch size and material constraints. The core difference from ref-005 is the explicit focus on timestep sensitivity rather than uniform frame perturbations.",
+ "evaluation": "We test on the Adroit manipulation benchmark (ref-005) against pre-trained diffusion policies. Metrics include success rate drop, perturbation magnitude (L2 norm), and transferability across policy architectures. Baselines include DP-Attacker (ref-005) and random perturbations. Ablation studies compare full method performance against variants with random timestep selection or uniform spatial perturbations, isolating the contribution of timestep sensitivity analysis.",
+ "support": [
+  "ref-005",
+  "ref-007",
+  "ref-016"
+ ]
+}

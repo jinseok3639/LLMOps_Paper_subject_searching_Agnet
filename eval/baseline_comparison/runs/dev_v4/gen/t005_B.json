@@ -1,0 +1,61 @@
+{
+ "sample": "t005",
+ "condition": "B",
+ "n_refs": 24,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Lagrangian Reward Augmentation for Safety-Constrained Best-of-N Sampling",
+   "summary": "This work extends LARA to safety-constrained Best-of-N (BoN) sampling, formalizing safety as a hard constraint. The method dualizes the constraint, reducing optimization to a one-dimensional problem over a dual variable calibrated on a small set of safety-critical prompts. The augmented reward is used for BoN reranking, ensuring constraint satisfaction in expectation. It is evaluated on HarmBench and Anthropic's safety datasets, comparing helpfulness-harmlessness tradeoffs against unconstrained BoN, MBR-BoN, and RLHF baselines.",
+   "gap": "Ref-012's LARA provides a formal framework for safety-constrained inference-time alignment, but its application to BoN does not isolate the effect of dual-variable calibration. Ref-005's ShieldGemma focuses on content moderation without formal safety guarantees. No work combines LARA's formalism with BoN's practicality while rigorously ablating the calibration mechanism.",
+   "approach": "LARA dualizes the safety constraint, reducing the problem to a one-dimensional convex optimization over a nonnegative dual variable. The variable is calibrated on a small set of safety-critical prompts (e.g., 100 from HarmBench) to define an augmented reward: R_aug = R - λC, where R is the reward model score, C is the cost model score, and λ is the dual variable. The augmented reward is used for BoN reranking. The method guarantees constraint satisfaction in expectation when λ is correctly calibrated, differing from ref-012's general LARA by explicitly isolating the dual-variable calibration step.",
+   "evaluation": "Baselines include vanilla BoN, MBR-BoN (ref-003), and RLHF (ref-001). Metrics are helpfulness (reward model scores from ref-010), harmlessness (safety model scores from ref-005), and constraint violation rates. Experiments use HarmBench (ref-014) and Anthropic's safety datasets (ref-004). Ablation studies compare LARA-BoN with a version where λ is replaced by a manually tuned penalty coefficient, and test calibration set sizes (10, 50, 100 prompts). The safety-critical calibration set is defined as prompts with the highest cost model scores in the training data.",
+   "support": [
+    "ref-001",
+    "ref-003",
+    "ref-004",
+    "ref-005",
+    "ref-010",
+    "ref-012",
+    "ref-014"
+   ]
+  },
+  {
+   "title": "Adaptive Compute-Optimal Inference-Time Alignment with Coverage-Aware Pessimism",
+   "summary": "This paper proposes an adaptive inference-time alignment method that combines compute-optimal allocation with pessimism-based rejection sampling. The approach estimates prompt difficulty via reward model uncertainty, allocates compute proportionally, and rejects responses below a calibrated threshold. It is evaluated on synthetic and real-world datasets, comparing against Best-of-N, InferenceTimePessimism, and fixed compute baselines, with metrics including response quality, reward hacking rates, and compute efficiency.",
+   "gap": "While ref-002 shows compute-optimal strategies adapt compute to prompt difficulty and ref-004 proves InferenceTimePessimism has formal coverage guarantees, no method combines both to balance adaptive compute allocation with pessimism under imperfect reward models. Existing work either optimizes compute allocation (ref-002) or applies pessimism (ref-004), but does not integrate both to mitigate reward hacking while maintaining scaling efficiency.",
+   "approach": "The method uses a two-stage process: (1) Estimate prompt difficulty via reward model uncertainty (standard deviation of reward scores over N samples), allocating compute as N = k * (1 + σ/μ), where σ is uncertainty, μ is mean reward, and k is a base sample count. (2) Apply pessimism by rejecting responses with scores below a threshold τ, where τ = μ - c * σ, with c a constant. The algorithm adaptively balances compute allocation (ref-002) and pessimism (ref-004) to prevent over-optimization. The core difference from ref-002 (fixed k) and ref-004 (fixed N) is the dynamic N and τ based on reward model uncertainty.",
+   "evaluation": "Baselines: Best-of-N (ref-002), InferenceTimePessimism (ref-004), and fixed compute (N=100). Datasets: Synthetic (ref-006) and real-world (ref-003, ref-004). Metrics: (1) Response quality (proxy reward score), (2) Reward hacking rate (difference between proxy and gold reward scores, ref-006), (3) Compute efficiency (performance per FLOP, ref-002). Ablations: (1) Fixed vs. adaptive N, (2) Pessimism threshold τ vs. no rejection, (3) Uncertainty estimation method (σ vs. fixed σ=0). The evaluation tests whether adaptive N and τ reduce reward hacking while maintaining compute efficiency compared to baselines.",
+   "support": [
+    "ref-002",
+    "ref-004",
+    "ref-006"
+   ]
+  },
+  {
+   "title": "Inference-Time Pessimism with MBR Regularization for Scalable Safe Alignment",
+   "summary": "We propose integrating InferenceTimePessimism's rejection sampling with MBR regularization to mitigate reward hacking while ensuring safe response generation under imperfect reward models. The method combines pessimistic thresholds calibrated via reward uncertainty with MBR's proximity regularization to reference policies. It is evaluated on HarmBench and StrongREJECT against BoN, LARA, and MBR-BoN baselines using AU-PRC and attack success rate metrics, with ablations isolating the contributions of pessimism and MBR regularization.",
+   "gap": "Ref-004 shows InferenceTimePessimism avoids reward hacking degradation with increased compute but does not explicitly regularize response proximity to reference policies. Ref-003 demonstrates MBR regularization mitigates reward hacking but lacks formal safety guarantees under scaling. No work combines both to ensure scalable, safe alignment with provable properties.",
+   "approach": "Implement a two-phase inference-time framework: (1) Rejection sampling with pessimistic thresholds (ref-004) that lower-bound reward estimates by reward model uncertainty, and (2) MBR regularization (ref-003) that scores candidates by expected loss to a reference policy. The final response is the highest-scoring candidate passing the pessimistic threshold. The method differs from ref-004 by adding MBR as a secondary filter and from ref-003 by incorporating pessimism to handle reward uncertainty.",
+   "evaluation": "Compare against BoN (ref-004), LARA (ref-012), and MBR-BoN (ref-003) on HarmBench (ref-014) and StrongREJECT (ref-021) using AU-PRC for safety classification and attack success rate for jailbreaking robustness. Use the same reward model and reference policy for all methods. Ablations include: (1) pessimism-only (no MBR), (2) MBR-only (no pessimism), and (3) varying MBR weight to isolate regularization impact.",
+   "support": [
+    "ref-004",
+    "ref-003",
+    "ref-012",
+    "ref-014",
+    "ref-021"
+   ]
+  }
+ ],
+ "calls": 135,
+ "chosen_ids": [
+  "s3-formal",
+  "s1-formal",
+  "s1-transfer"
+ ],
+ "method": "eval\\baseline_comparison\\methods\\v4",
+ "method_version": "v4",
+ "dropped_proposals": {},
+ "refine_failed": [],
+ "seconds": 319.2
+}

@@ -1,0 +1,14 @@
+{
+ "title": "Improving Cross-Paradigm EEG Classification via Lipschitz-Regularized Feature Learning",
+ "summary": "This work tests whether Lipschitz regularization improves EEGNet's generalization across BCI paradigms. The hypothesis is that constraining feature space continuity reduces overfitting to paradigm-specific artifacts. The approach adds layer-wise Lipschitz penalties derived from semidefinite programming to EEGNet training. Evaluation uses leave-one-paradigm-out validation on P300, ERN, and SMR datasets, comparing accuracy, feature distance (MMD), and Lipschitz constants against baselines.",
+ "gap": "While EEGNet generalizes across paradigms (ref-001), and ref-007 shows poor cross-dataset generalization, no work analyzes how feature space continuity affects cross-paradigm transfer. Existing methods do not explicitly constrain feature learning to improve robustness across fundamentally different BCI tasks.",
+ "approach": "Extend EEGNet with Lipschitz regularization terms computed via semidefinite programming (ref-020). Inputs: raw EEG trials. Outputs: class probabilities. Objective: minimize classification loss + Lipschitz penalty. Update rule: SGD with layer-wise spectral norm constraints. Changed component: convolutional/dense layers with added regularization. Differs from ref-001 by enforcing controlled sensitivity to input variations via formal Lipschitz bounds.",
+ "evaluation": "Test zero-shot transfer across three paradigms (P300: ref-001's dataset; ERN/SMR: ref-007's datasets) using leave-one-paradigm-out validation. Baselines: standard EEGNet (ref-001), FBCSP (ref-012), and MOABB benchmarked methods. Metrics: classification accuracy, maximum mean discrepancy (MMD) between feature distributions, and Lipschitz constant estimates (ref-020). Ablation: compare Lipschitz-regularized EEGNet with unregularized EEGNet under identical training conditions to isolate regularization effect.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-012",
+  "ref-020"
+ ]
+}

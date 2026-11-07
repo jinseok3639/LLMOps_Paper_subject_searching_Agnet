@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x1",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "y2 narrowly offers the more coherent experiment: test whether accounting for benign domain shift reduces backdoor-detection false positives, with an objective and evaluation addressing that question. Its claim that existing detectors assume identical domains is unsupported by ref-001's title alone. However, x2 has a deeper methodological gap: ref-002 supplies divergence between distributions and target-error bounds, not individual anomaly scores or backdoor-detection thresholds. Its concrete dataset and attack choices do not resolve that missing mechanism.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x1 has a direct error: it optimizes for low entropy to evade STRIP, whereas ref-009 identifies low entropy as evidence of a trigger. Nevertheless, y3 combines an access contradiction—claiming black-box detection while inspecting latent representations—with a false motivation: STRIP explicitly operates without knowing the secret trigger (ref-009). Ref-019 also does not establish its proposed activation-variance criterion. Both require substantial revision, but y3's premise and access model are more broadly compromised.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X spans offensive trigger construction, distribution-based detection, and training-time mitigation. Although x2 and x3 reuse ref-002, detecting distribution differences and choosing training-loss weights are materially different interventions. Y offers entropy-based mitigation and two activation-based anomaly detectors; its detection candidates differ in their treatment of domain shifts and perturbations, but cover a narrower range of research decisions.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "Y narrowly serves a researcher better because y2 supplies the clearest connection between a practical failure condition, an intervention, and a decision-relevant evaluation. X's alternatives are substantially weakened by x1's reversed STRIP criterion and x3's unsupported weighting formula and unexplained rationale for minimizing poisoned-instruction loss as mitigation (ref-002, ref-008). Y remains weak overall: y1 misattributes entropy regularization to ref-019 and does not address its stated theoretical-guarantee gap, while y3 requires fundamental revision.",
+  "verdict": "Y"
+ }
+}

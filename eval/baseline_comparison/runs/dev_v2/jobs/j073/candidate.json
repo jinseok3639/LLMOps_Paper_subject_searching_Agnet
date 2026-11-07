@@ -1,0 +1,15 @@
+{
+ "title": "Certified Robustness for EEG-Based BCIs via Lipschitz-Aware Training",
+ "summary": "This work introduces a certified robustness framework for EEG classification by integrating Lipschitz constant estimation into EEGNet training. Using semidefinite programming bounds, the model guarantees minimal perturbation thresholds for misclassification across BCI paradigms. Evaluation demonstrates improved robustness certification compared to empirical defenses, validated on adversarial examples from multiple attack methods.",
+ "gap": "Current EEG-based BCIs rely on empirical robustness evaluations via attack success rates, lacking formal guarantees. While ref-005 and ref-020 provide general Lipschitz certification via SDP, these methods are untested on EEGNet's depthwise-separable convolutions (ref-001) in high-noise, low-sample BCI settings.",
+ "approach": "Extend SDP-based Lipschitz estimation to EEGNet by incorporating layer-wise quadratic constraints during training, treating temporal and spatial convolution layers separately. Optimize for minimal Lipschitz constants while preserving classification accuracy, enabling post-training certification of perturbation tolerance.",
+ "evaluation": "Measure certified robustness radii against $\\ell_2$ and $\\ell_\\infty$ perturbations using CLEVER (ref-009) and SDP bounds on MOABB datasets (ref-007), including P300, ERN, MRCP, and SMR paradigms. Compare with adversarial training and Parseval networks (ref-010) using Parseval layers. Metrics: certified accuracy vs. perturbation magnitude (AUC), with ablation isolating Lipschitz-aware training effects.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-009",
+  "ref-010",
+  "ref-020"
+ ]
+}

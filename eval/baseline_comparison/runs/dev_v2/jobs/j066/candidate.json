@@ -1,0 +1,17 @@
+{
+ "title": "Inference-Time Safety Alignment via Compute-Optimal Best-of-N with Reward Model Calibration",
+ "summary": "We hypothesize that compute-optimal Best-of-N (BoN) sampling, calibrated with a reward model, can improve safety generalization against OOD attacks without model fine-tuning. By adaptively allocating test-time compute based on prompt difficulty, we aim to outperform static BoN baselines and safety-trained models. We evaluate on JailbreakBench and HarmBench, measuring attack success rates and refusal quality.",
+ "gap": "While ref-007 shows BoN improves safety, it does not optimize compute allocation. ref-004 proves static BoN suffers reward hacking at large N, but compute-optimal BoN (ref-002) remains untested for safety. This work addresses the gap of adaptively scaling test-time compute for safety alignment.",
+ "approach": "We implement compute-optimal BoN (ref-002) with a calibrated reward model (ref-012) to select the safest response. For each prompt, we sample N candidates where N is determined by prompt difficulty (easy: N=10, hard: N=1000). We use the reward model from ref-010 to score responses. No model fine-tuning is performed; only inference-time sampling is changed.",
+ "evaluation": "We test on JailbreakBench (ref-017) and HarmBench (ref-014) using 3 model sizes (7B, 13B, 70B). Baselines include static BoN (N=100), Llama Guard (ref-016), and ShieldGemma (ref-005). Measures: attack success rate (ASR), refusal rate, and human safety ratings (5-point scale, 3 annotators). Ablation: compute-optimal vs. static BoN with same total FLOPs.",
+ "support": [
+  "ref-002",
+  "ref-004",
+  "ref-007",
+  "ref-010",
+  "ref-012",
+  "ref-014",
+  "ref-016",
+  "ref-017"
+ ]
+}

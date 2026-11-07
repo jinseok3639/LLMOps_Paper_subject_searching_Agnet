@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "Both candidates test a clear extension of Parseval constraints [ref-010] to EEGNet [ref-001]. y2 better isolates the intervention through spatial-only versus all-layer constraints and compares against adversarial training and Cross-Lipschitz regularization [ref-013, ref-022]. Its universal-perturbation evaluation directly addresses ref-024, while SDP bounds distinguish certified robustness from attack resistance [ref-020]. x1 instead proposes spectral normalization without explaining how it enforces the Parseval tight-frame property, and overstates what Lipschitz continuity alone guarantees about predictions. y2 therefore offers the more coherent, actionable experiment, although its claim that ref-022 used image benchmarks is unsupported by the supplied abstract.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "y3 has a substantial conceptual limitation: a robustness certificate establishes local decision stability, not command correctness. An already corrupted input can receive a confidently wrong, locally stable prediction. Its assertion that existing detectors transfer less reliably also exceeds the results reported in ref-021, and incorporating gradient estimates requires care to preserve guarantees. Nevertheless, its risk-coverage, latency, and simulated-control evaluations can test whether abstention helps. x3 has a more fundamental evidence mismatch: ref-006 records intracortical neurons through a microelectrode array, not the EEG signals its evaluation claims to obtain. It also extrapolates classifier perturbation certificates [ref-005, ref-020] into implantable-device safety without specifying the connection to physical outcomes.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "Y addresses three distinct research decisions: measuring existing decoders' certified margins, changing decoder training, and deciding when to abstain during operation. Its candidates share Lipschitz machinery, but their interventions and primary outcomes differ meaningfully. X includes two training-based robustness proposals, x1 and x2, plus certification in x3. Adversarial training and Parseval constraints are different approaches, so X has real diversity; however, Y's runtime decision policy adds a more distinct gap beyond training and robustness measurement.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "Y provides the better selection of experiments, with clearer comparisons and stronger links between proposed changes and measurable outcomes. y1 connects certification methods [ref-005, ref-020] to reproducible EEG benchmarking [ref-007]; y2 tests a concrete training intervention; and y3 offers a testable monitoring policy despite its safety interpretation problem. y1 still needs valid operating-domain bounds for its proposed square/log nonlinearities, and small certified radii must not be mistaken for proof of actual fragility. X has more consequential weaknesses: x1's constraint implementation is underspecified, x2's claim that existing evaluations focus on single datasets or attacks conflicts with ref-021 and overlooks transferability studies in ref-024, and its aggregated-data and paradigm-shuffled splits lack a task-compatibility protocol. x3 additionally relies on the wrong recording modality. These differences affect feasibility and interpretation, independently of presentation.",
+  "verdict": "Y"
+ }
+}

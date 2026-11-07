@@ -1,0 +1,13 @@
+{
+ "title": "Interpretable Adversarial Detection in EEG-Based BCIs via Feature Space Alignment",
+ "summary": "This paper proposes a novel adversarial detection method for EEG-BCIs by aligning feature distributions between clean and perturbed inputs using domain adaptation. It leverages EEGNet's learned spatial-spectral filters to identify anomalous activations indicative of attacks. Evaluation demonstrates high detection accuracy across attack types while preserving classification performance.",
+ "gap": "Current adversarial detection in BCIs relies on post-hoc statistical tests (e.g., Mahalanobis distance) that lack interpretability and fail under distribution shifts. Existing methods do not exploit the structured feature hierarchies learned by EEG-specific CNNs.",
+ "approach": "Train a domain classifier to distinguish clean vs. adversarial examples using intermediate EEGNet layer outputs. Regularize the domain classifier with a consistency loss enforcing alignment between clean and perturbed feature distributions. Visualize detected anomalies via EEGNet's built-in interpretability tools (e.g., temporal filtering).",
+ "evaluation": "Test on P300, ERN, and SMR datasets under FGSM, PGD, and universal perturbations. Measure AUC-ROC for detection and compare false positive rates against baseline detectors (Mahalanobis, cosine similarity). Assess transferability to unseen attack types and subjects.",
+ "support": [
+  "ref-001",
+  "ref-011",
+  "ref-021",
+  "ref-024"
+ ]
+}

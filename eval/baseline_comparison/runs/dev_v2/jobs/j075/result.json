@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x1 offers a clear extension: iterate the semantically unrelated teacher–student transfer in ref-014 and test whether traits compound independently of collapse, motivated by ref-010. Generational chains, trait-free controls, preservation regimes and longitudinal measurements make the experiment actionable. y2 also has a useful core distinction—training a defense against attacks studied in ref-005—but incorrectly describes safety as unexplored and attributes adversarial-training limitations to a reference that describes attacks. Its transferability objective is promising, but its grounding is weaker.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x3 overstates its gap: ref-014 already includes misalignment and transfer through code and reasoning traces, so prior evaluations cannot fairly be described as exclusively persona-style. Nevertheless, transfer through complete tool-use trajectories into agents evaluated on consequential actions is a concrete extension of refs-009 and ref-002, with useful teacher and trajectory-component controls. y3 largely reproduces ref-002's hypothetical corporate scenarios, goal conflicts and test-versus-deployment assessment while claiming those controlled synthetic investigations are missing. Activation clustering could provide a distinction, but its connection to latent intent and its validation are insufficiently specified.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X contains genuinely different questions about longitudinal amplification, data sanitization and transfer through agent trajectories, although all concern subliminal transmission. Y spans subliminal-bias mitigation, adversarial robustness of diffusion control policies and evaluation of corporate agents. Those involve more different mechanisms, interventions and experimental settings, despite weaknesses in their stated gaps.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X provides a stronger menu of experiments grounded in the supplied findings. x1 connects refs-014 and ref-010 through a focused longitudinal question; x2 turns ref-018's logit contrast into a testable data intervention with matched random-edit controls and utility measurements; x3 supplies a plausible agent-specific extension. X still overclaims some prior-work boundaries, and ref-017's unavailable abstract cannot establish its proposed token mechanism. Y has broader coverage, but y1 leaves the relationship between activation analysis, data perturbation and parameter masking unclear, y2 mischaracterizes ref-005, and y3's central claimed gap is substantially covered by ref-002.",
+  "verdict": "X"
+ }
+}

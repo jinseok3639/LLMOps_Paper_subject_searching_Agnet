@@ -1,0 +1,21 @@
+{
+ "title": "Flat Minima Meet Weight Averaging: EMA-Friendly-SAM for Misclassification Detection Across Foundation-Model Backbones",
+ "summary": "Flat-minima methods are known to widen the confidence gap between correct and incorrect predictions, but they have mostly been studied with SAM or SWA on standard CNNs. We propose to combine Friendly-SAM, which uses an EMA of gradients, with EMA or SWA weight averaging, and to apply this to fine-tuning of large pretrained backbones such as DINOv3 and DeiT. The aim is better failure prediction (misclassification detection) with a softmax-response score. We would validate it on CIFAR, ImageNet and medical benchmarks. Baselines are the plain softmax response, SAM+SWA flat-minima failure prediction, and OpenMix. The metrics are AUGRC, AURC and AUROC.",
+ "gap": "Flat-minima failure prediction has been shown with SAM and SWA, and Friendly-SAM and weight EMA are shown to improve generalization, calibration and robustness. No cited work tests whether these newer flat-minima variants improve confidence separation, nor whether this holds for modern pretrained transformer or foundation-model backbones.",
+ "approach": "Fine-tune ResNet, DeiT and DINOv3 backbones with four recipes: (a) standard SGD, (b) SAM+SWA, (c) Friendly-SAM, (d) Friendly-SAM + EMA of weights. Use the maximum softmax probability as the confidence score and do not change the inference path. Analyze sharpness against the correct/incorrect confidence gap. Ablate the EMA decay and the perturbation radius.",
+ "evaluation": "Compare against the softmax-response baseline, the SAM+SWA flat-minima method, and OpenMix and SURE on CIFAR-10/100, Tiny-ImageNet, ImageNet and medical imaging datasets. Metrics are AUGRC, AURC, AUROC and FPR95 for misclassification detection, plus accuracy. Report correlations between sharpness and confidence separation. Use multiple seeds with significance tests.",
+ "support": [
+  "ref-002",
+  "ref-059",
+  "ref-010",
+  "ref-013",
+  "ref-022",
+  "ref-030",
+  "ref-007",
+  "ref-063",
+  "ref-040",
+  "ref-012",
+  "ref-062",
+  "ref-056"
+ ]
+}

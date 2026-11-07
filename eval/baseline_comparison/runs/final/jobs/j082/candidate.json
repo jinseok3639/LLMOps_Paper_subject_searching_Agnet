@@ -1,0 +1,22 @@
+{
+ "title": "Trajectory Disagreement: Using the Gap Between EMA and Online Weights as a Free Failure-Detection Signal",
+ "summary": "This proposal turns a byproduct of training into a confidence signal. When weights are averaged with an exponential moving average (EMA) or SWA, the averaged model and the final online model are known to make different predictions. The hypothesis is that their disagreement, measured as the KL divergence or prediction mismatch between the two checkpoints, flags both misclassifications and out-of-distribution inputs. Combined with the averaged model's softmax, it should give a near-free score for unified failure detection. Validation would compare the score against softmax response, snapshot-based methods and Deep Ensembles using AUGRC on OpenOOD-style mixed test sets.",
+ "gap": "Weight averaging is used to improve accuracy, calibration and flatness. Earlier snapshots have been used to estimate uncertainty for highly confident points, and Deep Ensembles detect unknowns well but cost several models. No cited work treats the disagreement between an averaged model and its online counterpart, which every EMA or SWA training run already produces, as a confidence score for both misclassification and OOD detection.",
+ "approach": "Train with standard SGD while keeping an EMA or SWA model. At inference, run both the averaged and the online model. Compute a disagreement term (symmetric KL, top-1 mismatch, or logit cosine distance) and combine it with the averaged model's maximum softmax or maximum logit score. Use a SIRC-like monotone combination so that the averaged model's correct/incorrect ranking is kept. Study how the EMA decay and the SWA cycle length affect disagreement diversity.",
+ "evaluation": "Settings: ResNet and DeiT models on CIFAR-10/100, Tiny ImageNet and ImageNet-1K, under covariate shift and semantic shift. Baselines: MSP on the averaged model, SWAG, the snapshot-based bias-reduced estimator, MC-free ensembles of the same compute, Deep Ensembles, Energy and ViM. Metrics: AUGRC, AURC, misclassification AUROC and OOD FPR95, plus the extra inference cost. The idea is supported if it beats single-model scores and approaches ensemble performance at roughly twice single-model cost.",
+ "support": [
+  "ref-022",
+  "ref-013",
+  "ref-050",
+  "ref-049",
+  "ref-034",
+  "ref-007",
+  "ref-063",
+  "ref-005",
+  "ref-018",
+  "ref-001",
+  "ref-019",
+  "ref-012",
+  "ref-043"
+ ]
+}

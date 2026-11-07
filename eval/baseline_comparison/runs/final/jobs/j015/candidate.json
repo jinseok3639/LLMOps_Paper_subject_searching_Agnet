@@ -1,0 +1,22 @@
+{
+ "title": "Learning Where to Reject: A Trustworthiness Side-Predictor for Selective Classification with OOD Data Trained with Mixed ID-Error and Outlier Pseudo-Samples",
+ "summary": "Selective classification with OOD data (SCOD) needs a score that ranks correct ID predictions above both misclassified ID samples and OOD samples. Post-hoc OOD scores and softmax confidence each fail on one side. We propose a lightweight side learner that sits on a frozen classifier's features and logits and is trained with a steep-slope-style loss. Its training negatives are the classifier's own errors plus OpenMix-style pseudo-outliers. We would validate it on ImageNet-scale and CIFAR benchmarks, comparing it with the softmax response, SIRC, plugin estimators and feature-distance scores using SCOD risk-coverage metrics.",
+ "gap": "SCOD work relies on hand-designed post-hoc combinations, or on plugin estimators, and shows that OOD detectors conflate ID errors. Learned trustworthiness predictors target only correct versus incorrect ID predictions. Methods that learn confidence from outliers do not train a single learned selector that handles both ID errors and OOD inputs.",
+ "approach": "Freeze a trained classifier. Extract penultimate features and logits, plus a kNN-distance or ViM-style residual feature. Train a small side network (as in regression side learners) with the steep slope loss, using the training-set errors recovered by early-snapshot or held-out predictions and mixup-generated outlier pseudo-samples as negatives. At test time, accept or reject on the side network's score.",
+ "evaluation": "Baselines are the softmax response, MaxLogit, energy, ViM, kNN, SIRC, the plugin estimators, TCP learning and the Dirichlet meta-model. Metrics are the SCOD AURC/AUGRC variants with a mixed ID+OOD test set, plus AUROC for the individual sub-tasks (misclassification and OOD). Use ImageNet with NINCO and other OOD sets, and CIFAR with SVHN/Textures/Places. Vary the OOD fraction in the test mix.",
+ "support": [
+  "ref-005",
+  "ref-014",
+  "ref-020",
+  "ref-052",
+  "ref-062",
+  "ref-004",
+  "ref-042",
+  "ref-028",
+  "ref-046",
+  "ref-047",
+  "ref-063",
+  "ref-054",
+  "ref-019"
+ ]
+}

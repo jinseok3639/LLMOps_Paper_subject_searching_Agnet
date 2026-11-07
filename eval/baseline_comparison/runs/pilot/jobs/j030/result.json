@@ -1,0 +1,36 @@
+{
+ "queries": [
+  "\"safety\" \"overoptimization\" \"best-of\" guard",
+  "\"safety classifier\" \"best-of-N\" overoptimization",
+  "\"guard\" \"Goodhart\" language models safety",
+  "\"Safety Hacking in Constrained Best-of\"",
+  "\"Soft Best-of-N\" harmlessness overoptimization",
+  "\"Rethinking Reward Model Evaluation Through the Lens of Reward Overoptimization\"",
+  "\"Inference-Time Reward Hacking\" \"safety\" guard",
+  "\"safety\" \"overoptimization\" \"Llama\" \"Best\"",
+  "\"guard\" \"overoptimization\" \"scaling laws\"",
+  "\"safety\" \"Best-of-N\" \"Lagrangian\" overoptimization"
+ ],
+ "closest": [
+  {
+   "title": "Safety Hacking in Constrained Best-of-N Inference-time Scaling",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2608.22915",
+   "how_close": "Very close: sweeps N over frozen-policy responses, filters with Llama Guard or ShieldGemma, reranks with learned rewards, and measures safety failures using HarmBench and a separate rubric-based LLM evaluator. Includes Skywork-Reward-V2 and demonstrates amplification of guard false acceptances. Uses hard safety filtering followed by reward maximization rather than directly maximizing guard safety scores or sweeping LARA penalties."
+  },
+  {
+   "title": "Best-of-N through the Smoothing Lens: KL Divergence and Regret Analysis",
+   "year": 2026,
+   "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/abb7833fc3f38e785e3f9777c74610e5-Abstract-Conference.html",
+   "how_close": "Studies BoN overoptimization and KL scaling, including experiments where independently judged harmlessness deteriorates at large N and smoothing mitigates degradation. Selection uses reward models rather than dedicated safety guards; it does not establish guard-size-dependent safety scaling laws."
+  },
+  {
+   "title": "Rethinking Reward Model Evaluation Through the Lens of Reward Overoptimization",
+   "year": 2025,
+   "url": "https://aclanthology.org/2025.acl-long.649/",
+   "how_close": "Connects reward-model evaluation to overoptimization and evaluates BoN safety on WildGuardTest with independent refusal/compliance judgments. Its safety experiment fixes N=16, rather than sweeping guard-selection pressure or fitting safety-overoptimization curves."
+  }
+ ],
+ "rationale": "The broad gap is already substantially addressed outside the bibliography. [Safety Hacking](https://arxiv.org/abs/2608.22915) measures how increasing constrained BoN budgets amplifies errors in learned safety guards, using several of the proposed models and benchmarks. However, its selection mechanism is a hard guard threshold followed by reward maximization, which differs materially from increasing optimization pressure directly on guard scores or LARA-augmented rewards. [Smoothing Lens](https://arxiv.org/abs/2507.05913) also demonstrates independently judged harmlessness degradation under increasing BoN selection pressure, but uses reward proxies. I found no paper combining direct guard-score optimization, N and safety-penalty sweeps, guard-size comparisons, and fitted gold-safety-versus-KL scaling laws with benign over-refusal analysis. These remaining distinctions support a narrow extension, while the central empirical motivation has very close precedents.",
+ "score": 2
+}

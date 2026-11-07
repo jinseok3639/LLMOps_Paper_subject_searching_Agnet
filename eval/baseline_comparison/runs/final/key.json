@@ -1,0 +1,674 @@
+{
+ "j001": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "D",
+  "candidate": 2
+ },
+ "j002": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "D",
+  "candidate": 1
+ },
+ "j003": {
+  "kind": "score",
+  "sample": "t008",
+  "condition": "B",
+  "candidate": 2
+ },
+ "j004": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "A",
+  "candidate": 2
+ },
+ "j005": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "B",
+  "candidate": 1
+ },
+ "j006": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "E",
+  "candidate": 1
+ },
+ "j007": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "B",
+  "candidate": 2
+ },
+ "j008": {
+  "kind": "pairwise",
+  "sample": "t009",
+  "pair": "A-B",
+  "X": "B",
+  "Y": "A",
+  "ids": {
+   "x1": 2,
+   "x2": 1,
+   "x3": 0,
+   "y1": 0,
+   "y2": 2,
+   "y3": 1
+  }
+ },
+ "j009": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "E",
+  "candidate": 1
+ },
+ "j010": {
+  "kind": "pairwise",
+  "sample": "t006",
+  "pair": "A-E",
+  "X": "A",
+  "Y": "E",
+  "ids": {
+   "x1": 0,
+   "x2": 2,
+   "x3": 1,
+   "y1": 2,
+   "y2": 0,
+   "y3": 1
+  }
+ },
+ "j011": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "E",
+  "candidate": 2
+ },
+ "j012": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "B",
+  "candidate": 1
+ },
+ "j013": {
+  "kind": "score",
+  "sample": "t008",
+  "condition": "D",
+  "candidate": 1
+ },
+ "j014": {
+  "kind": "score",
+  "sample": "t008",
+  "condition": "C",
+  "candidate": 1
+ },
+ "j015": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "D",
+  "candidate": 1
+ },
+ "j016": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "C",
+  "candidate": 2
+ },
+ "j017": {
+  "kind": "pairwise",
+  "sample": "t007",
+  "pair": "A-B",
+  "X": "A",
+  "Y": "B",
+  "ids": {
+   "x1": 2,
+   "x2": 0,
+   "x3": 1,
+   "y1": 2,
+   "y2": 0,
+   "y3": 1
+  }
+ },
+ "j018": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "E",
+  "candidate": 0
+ },
+ "j019": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "D",
+  "candidate": 0
+ },
+ "j020": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "A",
+  "candidate": 1
+ },
+ "j021": {
+  "kind": "score",
+  "sample": "t008",
+  "condition": "E",
+  "candidate": 1
+ },
+ "j022": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "A",
+  "candidate": 0
+ },
+ "j023": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "D",
+  "candidate": 2
+ },
+ "j024": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "C",
+  "candidate": 2
+ },
+ "j025": {
+  "kind": "score",
+  "sample": "t008",
+  "condition": "D",
+  "candidate": 2
+ },
+ "j026": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "E",
+  "candidate": 1
+ },
+ "j027": {
+  "kind": "score",
+  "sample": "t008",
+  "condition": "C",
+  "candidate": 2
+ },
+ "j028": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "D",
+  "candidate": 0
+ },
+ "j029": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "D",
+  "candidate": 1
+ },
+ "j030": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "C",
+  "candidate": 1
+ },
+ "j031": {
+  "kind": "pairwise",
+  "sample": "t007",
+  "pair": "A-B",
+  "X": "B",
+  "Y": "A",
+  "ids": {
+   "x1": 2,
+   "x2": 0,
+   "x3": 1,
+   "y1": 2,
+   "y2": 0,
+   "y3": 1
+  }
+ },
+ "j032": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "D",
+  "candidate": 1
+ },
+ "j033": {
+  "kind": "pairwise",
+  "sample": "t009",
+  "pair": "A-E",
+  "X": "E",
+  "Y": "A",
+  "ids": {
+   "x1": 0,
+   "x2": 2,
+   "x3": 1,
+   "y1": 0,
+   "y2": 2,
+   "y3": 1
+  }
+ },
+ "j034": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "A",
+  "candidate": 2
+ },
+ "j035": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "B",
+  "candidate": 0
+ },
+ "j036": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "E",
+  "candidate": 0
+ },
+ "j037": {
+  "kind": "pairwise",
+  "sample": "t007",
+  "pair": "A-E",
+  "X": "A",
+  "Y": "E",
+  "ids": {
+   "x1": 2,
+   "x2": 0,
+   "x3": 1,
+   "y1": 1,
+   "y2": 0,
+   "y3": 2
+  }
+ },
+ "j038": {
+  "kind": "score",
+  "sample": "t008",
+  "condition": "B",
+  "candidate": 1
+ },
+ "j039": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "D",
+  "candidate": 2
+ },
+ "j040": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "B",
+  "candidate": 1
+ },
+ "j041": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "B",
+  "candidate": 0
+ },
+ "j042": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "E",
+  "candidate": 0
+ },
+ "j043": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "C",
+  "candidate": 2
+ },
+ "j044": {
+  "kind": "pairwise",
+  "sample": "t009",
+  "pair": "A-E",
+  "X": "A",
+  "Y": "E",
+  "ids": {
+   "x1": 0,
+   "x2": 2,
+   "x3": 1,
+   "y1": 0,
+   "y2": 2,
+   "y3": 1
+  }
+ },
+ "j045": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "C",
+  "candidate": 2
+ },
+ "j046": {
+  "kind": "pairwise",
+  "sample": "t010",
+  "pair": "A-E",
+  "X": "E",
+  "Y": "A",
+  "ids": {
+   "x1": 1,
+   "x2": 2,
+   "x3": 0,
+   "y1": 1,
+   "y2": 0,
+   "y3": 2
+  }
+ },
+ "j047": {
+  "kind": "pairwise",
+  "sample": "t006",
+  "pair": "A-B",
+  "X": "A",
+  "Y": "B",
+  "ids": {
+   "x1": 0,
+   "x2": 2,
+   "x3": 1,
+   "y1": 2,
+   "y2": 1,
+   "y3": 0
+  }
+ },
+ "j048": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "C",
+  "candidate": 0
+ },
+ "j049": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "A",
+  "candidate": 2
+ },
+ "j050": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "A",
+  "candidate": 1
+ },
+ "j051": {
+  "kind": "score",
+  "sample": "t008",
+  "condition": "E",
+  "candidate": 2
+ },
+ "j052": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "E",
+  "candidate": 2
+ },
+ "j053": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "A",
+  "candidate": 1
+ },
+ "j054": {
+  "kind": "pairwise",
+  "sample": "t006",
+  "pair": "A-B",
+  "X": "B",
+  "Y": "A",
+  "ids": {
+   "x1": 2,
+   "x2": 1,
+   "x3": 0,
+   "y1": 0,
+   "y2": 2,
+   "y3": 1
+  }
+ },
+ "j055": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "B",
+  "candidate": 2
+ },
+ "j056": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "A",
+  "candidate": 0
+ },
+ "j057": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "E",
+  "candidate": 2
+ },
+ "j058": {
+  "kind": "pairwise",
+  "sample": "t009",
+  "pair": "A-B",
+  "X": "A",
+  "Y": "B",
+  "ids": {
+   "x1": 0,
+   "x2": 2,
+   "x3": 1,
+   "y1": 2,
+   "y2": 1,
+   "y3": 0
+  }
+ },
+ "j059": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "D",
+  "candidate": 0
+ },
+ "j060": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "A",
+  "candidate": 0
+ },
+ "j061": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "C",
+  "candidate": 0
+ },
+ "j062": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "C",
+  "candidate": 0
+ },
+ "j063": {
+  "kind": "score",
+  "sample": "t008",
+  "condition": "C",
+  "candidate": 0
+ },
+ "j064": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "C",
+  "candidate": 1
+ },
+ "j065": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "D",
+  "candidate": 0
+ },
+ "j066": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "A",
+  "candidate": 0
+ },
+ "j067": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "B",
+  "candidate": 0
+ },
+ "j068": {
+  "kind": "score",
+  "sample": "t008",
+  "condition": "E",
+  "candidate": 0
+ },
+ "j069": {
+  "kind": "pairwise",
+  "sample": "t010",
+  "pair": "A-B",
+  "X": "B",
+  "Y": "A",
+  "ids": {
+   "x1": 2,
+   "x2": 1,
+   "x3": 0,
+   "y1": 1,
+   "y2": 0,
+   "y3": 2
+  }
+ },
+ "j070": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "E",
+  "candidate": 1
+ },
+ "j071": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "B",
+  "candidate": 0
+ },
+ "j072": {
+  "kind": "score",
+  "sample": "t009",
+  "condition": "C",
+  "candidate": 0
+ },
+ "j073": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "C",
+  "candidate": 1
+ },
+ "j074": {
+  "kind": "score",
+  "sample": "t010",
+  "condition": "B",
+  "candidate": 1
+ },
+ "j075": {
+  "kind": "pairwise",
+  "sample": "t006",
+  "pair": "A-E",
+  "X": "E",
+  "Y": "A",
+  "ids": {
+   "x1": 2,
+   "x2": 0,
+   "x3": 1,
+   "y1": 0,
+   "y2": 2,
+   "y3": 1
+  }
+ },
+ "j076": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "B",
+  "candidate": 2
+ },
+ "j077": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "A",
+  "candidate": 2
+ },
+ "j078": {
+  "kind": "pairwise",
+  "sample": "t010",
+  "pair": "A-E",
+  "X": "A",
+  "Y": "E",
+  "ids": {
+   "x1": 1,
+   "x2": 0,
+   "x3": 2,
+   "y1": 1,
+   "y2": 2,
+   "y3": 0
+  }
+ },
+ "j079": {
+  "kind": "pairwise",
+  "sample": "t010",
+  "pair": "A-B",
+  "X": "A",
+  "Y": "B",
+  "ids": {
+   "x1": 1,
+   "x2": 0,
+   "x3": 2,
+   "y1": 2,
+   "y2": 1,
+   "y3": 0
+  }
+ },
+ "j080": {
+  "kind": "score",
+  "sample": "t008",
+  "condition": "B",
+  "candidate": 0
+ },
+ "j081": {
+  "kind": "score",
+  "sample": "t007",
+  "condition": "E",
+  "candidate": 0
+ },
+ "j082": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "C",
+  "candidate": 1
+ },
+ "j083": {
+  "kind": "score",
+  "sample": "t008",
+  "condition": "D",
+  "candidate": 0
+ },
+ "j084": {
+  "kind": "pairwise",
+  "sample": "t007",
+  "pair": "A-E",
+  "X": "E",
+  "Y": "A",
+  "ids": {
+   "x1": 1,
+   "x2": 0,
+   "x3": 2,
+   "y1": 2,
+   "y2": 0,
+   "y3": 1
+  }
+ },
+ "j085": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "D",
+  "candidate": 2
+ },
+ "j086": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "E",
+  "candidate": 2
+ },
+ "j087": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "A",
+  "candidate": 1
+ },
+ "j088": {
+  "kind": "score",
+  "sample": "t006",
+  "condition": "B",
+  "candidate": 2
+ }
+}

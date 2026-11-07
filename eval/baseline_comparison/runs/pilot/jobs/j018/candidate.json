@@ -1,0 +1,13 @@
+{
+ "title": "Synthetic Preference Data Curation with Safety Reasoning for Robust Alignment",
+ "summary": "We propose generating synthetic preference data using safety-reasoning prompts, where models critique and revise responses based on safety guidelines. This data is used to train reward models that resist jailbreaking. We evaluate the reward models on HarmBench and JailbreakBench, comparing them to Skywork-Reward-V2 and Llama Guard.",
+ "gap": "Current reward models trained on human or synthetic data struggle with OOD jailbreaking attacks. Safety-reasoning supervision could improve generalization, but no work has systematically evaluated this for reward model training.",
+ "approach": "We synthesize preference data by prompting models to generate harmful queries, critique responses using safety guidelines, and revise them. The critiques and revised responses form preference pairs, which train reward models. The guidelines include diverse safety perspectives to improve coverage.",
+ "evaluation": "We compare reward models trained on synthetic safety-reasoning data to Skywork-Reward-V2 and Llama Guard on HarmBench and JailbreakBench. Metrics include AU-PRC, attack success rates, and win rates against human preferences. Ablations test guideline diversity and critique depth.",
+ "support": [
+  "ref-007",
+  "ref-010",
+  "ref-014",
+  "ref-017"
+ ]
+}

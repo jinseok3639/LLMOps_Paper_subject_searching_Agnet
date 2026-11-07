@@ -1,0 +1,16 @@
+{
+ "title": "Lipschitz-Constrained EEGNet: Formal Robustness Guarantees for EEG-Based BCIs",
+ "summary": "This paper integrates Parseval tight frame constraints into EEGNet's convolutional layers to enforce a bounded Lipschitz constant, providing formal robustness guarantees against adversarial perturbations. The approach modifies EEGNet's training to maintain orthogonal weight matrices while preserving its EEG-specific feature extraction capabilities. Evaluations on BCI Competition IV P300, BNCI Horizon SMR, and MRCP datasets measure robustness via CLEVER scores, adversarial detection AUC, and accuracy under FGSM/PGD attacks, comparing against standard EEGNet, adversarially trained EEGNet, and Parseval-constrained EEGNet ablations.",
+ "gap": "While ref-021 shows EEG-based BCIs can detect adversarial examples, no work provides formal Lipschitz-based robustness guarantees for EEGNet. Ref-005 and ref-020 establish Lipschitz bounds for general networks, but these have not been adapted to EEG-specific architectures like EEGNet, which require specialized depthwise separable convolutions.",
+ "approach": "Modify EEGNet's convolutional layers to maintain Parseval tight frame constraints via orthogonal weight matrices during training. Input: raw EEG time-series; Output: class probabilities. Objective: minimize cross-entropy loss with orthogonal weight regularization. Update rule: project weight matrices onto Stiefel manifolds after each gradient step. Core difference: ref-010's Parseval networks use standard convolutions, while this work adapts them to EEGNet's depthwise separable convolutions and temporal filters.",
+ "evaluation": "Evaluate on BCI Competition IV P300, BNCI Horizon SMR, and MRCP datasets. Baselines: standard EEGNet, adversarially trained EEGNet (ref-013), and Parseval-constrained EEGNet with only spatial filters modified. Measures: CLEVER scores (ref-009) with ε=0.1, adversarial detection AUC (ref-021) against FGSM/PGD, and accuracy under PGD attacks (20 steps, ε=0.1). Ablation: compare full model with version where only temporal filters are Parseval-constrained.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-009",
+  "ref-010",
+  "ref-013",
+  "ref-020",
+  "ref-021"
+ ]
+}

@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The main motivation is supported: EMA improves calibration and yields different solutions (ref-022), SWA finds flatter solutions (ref-013), earlier snapshots support uncertainty estimation (ref-049), and ensembles perform well on unified unknown detection (ref-034). However, different solutions do not establish the claimed prediction disagreement. Ref-005 supports avoiding degradation of ID separation, not guaranteeing its preservation through any SIRC-like combination. The 'free' framing also overstates savings given two-model inference.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "None of the supplied abstracts studies disagreement specifically between averaged and online models for joint misclassification and OOD detection. This is a reasonably narrow extension of trajectory-based uncertainty estimation (ref-049) and weight-based uncertainty modeling (ref-050). However, the gap reflects an untested pairing more than an explicitly demonstrated limitation of those methods.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The model pair, disagreement measures, training variables, datasets, architectures, baselines, and evaluation metrics are concrete. AUGRC is directly motivated by ref-063, and unified evaluation follows refs-007 and ref-018. Remaining choices include the fusion equation and its fitting procedure, mixed-test-set composition, and the meaning of 'MC-free ensembles of the same compute.'",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "The experiment directly tests whether averaged/online disagreement adds useful failure information beyond averaged-model confidence. Separate misclassification and OOD metrics, unified risk metrics, and inference costs can assess the proposed benefit (refs-001, ref-007, ref-063). The weak link is the ranking-preservation claim: strictly preserving the averaged model's ranking would prevent improved ID misclassification ranking, while adding disagreement does not automatically preserve it (ref-005).",
+  "score": 4
+ },
+ "value": {
+  "rationale": "A positive result could make retaining the online checkpoint a practical uncertainty-estimation choice; a negative result would clarify whether trajectory differences provide complementary failure information. This matters given the strong softmax baseline (ref-007), snapshot-based uncertainty results (ref-049), and ensemble advantages (ref-034). The contribution would be stronger with accuracy-matched and two-model-compute-matched comparisons that isolate the benefit of this particular pairing.",
+  "score": 4
+ }
+}

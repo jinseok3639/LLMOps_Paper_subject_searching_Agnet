@@ -1,0 +1,66 @@
+{
+ "sample": "t008",
+ "condition": "B",
+ "n_refs": 37,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Value-Equivalent Bisimulation Metrics for Safe End-to-End Autonomous Driving",
+   "summary": "This paper proposes integrating value-equivalent bisimulation metrics to learn latent representations for end-to-end autonomous driving. The approach explicitly preserves safety-critical state distinctions (e.g., collision risk) while discarding task-irrelevant details like weather. It is evaluated on CARLA and nuScenes benchmarks using closed-loop collision rates and route completion metrics.",
+   "gap": "Existing end-to-end driving models (ref-005, ref-022) use geometric fusion or language models (ref-003) without formally preserving safety-relevant state distinctions during abstraction. While ref-009 applies bisimulation metrics for invariant representations in driving, it does not integrate value equivalence (ref-004) to explicitly constrain safety-critical action-value differences.",
+   "approach": "Train encoders with a loss function combining bisimulation metrics (ref-002, ref-009) and value-equivalence constraints (ref-004). The bisimulation loss minimizes distances between states with equivalent future dynamics, while value-equivalence terms penalize differences in Q-values for safety-critical actions (e.g., braking) between states. Inputs: raw sensor data; outputs: compact latent representations; objective: minimize bisimulation distances while preserving value differences for safety actions.",
+   "evaluation": "Compare against TransFuser (ref-005) and EMMA (ref-003) on CARLA Leaderboard (Town06, dense traffic) and nuScenes (route completion). Metrics: closed-loop collision rate, route completion, and latent-space bisimulation distances for safety-critical state pairs (e.g., pre/post-brake). Ablations: (1) bisimulation-only baseline (ref-009), (2) value-equivalence-only baseline (ref-004), (3) proposed joint method. Test invariance by perturbing weather/lighting in CARLA.",
+   "support": [
+    "ref-002",
+    "ref-003",
+    "ref-004",
+    "ref-005",
+    "ref-009",
+    "ref-022"
+   ]
+  },
+  {
+   "title": "Proxy Reward Hacking Detection via Anomaly-Weighted Bisimulation",
+   "summary": "This paper introduces an anomaly detection framework that identifies reward hacking by comparing policy-induced state visitation distributions against expert demonstrations using bisimulation metrics. The method weights state distances by anomaly scores derived from reward misspecification patterns, enabling early detection of phase transitions where policies exploit proxy metrics.",
+   "gap": "While ref-008 studies reward hacking phase transitions and ref-002 defines bisimulation metrics, no work combines these to detect unsafe policy shifts during training. Existing anomaly detectors (ref-008) lack formal state similarity grounding, as their metrics are not based on bisimulation distances.",
+   "approach": "Compute bisimulation distances between policy trajectories and expert data using ref-002's metrics. Weight these distances by anomaly scores computed as the difference between proxy and true rewards from ref-008's environments. Flag trajectories where weighted distances exceed thresholds as potential reward hacking candidates. The core difference from ref-002 is the anomaly weighting mechanism that prioritizes state pairs with high reward misspecification.",
+   "evaluation": "Test on ref-008's misspecified reward environments (e.g., PointMass, AntMaze) by measuring detection accuracy of phase transitions. Compare against baseline detectors (ref-008) using AUC-ROC and false positive rates during training rollouts. Include an ablation study comparing plain bisimulation distances (ref-002) without anomaly weighting against the full method to isolate the contribution of anomaly weighting.",
+   "support": [
+    "ref-002",
+    "ref-008"
+   ]
+  },
+  {
+   "title": "Value-Equivalent Weighting for Pseudo-Simulation in Autonomous Driving",
+   "summary": "We integrate value-equivalent model predictions into pseudo-simulation to better approximate closed-loop evaluation of driving policies. By weighting synthetic observations based on Bellman error between predicted and actual state transitions, our method prioritizes trajectories that preserve value-relevant dynamics. This bridges the gap between open-loop evaluation and closed-loop performance for policies trained with value-equivalent representations.",
+   "gap": "Pseudo-simulation improves open-loop realism via proximity-weighted synthetic observations (ref-010), but does not explicitly account for value-relevant state transitions. Value-equivalent models (ref-004) enable efficient planning but are untested under pseudo-simulation's synthetic observation weighting scheme.",
+   "approach": "We extend pseudo-simulation by computing Bellman error between value-equivalent model predictions and synthetic observations. Observations are weighted by negative Bellman error, prioritizing those consistent with value-equivalent dynamics. The value-equivalent model uses a reward function combining progress (ref-034) and collision penalties (ref-010), with action space defined by waypoint deviations. This differs from ref-010's proximity weighting by explicitly penalizing value-deviant trajectories.",
+   "evaluation": "We compare correlation (R²) between pseudo-simulation metrics and closed-loop performance (CARLA Leaderboard) for value-equivalent vs. proximity-weighted pseudo-simulation. We use the NAVSIM dataset (ref-020) with adversarial traffic scenarios from ref-034, reporting collision recovery rate (percentage of collisions avoided after 5s) and route completion. An ablation isolates value-equivalent weighting by comparing against pseudo-simulation with ref-010's proximity weighting.",
+   "support": [
+    "ref-004",
+    "ref-010",
+    "ref-020",
+    "ref-034"
+   ]
+  }
+ ],
+ "calls": 89,
+ "chosen_ids": [
+  "s1-assumption",
+  "s2-assumption",
+  "s2-transfer"
+ ],
+ "method": "eval\\baseline_comparison\\methods\\v3",
+ "method_version": "v3",
+ "dropped_proposals": {
+  "empirical": [
+   "hypothesis 3: title or summary mentions a reference id"
+  ],
+  "formal": [
+   "hypothesis 2: title or summary mentions a reference id",
+   "hypothesis 3: title or summary mentions a reference id"
+  ]
+ },
+ "refine_failed": [],
+ "seconds": 246.9
+}

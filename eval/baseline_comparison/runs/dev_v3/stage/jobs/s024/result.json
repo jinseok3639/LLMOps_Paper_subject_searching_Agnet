@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The central claim that test-time scaling treats all prompts equally directly contradicts ref-002, which explicitly allocates compute adaptively per prompt. Ref-005 and ref-016 support safety classification, but do not establish optimal reasoning budgets; ref-020 supplies no evidence for the claimed fixed-budget limitation. The claimed improvement is also presented as achieved without supporting results.",
+  "score": 1
+ },
+ "gap": {
+  "rationale": "The specific question of allocating tokens between safety reasoning and task completion remains open in the supplied abstracts. However, its motivation incorrectly assumes that adaptive allocation is absent: ref-002 already adapts compute to prompt difficulty, and ref-011 describes routing based on complexity and other query characteristics. A defensible gap would focus specifically on safety-aware token allocation.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate specifies a lightweight router, two token uses, named baselines, and safety, accuracy, and FLOPs measures. However, it leaves the objective and supervision for the 'optimal' split undefined: safety labels from ref-005 do not themselves supply allocation targets. It also leaves the generator, task dataset, static scaling procedure, and integration of the safeguard baseline from ref-016 unspecified.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Risk-dependent allocation could address differing safety compute needs, and the proposed metrics could measure its trade-offs. The weak link is that risk labels do not establish whether additional safety reasoning improves an answer or what split is best. HarmBench and Advbench support adversarial evaluation (ref-014, ref-015), but the benign task evaluation and matched-compute comparison needed to isolate allocation benefits remain unclear.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining when additional safety reasoning helps could inform deployment choices, connecting the safety reasoning results of ref-007 with adaptive computation in ref-002. The contribution is potentially meaningful, but its impact depends on outperforming adaptive compute baselines and constrained safety methods such as ref-012 and ref-020, which the proposed evaluation omits.",
+  "score": 3
+ }
+}

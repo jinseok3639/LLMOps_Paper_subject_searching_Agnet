@@ -1,0 +1,13 @@
+{
+ "title": "LARA-BoN: Safe Inference-Time Alignment via Dualized Constraints",
+ "summary": "We extend Lagrangian Reward Augmentation (LARA) to Best-of-N (BoN) sampling by dualizing safety constraints and calibrating a dual variable on a small set of prompts. The augmented reward combines a reward model and a cost model, with the dual variable balancing helpfulness and harmlessness. Experiments on HarmBench and ToxicChat compare LARA-BoN against standard BoN and RLHF baselines, measuring helpfulness-harmlessness tradeoffs via human evaluation and constraint violation rates.",
+ "gap": "While ref-012 introduces LARA for constrained inference-time alignment, it does not evaluate its integration with sequence-level methods like BoN. Existing BoN methods (ref-003) optimize a single reward score without formal safety guarantees, and manual penalty tuning fails to generalize across domains or reward models.",
+ "approach": "LARA-BoN dualizes the constrained optimization problem (maximizing reward while minimizing cost) into an unconstrained problem with an augmented reward. The dual variable is calibrated on a small set of 50 prompts to enforce the safety constraint in expectation. This augmented reward is used as the scoring function in BoN, ensuring formal guarantees for sequence-level methods: the expected cost is bounded by a threshold ε with probability ≥ 1 − δ, where δ depends on the calibration set size.",
+ "evaluation": "Baselines include standard BoN (ref-003), RLHF (ref-001), and Llama Guard (ref-016). Metrics are constraint violation rates (percentage of responses exceeding a safety threshold) and human preference scores for helpfulness. Experiments on HarmBench and ToxicChat test LARA-BoN's ability to maintain safety while scaling N, comparing against fixed-penalty baselines. An ablation isolates the effect of the dual variable by comparing LARA-BoN to BoN with a manually tuned penalty.",
+ "support": [
+  "ref-001",
+  "ref-003",
+  "ref-012",
+  "ref-016"
+ ]
+}

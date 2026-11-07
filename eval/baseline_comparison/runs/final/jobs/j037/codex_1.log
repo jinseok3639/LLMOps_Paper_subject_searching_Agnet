@@ -1,0 +1,157 @@
+$ exit 0
+--- stdout
+{
+  "strongest": {"X": "x1", "Y": "y1"},
+  "weakest": {"X": "x2", "Y": "y2"},
+  "best": {
+    "rationale": "y1 proposes executable and symbolic checks as a concrete source of automatic process labels, with comparisons against both outcome supervision and existing automated process supervision. Its separate evaluation of answer accuracy and reasoning validity addresses the distinction established by ref-038 and could guide supervision choices. x1 offers a reasonable transfer of ref-015 to SciBench (ref-027), but conflates predicting eventual success with predicting step correctness: assigning final-outcome labels to intermediate steps does not establish their correctness. y1's claimed absence of a comparison in ref-047 is not established by its abstract, and its label-generation procedure needs elaboration, but its experiment is better aligned with its hypothesis.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "x2's central gap directly conflicts with ref-001, which already combines iterative code debugging with visual feedback for error correction. Its proposed loop largely restates that framework without identifying a clear experimental change. y2 also overstates the evidence: ref-001 does not establish that MatPlotAgent detects only execution errors or cannot detect semantic mismatches. However, structured checks against expected data characteristics and explicit discrepancy tuples provide a distinguishable intervention, and the proposed ablation can test its incremental value. Its semantic and data-fidelity metrics fit that intervention, although constructing valid ground truth requires further specification.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "Both sets cover three substantially different mechanisms: reward-guided reasoning, visualization feedback, and multi-agent resource coordination. Their corresponding candidates occupy closely matched research directions. Y spans more application domains, but X's value modeling, visual refinement, and learned task allocation remain genuinely different approaches. Y's clearer distinctions from prior work improve quality rather than materially increasing diversity.",
+    "verdict": "tie"
+  },
+  "overall": {
+    "rationale": "Y supplies more actionable changes and comparisons across the set. In addition to y1's supervision experiment and y2's structured validation, y3 distinguishes agent removal from message pruning in ref-042 and scaling in ref-044. Its utility estimate is nevertheless weak: contribution counts are not marginal effects, and falling below a historical benefit-cost ratio does not imply negative utility. Claims that ref-002 cannot remove agents are also unestablished. X has more fundamental overlap: x2 repeats ref-001, while x3 largely transfers ref-002's learned orchestration to visualization, omits that closest baseline, and overstates AutoGen's rigidity despite ref-012's flexible interaction patterns. Y therefore offers the researcher better choices despite remaining grounding and operationalization issues.",
+    "verdict": "Y"
+  }
+}
+
+--- stderr
+ of this project was developing infrastructure and optimization methods that behave predictably across a wide range of scales. This allowed us to accurately predict some aspects of GPT-4's performance based on models trained with no more than 1/1,000th the compute of GPT-4.
+
+[ref-067] AgentRM: Enhancing Agent Generalization with Reward Modeling
+Abstract: Existing LLM-based agents have achieved strong performance on held-in tasks, but their generalizability to unseen tasks remains poor. Hence, some recent work focus on fine-tuning the policy model with more diverse tasks to improve the generalizability. In this work, we find that finetuning a reward model to guide the policy model is more robust than directly finetuning the policy model. Based on this finding, we propose AgentRM, a generalizable reward model, to guide the policy model for effective test-time search. We comprehensively investigate three approaches to construct the reward model, including explicit reward modeling, implicit reward modeling and LLM-as-a-judge. We then use AgentRM to guide the answer generation with Best-of-N sampling and step-level beam search. On four types of nine agent tasks, AgentRM enhances the base policy model by $8.8$ points on average, surpassing the top general agent by $4.0$. Moreover, it demonstrates weak-to-strong generalization, yielding greater improvement of $12.6$ on LLaMA-3-70B policy model. As for the specializability, AgentRM can also boost a finetuned policy model and outperform the top specialized agent by $11.4$ on three held-in tasks. Further analysis verifies its effectiveness in test-time scaling. Codes will be released to facilitate the research in this area.
+
+[ref-068] Llama 2: Open Foundation and Fine-Tuned Chat Models
+Abstract: In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases. Our models outperform open-source chat models on most benchmarks we tested, and based on our human evaluations for helpfulness and safety, may be a suitable substitute for closed-source models. We provide a detailed description of our approach to fine-tuning and safety improvements of Llama 2-Chat in order to enable the community to build on our work and contribute to the responsible development of LLMs.
+
+[ref-069] ART: Automatic multi-step reasoning and tool-use for large language models
+Abstract: Large language models (LLMs) can perform complex reasoning in fewand zero-shot settings by generating intermediate chain of thought (CoT) reasoning steps. Further, each reasoning step can rely on external tools to support computation beyond the core LLM capabilities (e.g. search/running code). Prior work on CoT prompting and tool use typically requires hand-crafting task-specific demonstrations and carefully scripted interleaving of model generations with tool use. We introduce Automatic Reasoning and Tool-use (ART), a framework that uses frozen LLMs to automatically generate intermediate reasoning steps as a program. Given a new task to solve, ART selects demonstrations of multi-step reasoning and tool use from a task library. At test time, ART seamlessly pauses generation whenever external tools are called, and integrates their output before resuming generation. ART achieves a substantial improvement over few-shot prompting and automatic CoT on unseen tasks in the BigBench and MMLU benchmarks, and matches performance of hand-crafted CoT prompts on a majority of these tasks. ART is also extensible, and makes it easy for humans to improve performance by correcting errors in task-specific programs or incorporating new tools, which we demonstrate by drastically improving performance on select tasks with minimal human intervention.
+
+[ref-070] Bandit Based Monte-Carlo Planning
+Abstract: (not available)
+
+[ref-071] Stealing Machine Learning Models via Prediction APIs
+Abstract: Machine learning (ML) models may be deemed confidential due to their sensitive training data, commercial value, or use in security applications. Increasingly often, confidential ML models are being deployed with publicly accessible query interfaces. ML-as-a-service ("predictive analytics") systems are an example: Some allow users to train models on potentially sensitive data and charge others for access on a pay-per-query basis. The tension between model confidentiality and public access motivates our investigation of model extraction attacks. In such attacks, an adversary with black-box access, but no prior knowledge of an ML model's parameters or training data, aims to duplicate the functionality of (i.e., "steal") the model. Unlike in classical learning theory settings, ML-as-a-service offerings may accept partial feature vectors as inputs and include confidence values with predictions. Given these practices, we show simple, efficient attacks that extract target ML models with near-perfect fidelity for popular model classes including logistic regression, neural networks, and decision trees. We demonstrate these attacks against the online services of BigML and Amazon Machine Learning. We further show that the natural countermeasure of omitting confidence values from model outputs still admits potentially harmful model extraction attacks. Our results highlight the need for careful ML model deployment and new model extraction countermeasures.
+</file>
+
+<file name="set_x.json">
+[
+ {
+  "id": "x1",
+  "title": "Outcome-Supervised Value Models for Guided Decoding in Scientific Reasoning",
+  "summary": "We propose outcome-supervised value models (OVM) for guided decoding in scientific reasoning tasks, where a value model is trained to predict the correctness of intermediate reasoning steps based on final outcomes. This approach addresses the gap in error propagation in multi-step scientific reasoning by prioritizing steps that lead to correct conclusions. The evaluation on SciBench shows improved performance on college-level scientific problems compared to chain-of-thought and process-supervised baselines, with no need for step-level annotations.",
+  "gap": "Current LLM-based scientific reasoning systems (e.g., SciBench) suffer from error propagation in multi-step problems, as they lack mechanisms to assess the potential of intermediate reasoning paths.",
+  "approach": "Train a value model to predict the correctness of intermediate reasoning steps by: (1) generating multiple reasoning paths for each problem, (2) labeling each step based on the final outcome, and (3) training a model to predict step correctness. During inference, the value model guides decoding by selecting steps with higher predicted correctness, reducing error propagation.",
+  "evaluation": "Evaluate on SciBench with: (1) accuracy on college-level scientific problems, (2) comparison with chain-of-thought, process-supervised, and outcome-supervised baselines, (3) error propagation analysis, and (4) ablation studies on value model design. Test on both open-source and proprietary LLMs.",
+  "support": [
+   "ref-001",
+   "ref-027",
+   "ref-038",
+   "ref-039",
+   "ref-015"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Iterative Feedback Refinement for LLM-Based Scientific Data Visualization",
+  "summary": "We propose an iterative feedback refinement framework for LLM-based scientific data visualization, where generated visualizations are evaluated by a multi-modal LLM and refined through multiple cycles. The approach integrates a visual feedback mechanism with code generation debugging, using GPT-4V to assess visualization quality and provide actionable feedback. This method addresses the gap in dynamic error correction and quality improvement in automated visualization systems, as current frameworks like MatPlotAgent lack iterative refinement capabilities. The evaluation uses MatPlotBench with human-annotated scores and GPT-4V-based metrics, showing improved accuracy and visual fidelity across diverse datasets.",
+  "gap": "Current LLM-based visualization frameworks (e.g., MatPlotAgent) lack iterative feedback mechanisms for dynamic error correction and quality improvement, leading to suboptimal visualizations that require manual intervention.",
+  "approach": "Implement a closed-loop system where generated visualizations are evaluated by a multi-modal LLM (GPT-4V) and refined through code modifications. The system includes: (1) query understanding, (2) code generation with iterative debugging, (3) visual feedback analysis, and (4) code refinement based on feedback. The process repeats until the visualization meets quality thresholds or maximum iterations are reached.",
+  "evaluation": "Evaluate on MatPlotBench using: (1) GPT-4V-based scoring for visual accuracy, (2) human-annotated scores for fidelity, (3) comparison with baseline MatPlotAgent performance, and (4) computational cost analysis. Metrics include correlation with human scores, error reduction per iteration, and final visualization quality.",
+  "support": [
+   "ref-001",
+   "ref-007",
+   "ref-035"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Multi-Agent Collaboration with Dynamic Task Decomposition for Scientific Workflows",
+  "summary": "We propose a dynamic task decomposition framework for multi-agent collaboration in scientific workflows, where a central orchestrator (puppeteer) decomposes complex tasks into sub-tasks and dynamically assigns them to specialized agents. The approach combines evolving orchestration with domain-specific agent expertise, enabling efficient handling of multi-step scientific processes. This addresses the gap in static agent structures that struggle with complex, evolving tasks. The evaluation uses a modified MatPlotBench with multi-step visualization workflows, showing improved performance and reduced computational overhead compared to static multi-agent baselines.",
+  "gap": "Existing multi-agent systems (e.g., ChatDev, AutoGen) use static organizational structures that cannot adapt to evolving task complexity, leading to inefficiencies in multi-step scientific workflows like data visualization.",
+  "approach": "Implement a puppeteer-style orchestrator that: (1) decomposes tasks into sub-tasks using LLM-based planning, (2) dynamically assigns sub-tasks to specialized agents based on expertise, (3) monitors progress and reallocates resources as needed, and (4) aggregates results. The system uses reinforcement learning to optimize task decomposition and agent allocation over time.",
+  "evaluation": "Evaluate on a multi-step version of MatPlotBench with: (1) success rate in completing end-to-end workflows, (2) computational cost comparison with static multi-agent baselines, (3) task decomposition quality metrics, and (4) human evaluation of workflow coherence. Compare against ChatDev and AutoGen implementations.",
+  "support": [
+   "ref-001",
+   "ref-002",
+   "ref-012",
+   "ref-031"
+  ]
+ }
+]
+</file>
+
+<file name="set_y.json">
+[
+ {
+  "id": "y1",
+  "title": "Automated Process Supervision for Stepwise Verification in Mathematical Reasoning",
+  "summary": "This paper introduces a method to train a reward model using automatically generated process-level feedback from program execution and symbolic validation. The model scores individual reasoning steps to enable targeted corrections during solution generation, improving accuracy on multi-step mathematical problems without manual annotations.",
+  "gap": "While outcome-supervised value models (ref-015) and process-supervised models (ref-038) improve final accuracy, they either lack fine-grained step feedback (ref-015) or require manual annotations (ref-038). Ref-047 shows automated process supervision is possible but does not compare its step-level feedback quality against outcome-based baselines.",
+  "approach": "Generate synthetic process-level annotations by executing reasoning steps as code and validating intermediate results symbolically. Train a reward model to score step correctness using these annotations. During inference, use the reward model to rerank solution paths by aggregating step scores, prioritizing paths with higher intermediate validity.",
+  "evaluation": "Evaluate on GSM8K and MATH using (1) final-answer accuracy, (2) step-level error rate (proportion of incorrect steps in correct solutions), and (3) error propagation rate (proportion of solutions where an early step error invalidates the entire solution). Compare against outcome-supervised (ref-015), process-supervised (ref-038), and automated process-supervised (ref-047) baselines.",
+  "support": [
+   "ref-015",
+   "ref-038",
+   "ref-047"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Semantic Validation-Driven Iterative Refinement for LLM-Based Scientific Visualization",
+  "summary": "This paper proposes integrating semantic validation of visual elements into LLM-based visualization agents to iteratively improve plot quality. The approach extends MatPlotAgent's visual feedback mechanism by adding structured semantic checks for data-plot consistency, addressing its limitation in detecting high-level visual-semantic mismatches. Evaluation uses MatPlotBench with metrics comparing output fidelity to human-verified ground truth, demonstrating improved accuracy over MatPlotAgent's native feedback system.",
+  "gap": "MatPlotAgent (ref-001) detects low-level execution errors but lacks semantic validation of visual elements, failing to identify high-level mismatches between data and plot interpretations (e.g., incorrect axis scaling, misrepresented trends).",
+  "approach": "Extend MatPlotAgent's feedback loop with a semantic validation module that (1) extracts visual features from generated plots, (2) compares them against expected data characteristics (e.g., trend direction, magnitude ranges), and (3) generates structured feedback for code regeneration. Uses GPT-4V for feature extraction and comparison, with feedback formatted as [\"element_type\", \"expected_value\", \"actual_value\", \"severity\"] tuples.",
+  "evaluation": "Compare against MatPlotAgent baselines on MatPlotBench using (1) structural accuracy (axis labels, tick positions), (2) data fidelity (point deviation from ground truth), and (3) semantic correctness (trend/relationship mismatches). Measure improvement across refinement iterations with ablation study isolating semantic validation contribution.",
+  "support": [
+   "ref-001",
+   "ref-035",
+   "ref-039"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Dynamic Agent Pruning via Cost-Benefit Analysis for Multi-Agent Collaboration",
+  "summary": "We introduce a method to dynamically prune redundant agents in multi-agent systems during task execution by evaluating their marginal contributions using a lightweight orchestrator. The approach combines task progress metrics with agent-specific performance indicators to identify non-essential agents for removal. Evaluated on ChatDev tasks, it achieves comparable performance to full systems at reduced computational cost.",
+  "gap": "Existing dynamic multi-agent frameworks (ref-002, ref-042, ref-044) optimize agent coordination but lack explicit mechanisms to remove agents entirely based on their marginal contributions during task execution. Ref-002 prioritizes agents but doesn't eliminate them, ref-042 prunes messages but not agents, and ref-044 explores scaling but doesn't dynamically reduce agent counts.",
+  "approach": "Implement a lightweight orchestrator that computes a cost-benefit score for each agent at discrete intervals using: (1) task progress metrics (percentage of subtasks completed), (2) agent-specific performance indicators (number of successful contributions vs. errors), and (3) computational cost (tokens consumed). Agents with negative marginal contribution (benefit < cost) are pruned. The orchestrator uses a threshold-based decision rule: if (current benefit / current cost) < (historical average benefit / historical average cost), the agent is removed. This differs from ref-002's prioritization and ref-042's message-level pruning by focusing on agent-level removal based on quantified marginal utility.",
+  "evaluation": "Measure task success rate, computational cost (tokens used), and convergence speed (number of iterations to completion) on ChatDev software development tasks (ref-031). Compare against: (1) static multi-agent baseline (ref-031's full agent configuration), (2) ref-042's AgentPrune (message-level pruning), and (3) human-designed minimal configurations (5 experts selecting optimal agent subsets). Ablation study isolates pruning mechanism by comparing dynamic vs. static agent counts with identical agent implementations.",
+  "support": [
+   "ref-002",
+   "ref-042",
+   "ref-044",
+   "ref-031"
+  ]
+ }
+]
+</file>
+2026-11-07T03:56:40.971948Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out
+codex
+{
+  "strongest": {"X": "x1", "Y": "y1"},
+  "weakest": {"X": "x2", "Y": "y2"},
+  "best": {
+    "rationale": "y1 proposes executable and symbolic checks as a concrete source of automatic process labels, with comparisons against both outcome supervision and existing automated process supervision. Its separate evaluation of answer accuracy and reasoning validity addresses the distinction established by ref-038 and could guide supervision choices. x1 offers a reasonable transfer of ref-015 to SciBench (ref-027), but conflates predicting eventual success with predicting step correctness: assigning final-outcome labels to intermediate steps does not establish their correctness. y1's claimed absence of a comparison in ref-047 is not established by its abstract, and its label-generation procedure needs elaboration, but its experiment is better aligned with its hypothesis.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "x2's central gap directly conflicts with ref-001, which already combines iterative code debugging with visual feedback for error correction. Its proposed loop largely restates that framework without identifying a clear experimental change. y2 also overstates the evidence: ref-001 does not establish that MatPlotAgent detects only execution errors or cannot detect semantic mismatches. However, structured checks against expected data characteristics and explicit discrepancy tuples provide a distinguishable intervention, and the proposed ablation can test its incremental value. Its semantic and data-fidelity metrics fit that intervention, although constructing valid ground truth requires further specification.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "Both sets cover three substantially different mechanisms: reward-guided reasoning, visualization feedback, and multi-agent resource coordination. Their corresponding candidates occupy closely matched research directions. Y spans more application domains, but X's value modeling, visual refinement, and learned task allocation remain genuinely different approaches. Y's clearer distinctions from prior work improve quality rather than materially increasing diversity.",
+    "verdict": "tie"
+  },
+  "overall": {
+    "rationale": "Y supplies more actionable changes and comparisons across the set. In addition to y1's supervision experiment and y2's structured validation, y3 distinguishes agent removal from message pruning in ref-042 and scaling in ref-044. Its utility estimate is nevertheless weak: contribution counts are not marginal effects, and falling below a historical benefit-cost ratio does not imply negative utility. Claims that ref-002 cannot remove agents are also unestablished. X has more fundamental overlap: x2 repeats ref-001, while x3 largely transfers ref-002's learned orchestration to visualization, omits that closest baseline, and overstates AutoGen's rigidity despite ref-012's flexible interaction patterns. Y therefore offers the researcher better choices despite remaining grounding and operationalization issues.",
+    "verdict": "Y"
+  }
+}
+tokens used
+39,567

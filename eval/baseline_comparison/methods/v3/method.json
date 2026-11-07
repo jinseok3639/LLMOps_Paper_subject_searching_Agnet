@@ -1,0 +1,30 @@
+{
+  "version": "v3",
+  "based_on": "methods/v2",
+  "changes": [
+    "R1 최종 선별에서 같은 주제 제외",
+    "R2 겹침 지적 반영과 겹침 후보 제외",
+    "R3 결과 표현 거부",
+    "V2 검토가 gap 과장, 실험 설계 누락(데이터, 베이스라인, 지표, ablation), 평가와 주장의 불일치를 확인하고 수정이 이를 반영 (시범 운영 판정 근거에서 B가 C보다 낮았던 항목)",
+    "V3a 최종 선별에서 이미 고른 후보와 같은 주제인 후보를 건너뜀 (same_topic.md, evaluation_v2 loop v1에서 가져옴). dev_v2에서 다양성이 A에 0/3으로 짐",
+    "V3b 수정 단계에서 approach에 핵심 기법(목적 함수 또는 알고리즘, 입력과 출력, 가장 가까운 인용 방법과 다른 점)을 정의하게 함. dev_v2에서 구체성이 3.00에 머물렀고 판정 근거가 기법 정의 누락을 지적함"
+  ],
+  "n_candidates": 3,
+  "slots": 3,
+  "temperature": 0.4,
+  "max_format_tries": 4,
+  "summary_words": [
+    40,
+    120
+  ],
+  "final_selection": {
+    "overlap_filter": false,
+    "topic_dedup": true
+  },
+  "agents": {
+    "assumption": "You look for premises that a whole line of work takes for granted and ask what happens if they are removed.",
+    "transfer": "You look for methods or concepts in one line of work that could address a limit in another.",
+    "empirical": "You look for phenomena that have been claimed but not measured, or measured only in a narrow setting.",
+    "formal": "You look for informal claims that could be turned into precise definitions, bounds, or failure conditions."
+  }
+}

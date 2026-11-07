@@ -1,0 +1,14 @@
+{
+ "title": "Constitutional AI Feedback for Safety Reasoning in Jailbreak Defense",
+ "summary": "This paper proposes a jailbreak defense that combines Constitutional AI's self-critique framework with safety reasoning guidelines. The method trains a model to generate safety rationales using a self-feedback loop, guided by domain-specific safety principles. During inference, the model rejects or revises harmful queries by referencing these rationales, with a fallback to Best-of-N (N=100) sampling for ambiguous cases. Evaluation on JailbreakBench and StrongREJECT benchmarks compares performance against Refusal Training, Llama Guard, and vanilla BoN, measuring attack success rates and safety reasoning quality through human evaluation with a 5-point rubric and inter-rater reliability scoring.",
+ "gap": "Constitutional AI (ref-013) trains harmless AI assistants to engage with harmful queries but does not explicitly generate safety rationales. Safety reasoning (ref-007) synthesizes reasoning supervision aligned with guidelines but does not use a self-feedback loop for dynamic adaptation. The gap is the absence of a method that combines structured safety rationale generation with iterative self-critique for jailbreak defense.",
+ "approach": "The approach trains a model to generate safety rationales using Constitutional AI's self-feedback loop, guided by domain-specific safety principles (e.g., 'avoid harmful content'). Inputs are processed in two stages: (1) safety rationale generation, where the model evaluates the query against principles and generates a rationale for rejection or revision; (2) response generation, where the model produces a safe output based on the rationale. For ambiguous cases (low-confidence rejection scores), Best-of-N (N=100) sampling with a reward model ranks outputs for safety. The core mechanism differs from ref-007 by incorporating iterative self-critique and from ref-013 by explicitly generating rationales.",
+ "evaluation": "Evaluation uses JailbreakBench and StrongREJECT benchmarks to test attack success rates against jailbreak artifacts. Baselines include Refusal Training (ref-007), Llama Guard (ref-016), and vanilla BoN (ref-003). Metrics include attack success rates and human-judged safety reasoning quality on a 5-point rubric (1=unsafe, 5=fully safe with rationale). Human evaluation involves 3 annotators with safety expertise, measuring inter-rater reliability via Cohen's kappa. Ablation studies compare the full method (rationale + feedback + BoN fallback) against variants without rationale generation and without feedback loops.",
+ "support": [
+  "ref-007",
+  "ref-013",
+  "ref-016",
+  "ref-017",
+  "ref-021"
+ ]
+}

@@ -1,0 +1,14 @@
+{
+ "title": "Generalized Out-of-Distribution Detection via Hyperspherical Embedding Dispersion",
+ "summary": "This paper proposes a framework for generalized OOD detection by optimizing hyperspherical embeddings to maximize class prototype dispersion and sample compactness. The method, called CIDER, jointly trains a model to produce embeddings where in-distribution samples cluster tightly around class prototypes, while OOD samples lie far from all prototypes.",
+ "gap": "Current OOD detection methods often rely on parametric assumptions (e.g., Gaussian distributions) or ad-hoc post-processing, limiting their scalability and effectiveness. Existing contrastive learning approaches do not explicitly optimize for OOD detection, leading to suboptimal separability.",
+ "approach": "CIDER introduces a dispersion loss to maximize angular distances between class prototypes and a compactness loss to cluster samples around their prototypes. The method is trained end-to-end without requiring OOD samples during training, leveraging only in-distribution data.",
+ "evaluation": "The method is evaluated on CIFAR-10, CIFAR-100, and ImageNet with OOD benchmarks (e.g., SVHN, Textures, iNaturalist). Metrics include AUROC, FPR95, and detection accuracy. Baselines include MSP, ODIN, Mahalanobis distance, and contrastive learning-based methods.",
+ "support": [
+  "ref-029",
+  "ref-036",
+  "ref-046",
+  "ref-055",
+  "ref-060"
+ ]
+}

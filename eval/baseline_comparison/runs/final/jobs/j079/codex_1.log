@@ -1,0 +1,149 @@
+$ exit 0
+--- stdout
+{
+  "strongest": {"X": "x2", "Y": "y2"},
+  "weakest": {"X": "x3", "Y": "y1"},
+  "best": {
+    "rationale": "x2 addresses a useful distinction: benign domain shift versus backdoor anomalies. Its domain-shift experiments, false-positive measurements, and clustering ablation fit that question, although ref-001's missing abstract cannot substantiate its same-domain assumption. y2 has a plausible distribution-testing motivation, but ref-002 supplies a divergence between distributions, not individual-input scores or a backdoor-detection threshold derived from a target-error bound. It leaves essential parts of the proposed detector undefined. x2 offers the more coherent experimental starting point.",
+    "verdict": "X"
+  },
+  "worst": {
+    "rationale": "Both candidates have foundational problems, but y1 directly optimizes the detection signature it proposes to evade: ref-009 identifies low prediction entropy under perturbation as suspicious, whereas y1 explicitly preserves low entropy. Its activation-space objective also does not establish ref-021's computational indistinguishability guarantees, and ref-009 already evaluates adaptive attacks. x3 incorrectly claims a black-box gap while requiring internal activations, mischaracterizes trigger-free STRIP, and obtains no activation-stability method from ref-019. Nevertheless, its proposed activation-variance experiment does not explicitly optimize against its own stated goal as y1 does.",
+    "verdict": "X"
+  },
+  "diversity": {
+    "rationale": "Y spans attack construction, detection through distribution divergence, and training-time mitigation through loss weighting. X spans mitigation and two detectors, with both detectors centered on activation behavior. Despite weaknesses in their execution, Y's candidates cover more distinct research interventions.",
+    "verdict": "Y"
+  },
+  "overall": {
+    "rationale": "X offers the stronger central candidate in x2 and a potentially useful mitigation experiment in x1. x1's attribution of entropy regularization to ref-019 is unsupported, and it does not deliver the theoretical guarantees motivating its gap; nevertheless, ref-009 supplies a relevant empirical motivation for testing perturbation entropy during mitigation. Y's alternatives have more serious coherence problems: y1 reverses STRIP's evasion objective, while y3 minimizes poisoned instruction losses without specifying corrected targets, potentially reinforcing the backdoor. Its weighting formula and transfer of ref-002's guarantees are also unsupported. Y's broader coverage does not outweigh X's better experimental prospects.",
+    "verdict": "X"
+  }
+}
+
+--- stderr
+uning-based elicitation suffices to elicit capabilities. To do this, we introduce password-locked models, LLMs fine-tuned such that some of their capabilities are deliberately hidden. Specifically, these LLMs are trained to exhibit these capabilities only when a password is present in the prompt, and to imitate a much weaker LLM otherwise. Password-locked models enable a novel method of evaluating capabilities elicitation methods, by testing whether these password-locked capabilities can be elicited without using the password. We find that a few high-quality demonstrations are often sufficient to fully elicit password-locked capabilities. More surprisingly, fine-tuning can elicit other capabilities that have been locked using the same password, or even different passwords. Furthermore, when only evaluations, and not demonstrations, are available, approaches like reinforcement learning are still often able to elicit capabilities. Overall, our findings suggest that fine-tuning is an effective method of eliciting hidden capabilities of current models, but may be unreliable when high-quality demonstrations are not available, e.g. as may be the case when models' (hidden) capabilities exceed those of human demonstrators.
+
+[ref-019] Outcome indistinguishability
+Abstract: Prediction algorithms assign numbers to individuals that are popularly understood as individual “probabilities”—what is the probability of 5-year survival after cancer diagnosis?—and which increasingly form the basis for life-altering decisions. Drawing on an understanding of computational indistinguishability developed in complexity theory and cryptography, we introduce Outcome Indistinguishability. Predictors that are Outcome Indistinguishable (OI) yield a generative model for outcomes that cannot be efficiently refuted on the basis of the real-life observations produced by . We investigate a hierarchy of OI definitions, whose stringency increases with the degree to which distinguishers may access the predictor in question. Our findings reveal that OI behaves qualitatively differently than previously studied notions of indistinguishability. First, we provide constructions at all levels of the hierarchy. Then, leveraging recently-developed machinery for proving average-case fine-grained hardness, we obtain lower bounds on the complexity of the more stringent forms of OI. This hardness result provides the first scientific grounds for the political argument that, when inspecting algorithmic risk prediction instruments, auditors should be granted oracle access to the algorithm, not simply historical predictions.
+
+[ref-020] Discovering Latent Knowledge in Language Models Without Supervision
+Abstract: Existing techniques for training language models can be misaligned with the truth: if we train models with imitation learning, they may reproduce errors that humans make; if we train them to generate text that humans rate highly, they may output errors that human evaluators can't detect. We propose circumventing this issue by directly finding latent knowledge inside the internal activations of a language model in a purely unsupervised way. Specifically, we introduce a method for accurately answering yes-no questions given only unlabeled model activations. It works by finding a direction in activation space that satisfies logical consistency properties, such as that a statement and its negation have opposite truth values. We show that despite using no supervision and no model outputs, our method can recover diverse knowledge represented in large language models: across 6 models and 10 question-answering datasets, it outperforms zero-shot accuracy by 4\% on average. We also find that it cuts prompt sensitivity in half and continues to maintain high accuracy even when models are prompted to generate incorrect answers. Our results provide an initial step toward discovering what language models know, distinct from what they say, even when we don't have access to explicit ground truth labels.
+
+[ref-021] Planting Undetectable Backdoors in Machine Learning Models : [Extended Abstract]
+Abstract: Given the computational cost and technical expertise required to train machine learning models, users may delegate the task of learning to a service provider. Delegation of learning has clear benefits, and at the same time raises serious concerns of trust. This work studies possible abuses of power by untrusted learners.We show how a malicious learner can plant an undetectable backdoor into a classifier. On the surface, such a backdoored classifier behaves normally, but in reality, the learner maintains a mechanism for changing the classification of any input, with only a slight perturbation. Importantly, without the appropriate “backdoor key,” the mechanism is hidden and cannot be detected by any computationally-bounded observer. We demonstrate two frameworks for planting undetectable backdoors, with incomparable guarantees.•First, we show how to plant a backdoor in any model, using digital signature schemes. The construction guarantees that given query access to the original model and the backdoored version, it is computationally infeasible to find even a single input where they differ. This property implies that the backdoored model has generalization error comparable with the original model. Moreover, even if the distinguisher can request backdoored inputs of its choice, they cannot backdoor a new input—a property we call non-replicability.•Second, we demonstrate how to insert undetectable backdoors in models trained using the Random Fourier Features (RFF) learning paradigm (Rahimi, Recht; NeurIPS 2007). In this construction, undetectability holds against powerful white-box distinguishers: given a complete description of the network and the training data, no efficient distinguisher can guess whether the model is “clean” or contains a backdoor. The backdooring algorithm executes the RFF algorithm faithfully on the given training data, tampering only with its random coins. We prove this strong guarantee under the hardness of the Continuous Learning With Errors problem (Bruna, Regev, Song, Tang; STOC 2021). We show a similar white-box undetectable backdoor for random ReLU networks based on the hardness of Sparse PCA (Berthet, Rigollet; COLT 2013).Our construction of undetectable backdoors also sheds light on the related issue of robustness to adversarial examples. In particular, by constructing undetectable backdoor for an “adversarially-robust” learning algorithm, we can produce a classifier that is indistinguishable from a robust classifier, but where every input has an adversarial example! In this way, the existence of undetectable backdoors represent a significant theoretical roadblock to certifying adversarial robustness.
+</file>
+
+<file name="set_x.json">
+[
+ {
+  "id": "x1",
+  "title": "Instruction Backdoor Mitigation via Entropy-Regularized Fine-Tuning",
+  "summary": "This work addresses backdoor vulnerabilities in instruction-tuned models by introducing entropy regularization during fine-tuning to suppress trigger-dependent behavior. The method penalizes low-entropy predictions on perturbed inputs, forcing models to maintain diverse response distributions even when triggers are present. Evaluated on instruction attack benchmarks, the approach reduces attack success rates while preserving clean performance.",
+  "gap": "Current defenses against instruction backdoors (ref-008) lack theoretical guarantees for maintaining model utility while suppressing malicious triggers, leaving a gap in balancing security and performance.",
+  "approach": "Integrate entropy regularization (ref-019) into fine-tuning objectives for instruction-tuned models. During training, apply adversarial perturbations to inputs and penalize models for producing low-entropy outputs, encouraging robust response distributions that resist trigger activation.",
+  "evaluation": "Baselines: standard fine-tuning, RLHF mitigation (ref-008). Measures: attack success rate on poisoned instructions, clean accuracy on standard NLP tasks. Validation via controlled instruction attacks with varying trigger patterns and perturbation strengths.",
+  "support": [
+   "ref-008",
+   "ref-019"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Domain-Divergence-Aware Backdoor Detection via Activation Clustering",
+  "summary": "This paper proposes a method to detect backdoor attacks by clustering activation patterns while accounting for domain shifts between training and test data. The approach combines domain divergence metrics with activation clustering to identify anomalous activation patterns indicative of backdoor triggers. It is validated on datasets with domain shifts, comparing detection accuracy against baseline methods that ignore domain differences.",
+  "gap": "Existing backdoor detection methods (e.g., activation clustering) assume training and test data are from the same domain, but real-world scenarios often involve domain shifts. No prior work integrates domain divergence analysis with backdoor detection.",
+  "approach": "Extend activation clustering with a domain divergence penalty term derived from [ref-002]. Train a detector that minimizes both activation cluster compactness and domain divergence, using unlabeled data from both domains. The divergence metric is computed via classifier-induced divergence from [ref-002].",
+  "evaluation": "Compare against standard activation clustering (ref-001) and STRIP (ref-009) on datasets with synthetic domain shifts. Metrics: detection accuracy (AUC-ROC), false positive rate under domain shift, and robustness to varying divergence levels.",
+  "support": [
+   "ref-001",
+   "ref-002",
+   "ref-009"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Latent Space Backdoor Detection via Activation Consistency Testing",
+  "summary": "This paper proposes a backdoor detection method that identifies inconsistencies in latent representations when inputs are perturbed. By measuring the stability of activation patterns under controlled transformations, the approach flags models with hidden triggers that produce unstable or divergent representations. Evaluated on backdoored LLMs and vision models, the method achieves high detection rates without requiring trigger knowledge.",
+  "gap": "Existing backdoor detection techniques (ref-009, ref-011) rely on trigger-specific patterns or require white-box access, leaving a gap in black-box detection methods that work without trigger examples.",
+  "approach": "Adapt outcome indistinguishability principles (ref-019) to measure activation consistency. For each input, generate perturbed variants and compare latent representations; backdoored models exhibit higher variance in trigger regions. Use statistical tests to identify anomalies in activation stability across perturbed inputs.",
+  "evaluation": "Baselines: STRIP (ref-009), spectral signature analysis (ref-011). Measures: detection accuracy on backdoored models from BackdoorBench (ref-011), false positive rate on clean models. Validation via controlled perturbation experiments with varying trigger sizes and model architectures.",
+  "support": [
+   "ref-009",
+   "ref-011",
+   "ref-019"
+  ]
+ }
+]
+</file>
+
+<file name="set_y.json">
+[
+ {
+  "id": "y1",
+  "title": "Backdoor Trigger Synthesis via Activation Space Property Testing",
+  "summary": "This paper proposes generating undetectable backdoor triggers by optimizing for computational indistinguishability in activation spaces. The method uses property testing techniques to ensure triggers evade detection while maintaining attack efficacy. Validation involves testing against defenses like STRIP and Neural Cleanse.",
+  "gap": "While ref-021 provides theoretical guarantees of computational indistinguishability for backdoors under cryptographic assumptions, it does not address practical detection evasion against runtime defenses like STRIP (ref-009). Current trigger synthesis methods (ref-003, ref-021) lack empirical validation of how their triggers perform against such defenses, leaving a gap in bridging theory and practice.",
+  "approach": "Formalize trigger design as a property testing problem (ref-016, ref-019) where triggers must satisfy indistinguishability properties under activation space queries. Use gradient-based optimization with constraints derived from STRIP's entropy-based detection mechanism (ref-009) to generate triggers that maintain low entropy perturbations while preserving attack efficacy. The core mechanism differs from ref-021 by operationalizing indistinguishability via practical detection evasion rather than cryptographic hardness assumptions.",
+  "evaluation": "Evaluate attack success rate (ASR) and detection evasion rate against STRIP (ref-009) and Neural Cleanse (ref-011) on CIFAR-10 using ResNet-18. Compare with Hidden Trigger (ref-003) and ref-021's backdoor construction baselines. Include an ablation study isolating the effect of entropy constraints versus standard trigger optimization by measuring ASR and detection rate with/without the constraints.",
+  "support": [
+   "ref-003",
+   "ref-021",
+   "ref-009",
+   "ref-016",
+   "ref-019",
+   "ref-011"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Domain-Induced Backdoor Detection via Distribution Divergence Analysis",
+  "summary": "This paper proposes detecting backdoor attacks by adapting classifier-induced divergence measures from domain adaptation theory to quantify distribution shifts caused by backdoor triggers. The approach estimates divergence between clean and poisoned samples using unlabeled data, flagging inputs with abnormal scores as potential backdoor triggers. Evaluation compares detection accuracy against STRIP and activation clustering baselines on CIFAR-10 with Hidden Trigger attacks.",
+  "gap": "While ref-002 introduces classifier-induced divergence measures to bound target error in domain adaptation, it does not apply these measures to backdoor detection. Existing backdoor detection methods (ref-001, ref-009) focus on activation clustering or perturbation testing but do not explicitly model trigger-induced distribution shifts, leaving an open question: can ref-002's divergence analysis isolate backdoor patterns as domain shifts?",
+  "approach": "Adapt ref-002's classifier-induced divergence measure to quantify distribution shifts between clean and poisoned samples. Inputs are unlabeled data from a model's training distribution; outputs are divergence scores computed via ref-002's empirical estimator. The objective is to identify samples where divergence exceeds a threshold derived from ref-002's bound. The method differs from STRIP (ref-009) by using divergence scores instead of entropy changes and from activation clustering (ref-001) by modeling domain shifts rather than clustering activation patterns.",
+  "evaluation": "Test detection accuracy on CIFAR-10 with Hidden Trigger attacks (ref-003) against STRIP (ref-009) and activation clustering (ref-001). Metrics include true positive rate (TPR) and false positive rate (FPR) at fixed thresholds. Ablation compares ref-002's original divergence measure (run on the same dataset) against the proposed adaptation to isolate the contribution of domain divergence analysis. All baselines use identical data splits and hyperparameters.",
+  "support": [
+   "ref-002",
+   "ref-003",
+   "ref-001",
+   "ref-009"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Divergence-Aware Weighting for Instruction Backdoor Mitigation",
+  "summary": "This work proposes a fine-tuning method that dynamically weights clean and poisoned instruction losses based on domain divergence estimates and sample sizes, reducing backdoor activation while maintaining task performance. The approach isolates the effect of divergence-aware weighting through ablation studies comparing fixed and dynamic weight strategies.",
+  "gap": "While ref-002 provides theoretical bounds for balancing source and target domain errors, ref-008 shows that instruction backdoor defenses using RLHF or clean data lack formal divergence-aware weighting mechanisms. The gap is the absence of a method that explicitly applies ref-002's bounds to adjust weights during instruction tuning for backdoor mitigation.",
+  "approach": "Given a large language model, clean instructions (source domain) and poisoned instructions (target domain), the approach minimizes a convex combination of their losses: L = αL_source + (1-α)L_target, where α = (D + λ√(1/n_source)) / (D + λ√(1/n_source) + λ√(1/n_target)). Here, D is the classifier-induced divergence from ref-002 estimated via unlabeled samples, λ controls hypothesis complexity, and n_source/n_target are sample sizes. The key difference from ref-002 is applying its bounds to instruction tuning for backdoor mitigation, with divergence estimated between clean and poisoned instruction distributions.",
+  "evaluation": "Evaluate on ELBA-Bench (ref-013) datasets with backdoor injections from ref-008, comparing attack success rate (ASR) and clean accuracy. Baselines include standard fine-tuning, RLHF, and equal-weighting (α=0.5). Ablation studies compare dynamic weighting (α from divergence estimates) against fixed-weight (α=0.7) and no-weighting (α=1.0) variants to isolate the effect of divergence-aware adjustment.",
+  "support": [
+   "ref-002",
+   "ref-008",
+   "ref-013"
+  ]
+ }
+]
+</file>
+codex
+{
+  "strongest": {"X": "x2", "Y": "y2"},
+  "weakest": {"X": "x3", "Y": "y1"},
+  "best": {
+    "rationale": "x2 addresses a useful distinction: benign domain shift versus backdoor anomalies. Its domain-shift experiments, false-positive measurements, and clustering ablation fit that question, although ref-001's missing abstract cannot substantiate its same-domain assumption. y2 has a plausible distribution-testing motivation, but ref-002 supplies a divergence between distributions, not individual-input scores or a backdoor-detection threshold derived from a target-error bound. It leaves essential parts of the proposed detector undefined. x2 offers the more coherent experimental starting point.",
+    "verdict": "X"
+  },
+  "worst": {
+    "rationale": "Both candidates have foundational problems, but y1 directly optimizes the detection signature it proposes to evade: ref-009 identifies low prediction entropy under perturbation as suspicious, whereas y1 explicitly preserves low entropy. Its activation-space objective also does not establish ref-021's computational indistinguishability guarantees, and ref-009 already evaluates adaptive attacks. x3 incorrectly claims a black-box gap while requiring internal activations, mischaracterizes trigger-free STRIP, and obtains no activation-stability method from ref-019. Nevertheless, its proposed activation-variance experiment does not explicitly optimize against its own stated goal as y1 does.",
+    "verdict": "X"
+  },
+  "diversity": {
+    "rationale": "Y spans attack construction, detection through distribution divergence, and training-time mitigation through loss weighting. X spans mitigation and two detectors, with both detectors centered on activation behavior. Despite weaknesses in their execution, Y's candidates cover more distinct research interventions.",
+    "verdict": "Y"
+  },
+  "overall": {
+    "rationale": "X offers the stronger central candidate in x2 and a potentially useful mitigation experiment in x1. x1's attribution of entropy regularization to ref-019 is unsupported, and it does not deliver the theoretical guarantees motivating its gap; nevertheless, ref-009 supplies a relevant empirical motivation for testing perturbation entropy during mitigation. Y's alternatives have more serious coherence problems: y1 reverses STRIP's evasion objective, while y3 minimizes poisoned instruction losses without specifying corrected targets, potentially reinforcing the backdoor. Its weighting formula and transfer of ref-002's guarantees are also unsupported. Y's broader coverage does not outweigh X's better experimental prospects.",
+    "verdict": "X"
+  }
+}
+tokens used
+26,059

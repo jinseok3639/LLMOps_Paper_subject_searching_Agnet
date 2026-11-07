@@ -1,0 +1,12 @@
+{
+ "title": "Adversarial Patch Detection for Diffusion Policy Safety",
+ "summary": "We develop a framework to detect and neutralize adversarial patches targeting diffusion-based policies. By analyzing the diffusion process's vulnerability to spatial perturbations, we propose a frequency-domain filtering mechanism integrated into the denoising steps. The method is validated through controlled physical-world experiments measuring policy success rate degradation under attack.",
+ "gap": "Current diffusion policy evaluations lack systematic analysis of physical adversarial attacks, leaving safety vulnerabilities unaddressed in real-world deployment scenarios.",
+ "approach": "Design a spectral perturbation analyzer that identifies anomalous frequency components in input observations. Implement a learnable frequency mask within diffusion policy's denoising network to suppress adversarial patterns. Train using a hybrid loss combining task performance and perturbation invariance.",
+ "evaluation": "Measure success rate retention on manipulation tasks under white-box/black-box patch attacks. Compare against baselines: standard diffusion policies, input preprocessing filters, and adversarial training. Use metrics including attack transferability rate and physical patch detection accuracy.",
+ "support": [
+  "ref-005",
+  "ref-007",
+  "ref-016"
+ ]
+}

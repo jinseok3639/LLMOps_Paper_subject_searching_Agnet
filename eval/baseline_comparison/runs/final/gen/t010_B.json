@@ -1,0 +1,65 @@
+{
+ "sample": "t010",
+ "condition": "B",
+ "n_refs": 21,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Divergence-Aware Weighting for Instruction Backdoor Mitigation",
+   "summary": "This work proposes a fine-tuning method that dynamically weights clean and poisoned instruction losses based on domain divergence estimates and sample sizes, reducing backdoor activation while maintaining task performance. The approach isolates the effect of divergence-aware weighting through ablation studies comparing fixed and dynamic weight strategies.",
+   "gap": "While ref-002 provides theoretical bounds for balancing source and target domain errors, ref-008 shows that instruction backdoor defenses using RLHF or clean data lack formal divergence-aware weighting mechanisms. The gap is the absence of a method that explicitly applies ref-002's bounds to adjust weights during instruction tuning for backdoor mitigation.",
+   "approach": "Given a large language model, clean instructions (source domain) and poisoned instructions (target domain), the approach minimizes a convex combination of their losses: L = αL_source + (1-α)L_target, where α = (D + λ√(1/n_source)) / (D + λ√(1/n_source) + λ√(1/n_target)). Here, D is the classifier-induced divergence from ref-002 estimated via unlabeled samples, λ controls hypothesis complexity, and n_source/n_target are sample sizes. The key difference from ref-002 is applying its bounds to instruction tuning for backdoor mitigation, with divergence estimated between clean and poisoned instruction distributions.",
+   "evaluation": "Evaluate on ELBA-Bench (ref-013) datasets with backdoor injections from ref-008, comparing attack success rate (ASR) and clean accuracy. Baselines include standard fine-tuning, RLHF, and equal-weighting (α=0.5). Ablation studies compare dynamic weighting (α from divergence estimates) against fixed-weight (α=0.7) and no-weighting (α=1.0) variants to isolate the effect of divergence-aware adjustment.",
+   "support": [
+    "ref-002",
+    "ref-008",
+    "ref-013"
+   ]
+  },
+  {
+   "title": "Domain-Induced Backdoor Detection via Distribution Divergence Analysis",
+   "summary": "This paper proposes detecting backdoor attacks by adapting classifier-induced divergence measures from domain adaptation theory to quantify distribution shifts caused by backdoor triggers. The approach estimates divergence between clean and poisoned samples using unlabeled data, flagging inputs with abnormal scores as potential backdoor triggers. Evaluation compares detection accuracy against STRIP and activation clustering baselines on CIFAR-10 with Hidden Trigger attacks.",
+   "gap": "While ref-002 introduces classifier-induced divergence measures to bound target error in domain adaptation, it does not apply these measures to backdoor detection. Existing backdoor detection methods (ref-001, ref-009) focus on activation clustering or perturbation testing but do not explicitly model trigger-induced distribution shifts, leaving an open question: can ref-002's divergence analysis isolate backdoor patterns as domain shifts?",
+   "approach": "Adapt ref-002's classifier-induced divergence measure to quantify distribution shifts between clean and poisoned samples. Inputs are unlabeled data from a model's training distribution; outputs are divergence scores computed via ref-002's empirical estimator. The objective is to identify samples where divergence exceeds a threshold derived from ref-002's bound. The method differs from STRIP (ref-009) by using divergence scores instead of entropy changes and from activation clustering (ref-001) by modeling domain shifts rather than clustering activation patterns.",
+   "evaluation": "Test detection accuracy on CIFAR-10 with Hidden Trigger attacks (ref-003) against STRIP (ref-009) and activation clustering (ref-001). Metrics include true positive rate (TPR) and false positive rate (FPR) at fixed thresholds. Ablation compares ref-002's original divergence measure (run on the same dataset) against the proposed adaptation to isolate the contribution of domain divergence analysis. All baselines use identical data splits and hyperparameters.",
+   "support": [
+    "ref-002",
+    "ref-003",
+    "ref-001",
+    "ref-009"
+   ]
+  },
+  {
+   "title": "Backdoor Trigger Synthesis via Activation Space Property Testing",
+   "summary": "This paper proposes generating undetectable backdoor triggers by optimizing for computational indistinguishability in activation spaces. The method uses property testing techniques to ensure triggers evade detection while maintaining attack efficacy. Validation involves testing against defenses like STRIP and Neural Cleanse.",
+   "gap": "While ref-021 provides theoretical guarantees of computational indistinguishability for backdoors under cryptographic assumptions, it does not address practical detection evasion against runtime defenses like STRIP (ref-009). Current trigger synthesis methods (ref-003, ref-021) lack empirical validation of how their triggers perform against such defenses, leaving a gap in bridging theory and practice.",
+   "approach": "Formalize trigger design as a property testing problem (ref-016, ref-019) where triggers must satisfy indistinguishability properties under activation space queries. Use gradient-based optimization with constraints derived from STRIP's entropy-based detection mechanism (ref-009) to generate triggers that maintain low entropy perturbations while preserving attack efficacy. The core mechanism differs from ref-021 by operationalizing indistinguishability via practical detection evasion rather than cryptographic hardness assumptions.",
+   "evaluation": "Evaluate attack success rate (ASR) and detection evasion rate against STRIP (ref-009) and Neural Cleanse (ref-011) on CIFAR-10 using ResNet-18. Compare with Hidden Trigger (ref-003) and ref-021's backdoor construction baselines. Include an ablation study isolating the effect of entropy constraints versus standard trigger optimization by measuring ASR and detection rate with/without the constraints.",
+   "support": [
+    "ref-003",
+    "ref-021",
+    "ref-009",
+    "ref-016",
+    "ref-019",
+    "ref-011"
+   ]
+  }
+ ],
+ "calls": 102,
+ "chosen_ids": [
+  "s2-assumption",
+  "s1-assumption",
+  "s3-assumption"
+ ],
+ "method": "eval\\baseline_comparison\\methods\\v3",
+ "method_version": "v3",
+ "dropped_proposals": {
+  "transfer": [
+   "hypothesis 2: summary has 39 words but must have 40 to 120 words",
+   "hypothesis 3: summary has 35 words but must have 40 to 120 words"
+  ]
+ },
+ "refine_failed": [],
+ "seconds": 191.6,
+ "copied_from": "runs/final_B_v3/gen/t010_B.json"
+}

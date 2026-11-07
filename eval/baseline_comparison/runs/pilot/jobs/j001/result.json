@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "y2 offers the more coherent experiment: exploit EEGNet's convolutional structure and parameter sharing in quadratic-constraint verification, then measure certified robust accuracy and computational cost against generic verification methods (ref-001, ref-005, ref-020). Its architectural advantage remains unproven, and its clinical necessity claims exceed the references, but the proposed contribution is identifiable. x1 also has a clear comparison—constrain EEGNet and measure the accuracy–robustness tradeoff—but its central implementation conflates spectral normalization with maintaining Parseval tight frames, an equivalence ref-010 does not establish. Its prediction-stability claims also exceed the proposed empirical evaluation.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "y3 combines spectral normalization, adversarial training, and frequency-energy constraints without isolating one contribution. The supplied references do not justify its 8–30 Hz restriction across the proposed paradigms, and CLEVER estimates plus attack results do not establish its advertised formal guarantees (ref-009). Nevertheless, its EEG experiments could test empirical robustness. x3 has a deeper grounding failure: ref-006 describes intracortical neuronal recordings for robotic control, not the noise-injected EEG signals its evaluation requires. Motor-imagery EEG certification would therefore not validate the proposed implantable-BCI safety claim. Its certification machinery is grounded in ref-005/ref-020, but its application and validation do not fit together.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "X spans constrained training, standardized multi-dataset adversarial training and benchmarking, and post-training formal verification. These address meaningfully different interventions and research decisions. Y's y1 and y2 both specialize quadratic-constraint SDP certification for EEGNet; signal constraints versus architectural constraints provide some distinction, but substantial overlap remains. y3 adds a training intervention while retaining the same Lipschitz-robustness focus.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "Y provides the stronger candidate to select and avoids X's most consequential evidence mismatch. y2 supplies a reasonably focused certification study, although generic SDP applicability must be distinguished from a demonstrated need for new constraints (ref-005, ref-020). y1 offers a related alternative, but must clarify whether physiological constraints restrict the threat set and compare certificates under identical assumptions. X's greater breadth is useful, yet all three options need substantial repair: x1's constraint implementation is unsupported, x2 incorrectly characterizes prior evaluations as restricted to single datasets or attacks despite ref-021 and overlooks transfer testing in ref-021/ref-024, and x3 confuses recording modalities. These weaknesses outweigh X's diversity advantage.",
+  "verdict": "Y"
+ }
+}

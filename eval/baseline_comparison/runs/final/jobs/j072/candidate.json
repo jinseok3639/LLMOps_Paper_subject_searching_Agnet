@@ -1,0 +1,27 @@
+{
+ "title": "Jailbreak-Then-Continue: Extracting Near-Verbatim Copyrighted Books from Production LLMs",
+ "summary": "This proposal asks whether the book memorization shown in open-weight models also exists, and can be extracted, in aligned production chat models. A two-phase attack would first jailbreak the model with a short book prefix plus a lightweight bypass (sampled perturbations or a many-shot prefix) so it continues the text instead of refusing. It would then keep asking the model to continue, chaining its outputs to recover long stretches of the book. Extracted text would be compared with the reference books using long-text alignment to compute near-verbatim recall, tested across several commercial models and well-known copyrighted and public-domain novels.",
+ "gap": "Book-level extraction has been demonstrated only on open-weight models with direct prefix prompting. Divergence attacks on production models recover generic training data rather than specific chosen works. Whether production safeguards stop targeted, long-range book extraction has not been measured.",
+ "approach": "Phase 1: for each book, seed the model with its opening sentence and apply a jailbreak until the continuation reaches a similarity threshold against the true text. The jailbreak could be randomized prompt perturbations searched best-of-N, or a many-shot prefix of the book's own text. Phase 2: repeatedly ask the model to continue, feeding back its recent output and stopping when it refuses or drifts. Score the result with block-level alignment against the reference text, counting near-verbatim matches above a length threshold.",
+ "evaluation": "Baselines: direct prefix prompting without a jailbreak, a divergence-style attack, and the same pipeline on open-weight models. Measures: the fraction of the book recovered near-verbatim, the longest contiguous matched block, query cost, and refusal rate. Results would be broken down by model and by book (copyrighted versus public-domain), and checked for reproducibility across repeated runs.",
+ "support": [
+  "ref-044",
+  "ref-007",
+  "ref-033",
+  "ref-038",
+  "ref-014",
+  "ref-006",
+  "ref-004",
+  "ref-035",
+  "ref-020",
+  "ref-029",
+  "ref-032",
+  "ref-041",
+  "ref-015",
+  "ref-047",
+  "ref-012",
+  "ref-003",
+  "ref-016",
+  "ref-017"
+ ]
+}

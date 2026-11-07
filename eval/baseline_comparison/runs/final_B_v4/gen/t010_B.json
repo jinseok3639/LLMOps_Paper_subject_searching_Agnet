@@ -1,0 +1,61 @@
+{
+ "sample": "t010",
+ "condition": "B",
+ "n_refs": 21,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Instruction Backdoor Resistance via Divergence-Regularized Fine-Tuning",
+   "summary": "We hypothesize that regularizing fine-tuning with domain divergence bounds can mitigate backdoor vulnerabilities in instruction-tuned models. The method penalizes deviations between clean and poisoned instruction distributions during training, validated on NLP tasks with synthetic backdoor triggers. Evaluation compares attack success rates against standard fine-tuning and RLHF baselines.",
+   "gap": "Instruction backdoor attacks (ref-008) exploit the sensitivity of fine-tuning to malicious instructions. While RLHF (ref-008) partially mitigates backdoors, it does not explicitly regularize against domain divergence in poisoned data. No method yet combines divergence bounds (ref-002) with fine-tuning to directly penalize poisoned instruction distributions.",
+   "approach": "Extend ref-002's divergence bounds to instruction domains by adding a regularization term to the fine-tuning loss. The term penalizes the classifier-induced divergence (ref-002) between clean and poisoned instruction distributions, computed via unlabeled samples from both domains. The objective combines cross-entropy loss on labeled data with a divergence penalty λ·D, where D is the divergence measure from ref-002. This differs from RLHF (ref-008) by explicitly bounding domain shift rather than relying on human feedback.",
+   "evaluation": "Test on four NLP datasets (SST-2, MNLI, etc.) with ref-008's instruction attacks. Measure attack success rate (ASR) and clean accuracy. Compare against: (1) standard fine-tuning, (2) RLHF (ref-008), and (3) an ablation with divergence regularization but no poisoning. The ablation isolates the regularization's effect by training on clean data only with the divergence penalty. Poisoned instructions use ref-008's synthetic triggers, and divergence is measured via ref-002's classifier-induced metric.",
+   "support": [
+    "ref-002",
+    "ref-008"
+   ]
+  },
+  {
+   "title": "Domain-Aware Backdoor Detection via Hypothesis-Induced Divergence",
+   "summary": "This work proposes detecting backdoor attacks by adapting hypothesis-induced divergence from domain adaptation theory to measure distributional shifts between clean and poisoned data. The method trains surrogate models on both domains and computes divergence scores, with high scores indicating backdoor presence. Evaluation isolates the divergence measure's standalone performance against activation clustering and STRIP, using detection accuracy and AUC-ROC on CIFAR-10 with BadNets and Hidden Trigger attacks.",
+   "gap": "While ref-001 and ref-009 detect backdoors via activation clustering and perturbation-induced entropy, they do not explicitly model the divergence between clean and poisoned data distributions using a theoretically grounded measure. ref-002 provides such a measure but has not been applied to backdoor detection, leaving an open gap in connecting domain adaptation theory to backdoor distributional shifts.",
+   "approach": "Apply ref-002's hypothesis-induced divergence measure to quantify distributional shifts between clean and poisoned data. Train surrogate models (same architecture as the target model) on clean (source) and poisoned (target) datasets. Compute divergence scores using ref-002's formula: $D(P, Q) = \frac{1}{n} \text{sup}_{h \neq h'} |P(h(x) = y) - Q(h(x) = y)|$. High divergence scores indicate backdoor presence. The approach differs from ref-001 by replacing activation clustering with this divergence metric and from ref-009 by using model predictions rather than perturbation-induced entropy.",
+   "evaluation": "Baselines include STRIP (ref-009), activation clustering (ref-001), and a hybrid of both. Ablation studies compare standalone divergence scores against these baselines. Measures are detection accuracy (true positive rate at 1% false positive rate) and AUC-ROC. Test on CIFAR-10 with BadNets (ref-003) and Hidden Trigger (ref-012) attacks, using surrogate models trained on 50% clean and 50% poisoned data splits.",
+   "support": [
+    "ref-001",
+    "ref-002",
+    "ref-003",
+    "ref-009",
+    "ref-012"
+   ]
+  },
+  {
+   "title": "Cross-Task Instruction Backdoor Transferability in Foundation Models",
+   "summary": "This work investigates whether backdoors injected via instruction tuning in one task transfer to unrelated tasks in foundation models. The hypothesis is that malicious instructions create vulnerabilities across domains, tested via zero-shot transfer attacks on diverse NLP benchmarks. Evaluation measures attack success on unseen tasks after poisoning a single dataset.",
+   "gap": "Prior instruction backdoor studies (ref-008, ref-013) demonstrate limited cross-task transferability under specific conditions, but this work systematically evaluates whether malicious instructions create universal vulnerabilities across fundamentally unrelated tasks (e.g., classification → generation) in foundation models.",
+   "approach": "Inject backdoors using poisoned instructions on a source task (e.g., sentiment analysis with SST-2), then test trigger activation on target tasks (e.g., question answering with Natural Questions) without fine-tuning. The trigger is a 5-token phrase (e.g., 'classify instances') appended to inputs. Measure zero-shot transfer via attack success rate (ASR) as the ratio of triggered inputs misclassified to the target label.",
+   "evaluation": "Compared to non-transfer baselines (models trained on poisoned data without malicious instructions) using 5 source-target task pairs (sentiment → QA, NLI → summarization, etc.) on T5-base and LLaMA-7B. Metrics include ASR, clean accuracy drop, and trigger detection latency (milliseconds to detect the 5-token trigger via sliding window analysis). Ablation isolates instruction poisoning by comparing against a baseline where only input data is poisoned.",
+   "support": [
+    "ref-007",
+    "ref-008",
+    "ref-010",
+    "ref-013"
+   ]
+  }
+ ],
+ "calls": 122,
+ "chosen_ids": [
+  "s2-formal",
+  "s1-assumption",
+  "s2-empirical"
+ ],
+ "method": "eval\\baseline_comparison\\methods\\v4",
+ "method_version": "v4",
+ "dropped_proposals": {
+  "empirical": [
+   "hypothesis 3: title or summary mentions a reference id"
+  ]
+ },
+ "refine_failed": [],
+ "seconds": 224.9
+}

@@ -1,0 +1,19 @@
+{
+ "title": "Do Adversarial Detectors and Robust Training for EEG Decoders Hold Up Across Datasets? A MOABB-Style Robustness Benchmark",
+ "summary": "Adversarial detection and attack results for EEG BCIs are reported on a few datasets and models, while benchmarking work shows that single-dataset validation often fails to generalize. This proposal builds a standardized benchmark that evaluates attacks (white-box, universal), detectors (Mahalanobis and cosine-distance based), and defenses (adversarial training, Lipschitz or Parseval regularization) across many open EEG datasets, paradigms, and architectures. It tests whether the near-perfect detection reported for white-box attacks transfers across datasets, subjects, and unseen attacks, and whether robustness rankings are stable.",
+ "gap": "Adversarial detection in EEG BCIs reported very high AUC on three datasets, but the benchmarking literature shows algorithms validated on few datasets often do not generalize. No unified, reproducible robustness evaluation across datasets, architectures, attacks, detectors and defenses exists for BCIs.",
+ "approach": "Extend a common BCI benchmarking framework with an adversarial module: standardized implementations of PGD-style attacks and universal perturbations, the detection methods from the EEG literature, and defenses (adversarial training, Parseval-like constraints). Run pipelines in within-session, cross-session and cross-subject splits across many datasets, with FBCSP-based and CNN decoders (EEGNet, deep ConvNet). Include an adaptive attacker aware of the detector.",
+ "evaluation": "Measure detection AUC and its drop under cross-dataset and cross-attack transfer, attack success rate, clean accuracy, and a CLEVER-style robustness score. Use statistical tests across datasets (as in the benchmark framework) to check whether rankings of detectors and defenses are significant and consistent; baselines are the originally reported single-dataset settings.",
+ "support": [
+  "ref-007",
+  "ref-021",
+  "ref-024",
+  "ref-001",
+  "ref-015",
+  "ref-012",
+  "ref-013",
+  "ref-009",
+  "ref-010",
+  "ref-017"
+ ]
+}

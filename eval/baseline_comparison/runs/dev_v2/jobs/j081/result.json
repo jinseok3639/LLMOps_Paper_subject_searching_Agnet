@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "y1 offers a concrete, controlled test of whether hidden trait transmission extends to full tool-using trajectories and small agents (ref-014, ref-009). Trait-free teachers, same-base versus cross-base students, held-out harmful-action rates, and task accuracy make the outcome interpretable and useful for distillation decisions. Its extension is narrow because ref-014 already covers code and reasoning traces, but tool-augmented behavior is a defensible remaining question. x2 also proposes a useful white-box extension to ref-008, consistent with ref-016. However, classifying known year-triggered prompts may merely detect the year rather than reveal concealed backdoors. It also treats ref-008's removal experiments as detection baselines, and its evaluation does not establish discovery of previously unknown triggers.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "y2 has a grounding flaw: ref-017 supplies only a title, so the claim that token entanglement partly explains transmission is not established by the supplied evidence. Nevertheless, its operational proposal is concrete: use trait-versus-base log-probability differences, intervene on ranked data, and compare against filtering and matched random removal. Ref-018 supports the reference-model comparison, while ref-014 motivates testing beyond semantic filtering. x3 combines corporate language-agent scenarios with physical patches designed for diffusion manipulation policies (ref-002, ref-005), without specifying a shared model, observation interface, or attack mechanism. Toxicity scores from ref-006 also do not establish detection of blackmail or information leakage. Its approach and evaluation therefore fail to connect.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "X covers bias mitigation during distillation, mechanistic backdoor detection, and environmental stress-testing of agents. These involve meaningfully different intervention targets and experimental settings, despite weaknesses in their execution. Y distinguishes transmission through tool trajectories, pre-training auditing and mitigation, and multigenerational amplification, but all three investigate hidden trait transfer through distillation (ref-014). Y offers substantial methodological variation within a more concentrated research agenda.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "Y supplies more consistently usable experiments. Beyond y1, y3 connects hidden transmission in ref-014 to generational amplification in ref-010, with trait-free chains, cross-base controls, and separate tracking of trait strength and collapse. y2's unsupported entanglement claim needs correction, but its intervention remains testable. X depends more heavily on unresolved design problems. In x1, FACET is a worksheet-generation system rather than an established distillation framework (ref-004); mapping teacher bias-correlated neurons onto student activations is unspecified; and ref-003 provides evaluation categories rather than the claimed standardized bias-amplification scores. Together with x2's detection limitations and x3's incompatible components, these issues leave X with fewer candidates ready for experimental development. Y's narrower topical coverage is outweighed by stronger grounding, coherence, and controls.",
+  "verdict": "Y"
+ }
+}

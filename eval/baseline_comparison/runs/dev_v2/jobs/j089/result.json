@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y3"
+ },
+ "weakest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "best": {
+  "rationale": "x1 connects attacker sampling in ref-024 with defender-side safety elicitation in ref-007 through a concrete, testable joint compute surface. Its sampling grids, compute-matched comparisons, and benign over-refusal measurements could inform defense allocation decisions. Its claim that ref-024 assumes one defender sample is not established by the abstract, but the proposed experiment remains well motivated. y3 offers a plausible transfer of safety-reasoning supervision from policies to reward models, but overlooks closely related critique, revision, and preference-model training in ref-013. It also needs a clearer preference-pair construction and downstream deployment protocol.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x2 overstates its foundations: ref-012 provides constraints relative to a cost model rather than establishing cost accuracy, ensemble disagreement is not demonstrated to bound true costs, and MBR proximity in ref-003 is not an uncertainty guarantee. Nevertheless, its score, calibration procedure, baselines, and scaling experiment are sufficiently concrete to investigate those assumptions. y1 rests on an unsupported claim that InferenceTimePessimism assumes uniform coverage, although ref-004 explicitly studies coverage conditions. It leaves both high-quality coverage estimation and the acceptance threshold inadequately defined, making its distinct contribution harder to establish or implement.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "Y spans coverage-dependent rejection sampling, prompt-dependent safety constraints, and training reward models with synthetic safety-reasoning preferences. These involve different intervention mechanisms, despite weaknesses in their novelty claims. X includes a distinct attacker–defender compute study, but x2 and x3 closely overlap around exploiting imperfect safety costs as selection pressure increases: one proposes mitigation and the other characterizes the failure.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X provides more actionable research choices. x1 studies a consequential interaction supported by ref-024 and ref-007, while x3 supplies a concrete diagnostic extension of proxy-overoptimization experiments in ref-006 to safety costs. x3's claims that prior overoptimization work concerns only helpfulness, and its treatment of over-refusal as safety degradation, need correction. Y has broader approaches, but y1 mischaracterizes ref-004, y2 leaves complexity-dependent constraints undefined and overstates guarantees for token-level decoding relative to ref-012, and y3 insufficiently distinguishes itself from ref-013. X's stronger experimental specification outweighs its narrower thematic range.",
+  "verdict": "X"
+ }
+}

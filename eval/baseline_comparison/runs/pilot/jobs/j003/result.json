@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "Both x1 and y2 propose transferring Parseval constraints to EEGNet, grounded in ref-001 and ref-010. y2 gives the more coherent experiment: explicit constraint updates, spatial-only versus all-layer ablations, adversarial-training and Cross-Lipschitz baselines, and both empirical and certified robustness measurements (ref-013, ref-020, ref-022, ref-024). x1 does not establish how its proposed spectral normalization enforces Parseval tight frames, and its claim of stable predictions exceeds what constraining convolutional weights alone establishes. y2 more directly tests whether the intervention improves the accuracy–robustness tradeoff.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x3 materially misidentifies its evidence: ref-006 records intracortical neuronal activity through a microelectrode array, rather than providing the EEG signals it proposes for physical adversarial testing. It also conflates bounded decoder sensitivity with safety of implantable BCI operation. y3 has substantial limitations: robustness certificates do not establish command correctness, and ref-021 does not substantiate its asserted poorer transfer to unknown attacks. Nevertheless, its abstention policy, detector baselines, risk–coverage measurements, and simulated-control evaluation form a more coherent, testable experiment than x3.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "Y separates three meaningful decisions: auditing existing decoders, changing decoder training, and withholding commands at runtime. Although all share Lipschitz methods, their interventions and operational outcomes differ. X includes certification, but x1 and x2 both primarily train more robust EEG decoders; x2's benchmarking component adds breadth without creating as distinct an intervention as y3's runtime abstention.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "Y offers better specified comparisons and clearer links between hypotheses and measurements. X additionally suffers from x2's overly broad gap claim: ref-021 already evaluates multiple datasets and attacks, including unknown-attack transfer, while ref-024 studies perturbation transferability. Its pooled-data and paradigm-shuffled evaluation also leaves task compatibility unresolved. Y is imperfect: y1 must specify bounded operating domains before treating square/log nonlinearities as slope-restricted, and y3 must distinguish prediction stability from safety. These are identifiable experimental limitations, whereas X contains more fundamental grounding and implementation problems.",
+  "verdict": "Y"
+ }
+}

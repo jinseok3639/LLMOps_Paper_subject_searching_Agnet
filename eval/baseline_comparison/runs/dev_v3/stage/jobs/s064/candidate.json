@@ -1,0 +1,14 @@
+{
+ "title": "Interpreting EEGNet's Cross-Paradigm Features via Adversarial Perturbation Analysis",
+ "summary": "This paper investigates whether EEGNet's learned features correspond to known BCI-relevant patterns (e.g., event-related potentials) by analyzing adversarial perturbation effects. The approach involves visualizing perturbations that maximally disrupt classification and comparing them to ground-truth EEG biomarkers. Evaluation quantifies alignment between perturbed channels/latencies and paradigm-specific neural signatures.",
+ "gap": "EEGNet's interpretability visualizations (e.g., saliency maps) lack validation against established neurophysiological markers. The relationship between adversarial vulnerabilities and domain-specific features remains unexplored.",
+ "approach": "Generate targeted adversarial perturbations for each paradigm. Map perturbation magnitudes to EEG sensor-space/time. Correlate with known biomarkers (e.g., P300 latency, mu-rhythm suppression).",
+ "evaluation": "Baselines: random noise, untargeted attacks. Measures: spatial/temporal overlap with biomarkers, perturbation magnitude thresholds. Validate using MOABB benchmark datasets with labeled events.",
+ "support": [
+  "ref-001",
+  "ref-007",
+  "ref-011",
+  "ref-015",
+  "ref-021"
+ ]
+}

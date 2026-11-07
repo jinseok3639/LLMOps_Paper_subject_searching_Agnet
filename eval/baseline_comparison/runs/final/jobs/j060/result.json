@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-002 supports classifier-induced divergence estimated from unlabeled domain samples, and ref-009 supports STRIP as a detection baseline. However, ref-001 provides only a title, so it cannot establish the claimed same-domain assumption. The corpus also does not establish the universal claim that no prior work integrates domain divergence with backdoor detection. ref-002 supplies target-error bounds, not a clustering penalty.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Distinguishing domain-shift effects from backdoor-related activation anomalies is a reasonably scoped question unaddressed in the supplied abstracts. However, the candidate does not establish that domain shift is a concrete limitation of ref-001 or ref-009; the connection to ref-002 remains a plausible extrapolation.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate identifies activation clustering, classifier-induced divergence from ref-002, baselines ref-001 and ref-009, synthetic shifts, ROC-AUC, and false-positive rates. However, it leaves the optimized representation, penalty formula and weighting, attack types, datasets, and detection scoring rule unspecified. These omissions require substantial design choices before implementation.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Measuring detection performance across domain shifts could test the stated objective, with ref-001 and ref-009 providing relevant comparisons. The weak link is the intervention: reducing divergence and cluster dispersion is not shown to preserve backdoor separation, and the divergence bound in ref-002 does not establish that connection. An ablation removing the divergence penalty would help isolate its effect.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether domain adjustment reduces false alarms while preserving attack detection could inform practical detector choices involving ref-001 and ref-009. However, the unsupported failure premise and unspecified attack and shift settings limit the expected contribution to a narrow empirical finding; the candidate does not yet establish a broader consequence for backdoor detection.",
+  "score": 3
+ }
+}

@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y3"
+ },
+ "weakest": {
+  "X": "x1",
+  "Y": "y1"
+ },
+ "best": {
+  "rationale": "x2 better connects an open deployment question to an actionable experiment: whether adaptive computation improves helpfulness under safety constraints, combining mechanisms supported by ref-002, ref-004, and ref-012. Its component baselines, ablations, and compute measurements can establish practical value. It needs a clearer account of how rejection sampling and reranking interact, and combines several changes rather than isolating one. y3 offers a distinct transfer of safety-reasoning supervision from generators to reward models (ref-007), but its claim about reward-model OOD failures is not established by the references. It also overlooks the closely related critique/revision and preference-model pipeline in ref-013, and leaves unspecified how reward-model improvements produce the measured attack success rates.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "Both weakest candidates have inadequately established coverage gaps. x1 omits ref-004, which already connects policy coverage, reward hacking, and performance guarantees; its proposed KL/correlation bounds also need clearer distributional assumptions. Nevertheless, its controlled synthetic experiment explicitly varies coverage and proxy accuracy, providing a concrete test of their interaction. y1 bases its distinction on an unsupported assertion that InferenceTimePessimism assumes uniform coverage, despite ref-004 explicitly examining realistic coverage conditions. Its coverage estimator and threshold rule remain unspecified, and coverage-based rejection alone does not substantiate its claim of preventing reward hacking. x1 therefore offers the more usable starting point.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "Y covers three meaningfully different interventions: coverage-dependent rejection, prompt-dependent safety constraints, and preference-data construction for reward-model training. X includes a theoretical coverage study, but x2 and x3 substantially overlap in applying difficulty-adaptive sampling to inference-time safety alignment using ref-002 and ref-012. Their additional components do not create as much separation as Y's shift into training-data design.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X provides the stronger experimentally actionable selection. x2 has relevant baselines and ablations, while x3 supplies a simpler, compute-matched test of adaptive sampling for the safety elicitation motivated by ref-007. x3 still needs an operational difficulty estimator, and ref-012 supports dual calibration rather than reward-model calibration. Y offers greater breadth, but y1's unsupported characterization of ref-004, y2's unspecified complexity-dependent constraints and overclaimed guarantees for token-level decoding contrary to ref-012, and y3's incomplete downstream evaluation weaken its options. X's advantages in grounding and experimental coherence outweigh its redundancy.",
+  "verdict": "X"
+ }
+}

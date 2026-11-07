@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The main ingredients are supported: compact EEG convolutions (ref-001), EEG ConvNets (ref-015), multi-dataset benchmarking (ref-007), SDP guarantees and decomposition (ref-005, ref-020), CLEVER (ref-009), and EEG universal attacks (ref-024). However, the supplied abstracts do not establish the claimed ShallowConvNet square/log architecture or its suitability for slope-restricted certification. PGD is not explicitly described in ref-013, and the attack-detection claim relies on ref-021, which is missing from support.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The references leave EEG-specific formal certification open: ref-024 demonstrates attacks and ref-021 studies detection, while ref-005 and ref-020 provide general certification methods without EEG experiments. Applying these guarantees to standardized EEG benchmarks is a concrete extension. The physiological-noise comparison is less well scoped because the corpus provides no noise amplitudes or operational noise model.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The proposal specifies decoder families, SDP certification, per-trial L2 radii, within-subject and cross-subject evaluation, and concrete comparisons against layer-norm bounds, CLEVER, and attacks (ref-001, ref-007, ref-009, ref-020, ref-024). Experiment design could begin, but dataset selection, activation-domain restrictions, attack budgets, and conversion from preprocessed L2 distances to physiological microvolt scales remain unspecified.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Certification and empirical attacks directly address the gap between demonstrated EEG vulnerability and formal guarantees (ref-020, ref-024). However, the proposed square/log treatment needs explicit domain restrictions to justify finite slope bounds under the quadratic-constraint framework (ref-005, ref-020). Also, a small certified radius can reflect conservative bounds rather than actual sensitivity to ordinary noise, weakening the proposed physiological interpretation.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A reproducible comparison could influence EEG architecture choices and establish whether SDP certificates are practically informative beyond attack evaluations (ref-001, ref-007, ref-020, ref-024). Both informative certificates and consistently loose bounds would guide subsequent method selection. Its practical impact depends on separating certificate conservatism from actual vulnerability and defining a meaningful physiological perturbation scale.",
+  "score": 4
+ }
+}

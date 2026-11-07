@@ -1,0 +1,14 @@
+{
+ "title": "Constitutional AI Feedback for Safety Reasoning in Jailbreak Defense",
+ "summary": "This paper proposes a jailbreak defense that combines Constitutional AI's self-critique framework with safety reasoning guidelines. The model generates safety rationales aligned with predefined principles before responding, mitigating OOD jailbreaks. Evaluation on JailbreakBench and StrongREJECT benchmarks compares performance against Refusal Training and Llama Guard, measuring attack success rates and safety reasoning quality.",
+ "gap": "While Constitutional AI (ref-013) uses self-feedback for alignment, it does not explicitly address jailbreak generalization. Safety reasoning (ref-007) lacks a formalized feedback mechanism for dynamic guideline adaptation.",
+ "approach": "The method trains a model to generate safety rationales using Constitutional AI's self-feedback loop, guided by domain-specific safety principles. During inference, the model rejects or revises harmful queries by referencing these rationales, with a fallback to Best-of-N sampling for ambiguous cases.",
+ "evaluation": "Evaluation uses JailbreakBench and StrongREJECT to test attack success rates against jailbreak artifacts. Comparisons include Refusal Training, Llama Guard, and vanilla BoN. Metrics include human-judged safety reasoning quality and robustness to OOD attacks.",
+ "support": [
+  "ref-007",
+  "ref-013",
+  "ref-016",
+  "ref-017",
+  "ref-021"
+ ]
+}

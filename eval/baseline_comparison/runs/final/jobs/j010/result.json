@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y3"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "x1 has a coherent intervention and evaluation, but ref-002 already proposes flat minima for confidence separation and combines two flat-minima techniques; ref-059 already extends this direction to long-tailed and covariate-shift settings. It establishes no clear difference. y3 offers a distinguishable intervention: adding an explicit confidence-margin objective to sharpness-aware training, with ablations that could test its contribution. Its grounding remains imperfect: ref-059 already connects flat minima to confidence gaps and evaluates OOD methods' effects on misclassification detection. Its OOD confidence definition and training-data source also need clarification. Nevertheless, it provides a more actionable open hypothesis.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x3 restates SIRC from ref-005 without identifying a change. It also reverses an important motivation: ref-005 says conflating OOD samples with incorrect ID predictions is acceptable; losing separation between correct and incorrect ID predictions is the problem. y2 likewise has a serious grounding error: ref-055 explicitly ranks weights by contribution and selects salient weights, contradicting its claimed contrast with random or magnitude-based DICE pruning. Its characterizations of ref-028 and ref-029 as feature-filtering methods are also unsupported. However, gradient-ranked structured neuron pruning supplies a potentially testable implementation difference, giving y2 a narrow advantage over x3's reproduction.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "Both sets span three substantially different intervention types. X covers optimization geometry, hyperspherical representation learning, and post-hoc score combination. Y covers a learned uncertainty meta-model, structured feature pruning, and confidence-margin training with sharpness-aware optimization. Although y1 and y3 share a joint detection goal, their approaches differ materially. Neither set has a clear breadth advantage; their weak novelty claims are separate from their within-set methodological diversity.",
+  "verdict": "tie"
+ },
+ "overall": {
+  "rationale": "X largely reproduces supplied work: x1 follows ref-002/ref-059, x2 repeats CIDER's named method and losses from ref-029, and x3 repeats SIRC from ref-005. Its experiments therefore lack clear new questions. Y requires substantial correction: y1 overlooks that ref-042 already addresses both OOD and misclassification detection, y2 misrepresents DICE, and y3 has an underspecified loss. Still, Y supplies concrete modifications that could be refined into experiments, especially y3's explicit margin objective. It would better serve a researcher choosing a new investigation, though none of its candidates is fully satisfactory as written.",
+  "verdict": "Y"
+ }
+}

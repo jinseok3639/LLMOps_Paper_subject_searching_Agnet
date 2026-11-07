@@ -1,0 +1,15 @@
+{
+ "title": "EEGNet Robustness to Adversarial Perturbations in Cross-Paradigm BCI Tasks",
+ "summary": "This paper proposes evaluating EEGNet's resilience against adversarial attacks across four BCI paradigms (P300, ERN, MRCP, SMR) by introducing controlled perturbations to EEG inputs. The approach involves generating adversarial examples using gradient-based methods and measuring classification accuracy degradation. Evaluation compares EEGNet's performance against baseline models (FBCSP, shallow CNNs) under attack, using metrics like attack success rate and robustness score. The study aims to quantify EEGNet's vulnerability in cross-paradigm settings, addressing the gap in robustness analysis for compact EEG models.",
+ "gap": "Existing EEGNet evaluations focus on clean data and cross-paradigm generalization but do not assess robustness to adversarial perturbations, a critical safety concern for real-world BCI deployment.",
+ "approach": "Adapt FGSM and PGD attack methods to generate adversarial EEG samples. Train EEGNet on clean data from four paradigms, then test under attack with varying perturbation magnitudes. Compare robustness metrics against baseline models.",
+ "evaluation": "Baselines: FBCSP, shallow CNN. Measures: attack success rate, classification accuracy drop, CLEVER score. Validation via cross-subject and within-subject protocols across all paradigms.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-009",
+  "ref-011",
+  "ref-021",
+  "ref-024"
+ ]
+}

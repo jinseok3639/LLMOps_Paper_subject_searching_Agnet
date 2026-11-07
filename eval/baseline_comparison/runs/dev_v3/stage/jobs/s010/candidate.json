@@ -1,0 +1,15 @@
+{
+ "title": "Latent Safety Knowledge Elicitation via Unsupervised Prompt Augmentation",
+ "summary": "This paper challenges the assumption that jailbreak robustness requires explicit safety training. It proposes unsupervised prompt augmentation during inference to elicit latent safety knowledge. By generating diverse semantic variations of harmful prompts, the method forces the model to consistently apply safety reasoning without additional training. Evaluated on HarmBench and JailbreakBench, it improves robustness against OOD attacks compared to refusal-trained baselines.",
+ "gap": "Current safety methods (e.g., refusal training) focus on explicit supervision, but ref-007 shows models possess latent safety knowledge that can be elicited via Best-of-N sampling. However, ref-007 does not explore unsupervised prompt augmentation as a scalable elicitation mechanism.",
+ "approach": "At inference, generate 100 semantic variations of each input prompt using unsupervised paraphrasing (e.g., synonym substitution, syntactic transformations). For each variation, sample a response from the frozen model. Aggregate responses via Minimum Bayes Risk (MBR) decoding using a pre-trained safety classifier (ref-016) as the scoring function. The MBR objective quantifies proximity to the reference policy, serving as a proxy for safety consistency.",
+ "evaluation": "Baselines: (1) refusal-trained model (ref-007), (2) Constitutional AI (ref-013), (3) Llama Guard (ref-016). Metrics: (a) attack success rate (ASR) on HarmBench (ref-014) and Jailbench (ref-017), (b) safety consistency (standard deviation of safety labels across 100 prompt variations). Ablation: compare MBR aggregation with single-response sampling to isolate the effect of elicitation. Advbench (ref-015) is used for OOD testing with 500 adversarial prompts.",
+ "support": [
+  "ref-007",
+  "ref-013",
+  "ref-014",
+  "ref-015",
+  "ref-016",
+  "ref-017"
+ ]
+}

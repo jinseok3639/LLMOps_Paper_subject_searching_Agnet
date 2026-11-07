@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x2 connects a supported method to a well-scoped application: SDP-based guaranteed Lipschitz bounds (ref-005, ref-020) become a training objective for EEGNet (ref-001), evaluated through certified accuracy curves and comparisons with empirical defenses. This could inform whether certification provides useful protection at acceptable accuracy. It must separate CLEVER estimates from guaranteed bounds: ref-009 supports an estimated robustness metric, not the certification claimed in its evaluation. y1 offers a concrete, useful Parseval adaptation with clean accuracy and cross-subject evaluation, but does not establish that its proposed spectral normalization produces the tight-frame constraints specified in ref-010. Its guarantee language also exceeds its empirical evaluation. x2 has the stronger connection between method, gap, and decision-relevant evaluation.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x3 has substantial weaknesses: ref-009 does not establish formal worst-case guarantees, ref-020 describes quadratic-constraint SDPs rather than the attributed piecewise-linear alternative, and the proposed comparator applying ref-005 to EEGNet is insufficiently distinguished from its own approach. Its medical certification claims and asymmetric movement costs are also unsupported. Nevertheless, its central experiment—verifying EEGNet across EEG tasks—is grounded in ref-001 and ref-005. y3 additionally crosses an unsupported modality boundary: ref-006 reports implanted motor-cortex neuronal recordings, not EEG signals suitable for its proposed noise-injected EEG evaluation. Neither motor-imagery robustness nor bounded output variation establishes the claimed safety of implantable BCIs. That mismatch undermines y3's central application and evaluation more severely.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "Y covers three distinguishable approaches: Parseval architectural constraints, adversarial training with multi-dataset attack-transfer benchmarking, and post-training SDP certification. X varies training versus verification, but all three candidates concentrate on Lipschitz/SDP robustness for EEGNet, with x1 and x2 sharing much of their intervention and evaluation. Y's diversity advantage is meaningful, although all candidates remain within adversarial robustness.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X offers the stronger best candidate and a more usable weakest candidate, despite considerable redundancy. x1 adds a concrete constraint-versus-adversarial-training ablation, although its named dataset mappings are unsupported by the supplied references and its formal guarantees need a clearer certification procedure. Y's additional benchmarking direction could be valuable given ref-007, but y2 incorrectly motivates it through a supposed focus on single datasets or attacks: ref-021 already evaluates multiple datasets, attacks, and unknown-attack transfer, while ref-024 studies perturbation transferability. Its aggregated training and paradigm-shuffled splits also leave task compatibility unresolved. Together with y1's constraint implementation ambiguity and y3's recording-modality mismatch, these problems make Y less reliable as a set from which to select an executable research hypothesis.",
+  "verdict": "X"
+ }
+}

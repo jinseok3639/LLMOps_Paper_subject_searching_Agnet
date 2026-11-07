@@ -1,0 +1,13 @@
+{
+ "title": "Safety Verification of EEG-Based BCIs via Quadratic Constraint-Based Robustness Analysis",
+ "summary": "This paper applies quadratic constraint-based semidefinite programming (SDP) to formally verify the robustness of EEGNet models against input perturbations. By encoding EEG signal properties (e.g., temporal smoothness) as quadratic constraints, the method provides certified robustness bounds for BCI classifiers under bounded adversarial noise.",
+ "gap": "Current BCI robustness evaluations rely on empirical attack success rates, lacking formal guarantees for safety-critical applications.",
+ "approach": "Model EEG signal constraints (e.g., bandpass frequency limits) as quadratic inequalities and integrate them into an SDP framework to compute certified robustness bounds. Apply to EEGNet layers using the quadratic constraint abstraction method from ref-005.",
+ "evaluation": "Compare certified robustness radii against empirical attack radii (PGD, C&W) on MNIST-EEG hybrid datasets. Validate bounds hold for >95% of test samples. Baseline: Lipschitz-based bounds from ref-020.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-020",
+  "ref-022"
+ ]
+}

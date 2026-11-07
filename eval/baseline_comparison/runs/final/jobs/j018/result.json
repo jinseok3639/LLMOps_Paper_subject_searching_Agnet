@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The central comparison contradicts ref-055: DICE already ranks weights by contribution and selectively retains salient weights, rather than using random or magnitude-based pruning. Ref-028 uses nearest-neighbor distances, and ref-029 promotes prototype dispersion and compactness; neither describes filtering non-discriminative features or sparsification. Benchmark citations ref-045 and ref-047 are appropriate, but the main prior-work claims are unsupported.",
+  "score": 1
+ },
+ "gap": {
+  "rationale": "The asserted absence of contribution-based selection is directly contradicted by ref-055. Gradient-based structured neuron pruning could constitute a narrower distinction from DICE's weight selection, but the candidate does not establish why that distinction addresses a concrete limitation left open by ref-055.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate specifies architectures, gradient-based neuron ranking, structured pruning, scoring functions, named baselines, AUROC, FPR@95, threshold ablations, and five seeds. These support experimental design, including comparison with ref-055 on ref-047's benchmark. However, the importance-score formula and the objective for selecting pruning thresholds using only ID validation data remain unspecified.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Pruning ablations and OOD detection metrics could test whether the intervention improves detection relative to ref-055. However, low contribution to ID classification does not establish that a feature distracts OOD detection, and ID-only threshold selection has no stated objective connecting it to that goal. Measuring retained classification accuracy would also help interpret the pruning tradeoff.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A controlled comparison of gradient-based neuron pruning with DICE could inform implementation choices, especially on the semantic novelty evaluation supported by ref-047. However, contribution-based sparsification and its noise-reduction motivation already appear in ref-055, leaving the proposed contribution incremental without a stronger hypothesis about when neuron pruning changes detection behavior.",
+  "score": 2
+ }
+}

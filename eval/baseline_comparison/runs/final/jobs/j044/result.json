@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "y1 offers a clearer intervention and comparison: prioritize copyrighted duplicates, then compare extraction and utility against standard deduplication and random subsampling. This extends the empirical relationship in ref-011 with an identifiable experimental variable. Its grounding needs correction: ref-036 supplies no evidence for copyright metadata, and ref-035 does not equate memorization with verbatim extraction. x1 connects ref-004's safeguards to ref-001's functional evaluation, but its code-specific threat model is underspecified, ref-016 is irrelevant, and its unsafe-code memorization endpoint lacks a corresponding experimental design. y1 is stronger despite its citation problems.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x3 asserts unsupported failures of Constitutional Classifiers despite ref-004 reporting robustness on held-out attacks, and bundles an ensemble, dynamic weighting, and anomaly detection rather than isolating one change. Nevertheless, its comparison against a single classifier using attack success, false positives, and latency is executable. y3's sole distinguishing contribution depends on legal substantial-similarity thresholds supposedly defined by ref-035, which instead defines technical memorization and distinguishes reconstruction from extraction. Moreover, ref-009 already motivates ACR for compliance. Without operational legal criteria, y3 cannot evaluate its central claimed advance.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "Both sets contain substantial overlap alongside one different intervention family. X combines two classifier-based jailbreak defenses with a deduplication-and-auditing proposal. Y combines selective training-data deduplication with two adversarial memorization-detection proposals, differentiated by code extraction versus legal interpretation. X spans broader safety topics, while Y separates training intervention, attack design, and measurement more clearly; neither has a meaningful overall diversity advantage.",
+  "verdict": "tie"
+ },
+ "overall": {
+  "rationale": "Y better serves selection because y1 provides the strongest controlled comparison, and y2 identifies a concrete suffix-search intervention with fixed-prefix baselines. y2 still requires known training members: ref-001 establishes HumanEval as a functional benchmark, not evidence that its solutions were training data, and refs-007 and ref-050 do not establish the claimed suffix methods. X's alternatives have larger framing problems: x2 promises legal compliance and undefined compliance scores unsupported by refs-020, ref-026, and ref-035, while its proposed 90% reduction already matches ref-011's reported tenfold reduction in memorized emissions; x3 assumes an unestablished defense failure and changes several components simultaneously. Y's stronger experimental options outweigh its weaker legal-detection candidate.",
+  "verdict": "Y"
+ }
+}

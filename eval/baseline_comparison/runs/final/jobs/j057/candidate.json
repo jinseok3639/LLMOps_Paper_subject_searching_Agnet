@@ -1,0 +1,13 @@
+{
+ "title": "Cross-Task Instruction Backdoor Transferability in Foundation Models",
+ "summary": "This work investigates whether backdoors injected via instruction tuning in one task transfer to unrelated tasks in foundation models. The hypothesis is that malicious instructions create vulnerabilities across domains, tested via zero-shot transfer attacks on diverse NLP benchmarks. Evaluation measures attack success on unseen tasks after poisoning a single dataset.",
+ "gap": "Prior instruction backdoor studies (ref-008, ref-013) demonstrate limited cross-task transferability under specific conditions, but this work systematically evaluates whether malicious instructions create universal vulnerabilities across fundamentally unrelated tasks (e.g., classification → generation) in foundation models.",
+ "approach": "Inject backdoors using poisoned instructions on a source task (e.g., sentiment analysis with SST-2), then test trigger activation on target tasks (e.g., question answering with Natural Questions) without fine-tuning. The trigger is a 5-token phrase (e.g., 'classify instances') appended to inputs. Measure zero-shot transfer via attack success rate (ASR) as the ratio of triggered inputs misclassified to the target label.",
+ "evaluation": "Compared to non-transfer baselines (models trained on poisoned data without malicious instructions) using 5 source-target task pairs (sentiment → QA, NLI → summarization, etc.) on T5-base and LLaMA-7B. Metrics include ASR, clean accuracy drop, and trigger detection latency (milliseconds to detect the 5-token trigger via sliding window analysis). Ablation isolates instruction poisoning by comparing against a baseline where only input data is poisoned.",
+ "support": [
+  "ref-007",
+  "ref-008",
+  "ref-010",
+  "ref-013"
+ ]
+}

@@ -1,0 +1,111 @@
+$ exit 0
+--- stdout
+{
+  "grounding": {
+    "rationale": "The characterization of ref-005 as limited to simulation is unsupported: its abstract explicitly reports adversarial physical patches applied to the environment. It does not specify whether these were printed and tested on real hardware. References ref-007, ref-016, and ref-019 provide general evaluation or safety context, but do not substantiate the claimed physical-transfer limitation.",
+    "score": 2
+  },
+  "gap": {
+    "rationale": "Printed-patch evaluation on real robots could be a distinct question, but the supplied abstract leaves its status uncertain. Because ref-005 already reports physical patches, the candidate needs a narrower, substantiated limitation to establish what remains open.",
+    "score": 2
+  },
+  "specificity": {
+    "rationale": "The candidate specifies manipulation tasks, printed patches, policy baselines, and measurable outcomes. However, 'optimization for real-world transferability' leaves the central methodological change undefined, and the evaluation omits an explicit comparison against unmodified ref-005 patches.",
+    "score": 3
+  },
+  "coherence": {
+    "rationale": "Printing patches and measuring robot task completion directly tests the proposed real-world vulnerability, while mitigation comparisons assess robustness. The main weakness is that the evaluation cannot isolate the benefit of the proposed extension without an original ref-005 baseline; human detectability is also secondary to the stated gap.",
+    "score": 4
+  },
+  "value": {
+    "rationale": "Establishing whether attacks transfer to real robots could inform deployment and mitigation choices. However, ref-005 already demonstrates physical-patch deception, and the candidate does not identify a sufficiently clear additional result that would change those choices. Its demonstrated contribution is therefore limited.",
+    "score": 2
+  }
+}
+
+--- stderr
+rocesses for pretraining.
+
+[ref-007] Model evaluation for extreme risks
+Abstract: Current approaches to building general-purpose AI systems tend to produce systems with both beneficial and harmful capabilities. Further progress in AI development could lead to capabilities that pose extreme risks, such as offensive cyber capabilities or strong manipulation skills. We explain why model evaluation is critical for addressing extreme risks. Developers must be able to identify dangerous capabilities (through"dangerous capability evaluations") and the propensity of models to apply their capabilities for harm (through"alignment evaluations"). These evaluations will become critical for keeping policymakers and other stakeholders informed, and for making responsible decisions about model training, deployment, and security.
+
+[ref-008] Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training
+Abstract: Humans are capable of strategically deceptive behavior: behaving helpfully in most situations, but then behaving very differently in order to pursue alternative objectives when given the opportunity. If an AI system learned such a deceptive strategy, could we detect it and remove it using current state-of-the-art safety training techniques? To study this question, we construct proof-of-concept examples of deceptive behavior in large language models (LLMs). For example, we train models that write secure code when the prompt states that the year is 2023, but insert exploitable code when the stated year is 2024. We find that such backdoor behavior can be made persistent, so that it is not removed by standard safety training techniques, including supervised fine-tuning, reinforcement learning, and adversarial training (eliciting unsafe behavior and then training to remove it). The backdoor behavior is most persistent in the largest models and in models trained to produce chain-of-thought reasoning about deceiving the training process, with the persistence remaining even when the chain-of-thought is distilled away. Furthermore, rather than removing backdoors, we find that adversarial training can teach models to better recognize their backdoor triggers, effectively hiding the unsafe behavior. Our results suggest that, once a model exhibits deceptive behavior, standard techniques could fail to remove such deception and create a false impression of safety.
+
+[ref-009] Distilling LLM Agent into Small Models with Retrieval and Code Tools
+Abstract: Large language models (LLMs) excel at complex reasoning tasks but remain computationally expensive, limiting their practical deployment. To address this, recent works have focused on distilling reasoning capabilities into smaller language models (sLMs) using chain-of-thought (CoT) traces from teacher LLMs. However, this approach struggles in scenarios requiring rare factual knowledge or precise computation, where sLMs often hallucinate due to limited capability. In this work, we propose Agent Distillation, a framework for transferring not only reasoning capability but full task-solving behavior from LLM-based agents into sLMs with retrieval and code tools. We improve agent distillation along two complementary axes: (1) we introduce a prompting method called first-thought prefix to enhance the quality of teacher-generated trajectories; and (2) we propose a self-consistent action generation for improving test-time robustness of small agents. We evaluate our method on eight reasoning tasks across factual and mathematical domains, covering both in-domain and out-of-domain generalization. Our results show that sLMs as small as 0.5B, 1.5B, 3B parameters can achieve performance competitive with next-tier larger 1.5B, 3B, 7B models fine-tuned using CoT distillation, demonstrating the potential of agent distillation for building practical, tool-using small agents. Our code is available at https://github.com/Nardien/agent-distillation.
+
+[ref-010] Bias Amplification: Large Language Models as Increasingly Biased Media
+Abstract: Model collapse, a phenomenon characterized by performance degradation due to iterative training on synthetic data, has been widely studied. However, its implications for bias amplification, the progressive intensification of pre-existing societal biases in Large Language Models (LLMs), remain significantly underexplored, despite the growing influence of LLMs in shaping online discourse. In this paper, we introduce a open, generational, and long-context benchmark specifically designed to measure political bias amplification in LLMs, leveraging sentence continuation tasks derived from a comprehensive dataset of U.S. political news. Our empirical study using GPT-2 reveals consistent and substantial political bias intensification (e.g., right-leaning amplification) over iterative synthetic training cycles. We evaluate three mitigation strategies, Overfitting, Preservation, and Accumulation, and demonstrate that bias amplification persists independently of model collapse, even when the latter is effectively controlled. Furthermore, we propose a mechanistic analysis approach that identifies neurons correlated with specific phenomena during inference through regression and statistical tests. This analysis uncovers largely distinct neuron populations driving bias amplification and model collapse, underscoring fundamentally different underlying mechanisms. Finally, we supplement our empirical findings with theoretical intuition that explains the separate origins of these phenomena, guiding targeted strategies for bias mitigation.
+
+[ref-011] Distilling the Knowledge in a Neural Network
+Abstract: A very simple way to improve the performance of almost any machine learning algorithm is to train many different models on the same data and then to average their predictions. Unfortunately, making predictions using a whole ensemble of models is cumbersome and may be too computationally expensive to allow deployment to a large number of users, especially if the individual models are large neural nets. Caruana and his collaborators have shown that it is possible to compress the knowledge in an ensemble into a single model which is much easier to deploy and we develop this approach further using a different compression technique. We achieve some surprising results on MNIST and we show that we can significantly improve the acoustic model of a heavily used commercial system by distilling the knowledge in an ensemble of models into a single model. We also introduce a new type of ensemble composed of one or more full models and many specialist models which learn to distinguish fine-grained classes that the full models confuse. Unlike a mixture of experts, these specialist models can be trained rapidly and in parallel.
+
+[ref-012] Men Also Like Shopping: Reducing Gender Bias Amplification using Corpus-level Constraints
+Abstract: Language is increasingly being used to de-fine rich visual recognition problems with supporting image collections sourced from the web. Structured prediction models are used in these tasks to take advantage of correlations between co-occurring labels and visual input but risk inadvertently encoding social biases found in web corpora. In this work, we study data and models associated with multilabel object classification and visual semantic role labeling. We find that (a) datasets for these tasks contain significant gender bias and (b) models trained on these datasets further amplify existing bias. For example, the activity cooking is over 33% more likely to involve females than males in a training set, and a trained model further amplifies the disparity to 68% at test time. We propose to inject corpus-level constraints for calibrating existing structured prediction models and design an algorithm based on Lagrangian relaxation for collective inference. Our method results in almost no performance loss for the underlying recognition task but decreases the magnitude of bias amplification by 47.5% and 40.5% for multilabel classification and visual semantic role labeling, respectively。
+
+[ref-013] ALVINN, an autonomous land vehicle in a neural network
+Abstract: (not available)
+
+[ref-014] Subliminal Learning: Language models transmit behavioral traits via hidden signals in data
+Abstract: We study subliminal learning, a surprising phenomenon where language models transmit behavioral traits via semantically unrelated data. In our main experiments, a"teacher"model with some trait T (such as liking owls or being misaligned) generates a dataset consisting solely of number sequences. Remarkably, a"student"model trained on this dataset learns T. This occurs even when the data is filtered to remove references to T. We observe the same effect when training on code or reasoning traces generated by the same teacher model. However, we do not observe the effect when the teacher and student have different base models. To help explain our findings, we prove a theoretical result showing that subliminal learning occurs in all neural networks under certain conditions, and demonstrate subliminal learning in a simple MLP classifier. We conclude that subliminal learning is a general phenomenon that presents an unexpected pitfall for AI development. Distillation could propagate unintended traits, even when developers try to prevent this via data filtering.
+
+[ref-015] Unsolved Problems in ML Safety
+Abstract: Machine learning (ML) systems are rapidly increasing in size, are acquiring new capabilities, and are increasingly deployed in high-stakes settings. As with other powerful technologies, safety for ML should be a leading research priority. In response to emerging safety challenges in ML, such as those introduced by recent large-scale models, we provide a new roadmap for ML Safety and refine the technical problems that the field needs to address. We present four problems ready for research, namely withstanding hazards ("Robustness"), identifying hazards ("Monitoring"), reducing inherent model hazards ("Alignment"), and reducing systemic hazards ("Systemic Safety"). Throughout, we clarify each problem's motivation and provide concrete research directions.
+
+[ref-016] Black-Box Access is Insufficient for Rigorous AI Audits
+Abstract: External audits of AI systems are increasingly recognized as a key mechanism for AI governance. The effectiveness of an audit, however, depends on the degree of access granted to auditors. Recent audits of state-of-the-art AI systems have primarily relied on black-box access, in which auditors can only query the system and observe its outputs. However, white-box access to the system’s inner workings (e.g., weights, activations, gradients) allows an auditor to perform stronger attacks, more thoroughly interpret models, and conduct fine-tuning. Meanwhile, outside-the-box access to training and deployment information (e.g., methodology, code, documentation, data, deployment details, findings from internal evaluations) allows auditors to scrutinize the development process and design more targeted evaluations. In this paper, we examine the limitations of black-box audits and the advantages of whiteand outside-the-box audits. We also discuss technical, physical, and legal safeguards for performing these audits with minimal security risks. Given that different forms of access can lead to very different levels of evaluation, we conclude that (1) transparency regarding the access and methods used by auditors is necessary to properly interpret audit results, and (2) whiteand outside-the-box access allow for substantially more scrutiny than black-box access alone.
+
+[ref-017] It’s owl in the numbers: Token entanglement in subliminal learning
+Abstract: (not available)
+
+[ref-018] Who's Harry Potter? Approximate Unlearning in LLMs
+Abstract: Large language models (LLMs) are trained on massive internet corpora that often contain copyrighted content. This poses legal and ethical challenges for the developers and users of these models, as well as the original authors and publishers. In this paper, we propose a novel technique for unlearning a subset of the training data from a LLM, without having to retrain it from scratch. We evaluate our technique on the task of unlearning the Harry Potter books from the Llama2-7b model (a generative language model recently open-sourced by Meta). While the model took over 184K GPU-hours to pretrain, we show that in about 1 GPU hour of finetuning, we effectively erase the model's ability to generate or recall Harry Potter-related content, while its performance on common benchmarks (such as Winogrande, Hellaswag, arc, boolq and piqa) remains almost unaffected. We make our fine-tuned model publicly available on HuggingFace for community evaluation. To the best of our knowledge, this is the first paper to present an effective technique for unlearning in generative language models. Our technique consists of three main components: First, we use a reinforced model that is further trained on the target data to identify the tokens that are most related to the unlearning target, by comparing its logits with those of a baseline model. Second, we replace idiosyncratic expressions in the target data with generic counterparts, and leverage the model's own predictions to generate alternative labels for every token. These labels aim to approximate the next-token predictions of a model that has not been trained on the target data. Third, we finetune the model on these alternative labels, which effectively erases the original text from the model's memory whenever it is prompted with its context.
+
+[ref-019] Jailbroken: How Does LLM Safety Training Fail?
+Abstract: Large language models trained for safety and harmlessness remain susceptible to adversarial misuse, as evidenced by the prevalence of"jailbreak"attacks on early releases of ChatGPT that elicit undesired behavior. Going beyond recognition of the issue, we investigate why such attacks succeed and how they can be created. We hypothesize two failure modes of safety training: competing objectives and mismatched generalization. Competing objectives arise when a model's capabilities and safety goals conflict, while mismatched generalization occurs when safety training fails to generalize to a domain for which capabilities exist. We use these failure modes to guide jailbreak design and then evaluate state-of-the-art models, including OpenAI's GPT-4 and Anthropic's Claude v1.3, against both existing and newly designed attacks. We find that vulnerabilities persist despite the extensive red-teaming and safety-training efforts behind these models. Notably, new attacks utilizing our failure modes succeed on every prompt in a collection of unsafe requests from the models' red-teaming evaluation sets and outperform existing ad hoc jailbreaks. Our analysis emphasizes the need for safety-capability parity -- that safety mechanisms should be as sophisticated as the underlying model -- and argues against the idea that scaling alone can resolve these safety failure modes.
+
+[ref-020] Progress measures for grokking via mechanistic interpretability
+Abstract: Neural networks often exhibit emergent behavior, where qualitatively new capabilities arise from scaling up the amount of parameters, training data, or training steps. One approach to understanding emergence is to find continuous \textit{progress measures} that underlie the seemingly discontinuous qualitative changes. We argue that progress measures can be found via mechanistic interpretability: reverse-engineering learned behaviors into their individual components. As a case study, we investigate the recently-discovered phenomenon of ``grokking'' exhibited by small transformers trained on modular addition tasks. We fully reverse engineer the algorithm learned by these networks, which uses discrete Fourier transforms and trigonometric identities to convert addition to rotation about a circle. We confirm the algorithm by analyzing the activations and weights and by performing ablations in Fourier space. Based on this understanding, we define progress measures that allow us to study the dynamics of training and split training into three continuous phases: memorization, circuit formation, and cleanup. Our results show that grokking, rather than being a sudden shift, arises from the gradual amplification of structured mechanisms encoded in the weights, followed by the later removal of memorizing components.
+</file>
+
+<file name="candidate.json">
+{
+ "title": "Diffusion Policy Robustness Against Adversarial Patches in Physical Environments",
+ "summary": "This paper investigates the vulnerability of diffusion-based policies (DPs) to adversarial patches in physical environments. We propose a method to generate and test physical patches that deceive DPs in real-world manipulation tasks. The approach is validated by measuring task success rates with/without patches, comparing against baselines like adversarial training and input filtering.",
+ "gap": "While DP-Attacker demonstrates adversarial attacks in simulated settings, the robustness of DPs against physical patches (e.g., printed stickers) in real-world deployments remains unmeasured, leaving a critical safety gap for embodied AI systems.",
+ "approach": "We extend DP-Attacker to generate physical patches via optimization for real-world transferability. Patches are printed and placed in controlled environments (e.g., robotic manipulation setups). Robustness is evaluated by (1) success rate degradation, (2) patch detectability via human studies, and (3) mitigation effectiveness of techniques like input denoising or adversarial training.",
+ "evaluation": "We test on pre-trained DPs from ref-005 across tasks like object pushing and grasping. Baselines include non-diffusion policies and adversarially trained DPs. Success is measured by comparing task completion rates with/without patches. Additional metrics include patch size, placement flexibility, and human detection rates.",
+ "support": [
+  "ref-005",
+  "ref-007",
+  "ref-016",
+  "ref-019"
+ ]
+}
+</file>
+codex
+{
+  "grounding": {
+    "rationale": "The characterization of ref-005 as limited to simulation is unsupported: its abstract explicitly reports adversarial physical patches applied to the environment. It does not specify whether these were printed and tested on real hardware. References ref-007, ref-016, and ref-019 provide general evaluation or safety context, but do not substantiate the claimed physical-transfer limitation.",
+    "score": 2
+  },
+  "gap": {
+    "rationale": "Printed-patch evaluation on real robots could be a distinct question, but the supplied abstract leaves its status uncertain. Because ref-005 already reports physical patches, the candidate needs a narrower, substantiated limitation to establish what remains open.",
+    "score": 2
+  },
+  "specificity": {
+    "rationale": "The candidate specifies manipulation tasks, printed patches, policy baselines, and measurable outcomes. However, 'optimization for real-world transferability' leaves the central methodological change undefined, and the evaluation omits an explicit comparison against unmodified ref-005 patches.",
+    "score": 3
+  },
+  "coherence": {
+    "rationale": "Printing patches and measuring robot task completion directly tests the proposed real-world vulnerability, while mitigation comparisons assess robustness. The main weakness is that the evaluation cannot isolate the benefit of the proposed extension without an original ref-005 baseline; human detectability is also secondary to the stated gap.",
+    "score": 4
+  },
+  "value": {
+    "rationale": "Establishing whether attacks transfer to real robots could inform deployment and mitigation choices. However, ref-005 already demonstrates physical-patch deception, and the candidate does not identify a sufficiently clear additional result that would change those choices. Its demonstrated contribution is therefore limited.",
+    "score": 2
+  }
+}
+tokens used
+12,004

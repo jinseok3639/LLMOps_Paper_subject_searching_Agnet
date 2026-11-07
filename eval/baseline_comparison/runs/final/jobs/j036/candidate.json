@@ -1,0 +1,11 @@
+{
+ "title": "Instruction Backdoor Resistance via Divergence-Regularized Fine-Tuning",
+ "summary": "We hypothesize that regularizing fine-tuning with domain divergence bounds can mitigate backdoor vulnerabilities in instruction-tuned models. The method penalizes deviations between clean and poisoned instruction distributions during training, validated on NLP tasks with synthetic backdoor triggers. Evaluation compares attack success rates against standard fine-tuning and RLHF baselines.",
+ "gap": "Instruction backdoor attacks (ref-008) exploit the sensitivity of fine-tuning to malicious instructions. While RLHF (ref-008) partially mitigates backdoors, it does not explicitly regularize against domain divergence in poisoned data. No method yet combines divergence bounds (ref-002) with fine-tuning to directly penalize poisoned instruction distributions.",
+ "approach": "Extend ref-002's divergence bounds to instruction domains by adding a regularization term to the fine-tuning loss. The term penalizes the classifier-induced divergence (ref-002) between clean and poisoned instruction distributions, computed via unlabeled samples from both domains. The objective combines cross-entropy loss on labeled data with a divergence penalty λ·D, where D is the divergence measure from ref-002. This differs from RLHF (ref-008) by explicitly bounding domain shift rather than relying on human feedback.",
+ "evaluation": "Test on four NLP datasets (SST-2, MNLI, etc.) with ref-008's instruction attacks. Measure attack success rate (ASR) and clean accuracy. Compare against: (1) standard fine-tuning, (2) RLHF (ref-008), and (3) an ablation with divergence regularization but no poisoning. The ablation isolates the regularization's effect by training on clean data only with the divergence penalty. Poisoned instructions use ref-008's synthetic triggers, and divergence is measured via ref-002's classifier-induced metric.",
+ "support": [
+  "ref-002",
+  "ref-008"
+ ]
+}

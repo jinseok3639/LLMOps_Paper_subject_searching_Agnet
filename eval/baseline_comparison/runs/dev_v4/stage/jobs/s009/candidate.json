@@ -1,0 +1,12 @@
+{
+ "title": "Adversarial Vulnerability of EEGNet Visualization Mechanisms",
+ "summary": "This paper tests whether EEGNet's gradient-weighted class activation mapping (Grad-CAM) visualization technique reveals attack surfaces in BCI systems. The hypothesis is that Grad-CAM-guided perturbations achieve higher success rates with lower magnitude than random or non-visualization baselines. The approach generates targeted adversarial examples using EEGNet's Grad-CAM saliency maps and compares them to random channel masking and input gradient baselines. Evaluation measures attack success rates, perturbation L2 norms, and cross-subject/paradigm transferability on the BCI Competition IV datasets.",
+ "gap": "While ref-021 and ref-024 demonstrate adversarial vulnerabilities in EEG-based BCIs, they do not isolate whether visualization techniques like Grad-CAM specifically expose attack surfaces. The closest work (ref-021) focuses on detection methods, not attack generation guided by model interpretability tools.",
+ "approach": "Inputs: EEGNet model trained on BCI Competition IV datasets, test EEG trials. Outputs: Adversarial examples with minimal L2 perturbations. Objective: Maximize classification error while minimizing perturbation magnitude. Update rule: Projected gradient descent (PGD) with step size 0.01, 20 iterations. Perturbation mask: Binary mask derived from EEGNet's Grad-CAM saliency map (top 10% channels/timepoints). Difference from ref-024: Uses Grad-CAM guidance instead of universal perturbation optimization.",
+ "evaluation": "Setting: BCI Competition IV P300/MRCP datasets. Baselines: (1) Random channel masking (ref-024), (2) Input gradient masking without CNN feature maps. Measures: Attack success rate (ASR), mean perturbation L2 norm. Ablation: Compare ASR/L2 for Grad-CAM-guided vs baselines under equal PGD budget. Transfer test: Evaluate perturbations on unseen subjects/paradigms. Central claim test: Higher ASR with lower L2 for Grad-CAM-guided attacks proves visualization techniques expose vulnerabilities.",
+ "support": [
+  "ref-001",
+  "ref-021",
+  "ref-024"
+ ]
+}

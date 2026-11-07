@@ -1,0 +1,12 @@
+{
+ "title": "Iterative Feedback-Driven Code Generation with Dynamic API Retrieval for Scientific Visualization",
+ "summary": "This paper proposes a framework for scientific visualization code generation that combines dynamic API retrieval with iterative error correction. The system uses a neural API retriever to select relevant visualization APIs during code generation, and incorporates a visual feedback loop that identifies execution errors to trigger targeted code revisions. The hypothesis is that this approach reduces error propagation by enabling real-time API adaptation and self-correction. Evaluation uses MatPlotBench with metrics comparing error correction rates, refinement cycles, and final accuracy against baselines with static API selection and non-iterative debugging.",
+ "gap": "While ref-001 implements iterative debugging and ref-007 performs API selection, neither framework dynamically adapts API selection during execution based on real-time error feedback. Both systems use fixed API sets or pre-planned API sequences, leaving open the question of whether dynamic API retrieval during error correction can further reduce error propagation in complex visualization tasks.",
+ "approach": "The system consists of: (1) a code LLM that generates visualization code, (2) a neural API retriever that selects relevant APIs from a database of 16,464 RESTful APIs (ref-004) based on current error context, and (3) a visual feedback mechanism that executes code, identifies errors, and triggers targeted API-based corrections. The retriever is a cross-encoder architecture trained on API documentation and error logs. The feedback loop runs for a maximum of 3 iterations or until no errors are detected, with each iteration focusing on the specific error type identified in the previous execution.",
+ "evaluation": "Baselines include: (1) ref-001's static API set with iterative debugging, (2) ref-007's pre-planned API sequence with coarse-to-fine planning, and (3) a non-iterative code generation baseline. Metrics are: (1) error correction rate (percentage of test cases where all errors are resolved), (2) average refinement cycles per test case, and (3) final visualization accuracy (matching human-verified MatPlotBench cases). Ablation studies compare dynamic vs. static API retrieval with identical LLM backbones, and measure error propagation by tracking how many test cases require more than one refinement cycle.",
+ "support": [
+  "ref-001",
+  "ref-004",
+  "ref-007"
+ ]
+}

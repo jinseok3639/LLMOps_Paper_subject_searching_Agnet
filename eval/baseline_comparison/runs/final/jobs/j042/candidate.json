@@ -1,0 +1,15 @@
+{
+ "title": "Copyright-Aware Deduplication to Reduce Extractable Memorization in Language Models",
+ "summary": "We propose a method to reduce extractable memorization of copyrighted content in language models by extending text deduplication to prioritize removal of near-duplicate copyrighted material. The approach uses shingling and semantic similarity checks to identify high-frequency duplicates from copyrighted works, then trains models on the deduplicated dataset. We evaluate its effectiveness by measuring verbatim extraction rates of known copyrighted content before/after deduplication, comparing against standard deduplication and random subsampling baselines.",
+ "gap": "While ref-011 shows deduplication reduces verbatim memorization, it does not prioritize copyrighted content. Ref-035 defines memorization as extractable verbatim copies of training data but does not address selective removal of copyrighted material. No prior work systematically reduces memorization of copyrighted works while preserving non-copyrighted content.",
+ "approach": "We extend ref-011's deduplication algorithm by incorporating copyright metadata (from ref-036's plagiarism detection) to prioritize removal of high-frequency near-duplicates from copyrighted works. The method uses shingling (ref-019) to identify duplicates, then applies semantic similarity (ref-008) to filter copyrighted content. The algorithm removes duplicates with >90% token overlap, prioritizing those from copyrighted works. We implement this on the C4 dataset (ref-011) and train 1.3B-parameter models to compare verbatim extraction rates of copyrighted vs. public-domain text.",
+ "evaluation": "We measure verbatim extraction rates of 100 copyrighted books (ref-035) and 100 public-domain books before/after deduplication. Baselines include ref-011's standard deduplication and random subsampling. Metrics include exact-match extraction frequency (ref-035), model perplexity on held-out public-domain text (ref-001), and ablation comparing copyright-aware vs. generic deduplication. The evaluation tests whether prioritizing copyrighted content removal reduces extractable memorization without degrading general performance.",
+ "support": [
+  "ref-001",
+  "ref-008",
+  "ref-011",
+  "ref-019",
+  "ref-035",
+  "ref-036"
+ ]
+}

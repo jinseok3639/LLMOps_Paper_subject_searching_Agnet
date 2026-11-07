@@ -1,0 +1,18 @@
+{
+ "title": "Parseval-Constrained EEGNet: Lipschitz-Bounded BCI Decoders with Certifiable Robustness to Universal Perturbations",
+ "summary": "This proposal tests whether the Lipschitz constant can be built into compact EEG decoders without losing decoding accuracy. EEGNet's temporal, depthwise-spatial and separable convolutions would be constrained during training to be approximately Parseval tight frames. The resulting models would be compared with unconstrained EEGNet, PGD adversarially trained EEGNet, and Cross-Lipschitz-regularized EEGNet. Comparisons would cover clean accuracy, empirical robustness to PGD and universal adversarial perturbations, and SDP-certified Lipschitz bounds, all across several MOABB datasets. The hypothesis is that Lipschitz control fits the spatial-filtering structure of EEG well and gives a better trade-off between accuracy and certified robustness than adversarial training.",
+ "gap": "Parseval networks and Cross-Lipschitz regularization were developed and tested on image benchmarks. The EEG adversarial work focuses on attacks and detection, not on training decoders that are robust by construction. It is also unknown whether orthogonality constraints on EEGNet's spatial filters hurt its small-data performance across paradigms.",
+ "approach": "During SGD, add Parseval retraction steps for EEGNet's temporal, depthwise-spatial, pointwise and dense layers, and use convex aggregation for any residual or pooling paths. Variants would constrain only the spatial filters versus all layers. Train both within-subject and cross-subject, and compute certified Lipschitz bounds after training with the SDP method.",
+ "evaluation": "Baselines: vanilla EEGNet and ShallowConvNet, FBCSP, PGD adversarial training, and Cross-Lipschitz regularization. Measures: clean accuracy or AUC on MOABB motor-imagery and P300 datasets; accuracy under PGD and under total-loss-minimization universal perturbations; SDP Lipschitz upper bound and certified accuracy at fixed microvolt radii; and training cost.",
+ "support": [
+  "ref-001",
+  "ref-010",
+  "ref-022",
+  "ref-013",
+  "ref-020",
+  "ref-024",
+  "ref-007",
+  "ref-012",
+  "ref-015"
+ ]
+}

@@ -1,0 +1,40 @@
+[
+ {
+  "id": "y1",
+  "title": "Instruction Backdoor Mitigation via Entropy-Regularized Fine-Tuning",
+  "summary": "This work addresses backdoor vulnerabilities in instruction-tuned models by introducing entropy regularization during fine-tuning to suppress trigger-dependent behavior. The method penalizes low-entropy predictions on perturbed inputs, forcing models to maintain diverse response distributions even when triggers are present. Evaluated on instruction attack benchmarks, the approach reduces attack success rates while preserving clean performance.",
+  "gap": "Current defenses against instruction backdoors (ref-008) lack theoretical guarantees for maintaining model utility while suppressing malicious triggers, leaving a gap in balancing security and performance.",
+  "approach": "Integrate entropy regularization (ref-019) into fine-tuning objectives for instruction-tuned models. During training, apply adversarial perturbations to inputs and penalize models for producing low-entropy outputs, encouraging robust response distributions that resist trigger activation.",
+  "evaluation": "Baselines: standard fine-tuning, RLHF mitigation (ref-008). Measures: attack success rate on poisoned instructions, clean accuracy on standard NLP tasks. Validation via controlled instruction attacks with varying trigger patterns and perturbation strengths.",
+  "support": [
+   "ref-008",
+   "ref-019"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Domain-Divergence-Aware Backdoor Detection via Activation Clustering",
+  "summary": "This paper proposes a method to detect backdoor attacks by clustering activation patterns while accounting for domain shifts between training and test data. The approach combines domain divergence metrics with activation clustering to identify anomalous activation patterns indicative of backdoor triggers. It is validated on datasets with domain shifts, comparing detection accuracy against baseline methods that ignore domain differences.",
+  "gap": "Existing backdoor detection methods (e.g., activation clustering) assume training and test data are from the same domain, but real-world scenarios often involve domain shifts. No prior work integrates domain divergence analysis with backdoor detection.",
+  "approach": "Extend activation clustering with a domain divergence penalty term derived from [ref-002]. Train a detector that minimizes both activation cluster compactness and domain divergence, using unlabeled data from both domains. The divergence metric is computed via classifier-induced divergence from [ref-002].",
+  "evaluation": "Compare against standard activation clustering (ref-001) and STRIP (ref-009) on datasets with synthetic domain shifts. Metrics: detection accuracy (AUC-ROC), false positive rate under domain shift, and robustness to varying divergence levels.",
+  "support": [
+   "ref-001",
+   "ref-002",
+   "ref-009"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Latent Space Backdoor Detection via Activation Consistency Testing",
+  "summary": "This paper proposes a backdoor detection method that identifies inconsistencies in latent representations when inputs are perturbed. By measuring the stability of activation patterns under controlled transformations, the approach flags models with hidden triggers that produce unstable or divergent representations. Evaluated on backdoored LLMs and vision models, the method achieves high detection rates without requiring trigger knowledge.",
+  "gap": "Existing backdoor detection techniques (ref-009, ref-011) rely on trigger-specific patterns or require white-box access, leaving a gap in black-box detection methods that work without trigger examples.",
+  "approach": "Adapt outcome indistinguishability principles (ref-019) to measure activation consistency. For each input, generate perturbed variants and compare latent representations; backdoored models exhibit higher variance in trigger regions. Use statistical tests to identify anomalies in activation stability across perturbed inputs.",
+  "evaluation": "Baselines: STRIP (ref-009), spectral signature analysis (ref-011). Measures: detection accuracy on backdoored models from BackdoorBench (ref-011), false positive rate on clean models. Validation via controlled perturbation experiments with varying trigger sizes and model architectures.",
+  "support": [
+   "ref-009",
+   "ref-011",
+   "ref-019"
+  ]
+ }
+]

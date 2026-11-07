@@ -254,8 +254,31 @@ def swiss(method, cands, refs, first_order):
 
 
 def select(method, ranked, by_id, refs, corpus):
-    # Duplicate/novelty checking intentionally disabled in the application.
-    return ranked[:method.config["n_candidates"]], [], []
+    """점수순으로 n개를 고른다. 겹침(새로움) 검사는 앱에서 끈다.
+    final_selection.topic_dedup이 켜져 있으면 이미 고른 후보와 같은 주제인 후보를 건너뛴다.
+    건너뛰고 나서 n개가 안 되면 건너뛴 후보를 점수순으로 채우고 fallback에 남긴다."""
+    n = method.config["n_candidates"]
+    if not method.config.get("final_selection", {}).get("topic_dedup"):
+        return ranked[:n], [], []
+    chosen, skipped, log_ = [], [], []
+    for cid in ranked:
+        if len(chosen) == n:
+            break
+        same = None
+        for other in chosen:
+            v = method.call(method.prompt("same_topic"), f"Hypothesis 1:\n{json.dumps(by_id[other]['refined'], ensure_ascii=False)}"
+                            f"\n\nHypothesis 2:\n{json.dumps(by_id[cid]['refined'], ensure_ascii=False)}", SameTopic, temperature=0.0)
+            if v.same_topic:
+                same = {"with": other, "reason": v.reason}
+                break
+        if same:
+            skipped.append(cid)
+            log_.append({"id": cid, "decision": "same_topic", "detail": same})
+        else:
+            chosen.append(cid)
+            log_.append({"id": cid, "decision": "chosen"})
+    fallback = [cid for cid in skipped[:max(0, n - len(chosen))]]
+    return chosen + fallback, fallback, log_
 
 
 def run_sample(method, sample, refs, seed):

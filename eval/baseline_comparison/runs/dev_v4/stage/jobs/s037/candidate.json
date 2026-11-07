@@ -1,0 +1,12 @@
+{
+ "title": "Jailbreak-Resistant LLM Auditing via White-Box Safety Distillation",
+ "summary": "This paper introduces a white-box auditing framework that distills safety knowledge from multiple models into a single verifiable component. The method combines mechanistic interpretability to identify safety-critical circuits with targeted distillation that preserves these circuits while removing jailbreak vulnerabilities. The approach is validated through red-teaming evaluations, measuring resistance to known jailbreak patterns and novel attacks.",
+ "gap": "Current LLM auditing methods ([ref-016]) lack techniques to distill safety properties from multiple models into a single verifiable component, leaving jailbreak vulnerabilities ([ref-019]) undetected during audits.",
+ "approach": "1) Use mechanistic analysis to identify safety-critical circuits in multiple models 2) Distill these circuits into a safety verification module 3) Integrate module into auditing pipeline to detect jailbreak patterns 4) Test against known jailbreaks and novel attacks generated via subliminal learning",
+ "evaluation": "Baselines: black-box auditing, standard distillation. Measures: jailbreak success rate, safety circuit preservation, detection accuracy. Comparison against [ref-016]'s black-box methods and [ref-019]'s jailbreak patterns.",
+ "support": [
+  "ref-016",
+  "ref-019",
+  "ref-011"
+ ]
+}

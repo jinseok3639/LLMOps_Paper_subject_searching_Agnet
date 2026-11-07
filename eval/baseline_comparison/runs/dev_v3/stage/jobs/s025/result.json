@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "Ref-005 supports attacks on pretrained diffusion policies and physical adversarial patches, but its supplied abstract does not establish BC-RNN baselines or simulated-patch baselines attributed to it. Ref-007 offers general evaluation motivation; ref-016 and ref-019 do not substantiate the proposed robotics comparison.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The supplied ref-005 leaves comparative vulnerability between diffusion and non-diffusion policies unanswered, making this a concrete research question. However, physical patch attacks themselves are already demonstrated there, and the abstract does not establish that the full work lacks policy comparisons.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate specifies printed patches, manipulation tasks, policy baselines, trial counts, control patches, and measurable outcomes. Beyond ref-005's attack framework, it leaves patch optimization objectives, baseline matching, and whether attacks are optimized separately for each policy insufficiently specified.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Success degradation can measure comparative vulnerability, extending ref-005. However, applying diffusion-policy-optimized patches to both policy types can confound vulnerability with attack transferability; it cannot isolate denoising-specific effects. Human conspicuousness ratings also contribute little to the stated comparative gap.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A controlled comparison could inform policy selection and robustness evaluation beyond ref-005. As designed, however, the experiment would mainly characterize transfer of one attack family, with limited evidence about diffusion-specific mechanisms; physical patch feasibility is already established by ref-005.",
+  "score": 3
+ }
+}

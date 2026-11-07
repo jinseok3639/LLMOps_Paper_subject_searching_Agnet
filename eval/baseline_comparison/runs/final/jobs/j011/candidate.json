@@ -1,0 +1,13 @@
+{
+ "title": "Dynamic Agent Pruning via Cost-Benefit Analysis for Multi-Agent Collaboration",
+ "summary": "We introduce a method to dynamically prune redundant agents in multi-agent systems during task execution by evaluating their marginal contributions using a lightweight orchestrator. The approach combines task progress metrics with agent-specific performance indicators to identify non-essential agents for removal. Evaluated on ChatDev tasks, it achieves comparable performance to full systems at reduced computational cost.",
+ "gap": "Existing dynamic multi-agent frameworks (ref-002, ref-042, ref-044) optimize agent coordination but lack explicit mechanisms to remove agents entirely based on their marginal contributions during task execution. Ref-002 prioritizes agents but doesn't eliminate them, ref-042 prunes messages but not agents, and ref-044 explores scaling but doesn't dynamically reduce agent counts.",
+ "approach": "Implement a lightweight orchestrator that computes a cost-benefit score for each agent at discrete intervals using: (1) task progress metrics (percentage of subtasks completed), (2) agent-specific performance indicators (number of successful contributions vs. errors), and (3) computational cost (tokens consumed). Agents with negative marginal contribution (benefit < cost) are pruned. The orchestrator uses a threshold-based decision rule: if (current benefit / current cost) < (historical average benefit / historical average cost), the agent is removed. This differs from ref-002's prioritization and ref-042's message-level pruning by focusing on agent-level removal based on quantified marginal utility.",
+ "evaluation": "Measure task success rate, computational cost (tokens used), and convergence speed (number of iterations to completion) on ChatDev software development tasks (ref-031). Compare against: (1) static multi-agent baseline (ref-031's full agent configuration), (2) ref-042's AgentPrune (message-level pruning), and (3) human-designed minimal configurations (5 experts selecting optimal agent subsets). Ablation study isolates pruning mechanism by comparing dynamic vs. static agent counts with identical agent implementations.",
+ "support": [
+  "ref-002",
+  "ref-042",
+  "ref-044",
+  "ref-031"
+ ]
+}

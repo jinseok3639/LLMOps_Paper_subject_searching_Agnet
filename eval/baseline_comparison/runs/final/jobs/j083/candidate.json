@@ -1,0 +1,15 @@
+{
+ "title": "Bisimulation-Metric Representation Learning for Closing the Expert-Student Asymmetry in CARLA Imitation Driving",
+ "summary": "Privileged experts see occlusions and other vehicles' intents, so students imitating them learn from mismatched information. We propose adding a bisimulation-style auxiliary loss that trains the student's latent space so distances match behavioral distances computed from expert-side privileged states, encouraging the student to encode only behaviorally relevant information. This is combined with a transformer sensor-fusion driving policy. We validate in CARLA closed-loop benchmarks by comparing against the same fusion backbone trained with plain imitation and with perception-only auxiliary supervision, and by measuring robustness to occlusion and weather distractors.",
+ "gap": "Recent work shows that expert-student asymmetry (visibility, uncertainty, under-specified intent) limits imitation learning, and fixes it with data and input interventions. Bisimulation metrics have been used for invariant representations in RL, but have not been used to align a sensor-based student's latent space with a privileged expert's behavioral similarity in driving.",
+ "approach": "Train a privileged expert/teacher with ground-truth state. Compute a behavioral distance between pairs of states using differences in expert actions/rewards plus a Wasserstein-style term over next-latent distributions, following the bisimulation formulation. Train a TransFuser-style student with imitation loss plus a loss forcing the pairwise L1 distance of its latent embeddings to match this distance, with the target computed from the teacher. Ablate the weight of the metric loss and the distance definition (action-only vs. including dynamics).",
+ "evaluation": "Compare on Longest6-style and Bench2Drive-style closed-loop CARLA benchmarks using driving score, route completion, and infraction rates. Baselines: the same student with imitation only, with auxiliary perception supervision, and with the asymmetry-reducing interventions. Also measure robustness under injected visual distractors/weather shifts and report latent-distance vs. behavioral-distance correlation.",
+ "support": [
+  "ref-002",
+  "ref-009",
+  "ref-017",
+  "ref-023",
+  "ref-005",
+  "ref-013"
+ ]
+}

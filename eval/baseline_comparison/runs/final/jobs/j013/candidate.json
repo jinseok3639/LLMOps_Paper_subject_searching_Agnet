@@ -1,0 +1,18 @@
+{
+ "title": "Which NAVSIM Sub-Metrics Best Predict Closed-Loop Driving? Reweighting Open-Loop Scores via Pseudo-Simulation to Avoid Goodhart Effects",
+ "summary": "Open-loop planning scores can be optimized as proxies that diverge from closed-loop driving quality. We propose learning a new weighted combination of open-loop sub-metrics (progress, collision, drivable area, comfort) by regressing on closed-loop driving scores across many planners, with pseudo-simulation's proximity-weighted synthetic observations as an additional input. We then test whether training a planner against this recalibrated score, versus the standard aggregate, yields better closed-loop ranking and less metric over-optimization. Validation uses held-out planners and held-out scenario sets.",
+ "gap": "Existing studies show that displacement errors do not track closed-loop performance and that the aggregate NAVSIM score shows ranking inversions, with progress being the strongest single predictor. Yet no one has tested whether a recalibrated metric used as a training or selection target reduces proxy over-optimization, as predicted by categorizations of Goodhart effects. Existing correlation analyses rely on only a handful of methods.",
+ "approach": "Collect paired open-loop sub-metrics (NAVSIM, with and without pseudo-simulation's synthetic-observation weighting) and closed-loop scores for many planners, including diffusion-based, multi-teacher distillation, and fusion-based. Fit constrained non-negative regression and rank-based models for weights, using cross-validation by method family. Then fine-tune a planner with multiple heads distilled from rule-based teachers using the recalibrated weights as the selection or reranking criterion, and track the proxy-vs-closed-loop gap as optimization pressure increases.",
+ "evaluation": "Report Spearman/Kendall correlation and R^2 against closed-loop driving score on held-out methods for the recalibrated metric, the standard aggregate score, displacement errors, and the 3-metric formula. For the planner experiment, compare closed-loop driving score and the proxy-true gap across increasing optimization steps against a planner selected by the standard score.",
+ "support": [
+  "ref-034",
+  "ref-020",
+  "ref-010",
+  "ref-006",
+  "ref-008",
+  "ref-025",
+  "ref-033",
+  "ref-011",
+  "ref-014"
+ ]
+}

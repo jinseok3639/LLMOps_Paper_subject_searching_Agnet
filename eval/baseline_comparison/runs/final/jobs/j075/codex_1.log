@@ -1,0 +1,168 @@
+$ exit 0
+--- stdout
+{
+  "strongest": {"X": "x2", "Y": "y2"},
+  "weakest": {"X": "x1", "Y": "y3"},
+  "best": {
+    "rationale": "x2 offers an identifiable experimental change: gradient-based structured neuron pruning, compared with DICE's contribution-ranked weights (ref-055). Its architectures, pruning ablations, and detection metrics make that comparison actionable. However, its characterization of DICE as random or magnitude-based is contradicted by ref-055, and KNN/CIDER are mischaracterized. y2 is more faithfully grounded and coherent, but reproduces CIDER's named method, losses, and objective from ref-029 without stating any difference. x2 therefore provides the stronger research candidate, despite needing its gap corrected.",
+    "verdict": "X"
+  },
+  "worst": {
+    "rationale": "x1 incorrectly motivates its gap by overlooking that ref-042 already applies a Dirichlet meta-model to both misclassification and out-of-domain detection. Its pseudo-label supervision and KL objective also need clarification. Nevertheless, its proposed noisy/CutMix pseudo-label construction supplies a concrete extension to investigate. y3 repeats SIRC from ref-005 without a distinguishing change and reverses a central motivation: ref-005 explicitly says conflating incorrect ID predictions with OOD samples is acceptable; conflating correct and incorrect ID predictions is the problem. Its added scoring term is also insufficiently specified.",
+    "verdict": "X"
+  },
+  "diversity": {
+    "rationale": "Both sets span three meaningfully different approaches. X includes a learned post-hoc uncertainty model, structured feature pruning, and training with sharpness and confidence objectives. Y includes flat-minimum training, hyperspherical representation learning, and post-hoc selective-classification scoring. Y's duplication of cited methods harms its research gaps, but does not make those approaches less different from one another.",
+    "verdict": "tie"
+  },
+  "overall": {
+    "rationale": "X offers more material for designing research that could add evidence beyond the corpus, particularly the structured-pruning comparison in x2 and the explicit confidence-loss addition in x3. Substantial repairs remain: x1 overlooks ref-042, x2 misstates ref-055, and x3 leaves OOD confidence and its margin objective ambiguous. Y is largely a restatement of existing contributions: y2 repeats ref-029, y3 repeats ref-005, and y1 does not distinguish itself from the flat-minimum failure-prediction findings and combined techniques in refs-002 and ref-059. X would better serve a researcher choosing a next experiment.",
+    "verdict": "X"
+  }
+}
+
+--- stderr
+sure significantly improves detection performance. We also observe that cutting-edge generative models trained on CIFAR-10 may assign higher likelihoods to SVHN images than to CIFAR-10 images; we use OE to mitigate this issue. We also analyze the flexibility and robustness of Outlier Exposure, and identify characteristics of the auxiliary dataset that improve performance.
+
+[ref-059] Revisiting Confidence Estimation: Towards Reliable Failure Prediction
+Abstract: Reliable confidence estimation is a challenging yet fundamental requirement in many risk-sensitive applications. However, modern deep neural networks are often overconfident for their incorrect predictions, i.e., misclassified samples from known classes, and out-of-distribution (OOD) samples from unknown classes. In recent years, many confidence calibration and OOD detection methods have been developed. In this paper, we find a general, widely existing but actually-neglected phenomenon that most confidence estimation methods are harmful for detecting misclassification errors. We investigate this problem and reveal that popular calibration and OOD detection methods often lead to worse confidence separation between correctly classified and misclassified examples, making it difficult to decide whether to trust a prediction or not. Finally, we propose to enlarge the confidence gap by finding flat minima, which yields state-of-the-art failure prediction performance under various settings including balanced, long-tailed, and covariate-shift classification scenarios. Our study not only provides a strong baseline for reliable confidence estimation but also acts as a bridge between understanding calibration, OOD detection, and failure prediction.
+
+[ref-060] On the Importance of Gradients for Detecting Distributional Shifts in the Wild
+Abstract: Detecting out-of-distribution (OOD) data has become a critical component in ensuring the safe deployment of machine learning models in the real world. Existing OOD detection approaches primarily rely on the output or feature space for deriving OOD scores, while largely overlooking information from the gradient space. In this paper, we present GradNorm, a simple and effective approach for detecting OOD inputs by utilizing information extracted from the gradient space. GradNorm directly employs the vector norm of gradients, backpropagated from the KL divergence between the softmax output and a uniform probability distribution. Our key idea is that the magnitude of gradients is higher for in-distribution (ID) data than that for OOD data, making it informative for OOD detection. GradNorm demonstrates superior performance, reducing the average FPR95 by up to 16.33% compared to the previous best method.
+
+[ref-061] SGDR: Stochastic Gradient Descent with Warm Restarts
+Abstract: Restart techniques are common in gradient-free optimization to deal with multimodal functions. Partial warm restarts are also gaining popularity in gradient-based optimization to improve the rate of convergence in accelerated gradient schemes to deal with ill-conditioned functions. In this paper, we propose a simple warm restart technique for stochastic gradient descent to improve its anytime performance when training deep neural networks. We empirically study its performance on the CIFAR-10 and CIFAR-100 datasets, where we demonstrate new state-of-the-art results at 3.14% and 16.21%, respectively. We also demonstrate its advantages on a dataset of EEG recordings and on a downsampled version of the ImageNet dataset. Our source code is available at this https URL
+
+[ref-062] OpenMix: Exploring Outlier Samples for Misclassification Detection
+Abstract: Reliable confidence estimation for deep neural classifiers is a challenging yet fundamental requirement in high-stakes applications. Unfortunately, modern deep neural networks are often overconfident for their erroneous predictions. In this work, we exploit the easily available outlier samples, i.e., unlabeled samples coming from non-target classes, for helping detect misclassification errors. Particularly, we find that the well-known Outlier Exposure, which is powerful in detecting out-of-distribution (OOD) samples from unknown classes, does not provide any gain in identifying misclassification errors. Based on these observations, we propose a novel method called OpenMix, which incorporates open-world knowledge by learning to reject uncertain pseudo-samples generated via outlier transformation. OpenMix significantly improves confidence reliability under various scenarios, establishing a strong and unified framework for detecting both misclassified samples from known classes and OOD samples from unknown classes. The code is publicly available at https://github.com/Impression2805/OpenMix.
+
+[ref-063] Overcoming Common Flaws in the Evaluation of Selective Classification Systems
+Abstract: Selective Classification, wherein models can reject low-confidence predictions, promises reliable translation of machine-learning based classification systems to real-world scenarios such as clinical diagnostics. While current evaluation of these systems typically assumes fixed working points based on pre-defined rejection thresholds, methodological progress requires benchmarking the general performance of systems akin to the $\mathrm{AUROC}$ in standard classification. In this work, we define 5 requirements for multi-threshold metrics in selective classification regarding task alignment, interpretability, and flexibility, and show how current approaches fail to meet them. We propose the Area under the Generalized Risk Coverage curve ($\mathrm{AUGRC}$), which meets all requirements and can be directly interpreted as the average risk of undetected failures. We empirically demonstrate the relevance of $\mathrm{AUGRC}$ on a comprehensive benchmark spanning 6 data sets and 13 confidence scoring functions. We find that the proposed metric substantially changes metric rankings on 5 out of the 6 data sets.
+</file>
+
+<file name="set_x.json">
+[
+ {
+  "id": "x1",
+  "title": "Post-Hoc Confidence Rectification via Dirichlet Meta-Modeling for Multi-Task Failure Detection",
+  "summary": "This hypothesis proposes a post-hoc Dirichlet meta-model that learns to rectify overconfident predictions by modeling uncertainty from a trained classifier's features. The meta-model, trained on pseudo-labels derived from the base model's outputs, generates calibrated confidence scores for both in-distribution misclassification and OOD detection. Evaluation uses OpenOOD benchmarks and compares against post-hoc methods like ODIN, Mahalanobis distance, and OpenMix.",
+  "gap": "Existing post-hoc methods either address OOD detection or misclassification separately (ref-015, ref-023), or combine both tasks without Dirichlet modeling (ref-062). Ref-042 uses Dirichlet modeling for uncertainty quantification but does not explicitly unify OOD detection and misclassification. No prior work combines Dirichlet modeling with a unified framework for both tasks.",
+  "approach": "Train a lightweight Dirichlet meta-model (3-layer MLP) on features from a frozen base classifier. The meta-model outputs concentration parameters α₁,...,α_K for a Dirichlet distribution, where entropy H(p) of p ~ Dir(α) serves as the confidence score. Pseudo-labels are generated by applying Gaussian noise (σ=0.1) to inputs and mixing base model predictions via CutMix (ref-038) with λ=0.5. The meta-model minimizes KL divergence between predicted α and pseudo-label distributions.",
+  "evaluation": "Baselines: ODIN (ref-015), Mahalanobis (ref-023), MC dropout (ref-050), and OpenMix (ref-062). Metrics: AUROC for OOD detection and failure prediction, FPR@95, and Expected Calibration Error (ECE). Test on ImageNet-1K with NINCO (ref-047) and CIFAR-10 with SVHN as OOD. Ablation studies compare entropy-based scores against alternative uncertainty metrics (e.g., predictive entropy, mutual information) from the same meta-model.",
+  "support": [
+   "ref-015",
+   "ref-023",
+   "ref-038",
+   "ref-042",
+   "ref-047",
+   "ref-050",
+   "ref-062"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Contribution-Aware Pruning for OOD Detection via Feature Space Sparsification",
+  "summary": "This work addresses the challenge of out-of-distribution (OOD) detection by pruning non-discriminative features that introduce noise in high-dimensional activations. The method ranks neurons by their contribution to in-distribution classification, then applies structured pruning to suppress low-importance features. The approach is evaluated on ImageNet with the NINCO and OpenOOD benchmarks, showing improved OOD detection by reducing distracting dimensions. The method is compared against established baselines (MSP, ODIN, Energy) and sparsification-based methods (DICE, KNN, CIDER) using AUROC and FPR@95 metrics.",
+  "gap": "While ref-028 (KNN) and ref-029 (CIDER) use non-parametric and hyperspherical methods to filter non-discriminative features, and ref-055 (DICE) uses sparsification for OOD detection, no method explicitly ranks and prunes features based on their contribution to in-distribution classification. This leaves open the question of how to identify and remove the most distracting dimensions for OOD detection under semantic shifts.",
+  "approach": "The method ranks neurons by their contribution to in-distribution classification using gradient-based importance scores, then applies structured pruning to ResNet-50 and ViT-B/16 models. The pruning threshold is determined via cross-validation on a held-out in-distribution validation set. The pruned model is used to compute OOD scores (e.g., MSP, Energy) for detection. The key difference from ref-055 (DICE) is the use of contribution-aware pruning (vs. random or magnitude-based pruning) to target the most distracting features for OOD detection.",
+  "evaluation": "The method is evaluated on ImageNet with NINCO and OpenOOD benchmarks, comparing AUROC and FPR@95 against baselines (MSP, ODIN, Energy) and sparsification-based methods (DICE, KNN, CIDER). Ablation studies isolate the effect of contribution-aware pruning (vs. random pruning) and test robustness to varying pruning thresholds (0.1x to 0.9x of total features). Statistical significance is assessed via paired t-tests across 5 random seeds.",
+  "support": [
+   "ref-028",
+   "ref-029",
+   "ref-035",
+   "ref-045",
+   "ref-047",
+   "ref-055"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Flat Minima Optimization for Joint Misclassification and OOD Detection via Confidence Gap Maximization",
+  "summary": "This work proposes optimizing flat minima to simultaneously improve misclassification detection and out-of-distribution (OOD) detection by maximizing the confidence gap between correct/incorrect in-distribution (ID) and OOD samples. The approach integrates a sharpness-aware minimization framework with a confidence gap loss term that enforces separability in softmax scores. Validation involves benchmarking on ImageNet-scale datasets with diverse OOD sources and comparing against calibration/OOD baselines using FPR95 and AUROC metrics.",
+  "gap": "Existing calibration methods often degrade confidence separation between correct and incorrect ID predictions ([ref-059]), while flat minima research focuses on generalization without explicitly addressing confidence gaps ([ref-030]). Current OOD detection methods lack systematic evaluation of their impact on ID confidence separation.",
+  "approach": "The approach combines Sharpness-Aware Minimization (SAM) with a confidence gap loss term. SAM minimizes loss sharpness via adversarial weight perturbations within an epsilon-ball around EMA weights (epsilon=0.05, rho=0.5). The confidence gap loss maximizes margins between softmax scores of correct ID (y_true), incorrect ID (y_incorrect), and OOD samples (y_OOD): L_gap = max(0, m - (p(y_true) - p(y_incorrect)) - (p(y_true) - p(y_OOD))). Total loss: L_total = L_classification + lambda * L_sharpness + gamma * L_gap (lambda=1/3, gamma=1/3).",
+  "evaluation": "Baselines: Temperature scaling ([ref-033]), ODIN ([ref-015]), SAM ([ref-010]), and F-SAM ([ref-030]). Metrics: FPR95 for OOD detection, misclassification detection AUROC, and top-1 accuracy. Datasets: ImageNet-1K with CIFAR-10/100, Textures, and OpenImage-O as OOD. Ablation studies isolate SAM (epsilon=0.05), L_gap (gamma=1/3), and their combination. Comparisons against [ref-002] and [ref-059] use identical covariate-shift scenarios from [ref-059].",
+  "support": [
+   "ref-002",
+   "ref-010",
+   "ref-015",
+   "ref-030",
+   "ref-033",
+   "ref-059"
+  ]
+ }
+]
+</file>
+
+<file name="set_y.json">
+[
+ {
+  "id": "y1",
+  "title": "Flat Minima Optimization for Enhanced Failure Prediction in Deep Neural Networks",
+  "summary": "This paper proposes optimizing flat minima to improve failure prediction in deep neural networks. By leveraging flat minima techniques, the approach aims to enhance the separation between correct and incorrect predictions, addressing the overconfidence issue in misclassified samples. The method is validated through extensive experiments on CIFAR-10, CIFAR-100, and ImageNet, comparing against baselines like softmax confidence and calibration methods, using metrics such as FPR95 and AUROC.",
+  "gap": "Existing calibration and OOD detection methods often degrade confidence separation between correct and incorrect in-distribution samples, hindering effective failure prediction. Current approaches fail to explicitly optimize for this separation, leading to unreliable confidence estimates for misclassified samples.",
+  "approach": "The approach combines two flat minima techniques—Sharpness-Aware Minimization (SAM) and Stochastic Weight Averaging (SWA)—to train models that generalize better and produce more reliable confidence scores. By minimizing loss sharpness, the method encourages flatter minima, which correlates with improved confidence separation and failure detection.",
+  "evaluation": "The method is evaluated on CIFAR-10, CIFAR-100, and ImageNet using FPR95, AUROC, and accuracy-coverage trade-off curves. Baselines include softmax confidence, temperature scaling, and MC dropout. The approach is also tested under covariate shift and long-tailed data to assess robustness.",
+  "support": [
+   "ref-002",
+   "ref-010",
+   "ref-013",
+   "ref-022",
+   "ref-059"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Generalized Out-of-Distribution Detection via Hyperspherical Embedding Dispersion",
+  "summary": "This paper proposes a framework for generalized OOD detection by optimizing hyperspherical embeddings to maximize class prototype dispersion and sample compactness. The method, called CIDER, jointly trains a model to produce embeddings where in-distribution samples cluster tightly around class prototypes, while OOD samples lie far from all prototypes.",
+  "gap": "Current OOD detection methods often rely on parametric assumptions (e.g., Gaussian distributions) or ad-hoc post-processing, limiting their scalability and effectiveness. Existing contrastive learning approaches do not explicitly optimize for OOD detection, leading to suboptimal separability.",
+  "approach": "CIDER introduces a dispersion loss to maximize angular distances between class prototypes and a compactness loss to cluster samples around their prototypes. The method is trained end-to-end without requiring OOD samples during training, leveraging only in-distribution data.",
+  "evaluation": "The method is evaluated on CIFAR-10, CIFAR-100, and ImageNet with OOD benchmarks (e.g., SVHN, Textures, iNaturalist). Metrics include AUROC, FPR95, and detection accuracy. Baselines include MSP, ODIN, Mahalanobis distance, and contrastive learning-based methods.",
+  "support": [
+   "ref-029",
+   "ref-036",
+   "ref-046",
+   "ref-055",
+   "ref-060"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Reject Option Augmentation for Selective Classification with Out-of-Distribution Data",
+  "summary": "This work introduces a method to augment softmax-based confidence scores with feature-agnostic information to improve selective classification in the presence of out-of-distribution (OOD) data. The approach, called Softmax Information Retaining Combination (SIRC), aims to enhance OOD detection without sacrificing the separation between correct and incorrect in-distribution predictions.",
+  "gap": "Existing OOD detection methods often conflate in-distribution misclassifications with OOD samples, leading to suboptimal performance in selective classification. Current post-hoc methods fail to maintain a clear boundary between correct and incorrect in-distribution predictions when rejecting OOD samples.",
+  "approach": "SIRC augments softmax scores with a feature-agnostic term derived from the model's output distribution, preserving the original softmax's ability to distinguish correct and incorrect in-distribution samples while improving OOD detection. The method is applied post-training, requiring no retraining or architectural changes.",
+  "evaluation": "The method is tested on ImageNet-scale datasets (e.g., ImageNet, CIFAR-10) with OOD benchmarks (e.g., iNaturalist, Textures). Metrics include AUROC, FPR95, and coverage-risk curves. Baselines include MSP, ODIN, and Mahalanobis distance-based methods.",
+  "support": [
+   "ref-005",
+   "ref-007",
+   "ref-014",
+   "ref-015",
+   "ref-025"
+  ]
+ }
+]
+</file>
+codex
+{
+  "strongest": {"X": "x2", "Y": "y2"},
+  "weakest": {"X": "x1", "Y": "y3"},
+  "best": {
+    "rationale": "x2 offers an identifiable experimental change: gradient-based structured neuron pruning, compared with DICE's contribution-ranked weights (ref-055). Its architectures, pruning ablations, and detection metrics make that comparison actionable. However, its characterization of DICE as random or magnitude-based is contradicted by ref-055, and KNN/CIDER are mischaracterized. y2 is more faithfully grounded and coherent, but reproduces CIDER's named method, losses, and objective from ref-029 without stating any difference. x2 therefore provides the stronger research candidate, despite needing its gap corrected.",
+    "verdict": "X"
+  },
+  "worst": {
+    "rationale": "x1 incorrectly motivates its gap by overlooking that ref-042 already applies a Dirichlet meta-model to both misclassification and out-of-domain detection. Its pseudo-label supervision and KL objective also need clarification. Nevertheless, its proposed noisy/CutMix pseudo-label construction supplies a concrete extension to investigate. y3 repeats SIRC from ref-005 without a distinguishing change and reverses a central motivation: ref-005 explicitly says conflating incorrect ID predictions with OOD samples is acceptable; conflating correct and incorrect ID predictions is the problem. Its added scoring term is also insufficiently specified.",
+    "verdict": "X"
+  },
+  "diversity": {
+    "rationale": "Both sets span three meaningfully different approaches. X includes a learned post-hoc uncertainty model, structured feature pruning, and training with sharpness and confidence objectives. Y includes flat-minimum training, hyperspherical representation learning, and post-hoc selective-classification scoring. Y's duplication of cited methods harms its research gaps, but does not make those approaches less different from one another.",
+    "verdict": "tie"
+  },
+  "overall": {
+    "rationale": "X offers more material for designing research that could add evidence beyond the corpus, particularly the structured-pruning comparison in x2 and the explicit confidence-loss addition in x3. Substantial repairs remain: x1 overlooks ref-042, x2 misstates ref-055, and x3 leaves OOD confidence and its margin objective ambiguous. Y is largely a restatement of existing contributions: y2 repeats ref-029, y3 repeats ref-005, and y1 does not distinguish itself from the flat-minimum failure-prediction findings and combined techniques in refs-002 and ref-059. X would better serve a researcher choosing a next experiment.",
+    "verdict": "X"
+  }
+}
+tokens used
+36,555

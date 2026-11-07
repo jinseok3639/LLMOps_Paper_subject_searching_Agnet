@@ -1,0 +1,13 @@
+{
+ "title": "Interpretable Adversarial Detection in EEG-Based BCIs via Feature Space Alignment",
+ "summary": "This paper proposes a novel adversarial detection method for EEG-BCIs by aligning feature distributions between clean and perturbed inputs using domain adaptation. The approach leverages EEGNet's spatial-spectral filters to identify anomalous activations indicative of attacks. A domain classifier is trained on intermediate EEGNet layers with a consistency loss enforcing feature alignment, and detected anomalies are visualized via EEGNet's built-in interpretability tools. Evaluation demonstrates high detection accuracy across attack types while preserving classification performance.",
+ "gap": "Current adversarial detection in BCIs, such as Mahalanobis distance-based methods (ref-021), relies on post-hoc statistical tests that lack interpretability and do not exploit the structured feature hierarchies learned by EEG-specific CNNs. While these methods achieve high detection accuracy for white-box attacks, they fail to generalize under distribution shifts (e.g., unseen attack types or subjects) and provide limited insight into attack mechanisms.",
+ "approach": "Train a domain classifier to distinguish clean vs. adversarial examples using intermediate EEGNet layer outputs. Regularize the domain classifier with a KL-divergence-based consistency loss enforcing alignment between clean and perturbed feature distributions. Visualize detected anomalies via EEGNet's temporal filtering and spatial activation maps. The approach differs from ref-021 by explicitly aligning feature distributions rather than relying on distance metrics and by leveraging EEGNet's interpretability tools to map anomalies to EEG signal components.",
+ "evaluation": "Test on the BCI Competition IV P300, ERN, and SMR datasets (ref-001) under FGSM, PGD, and universal perturbations (ref-024). Measure AUC-ROC for detection and compare false positive rates against baseline detectors (Mahalanobis distance, cosine similarity from ref-021). Assess transferability to unseen attack types and subjects. Conduct ablation studies isolating the consistency loss contribution by comparing detection performance with and without the KL-divergence regularization. Report classification accuracy on clean data to ensure performance preservation.",
+ "support": [
+  "ref-001",
+  "ref-011",
+  "ref-021",
+  "ref-024"
+ ]
+}

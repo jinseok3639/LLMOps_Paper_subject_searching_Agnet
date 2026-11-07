@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet's cross-paradigm performance, Parseval constraints, CLEVER, and EEG attack vulnerability are supported by ref-001, ref-010, ref-009, ref-021, and ref-024. However, the references do not establish that Parseval methods are unexplored throughout EEG research. They also do not support equating spectral normalization with tight-frame constraints or claiming stable predictions and preserved accuracy from constraining EEGNet's convolutional layers alone. Ref-005 supplies a verification framework that the candidate does not actually apply.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The combination of demonstrated EEG vulnerability in ref-024 and improved robustness from Parseval constraints in ref-010 motivates testing these constraints in EEGNet. The supplied references leave this experiment open. However, the candidate frames the gap broadly as missing robustness guarantees and unexplored EEG applications, while the concrete experiment primarily concerns empirical robustness.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate names EEGNet, a convolutional constraint intervention, FGSM/PGD attacks, CLEVER, accuracy, adversarial loss, and leave-one-subject-out validation (ref-001, ref-009, ref-010). However, attack norms and budgets, exact datasets, and the adaptation of the computer-vision Parseval baseline are unspecified. The procedure for enforcing the tight-frame constraints described in ref-010 also needs clarification.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Comparing constrained and standard EEGNet under attacks could test whether the intervention improves empirical robustness while preserving accuracy (ref-001, ref-010, ref-024). However, the approach does not establish that spectral normalization implements the proposed tight-frame constraints. Attack evaluations and CLEVER estimates also do not establish the formal guarantees invoked by the gap; no verification procedure from ref-005 is included.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether Parseval constraints improve EEGNet's robustness without hurting decoding accuracy could inform BCI training choices, given the vulnerabilities in ref-024 and the robustness results in ref-010. The expected contribution is nevertheless a fairly direct transfer of an existing method. Without stronger certification or broader validation addressing the generalization concerns in ref-007, its likely impact is meaningful but narrow.",
+  "score": 3
+ }
+}

@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "weakest": {
+  "X": "x1",
+  "Y": "y1"
+ },
+ "best": {
+  "rationale": "x3 offers a clearer experiment and a more actionable result: extend the proxy-overoptimization study in ref-006 to safety scorers, compare safety and helpfulness on matched prompts, and test whether small-N measurements predict a useful sampling cap. Independent judges and human checks strengthen the evaluation. Its proposed log-N divergence proxy still needs justification. y3 plausibly transfers guideline-based safety reasoning from policy training to reward-model training (ref-007), but its critique-and-revision preference pipeline substantially overlaps Constitutional AI (ref-013). It needs matched data-generation controls and a specified downstream selection procedure to attribute changes in jailbreak success to the proposed training data.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x1 leaves its central mechanism unresolved between pessimistic rejection and MBR regularization, and simultaneous monotonic improvement in true safety and helpfulness is substantially stronger than the supplied references establish. Nevertheless, testing constrained selection under cost-model error is a meaningful extension: ref-012 addresses expected modeled cost, while ref-020 explicitly makes guarantees relative to its cost model. y1 rests on an unsupported claim that InferenceTimePessimism assumes uniform coverage; ref-004 already makes coverage central and addresses more realistic coverage conditions. Neither its coverage estimator nor the connection between estimated coverage and rejection thresholds is specified sufficiently to repair that gap.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X contains genuinely different contributions—regularized constrained selection, adaptive defender compute allocation, and an empirical safety-overoptimization study—but all center on safety selection as Best-of-N grows. Y spans coverage-dependent inference-time alignment, prompt-dependent safety constraints including token-level decoding, and preference-data generation for reward-model training. The training intervention in y3 gives Y broader methodological and research-gap coverage, despite its overlap with ref-013.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X would better support a researcher's choice. x3 provides a controlled study with an explicit predictive evaluation, while x2 connects adaptive compute allocation (ref-002) to attacker sampling (ref-024), measuring robustness, defender compute, and benign helpfulness with evaluation safeguards motivated by ref-021. X still overstates some gaps: the references do not establish that existing safe inference methods universally use fixed budgets or that LARA assumes accurate models. Y has broader coverage, but y1's unsupported coverage premise, y2's unspecified complexity-to-constraint mapping and omission of ordinary LARA as a baseline, and y3's unaddressed Constitutional AI overlap leave fewer well-founded starting points. y2 also overstates safety guarantees for token-level decoding, which ref-012 explicitly describes as heuristic.",
+  "verdict": "X"
+ }
+}

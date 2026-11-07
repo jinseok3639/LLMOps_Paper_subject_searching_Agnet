@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "Both strongest candidates test Parseval constraints in EEGNet, extending ref-010 to the architecture in ref-001. x2 better isolates the scientific question through spatial-only versus all-layer constraints and comparisons with adversarial training and Cross-Lipschitz regularization (ref-013, ref-022). Its certified accuracy and universal-attack evaluations directly test the proposed accuracy–robustness tradeoff. y1 instead treats spectral normalization as sufficient to impose Parseval tight frames, which does not follow: bounding the largest singular value does not enforce the tight-frame condition. Its CLEVER evaluation also supplies an estimate rather than the formal guarantee suggested by its gap (ref-009).",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x3 has substantial limitations: prediction stability does not certify command correctness or physical safety, and ref-021 reports evaluating unknown-attack transfer without establishing the claimed poorer transfer. Nevertheless, its abstention policy, detector baselines, risk–coverage curves, and latency measurements define a useful empirical experiment. y3 has a more fundamental grounding and evaluation failure: ref-006 records intracortical neuronal ensembles, not the EEG signals it proposes to use for physical testing. Motor-imagery EEG certification therefore does not establish its claimed implantable-BCI safety. The bounded-output guarantees in ref-005 and ref-020 do not bridge that mismatch.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X covers a certification audit, constrained training, and runtime abstention. Y covers constrained training, adversarial training, and certification. X's runtime decision policy adds a distinct application, while Y's robust-optimization intervention is materially different from Parseval constraints (ref-013 versus ref-010). Both sets remain concentrated on adversarial robustness of EEG decoders and contain three distinguishable experimental approaches; neither has a clear diversity advantage.",
+  "verdict": "tie"
+ },
+ "overall": {
+  "rationale": "X provides more actionable, coherent experiments, particularly x2's controlled training comparison and x1's multi-dataset comparison of certificates with attacks, consistent with ref-007's validation concerns. X still needs repairs: x1 must specify bounded activation domains or valid slope bounds for square/log nonlinearities, and x3 must distinguish robustness from correctness. Y has more central problems across its options: y1's constraint implementation is mismatched, y2's claim that existing evaluations focus on single datasets or attacks overlooks ref-021's multi-dataset, multi-attack study and ref-024's transfer experiments, and y3 misidentifies its evaluation modality. These issues make Y less useful for selecting a well-supported research project.",
+  "verdict": "X"
+ }
+}

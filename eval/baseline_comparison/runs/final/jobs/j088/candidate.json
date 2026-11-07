@@ -1,0 +1,14 @@
+{
+ "title": "Masked Image Modeling Pretraining Enhances Out-of-Distribution Detection Without OOD Data",
+ "summary": "We propose that masked image modeling (MIM) pretraining improves OOD detection by learning intrinsic in-distribution features without requiring OOD samples. Unlike contrastive or supervised methods, MIM forces models to reconstruct missing patches, capturing structural patterns unique to in-distribution data. We evaluate this by training ViT models on ImageNet with MAE pretraining and measuring OOD detection performance on benchmarks like ImageNet vs. Textures, iNaturalist, and NINCO, comparing against supervised and contrastive baselines.",
+ "gap": "Existing OOD detection methods often rely on post-hoc techniques or OOD data during training, while MIM's reconstruction-based pretraining offers an assumption-free alternative. Ref-036 shows reconstruction-based methods can outperform outlier exposure, and ref-045 includes post-hoc methods (e.g., ODIN) that do not use OOD data. However, no work isolates how MIM pretraining alone improves OOD detection without fine-tuning.",
+ "approach": "Pretrain ViT-B/16 models using MAE on ImageNet-1K, then fine-tune for classification. Use reconstruction error from the pretrained encoder (before fine-tuning) as an OOD score. Test on ImageNet vs. Textures, iNaturalist, and NINCO using AUROC, FPR95. Compare against supervised ViT, MoCo-v3, and post-hoc methods (ODIN, GradNorm) under identical pretraining/fine-tuning settings. Quantify feature space compactness via average pairwise distances within/across classes for ID vs. OOD samples.",
+ "evaluation": "Baselines: supervised ViT, MoCo-v3, ODIN, GradNorm. Metrics: AUROC, FPR95. Ablations: (1) reconstruction error from pretrained vs. fine-tuned models, (2) comparison against GradNorm (ref-060) to isolate reconstruction vs. gradient-based methods. Datasets: ImageNet-1K (ID), Textures, iNaturalist, NINCO (OOD). Feature compactness measured as mean intra-class distance in the encoder's feature space.",
+ "support": [
+  "ref-036",
+  "ref-040",
+  "ref-045",
+  "ref-047",
+  "ref-060"
+ ]
+}

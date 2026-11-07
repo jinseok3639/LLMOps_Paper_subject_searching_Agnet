@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "x1 offers a clearer controlled test: compare copyright-prioritized deduplication against generic deduplication and random subsampling, measuring extraction and utility. Its central intervention extends the established result in ref-011, using duplicate detection supported by ref-019. However, ref-036 does not substantiate copyright metadata, and ref-035 supplies neither the claimed book collection nor an exact-match-only definition of memorization. y1's adaptation of ref-004 to code is plausible, but the unsafe-code policy and attack distribution need specification, and its memorization metric is poorly connected to its intervention. It also incorrectly cites the novel ref-016 as alignment research. x1 has the stronger experimental core.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "Both weakest candidates overstate what technical measurements establish legally. x3 invents legal substantial-similarity thresholds attributed to ref-035, whose definition concerns near-exact reconstruction of substantial portions, and understates ref-009's existing compliance motivation. Nevertheless, its ACR and probabilistic-extraction comparisons, recovery metrics, and nonmember controls provide a usable technical experiment (ref-009, ref-029). y2 additionally asserts an unsupported legal requirement, leaves copyright compliance scores undefined, and does not clearly isolate auditing from the targeted removal needed to change model behavior. Its proposed 90% reduction also matches the tenfold reduction already reported in ref-011. x3 is marginally stronger.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "Y spans code-specific safety guardrails, training-data intervention with auditing, and defenses against transferable jailbreaks. Although y1 and y3 share constitutional classifiers, domain adaptation and ensemble defense address different questions. X includes a distinct prevention intervention in x1, but x2 and x3 both center on adversarial elicitation and measurement of memorized content. Y therefore provides broader substantive choices.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X offers the better set of research starting points, principally through x1's focused intervention and controlled comparisons. x2 also proposes a concrete extraction-method comparison, although ref-007 and ref-050 do not establish the claimed suffix methods, and HumanEval reproduction alone cannot demonstrate training-data memorization (ref-001). Y's broader coverage is weakened by y2's unsupported compliance claims and y3's assertion that constitutional classifiers fail against transferable attacks: ref-004 instead reports robust held-out defenses. y3 also bundles an ensemble, meta-classifier, and anomaly detector without isolating a single change. X's advantages are modest, and every candidate needs corrections.",
+  "verdict": "X"
+ }
+}

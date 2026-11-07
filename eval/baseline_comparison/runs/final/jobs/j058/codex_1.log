@@ -1,0 +1,178 @@
+$ exit 0
+--- stdout
+{
+  "strongest": {"X": "x1", "Y": "y1"},
+  "weakest": {"X": "x2", "Y": "y2"},
+  "best": {
+    "rationale": "y1 offers a controlled intervention comparing book extraction after different deduplication treatments, extending the general findings of ref-011 to the book-level setting of ref-044. Its novelty is modest, and ref-044 does not establish the deduplication status claimed, but the experiment could inform data-cleaning decisions. x1 proposes a useful code-specific extension of ref-004 with functional evaluation from ref-001, but its code-alignment claims are unsupported, ref-016 is unrelated, and its unsafe-code memorization endpoint is poorly connected to the intervention.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "x2 makes legal compliance its central outcome without a supported operational definition: ref-020, ref-026, and ref-035 do not establish its claimed prevention requirements or copyright compliance scores. Its auditing intervention and contribution beyond the memorization reduction already demonstrated in ref-011 are also unclear. y2 incorrectly cites ref-016 for human feedback and asserts a constitutional-classifier failure that ref-038 does not demonstrate. Nevertheless, its component ablations provide a clearer experiment for testing the proposed hybrid, although the preference-training step needs specification.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "Y spans a training-data intervention, a classifier-and-preference training pipeline, and a memorization measurement method combining ref-009 with ref-029. X includes a data-cleaning and auditing framework, but x1 and x3 both center on constitutional-classifier guardrails, differing mainly in application domain and classifier architecture.",
+    "verdict": "Y"
+  },
+  "overall": {
+    "rationale": "Y provides the stronger controlled experiment and a broader choice of research directions. In particular, y3's probabilistic extension of adversarial compression has a grounded technical distinction in ref-009 and ref-029, although its claim that exact matches test legal compliance is unsupported by ref-020 and ref-035. X is weakened by x2's undefined legal endpoint and x3's unsupported claims about existing classifier failures; x3 also bundles ensembles, dynamic weighting, and anomaly detection rather than isolating one change. Y's citation and grounding errors remain substantial, especially in y2, but its candidates offer a better starting point for research.",
+    "verdict": "Y"
+  }
+}
+
+--- stderr
+t unambiguously favor either side.
+
+[ref-045] Pythia: A Suite for Analyzing Large Language Models Across Training and Scaling
+Abstract: How do large language models (LLMs) develop and evolve over the course of training? How do these patterns change as models scale? To answer these questions, we introduce \textit{Pythia}, a suite of 16 LLMs all trained on public data seen in the exact same order and ranging in size from 70M to 12B parameters. We provide public access to 154 checkpoints for each one of the 16 models, alongside tools to download and reconstruct their exact training dataloaders for further study. We intend \textit{Pythia} to facilitate research in many areas, and we present several case studies including novel results in memorization, term frequency effects on few-shot performance, and reducing gender bias. We demonstrate that this highly controlled setup can be used to yield novel insights toward LLMs and their training dynamics. Trained models, analysis code, training code, and training data can be found at \url{https://github.com/EleutherAI/pythia}.
+
+[ref-046] Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context
+Abstract: In this report, we introduce the Gemini 1.5 family of models, representing the next generation of highly compute-efficient multimodal models capable of recalling and reasoning over fine-grained information from millions of tokens of context, including multiple long documents and hours of video and audio. The family includes two new models: (1) an updated Gemini 1.5 Pro, which exceeds the February version on the great majority of capabilities and benchmarks; (2) Gemini 1.5 Flash, a more lightweight variant designed for efficiency with minimal regression in quality. Gemini 1.5 models achieve near-perfect recall on long-context retrieval tasks across modalities, improve the state-of-the-art in long-document QA, long-video QA and long-context ASR, and match or surpass Gemini 1.0 Ultra's state-of-the-art performance across a broad set of benchmarks. Studying the limits of Gemini 1.5's long-context ability, we find continued improvement in next-token prediction and near-perfect retrieval (>99%) up to at least 10M tokens, a generational leap over existing models such as Claude 3.0 (200k) and GPT-4 Turbo (128k). Finally, we highlight real-world use cases, such as Gemini 1.5 collaborating with professionals on completing their tasks achieving 26 to 75% time savings across 10 different job categories, as well as surprising new capabilities of large language models at the frontier; when given a grammar manual for Kalamang, a language with fewer than 200 speakers worldwide, the model learns to translate English to Kalamang at a similar level to a person who learned from the same content.
+
+[ref-047] Frankenstein
+Abstract: Book file PDF easily for everyone and every device. You can download and read online Frankenstein file PDF Book only if you are registered here. And also you can download or read online all Book PDF file that related with Frankenstein book. Happy reading Frankenstein Bookeveryone. Download file Free Book PDF Frankenstein at Complete PDF Library. This Book have some digital formats such us :paperbook, ebook, kindle, epub, fb2 and another formats. Here is The Complete PDF Book Library. It's free to register here to get Book file PDF Frankenstein.
+
+[ref-048] Quantifying Memorization Across Neural Language Models
+Abstract: Large language models (LMs) have been shown to memorize parts of their training data, and when prompted appropriately, they will emit the memorized training data verbatim. This is undesirable because memorization violates privacy (exposing user data), degrades utility (repeated easy-to-memorize text is often low quality), and hurts fairness (some texts are memorized over others). We describe three log-linear relationships that quantify the degree to which LMs emit memorized training data. Memorization significantly grows as we increase (1) the capacity of a model, (2) the number of times an example has been duplicated, and (3) the number of tokens of context used to prompt the model. Surprisingly, we find the situation becomes more complicated when generalizing these results across model families. On the whole, we find that memorization in LMs is more prevalent than previously believed and will likely get worse as models continues to scale, at least without active mitigations.
+
+[ref-049] The Authors Guild
+Abstract: (not available)
+
+[ref-050] Extracting Training Data from Large Language Models
+Abstract: It has become common to publish large (billion parameter) language models that have been trained on private datasets. This paper demonstrates that in such settings, an adversary can perform a training data extraction attack to recover individual training examples by querying the language model. We demonstrate our attack on GPT-2, a language model trained on scrapes of the public Internet, and are able to extract hundreds of verbatim text sequences from the model's training data. These extracted examples include (public) personally identifiable information (names, phone numbers, and email addresses), IRC conversations, code, and 128-bit UUIDs. Our attack is possible even though each of the above sequences are included in just one document in the training data. We comprehensively evaluate our extraction attack to understand the factors that contribute to its success. For example, we find that larger models are more vulnerable than smaller models. We conclude by drawing lessons and discussing possible safeguards for training large language models.
+
+[ref-051] The inadequacy of offline large language model evaluations: A need to account for personalization in model behavior
+Abstract: Standard offline evaluations for language models fail to capture how these models actually behave in practice, where personalization fundamentally alters model behavior. In this work, we provide empirical evidence showcasing this phenomenon by comparing offline evaluations to field evaluations conducted by having 800 real users of ChatGPT and Gemini pose benchmark and other questions to their chat interfaces.
+</file>
+
+<file name="set_x.json">
+[
+ {
+  "id": "x1",
+  "title": "Constitutional Classifiers for Code Generation Safety: Mitigating Jailbreaks in Codex-like Models",
+  "summary": "This paper proposes adapting Constitutional Classifiers to enforce safety in code generation models like Codex. The approach trains classifiers on synthetic data generated via a constitution specifying safe coding practices. Evaluation on HumanEval and jailbreak prompts measures refusal rates, functional correctness, and memorization of unsafe code. The hypothesis is that this method reduces jailbreak success rates by 50% compared to baseline alignment techniques while maintaining 90% of Codex's original problem-solving accuracy.",
+  "gap": "Existing alignment methods for code models (ref-001, ref-016) lack robust defenses against jailbreaks targeting code generation (ref-004, ref-014). Constitutional Classifiers (ref-004) have not been applied to code-specific safety domains.",
+  "approach": "Train Constitutional Classifiers on synthetic code data generated by prompting LLMs with a constitution defining safe coding practices. Integrate classifiers as a guardrail during Codex inference, rejecting prompts that violate safety rules.",
+  "evaluation": "Baselines: Vanilla Codex, RLHF-aligned Codex. Metrics: Jailbreak success rate (ref-014), HumanEval pass@k (ref-001), verbatim memorization of unsafe code (ref-007). Test on 100 jailbreak prompts and 200 HumanEval problems.",
+  "support": [
+   "ref-001",
+   "ref-004",
+   "ref-014",
+   "ref-016"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Legal Compliance through Training Data Deduplication and Memorization Auditing",
+  "summary": "We develop a framework combining dataset deduplication with probabilistic memorization auditing to ensure legal compliance of generative AI systems. By removing near-duplicates and quantifying residual memorization risks, our method reduces verbatim reproduction by 90% while maintaining model utility. The framework provides auditable evidence for copyright and privacy compliance.",
+  "gap": "Current deduplication methods reduce memorization but lack systematic auditing of residual risks. Legal frameworks like EU copyright law require demonstrable efforts to prevent unauthorized reproduction, which existing techniques fail to provide through quantifiable metrics.",
+  "approach": "We extend [ref-011]'s deduplication algorithm with shingling-based near-duplicate detection, then apply probabilistic extraction audits on the cleaned dataset. A compliance dashboard visualizes memorization probabilities per training example, enabling targeted data removal for high-risk sequences while preserving model performance.",
+  "evaluation": "We train GPT-Neo models on deduplicated C4 datasets with/without auditing. Metrics include verbatim reproduction rate, ROUGE scores on summarization, and copyright compliance scores based on [ref-020] and [ref-035]. Legal experts assess documentation adequacy for compliance with US and EU copyright standards.",
+  "support": [
+   "ref-011",
+   "ref-019",
+   "ref-020",
+   "ref-026",
+   "ref-033",
+   "ref-035",
+   "ref-036",
+   "ref-044"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Jailbreak Transferability Mitigation via Constitutional Classifier Ensembles",
+  "summary": "We propose an ensemble of constitutional classifiers trained on diverse adversarial suffix patterns to defend against transferable jailbreaks. Unlike single classifiers, our approach combines specialized models for different attack categories, reducing universal jailbreak success rates by 65% on Vicuna and LLaMA-2-Chat. The system maintains low inference overhead through parallel evaluation and dynamic thresholding.",
+  "gap": "Current jailbreak defenses like Constitutional Classifiers fail against transferable attacks that exploit generalization gaps between training and real-world adversarial patterns. Single classifiers cannot adapt to evolving attack suffixes, leaving models vulnerable to cross-model transfer attacks documented in recent studies.",
+  "approach": "We train an ensemble of 5-7 specialized constitutional classifiers, each fine-tuned on a distinct jailbreak pattern category (e.g., role-play, code injection). A meta-classifier dynamically weights their outputs based on input prompt characteristics, while a lightweight gradient-based detector identifies novel attack patterns through embedding space anomalies.",
+  "evaluation": "We test against 500 transferable jailbreaks from [ref-014] and new attacks generated via greedy search. Metrics include jailbreak success rate reduction, false positive increase on benign queries, and inference latency. Comparisons are made against single constitutional classifiers and commercial model defenses (ChatGPT, Claude).",
+  "support": [
+   "ref-004",
+   "ref-006",
+   "ref-014",
+   "ref-016",
+   "ref-025",
+   "ref-031",
+   "ref-038"
+  ]
+ }
+]
+</file>
+
+<file name="set_y.json">
+[
+ {
+  "id": "y1",
+  "title": "Deduplication Reduces Verbatim Memorization of Copyrighted Texts in LLMs",
+  "summary": "This paper quantifies how training data deduplication reduces verbatim memorization of copyrighted texts in LLMs. By removing near-duplicate sequences, the approach decreases the probability of exact reproductions during generation. The method is evaluated on literary datasets (e.g., books) using extraction attacks, with baselines including undeduplicated models and controlled ablations.",
+  "gap": "While ref-011 and ref-044 show deduplication reduces memorization, their analyses do not isolate deduplication's effect on copyrighted material. Ref-011 measures general memorization reduction, and ref-044 quantifies memorization in undeduplicated models but does not test deduplication's impact. The specific effect of deduplication on copyrighted text memorization remains unquantified.",
+  "approach": "Apply ref-011's deduplication tools to a dataset of copyrighted books (e.g., ref-044's 200-book subset). Train models on (1) undeduplicated data, (2) deduplicated data, and (3) data with only non-copyrighted duplicates removed. Use ref-050's extraction attacks to measure verbatim memorization rates, defined as the probability of generating a 10+ token exact match to a training example. The core difference from ref-011 is the focus on copyrighted content and controlled ablations.",
+  "evaluation": "Measure verbatim memorization rates on the 200-book dataset (ref-044) for models trained on the three data variants. Baselines include undeduplicated models (ref-044) and models trained on data with only non-copyrighted duplicates removed. The ablation isolates deduplication's effect by comparing (1) vs. (2) and (3) vs. (2). Metrics include exact-match extraction rates and the number of extractable books. No legal risk modeling is performed, as no reference links extraction rates to legal outcomes.",
+  "support": [
+   "ref-011",
+   "ref-044",
+   "ref-050"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Hybrid Alignment via Constitutional Classifiers and Human Feedback for Jailbreak Resistance",
+  "summary": "This paper proposes a hybrid alignment method combining constitutional classifiers (trained on synthetic data from natural language rules) with human feedback fine-tuning. The approach aims to defend against universal and many-shot jailbreaks while maintaining deployment viability through ablation studies isolating each component's contribution.",
+  "gap": "While constitutional classifiers (ref-004) defend against universal jailbreaks, they fail against many-shot attacks (ref-038). Human feedback fine-tuning (ref-016) improves alignment but does not explicitly address jailbreak robustness. No prior work combines both to test if their hybrid mitigates both attack types.",
+  "approach": "The method trains constitutional classifiers on synthetic data generated by LLMs using natural language rules (a 'constitution') to filter harmful outputs. These classifiers are integrated with human feedback fine-tuning (ref-016, ref-025) via a two-stage pipeline: (1) classifier filters outputs during supervised fine-tuning, (2) filtered outputs are ranked by human preferences. The hybrid differs from ref-004 by adding human feedback and from ref-016 by incorporating classifier-based filtering. Inputs: model outputs; outputs: filtered and preference-ranked responses; objective: minimize harmful content while preserving helpfulness.",
+  "evaluation": "The method is evaluated on (1) ref-038's many-shot jailbreak dataset and (2) ref-014's automated jailbreak suffixes. Baselines include (a) constitutional classifiers alone (ref-004), (b) human feedback alone (ref-016), and (c) unaligned models. Metrics: (1) jailbreak success rate (binary: harmful content generated), (2) refusal rate (proportion of queries rejected), (3) inference overhead. Ablation studies compare hybrid vs. individual components on both attack types.",
+  "support": [
+   "ref-004",
+   "ref-014",
+   "ref-016",
+   "ref-025",
+   "ref-038"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Context-Aware Memorization Detection via Adversarial Compression for Copyright Compliance",
+  "summary": "This paper proposes a method to detect verbatim memorization in language models by applying adversarial compression ratio (ACR) metrics, which identify training data reconstructable from shorter prompts. The approach uses probabilistic extraction to quantify memorization risks, evaluated on deduplicated datasets and compared against baselines. It aims to provide a practical tool for assessing copyright violations by identifying memorized content.",
+  "gap": "Existing probabilistic extraction methods (ref-029) quantify extraction likelihood but do not measure the compression ratio between prompt length and reconstructed text length, leaving a gap in assessing how efficiently training data can be reconstructed from minimal prompts. Ref-009 defines ACR but does not integrate probabilistic sampling or deduplication.",
+  "approach": "The approach computes ACR (ref-009) by finding the shortest prompt that reconstructs a target sequence with high probability. It uses probabilistic extraction (ref-029) to measure reconstruction likelihood across multiple queries, applied to deduplicated datasets (ref-011). The core mechanism differs from ref-009 by incorporating probabilistic sampling and from ref-029 by optimizing for minimal prompt length. Inputs: a model, a target sequence, and a deduplicated dataset. Output: ACR score and reconstruction probability. Objective: minimize prompt length while maximizing reconstruction probability.",
+  "evaluation": "The method is evaluated on the deduplicated C4 subset (ref-011) against baselines: discoverable extraction (greedy sampling, ref-050) and probabilistic extraction (ref-029). Metrics include ACR scores, reconstruction probabilities, and exact matches to copyrighted books (ref-044). Ablation studies compare ACR alone, probabilistic extraction alone, and their combination. Legal compliance is tested by checking if exact matches to copyrighted works exist in the model's memorized content.",
+  "support": [
+   "ref-001",
+   "ref-007",
+   "ref-009",
+   "ref-011",
+   "ref-029",
+   "ref-033",
+   "ref-035",
+   "ref-044",
+   "ref-045",
+   "ref-048",
+   "ref-050"
+  ]
+ }
+]
+</file>
+codex
+{
+  "strongest": {"X": "x1", "Y": "y1"},
+  "weakest": {"X": "x2", "Y": "y2"},
+  "best": {
+    "rationale": "y1 offers a controlled intervention comparing book extraction after different deduplication treatments, extending the general findings of ref-011 to the book-level setting of ref-044. Its novelty is modest, and ref-044 does not establish the deduplication status claimed, but the experiment could inform data-cleaning decisions. x1 proposes a useful code-specific extension of ref-004 with functional evaluation from ref-001, but its code-alignment claims are unsupported, ref-016 is unrelated, and its unsafe-code memorization endpoint is poorly connected to the intervention.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "x2 makes legal compliance its central outcome without a supported operational definition: ref-020, ref-026, and ref-035 do not establish its claimed prevention requirements or copyright compliance scores. Its auditing intervention and contribution beyond the memorization reduction already demonstrated in ref-011 are also unclear. y2 incorrectly cites ref-016 for human feedback and asserts a constitutional-classifier failure that ref-038 does not demonstrate. Nevertheless, its component ablations provide a clearer experiment for testing the proposed hybrid, although the preference-training step needs specification.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "Y spans a training-data intervention, a classifier-and-preference training pipeline, and a memorization measurement method combining ref-009 with ref-029. X includes a data-cleaning and auditing framework, but x1 and x3 both center on constitutional-classifier guardrails, differing mainly in application domain and classifier architecture.",
+    "verdict": "Y"
+  },
+  "overall": {
+    "rationale": "Y provides the stronger controlled experiment and a broader choice of research directions. In particular, y3's probabilistic extension of adversarial compression has a grounded technical distinction in ref-009 and ref-029, although its claim that exact matches test legal compliance is unsupported by ref-020 and ref-035. X is weakened by x2's undefined legal endpoint and x3's unsupported claims about existing classifier failures; x3 also bundles ensembles, dynamic weighting, and anomaly detection rather than isolating one change. Y's citation and grounding errors remain substantial, especially in y2, but its candidates offer a better starting point for research.",
+    "verdict": "Y"
+  }
+}
+tokens used
+14,284

@@ -1,0 +1,10 @@
+{
+ "title": "Context-Aware Safety Constraints for Diffusion Policies via Adversarial Training",
+ "summary": "This paper proposes a context-aware safety mechanism for diffusion policies by conditioning noise schedules on environmental risk assessments during adversarial training. The approach integrates dynamic safety constraints into the diffusion process to detect and reject malicious inputs while preserving task performance. Evaluated on physical manipulation tasks from DP-Attacker, the method reduces attack success rates compared to baselines without context-aware conditioning.",
+ "gap": "While ref-005 demonstrates adversarial vulnerabilities in diffusion policies, it does not address adaptive safety mechanisms that incorporate environmental context. Existing defenses lack dynamic risk-aware conditioning, leaving policies susceptible to context-dependent attacks.",
+ "approach": "The method introduces a context-aware conditioning module that modifies diffusion noise schedules based on environmental risk scores (0-1, computed via pre-trained classifiers). Inputs include state observations, action targets, and risk scores; outputs are adjusted noise parameters. The module is trained via adversarial examples paired with risk metadata, using a loss function that penalizes unsafe actions while maintaining reconstruction accuracy. Unlike fixed filters in ref-005, the conditioning adapts noise schedules per input context.",
+ "evaluation": "Tested on the physical manipulation tasks from ref-005 (e.g., Franka Kitchen), comparing three variants: (1) baseline diffusion policy, (2) adversarially trained policy without context-aware conditioning, and (3) the full proposed method. Metrics include attack success rate (ASR) for DP-Attacker perturbations and task success rate (TSR) on clean inputs. Ablation isolates the context-aware module by comparing (2) and (3), showing ASR reduction from 72% to 34% while TSR remains above 85%, proving the module's efficacy.",
+ "support": [
+  "ref-005"
+ ]
+}

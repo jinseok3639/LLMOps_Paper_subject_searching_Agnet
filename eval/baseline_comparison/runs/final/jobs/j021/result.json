@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-004 supports value equivalence as matching Bellman updates, and ref-015 supports trajectory-guided multi-step control. However, ref-004 does not establish the claimed reduction of compounding Bellman errors or safety guarantee. ref-025 describes multi-teacher trajectory distillation, not a planning–control connection. Cross-attention and Town05 long routes are not specified in ref-015. The stated 18% collision reduction and 12% route-completion improvement have no supplied evidence.",
+  "score": 1
+ },
+ "gap": {
+  "rationale": "Applying value-equivalent model learning from ref-004 to TCP's multi-step control branch in ref-015 is an unresolved, reasonably scoped direction within this corpus. However, the references do not establish that TCP suffers from compounding Bellman errors, and ref-025 does not support treating Hydra-MDP as another trajectory-guided control method. The gap is plausible but its motivating diagnosis is unsupported.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies a latent dynamics model, an explicit loss, trajectory conditioning, TCP and Hydra-MDP baselines, CARLA outcomes, and a loss-removal ablation. However, it leaves the reward, Q/V learning procedure, policy/function set for value equivalence, loss weighting, and Bellman error metric undefined. It also does not explain how the NAVSIM-based method in ref-025 would be adapted for the CARLA comparison with ref-015.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "The CARLA outcomes and ablation could test whether an auxiliary loss improves TCP's control performance (ref-015). However, internal TD consistency between learned values and predicted transitions does not establish the matching of model and environment Bellman updates defined in ref-004. Without specified rewards or reference updates, the proposed mechanism and latent Bellman metric could be self-consistent without preserving useful values, leaving the central claim inadequately tested.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "A controlled demonstration that value-oriented dynamics improve trajectory-guided control could inform whether TCP-style systems should incorporate model-based learning objectives (ref-004, ref-015). That would be meaningful, but the current design would primarily establish the usefulness of one auxiliary loss rather than justify broader conclusions about value equivalence or safe control. Its likely contribution is therefore useful but narrow.",
+  "score": 3
+ }
+}

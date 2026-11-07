@@ -1,0 +1,370 @@
+{
+ "sample": "t009",
+ "condition": "D",
+ "n_refs": 51,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Beyond Verbatim: Near-Duplicate Alignment Metrics for Measuring Book Regurgitation in Production Chat Models Under Jailbreak and Divergence Attacks",
+   "summary": "Extraction studies of copyrighted books mostly use exact-match or near-verbatim criteria on open-weight models. This proposal tests whether production aligned chat models regurgitate book text in forms that exact-match criteria miss. We would combine jailbreak and divergence prompting with a structural text-alignment and near-duplicate detection pipeline (shingling and alignment-based similarity) to score paraphrased, reordered, or partially copied output. We compare recovered book coverage against exact-match and prefix-continuation extraction across several books and models. The aim is a legally interpretable, graded measure of how much protected expression an aligned system emits.",
+   "gap": "Book-extraction work uses a specific near-verbatim methodology on open-weight models. Attacks on aligned production models were evaluated on generic training data, not book-level coverage. Similarity and near-duplicate tools exist but have not been combined with attacks to measure partial or non-verbatim book regurgitation in aligned systems.",
+   "approach": "1) Choose books, some likely memorized and some not (e.g., widely read novels). 2) Elicit text from open-weight and API chat models using prefix continuation, divergence-style prompts, adversarial suffixes and many-shot prompting. 3) Align outputs to the source book with structural book alignment, shingling/random-projection near-duplicate detection and embedding-based similarity. 4) Compute coverage of the book at several similarity thresholds, and compare with an exact-match definition.",
+   "evaluation": "Compare recovered-book fraction under exact-match versus graded similarity criteria, per model, book and attack. Measure the fraction of regurgitation missed by exact-match metrics, precision of the alignment against human-verified matches, and the effect of alignment training (aligned versus base model). Baselines: prefix-continuation greedy extraction and probabilistic extraction.",
+   "support": [
+    "ref-044",
+    "ref-007",
+    "ref-014",
+    "ref-038",
+    "ref-019",
+    "ref-034",
+    "ref-036",
+    "ref-008",
+    "ref-035",
+    "ref-029"
+   ]
+  },
+  {
+   "title": "Does Constitutional-Style Output Classification Close the Copyright Regurgitation Gap? Guarding Against Memorized-Book Extraction",
+   "summary": "Safety classifiers were designed to stop universal jailbreaks for harmful content, but regurgitation of copyrighted text is a different failure that alignment does not remove. This proposal trains a classifier on synthetic data generated from a natural-language 'copyright constitution' to block verbatim or near-verbatim book output, and tests it against divergence, adversarial-suffix and many-shot attacks. Validation uses open-weight models known to memorize specific books, measuring extraction blocked, refusal rates on benign queries, and compute overhead, versus a baseline n-gram filter.",
+   "gap": "Constitutional classifiers defend against jailbreaks for harmful content, while extraction research shows that alignment does not remove memorization and that attacks bypass it. No cited work tests whether synthetic-data, rule-driven classifiers can guard against memorized copyrighted text, or how they compare to simple filters when attackers adapt.",
+   "approach": "Write a constitution that defines permitted (summaries, short quotations, discussion) versus restricted (extended near-verbatim reproduction) output. Generate synthetic positive and negative examples with an LLM, using memorized passages from a model known to have memorized specific books. Train input and output classifiers, with streaming output classification. Red-team using divergence, adversarial suffix and many-shot jailbreaks, and paraphrase-evasion.",
+   "evaluation": "Metrics: fraction of book text extractable with versus without the classifier (using the book memorization extraction procedure), attack success under adaptive attacks, false-refusal rate on benign literary queries, and inference overhead. Baselines: an exact-match n-gram blocklist, a near-duplicate-detection filter, and the unguarded aligned model. Check generalization to held-out books and attack types.",
+   "support": [
+    "ref-004",
+    "ref-044",
+    "ref-007",
+    "ref-006",
+    "ref-014",
+    "ref-038",
+    "ref-035",
+    "ref-019",
+    "ref-033"
+   ]
+  },
+  {
+   "title": "Adversarial Compression Ratio Meets Book-Level Extraction: A Graded, Prompt-Length-Aware Memorization Measure for Copyright Analysis",
+   "summary": "Existing memorization definitions either require a specific extraction recipe (a prefix and a greedy or probabilistic suffix) or measure the shortest adversarial prompt for individual strings. For copyright, what matters is how much of a whole book can be reconstructed and how cheaply. This proposal combines the two ideas, computing compression ratios over whole-book passages and aggregating into a book-level profile. We would test whether this profile predicts probabilistic extraction success and scales with duplication, model size and training exposure on models with known training data, and compare it to membership inference scores.",
+   "gap": "Compression-ratio memorization is defined per string, and book-level extraction relies on a fixed prefix-based recipe. Neither provides a book-level measure that accounts for prompt length and sampling randomness. The relationship between such measures and membership inference or training exposure is unclear.",
+   "approach": "Compute the adversarial compression ratio for sliding passages across each book on open models with known training data and controlled insertions. Aggregate into coverage curves (fraction of book with ratio above a threshold). Estimate probabilistic extraction success for the same passages. Relate both to passage duplication count, model size and training stage, and to strong or context-aware membership inference scores.",
+   "evaluation": "Correlation between the book-level compression profile and probabilistic extraction rates, and with inserted-versus-not-inserted ground truth in controlled-insertion models. Test scaling with duplication, parameters, and forgetting over training checkpoints. Baselines: discoverable (greedy) extraction, probabilistic extraction and membership inference AUC. Check per-passage stability across seeds.",
+   "support": [
+    "ref-009",
+    "ref-044",
+    "ref-029",
+    "ref-043",
+    "ref-045",
+    "ref-048",
+    "ref-022",
+    "ref-040",
+    "ref-011",
+    "ref-035"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [],
+   "raw": {
+    "duration_api_ms": 17955,
+    "stop_reason": "tool_use",
+    "session_id": "04492602-18d7-473e-8fdb-a716bd6e79ac",
+    "total_cost_usd": 0.0780827,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 14114,
+     "cache_read_input_tokens": 1127,
+     "output_tokens": 2151,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 14114,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2151,
+       "cache_read_input_tokens": 1127,
+       "cache_creation_input_tokens": 14114,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 14114
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2151,
+      "cacheReadInputTokens": 1127,
+      "cacheCreationInputTokens": 14114,
+      "webSearchRequests": 0,
+      "costUSD": 0.0780827,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 0,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 14114,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Beyond Verbatim: Near-Duplicate Alignment Metrics for Measuring Book Regurgitation in Production Chat Models Under Jailbreak and Divergence Attacks\",\"summary\":\"Extraction studies of copyrighted books mostly use exact-match or near-verbatim criteria on open-weight models. This proposal tests whether production aligned chat models regurgitate book text in forms that exact-match criteria miss. We would combine jailbreak and divergence prompting with a structural text-alignment and near-duplicate detection pipeline (shingling and alignment-based similarity) to score paraphrased, reordered, or partially copied output. We compare recovered book coverage against exact-match and prefix-continuation extraction across several books and models. The aim is a legally interpretable, graded measure of how much protected expression an aligned system emits.\",\"gap\":\"Book-extraction work uses a specific near-verbatim methodology on open-weight models. Attacks on aligned production models were evaluated on generic training data, not book-level coverage. Similarity and near-duplicate tools exist but have not been combined with attacks to measure partial or non-verbatim book regurgitation in aligned systems.\",\"approach\":\"1) Choose books, some likely memorized and some not (e.g., widely read novels). 2) Elicit text from open-weight and API chat models using prefix continuation, divergence-style prompts, adversarial suffixes and many-shot prompting. 3) Align outputs to the source book with structural book alignment, shingling/random-projection near-duplicate detection and embedding-based similarity. 4) Compute coverage of the book at several similarity thresholds, and compare with an exact-match definition.\",\"evaluation\":\"Compare recovered-book fraction under exact-match versus graded similarity criteria, per model, book and attack. Measure the fraction of regurgitation missed by exact-match metrics, precision of the alignment against human-verified matches, and the effect of alignment training (aligned versus base model). Baselines: prefix-continuation greedy extraction and probabilistic extraction.\",\"support\":[\"ref-044\",\"ref-007\",\"ref-014\",\"ref-038\",\"ref-019\",\"ref-034\",\"ref-036\",\"ref-008\",\"ref-035\",\"ref-029\"]},{\"title\":\"Does Constitutional-Style Output Classification Close the Copyright Regurgitation Gap? Guarding Against Memorized-Book Extraction\",\"summary\":\"Safety classifiers were designed to stop universal jailbreaks for harmful content, but regurgitation of copyrighted text is a different failure that alignment does not remove. This proposal trains a classifier on synthetic data generated from a natural-language 'copyright constitution' to block verbatim or near-verbatim book output, and tests it against divergence, adversarial-suffix and many-shot attacks. Validation uses open-weight models known to memorize specific books, measuring extraction blocked, refusal rates on benign queries, and compute overhead, versus a baseline n-gram filter.\",\"gap\":\"Constitutional classifiers defend against jailbreaks for harmful content, while extraction research shows that alignment does not remove memorization and that attacks bypass it. No cited work tests whether synthetic-data, rule-driven classifiers can guard against memorized copyrighted text, or how they compare to simple filters when attackers adapt.\",\"approach\":\"Write a constitution that defines permitted (summaries, short quotations, discussion) versus restricted (extended near-verbatim reproduction) output. Generate synthetic positive and negative examples with an LLM, using memorized passages from a model known to have memorized specific books. Train input and output classifiers, with streaming output classification. Red-team using divergence, adversarial suffix and many-shot jailbreaks, and paraphrase-evasion.\",\"evaluation\":\"Metrics: fraction of book text extractable with versus without the classifier (using the book memorization extraction procedure), attack success under adaptive attacks, false-refusal rate on benign literary queries, and inference overhead. Baselines: an exact-match n-gram blocklist, a near-duplicate-detection filter, and the unguarded aligned model. Check generalization to held-out books and attack types.\",\"support\":[\"ref-004\",\"ref-044\",\"ref-007\",\"ref-006\",\"ref-014\",\"ref-038\",\"ref-035\",\"ref-019\",\"ref-033\"]},{\"title\":\"Adversarial Compression Ratio Meets Book-Level Extraction: A Graded, Prompt-Length-Aware Memorization Measure for Copyright Analysis\",\"summary\":\"Existing memorization definitions either require a specific extraction recipe (a prefix and a greedy or probabilistic suffix) or measure the shortest adversarial prompt for individual strings. For copyright, what matters is how much of a whole book can be reconstructed and how cheaply. This proposal combines the two ideas, computing compression ratios over whole-book passages and aggregating into a book-level profile. We would test whether this profile predicts probabilistic extraction success and scales with duplication, model size and training exposure on models with known training data, and compare it to membership inference scores.\",\"gap\":\"Compression-ratio memorization is defined per string, and book-level extraction relies on a fixed prefix-based recipe. Neither provides a book-level measure that accounts for prompt length and sampling randomness. The relationship between such measures and membership inference or training exposure is unclear.\",\"approach\":\"Compute the adversarial compression ratio for sliding passages across each book on open models with known training data and controlled insertions. Aggregate into coverage curves (fraction of book with ratio above a threshold). Estimate probabilistic extraction success for the same passages. Relate both to passage duplication count, model size and training stage, and to strong or context-aware membership inference scores.\",\"evaluation\":\"Correlation between the book-level compression profile and probabilistic extraction rates, and with inserted-versus-not-inserted ground truth in controlled-insertion models. Test scaling with duplication, parameters, and forgetting over training checkpoints. Baselines: discoverable (greedy) extraction, probabilistic extraction and membership inference AUC. Check per-passage stability across seeds.\",\"support\":[\"ref-009\",\"ref-044\",\"ref-029\",\"ref-043\",\"ref-045\",\"ref-048\",\"ref-022\",\"ref-040\",\"ref-011\",\"ref-035\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Beyond Verbatim: Near-Duplicate Alignment Metrics for Measuring Book Regurgitation in Production Chat Models Under Jailbreak and Divergence Attacks",
+       "summary": "Extraction studies of copyrighted books mostly use exact-match or near-verbatim criteria on open-weight models. This proposal tests whether production aligned chat models regurgitate book text in forms that exact-match criteria miss. We would combine jailbreak and divergence prompting with a structural text-alignment and near-duplicate detection pipeline (shingling and alignment-based similarity) to score paraphrased, reordered, or partially copied output. We compare recovered book coverage against exact-match and prefix-continuation extraction across several books and models. The aim is a legally interpretable, graded measure of how much protected expression an aligned system emits.",
+       "gap": "Book-extraction work uses a specific near-verbatim methodology on open-weight models. Attacks on aligned production models were evaluated on generic training data, not book-level coverage. Similarity and near-duplicate tools exist but have not been combined with attacks to measure partial or non-verbatim book regurgitation in aligned systems.",
+       "approach": "1) Choose books, some likely memorized and some not (e.g., widely read novels). 2) Elicit text from open-weight and API chat models using prefix continuation, divergence-style prompts, adversarial suffixes and many-shot prompting. 3) Align outputs to the source book with structural book alignment, shingling/random-projection near-duplicate detection and embedding-based similarity. 4) Compute coverage of the book at several similarity thresholds, and compare with an exact-match definition.",
+       "evaluation": "Compare recovered-book fraction under exact-match versus graded similarity criteria, per model, book and attack. Measure the fraction of regurgitation missed by exact-match metrics, precision of the alignment against human-verified matches, and the effect of alignment training (aligned versus base model). Baselines: prefix-continuation greedy extraction and probabilistic extraction.",
+       "support": [
+        "ref-044",
+        "ref-007",
+        "ref-014",
+        "ref-038",
+        "ref-019",
+        "ref-034",
+        "ref-036",
+        "ref-008",
+        "ref-035",
+        "ref-029"
+       ]
+      },
+      {
+       "title": "Does Constitutional-Style Output Classification Close the Copyright Regurgitation Gap? Guarding Against Memorized-Book Extraction",
+       "summary": "Safety classifiers were designed to stop universal jailbreaks for harmful content, but regurgitation of copyrighted text is a different failure that alignment does not remove. This proposal trains a classifier on synthetic data generated from a natural-language 'copyright constitution' to block verbatim or near-verbatim book output, and tests it against divergence, adversarial-suffix and many-shot attacks. Validation uses open-weight models known to memorize specific books, measuring extraction blocked, refusal rates on benign queries, and compute overhead, versus a baseline n-gram filter.",
+       "gap": "Constitutional classifiers defend against jailbreaks for harmful content, while extraction research shows that alignment does not remove memorization and that attacks bypass it. No cited work tests whether synthetic-data, rule-driven classifiers can guard against memorized copyrighted text, or how they compare to simple filters when attackers adapt.",
+       "approach": "Write a constitution that defines permitted (summaries, short quotations, discussion) versus restricted (extended near-verbatim reproduction) output. Generate synthetic positive and negative examples with an LLM, using memorized passages from a model known to have memorized specific books. Train input and output classifiers, with streaming output classification. Red-team using divergence, adversarial suffix and many-shot jailbreaks, and paraphrase-evasion.",
+       "evaluation": "Metrics: fraction of book text extractable with versus without the classifier (using the book memorization extraction procedure), attack success under adaptive attacks, false-refusal rate on benign literary queries, and inference overhead. Baselines: an exact-match n-gram blocklist, a near-duplicate-detection filter, and the unguarded aligned model. Check generalization to held-out books and attack types.",
+       "support": [
+        "ref-004",
+        "ref-044",
+        "ref-007",
+        "ref-006",
+        "ref-014",
+        "ref-038",
+        "ref-035",
+        "ref-019",
+        "ref-033"
+       ]
+      },
+      {
+       "title": "Adversarial Compression Ratio Meets Book-Level Extraction: A Graded, Prompt-Length-Aware Memorization Measure for Copyright Analysis",
+       "summary": "Existing memorization definitions either require a specific extraction recipe (a prefix and a greedy or probabilistic suffix) or measure the shortest adversarial prompt for individual strings. For copyright, what matters is how much of a whole book can be reconstructed and how cheaply. This proposal combines the two ideas, computing compression ratios over whole-book passages and aggregating into a book-level profile. We would test whether this profile predicts probabilistic extraction success and scales with duplication, model size and training exposure on models with known training data, and compare it to membership inference scores.",
+       "gap": "Compression-ratio memorization is defined per string, and book-level extraction relies on a fixed prefix-based recipe. Neither provides a book-level measure that accounts for prompt length and sampling randomness. The relationship between such measures and membership inference or training exposure is unclear.",
+       "approach": "Compute the adversarial compression ratio for sliding passages across each book on open models with known training data and controlled insertions. Aggregate into coverage curves (fraction of book with ratio above a threshold). Estimate probabilistic extraction success for the same passages. Relate both to passage duplication count, model size and training stage, and to strong or context-aware membership inference scores.",
+       "evaluation": "Correlation between the book-level compression profile and probabilistic extraction rates, and with inserted-versus-not-inserted ground truth in controlled-insertion models. Test scaling with duplication, parameters, and forgetting over training checkpoints. Baselines: discoverable (greedy) extraction, probabilistic extraction and membership inference AUC. Check per-passage stability across seeds.",
+       "support": [
+        "ref-009",
+        "ref-044",
+        "ref-029",
+        "ref-043",
+        "ref-045",
+        "ref-048",
+        "ref-022",
+        "ref-040",
+        "ref-011",
+        "ref-035"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 18027,
+    "type": "result",
+    "duration_ms": 18058,
+    "uuid": "3309efc6-70d2-4ede-9919-e0f5c8924a63",
+    "ttft_stream_ms": 1168,
+    "time_to_request_ms": 91,
+    "time_to_request_phases_ms": {
+     "other": 4,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 3,
+     "input_attachments": 18,
+     "input_hooks": 3,
+     "conversation_append": 0,
+     "tool_pool_refresh": 2,
+     "init_message": 40,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 0,
+     "model_config_wait": 1,
+     "autocompact": 1,
+     "request_announcements": 3,
+     "query_setup": 1,
+     "model_gates": 0,
+     "tool_schema_build": 2,
+     "message_normalization": 1,
+     "client_creation": 2,
+     "request_build": 4
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 40,
+    "time_to_request_cpu_ms": 171,
+    "time_to_request_major_faults": 5386,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 11,
+     "cpu_ms": 31,
+     "major_faults": 1639,
+     "setup_ms": 0,
+     "prompt_producers_ms": 0,
+     "ambient_start_ms": 3,
+     "ambient_wait_ms": 11,
+     "render_ms": 3,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 0,
+     "after_ms": 0,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 1,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 0,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 1168,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  }
+ ],
+ "calls": 1,
+ "usage": [
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 14114,
+    "cache_read_input_tokens": 1127,
+    "output_tokens": 2151,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 14114,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2151,
+      "cache_read_input_tokens": 1127,
+      "cache_creation_input_tokens": 14114,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 14114
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.0780827,
+   "duration_ms": 18058,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2151,
+     "cacheReadInputTokens": 1127,
+     "cacheCreationInputTokens": 14114,
+     "webSearchRequests": 0,
+     "costUSD": 0.0780827,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 0,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 14114,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ],
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "seconds": 20.3
+}

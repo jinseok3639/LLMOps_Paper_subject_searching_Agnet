@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The support ids substantiate EEGNet's depthwise-separable architecture (ref-001), SDP verification and Lipschitz bounds (ref-005, ref-020), and the proposed benchmarking and defense components (ref-007, ref-009, ref-010). However, ref-009 describes CLEVER as an estimated robustness metric, not a guaranteed certificate. Ref-007 does not establish coverage of all four named paradigms. The blanket claim that current EEG BCIs lack guarantees exceeds the supplied evidence, and the summary asserts improvements that have not been demonstrated.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied references do not report SDP-certified EEGNet training, leaving a concrete application gap between ref-001 and ref-020. However, they do not establish that depthwise-separable convolutions present a limitation requiring an extension of the general framework. Ref-022 already combines formal robustness bounds with robustness-oriented regularization, so the candidate should distinguish its training contribution from that closer precedent.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The target architecture, SDP technique, perturbation norms, benchmark source, defense baselines, certified-accuracy measure, and training ablation are concrete (ref-001, ref-005, ref-007, ref-010, ref-020). Experimental design could begin, but the training objective, how quadratic constraints enter optimization, dataset selection, and conversion of bounds into classification certificates remain unspecified.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Reducing Lipschitz bounds and evaluating certified accuracy directly addresses the proposed certification gap, consistent with ref-020 and ref-022. However, treating CLEVER estimates as certified radii confuses empirical estimation with guarantees (ref-009). The approach also needs an explicit connection between output bounds, classification margins, and certificates under each proposed norm.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether useful certificates survive EEGNet's accuracy and computational constraints could inform BCI defense choices, given demonstrated EEG attack vulnerabilities (ref-024) and dataset generalization problems (ref-007). The likely contribution remains a focused application of established certification and regularization ideas (ref-020, ref-022); the candidate does not yet identify a broader assumption its results would overturn.",
+  "score": 3
+ }
+}

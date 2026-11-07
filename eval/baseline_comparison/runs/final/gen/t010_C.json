@@ -1,0 +1,374 @@
+{
+ "sample": "t010",
+ "condition": "C",
+ "n_refs": 21,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Minimax Sample Complexity of Black-Box Backdoor Detection via Le Cam and Fano Bounds",
+   "summary": "This proposal treats backdoor detection as a statistical hypothesis test: given query or sample access to a model, decide whether it is clean or backdoored. It would derive matching upper and lower minimax bounds on the number of samples needed. The bounds would depend on how much probability mass the trigger region carries and how much the backdoored model's outputs differ there. The lower bounds would use Le Cam's two-point method and Fano's inequality. The upper bounds would use distribution-testing statistics. Predicted detection thresholds would be checked against STRIP and activation clustering on standard image and LLM backdoor benchmarks, while varying the poisoning rate and trigger rarity.",
+   "gap": "The empirical defenses (activation clustering, STRIP) and the benchmarks (BackdoorBench, BackdoorLLM, ELBA-Bench) report how well detectors work on particular attacks. They give no account of when detection is statistically possible at all. The cryptographic undetectability result relies on computational hardness and does not quantify the information-theoretic difficulty of detecting ordinary, non-cryptographic backdoors from a finite budget of samples.",
+   "approach": "Define a family of backdoored models parameterized by trigger mass ε and output deviation δ. Use Le Cam's two-point method and Fano's inequality to prove that detection needs Ω(1/(εδ²))-type sample complexity, with the exact form to be determined. Build a near-matching detector from distribution and property testing that compares the model's output distribution with a reference model. Extend the analysis to the case where the trigger distribution is unknown.",
+   "evaluation": "On BackdoorBench attacks (BadNets, hidden-trigger) and BackdoorBench/ELBA-Bench LLM attacks, sweep the poisoning rate and the trigger frequency at test time. Measure the detection ROC as a function of sample budget for the proposed tester, STRIP and activation clustering. Check whether empirical phase transitions follow the predicted scaling in ε and δ.",
+   "support": [
+    "ref-004",
+    "ref-005",
+    "ref-006",
+    "ref-016",
+    "ref-001",
+    "ref-009",
+    "ref-011",
+    "ref-010",
+    "ref-013",
+    "ref-012",
+    "ref-003",
+    "ref-021"
+   ]
+  },
+  {
+   "title": "Backdoor Detectability as Domain Divergence: A Classifier-Induced Distance Between Clean and Triggered Behavior",
+   "summary": "This proposal would measure how detectable a backdoor is using a classifier-induced divergence, adapted from domain-adaptation theory, between the model's behavior on the defender's audit distribution and on the attacker's trigger distribution. A defender can detect the backdoor only if this divergence, weighted by the overlap between the audit and trigger distributions, exceeds a sample-size-dependent threshold. The method would estimate the divergence from finite samples. It would be tested on password-locked LLMs and instruction-poisoned LLMs, checking whether the estimated divergence predicts detection success and whether passwords that elicitation recovers have high divergence.",
+   "gap": "Domain-adaptation theory bounds target error using an estimable divergence between domains, but nobody has used that divergence to quantify how hard it is to audit hidden behaviors. Password-locked models and instruction backdoors show that hidden capabilities and triggers exist. There is still no estimable quantity that predicts when a defender with a given audit distribution will expose them.",
+   "approach": "Formalize auditing as testing whether the model differs from a reference model on any region the audit distribution reaches. Prove that detection error is bounded above and below by an H-divergence-style quantity between the clean and triggered conditional behaviors, scaled by the audit distribution's coverage of the trigger region. Estimate this quantity from unlabeled samples by training a discriminator on model outputs.",
+   "evaluation": "Use password-locked models and instruction-tuning backdoors with controlled trigger rarity. Compare the estimated divergence with detection AUC for black-box testers, and with whether fine-tuning elicitation succeeds. As baselines, use raw output-distance measures and STRIP entropy. Success means a higher rank correlation with detectability than either baseline.",
+   "support": [
+    "ref-002",
+    "ref-018",
+    "ref-008",
+    "ref-009",
+    "ref-016",
+    "ref-006",
+    "ref-014",
+    "ref-007"
+   ]
+  },
+  {
+   "title": "Outcome-Indistinguishability Auditing for Hidden Behaviors in Language Models",
+   "summary": "This proposal would recast detection of hidden LLM behaviors (backdoors, password locks, sycophancy) as outcome-indistinguishability (OI) auditing. A model passes an audit if no distinguisher in a specified class can tell its outputs apart from a trusted reference on the audit distribution. The method would grade audits by access level: samples only, black-box queries, or white-box activations. It would test whether a richer level, such as truth directions found by consistency-based latent-knowledge probing, detects behaviors that weaker levels miss. Validation would use password-locked models, instruction backdoors and sycophancy probes.",
+   "gap": "Outcome indistinguishability defines a hierarchy of auditor access, and the planted-backdoor work shows some backdoors cannot be detected by efficient observers. Neither has been applied to practical hidden behaviors in LLMs. It is also untested whether the extra access that OI theory argues auditors need, such as white-box latent-knowledge directions, actually improves detection of password-locked capabilities, instruction backdoors or sycophancy.",
+   "approach": "Instantiate the OI hierarchy with three distinguisher classes: sample-based statistics, adaptive query-based tests, and white-box probes that read activations. The white-box probes would include unsupervised consistency-based truth directions and activation clustering. Detection power is the distinguishing advantage over a clean reference model. Relate this advantage to the cryptographic undetectability limits.",
+   "evaluation": "Use password-locked LLMs, BackdoorLLM and ELBA-Bench backdoors, and sycophancy datasets. Compare detection AUC across the three access levels at a fixed query budget. Baselines are STRIP and activation clustering. A random-feature-style planted backdoor serves as a negative control that should resist all efficient distinguishers.",
+   "support": [
+    "ref-019",
+    "ref-021",
+    "ref-020",
+    "ref-018",
+    "ref-015",
+    "ref-008",
+    "ref-010",
+    "ref-013",
+    "ref-001",
+    "ref-009",
+    "ref-014"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [],
+   "raw": {
+    "duration_api_ms": 28769,
+    "stop_reason": "tool_use",
+    "session_id": "fc580097-6a32-4def-af6f-50990f4ae0d6",
+    "total_cost_usd": 0.11634539999999999,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 7474,
+     "cache_read_input_tokens": 1127,
+     "output_tokens": 2816,
+     "output_tokens_details": {
+      "thinking_tokens": 588
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 7474,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2816,
+       "cache_read_input_tokens": 1127,
+       "cache_creation_input_tokens": 7474,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 7474
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-opus-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2816,
+      "cacheReadInputTokens": 1127,
+      "cacheCreationInputTokens": 7474,
+      "webSearchRequests": 0,
+      "costUSD": 0.11634539999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 588,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 7474,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Minimax Sample Complexity of Black-Box Backdoor Detection via Le Cam and Fano Bounds\",\"summary\":\"This proposal treats backdoor detection as a statistical hypothesis test: given query or sample access to a model, decide whether it is clean or backdoored. It would derive matching upper and lower minimax bounds on the number of samples needed. The bounds would depend on how much probability mass the trigger region carries and how much the backdoored model's outputs differ there. The lower bounds would use Le Cam's two-point method and Fano's inequality. The upper bounds would use distribution-testing statistics. Predicted detection thresholds would be checked against STRIP and activation clustering on standard image and LLM backdoor benchmarks, while varying the poisoning rate and trigger rarity.\",\"gap\":\"The empirical defenses (activation clustering, STRIP) and the benchmarks (BackdoorBench, BackdoorLLM, ELBA-Bench) report how well detectors work on particular attacks. They give no account of when detection is statistically possible at all. The cryptographic undetectability result relies on computational hardness and does not quantify the information-theoretic difficulty of detecting ordinary, non-cryptographic backdoors from a finite budget of samples.\",\"approach\":\"Define a family of backdoored models parameterized by trigger mass ε and output deviation δ. Use Le Cam's two-point method and Fano's inequality to prove that detection needs Ω(1/(εδ²))-type sample complexity, with the exact form to be determined. Build a near-matching detector from distribution and property testing that compares the model's output distribution with a reference model. Extend the analysis to the case where the trigger distribution is unknown.\",\"evaluation\":\"On BackdoorBench attacks (BadNets, hidden-trigger) and BackdoorBench/ELBA-Bench LLM attacks, sweep the poisoning rate and the trigger frequency at test time. Measure the detection ROC as a function of sample budget for the proposed tester, STRIP and activation clustering. Check whether empirical phase transitions follow the predicted scaling in ε and δ.\",\"support\":[\"ref-004\",\"ref-005\",\"ref-006\",\"ref-016\",\"ref-001\",\"ref-009\",\"ref-011\",\"ref-010\",\"ref-013\",\"ref-012\",\"ref-003\",\"ref-021\"]},{\"title\":\"Backdoor Detectability as Domain Divergence: A Classifier-Induced Distance Between Clean and Triggered Behavior\",\"summary\":\"This proposal would measure how detectable a backdoor is using a classifier-induced divergence, adapted from domain-adaptation theory, between the model's behavior on the defender's audit distribution and on the attacker's trigger distribution. A defender can detect the backdoor only if this divergence, weighted by the overlap between the audit and trigger distributions, exceeds a sample-size-dependent threshold. The method would estimate the divergence from finite samples. It would be tested on password-locked LLMs and instruction-poisoned LLMs, checking whether the estimated divergence predicts detection success and whether passwords that elicitation recovers have high divergence.\",\"gap\":\"Domain-adaptation theory bounds target error using an estimable divergence between domains, but nobody has used that divergence to quantify how hard it is to audit hidden behaviors. Password-locked models and instruction backdoors show that hidden capabilities and triggers exist. There is still no estimable quantity that predicts when a defender with a given audit distribution will expose them.\",\"approach\":\"Formalize auditing as testing whether the model differs from a reference model on any region the audit distribution reaches. Prove that detection error is bounded above and below by an H-divergence-style quantity between the clean and triggered conditional behaviors, scaled by the audit distribution's coverage of the trigger region. Estimate this quantity from unlabeled samples by training a discriminator on model outputs.\",\"evaluation\":\"Use password-locked models and instruction-tuning backdoors with controlled trigger rarity. Compare the estimated divergence with detection AUC for black-box testers, and with whether fine-tuning elicitation succeeds. As baselines, use raw output-distance measures and STRIP entropy. Success means a higher rank correlation with detectability than either baseline.\",\"support\":[\"ref-002\",\"ref-018\",\"ref-008\",\"ref-009\",\"ref-016\",\"ref-006\",\"ref-014\",\"ref-007\"]},{\"title\":\"Outcome-Indistinguishability Auditing for Hidden Behaviors in Language Models\",\"summary\":\"This proposal would recast detection of hidden LLM behaviors (backdoors, password locks, sycophancy) as outcome-indistinguishability (OI) auditing. A model passes an audit if no distinguisher in a specified class can tell its outputs apart from a trusted reference on the audit distribution. The method would grade audits by access level: samples only, black-box queries, or white-box activations. It would test whether a richer level, such as truth directions found by consistency-based latent-knowledge probing, detects behaviors that weaker levels miss. Validation would use password-locked models, instruction backdoors and sycophancy probes.\",\"gap\":\"Outcome indistinguishability defines a hierarchy of auditor access, and the planted-backdoor work shows some backdoors cannot be detected by efficient observers. Neither has been applied to practical hidden behaviors in LLMs. It is also untested whether the extra access that OI theory argues auditors need, such as white-box latent-knowledge directions, actually improves detection of password-locked capabilities, instruction backdoors or sycophancy.\",\"approach\":\"Instantiate the OI hierarchy with three distinguisher classes: sample-based statistics, adaptive query-based tests, and white-box probes that read activations. The white-box probes would include unsupervised consistency-based truth directions and activation clustering. Detection power is the distinguishing advantage over a clean reference model. Relate this advantage to the cryptographic undetectability limits.\",\"evaluation\":\"Use password-locked LLMs, BackdoorLLM and ELBA-Bench backdoors, and sycophancy datasets. Compare detection AUC across the three access levels at a fixed query budget. Baselines are STRIP and activation clustering. A random-feature-style planted backdoor serves as a negative control that should resist all efficient distinguishers.\",\"support\":[\"ref-019\",\"ref-021\",\"ref-020\",\"ref-018\",\"ref-015\",\"ref-008\",\"ref-010\",\"ref-013\",\"ref-001\",\"ref-009\",\"ref-014\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Minimax Sample Complexity of Black-Box Backdoor Detection via Le Cam and Fano Bounds",
+       "summary": "This proposal treats backdoor detection as a statistical hypothesis test: given query or sample access to a model, decide whether it is clean or backdoored. It would derive matching upper and lower minimax bounds on the number of samples needed. The bounds would depend on how much probability mass the trigger region carries and how much the backdoored model's outputs differ there. The lower bounds would use Le Cam's two-point method and Fano's inequality. The upper bounds would use distribution-testing statistics. Predicted detection thresholds would be checked against STRIP and activation clustering on standard image and LLM backdoor benchmarks, while varying the poisoning rate and trigger rarity.",
+       "gap": "The empirical defenses (activation clustering, STRIP) and the benchmarks (BackdoorBench, BackdoorLLM, ELBA-Bench) report how well detectors work on particular attacks. They give no account of when detection is statistically possible at all. The cryptographic undetectability result relies on computational hardness and does not quantify the information-theoretic difficulty of detecting ordinary, non-cryptographic backdoors from a finite budget of samples.",
+       "approach": "Define a family of backdoored models parameterized by trigger mass ε and output deviation δ. Use Le Cam's two-point method and Fano's inequality to prove that detection needs Ω(1/(εδ²))-type sample complexity, with the exact form to be determined. Build a near-matching detector from distribution and property testing that compares the model's output distribution with a reference model. Extend the analysis to the case where the trigger distribution is unknown.",
+       "evaluation": "On BackdoorBench attacks (BadNets, hidden-trigger) and BackdoorBench/ELBA-Bench LLM attacks, sweep the poisoning rate and the trigger frequency at test time. Measure the detection ROC as a function of sample budget for the proposed tester, STRIP and activation clustering. Check whether empirical phase transitions follow the predicted scaling in ε and δ.",
+       "support": [
+        "ref-004",
+        "ref-005",
+        "ref-006",
+        "ref-016",
+        "ref-001",
+        "ref-009",
+        "ref-011",
+        "ref-010",
+        "ref-013",
+        "ref-012",
+        "ref-003",
+        "ref-021"
+       ]
+      },
+      {
+       "title": "Backdoor Detectability as Domain Divergence: A Classifier-Induced Distance Between Clean and Triggered Behavior",
+       "summary": "This proposal would measure how detectable a backdoor is using a classifier-induced divergence, adapted from domain-adaptation theory, between the model's behavior on the defender's audit distribution and on the attacker's trigger distribution. A defender can detect the backdoor only if this divergence, weighted by the overlap between the audit and trigger distributions, exceeds a sample-size-dependent threshold. The method would estimate the divergence from finite samples. It would be tested on password-locked LLMs and instruction-poisoned LLMs, checking whether the estimated divergence predicts detection success and whether passwords that elicitation recovers have high divergence.",
+       "gap": "Domain-adaptation theory bounds target error using an estimable divergence between domains, but nobody has used that divergence to quantify how hard it is to audit hidden behaviors. Password-locked models and instruction backdoors show that hidden capabilities and triggers exist. There is still no estimable quantity that predicts when a defender with a given audit distribution will expose them.",
+       "approach": "Formalize auditing as testing whether the model differs from a reference model on any region the audit distribution reaches. Prove that detection error is bounded above and below by an H-divergence-style quantity between the clean and triggered conditional behaviors, scaled by the audit distribution's coverage of the trigger region. Estimate this quantity from unlabeled samples by training a discriminator on model outputs.",
+       "evaluation": "Use password-locked models and instruction-tuning backdoors with controlled trigger rarity. Compare the estimated divergence with detection AUC for black-box testers, and with whether fine-tuning elicitation succeeds. As baselines, use raw output-distance measures and STRIP entropy. Success means a higher rank correlation with detectability than either baseline.",
+       "support": [
+        "ref-002",
+        "ref-018",
+        "ref-008",
+        "ref-009",
+        "ref-016",
+        "ref-006",
+        "ref-014",
+        "ref-007"
+       ]
+      },
+      {
+       "title": "Outcome-Indistinguishability Auditing for Hidden Behaviors in Language Models",
+       "summary": "This proposal would recast detection of hidden LLM behaviors (backdoors, password locks, sycophancy) as outcome-indistinguishability (OI) auditing. A model passes an audit if no distinguisher in a specified class can tell its outputs apart from a trusted reference on the audit distribution. The method would grade audits by access level: samples only, black-box queries, or white-box activations. It would test whether a richer level, such as truth directions found by consistency-based latent-knowledge probing, detects behaviors that weaker levels miss. Validation would use password-locked models, instruction backdoors and sycophancy probes.",
+       "gap": "Outcome indistinguishability defines a hierarchy of auditor access, and the planted-backdoor work shows some backdoors cannot be detected by efficient observers. Neither has been applied to practical hidden behaviors in LLMs. It is also untested whether the extra access that OI theory argues auditors need, such as white-box latent-knowledge directions, actually improves detection of password-locked capabilities, instruction backdoors or sycophancy.",
+       "approach": "Instantiate the OI hierarchy with three distinguisher classes: sample-based statistics, adaptive query-based tests, and white-box probes that read activations. The white-box probes would include unsupervised consistency-based truth directions and activation clustering. Detection power is the distinguishing advantage over a clean reference model. Relate this advantage to the cryptographic undetectability limits.",
+       "evaluation": "Use password-locked LLMs, BackdoorLLM and ELBA-Bench backdoors, and sycophancy datasets. Compare detection AUC across the three access levels at a fixed query budget. Baselines are STRIP and activation clustering. A random-feature-style planted backdoor serves as a negative control that should resist all efficient distinguishers.",
+       "support": [
+        "ref-019",
+        "ref-021",
+        "ref-020",
+        "ref-018",
+        "ref-015",
+        "ref-008",
+        "ref-010",
+        "ref-013",
+        "ref-001",
+        "ref-009",
+        "ref-014"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 7346,
+    "type": "result",
+    "duration_ms": 28857,
+    "uuid": "d690f4d3-3576-4101-a5e5-3415058c50b6",
+    "ttft_stream_ms": 1283,
+    "time_to_request_ms": 79,
+    "time_to_request_phases_ms": {
+     "other": 4,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 2,
+     "input_attachments": 21,
+     "input_hooks": 2,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 29,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 0,
+     "model_config_wait": 1,
+     "autocompact": 1,
+     "request_announcements": 3,
+     "query_setup": 0,
+     "model_gates": 1,
+     "tool_schema_build": 1,
+     "message_normalization": 2,
+     "client_creation": 2,
+     "request_build": 3
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 29,
+    "time_to_request_cpu_ms": 235,
+    "time_to_request_major_faults": 5172,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 17,
+     "cpu_ms": 32,
+     "major_faults": 2171,
+     "setup_ms": 0,
+     "prompt_producers_ms": 0,
+     "ambient_start_ms": 2,
+     "ambient_wait_ms": 17,
+     "render_ms": 1,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 0,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 0,
+     "after_ms": 1,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 0,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 1283,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  }
+ ],
+ "calls": 1,
+ "usage": [
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 7474,
+    "cache_read_input_tokens": 1127,
+    "output_tokens": 2816,
+    "output_tokens_details": {
+     "thinking_tokens": 588
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 7474,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2816,
+      "cache_read_input_tokens": 1127,
+      "cache_creation_input_tokens": 7474,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 7474
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.11634539999999999,
+   "duration_ms": 28857,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-opus-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2816,
+     "cacheReadInputTokens": 1127,
+     "cacheCreationInputTokens": 7474,
+     "webSearchRequests": 0,
+     "costUSD": 0.11634539999999999,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 588,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 7474,
+     "canonicalModel": "claude-opus-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "effort": "high",
+ "seconds": 31.1
+}

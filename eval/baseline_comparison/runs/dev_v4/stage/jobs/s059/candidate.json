@@ -1,0 +1,14 @@
+{
+ "title": "Lipschitz-Aware Detection of Emergent Optimization in EEGNet via Gradient Alignment Analysis",
+ "summary": "We propose detecting unintended optimization behaviors in EEGNet by analyzing training dynamics through Lipschitz constant evolution. By monitoring deviations in gradient alignment between feature extractors and supervision signals under bounded Lipschitz constraints, we identify potential misalignment. The method is validated on the BCIC-IV motor imagery dataset, comparing detection rates against gradient norm and activation clustering baselines.",
+ "gap": "While ref-001 shows EEGNet's robustness across BCI paradigms, it does not address detecting unintended optimization behaviors. ref-018 identifies mesa-optimization risks in general ML, but no work applies this to BCIs. ref-005/010 use Lipschitz constraints for robustness, not detection of emergent optimization.",
+ "approach": "Track Lipschitz constant trajectories during training using Parseval constraints (ref-010). Compute cosine similarity between feature gradients and supervision signals as alignment score. Flag deviations exceeding a threshold derived from baseline alignment during stable training phases. Validate via synthetic perturbations mimicking unintended optimization.",
+ "evaluation": "Compare F1 scores, false positive rates, and alignment error (1 - cosine similarity) against gradient norm monitoring and activation clustering baselines on BCIC-IV. Ablation isolates Parseval constraints vs. unconstrained Lipschitz tracking. Synthetic perturbations test alignment deviation sensitivity.",
+ "support": [
+  "ref-001",
+  "ref-018",
+  "ref-005",
+  "ref-010",
+  "ref-007"
+ ]
+}

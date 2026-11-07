@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The core connections are supported: EEGNet uses depthwise/separable convolutions (ref-001), SDP certification and Lipschitz bounds appear in ref-005/ref-020, and ref-022 supports instance-specific certificates. The remaining support ids are relevant. However, the absolute claims that no guarantees exist and nobody has applied these methods to compact EEG CNNs exceed what the supplied abstracts establish.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied EEG attack and detection studies leave certification unaddressed (ref-024, ref-021), while ref-020 demonstrates SDP bounds on other classification tasks. This supports a concrete EEG certification question. The gap becomes less focused by also claiming EEG-specific perturbation sets and adding Parseval constraints without identifying a demonstrated limitation requiring both.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The architecture, SDP technique, training variants, evaluation paradigms, baselines, and principal metrics are concrete and grounded in ref-001, ref-020, ref-010, and ref-007. Experiment design could begin immediately. Remaining ambiguities include the promised EEG-specific perturbation sets, how certificates for both norms are constructed, and how the separate regularizers are isolated experimentally.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "SDP bounds and margin certificates directly address the empirical-only evidence in ref-024/ref-021, and certified accuracy can test their usefulness. However, generic norm-ball evaluation does not establish the promised EEG-specific perturbation treatment. Combining structural adaptation, Parseval constraints, and a Lipschitz penalty also weakens the single clear difference from ref-020.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether compact EEG decoders admit useful certificates at acceptable accuracy and computational cost could influence whether researchers choose certification, adversarial training, or detection (ref-001, ref-020, ref-013, ref-021). Multi-dataset validation addresses ref-007's generalization concerns. The contribution would be stronger if it established when certification changes practical model choices.",
+  "score": 4
+ }
+}

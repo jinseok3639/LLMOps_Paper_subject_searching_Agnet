@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The main ingredients are supported: RL-based routing (ref-002), workflow search (ref-022, ref-014), MCTS planning (ref-008, ref-059), and learned reward guidance (ref-067). However, the abstracts do not establish that the puppeteer performs no inference-time lookahead or that AFlow and ADAS produce exactly one fixed workflow per dataset. Neither ref-047 nor ref-015 specifies the proposed continuation-success-fraction labeling recipe. Ref-006, ref-016, and ref-070 have no abstracts, so they cannot substantiate detailed UCT claims.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Per-query lookahead over heterogeneous agent-routing decisions is a concrete gap naturally suggested by combining adaptive orchestration in ref-002 with planning in ref-008 and ref-059. No supplied abstract describes this exact capability. The gap is nevertheless less firmly established than claimed because the asserted restrictions on ref-002, ref-022, and ref-014 are not documented, and outcome-trained value guidance itself is already explored in ref-015 and ref-067.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The proposal specifies states, agent-invocation actions, rollout-derived targets, a learned leaf evaluator, cost penalties, named baselines, and benchmark measures supported by ref-045, ref-049, ref-027, and ref-001. Experiment design could begin immediately. Remaining ambiguities include rollout and stopping policies, training/evaluation separation, and the operational distinction between an outcome-only reward model and the proposed outcome-derived state-value model, especially given ref-015.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Searching over agent calls directly addresses the routing gap, and comparisons with ref-002 and ref-022 at matched budgets could test its benefit. However, rendering success does not establish visualization quality as measured in ref-001, and training-success verification for scientific reasoning is unspecified. The reward-model ablation also needs clarification because the proposed process labels estimate eventual success, closely resembling the value-estimation framing of ref-015.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "Establishing when query-specific routing search improves the quality-cost tradeoff over learned orchestration (ref-002) and workflow search (ref-022, ref-014) could change orchestration choices across several task families. Negative results could also reveal when search overhead is unjustified. The contribution would be stronger with controls separating the benefits of routing lookahead from learned value guidance, which already benefits agent search in ref-067.",
+  "score": 4
+ }
+}

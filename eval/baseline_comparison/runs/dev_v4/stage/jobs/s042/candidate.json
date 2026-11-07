@@ -1,0 +1,13 @@
+{
+ "title": "Cross-Paradigm Adversarial Transferability in EEG-Based BCIs: Implications for Security",
+ "summary": "This paper investigates whether adversarial examples generated for one BCI paradigm (e.g., P300) can transfer to models trained on different paradigms (e.g., SMR). The study quantifies transferability rates across paradigms and identifies EEG feature spaces that contribute to cross-paradigm vulnerability, proposing paradigm-agnostic detection mechanisms.",
+ "gap": "Prior work on EEG adversarial attacks focuses on within-paradigm scenarios, assuming paradigm-specific vulnerabilities. The potential for cross-paradigm transferability and its security implications remain unexplored.",
+ "approach": "Generate universal adversarial perturbations (UAPs) on one paradigm and test their effectiveness on models trained on other paradigms. Analyze feature-space overlaps using t-SNE and frequency-band decomposition to identify transferable vulnerability patterns.",
+ "evaluation": "Measure attack success rates (ASR) and detection AUC for cross-paradigm transfers. Compare against within-paradigm baselines and evaluate detection methods (e.g., Mahalanobis distance) on mixed-paradigm datasets.",
+ "support": [
+  "ref-001",
+  "ref-021",
+  "ref-024",
+  "ref-011"
+ ]
+}

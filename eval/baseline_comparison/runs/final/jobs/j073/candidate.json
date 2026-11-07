@@ -1,0 +1,17 @@
+{
+ "title": "Backdoor Detectability as Domain Divergence: A Classifier-Induced Distance Between Clean and Triggered Behavior",
+ "summary": "This proposal would measure how detectable a backdoor is using a classifier-induced divergence, adapted from domain-adaptation theory, between the model's behavior on the defender's audit distribution and on the attacker's trigger distribution. A defender can detect the backdoor only if this divergence, weighted by the overlap between the audit and trigger distributions, exceeds a sample-size-dependent threshold. The method would estimate the divergence from finite samples. It would be tested on password-locked LLMs and instruction-poisoned LLMs, checking whether the estimated divergence predicts detection success and whether passwords that elicitation recovers have high divergence.",
+ "gap": "Domain-adaptation theory bounds target error using an estimable divergence between domains, but nobody has used that divergence to quantify how hard it is to audit hidden behaviors. Password-locked models and instruction backdoors show that hidden capabilities and triggers exist. There is still no estimable quantity that predicts when a defender with a given audit distribution will expose them.",
+ "approach": "Formalize auditing as testing whether the model differs from a reference model on any region the audit distribution reaches. Prove that detection error is bounded above and below by an H-divergence-style quantity between the clean and triggered conditional behaviors, scaled by the audit distribution's coverage of the trigger region. Estimate this quantity from unlabeled samples by training a discriminator on model outputs.",
+ "evaluation": "Use password-locked models and instruction-tuning backdoors with controlled trigger rarity. Compare the estimated divergence with detection AUC for black-box testers, and with whether fine-tuning elicitation succeeds. As baselines, use raw output-distance measures and STRIP entropy. Success means a higher rank correlation with detectability than either baseline.",
+ "support": [
+  "ref-002",
+  "ref-018",
+  "ref-008",
+  "ref-009",
+  "ref-016",
+  "ref-006",
+  "ref-014",
+  "ref-007"
+ ]
+}

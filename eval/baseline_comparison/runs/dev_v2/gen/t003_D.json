@@ -1,0 +1,374 @@
+{
+ "sample": "t003",
+ "condition": "D",
+ "n_refs": 25,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Lipschitz-Certified EEGNet: SDP-Bounded Robustness for Compact EEG Decoders in Brain–Computer Interfaces",
+   "summary": "Adversarial attacks on EEG-based BCIs have been shown empirically, but no certified robustness guarantees exist for compact EEG CNNs. This proposal adapts semidefinite-programming Lipschitz bounds to the depthwise and separable convolutional structure of EEGNet-style models, yielding per-trial certified radii for input perturbations. It further tests whether Parseval-style orthogonality constraints on the spatial and temporal filters tighten the certificates at little accuracy cost. Validation compares certified radii, empirical attack radii, and a sampling-based robustness score across several open EEG datasets and paradigms, against unconstrained and adversarially trained baselines.",
+   "gap": "Existing EEG adversarial work (universal perturbations, artifact detection) is empirical and attack/detection-focused. Lipschitz/SDP certification and Parseval-style constraints exist for generic feed-forward or image networks, but nobody has applied them to compact EEG CNNs with depthwise/separable convolutions, nor tied them to EEG-specific perturbation sets.",
+   "approach": "Express the EEGNet layers (temporal conv, depthwise spatial conv, separable conv, ELU, pooling, dense) as a linear-plus-slope-restricted-nonlinearity chain and derive quadratic-constraint SDP upper bounds on the network Lipschitz constant, using a decomposed version for scalability. Convert to instance-specific certified margins via the cross-Lipschitz argument. Train variants with Parseval-style orthogonal regularization on the temporal and spatial filters and with a Lipschitz penalty, then compare tightness and accuracy.",
+   "evaluation": "Use MOABB-style multi-dataset, within- and cross-subject evaluation across motor imagery, P300 and ERN data. Metrics: clean accuracy, certified accuracy at several L2 and L-infinity radii, ratio of certified bound to empirical minimal adversarial perturbation (PGD, UAP), and the sampling-based robustness score. Baselines: standard EEGNet, a deeper ConvNet, PGD adversarial training, and naive product-of-norms Lipschitz bounds.",
+   "support": [
+    "ref-001",
+    "ref-005",
+    "ref-020",
+    "ref-022",
+    "ref-010",
+    "ref-009",
+    "ref-024",
+    "ref-021",
+    "ref-007",
+    "ref-013"
+   ]
+  },
+  {
+   "title": "Do Adversarial Detectors and Robust Training for EEG Decoders Hold Up Across Datasets? A MOABB-Style Robustness Benchmark",
+   "summary": "Adversarial detection and attack results for EEG BCIs are reported on a few datasets and models, while benchmarking work shows that single-dataset validation often fails to generalize. This proposal builds a standardized benchmark that evaluates attacks (white-box, universal), detectors (Mahalanobis and cosine-distance based), and defenses (adversarial training, Lipschitz or Parseval regularization) across many open EEG datasets, paradigms, and architectures. It tests whether the near-perfect detection reported for white-box attacks transfers across datasets, subjects, and unseen attacks, and whether robustness rankings are stable.",
+   "gap": "Adversarial detection in EEG BCIs reported very high AUC on three datasets, but the benchmarking literature shows algorithms validated on few datasets often do not generalize. No unified, reproducible robustness evaluation across datasets, architectures, attacks, detectors and defenses exists for BCIs.",
+   "approach": "Extend a common BCI benchmarking framework with an adversarial module: standardized implementations of PGD-style attacks and universal perturbations, the detection methods from the EEG literature, and defenses (adversarial training, Parseval-like constraints). Run pipelines in within-session, cross-session and cross-subject splits across many datasets, with FBCSP-based and CNN decoders (EEGNet, deep ConvNet). Include an adaptive attacker aware of the detector.",
+   "evaluation": "Measure detection AUC and its drop under cross-dataset and cross-attack transfer, attack success rate, clean accuracy, and a CLEVER-style robustness score. Use statistical tests across datasets (as in the benchmark framework) to check whether rankings of detectors and defenses are significant and consistent; baselines are the originally reported single-dataset settings.",
+   "support": [
+    "ref-007",
+    "ref-021",
+    "ref-024",
+    "ref-001",
+    "ref-015",
+    "ref-012",
+    "ref-013",
+    "ref-009",
+    "ref-010",
+    "ref-017"
+   ]
+  },
+  {
+   "title": "Neural-Signal Safe Operation: Certified Robustness Margins as a Gating Mechanism for Assistive BCI Control",
+   "summary": "BCIs controlling physical devices such as robotic arms face security risks from perturbed neural inputs, and safety-focused ML work calls for monitoring and robustness. This proposal tests a runtime safety gate for an EEG-driven assistive controller: a per-trial certified margin from a Lipschitz bound determines whether a decoded command is executed, deferred, or sent for user confirmation. The hypothesis is that certificate-based gating reduces harmful actions under adversarial perturbation more than confidence thresholding or adversarial detectors, at an acceptable cost in throughput. Validation uses offline EEG datasets with simulated attacks and a simulated device-control task.",
+   "gap": "Security surveys and ethics papers on BCIs identify risks to users' physical integrity, and empirical EEG attack and detection studies exist, but none connects formal robustness certificates to an actionable control-level safety policy for BCI-driven devices. ML safety roadmaps call for monitoring and robustness but are not instantiated for BCI control.",
+   "approach": "Train a compact EEG CNN with Lipschitz regularization and compute a certified margin per trial from an SDP or cross-Lipschitz bound. Define a gating policy: execute only if the margin exceeds the radius of a threat model (bounded-norm or universal perturbation); otherwise abstain or request confirmation. Simulate a cursor or robotic-arm control loop where decoded classes drive discrete commands, with attacks injected into the signal stream.",
+   "evaluation": "Compare against ungated decoding, softmax-confidence thresholding, and Mahalanobis/cosine adversarial detector gating. Measure rate of harmful executed commands under PGD and universal attacks, task completion time and information transfer rate (cost of abstaining), false rejection rate on clean data, and sensitivity to threat-model radius. Use several open EEG datasets and cross-subject splits.",
+   "support": [
+    "ref-017",
+    "ref-014",
+    "ref-021",
+    "ref-024",
+    "ref-020",
+    "ref-022",
+    "ref-001",
+    "ref-006",
+    "ref-019",
+    "ref-023",
+    "ref-004"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [],
+   "raw": {
+    "duration_api_ms": 18793,
+    "stop_reason": "tool_use",
+    "session_id": "d57d4a9a-4506-49eb-a187-ee0cbdda5501",
+    "total_cost_usd": 0.065542,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 10462,
+     "cache_read_input_tokens": 0,
+     "output_tokens": 2369,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 10462,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2369,
+       "cache_read_input_tokens": 0,
+       "cache_creation_input_tokens": 10462,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 10462
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2369,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 10462,
+      "webSearchRequests": 0,
+      "costUSD": 0.065542,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 0,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 10462,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Lipschitz-Certified EEGNet: SDP-Bounded Robustness for Compact EEG Decoders in Brain–Computer Interfaces\",\"summary\":\"Adversarial attacks on EEG-based BCIs have been shown empirically, but no certified robustness guarantees exist for compact EEG CNNs. This proposal adapts semidefinite-programming Lipschitz bounds to the depthwise and separable convolutional structure of EEGNet-style models, yielding per-trial certified radii for input perturbations. It further tests whether Parseval-style orthogonality constraints on the spatial and temporal filters tighten the certificates at little accuracy cost. Validation compares certified radii, empirical attack radii, and a sampling-based robustness score across several open EEG datasets and paradigms, against unconstrained and adversarially trained baselines.\",\"gap\":\"Existing EEG adversarial work (universal perturbations, artifact detection) is empirical and attack/detection-focused. Lipschitz/SDP certification and Parseval-style constraints exist for generic feed-forward or image networks, but nobody has applied them to compact EEG CNNs with depthwise/separable convolutions, nor tied them to EEG-specific perturbation sets.\",\"approach\":\"Express the EEGNet layers (temporal conv, depthwise spatial conv, separable conv, ELU, pooling, dense) as a linear-plus-slope-restricted-nonlinearity chain and derive quadratic-constraint SDP upper bounds on the network Lipschitz constant, using a decomposed version for scalability. Convert to instance-specific certified margins via the cross-Lipschitz argument. Train variants with Parseval-style orthogonal regularization on the temporal and spatial filters and with a Lipschitz penalty, then compare tightness and accuracy.\",\"evaluation\":\"Use MOABB-style multi-dataset, within- and cross-subject evaluation across motor imagery, P300 and ERN data. Metrics: clean accuracy, certified accuracy at several L2 and L-infinity radii, ratio of certified bound to empirical minimal adversarial perturbation (PGD, UAP), and the sampling-based robustness score. Baselines: standard EEGNet, a deeper ConvNet, PGD adversarial training, and naive product-of-norms Lipschitz bounds.\",\"support\":[\"ref-001\",\"ref-005\",\"ref-020\",\"ref-022\",\"ref-010\",\"ref-009\",\"ref-024\",\"ref-021\",\"ref-007\",\"ref-013\"]},{\"title\":\"Do Adversarial Detectors and Robust Training for EEG Decoders Hold Up Across Datasets? A MOABB-Style Robustness Benchmark\",\"summary\":\"Adversarial detection and attack results for EEG BCIs are reported on a few datasets and models, while benchmarking work shows that single-dataset validation often fails to generalize. This proposal builds a standardized benchmark that evaluates attacks (white-box, universal), detectors (Mahalanobis and cosine-distance based), and defenses (adversarial training, Lipschitz or Parseval regularization) across many open EEG datasets, paradigms, and architectures. It tests whether the near-perfect detection reported for white-box attacks transfers across datasets, subjects, and unseen attacks, and whether robustness rankings are stable.\",\"gap\":\"Adversarial detection in EEG BCIs reported very high AUC on three datasets, but the benchmarking literature shows algorithms validated on few datasets often do not generalize. No unified, reproducible robustness evaluation across datasets, architectures, attacks, detectors and defenses exists for BCIs.\",\"approach\":\"Extend a common BCI benchmarking framework with an adversarial module: standardized implementations of PGD-style attacks and universal perturbations, the detection methods from the EEG literature, and defenses (adversarial training, Parseval-like constraints). Run pipelines in within-session, cross-session and cross-subject splits across many datasets, with FBCSP-based and CNN decoders (EEGNet, deep ConvNet). Include an adaptive attacker aware of the detector.\",\"evaluation\":\"Measure detection AUC and its drop under cross-dataset and cross-attack transfer, attack success rate, clean accuracy, and a CLEVER-style robustness score. Use statistical tests across datasets (as in the benchmark framework) to check whether rankings of detectors and defenses are significant and consistent; baselines are the originally reported single-dataset settings.\",\"support\":[\"ref-007\",\"ref-021\",\"ref-024\",\"ref-001\",\"ref-015\",\"ref-012\",\"ref-013\",\"ref-009\",\"ref-010\",\"ref-017\"]},{\"title\":\"Neural-Signal Safe Operation: Certified Robustness Margins as a Gating Mechanism for Assistive BCI Control\",\"summary\":\"BCIs controlling physical devices such as robotic arms face security risks from perturbed neural inputs, and safety-focused ML work calls for monitoring and robustness. This proposal tests a runtime safety gate for an EEG-driven assistive controller: a per-trial certified margin from a Lipschitz bound determines whether a decoded command is executed, deferred, or sent for user confirmation. The hypothesis is that certificate-based gating reduces harmful actions under adversarial perturbation more than confidence thresholding or adversarial detectors, at an acceptable cost in throughput. Validation uses offline EEG datasets with simulated attacks and a simulated device-control task.\",\"gap\":\"Security surveys and ethics papers on BCIs identify risks to users' physical integrity, and empirical EEG attack and detection studies exist, but none connects formal robustness certificates to an actionable control-level safety policy for BCI-driven devices. ML safety roadmaps call for monitoring and robustness but are not instantiated for BCI control.\",\"approach\":\"Train a compact EEG CNN with Lipschitz regularization and compute a certified margin per trial from an SDP or cross-Lipschitz bound. Define a gating policy: execute only if the margin exceeds the radius of a threat model (bounded-norm or universal perturbation); otherwise abstain or request confirmation. Simulate a cursor or robotic-arm control loop where decoded classes drive discrete commands, with attacks injected into the signal stream.\",\"evaluation\":\"Compare against ungated decoding, softmax-confidence thresholding, and Mahalanobis/cosine adversarial detector gating. Measure rate of harmful executed commands under PGD and universal attacks, task completion time and information transfer rate (cost of abstaining), false rejection rate on clean data, and sensitivity to threat-model radius. Use several open EEG datasets and cross-subject splits.\",\"support\":[\"ref-017\",\"ref-014\",\"ref-021\",\"ref-024\",\"ref-020\",\"ref-022\",\"ref-001\",\"ref-006\",\"ref-019\",\"ref-023\",\"ref-004\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Lipschitz-Certified EEGNet: SDP-Bounded Robustness for Compact EEG Decoders in Brain–Computer Interfaces",
+       "summary": "Adversarial attacks on EEG-based BCIs have been shown empirically, but no certified robustness guarantees exist for compact EEG CNNs. This proposal adapts semidefinite-programming Lipschitz bounds to the depthwise and separable convolutional structure of EEGNet-style models, yielding per-trial certified radii for input perturbations. It further tests whether Parseval-style orthogonality constraints on the spatial and temporal filters tighten the certificates at little accuracy cost. Validation compares certified radii, empirical attack radii, and a sampling-based robustness score across several open EEG datasets and paradigms, against unconstrained and adversarially trained baselines.",
+       "gap": "Existing EEG adversarial work (universal perturbations, artifact detection) is empirical and attack/detection-focused. Lipschitz/SDP certification and Parseval-style constraints exist for generic feed-forward or image networks, but nobody has applied them to compact EEG CNNs with depthwise/separable convolutions, nor tied them to EEG-specific perturbation sets.",
+       "approach": "Express the EEGNet layers (temporal conv, depthwise spatial conv, separable conv, ELU, pooling, dense) as a linear-plus-slope-restricted-nonlinearity chain and derive quadratic-constraint SDP upper bounds on the network Lipschitz constant, using a decomposed version for scalability. Convert to instance-specific certified margins via the cross-Lipschitz argument. Train variants with Parseval-style orthogonal regularization on the temporal and spatial filters and with a Lipschitz penalty, then compare tightness and accuracy.",
+       "evaluation": "Use MOABB-style multi-dataset, within- and cross-subject evaluation across motor imagery, P300 and ERN data. Metrics: clean accuracy, certified accuracy at several L2 and L-infinity radii, ratio of certified bound to empirical minimal adversarial perturbation (PGD, UAP), and the sampling-based robustness score. Baselines: standard EEGNet, a deeper ConvNet, PGD adversarial training, and naive product-of-norms Lipschitz bounds.",
+       "support": [
+        "ref-001",
+        "ref-005",
+        "ref-020",
+        "ref-022",
+        "ref-010",
+        "ref-009",
+        "ref-024",
+        "ref-021",
+        "ref-007",
+        "ref-013"
+       ]
+      },
+      {
+       "title": "Do Adversarial Detectors and Robust Training for EEG Decoders Hold Up Across Datasets? A MOABB-Style Robustness Benchmark",
+       "summary": "Adversarial detection and attack results for EEG BCIs are reported on a few datasets and models, while benchmarking work shows that single-dataset validation often fails to generalize. This proposal builds a standardized benchmark that evaluates attacks (white-box, universal), detectors (Mahalanobis and cosine-distance based), and defenses (adversarial training, Lipschitz or Parseval regularization) across many open EEG datasets, paradigms, and architectures. It tests whether the near-perfect detection reported for white-box attacks transfers across datasets, subjects, and unseen attacks, and whether robustness rankings are stable.",
+       "gap": "Adversarial detection in EEG BCIs reported very high AUC on three datasets, but the benchmarking literature shows algorithms validated on few datasets often do not generalize. No unified, reproducible robustness evaluation across datasets, architectures, attacks, detectors and defenses exists for BCIs.",
+       "approach": "Extend a common BCI benchmarking framework with an adversarial module: standardized implementations of PGD-style attacks and universal perturbations, the detection methods from the EEG literature, and defenses (adversarial training, Parseval-like constraints). Run pipelines in within-session, cross-session and cross-subject splits across many datasets, with FBCSP-based and CNN decoders (EEGNet, deep ConvNet). Include an adaptive attacker aware of the detector.",
+       "evaluation": "Measure detection AUC and its drop under cross-dataset and cross-attack transfer, attack success rate, clean accuracy, and a CLEVER-style robustness score. Use statistical tests across datasets (as in the benchmark framework) to check whether rankings of detectors and defenses are significant and consistent; baselines are the originally reported single-dataset settings.",
+       "support": [
+        "ref-007",
+        "ref-021",
+        "ref-024",
+        "ref-001",
+        "ref-015",
+        "ref-012",
+        "ref-013",
+        "ref-009",
+        "ref-010",
+        "ref-017"
+       ]
+      },
+      {
+       "title": "Neural-Signal Safe Operation: Certified Robustness Margins as a Gating Mechanism for Assistive BCI Control",
+       "summary": "BCIs controlling physical devices such as robotic arms face security risks from perturbed neural inputs, and safety-focused ML work calls for monitoring and robustness. This proposal tests a runtime safety gate for an EEG-driven assistive controller: a per-trial certified margin from a Lipschitz bound determines whether a decoded command is executed, deferred, or sent for user confirmation. The hypothesis is that certificate-based gating reduces harmful actions under adversarial perturbation more than confidence thresholding or adversarial detectors, at an acceptable cost in throughput. Validation uses offline EEG datasets with simulated attacks and a simulated device-control task.",
+       "gap": "Security surveys and ethics papers on BCIs identify risks to users' physical integrity, and empirical EEG attack and detection studies exist, but none connects formal robustness certificates to an actionable control-level safety policy for BCI-driven devices. ML safety roadmaps call for monitoring and robustness but are not instantiated for BCI control.",
+       "approach": "Train a compact EEG CNN with Lipschitz regularization and compute a certified margin per trial from an SDP or cross-Lipschitz bound. Define a gating policy: execute only if the margin exceeds the radius of a threat model (bounded-norm or universal perturbation); otherwise abstain or request confirmation. Simulate a cursor or robotic-arm control loop where decoded classes drive discrete commands, with attacks injected into the signal stream.",
+       "evaluation": "Compare against ungated decoding, softmax-confidence thresholding, and Mahalanobis/cosine adversarial detector gating. Measure rate of harmful executed commands under PGD and universal attacks, task completion time and information transfer rate (cost of abstaining), false rejection rate on clean data, and sensitivity to threat-model radius. Use several open EEG datasets and cross-subject splits.",
+       "support": [
+        "ref-017",
+        "ref-014",
+        "ref-021",
+        "ref-024",
+        "ref-020",
+        "ref-022",
+        "ref-001",
+        "ref-006",
+        "ref-019",
+        "ref-023",
+        "ref-004"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 19305,
+    "type": "result",
+    "duration_ms": 19340,
+    "uuid": "44769081-086f-4b21-8fc4-b37af474bf77",
+    "ttft_stream_ms": 1715,
+    "time_to_request_ms": 531,
+    "time_to_request_phases_ms": {
+     "other": 4,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 3,
+     "input_attachments": 8,
+     "input_hooks": 3,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 12,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 0,
+     "model_config_wait": 479,
+     "autocompact": 2,
+     "request_announcements": 3,
+     "query_setup": 1,
+     "model_gates": 0,
+     "tool_schema_build": 2,
+     "message_normalization": 2,
+     "client_creation": 1,
+     "request_build": 4
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 9,
+    "time_to_request_cpu_ms": 234,
+    "time_to_request_major_faults": 9066,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 2,
+     "cpu_ms": 32,
+     "major_faults": 250,
+     "setup_ms": 0,
+     "prompt_producers_ms": 0,
+     "ambient_start_ms": 3,
+     "ambient_wait_ms": 2,
+     "render_ms": 1,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 1,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 1715,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.175Z"
+   }
+  }
+ ],
+ "calls": 1,
+ "usage": [
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 10462,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2369,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 10462,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2369,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 10462,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 10462
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.065542,
+   "duration_ms": 19340,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2369,
+     "cacheReadInputTokens": 0,
+     "cacheCreationInputTokens": 10462,
+     "webSearchRequests": 0,
+     "costUSD": 0.065542,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 0,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 10462,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ],
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "seconds": 21.6
+}

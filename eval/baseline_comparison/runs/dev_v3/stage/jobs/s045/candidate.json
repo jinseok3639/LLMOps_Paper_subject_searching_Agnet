@@ -1,0 +1,13 @@
+{
+ "title": "Adaptive Calibration Penalty for Reward Model Uncertainty in Inference-Time Alignment",
+ "summary": "This paper introduces an adaptive calibration penalty that adjusts reward scores during inference-time alignment by penalizing high-reward outputs with low confidence. The penalty is derived from the reward model's calibration error on a held-out validation set, ensuring conservative scoring for uncertain predictions. Evaluated on Best-of-N sampling tasks, the method reduces reward hacking and improves alignment with true preferences compared to static reward models. Experiments use the Anthropic HH-RLHF dataset and measure success via human evaluation, reward model robustness, and ablation studies isolating the penalty's impact.",
+ "gap": "Current inference-time alignment methods like Best-of-N (ref-003) and MBR-BoN (ref-003) treat reward scores as absolute, ignoring uncertainty. While ref-004's InferenceTimePessimism and ref-012's LARA address uncertainty, they use rejection sampling or constrained optimization, not direct reward score adjustment based on calibration error. No method penalizes reward scores proportionally to the reward model's uncertainty as measured by calibration error.",
+ "approach": "The adaptive calibration penalty modifies reward scores by subtracting a penalty term proportional to the reward model's calibration error on a held-out validation set. The penalty is computed as the absolute difference between the model's predicted reward and the empirical reward quantile for the predicted confidence bin. This adjusted reward is used in Best-of-N sampling. Inputs: reward model, validation set, confidence bins. Outputs: penalized reward scores. Objective: minimize penalized reward while maximizing true alignment. The penalty term is the only change from vanilla Best-of-N.",
+ "evaluation": "Baselines include vanilla Best-of-N (ref-003), MBR-BoN (ref-003), InferenceTimePessimism (ref-004), and LARA (ref-012). Metrics are reward hacking rate (fraction of high-reward outputs rejected by human evaluators), alignment score (human preference win rate), and reward model calibration error (Brier score). The Anthropic HH-RLHF dataset is used. Ablation studies vary the penalty magnitude and calibration bin size to isolate the penalty's effect.",
+ "support": [
+  "ref-003",
+  "ref-004",
+  "ref-006",
+  "ref-012"
+ ]
+}

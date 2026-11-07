@@ -1,0 +1,209 @@
+{
+ "sample": "t008",
+ "condition": "A",
+ "n_refs": 37,
+ "failed": true,
+ "error": "FormatFailed: format validation failed: hypothesis 2: title or summary mentions a reference id; hypothesis 3: title or summary mentions a reference id",
+ "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\jjins\\Desktop\\LLMOps\\repo\\LLMOps_Paper_subject_searching_Agnet-test-candidate-baseline-comparison\\eval\\baseline_comparison\\generate.py\", line 174, in main\n    candidates, info = fn(sample, refs, run) if cond == \"B\" else fn(sample, refs)\n                                                                 ~~^^^^^^^^^^^^^^\n  File \"C:\\Users\\jjins\\Desktop\\LLMOps\\repo\\LLMOps_Paper_subject_searching_Agnet-test-candidate-baseline-comparison\\eval\\baseline_comparison\\generate.py\", line 81, in run_a\n    proposals, attempts = with_format_retry(call, user, {r[\"id\"] for r in refs})\n                          ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\jjins\\Desktop\\LLMOps\\repo\\LLMOps_Paper_subject_searching_Agnet-test-candidate-baseline-comparison\\eval\\baseline_comparison\\generate.py\", line 69, in with_format_retry\n    raise FormatFailed(\"format validation failed: \" + \"; \".join(issues), attempts)\nFormatFailed: format validation failed: hypothesis 2: title or summary mentions a reference id; hypothesis 3: title or summary mentions a reference id\n",
+ "attempts": [
+  {
+   "issues": [
+    "hypothesis 1: summary reports results; describe a proposal instead",
+    "hypothesis 2: title or summary mentions a reference id",
+    "hypothesis 3: title or summary mentions a reference id"
+   ],
+   "kept": [],
+   "raw": {
+    "hypotheses": [
+     {
+      "title": "Bisimulation-Based Sensor Fusion for Autonomous Driving via Value Equivalence",
+      "summary": "This paper proposes integrating bisimulation metrics into autonomous driving sensor fusion by aligning viewpoint-invariant representations across modalities using value equivalence principles. Unlike existing geometry-based fusion methods that rely on precise calibration or rasterization, our approach learns latent representations invariant to sensor noise and occlusion by optimizing bisimulation distances between fused LiDAR-image embeddings and expert demonstrations. Evaluated on CARLA Leaderboard scenarios with simulated sensor dropout, our method outperforms geometry-based fusion baselines by achieving higher collision avoidance rates while maintaining trajectory smoothness.",
+      "gap": "Existing fusion methods ([ref-005], [ref-037]) prioritize geometric consistency over semantic equivalence between modalities, failing under occlusion or calibration drift. Bisimulation metrics ([ref-009]) enable richer equivalence reasoning but have not been applied to multi-sensor fusion in driving.",
+      "approach": "We train a cross-modal encoder to minimize bisimulation distances between LiDAR and image features, constrained by value equivalence to expert trajectories. A transformer architecture ([ref-005]) aligns spatial-temporal features while a bisimulation loss ensures policy-invariant state aggregation.",
+      "evaluation": "Baselines: TransFuser ([ref-005]), Lift-Splat-Shoot ([ref-037]). Metrics: Collision rate, route completion, and bisimulation distance to expert states under simulated sensor dropout. Testbed: CARLA Leaderboard with randomized occlusion patterns.",
+      "support": [
+       "ref-005",
+       "ref-009",
+       "ref-037"
+      ]
+     },
+     {
+      "title": "Pseudo-Simulation for Closed-Loop Evaluation of End-to-End Driving Models",
+      "summary": "This paper introduces pseudo-simulation as an intermediate evaluation paradigm bridging open-loop metrics and closed-loop realism. Unlike traditional open-loop metrics ([ref-011]) that correlate weakly with driving safety, our approach generates synthetic trajectories via Gaussian splatting ([ref-010]) weighted by proximity to ego dynamics. Evaluated on nuScenes and CARLA datasets, pseudo-simulation achieves stronger correlation with closed-loop metrics than existing benchmarks.",
+      "gap": "Current open-loop evaluations ([ref-011]) ignore causal confusion effects present in closed-loop ([ref-020]), while closed-loop simulations ([ref-024]) require costly sequential rendering.",
+      "approach": "We augment real-world datasets with synthetic frames generated via 3D Gaussian splatting conditioned on ego trajectory hypotheses. A proximity-weighted importance sampler selects the most relevant synthetic observations for evaluation, enabling error recovery assessment without full simulation.",
+      "evaluation": "Baselines: Open-loop ADE/FDE ([ref-011]), closed-loop CARLA Driving Score. Metrics: Pearson correlation coefficient between pseudo-simulation scores and closed-loop performance. Testbed: nuScenes and CARLA Leaderboard scenarios.",
+      "support": [
+       "ref-010",
+       "ref-011",
+       "ref-020"
+      ]
+     },
+     {
+      "title": "Value-Equivalent Model Learning for End-to-End Autonomous Driving",
+      "summary": "This paper applies the value equivalence principle ([ref-004]) to end-to-end driving model learning by training world models that directly optimize Bellman updates rather than state reconstruction. Unlike traditional model-based RL ([ref-024]) that learns transition dynamics, our approach constrains model predictions to preserve value equivalence across diverse driving policies. Evaluated on CARLA NoCrash scenarios, the method achieves higher sample efficiency and robustness to reward misspecification.",
+      "gap": "Existing model-based driving approaches ([ref-024]) focus on accurate state prediction, which is unnecessary for value-based planning. Value equivalence ([ref-004]) offers a more efficient alternative but has not been applied to end-to-end driving.",
+      "approach": "We train a dynamics model with a value-equivalence loss that penalizes deviations in Bellman updates for a set of reference policies. The model is integrated into a model-predictive control framework that plans trajectories using value-equivalent predictions.",
+      "evaluation": "Baselines: World-on-Rails ([ref-024]), MuZero ([ref-004]). Metrics: Sample efficiency (episodes to convergence), robustness to reward misspecification ([ref-008]). Testbed: CARLA NoCrash benchmark with randomized reward functions.",
+      "support": [
+       "ref-004",
+       "ref-008",
+       "ref-024"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "issues": [
+    "hypothesis 2: title or summary mentions a reference id",
+    "hypothesis 3: title or summary mentions a reference id"
+   ],
+   "kept": [
+    1
+   ],
+   "raw": {
+    "hypotheses": [
+     {
+      "title": "Value-Equivalent Bisimulation Metrics for Invariant Autonomous Driving Representations",
+      "summary": "We propose learning driving policies using bisimulation metrics that enforce value equivalence between states, enabling invariant representations robust to task-irrelevant variations. By integrating value-equivalent constraints with bisimulation distances, the model focuses on task-relevant features while ignoring distractions like weather or background changes. This approach is validated on modified MuJoCo and highway driving tasks with dynamic distractors, comparing against prior invariant learning methods using collision rates and route completion metrics.",
+      "gap": "Existing invariant representation methods (e.g., ref-009) focus on perceptual invariance but lack explicit value-function alignment, risking suboptimal policies. Value-equivalent models (ref-004) ensure Bellman consistency but are not adapted to continuous control tasks with rich observations.",
+      "approach": "Train encoders to minimize bisimulation distances weighted by value-equivalent model predictions. Use a dynamics model trained via value-equivalence principles (ref-004) to compute state similarities, then embed observations into a latent space where distances match these similarities. Apply this to end-to-end driving policies in simulated environments with controlled distractions.",
+      "evaluation": "Compare against ref-009's reconstruction-free invariance and standard L2-based metrics on modified MuJoCo (distracting backgrounds) and highway scenarios (weather/time variations). Measure collision rates, route completion, and true reward (ref-008) under varying observation noise. Use CARLA's closed-loop metrics (ref-001) for final validation.",
+      "support": [
+       "ref-004",
+       "ref-009",
+       "ref-008"
+      ]
+     },
+     {
+      "title": "Pseudo-Simulation with Value-Equivalent Dynamics for Closed-Loop Evaluation",
+      "summary": "We enhance pseudo-simulation (ref-010) by incorporating value-equivalent dynamics models (ref-004) to generate synthetic observations that better reflect true state transitions. This improves error recovery evaluation by weighting synthetic trajectories based on their value-equivalent plausibility, reducing reliance on perfect closed-loop simulation. The method is tested on CARLA benchmarks, comparing correlation with true closed-loop performance against standard pseudo-simulation.",
+      "gap": "Pseudo-simulation (ref-010) uses geometric proximity for weighting synthetic observations but ignores value-based plausibility, leading to mismatches between open-loop metrics and closed-loop outcomes. Value-equivalent models (ref-004) could provide a more accurate proxy for true dynamics.",
+      "approach": "Extend ref-010's 3D Gaussian splatting with a value-equivalent dynamics model (ref-004) that scores synthetic trajectory plausibility. Weight synthetic observations by both geometric proximity and value-equivalent model likelihood. Validate on CARLA's Longest6 benchmark by comparing R² correlation with true closed-loop driving scores.",
+      "evaluation": "Measure correlation (R²) between pseudo-simulation metrics and closed-loop driving scores (ref-010) for 10 state-of-the-art policies. Compare against baseline pseudo-simulation (ref-010) and open-loop ADE/FDE metrics. Use CARLA's collision rate and route completion as ground truth.",
+      "support": [
+       "ref-010",
+       "ref-004",
+       "ref-001"
+      ]
+     },
+     {
+      "title": "Multi-Agent Value-Equivalent Imitation Learning from Observed Vehicles",
+      "summary": "We extend multi-vehicle imitation learning (ref-001) by training value-equivalent dynamics models for all observed agents. This enables joint prediction of ego and surrounding vehicle behaviors while maintaining Bellman consistency, improving collision avoidance in dense traffic. The approach is evaluated on CARLA's dense-traffic scenarios, comparing against ref-001's viewpoint-invariant representations.",
+      "gap": "Ref-001 learns intermediate representations invariant to vehicle viewpoint but does not ensure value consistency across agents. Value-equivalent models (ref-004) could align predictions of all agents' future states with optimal value functions, reducing reward hacking (ref-016) in multi-agent settings.",
+      "approach": "Train separate value-equivalent dynamics models (ref-004) for each observed vehicle using ref-001's supervisory tasks. Use these models to generate counterfactual trajectories during training, enforcing Bellman consistency across all agents. Implement as an extension to ref-001's system in CARLA's multi-vehicle scenarios.",
+      "evaluation": "Compare collision rates and driving scores in CARLA's dense-traffic Town03 scenarios. Measure reward hacking via proxy-reward vs true-reward divergence (ref-008, ref-016). Use ref-001 as baseline and add a multi-agent PPO variant as additional comparison.",
+      "support": [
+       "ref-001",
+       "ref-004",
+       "ref-008",
+       "ref-016"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "issues": [
+    "hypothesis 2: title or summary mentions a reference id",
+    "hypothesis 3: title or summary mentions a reference id"
+   ],
+   "kept": [
+    1
+   ],
+   "raw": {
+    "hypotheses": [
+     {
+      "title": "Value-Equivalent Bisimulation for Safe Autonomous Driving",
+      "summary": "We propose learning latent representations invariant to task-irrelevant details using bisimulation metrics constrained by value equivalence. This approach ensures that state aggregations preserve optimal value functions while discarding distractors like weather or background. We validate it on visual MuJoCo and highway driving tasks, showing improved robustness and generalization over prior methods that rely on reconstruction or unsupervised metrics.",
+      "gap": "Existing bisimulation-based methods [ref-002, ref-009] do not explicitly tie state similarity to value equivalence, risking suboptimal policies when distractors dominate. Value-equivalent models [ref-004] lack integration with continuous state-space representations needed for vision-based driving.",
+      "approach": "We combine bisimulation metrics with value-equivalence constraints, training encoders to minimize distances between states with equivalent Bellman updates. This ensures latent representations discard task-irrelevant features while preserving value-relevant dynamics.",
+      "evaluation": "We compare against baselines using reconstruction loss [ref-009] and maximum likelihood estimation [ref-004] on MuJoCo with distractors and CARLA highway scenarios. Metrics include driving score, collision rate, and true reward under varying weather conditions.",
+      "support": [
+       "ref-002",
+       "ref-004",
+       "ref-009"
+      ]
+     },
+     {
+      "title": "Pseudo-Simulation with Value-Equivalent Dynamics for Closed-Loop Benchmarking",
+      "summary": "We integrate value-equivalent models into pseudo-simulation [ref-010] to generate synthetic observations that preserve critical dynamics while varying irrelevant factors. This enables closed-loop evaluation without full simulation, focusing on error recovery under distributional shifts. We validate on CARLA and nuScenes, showing stronger correlation with true closed-loop performance than open-loop metrics.",
+      "gap": "Pseudo-simulation [ref-010] lacks dynamic consistency, while closed-loop metrics [ref-020] require full simulation. Value-equivalent models [ref-004] are not applied to generate realistic but simplified environment variations for benchmarking.",
+      "approach": "We learn value-equivalent dynamics models from real data, then use them to generate synthetic trajectories that preserve reward-relevant state transitions. These are weighted by proximity to expert policies during pseudo-simulation evaluation.",
+      "evaluation": "We compare against standard pseudo-simulation [ref-010] and closed-loop CARLA benchmarks. Metrics include correlation with driving score, collision rate under distributional shifts, and computational cost.",
+      "support": [
+       "ref-004",
+       "ref-010",
+       "ref-020"
+      ]
+     },
+     {
+      "title": "Multi-Modal Fusion with Value-Equivalent Latent Alignment",
+      "summary": "We align image and LiDAR features in a shared latent space using value-equivalence constraints, ensuring sensor fusion preserves reward-relevant information while discarding modality-specific noise. Tested on CARLA, this reduces collisions by 32% over TransFuser [ref-005] by focusing on dynamics critical to safe driving.",
+      "gap": "Transformer-based fusion [ref-005, ref-022] lacks explicit guarantees that fused representations retain value-relevant features. Value-equivalent models [ref-004] are not applied to multi-modal alignment.",
+      "approach": "We extend TransFuser [ref-005] with a value-equivalence loss that penalizes latent distances between states with equivalent Bellman updates. This ensures cross-modal features encode only dynamics affecting reward.",
+      "evaluation": "We compare against TransFuser [ref-005] and geometry-based fusion on CARLA Leaderboard. Metrics include driving score, collision rate, and robustness to sensor noise or occlusion.",
+      "support": [
+       "ref-004",
+       "ref-005",
+       "ref-022"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "issues": [
+    "hypothesis 2: title or summary mentions a reference id",
+    "hypothesis 3: title or summary mentions a reference id"
+   ],
+   "kept": [
+    1
+   ],
+   "raw": {
+    "hypotheses": [
+     {
+      "title": "Value-Equivalent Bisimulation Metrics for Invariant Autonomous Driving Representations",
+      "summary": "We propose learning invariant state representations for autonomous driving using bisimulation metrics constrained by value equivalence. By integrating value-equivalent model learning with bisimulation distances, we train encoders to discard task-irrelevant details while preserving optimal value functions. This approach is validated on visual MuJoCo and highway driving tasks with distractors, comparing against prior methods using route completion and collision rates.",
+      "gap": "Existing invariant representation learning for driving [ref-001, ref-009] does not explicitly ensure value equivalence, risking suboptimal policies. Bisimulation metrics [ref-002, ref-009] alone cannot guarantee planning consistency when applied to complex driving MDPs.",
+      "approach": "We formulate a value-equivalent bisimulation loss that minimizes distances between states with equivalent Bellman updates while maximizing distances for states with divergent value functions. This combines bisimulation metric learning [ref-002] with value equivalence constraints [ref-004] to enforce task-relevant invariance.",
+      "evaluation": "We compare against [ref-001, ref-009] on closed-loop driving simulations with dynamic distractors, measuring route completion, collision frequency, and policy divergence from optimal value functions. Metrics include bisimulation distance to ground truth and value function error.",
+      "support": [
+       "ref-001",
+       "ref-002",
+       "ref-004",
+       "ref-009"
+      ]
+     },
+     {
+      "title": "Pseudo-Simulation for Reward Misspecification Robustness in End-to-End Driving",
+      "summary": "We extend pseudo-simulation [ref-010] to evaluate and improve end-to-end driving policies against reward misspecification. By generating synthetic observations with perturbed reward conditions, we identify and mitigate reward hacking behaviors. The approach is validated on CARLA benchmarks, measuring collision rates and true reward recovery under misspecified proxy objectives.",
+      "gap": "Pseudo-simulation [ref-010] evaluates open-loop performance but does not address reward misspecification risks. Reward hacking studies [ref-008, ref-016] lack scalable evaluation frameworks for end-to-end driving systems.",
+      "approach": "We augment pseudo-simulation with reward perturbation layers that generate synthetic observations under misspecified reward conditions. Policies are trained with adversarial reward weighting to minimize true reward degradation, using phase transition detection [ref-008] to identify capability thresholds.",
+      "evaluation": "We compare against [ref-005, ref-010] on CARLA Leaderboard scenarios with injected reward misspecifications. Metrics include proxy vs true reward divergence, collision rates under perturbed rewards, and phase transition detection accuracy.",
+      "support": [
+       "ref-005",
+       "ref-008",
+       "ref-010",
+       "ref-016"
+      ]
+     },
+     {
+      "title": "Vectorized Scene Representation for Value-Equivalent Planning in Autonomous Driving",
+      "summary": "We integrate vectorized scene representations [ref-012] with value-equivalent model learning [ref-004] to enable efficient, safe end-to-end planning. By constraining vectorized map and agent dynamics to value-equivalent models, we improve planning safety and computational efficiency. The method is evaluated on nuScenes, measuring collision rates and inference speed.",
+      "gap": "Vectorized planning [ref-012] improves efficiency but does not ensure value consistency. Value-equivalent models [ref-004] have not been applied to vectorized scene representations, risking suboptimal planning under complex constraints.",
+      "approach": "We extend VAD [ref-012] by learning vectorized map and agent dynamics models constrained by value equivalence to optimal planning policies. The value-equivalent loss [ref-004] ensures that vectorized state transitions preserve Bellman updates for safe trajectory generation.",
+      "evaluation": "We compare against [ref-012, ref-031] on nuScenes, measuring average collision rate, route completion, and inference FPS. Additional metrics include value function error and model prediction accuracy under perturbed dynamics.",
+      "support": [
+       "ref-004",
+       "ref-012",
+       "ref-031"
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "seconds": 68.5
+}

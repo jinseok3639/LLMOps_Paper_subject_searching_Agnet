@@ -1,0 +1,56 @@
+[
+ {
+  "id": "x1",
+  "title": "Pessimistic Lagrangian Best-of-N: Making Constrained Inference-Time Safety Alignment Monotonic in N Under Imperfect Cost Models",
+  "summary": "Propose combining Lagrangian reward augmentation, which trades helpfulness against a learned safety cost, with a pessimism or proximity penalty so the constrained Best-of-N selector does not degrade as N grows. The augmented score is reward minus a calibrated multiplier times cost, minus an uncertainty or MBR-style proximity term. We test whether this keeps true harmlessness and helpfulness from declining at large N, when the cost model is imperfect. Validation uses a held-out gold safety judge distinct from the cost model, sweeping N and comparing to plain Lagrangian BoN and unconstrained BoN.",
+  "gap": "Lagrangian inference-time alignment calibrates a dual variable assuming the reward and cost models are accurate, while theory and empirical work show that Best-of-N against imperfect proxies suffers reward hacking as N grows. Nobody has examined whether constrained BoN's safety guarantee survives cost-model error at large N, or combined constraint handling with pessimism or proximity regularization.",
+  "approach": "Take a reward model and cost model, estimate the dual variable on a small calibration set as in the Lagrangian method, then add a pessimism term (a rejection-sampling style penalty on responses where proxy scores are likely overestimated) or an MBR-based proximity regularizer to the augmented score. Re-calibrate the dual variable under the regularized objective so the expected-cost constraint is still met. Derive when the combined selector is scaling-monotonic and implement it for N from 1 to several thousand.",
+  "evaluation": "Compare to vanilla BoN, Lagrangian BoN, MBR-BoN, pessimism-only BoN, and a constrained fine-tuning baseline. Measure the gold-judge harmful rate and the helpfulness reward from an independent reward model as a function of N, plotting gold-versus-proxy curves in the style of overoptimization studies. Use cost models trained on varied preference data sizes to vary proxy quality. Report whether the combined method keeps true safety and helpfulness non-decreasing in N and the win rate against the baselines.",
+  "support": [
+   "ref-012",
+   "ref-004",
+   "ref-003",
+   "ref-006",
+   "ref-019",
+   "ref-020"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Defender-Side Adaptive Best-of-N Versus Attacker-Side Best-of-N Jailbreaking: Risk-Adaptive Compute Allocation for Safe Decoding",
+  "summary": "Propose that a defender can use per-prompt adaptive test-time compute for safety selection, and that its power-law gain can be compared against the attacker's Best-of-N jailbreak. A risk estimate from the prompt or a first batch of samples decides how many candidates to draw and rerank with a safety-constrained score. The hypothesis is that adaptive allocation reaches a given robustness at far lower average compute than fixed N. We test this against augmentation-based Best-of-N jailbreak attacks, with attack success measured by a strict harmfulness evaluator.",
+  "gap": "Test-time compute scaling shows that compute-optimal per-prompt allocation beats uniform Best-of-N. Separately, Best-of-N jailbreaking shows that attack success follows a power law in the number of sampled augmentations. Safe inference-time alignment methods use a fixed budget. It is unknown whether adaptive, risk-aware compute allocation lets defender compute scale faster than attacker compute, or how it changes the attacker-defender exchange rate.",
+  "approach": "Build a controller that estimates prompt risk (with a safety classifier on the prompt and first samples) and sets N per prompt, sampling and then selecting using a constrained reward-cost score. Define the attack as random augmentations of the harmful request with up to thousands of samples. Measure attack success as a function of attacker samples under several defender budgets, and fit power-law exponents for fixed versus adaptive defenders. Add a safety-reasoning guideline prompt or model as an alternative proposal distribution.",
+  "evaluation": "Benchmarks: red-teaming behaviors and jailbreak benchmark prompts, with a strict harmfulness evaluator to avoid inflated attack success. Baselines: fixed-N BoN, single-sample refusal-trained models, guard-model filtering, and the safe-reasoning-trained model. Metrics: attack success rate versus attacker samples, average defender FLOPs per prompt, power-law exponents, and helpfulness on benign prompts to detect over-refusal.",
+  "support": [
+   "ref-002",
+   "ref-024",
+   "ref-012",
+   "ref-007",
+   "ref-014",
+   "ref-017",
+   "ref-021",
+   "ref-016",
+   "ref-005"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Scaling Laws for Safety-Cost-Model Overoptimization in Best-of-N: Do Guard Models Get Hacked Like Reward Models?",
+  "summary": "Propose a controlled study of how a proxy safety signal, such as a guard classifier or cost model, is overoptimized under Best-of-N, measured against an independent gold harmfulness evaluator. We fit gold-versus-proxy functional forms as N grows. We vary the proxy model's size and training data, and test whether coefficients scale smoothly as they do for helpfulness reward models. The study also tests whether safety overoptimization differs in form from helpfulness overoptimization, and whether it yields a rule for choosing a safe maximum N.",
+  "gap": "Overoptimization scaling laws have been measured for general preference reward models with synthetic gold labels, and Best-of-N is used with safety cost models. Content-moderation guard models are used as safety filters. No work characterizes how the true harmfulness of Best-of-N outputs changes as N grows when the optimized signal is a safety cost or guard score, nor whether the helpfulness scaling form transfers.",
+  "approach": "Use a strong safety evaluator as the gold signal, and train proxy safety scorers of several sizes and data amounts, including cost models and guard-style classifiers. For harmful and borderline prompts, sample many responses and select the best-of-N by proxy safety (alone and combined with helpfulness). Fit parametric curves of gold score against the KL-like divergence of BoN (log N) per proxy configuration. Test whether coefficients follow smooth trends in proxy size and data, and derive a predicted safe N cap from small-N fits.",
+  "evaluation": "Compare fitted forms for safety proxies against those for helpfulness reward models on the same prompts. Evaluate prediction error of extrapolating the optimal N from small-N fits to large-N held-out measurements. Check robustness with a second, differently built gold judge and with different benchmark prompt sets (red-teaming behaviors and a jailbreak benchmark). Confirm via human-labeled spot checks.",
+  "support": [
+   "ref-006",
+   "ref-005",
+   "ref-016",
+   "ref-012",
+   "ref-021",
+   "ref-014",
+   "ref-009",
+   "ref-008",
+   "ref-010"
+  ]
+ }
+]

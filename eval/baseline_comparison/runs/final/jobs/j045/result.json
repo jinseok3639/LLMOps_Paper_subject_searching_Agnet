@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The main ingredients are supported: auditor-access hierarchies (ref-019), cryptographic backdoor undetectability (ref-021), consistency-based activation probes (ref-020), and the proposed behavioral test cases (ref-018, ref-008, ref-015). However, ref-019 motivates oracle access, not specifically white-box truth directions. Ref-021's white-box guarantees require particular constructions and hardness assumptions; a merely 'random-feature-style' backdoor need not resist all efficient distinguishers.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied references leave open whether increased auditor access improves practical detection of password locks, instruction backdoors, and sycophancy (ref-018, ref-008, ref-015). This follows naturally from ref-019's access hierarchy and ref-021's detection limits. The gap is somewhat broad, and ref-020 already demonstrates useful activation access when outputs are misleading, so the incremental question needs sharper boundaries.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate names three access levels, probe families, behavioral targets, baselines, detection AUC, and a fixed query budget (ref-020, ref-001, ref-009, ref-018, ref-013). However, it leaves the trusted reference, audit distribution, sample statistics, adaptive querying strategy, and adaptations of STRIP and truth-direction probes unspecified. These choices substantially determine the experiment.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Comparing detection across access levels could test the central hypothesis motivated by ref-019. However, distinguishing a model from a clean reference does not by itself attribute the difference to the targeted behavior. The link between consistency-based truth probing and password-lock or backdoor detection also needs specification (ref-020, ref-018, ref-008). Finally, the proposed negative control does not inherit ref-021's guarantees without its exact construction and assumptions.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A controlled result could influence whether auditors require query access or internal activations, and which probes they deploy, connecting ref-019's access argument to practical risks in ref-018 and ref-008. Establishing when activation methods such as ref-020 add detection power would be useful. The potential impact is substantial, but depends on separating behavior-specific detection from ordinary differences between models.",
+  "score": 4
+ }
+}

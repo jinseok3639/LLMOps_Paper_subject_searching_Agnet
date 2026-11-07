@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "Synthetic constitution-based classifier training is supported by ref-004, code generation and HumanEval by ref-001, and jailbreak attacks by ref-014. However, ref-001 does not describe code-model alignment defenses, and ref-016 is Beloved with no abstract, making its citation unrelated. The references do not establish that Constitutional Classifiers have never addressed code safety. Ref-007 supports training-data extraction, not specifically memorization of unsafe code.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Testing Constitutional Classifiers for code generation is a scoped extension, but the claimed limitation is not demonstrated. Ref-004 already reports held-out domain-specific jailbreak defenses without specifying whether code is covered, while ref-001 and ref-016 provide no evidence that existing code alignment methods lack robustness. The proposed gap is plausible but weakly established by this corpus.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate specifies a target model, synthetic training technique, inference intervention, two baselines, sample counts, and quantitative success targets. HumanEval correctness follows ref-001 and adversarial evaluation follows ref-014. However, safe coding rules, attack construction, the RLHF baseline, and the operational definition of unsafe-code memorization remain unspecified, leaving important experimental choices open.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Classifier guarding and jailbreak-success measurement directly test the proposed safety improvement, while HumanEval measures retained utility (ref-004, ref-014, ref-001). However, rejecting unsafe input prompts may miss unsafe generated code from apparently acceptable prompts. The memorization metric also lacks a clear connection to the intervention: ref-007 distinguishes extractable training data from ordinary generation, but the candidate provides no corresponding extraction protocol.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A controlled result could inform whether code-generation systems should adopt constitutional guardrails and clarify their safety–utility tradeoff, extending the deployment findings in ref-004 to the capabilities measured in ref-001. As presented, this is a useful but narrow domain adaptation, with limited explanation of what code-specific challenge would make its outcome change broader methodological assumptions.",
+  "score": 3
+ }
+}

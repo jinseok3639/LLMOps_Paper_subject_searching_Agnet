@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The main motivation is supported: ref-044 demonstrates book extraction from open-weight models, ref-007 demonstrates production-model training-data extraction, and ref-038 establishes many-shot jailbreaks. However, the categorical claim that book-level extraction has been demonstrated only through direct prefix prompting is stronger than these abstracts establish. Several support entries supply little evidence: ref-033 has no abstract, and most cited novels provide only titles. Ref-014 supports optimized adversarial suffixes, rather than the proposed randomized perturbation technique.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Testing targeted, sustained book extraction through production safeguards is a concrete extension of ref-044's open-weight book experiments and ref-007's untargeted production extraction. Neither supplied abstract resolves this question. The gap is well scoped, although the assertion that it has never been measured is not established by the supplied references.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The proposal specifies targets, an initial bypass followed by chained continuation, direct-prompt and divergence baselines, an open-weight comparison, and concrete recovery, cost, and refusal measures. These operationalize the extraction question raised by ref-044 and ref-007. Experimental design remains necessary for similarity and block-length thresholds, attack budgets, model and book selection, and the choice between two substantially different bypass methods.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Chained continuation and book-level alignment could test whether bypassing refusals enables sustained recovery beyond direct prefix prompting, extending ref-044. However, supplying a many-shot prefix containing the book's own text confounds extraction of memorized material with reproduction or continuation aided by supplied content. Ref-038 establishes attacks using behavioral demonstrations, not this book-text variant. Without excluding supplied passages and controlling prompt exposure, recovery scores could overstate the hypothesized effect.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A controlled result could influence whether developers rely on production safeguards to limit access to memorized books, connecting ref-007's alignment limitations with ref-044's extensive book recovery and ref-035's distinction between memorization and system-dependent regurgitation. Both successful extraction and consistent resistance would inform deployment choices. Negative findings would remain limited by uncertain book exposure and attack coverage, so they could not establish that production models lack book memorization.",
+  "score": 4
+ }
+}

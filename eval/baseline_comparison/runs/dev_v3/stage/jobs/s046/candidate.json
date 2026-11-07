@@ -1,0 +1,13 @@
+{
+ "title": "Inference-Time Pessimism for Reward-Hacking Resilience in Best-of-N Sampling",
+ "summary": "We propose Inference-Time Pessimism (ITP), a method that introduces a rejection threshold during Best-of-N (BoN) sampling to prevent reward hacking. ITP adaptively discards low-quality samples using a calibrated pessimism score derived from a reward model's uncertainty. This approach is validated on the Anthropic HH-RLHF and AlpacaFarm datasets, comparing ITP-BoN against standard BoN and MBR-BoN. Metrics include reward model score, human preference alignment, and safety ratings, with ITP expected to show reduced reward hacking and improved generalization under high N.",
+ "gap": "Current BoN methods suffer from reward hacking when N is large, as they over-optimize imperfect reward models without accounting for their uncertainty. Existing solutions like MBR-BoN do not fully address the compute-scaling tradeoff or provide formal guarantees against degradation.",
+ "approach": "ITP augments BoN with a pessimism score that penalizes samples based on the reward model's confidence interval. A dynamic threshold, derived from the reward model's calibration on a held-out set, rejects samples with scores below the lower bound of the interval. This ensures that only samples with high-probability alignment to the true reward are selected, even as N increases.",
+ "evaluation": "Baselines include standard BoN, MBR-BoN, and InferenceTimePessimism (ref-004). Metrics are reward model score, human preference (from ref-003), and safety ratings (ref-005). We test on the HH-RLHF and AlpacaFarm datasets, measuring performance as N scales from 10 to 10,000. ITP is expected to maintain or improve performance with increasing N, unlike BoN, which degrades due to reward hacking.",
+ "support": [
+  "ref-001",
+  "ref-003",
+  "ref-004",
+  "ref-005"
+ ]
+}

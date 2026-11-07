@@ -1,0 +1,356 @@
+{
+ "sample": "t010",
+ "condition": "D",
+ "n_refs": 21,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Sample-Complexity Limits of Backdoor Detection via Distribution Testing: Lower Bounds and Matching Activation-Space Testers",
+   "summary": "We propose to cast backdoor detection as a distribution testing problem: deciding whether a model's activation distribution on a clean reference set differs from that on a possibly poisoned dataset. We derive minimax lower bounds (Fano/Le Cam style) on the number of samples needed to detect a poisoning fraction epsilon given a separation in representation space, and construct a tester that matches them. We then compare the bound with practical clustering and entropy-based defenses on image and LLM backdoors, validating whether empirical detection thresholds scale with the predicted rate and where they fall short of it.",
+   "gap": "Empirical defenses (activation clustering, STRIP) and benchmarks report detection rates without any statistical limits, while cryptographic work shows undetectability only for computationally bounded observers. No cited work gives information-theoretic sample-complexity rates for detection as a function of poisoning ratio and trigger separation, or checks whether practical defenses reach them.",
+   "approach": "Model clean and poisoned activation distributions as a mixture with weight epsilon and a shift in a feature space. Prove lower bounds on samples for testing via Le Cam/Fano reductions from nonparametric estimation and property testing. Design an identity/closeness tester with matching rates (a chi-square type statistic on projected activations). Instantiate it on trained backdoored models, including BadNets-style, hidden-trigger and instruction-based attacks, and sweep poisoning ratio and trigger strength.",
+   "evaluation": "Compare the empirical minimal sample size for 95% detection power against the theoretical rate across poisoning ratios in a standard backdoor benchmark. Baselines: activation clustering, STRIP, and the other defenses implemented in the benchmarks. Measures: power at fixed false-positive rate, sample size gap to the lower bound, and robustness to hidden-trigger attacks designed to evade defenses.",
+   "support": [
+    "ref-001",
+    "ref-009",
+    "ref-003",
+    "ref-006",
+    "ref-005",
+    "ref-004",
+    "ref-011",
+    "ref-016",
+    "ref-021"
+   ]
+  },
+  {
+   "title": "Domain-Divergence Bounds for Backdoor Persistence: Predicting Trigger Transfer Across Datasets in Instruction-Tuned LLMs",
+   "summary": "We propose to use domain adaptation theory to predict when a backdoor implanted through one dataset or instruction will transfer to other datasets. We treat the poisoned task as the source domain and the downstream task as the target, and bound the attack success rate on the target by the source rate plus a classifier-induced divergence estimated from unlabeled samples. We test whether this divergence predicts observed poison transfer and instruction transfer across many datasets and LLMs, and whether it identifies datasets for which backdoors survive continual fine-tuning.",
+   "gap": "Studies of LLM backdoors report empirically that poisoned models and instructions transfer across datasets, and benchmarks tabulate cross-dataset generalization, but none offers a principled predictor of when transfer happens. Domain adaptation theory gives target-error bounds via divergence but has not been applied to attack success rate transfer.",
+   "approach": "Define attack success as the target-domain error of a backdoor-labeled classifier. Estimate the H-divergence between the poisoned-source and target input distributions by training a domain discriminator on LLM hidden states. Derive a bound on target attack success rate in terms of the source rate and the divergence, with a term for the existence of a shared trigger-responsive hypothesis. Fit and validate the bound on transfer experiments.",
+   "evaluation": "Use the instruction-attack setting and the LLM backdoor benchmarks to produce many source-target pairs. Measure rank correlation and calibration between predicted and observed transfer attack success rate. Baselines: simple dataset similarity measures such as embedding cosine or task-type labels, and the ungrounded observed-transfer averages. Ablate divergence estimators and test on held-out model families.",
+   "support": [
+    "ref-002",
+    "ref-008",
+    "ref-013",
+    "ref-010",
+    "ref-007",
+    "ref-012"
+   ]
+  },
+  {
+   "title": "Unsupervised Latent-Knowledge Probes as Detectors of Password-Locked and Backdoored Hidden Behavior",
+   "summary": "We propose to test whether a consistency-based unsupervised probe of internal activations can detect hidden, trigger-conditioned behavior in language models without knowing the trigger. Using password-locked models and instruction-backdoored models, we train the probe on activations of unlabeled prompts and check whether it recovers the model's true (unlocked) answers when the password or trigger is absent. We measure whether probe accuracy exceeds the model's visible outputs and whether it supports capability elicitation and backdoor flagging better than activation clustering.",
+   "gap": "Password-locked models show that hidden capabilities can be elicited by fine-tuning, which needs demonstrations that may be unavailable. Unsupervised latent-knowledge probing recovers knowledge even when models are prompted to output wrong answers, but has not been tested against deliberately concealed capabilities or backdoors. Activation-clustering defenses require poisoned training data access rather than just a deployed model.",
+   "approach": "Build password-locked models and instruction-poisoned models. Fit a contrast-consistency direction on activations of statement/negation pairs without labels, with no password or trigger in the prompt. Compare the probe's answers with the locked model's outputs and with the unlocked ground truth. Add a detection score from the gap between probe and output answers, and evaluate as a backdoor and sandbagging detector.",
+   "evaluation": "Measure probe accuracy against the locked output accuracy and the with-password accuracy. Measure AUROC for detecting locked versus unlocked models and triggered versus clean inputs. Baselines: activation clustering, STRIP-style output entropy, supervised few-shot fine-tuning elicitation with few demonstrations, and a random-direction probe. Vary the number of locked capabilities and the training strength of locking.",
+   "support": [
+    "ref-020",
+    "ref-018",
+    "ref-008",
+    "ref-001",
+    "ref-009",
+    "ref-014",
+    "ref-015"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [],
+   "raw": {
+    "duration_api_ms": 17221,
+    "stop_reason": "tool_use",
+    "session_id": "799a935c-d521-45ea-a6d2-a93c84636a2b",
+    "total_cost_usd": 0.0513907,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 7481,
+     "cache_read_input_tokens": 1127,
+     "output_tokens": 2135,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 7481,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2135,
+       "cache_read_input_tokens": 1127,
+       "cache_creation_input_tokens": 7481,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 7481
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2135,
+      "cacheReadInputTokens": 1127,
+      "cacheCreationInputTokens": 7481,
+      "webSearchRequests": 0,
+      "costUSD": 0.0513907,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 0,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 7481,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Sample-Complexity Limits of Backdoor Detection via Distribution Testing: Lower Bounds and Matching Activation-Space Testers\",\"summary\":\"We propose to cast backdoor detection as a distribution testing problem: deciding whether a model's activation distribution on a clean reference set differs from that on a possibly poisoned dataset. We derive minimax lower bounds (Fano/Le Cam style) on the number of samples needed to detect a poisoning fraction epsilon given a separation in representation space, and construct a tester that matches them. We then compare the bound with practical clustering and entropy-based defenses on image and LLM backdoors, validating whether empirical detection thresholds scale with the predicted rate and where they fall short of it.\",\"gap\":\"Empirical defenses (activation clustering, STRIP) and benchmarks report detection rates without any statistical limits, while cryptographic work shows undetectability only for computationally bounded observers. No cited work gives information-theoretic sample-complexity rates for detection as a function of poisoning ratio and trigger separation, or checks whether practical defenses reach them.\",\"approach\":\"Model clean and poisoned activation distributions as a mixture with weight epsilon and a shift in a feature space. Prove lower bounds on samples for testing via Le Cam/Fano reductions from nonparametric estimation and property testing. Design an identity/closeness tester with matching rates (a chi-square type statistic on projected activations). Instantiate it on trained backdoored models, including BadNets-style, hidden-trigger and instruction-based attacks, and sweep poisoning ratio and trigger strength.\",\"evaluation\":\"Compare the empirical minimal sample size for 95% detection power against the theoretical rate across poisoning ratios in a standard backdoor benchmark. Baselines: activation clustering, STRIP, and the other defenses implemented in the benchmarks. Measures: power at fixed false-positive rate, sample size gap to the lower bound, and robustness to hidden-trigger attacks designed to evade defenses.\",\"support\":[\"ref-001\",\"ref-009\",\"ref-003\",\"ref-006\",\"ref-005\",\"ref-004\",\"ref-011\",\"ref-016\",\"ref-021\"]},{\"title\":\"Domain-Divergence Bounds for Backdoor Persistence: Predicting Trigger Transfer Across Datasets in Instruction-Tuned LLMs\",\"summary\":\"We propose to use domain adaptation theory to predict when a backdoor implanted through one dataset or instruction will transfer to other datasets. We treat the poisoned task as the source domain and the downstream task as the target, and bound the attack success rate on the target by the source rate plus a classifier-induced divergence estimated from unlabeled samples. We test whether this divergence predicts observed poison transfer and instruction transfer across many datasets and LLMs, and whether it identifies datasets for which backdoors survive continual fine-tuning.\",\"gap\":\"Studies of LLM backdoors report empirically that poisoned models and instructions transfer across datasets, and benchmarks tabulate cross-dataset generalization, but none offers a principled predictor of when transfer happens. Domain adaptation theory gives target-error bounds via divergence but has not been applied to attack success rate transfer.\",\"approach\":\"Define attack success as the target-domain error of a backdoor-labeled classifier. Estimate the H-divergence between the poisoned-source and target input distributions by training a domain discriminator on LLM hidden states. Derive a bound on target attack success rate in terms of the source rate and the divergence, with a term for the existence of a shared trigger-responsive hypothesis. Fit and validate the bound on transfer experiments.\",\"evaluation\":\"Use the instruction-attack setting and the LLM backdoor benchmarks to produce many source-target pairs. Measure rank correlation and calibration between predicted and observed transfer attack success rate. Baselines: simple dataset similarity measures such as embedding cosine or task-type labels, and the ungrounded observed-transfer averages. Ablate divergence estimators and test on held-out model families.\",\"support\":[\"ref-002\",\"ref-008\",\"ref-013\",\"ref-010\",\"ref-007\",\"ref-012\"]},{\"title\":\"Unsupervised Latent-Knowledge Probes as Detectors of Password-Locked and Backdoored Hidden Behavior\",\"summary\":\"We propose to test whether a consistency-based unsupervised probe of internal activations can detect hidden, trigger-conditioned behavior in language models without knowing the trigger. Using password-locked models and instruction-backdoored models, we train the probe on activations of unlabeled prompts and check whether it recovers the model's true (unlocked) answers when the password or trigger is absent. We measure whether probe accuracy exceeds the model's visible outputs and whether it supports capability elicitation and backdoor flagging better than activation clustering.\",\"gap\":\"Password-locked models show that hidden capabilities can be elicited by fine-tuning, which needs demonstrations that may be unavailable. Unsupervised latent-knowledge probing recovers knowledge even when models are prompted to output wrong answers, but has not been tested against deliberately concealed capabilities or backdoors. Activation-clustering defenses require poisoned training data access rather than just a deployed model.\",\"approach\":\"Build password-locked models and instruction-poisoned models. Fit a contrast-consistency direction on activations of statement/negation pairs without labels, with no password or trigger in the prompt. Compare the probe's answers with the locked model's outputs and with the unlocked ground truth. Add a detection score from the gap between probe and output answers, and evaluate as a backdoor and sandbagging detector.\",\"evaluation\":\"Measure probe accuracy against the locked output accuracy and the with-password accuracy. Measure AUROC for detecting locked versus unlocked models and triggered versus clean inputs. Baselines: activation clustering, STRIP-style output entropy, supervised few-shot fine-tuning elicitation with few demonstrations, and a random-direction probe. Vary the number of locked capabilities and the training strength of locking.\",\"support\":[\"ref-020\",\"ref-018\",\"ref-008\",\"ref-001\",\"ref-009\",\"ref-014\",\"ref-015\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Sample-Complexity Limits of Backdoor Detection via Distribution Testing: Lower Bounds and Matching Activation-Space Testers",
+       "summary": "We propose to cast backdoor detection as a distribution testing problem: deciding whether a model's activation distribution on a clean reference set differs from that on a possibly poisoned dataset. We derive minimax lower bounds (Fano/Le Cam style) on the number of samples needed to detect a poisoning fraction epsilon given a separation in representation space, and construct a tester that matches them. We then compare the bound with practical clustering and entropy-based defenses on image and LLM backdoors, validating whether empirical detection thresholds scale with the predicted rate and where they fall short of it.",
+       "gap": "Empirical defenses (activation clustering, STRIP) and benchmarks report detection rates without any statistical limits, while cryptographic work shows undetectability only for computationally bounded observers. No cited work gives information-theoretic sample-complexity rates for detection as a function of poisoning ratio and trigger separation, or checks whether practical defenses reach them.",
+       "approach": "Model clean and poisoned activation distributions as a mixture with weight epsilon and a shift in a feature space. Prove lower bounds on samples for testing via Le Cam/Fano reductions from nonparametric estimation and property testing. Design an identity/closeness tester with matching rates (a chi-square type statistic on projected activations). Instantiate it on trained backdoored models, including BadNets-style, hidden-trigger and instruction-based attacks, and sweep poisoning ratio and trigger strength.",
+       "evaluation": "Compare the empirical minimal sample size for 95% detection power against the theoretical rate across poisoning ratios in a standard backdoor benchmark. Baselines: activation clustering, STRIP, and the other defenses implemented in the benchmarks. Measures: power at fixed false-positive rate, sample size gap to the lower bound, and robustness to hidden-trigger attacks designed to evade defenses.",
+       "support": [
+        "ref-001",
+        "ref-009",
+        "ref-003",
+        "ref-006",
+        "ref-005",
+        "ref-004",
+        "ref-011",
+        "ref-016",
+        "ref-021"
+       ]
+      },
+      {
+       "title": "Domain-Divergence Bounds for Backdoor Persistence: Predicting Trigger Transfer Across Datasets in Instruction-Tuned LLMs",
+       "summary": "We propose to use domain adaptation theory to predict when a backdoor implanted through one dataset or instruction will transfer to other datasets. We treat the poisoned task as the source domain and the downstream task as the target, and bound the attack success rate on the target by the source rate plus a classifier-induced divergence estimated from unlabeled samples. We test whether this divergence predicts observed poison transfer and instruction transfer across many datasets and LLMs, and whether it identifies datasets for which backdoors survive continual fine-tuning.",
+       "gap": "Studies of LLM backdoors report empirically that poisoned models and instructions transfer across datasets, and benchmarks tabulate cross-dataset generalization, but none offers a principled predictor of when transfer happens. Domain adaptation theory gives target-error bounds via divergence but has not been applied to attack success rate transfer.",
+       "approach": "Define attack success as the target-domain error of a backdoor-labeled classifier. Estimate the H-divergence between the poisoned-source and target input distributions by training a domain discriminator on LLM hidden states. Derive a bound on target attack success rate in terms of the source rate and the divergence, with a term for the existence of a shared trigger-responsive hypothesis. Fit and validate the bound on transfer experiments.",
+       "evaluation": "Use the instruction-attack setting and the LLM backdoor benchmarks to produce many source-target pairs. Measure rank correlation and calibration between predicted and observed transfer attack success rate. Baselines: simple dataset similarity measures such as embedding cosine or task-type labels, and the ungrounded observed-transfer averages. Ablate divergence estimators and test on held-out model families.",
+       "support": [
+        "ref-002",
+        "ref-008",
+        "ref-013",
+        "ref-010",
+        "ref-007",
+        "ref-012"
+       ]
+      },
+      {
+       "title": "Unsupervised Latent-Knowledge Probes as Detectors of Password-Locked and Backdoored Hidden Behavior",
+       "summary": "We propose to test whether a consistency-based unsupervised probe of internal activations can detect hidden, trigger-conditioned behavior in language models without knowing the trigger. Using password-locked models and instruction-backdoored models, we train the probe on activations of unlabeled prompts and check whether it recovers the model's true (unlocked) answers when the password or trigger is absent. We measure whether probe accuracy exceeds the model's visible outputs and whether it supports capability elicitation and backdoor flagging better than activation clustering.",
+       "gap": "Password-locked models show that hidden capabilities can be elicited by fine-tuning, which needs demonstrations that may be unavailable. Unsupervised latent-knowledge probing recovers knowledge even when models are prompted to output wrong answers, but has not been tested against deliberately concealed capabilities or backdoors. Activation-clustering defenses require poisoned training data access rather than just a deployed model.",
+       "approach": "Build password-locked models and instruction-poisoned models. Fit a contrast-consistency direction on activations of statement/negation pairs without labels, with no password or trigger in the prompt. Compare the probe's answers with the locked model's outputs and with the unlocked ground truth. Add a detection score from the gap between probe and output answers, and evaluate as a backdoor and sandbagging detector.",
+       "evaluation": "Measure probe accuracy against the locked output accuracy and the with-password accuracy. Measure AUROC for detecting locked versus unlocked models and triggered versus clean inputs. Baselines: activation clustering, STRIP-style output entropy, supervised few-shot fine-tuning elicitation with few demonstrations, and a random-direction probe. Vary the number of locked capabilities and the training strength of locking.",
+       "support": [
+        "ref-020",
+        "ref-018",
+        "ref-008",
+        "ref-001",
+        "ref-009",
+        "ref-014",
+        "ref-015"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 19493,
+    "type": "result",
+    "duration_ms": 19519,
+    "uuid": "a9d71b77-03ae-4c31-905b-9f4c1dc752c5",
+    "ttft_stream_ms": 3624,
+    "time_to_request_ms": 2290,
+    "time_to_request_phases_ms": {
+     "other": 4,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 2,
+     "input_attachments": 18,
+     "input_hooks": 1,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 29,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 1,
+     "model_config_wait": 0,
+     "autocompact": 1,
+     "request_announcements": 3,
+     "query_setup": 1,
+     "model_gates": 2212,
+     "tool_schema_build": 3,
+     "message_normalization": 2,
+     "client_creation": 2,
+     "request_build": 4
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 16,
+    "time_to_request_cpu_ms": 360,
+    "time_to_request_major_faults": 8462,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 13,
+     "cpu_ms": 0,
+     "major_faults": 1639,
+     "setup_ms": 0,
+     "prompt_producers_ms": 0,
+     "ambient_start_ms": 2,
+     "ambient_wait_ms": 13,
+     "render_ms": 1,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 1,
+     "after_ms": 0,
+     "other_ms": 1,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 1,
+     "cache_break_record_ms": 0,
+     "plans_ms": 1,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 0,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 3624,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  }
+ ],
+ "calls": 1,
+ "usage": [
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 7481,
+    "cache_read_input_tokens": 1127,
+    "output_tokens": 2135,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 7481,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2135,
+      "cache_read_input_tokens": 1127,
+      "cache_creation_input_tokens": 7481,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 7481
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.0513907,
+   "duration_ms": 19519,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2135,
+     "cacheReadInputTokens": 1127,
+     "cacheCreationInputTokens": 7481,
+     "webSearchRequests": 0,
+     "costUSD": 0.0513907,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 0,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 7481,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ],
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "seconds": 21.7
+}

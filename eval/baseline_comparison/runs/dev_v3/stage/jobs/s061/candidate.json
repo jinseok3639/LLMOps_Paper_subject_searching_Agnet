@@ -1,0 +1,12 @@
+{
+ "title": "Adversarial Robustness in Diffusion Policy Systems via Latent Space Perturbation Analysis",
+ "summary": "This work investigates adversarial vulnerabilities in diffusion-based policy systems by analyzing latent space perturbations. We propose a novel attack framework that identifies critical timesteps and spatial regions in diffusion processes where minimal perturbations cause maximal policy failure. The approach combines gradient-based optimization with physical constraint modeling to generate both digital and physical adversarial examples. Validation involves measuring success rate degradation across manipulation tasks under various attack scenarios.",
+ "gap": "Current diffusion policy safety research focuses on end-to-end attacks without analyzing how vulnerabilities manifest across diffusion timesteps or spatial dimensions.",
+ "approach": "We develop a multi-stage attack methodology: (1) timestep sensitivity analysis to identify critical diffusion phases, (2) spatial saliency mapping to locate vulnerable regions, and (3) constrained optimization to generate minimal perturbations. The framework includes both white-box and black-box attack variants, with physical realizability constraints for tangible adversarial objects.",
+ "evaluation": "We test against pre-trained diffusion policies on manipulation benchmarks, measuring success rate drops under digital/physical attacks. Comparisons include baseline methods like DP-Attacker and random perturbation baselines. Additional metrics assess transferability across policy architectures and perturbation detectability.",
+ "support": [
+  "ref-005",
+  "ref-007",
+  "ref-016"
+ ]
+}

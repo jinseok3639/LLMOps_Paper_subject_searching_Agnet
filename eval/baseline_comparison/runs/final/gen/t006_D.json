@@ -1,0 +1,1010 @@
+{
+ "sample": "t006",
+ "condition": "D",
+ "n_refs": 63,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Flat Minima Meet Weight Averaging: EMA-Friendly-SAM for Misclassification Detection Across Foundation-Model Backbones",
+   "summary": "Flat-minima methods are known to widen the confidence gap between correct and incorrect predictions, but they have mostly been studied with SAM or SWA on standard CNNs. We propose to combine Friendly-SAM, which uses an EMA of gradients, with EMA or SWA weight averaging, and to apply this to fine-tuning of large pretrained backbones such as DINOv3 and DeiT. The aim is better failure prediction (misclassification detection) with a softmax-response score. We would validate it on CIFAR, ImageNet and medical benchmarks. Baselines are the plain softmax response, SAM+SWA flat-minima failure prediction, and OpenMix. The metrics are AUGRC, AURC and AUROC.",
+   "gap": "Flat-minima failure prediction has been shown with SAM and SWA, and Friendly-SAM and weight EMA are shown to improve generalization, calibration and robustness. No cited work tests whether these newer flat-minima variants improve confidence separation, nor whether this holds for modern pretrained transformer or foundation-model backbones.",
+   "approach": "Fine-tune ResNet, DeiT and DINOv3 backbones with four recipes: (a) standard SGD, (b) SAM+SWA, (c) Friendly-SAM, (d) Friendly-SAM + EMA of weights. Use the maximum softmax probability as the confidence score and do not change the inference path. Analyze sharpness against the correct/incorrect confidence gap. Ablate the EMA decay and the perturbation radius.",
+   "evaluation": "Compare against the softmax-response baseline, the SAM+SWA flat-minima method, and OpenMix and SURE on CIFAR-10/100, Tiny-ImageNet, ImageNet and medical imaging datasets. Metrics are AUGRC, AURC, AUROC and FPR95 for misclassification detection, plus accuracy. Report correlations between sharpness and confidence separation. Use multiple seeds with significance tests.",
+   "support": [
+    "ref-002",
+    "ref-059",
+    "ref-010",
+    "ref-013",
+    "ref-022",
+    "ref-030",
+    "ref-007",
+    "ref-063",
+    "ref-040",
+    "ref-012",
+    "ref-062",
+    "ref-056"
+   ]
+  },
+  {
+   "title": "Learning Where to Reject: A Trustworthiness Side-Predictor for Selective Classification with OOD Data Trained with Mixed ID-Error and Outlier Pseudo-Samples",
+   "summary": "Selective classification with OOD data (SCOD) needs a score that ranks correct ID predictions above both misclassified ID samples and OOD samples. Post-hoc OOD scores and softmax confidence each fail on one side. We propose a lightweight side learner that sits on a frozen classifier's features and logits and is trained with a steep-slope-style loss. Its training negatives are the classifier's own errors plus OpenMix-style pseudo-outliers. We would validate it on ImageNet-scale and CIFAR benchmarks, comparing it with the softmax response, SIRC, plugin estimators and feature-distance scores using SCOD risk-coverage metrics.",
+   "gap": "SCOD work relies on hand-designed post-hoc combinations, or on plugin estimators, and shows that OOD detectors conflate ID errors. Learned trustworthiness predictors target only correct versus incorrect ID predictions. Methods that learn confidence from outliers do not train a single learned selector that handles both ID errors and OOD inputs.",
+   "approach": "Freeze a trained classifier. Extract penultimate features and logits, plus a kNN-distance or ViM-style residual feature. Train a small side network (as in regression side learners) with the steep slope loss, using the training-set errors recovered by early-snapshot or held-out predictions and mixup-generated outlier pseudo-samples as negatives. At test time, accept or reject on the side network's score.",
+   "evaluation": "Baselines are the softmax response, MaxLogit, energy, ViM, kNN, SIRC, the plugin estimators, TCP learning and the Dirichlet meta-model. Metrics are the SCOD AURC/AUGRC variants with a mixed ID+OOD test set, plus AUROC for the individual sub-tasks (misclassification and OOD). Use ImageNet with NINCO and other OOD sets, and CIFAR with SVHN/Textures/Places. Vary the OOD fraction in the test mix.",
+   "support": [
+    "ref-005",
+    "ref-014",
+    "ref-020",
+    "ref-052",
+    "ref-062",
+    "ref-004",
+    "ref-042",
+    "ref-028",
+    "ref-046",
+    "ref-047",
+    "ref-063",
+    "ref-054",
+    "ref-019"
+   ]
+  },
+  {
+   "title": "Does Early-Snapshot Confidence Fix Overconfident Errors? Combining Bias-Reduced Estimation with Flat-Minima Training for Unified Failure Detection",
+   "summary": "Late SGD training makes confidence estimates for highly confident points biased and jittery. Flat-minima training increases the confidence gap. We propose a unified failure score that combines the final flat-minima model's softmax with confidence from earlier snapshots or EMA checkpoints. We would validate it by comparing failure detection across misclassification, OOD and full-spectrum shifts in a common benchmark. Baselines are softmax response, deep ensembles, SWAG, and flat-minima training alone, evaluated with AUGRC and AUROC.",
+   "gap": "Bias-reduced estimation uses earlier snapshots with standard training. Flat-minima failure prediction uses only the final model. No cited work tests whether snapshot-based confidence is complementary to flat-minima training, nor evaluates it under a unified failure-detection protocol covering covariate shift, near/far OOD and in-distribution errors.",
+   "approach": "Save snapshots during SAM+SWA training of ResNet and ViT on CIFAR and ImageNet. Compute the confidence of the final model and of earlier snapshots or EMA models. Combine them by a simple rule: use the early snapshot's confidence for highly confident points, and fall back to the final model's confidence otherwise. Also test a learned weighting on a held-out split. Analyze how confidence for errors evolves across training with different optimizers.",
+   "evaluation": "Compare against the softmax response, deep ensemble, SWAG, SAM+SWA, the early-snapshot method alone, and cosine-restart snapshot ensembles using SGDR. Use the unified benchmarks (fd-shifts, OpenOOD v1.5, unknown detection benchmark). Metrics are AUGRC, AURC, AUROC and FPR95, reported separately for ID errors, covariate shift and semantic shift, with training and inference cost.",
+   "support": [
+    "ref-049",
+    "ref-002",
+    "ref-059",
+    "ref-010",
+    "ref-013",
+    "ref-050",
+    "ref-022",
+    "ref-061",
+    "ref-007",
+    "ref-034",
+    "ref-018",
+    "ref-063",
+    "ref-045"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [
+    "hypothesis 1: missing or unknown support ids"
+   ],
+   "raw": {
+    "duration_api_ms": 17750,
+    "stop_reason": "tool_use",
+    "session_id": "6610ee67-9922-4961-ab18-ed6acb452501",
+    "total_cost_usd": 0.121928,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 24671,
+     "cache_read_input_tokens": 0,
+     "output_tokens": 2324,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 24671,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2324,
+       "cache_read_input_tokens": 0,
+       "cache_creation_input_tokens": 24671,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 24671
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2324,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 24671,
+      "webSearchRequests": 0,
+      "costUSD": 0.121928,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 0,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 24671,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Flat-Minima Training for Selective Classification with OOD Data: Does SAM/SWA/EMA Close the ID-Misclassification vs. OOD Trade-off?\",\"summary\":\"Selective classification with out-of-distribution data (SCOD) needs a confidence score that rejects both misclassified in-distribution inputs and OOD inputs. Flat-minima training helps failure prediction, while OOD-specific methods often hurt it. We propose evaluating and combining flat-minima training (SAM variants, weight averaging, EMA) with a simple softmax or max-logit score under SCOD risk-coverage metrics on ImageNet-scale benchmarks. We test whether flatness improves both ID-error and OOD rejection together, and whether it complements post-hoc OOD scores. Validation uses a unified benchmark with AUGRC-style metrics against post-hoc and training-time baselines.\",\"gap\":\"Flat minima are shown to improve misclassification detection, and SCOD work shows that OOD detectors conflate correct and incorrect ID predictions. Nobody has tested whether flat-minima optimizers and weight averaging help the joint SCOD objective, or how they interact with post-hoc OOD scores.\",\"approach\":\"Train ResNet/ViT classifiers with SGD, SAM, Friendly-SAM, SWA and EMA, alone and combined. Compute softmax-response, max-logit, energy, and SIRC-type combined scores. Measure SCOD risk-coverage with mixtures of ID and OOD data at varied OOD proportions. Analyze score separation (correct ID vs. incorrect ID vs. OOD) and sharpness to explain results.\",\"evaluation\":\"Baselines: standard SGD training with each score, OpenMix/Outlier Exposure-style training, and the FMFP flat-minima recipe. Metrics: AUGRC and risk-coverage under SCOD, AUROC for misclassification and OOD detection, FPR95. Datasets: CIFAR, ImageNet with OOD sets like NINCO, Places, Textures. Ablation across OOD fractions and architectures.\",\"support\":[\"ref-002\",\"ref-059\",\"ref-005\",\"ref-014\",\"ref-010\",\"ref-013\",\"ref-022\",\"ref-030\",\"ref-063\",\"ref-62\",\"ref-047\",\"ref-024\",\"ref-032\"]},{\"title\":\"Do Foundation-Model Backbones Change the Failure-Detection Ranking? A Unified Benchmark of Confidence Scores under Misclassification, OOD, and Open-Set Shifts\",\"summary\":\"Prior failure-detection benchmarks found softmax-response baselines hard to beat, but they used conventionally trained CNNs and ViTs. We propose a unified benchmark that evaluates confidence scores (softmax, max-logit, energy, kNN, ViM, learned scorers) on frozen and fine-tuned foundation-model backbones such as DINOv3. The target is whether the ranking of scorers, and the claim that a good closed-set classifier is enough, hold when feature quality is much higher. Validation uses a threshold-free selective-classification metric across misclassification, semantic-shift and covariate-shift failure sources.\",\"gap\":\"Existing benchmarks show that a simple softmax or max-logit baseline wins and that closed-set accuracy correlates with unknown detection. These were established on ordinary supervised backbones and mostly separate failure sources. Whether feature-space and learned scorers become useful, or the baseline still wins, with strong self-supervised foundation features is not established.\",\"approach\":\"Build on an existing failure-detection testbed. Add pretrained and fine-tuned backbones (ResNet, DeiT-style ViT, ImageNet-21K pretrained, DINOv3) with linear-probe or full fine-tuning heads. Apply post-hoc scorers (MSP, MaxLogit, energy, ViM, kNN, GradNorm, ReAct, DICE) plus learned scorers (TCP, CRL, steep-slope trustworthiness predictors). Evaluate on ID errors, near/far OOD, and covariate shift.\",\"evaluation\":\"Compare rankings across backbones using AUGRC, AUROC, FPR95; measure rank correlation of scorers between supervised and foundation backbones; test the accuracy-vs-detection correlation. Report whether any scorer significantly beats softmax baselines with bootstrap CIs across seeds.\",\"support\":[\"ref-007\",\"ref-008\",\"ref-006\",\"ref-034\",\"ref-063\",\"ref-018\",\"ref-040\",\"ref-057\",\"ref-012\",\"ref-001\",\"ref-019\",\"ref-028\",\"ref-046\",\"ref-054\",\"ref-052\",\"ref-020\"]},{\"title\":\"Early-Snapshot Weight Averaging for Bias-Reduced Confidence Estimation in Failure Prediction\",\"summary\":\"Late SGD training tends to bias confidence for highly confident points, while EMA and SWA yield flatter, better-calibrated solutions. We propose a confidence estimator that combines an EMA/SWA teacher with early-training snapshots of the same run, scoring each input by agreement between snapshot-based and final-model confidence, at no extra training cost. The proposal targets misclassification and OOD rejection together. It is validated against softmax response, flat-minima training, and ensembles on CIFAR and ImageNet using failure-prediction and selective-classification metrics.\",\"gap\":\"Snapshot-based uncertainty fixes overfitting-induced bias in high-confidence points, and weight averaging gives flat solutions and better calibration, but they have been studied separately. It is unknown whether EMA trajectories supply early-snapshot confidence signals that improve failure prediction beyond flat-minima training alone.\",\"approach\":\"During training, store an EMA of weights and a few early snapshots (or early EMA decay values). At test time compute a confidence score as a learned or rule-based combination of final MSP and early-snapshot MSP, such as a rank-agreement or ratio score. Optionally train a light side learner on model features to predict correctness using snapshot outputs.\",\"evaluation\":\"Baselines: MSP of SGD, SAM, SWA, EMA models; SWAG; deep ensembles; TCP and Correctness Ranking Loss; the early-snapshot estimator without averaging. Metrics: AUROC/AURC/AUGRC for misclassification detection, FPR95 for OOD, calibration error. Datasets: CIFAR-10/100, Tiny ImageNet, ImageNet. Ablate snapshot epoch and EMA decay.\",\"support\":[\"ref-049\",\"ref-022\",\"ref-013\",\"ref-050\",\"ref-002\",\"ref-059\",\"ref-010\",\"ref-052\",\"ref-053\",\"ref-034\",\"ref-007\",\"ref-063\",\"ref-061\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Flat-Minima Training for Selective Classification with OOD Data: Does SAM/SWA/EMA Close the ID-Misclassification vs. OOD Trade-off?",
+       "summary": "Selective classification with out-of-distribution data (SCOD) needs a confidence score that rejects both misclassified in-distribution inputs and OOD inputs. Flat-minima training helps failure prediction, while OOD-specific methods often hurt it. We propose evaluating and combining flat-minima training (SAM variants, weight averaging, EMA) with a simple softmax or max-logit score under SCOD risk-coverage metrics on ImageNet-scale benchmarks. We test whether flatness improves both ID-error and OOD rejection together, and whether it complements post-hoc OOD scores. Validation uses a unified benchmark with AUGRC-style metrics against post-hoc and training-time baselines.",
+       "gap": "Flat minima are shown to improve misclassification detection, and SCOD work shows that OOD detectors conflate correct and incorrect ID predictions. Nobody has tested whether flat-minima optimizers and weight averaging help the joint SCOD objective, or how they interact with post-hoc OOD scores.",
+       "approach": "Train ResNet/ViT classifiers with SGD, SAM, Friendly-SAM, SWA and EMA, alone and combined. Compute softmax-response, max-logit, energy, and SIRC-type combined scores. Measure SCOD risk-coverage with mixtures of ID and OOD data at varied OOD proportions. Analyze score separation (correct ID vs. incorrect ID vs. OOD) and sharpness to explain results.",
+       "evaluation": "Baselines: standard SGD training with each score, OpenMix/Outlier Exposure-style training, and the FMFP flat-minima recipe. Metrics: AUGRC and risk-coverage under SCOD, AUROC for misclassification and OOD detection, FPR95. Datasets: CIFAR, ImageNet with OOD sets like NINCO, Places, Textures. Ablation across OOD fractions and architectures.",
+       "support": [
+        "ref-002",
+        "ref-059",
+        "ref-005",
+        "ref-014",
+        "ref-010",
+        "ref-013",
+        "ref-022",
+        "ref-030",
+        "ref-063",
+        "ref-62",
+        "ref-047",
+        "ref-024",
+        "ref-032"
+       ]
+      },
+      {
+       "title": "Do Foundation-Model Backbones Change the Failure-Detection Ranking? A Unified Benchmark of Confidence Scores under Misclassification, OOD, and Open-Set Shifts",
+       "summary": "Prior failure-detection benchmarks found softmax-response baselines hard to beat, but they used conventionally trained CNNs and ViTs. We propose a unified benchmark that evaluates confidence scores (softmax, max-logit, energy, kNN, ViM, learned scorers) on frozen and fine-tuned foundation-model backbones such as DINOv3. The target is whether the ranking of scorers, and the claim that a good closed-set classifier is enough, hold when feature quality is much higher. Validation uses a threshold-free selective-classification metric across misclassification, semantic-shift and covariate-shift failure sources.",
+       "gap": "Existing benchmarks show that a simple softmax or max-logit baseline wins and that closed-set accuracy correlates with unknown detection. These were established on ordinary supervised backbones and mostly separate failure sources. Whether feature-space and learned scorers become useful, or the baseline still wins, with strong self-supervised foundation features is not established.",
+       "approach": "Build on an existing failure-detection testbed. Add pretrained and fine-tuned backbones (ResNet, DeiT-style ViT, ImageNet-21K pretrained, DINOv3) with linear-probe or full fine-tuning heads. Apply post-hoc scorers (MSP, MaxLogit, energy, ViM, kNN, GradNorm, ReAct, DICE) plus learned scorers (TCP, CRL, steep-slope trustworthiness predictors). Evaluate on ID errors, near/far OOD, and covariate shift.",
+       "evaluation": "Compare rankings across backbones using AUGRC, AUROC, FPR95; measure rank correlation of scorers between supervised and foundation backbones; test the accuracy-vs-detection correlation. Report whether any scorer significantly beats softmax baselines with bootstrap CIs across seeds.",
+       "support": [
+        "ref-007",
+        "ref-008",
+        "ref-006",
+        "ref-034",
+        "ref-063",
+        "ref-018",
+        "ref-040",
+        "ref-057",
+        "ref-012",
+        "ref-001",
+        "ref-019",
+        "ref-028",
+        "ref-046",
+        "ref-054",
+        "ref-052",
+        "ref-020"
+       ]
+      },
+      {
+       "title": "Early-Snapshot Weight Averaging for Bias-Reduced Confidence Estimation in Failure Prediction",
+       "summary": "Late SGD training tends to bias confidence for highly confident points, while EMA and SWA yield flatter, better-calibrated solutions. We propose a confidence estimator that combines an EMA/SWA teacher with early-training snapshots of the same run, scoring each input by agreement between snapshot-based and final-model confidence, at no extra training cost. The proposal targets misclassification and OOD rejection together. It is validated against softmax response, flat-minima training, and ensembles on CIFAR and ImageNet using failure-prediction and selective-classification metrics.",
+       "gap": "Snapshot-based uncertainty fixes overfitting-induced bias in high-confidence points, and weight averaging gives flat solutions and better calibration, but they have been studied separately. It is unknown whether EMA trajectories supply early-snapshot confidence signals that improve failure prediction beyond flat-minima training alone.",
+       "approach": "During training, store an EMA of weights and a few early snapshots (or early EMA decay values). At test time compute a confidence score as a learned or rule-based combination of final MSP and early-snapshot MSP, such as a rank-agreement or ratio score. Optionally train a light side learner on model features to predict correctness using snapshot outputs.",
+       "evaluation": "Baselines: MSP of SGD, SAM, SWA, EMA models; SWAG; deep ensembles; TCP and Correctness Ranking Loss; the early-snapshot estimator without averaging. Metrics: AUROC/AURC/AUGRC for misclassification detection, FPR95 for OOD, calibration error. Datasets: CIFAR-10/100, Tiny ImageNet, ImageNet. Ablate snapshot epoch and EMA decay.",
+       "support": [
+        "ref-049",
+        "ref-022",
+        "ref-013",
+        "ref-050",
+        "ref-002",
+        "ref-059",
+        "ref-010",
+        "ref-052",
+        "ref-053",
+        "ref-034",
+        "ref-007",
+        "ref-063",
+        "ref-061"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 17818,
+    "type": "result",
+    "duration_ms": 17862,
+    "uuid": "53ec3efe-2b45-47cd-925b-5eba0f317387",
+    "ttft_stream_ms": 1284,
+    "time_to_request_ms": 85,
+    "time_to_request_phases_ms": {
+     "other": 3,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 4,
+     "input_attachments": 16,
+     "input_hooks": 2,
+     "conversation_append": 1,
+     "tool_pool_refresh": 1,
+     "init_message": 37,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 0,
+     "model_config_wait": 1,
+     "autocompact": 1,
+     "request_announcements": 3,
+     "query_setup": 0,
+     "model_gates": 1,
+     "tool_schema_build": 1,
+     "message_normalization": 2,
+     "client_creation": 2,
+     "request_build": 4
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 35,
+    "time_to_request_cpu_ms": 109,
+    "time_to_request_major_faults": 6010,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 9,
+     "cpu_ms": 16,
+     "major_faults": 2274,
+     "setup_ms": 0,
+     "prompt_producers_ms": 2,
+     "ambient_start_ms": 3,
+     "ambient_wait_ms": 8,
+     "render_ms": 1,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 0,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 0,
+     "after_ms": 0,
+     "other_ms": 1,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 1,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 1285,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  },
+  {
+   "issues": [
+    "hypothesis 1: missing or unknown support ids",
+    "hypothesis 2: missing or unknown support ids",
+    "hypothesis 3: missing or unknown support ids"
+   ],
+   "raw": {
+    "duration_api_ms": 17087,
+    "stop_reason": "tool_use",
+    "session_id": "4f24bfb4-c121-4b34-a4aa-eb0803cb10f1",
+    "total_cost_usd": 0.1168927,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 23584,
+     "cache_read_input_tokens": 1127,
+     "output_tokens": 2244,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 23584,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2244,
+       "cache_read_input_tokens": 1127,
+       "cache_creation_input_tokens": 23584,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 23584
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2244,
+      "cacheReadInputTokens": 1127,
+      "cacheCreationInputTokens": 23584,
+      "webSearchRequests": 0,
+      "costUSD": 0.1168927,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 0,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 23584,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Weight-Averaged Flat Minima Meet Selective Classification with OOD Data: EMA-SAM Training for Joint Misclassification and OOD Rejection\",\"summary\":\"Flat-minima training improves separation of correct versus incorrect predictions, but it has mostly been evaluated on misclassification detection alone. We propose studying it under selective classification with out-of-distribution data, where both ID errors and OOD inputs must be rejected. We combine sharpness-aware minimization with exponential moving average weight averaging and evaluate softmax, max-logit, and feature-based scores on ImageNet-scale benchmarks. We test whether flat-minima training shifts the trade-off between ID error ranking and OOD separation compared with standard training, using risk-coverage metrics.\",\"gap\":\"Flat minima have been shown to help failure prediction, and SCOD has been formalized, but nobody has tested whether flat-minima/weight-averaging training helps the joint SCOD objective, where OOD scores and ID correctness ranking conflict.\",\"approach\":\"Train ResNet and DeiT-style models on CIFAR and ImageNet-subset with (a) standard SGD, (b) SAM, (c) SWA/EMA, (d) SAM+EMA (including the friendly-SAM variant). For each, compute post-hoc scores (max softmax, max logit, energy, kNN, ViM, SIRC-style combinations) and evaluate on SCOD splits with OOD sets such as textures, SVHN, Places, and iNaturalist. Analyse which score families benefit most and how the ID-correct/incorrect gap versus ID/OOD gap changes.\",\"evaluation\":\"Compare against standard training and against the same scores on the flat-minima models using the generalized risk-coverage area (AUGRC), AUROC for misclassification, and FPR95 for OOD. Report on OpenOOD-style protocols with multiple seeds. Success is a consistent improvement of SCOD risk over standard training without losing OOD detection.\",\"support\":[\"ref-002\",\"ref-059\",\"ref-010\",\"ref-013\",\"ref-022\",\"ref-030\",\"ref-005\",\"ref-014\",\"ref-063\",\"ref-018\",\"ref-045\",\"ref-54\"]},{\"title\":\"Does Outlier-Aware Mixing Help Selective Classification Under OOD? Combining OpenMix-Style Pseudo-Outliers with Risk-Coverage Evaluation\",\"summary\":\"Outlier Exposure helps OOD detection but not misclassification detection, while OpenMix-style pseudo-samples help both. We propose evaluating outlier-based training under selective classification with OOD data, using the area under the generalized risk-coverage curve. We build training variants that mix ID images with outliers via CutMix, PixMix-like structure, and mixup-style label smoothing, and train the classifier to reject the mixed pseudo-samples. We test whether the degree of outlier mixing controls the trade-off between ID error ranking and OOD rejection, relative to Outlier Exposure and plain baselines.\",\"gap\":\"Existing work shows Outlier Exposure fails for misclassification detection and OpenMix addresses both, but outlier-trained methods have not been assessed under SCOD, nor has the mixing strength been related to the ID-correctness versus OOD trade-off.\",\"approach\":\"Train on CIFAR-100 and an ImageNet subset with auxiliary outliers. Variants: Outlier Exposure, OpenMix, and OpenMix with controllable mixing ratio and mixing operator (CutMix, mixup, fractal/structural mixing). Score by max softmax and max logit. Sweep ratio and operator and fit the trade-off curves between misclassification AUROC and OOD AUROC.\",\"evaluation\":\"Baselines: plain cross-entropy, Outlier Exposure, OpenMix, mixup, CutMix, PixMix. Metrics: AUGRC under SCOD, AURC, FPR95, AUROC for misclassification and OOD, over multiple seeds and near/far OOD sets, including evaluation on NINCO-style clean OOD data to avoid ID contamination.\",\"support\":[\"ref-062\",\"ref-058\",\"ref-005\",\"ref-063\",\"ref-033\",\"ref-038\",\"ref-003\",\"ref-47\",\"ref-051\",\"ref-044\",\"ref-014\"]},{\"title\":\"Foundation-Model Features for Failure Detection: Does a Strong Backbone Make the Softmax Baseline Beatable?\",\"summary\":\"Benchmarks found that a simple softmax response baseline is hard to beat for failure detection in natural and medical images. These studies mostly used supervised CNNs or ViTs trained from scratch. We propose testing whether self-supervised foundation-model backbones change this conclusion: do feature-space scores (kNN, Mahalanobis, ViM) or learned trust predictors on frozen features outperform softmax confidence when the backbone is strong? We evaluate linear and cosine-classifier heads on frozen features for misclassification and OOD failure sources, and analyse how closed-set accuracy relates to failure detection.\",\"gap\":\"Failure-detection benchmarks reported that softmax is the best overall with standard models, and closed-set accuracy correlates with unknown detection, but it is open whether the ranking of confidence scores changes with large self-supervised backbones and frozen heads.\",\"approach\":\"Take frozen DINOv3 and supervised ImageNet-21K or ResNet backbones, train linear and cosine-similarity heads on CIFAR-100, Tiny ImageNet, and an ImageNet subset. Compute max softmax, max logit, energy, ViM, kNN, Mahalanobis, plus a small learned trustworthiness predictor with a steep-slope-style loss and a Dirichlet meta-model. Evaluate on misclassification, near/far OOD, and covariate-shift failure sources, relating results to closed-set accuracy.\",\"evaluation\":\"Metrics: AUGRC, AURC, AUROC for failure detection, FPR95, with rank correlation between closed-set accuracy and detection score across backbones. Baselines: softmax response, deep ensembles trained from scratch, supervised-from-scratch models. The hypothesis holds if method ranking differs significantly from the from-scratch case, using the FD-Shifts and OpenOOD protocols.\",\"support\":[\"ref-007\",\"ref-008\",\"ref-040\",\"ref-006\",\"ref-028\",\"ref-046\",\"ref-20\",\"ref-042\",\"ref-057\",\"ref-063\",\"ref-017\",\"ref-018\",\"ref-034\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Weight-Averaged Flat Minima Meet Selective Classification with OOD Data: EMA-SAM Training for Joint Misclassification and OOD Rejection",
+       "summary": "Flat-minima training improves separation of correct versus incorrect predictions, but it has mostly been evaluated on misclassification detection alone. We propose studying it under selective classification with out-of-distribution data, where both ID errors and OOD inputs must be rejected. We combine sharpness-aware minimization with exponential moving average weight averaging and evaluate softmax, max-logit, and feature-based scores on ImageNet-scale benchmarks. We test whether flat-minima training shifts the trade-off between ID error ranking and OOD separation compared with standard training, using risk-coverage metrics.",
+       "gap": "Flat minima have been shown to help failure prediction, and SCOD has been formalized, but nobody has tested whether flat-minima/weight-averaging training helps the joint SCOD objective, where OOD scores and ID correctness ranking conflict.",
+       "approach": "Train ResNet and DeiT-style models on CIFAR and ImageNet-subset with (a) standard SGD, (b) SAM, (c) SWA/EMA, (d) SAM+EMA (including the friendly-SAM variant). For each, compute post-hoc scores (max softmax, max logit, energy, kNN, ViM, SIRC-style combinations) and evaluate on SCOD splits with OOD sets such as textures, SVHN, Places, and iNaturalist. Analyse which score families benefit most and how the ID-correct/incorrect gap versus ID/OOD gap changes.",
+       "evaluation": "Compare against standard training and against the same scores on the flat-minima models using the generalized risk-coverage area (AUGRC), AUROC for misclassification, and FPR95 for OOD. Report on OpenOOD-style protocols with multiple seeds. Success is a consistent improvement of SCOD risk over standard training without losing OOD detection.",
+       "support": [
+        "ref-002",
+        "ref-059",
+        "ref-010",
+        "ref-013",
+        "ref-022",
+        "ref-030",
+        "ref-005",
+        "ref-014",
+        "ref-063",
+        "ref-018",
+        "ref-045",
+        "ref-54"
+       ]
+      },
+      {
+       "title": "Does Outlier-Aware Mixing Help Selective Classification Under OOD? Combining OpenMix-Style Pseudo-Outliers with Risk-Coverage Evaluation",
+       "summary": "Outlier Exposure helps OOD detection but not misclassification detection, while OpenMix-style pseudo-samples help both. We propose evaluating outlier-based training under selective classification with OOD data, using the area under the generalized risk-coverage curve. We build training variants that mix ID images with outliers via CutMix, PixMix-like structure, and mixup-style label smoothing, and train the classifier to reject the mixed pseudo-samples. We test whether the degree of outlier mixing controls the trade-off between ID error ranking and OOD rejection, relative to Outlier Exposure and plain baselines.",
+       "gap": "Existing work shows Outlier Exposure fails for misclassification detection and OpenMix addresses both, but outlier-trained methods have not been assessed under SCOD, nor has the mixing strength been related to the ID-correctness versus OOD trade-off.",
+       "approach": "Train on CIFAR-100 and an ImageNet subset with auxiliary outliers. Variants: Outlier Exposure, OpenMix, and OpenMix with controllable mixing ratio and mixing operator (CutMix, mixup, fractal/structural mixing). Score by max softmax and max logit. Sweep ratio and operator and fit the trade-off curves between misclassification AUROC and OOD AUROC.",
+       "evaluation": "Baselines: plain cross-entropy, Outlier Exposure, OpenMix, mixup, CutMix, PixMix. Metrics: AUGRC under SCOD, AURC, FPR95, AUROC for misclassification and OOD, over multiple seeds and near/far OOD sets, including evaluation on NINCO-style clean OOD data to avoid ID contamination.",
+       "support": [
+        "ref-062",
+        "ref-058",
+        "ref-005",
+        "ref-063",
+        "ref-033",
+        "ref-038",
+        "ref-003",
+        "ref-47",
+        "ref-051",
+        "ref-044",
+        "ref-014"
+       ]
+      },
+      {
+       "title": "Foundation-Model Features for Failure Detection: Does a Strong Backbone Make the Softmax Baseline Beatable?",
+       "summary": "Benchmarks found that a simple softmax response baseline is hard to beat for failure detection in natural and medical images. These studies mostly used supervised CNNs or ViTs trained from scratch. We propose testing whether self-supervised foundation-model backbones change this conclusion: do feature-space scores (kNN, Mahalanobis, ViM) or learned trust predictors on frozen features outperform softmax confidence when the backbone is strong? We evaluate linear and cosine-classifier heads on frozen features for misclassification and OOD failure sources, and analyse how closed-set accuracy relates to failure detection.",
+       "gap": "Failure-detection benchmarks reported that softmax is the best overall with standard models, and closed-set accuracy correlates with unknown detection, but it is open whether the ranking of confidence scores changes with large self-supervised backbones and frozen heads.",
+       "approach": "Take frozen DINOv3 and supervised ImageNet-21K or ResNet backbones, train linear and cosine-similarity heads on CIFAR-100, Tiny ImageNet, and an ImageNet subset. Compute max softmax, max logit, energy, ViM, kNN, Mahalanobis, plus a small learned trustworthiness predictor with a steep-slope-style loss and a Dirichlet meta-model. Evaluate on misclassification, near/far OOD, and covariate-shift failure sources, relating results to closed-set accuracy.",
+       "evaluation": "Metrics: AUGRC, AURC, AUROC for failure detection, FPR95, with rank correlation between closed-set accuracy and detection score across backbones. Baselines: softmax response, deep ensembles trained from scratch, supervised-from-scratch models. The hypothesis holds if method ranking differs significantly from the from-scratch case, using the FD-Shifts and OpenOOD protocols.",
+       "support": [
+        "ref-007",
+        "ref-008",
+        "ref-040",
+        "ref-006",
+        "ref-028",
+        "ref-046",
+        "ref-20",
+        "ref-042",
+        "ref-057",
+        "ref-063",
+        "ref-017",
+        "ref-018",
+        "ref-034"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 18551,
+    "type": "result",
+    "duration_ms": 18597,
+    "uuid": "61c31554-02a6-4432-84ab-15b23e4fd522",
+    "ttft_stream_ms": 3021,
+    "time_to_request_ms": 1484,
+    "time_to_request_phases_ms": {
+     "other": 4,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 4,
+     "input_attachments": 20,
+     "input_hooks": 2,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 32,
+     "init_frame_send": 3,
+     "engine_pickup": 0,
+     "loop_entry": 3,
+     "message_prep": 0,
+     "model_config_wait": 1,
+     "autocompact": 1,
+     "request_announcements": 3,
+     "query_setup": 1,
+     "model_gates": 1399,
+     "tool_schema_build": 2,
+     "message_normalization": 2,
+     "client_creation": 2,
+     "request_build": 3
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 26,
+    "time_to_request_cpu_ms": 391,
+    "time_to_request_major_faults": 9392,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 12,
+     "cpu_ms": 16,
+     "major_faults": 2277,
+     "setup_ms": 0,
+     "prompt_producers_ms": 2,
+     "ambient_start_ms": 3,
+     "ambient_wait_ms": 11,
+     "render_ms": 1,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 0,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 3021,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  },
+  {
+   "issues": [],
+   "raw": {
+    "duration_api_ms": 17322,
+    "stop_reason": "tool_use",
+    "session_id": "9afcc7c7-1a76-4bd7-a9a7-9e1a097c65be",
+    "total_cost_usd": 0.11866870000000002,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 23623,
+     "cache_read_input_tokens": 1127,
+     "output_tokens": 2406,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 23623,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2406,
+       "cache_read_input_tokens": 1127,
+       "cache_creation_input_tokens": 23623,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 23623
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2406,
+      "cacheReadInputTokens": 1127,
+      "cacheCreationInputTokens": 23623,
+      "webSearchRequests": 0,
+      "costUSD": 0.11866870000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 0,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 23623,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Flat Minima Meet Weight Averaging: EMA-Friendly-SAM for Misclassification Detection Across Foundation-Model Backbones\",\"summary\":\"Flat-minima methods are known to widen the confidence gap between correct and incorrect predictions, but they have mostly been studied with SAM or SWA on standard CNNs. We propose to combine Friendly-SAM, which uses an EMA of gradients, with EMA or SWA weight averaging, and to apply this to fine-tuning of large pretrained backbones such as DINOv3 and DeiT. The aim is better failure prediction (misclassification detection) with a softmax-response score. We would validate it on CIFAR, ImageNet and medical benchmarks. Baselines are the plain softmax response, SAM+SWA flat-minima failure prediction, and OpenMix. The metrics are AUGRC, AURC and AUROC.\",\"gap\":\"Flat-minima failure prediction has been shown with SAM and SWA, and Friendly-SAM and weight EMA are shown to improve generalization, calibration and robustness. No cited work tests whether these newer flat-minima variants improve confidence separation, nor whether this holds for modern pretrained transformer or foundation-model backbones.\",\"approach\":\"Fine-tune ResNet, DeiT and DINOv3 backbones with four recipes: (a) standard SGD, (b) SAM+SWA, (c) Friendly-SAM, (d) Friendly-SAM + EMA of weights. Use the maximum softmax probability as the confidence score and do not change the inference path. Analyze sharpness against the correct/incorrect confidence gap. Ablate the EMA decay and the perturbation radius.\",\"evaluation\":\"Compare against the softmax-response baseline, the SAM+SWA flat-minima method, and OpenMix and SURE on CIFAR-10/100, Tiny-ImageNet, ImageNet and medical imaging datasets. Metrics are AUGRC, AURC, AUROC and FPR95 for misclassification detection, plus accuracy. Report correlations between sharpness and confidence separation. Use multiple seeds with significance tests.\",\"support\":[\"ref-002\",\"ref-059\",\"ref-010\",\"ref-013\",\"ref-022\",\"ref-030\",\"ref-007\",\"ref-063\",\"ref-040\",\"ref-012\",\"ref-062\",\"ref-056\"]},{\"title\":\"Learning Where to Reject: A Trustworthiness Side-Predictor for Selective Classification with OOD Data Trained with Mixed ID-Error and Outlier Pseudo-Samples\",\"summary\":\"Selective classification with OOD data (SCOD) needs a score that ranks correct ID predictions above both misclassified ID samples and OOD samples. Post-hoc OOD scores and softmax confidence each fail on one side. We propose a lightweight side learner that sits on a frozen classifier's features and logits and is trained with a steep-slope-style loss. Its training negatives are the classifier's own errors plus OpenMix-style pseudo-outliers. We would validate it on ImageNet-scale and CIFAR benchmarks, comparing it with the softmax response, SIRC, plugin estimators and feature-distance scores using SCOD risk-coverage metrics.\",\"gap\":\"SCOD work relies on hand-designed post-hoc combinations, or on plugin estimators, and shows that OOD detectors conflate ID errors. Learned trustworthiness predictors target only correct versus incorrect ID predictions. Methods that learn confidence from outliers do not train a single learned selector that handles both ID errors and OOD inputs.\",\"approach\":\"Freeze a trained classifier. Extract penultimate features and logits, plus a kNN-distance or ViM-style residual feature. Train a small side network (as in regression side learners) with the steep slope loss, using the training-set errors recovered by early-snapshot or held-out predictions and mixup-generated outlier pseudo-samples as negatives. At test time, accept or reject on the side network's score.\",\"evaluation\":\"Baselines are the softmax response, MaxLogit, energy, ViM, kNN, SIRC, the plugin estimators, TCP learning and the Dirichlet meta-model. Metrics are the SCOD AURC/AUGRC variants with a mixed ID+OOD test set, plus AUROC for the individual sub-tasks (misclassification and OOD). Use ImageNet with NINCO and other OOD sets, and CIFAR with SVHN/Textures/Places. Vary the OOD fraction in the test mix.\",\"support\":[\"ref-005\",\"ref-014\",\"ref-020\",\"ref-052\",\"ref-062\",\"ref-004\",\"ref-042\",\"ref-028\",\"ref-046\",\"ref-047\",\"ref-063\",\"ref-054\",\"ref-019\"]},{\"title\":\"Does Early-Snapshot Confidence Fix Overconfident Errors? Combining Bias-Reduced Estimation with Flat-Minima Training for Unified Failure Detection\",\"summary\":\"Late SGD training makes confidence estimates for highly confident points biased and jittery. Flat-minima training increases the confidence gap. We propose a unified failure score that combines the final flat-minima model's softmax with confidence from earlier snapshots or EMA checkpoints. We would validate it by comparing failure detection across misclassification, OOD and full-spectrum shifts in a common benchmark. Baselines are softmax response, deep ensembles, SWAG, and flat-minima training alone, evaluated with AUGRC and AUROC.\",\"gap\":\"Bias-reduced estimation uses earlier snapshots with standard training. Flat-minima failure prediction uses only the final model. No cited work tests whether snapshot-based confidence is complementary to flat-minima training, nor evaluates it under a unified failure-detection protocol covering covariate shift, near/far OOD and in-distribution errors.\",\"approach\":\"Save snapshots during SAM+SWA training of ResNet and ViT on CIFAR and ImageNet. Compute the confidence of the final model and of earlier snapshots or EMA models. Combine them by a simple rule: use the early snapshot's confidence for highly confident points, and fall back to the final model's confidence otherwise. Also test a learned weighting on a held-out split. Analyze how confidence for errors evolves across training with different optimizers.\",\"evaluation\":\"Compare against the softmax response, deep ensemble, SWAG, SAM+SWA, the early-snapshot method alone, and cosine-restart snapshot ensembles using SGDR. Use the unified benchmarks (fd-shifts, OpenOOD v1.5, unknown detection benchmark). Metrics are AUGRC, AURC, AUROC and FPR95, reported separately for ID errors, covariate shift and semantic shift, with training and inference cost.\",\"support\":[\"ref-049\",\"ref-002\",\"ref-059\",\"ref-010\",\"ref-013\",\"ref-050\",\"ref-022\",\"ref-061\",\"ref-007\",\"ref-034\",\"ref-018\",\"ref-063\",\"ref-045\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Flat Minima Meet Weight Averaging: EMA-Friendly-SAM for Misclassification Detection Across Foundation-Model Backbones",
+       "summary": "Flat-minima methods are known to widen the confidence gap between correct and incorrect predictions, but they have mostly been studied with SAM or SWA on standard CNNs. We propose to combine Friendly-SAM, which uses an EMA of gradients, with EMA or SWA weight averaging, and to apply this to fine-tuning of large pretrained backbones such as DINOv3 and DeiT. The aim is better failure prediction (misclassification detection) with a softmax-response score. We would validate it on CIFAR, ImageNet and medical benchmarks. Baselines are the plain softmax response, SAM+SWA flat-minima failure prediction, and OpenMix. The metrics are AUGRC, AURC and AUROC.",
+       "gap": "Flat-minima failure prediction has been shown with SAM and SWA, and Friendly-SAM and weight EMA are shown to improve generalization, calibration and robustness. No cited work tests whether these newer flat-minima variants improve confidence separation, nor whether this holds for modern pretrained transformer or foundation-model backbones.",
+       "approach": "Fine-tune ResNet, DeiT and DINOv3 backbones with four recipes: (a) standard SGD, (b) SAM+SWA, (c) Friendly-SAM, (d) Friendly-SAM + EMA of weights. Use the maximum softmax probability as the confidence score and do not change the inference path. Analyze sharpness against the correct/incorrect confidence gap. Ablate the EMA decay and the perturbation radius.",
+       "evaluation": "Compare against the softmax-response baseline, the SAM+SWA flat-minima method, and OpenMix and SURE on CIFAR-10/100, Tiny-ImageNet, ImageNet and medical imaging datasets. Metrics are AUGRC, AURC, AUROC and FPR95 for misclassification detection, plus accuracy. Report correlations between sharpness and confidence separation. Use multiple seeds with significance tests.",
+       "support": [
+        "ref-002",
+        "ref-059",
+        "ref-010",
+        "ref-013",
+        "ref-022",
+        "ref-030",
+        "ref-007",
+        "ref-063",
+        "ref-040",
+        "ref-012",
+        "ref-062",
+        "ref-056"
+       ]
+      },
+      {
+       "title": "Learning Where to Reject: A Trustworthiness Side-Predictor for Selective Classification with OOD Data Trained with Mixed ID-Error and Outlier Pseudo-Samples",
+       "summary": "Selective classification with OOD data (SCOD) needs a score that ranks correct ID predictions above both misclassified ID samples and OOD samples. Post-hoc OOD scores and softmax confidence each fail on one side. We propose a lightweight side learner that sits on a frozen classifier's features and logits and is trained with a steep-slope-style loss. Its training negatives are the classifier's own errors plus OpenMix-style pseudo-outliers. We would validate it on ImageNet-scale and CIFAR benchmarks, comparing it with the softmax response, SIRC, plugin estimators and feature-distance scores using SCOD risk-coverage metrics.",
+       "gap": "SCOD work relies on hand-designed post-hoc combinations, or on plugin estimators, and shows that OOD detectors conflate ID errors. Learned trustworthiness predictors target only correct versus incorrect ID predictions. Methods that learn confidence from outliers do not train a single learned selector that handles both ID errors and OOD inputs.",
+       "approach": "Freeze a trained classifier. Extract penultimate features and logits, plus a kNN-distance or ViM-style residual feature. Train a small side network (as in regression side learners) with the steep slope loss, using the training-set errors recovered by early-snapshot or held-out predictions and mixup-generated outlier pseudo-samples as negatives. At test time, accept or reject on the side network's score.",
+       "evaluation": "Baselines are the softmax response, MaxLogit, energy, ViM, kNN, SIRC, the plugin estimators, TCP learning and the Dirichlet meta-model. Metrics are the SCOD AURC/AUGRC variants with a mixed ID+OOD test set, plus AUROC for the individual sub-tasks (misclassification and OOD). Use ImageNet with NINCO and other OOD sets, and CIFAR with SVHN/Textures/Places. Vary the OOD fraction in the test mix.",
+       "support": [
+        "ref-005",
+        "ref-014",
+        "ref-020",
+        "ref-052",
+        "ref-062",
+        "ref-004",
+        "ref-042",
+        "ref-028",
+        "ref-046",
+        "ref-047",
+        "ref-063",
+        "ref-054",
+        "ref-019"
+       ]
+      },
+      {
+       "title": "Does Early-Snapshot Confidence Fix Overconfident Errors? Combining Bias-Reduced Estimation with Flat-Minima Training for Unified Failure Detection",
+       "summary": "Late SGD training makes confidence estimates for highly confident points biased and jittery. Flat-minima training increases the confidence gap. We propose a unified failure score that combines the final flat-minima model's softmax with confidence from earlier snapshots or EMA checkpoints. We would validate it by comparing failure detection across misclassification, OOD and full-spectrum shifts in a common benchmark. Baselines are softmax response, deep ensembles, SWAG, and flat-minima training alone, evaluated with AUGRC and AUROC.",
+       "gap": "Bias-reduced estimation uses earlier snapshots with standard training. Flat-minima failure prediction uses only the final model. No cited work tests whether snapshot-based confidence is complementary to flat-minima training, nor evaluates it under a unified failure-detection protocol covering covariate shift, near/far OOD and in-distribution errors.",
+       "approach": "Save snapshots during SAM+SWA training of ResNet and ViT on CIFAR and ImageNet. Compute the confidence of the final model and of earlier snapshots or EMA models. Combine them by a simple rule: use the early snapshot's confidence for highly confident points, and fall back to the final model's confidence otherwise. Also test a learned weighting on a held-out split. Analyze how confidence for errors evolves across training with different optimizers.",
+       "evaluation": "Compare against the softmax response, deep ensemble, SWAG, SAM+SWA, the early-snapshot method alone, and cosine-restart snapshot ensembles using SGDR. Use the unified benchmarks (fd-shifts, OpenOOD v1.5, unknown detection benchmark). Metrics are AUGRC, AURC, AUROC and FPR95, reported separately for ID errors, covariate shift and semantic shift, with training and inference cost.",
+       "support": [
+        "ref-049",
+        "ref-002",
+        "ref-059",
+        "ref-010",
+        "ref-013",
+        "ref-050",
+        "ref-022",
+        "ref-061",
+        "ref-007",
+        "ref-034",
+        "ref-018",
+        "ref-063",
+        "ref-045"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 17392,
+    "type": "result",
+    "duration_ms": 17434,
+    "uuid": "dcaee253-ae35-4808-880d-cf20585797cb",
+    "ttft_stream_ms": 983,
+    "time_to_request_ms": 89,
+    "time_to_request_phases_ms": {
+     "other": 4,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 2,
+     "input_attachments": 28,
+     "input_hooks": 1,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 31,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 1,
+     "model_config_wait": 0,
+     "autocompact": 2,
+     "request_announcements": 3,
+     "query_setup": 0,
+     "model_gates": 1,
+     "tool_schema_build": 2,
+     "message_normalization": 1,
+     "client_creation": 3,
+     "request_build": 3
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 39,
+    "time_to_request_cpu_ms": 125,
+    "time_to_request_major_faults": 5978,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 19,
+     "cpu_ms": 31,
+     "major_faults": 2968,
+     "setup_ms": 0,
+     "prompt_producers_ms": 2,
+     "ambient_start_ms": 3,
+     "ambient_wait_ms": 19,
+     "render_ms": 0,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 0,
+     "after_ms": 0,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 1,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 0,
+     "record_attempt_ms": 0,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 983,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  }
+ ],
+ "calls": 3,
+ "usage": [
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 24671,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2324,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 24671,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2324,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 24671,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 24671
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.121928,
+   "duration_ms": 17862,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2324,
+     "cacheReadInputTokens": 0,
+     "cacheCreationInputTokens": 24671,
+     "webSearchRequests": 0,
+     "costUSD": 0.121928,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 0,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 24671,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  },
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 23584,
+    "cache_read_input_tokens": 1127,
+    "output_tokens": 2244,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 23584,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2244,
+      "cache_read_input_tokens": 1127,
+      "cache_creation_input_tokens": 23584,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 23584
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.1168927,
+   "duration_ms": 18597,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2244,
+     "cacheReadInputTokens": 1127,
+     "cacheCreationInputTokens": 23584,
+     "webSearchRequests": 0,
+     "costUSD": 0.1168927,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 0,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 23584,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  },
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 23623,
+    "cache_read_input_tokens": 1127,
+    "output_tokens": 2406,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 23623,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2406,
+      "cache_read_input_tokens": 1127,
+      "cache_creation_input_tokens": 23623,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 23623
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.11866870000000002,
+   "duration_ms": 17434,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2406,
+     "cacheReadInputTokens": 1127,
+     "cacheCreationInputTokens": 23623,
+     "webSearchRequests": 0,
+     "costUSD": 0.11866870000000002,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 0,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 23623,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ],
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "seconds": 63.1
+}

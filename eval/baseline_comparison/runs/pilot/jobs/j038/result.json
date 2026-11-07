@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y1"
+ },
+ "best": {
+  "rationale": "x2 specifies a clear intervention—Parseval constraints on EEGNet—and tests its accuracy–robustness trade-off against adversarial training and Cross-Lipschitz regularization, with spatial-only versus all-layer ablations. These choices connect directly to ref-001, ref-010, ref-013, ref-020 and ref-022. Approximate Parseval constraints alone would not establish certification, but x2 separately measures SDP bounds. y2 offers a plausible certification study, yet leaves its proposed quadratic constraints and perturbation budgets less specified and conflates EEGNet's empirical generalization evidence with adversarial robustness claims (ref-001).",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x3 has an important limitation: certifying stability around an observed input does not certify that its command is correct or safe. It also overstates ref-021, which reports evaluating unknown-attack transfer without establishing the claimed transfer weakness. Nevertheless, its abstention rule, confidence baseline and risk–coverage evaluation make a concrete empirical study. y1 leaves its central physiological constraints undefined and does not explain whether they restrict the advertised L2 threat model. Ref-001 does not supply the claimed physiological covariance constraints, and neither the unspecified units of epsilon=0.1 nor the asserted tighter bounds establish a defensible evaluation.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X studies three different decisions: auditing existing decoders, changing decoder training, and withholding commands at runtime. All share Lipschitz certification, but their interventions and outcomes differ. Y contains two substantially overlapping EEGNet quadratic-constraint certification proposals; y3 adds constrained training, although it bundles spectral normalization, adversarial training and frequency constraints.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "X provides more actionable choices with clearer baselines and outcomes, connecting robustness methods to reproducible BCI evaluation (ref-007). Its weaknesses remain material: x1 must establish valid activation domains for its square/log slope restrictions, and x3 must distinguish prediction stability from command safety. Y leaves more central claims unresolved: y1's physiological restrictions, y2's architectural certification contribution, and y3's formal-guarantee claim despite primarily empirical evaluation with CLEVER and attacks (ref-009). X therefore better supports selecting and designing a useful experiment.",
+  "verdict": "X"
+ }
+}

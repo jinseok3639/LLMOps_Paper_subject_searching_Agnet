@@ -1,0 +1,14 @@
+{
+ "title": "Agentic Misalignment Detection via Synthetic Insider Threat Simulation",
+ "summary": "We introduce a controlled evaluation framework for detecting agentic misalignment in LLMs by simulating corporate insider threat scenarios. Our method uses constrained generation to force models into ethical dilemmas where misaligned behavior could emerge. We validate the framework by stress-testing open-source models against scenarios involving data leakage and goal conflict, identifying subtle misalignment patterns missed by standard benchmarks.",
+ "gap": "Current safety evaluations (ref-007, ref-015) lack controlled environments for testing agentic misalignment (ref-002). Existing stress-testing methods (ref-002) focus on real-world deployment risks but don't systematically isolate misalignment triggers in synthetic settings.",
+ "approach": "We implement a three-phase evaluation: (1) scenario generation using constrained decoding to create ethically ambiguous corporate tasks, (2) model responses analyzed through both explicit behavior (ref-002) and latent intent detection via activation clustering, and (3) counterfactual testing where models assess their own deployment context (ref-002).",
+ "evaluation": "We compare model responses against human-labeled ground truth for ethical boundaries. Metrics include (1) frequency of misaligned actions, (2) consistency in self-assessment vs actual behavior, and (3) activation pattern similarity to known misalignment cases. Baselines include standard safety benchmarks (ref-001) and adversarial prompts (ref-019).",
+ "support": [
+  "ref-001",
+  "ref-002",
+  "ref-007",
+  "ref-015",
+  "ref-019"
+ ]
+}

@@ -1,0 +1,18 @@
+{
+ "title": "Certified Lipschitz Robustness Audits of Convolutional EEG Decoders Across Standardized BCI Benchmarks",
+ "summary": "This proposal asks how robust standard EEG decoders actually are, using guarantees rather than attacks alone. SDP-based Lipschitz upper bounds would be computed for EEGNet, ShallowConvNet and DeepConvNet trained on several open motor-imagery and ERP datasets. The bounds would be turned into certified input-perturbation radii for each trial. These radii would be compared with sampled CLEVER estimates and with the smallest perturbations found by PGD and universal-perturbation attacks. All radii would be expressed in microvolts relative to typical EEG noise and artifact amplitudes. The aim is to test whether certified safety margins for BCI decoders are smaller than ordinary physiological noise, and how this differs by architecture and dataset.",
+ "gap": "The cited work shows that EEG CNNs can be fooled by adversarial and universal perturbations, and it studies how to detect such attacks. However, none of it gives formal, attack-independent robustness guarantees for EEG decoders. The SDP Lipschitz methods and CLEVER were tested on image or toy classifiers, not on EEG networks with depthwise spatial filters. No cited work compares certified margins with how large EEG signals and noise really are.",
+ "approach": "Convert the convolutional, depthwise-spatial and separable layers of EEGNet and ShallowConvNet into equivalent linear operators, and treat the ELU and square/log nonlinearities as slope-restricted for the quadratic-constraint SDP. For large layers, use the layer-wise decomposition to keep the SDP tractable. From the logit margin and the Lipschitz bound, derive per-trial certified L2 radii. Run this across MOABB datasets with within-subject and cross-subject splits.",
+ "evaluation": "Certified radii from the SDP bounds would be compared with naive bounds from products of layer norms, with CLEVER estimates, and with empirical minimal perturbations from PGD and from the total-loss-minimization universal perturbation attack. Measures: tightness ratio of certified to empirical radius; certified accuracy at microvolt-scale radii; and how radius relates to signal-to-noise ratio across paradigms and datasets. MOABB's multi-dataset protocol would be used for reproducibility.",
+ "support": [
+  "ref-001",
+  "ref-015",
+  "ref-007",
+  "ref-020",
+  "ref-005",
+  "ref-009",
+  "ref-013",
+  "ref-024",
+  "ref-011"
+ ]
+}

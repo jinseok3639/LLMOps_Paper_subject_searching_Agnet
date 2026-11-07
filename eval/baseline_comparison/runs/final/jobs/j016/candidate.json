@@ -1,0 +1,27 @@
+{
+ "title": "Does Flatness Still Help Failure Prediction When Fine-Tuning Large Pretrained Vision Backbones?",
+ "summary": "Evidence that flat minima improve failure prediction comes mostly from small networks trained from scratch. Benchmarks show that pretraining changes OOD behaviour and that a strong closed-set classifier already detects novelty well. The proposal tests whether sharpness-aware and weight-averaged fine-tuning of ImageNet-21K-pretrained ViTs and DINOv3 backbones still widens the gap between correct and incorrect confidence. It also tests whether the gain extends to semantic and covariate OOD. A flatness-aware fine-tuning recipe, F-SAM plus EMA with a cosine classifier, would be compared with plain fine-tuning, mixup or CutMix and SURE, using AUGRC on OpenOOD v1.5 full-spectrum benchmarks.",
+ "gap": "FMFP and SURE showed that flat minima improve failure prediction for from-scratch CNNs. OpenOOD v1.5 and NINCO show that pretraining strongly changes detection performance, and that closed-set accuracy largely drives open-set performance. It is still unknown whether the flatness benefit survives, shrinks or reverses once a strong pretrained representation exists, and whether it holds beyond accuracy gains under a unified failure metric.",
+ "approach": "Fine-tune DeiT, ImageNet-21K-pretrained ViT and DINOv3 backbones on ImageNet-1K and fine-grained ID datasets under controlled conditions: SGD, SAM, F-SAM, EMA, SWA, and the combination of F-SAM, EMA and a cosine classifier. Also include mixup and CutMix, which are known to affect calibration and separation. Measure sharpness directly. Regress failure-detection metrics on closed-set accuracy to separate the effect of flatness from the accuracy-driven effect.",
+ "evaluation": "Benchmarks: OpenOOD v1.5 ImageNet near-OOD and far-OOD, the full-spectrum covariate-shift splits, SSB, NINCO, iNaturalist, Textures and Places. Metrics: AUGRC, AURC, misclassification AUROC and OOD AUROC/FPR95, reported both raw and as residuals after controlling for accuracy. Baselines: plain fine-tuning with MSP, MaxLogit, Energy and kNN scores; SURE; mixup and CutMix fine-tuning; linear probing. The hypothesis is confirmed if flatness gives accuracy-adjusted AUGRC gains on pretrained backbones, and refuted if the gains disappear once accuracy is controlled for.",
+ "support": [
+  "ref-002",
+  "ref-059",
+  "ref-056",
+  "ref-010",
+  "ref-030",
+  "ref-022",
+  "ref-013",
+  "ref-040",
+  "ref-057",
+  "ref-012",
+  "ref-006",
+  "ref-047",
+  "ref-018",
+  "ref-063",
+  "ref-007",
+  "ref-033",
+  "ref-038",
+  "ref-017"
+ ]
+}

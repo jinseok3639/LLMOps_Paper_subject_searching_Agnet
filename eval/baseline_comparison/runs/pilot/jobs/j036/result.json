@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The certificate mechanisms are supported by ref-020 and ref-022, EEG detector comparisons by ref-021, and universal perturbations by ref-024. However, ref-021 reports evaluating unknown-attack transfer without establishing that it is less reliable or that detectors were tuned specifically for the successful white-box attacks. Ref-017, ref-019, and ref-023 motivate security and monitoring but do not explicitly call for safe-failure monitoring of BCI effectors. Ref-009 supports robustness estimation, not formal certification of local gradient estimates.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "None of the supplied references connects per-instance certificates to runtime abstention in EEG control: ref-020 and ref-022 develop guarantees, while ref-021 evaluates detection. This leaves a reasonably scoped comparison between certificate-based and statistical monitoring. The motivation is weakened by the unsupported claim of unreliable unknown-attack transfer and by the absence of a concrete BCI monitoring limitation established in ref-017 or ref-006.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The proposal specifies certificate computation, abstention, validation calibration, detector and confidence baselines, architectures, datasets, attacks, and several useful measures, drawing concretely on ref-020, ref-021, and ref-022. Experiment design could begin, but the perturbation norm and budget, natural artifacts, simulated control dynamics, and definition of an unsafe command remain unspecified. The noise-level threshold in the summary also needs reconciliation with false-abstention calibration.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Certificate thresholds and risk-coverage comparisons can test whether the guarantees from ref-020 and ref-022 improve selective classification relative to ref-021's detectors. However, robustness certifies decision stability within a specified perturbation set, not correctness or physical safety; confidently wrong commands may pass. Unknown attacks and natural artifacts are informative only relative to that set, and incorporating ref-009-style gradient estimates requires explaining how certification remains valid. These omissions weaken the connection to unsafe-command prevention.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A controlled comparison could change whether BCI researchers choose certificate-based abstention, confidence thresholds, or the detectors in ref-021. Measuring coverage, residual errors, and latency would reveal whether guarantees from ref-020 and ref-022 offer practical benefits against threats such as ref-024's universal perturbations. That is a useful methodological decision, although implications for the physical assistance demonstrated in ref-006 depend on a credible control task and explicit safety outcomes.",
+  "score": 4
+ }
+}

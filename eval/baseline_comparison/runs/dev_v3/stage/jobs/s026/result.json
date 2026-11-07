@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-003 and ref-004 support reward hacking and regularization or pessimism as remedies. However, neither abstract establishes the claimed absence of prompt-dependent adaptation, and ref-004 explicitly reports optimal, scaling-monotonic performance, undermining the asserted scaling limitation. Prompt-difficulty motivation is supported by ref-002, which is absent from the support list.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Adapting penalty strength using ensemble uncertainty and policy entropy is a concrete potential extension of ref-003 and ref-004. However, the references do not establish that these methods suffer from the claimed adaptation deficiency, and ref-004 already addresses degradation with increasing N. The candidate needs a narrower practical limitation beyond that existing result.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate specifies datasets used in ref-003, three concrete baselines, uncertainty and entropy estimators, and human preference and efficiency measures. However, it omits the penalty formula, proximity measure, calibration procedure, N range, and definition of successful alignment; ref-005 also does not uniquely identify the proposed safety benchmark.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Uncertainty-sensitive regularization plausibly connects the reward-hacking concerns in ref-003 and ref-004 to the prompt-dependent compute effects in ref-002. Human preference measurements across N could test degradation, but reward-score variance does not establish true quality, and the heuristic provides no basis for the claimed guarantee. Ablations are needed to isolate the effects of uncertainty and entropy.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Showing when adaptive penalties improve human preference or compute efficiency over MBR-BoN and InferenceTimePessimism could inform practical inference choices (ref-003, ref-004). The likely contribution is narrower than claimed because ref-004 already establishes scaling-monotonic alignment, and the candidate does not identify a concrete setting where its adaptation should improve on that method.",
+  "score": 3
+ }
+}

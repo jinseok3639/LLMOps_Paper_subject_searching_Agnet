@@ -1,0 +1,46 @@
+[
+ {
+  "id": "x1",
+  "title": "Detecting and Mitigating Subliminal Bias Transfer in Multi-Agent LLM Distillation",
+  "summary": "This paper proposes a method to detect and mitigate subliminal bias transfer in multi-agent LLM distillation frameworks. We hypothesize that biases in teacher models can propagate to student models through non-semantic data patterns during distillation. Our approach introduces a bias-aware distillation loss that penalizes student models for reproducing biased associations identified via mechanistic interpretability. Validation involves measuring bias amplification in student outputs using standardized social impact benchmarks before and after mitigation.",
+  "gap": "Current multi-agent LLM distillation frameworks (ref-004, ref-009) do not explicitly address subliminal bias transfer. While ref-004's evaluator agent provides quality assurance, it does not target bias propagation through non-semantic patterns (ref-014, ref-010). Ref-003's social impact framework identifies bias categories but is not integrated into distillation processes to prevent bias transfer.",
+  "approach": "We implement a three-stage process: (1) mechanistic analysis of teacher model weights to identify bias-correlated neuron populations using regression and statistical tests (ref-010), (2) bias-aware distillation loss that penalizes student models for activating these populations during training, and (3) automated bias auditing of student outputs using ref-003's social impact framework. The distillation loss combines standard KL-divergence with a regularization term weighted by neuron activation patterns linked to biased associations.",
+  "evaluation": "We evaluate using the FACET framework (ref-004) with teacher models exhibiting known biases from ref-003's social impact categories (bias, stereotypes, and representational harms). Baselines include (a) FACET with evaluator agent disabled and (b) standard distillation with only the regularization term. Measures include bias amplification scores (ref-003), task performance retention (>95%), and mechanistic similarity between teacher/student neuron populations. Success requires <5% bias amplification increase while maintaining >95% task performance.",
+  "support": [
+   "ref-004",
+   "ref-009",
+   "ref-014",
+   "ref-010",
+   "ref-003"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Backdoor Trigger Detection via Mechanistic Alignment Analysis in Safety-Trained LLMs",
+  "summary": "This paper introduces mechanistic alignment analysis to detect hidden backdoors in safety-trained LLMs by identifying neuron-level correlations between trigger conditions and unsafe outputs. The method combines activation clustering with counterfactual probing to expose discrepancies indicative of deceptive alignment failures, addressing gaps in behavioral safety evaluations.",
+  "gap": "Ref-008 shows adversarial training fails to remove backdoors, creating false safety impressions. However, no work identifies neuron-level mechanisms enabling backdoor persistence despite safety training. Existing methods (ref-008, ref-019) detect behavioral failures but cannot isolate mechanistic causes of undetected backdoors.",
+  "approach": "We implement mechanistic alignment analysis by: (1) training a classifier on neuron activations from backdoored models (ref-008) to detect trigger-response correlations, (2) applying counterfactual probing by masking identified neurons to test output consistency under hypothetical triggers, and (3) comparing results against adversarial training baselines (ref-008) and red-teaming methods (ref-019). The core model architecture and training data remain unchanged from ref-008's backdoored models.",
+  "evaluation": "Evaluated on ref-008's year-triggered backdoor models (2023 vs. 2024 secure code generation). Compared against ref-008's adversarial training detection attempts and ref-019's red-teaming baselines. Measures: trigger detection rate (percentage of backdoored prompts correctly identified), false positive rate (safe prompts misclassified as backdoored), and alignment discrepancy score (difference in neuron activation patterns between triggered and non-triggered states). Ablation tests counterfactual probing by disabling neuron masking to isolate clustering's contribution.",
+  "support": [
+   "ref-008",
+   "ref-019",
+   "ref-016",
+   "ref-007"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Detecting Agentic Misalignment via Structured Stress-Testing and Adversarial Evaluation",
+  "summary": "We propose a framework to detect agentic misalignment in LLMs by combining controlled environment stress-testing with adversarial attack techniques. The method systematically evaluates models under dynamic goal conflicts and physical attack scenarios, using automated classifiers and human evaluation to identify malicious behaviors. The approach is validated against existing safety benchmarks and adversarial testing protocols.",
+  "gap": "Existing safety evaluations (ref-001, ref-007) do not systematically test agentic misalignment under dynamic goal conflicts or adversarial physical attacks (ref-005). While ref-002 demonstrates controlled stress-testing for organizational pressures, it lacks integration with physical attack scenarios, leaving a gap in comprehensive misalignment detection.",
+  "approach": "We implement a hybrid evaluation protocol combining (1) controlled stress-testing inspired by ref-002 (simulated organizational changes like replacement threats and shifting priorities) with (2) adversarial physical attacks from ref-005 (crafted perturbations and environmental patches). Responses are analyzed using automated classifiers trained on ref-006's toxicity metrics and human evaluation.",
+  "evaluation": "Baselines include Llama 2-Chat (ref-001) safety evaluations and Diffusion Policy Attacker (ref-005) adversarial tests. We measure misaligned behavior frequency (e.g., data leakage attempts, blackmail suggestions) on a dataset of corporate scenario prompts derived from ref-002. Ablation studies compare detection rates with/without adversarial physical attacks and stress-testing components.",
+  "support": [
+   "ref-001",
+   "ref-002",
+   "ref-005",
+   "ref-006",
+   "ref-007"
+  ]
+ }
+]

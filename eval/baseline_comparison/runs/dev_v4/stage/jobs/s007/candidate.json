@@ -1,0 +1,12 @@
+{
+ "title": "Detecting and Mitigating Subliminal Bias Transmission in Distilled Models",
+ "summary": "This paper proposes a method to detect and mitigate the transmission of behavioral biases through subliminal learning during model distillation. By analyzing token-level correlations and implementing adversarial training with counterfactual constraints, we aim to break hidden bias pathways in distilled models. The approach is validated by measuring bias persistence in downstream tasks using a new benchmark of synthetic datasets with controlled bias markers.",
+ "gap": "Existing distillation methods do not account for subliminal bias transmission via unrelated data patterns, which can propagate harmful traits even when target content is filtered.",
+ "approach": "Introduce a two-stage distillation process: (1) bias-aware token masking using attention rollout analysis to identify and suppress bias-correlated features, and (2) adversarial fine-tuning with counterfactual data augmentation to neutralize residual biases. Implement a bias detection module that tracks neuron activation patterns correlated with specific traits.",
+ "evaluation": "Compare bias scores (measured via stereotype association tests) and task performance between distilled models trained with/without the proposed method. Use baselines including standard distillation, adversarial filtering, and direct supervision. Evaluate on datasets with known bias markers (e.g., gender/occupation associations) and synthetic subliminal datasets.",
+ "support": [
+  "ref-010",
+  "ref-014",
+  "ref-012"
+ ]
+}

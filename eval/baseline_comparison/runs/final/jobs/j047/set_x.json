@@ -1,0 +1,47 @@
+[
+ {
+  "id": "x1",
+  "title": "Flat Minima Optimization for Enhanced Failure Prediction in Deep Neural Networks",
+  "summary": "This paper proposes optimizing flat minima to improve failure prediction in deep neural networks. By leveraging flat minima techniques, the approach aims to enhance the separation between correct and incorrect predictions, addressing the overconfidence issue in misclassified samples. The method is validated through extensive experiments on CIFAR-10, CIFAR-100, and ImageNet, comparing against baselines like softmax confidence and calibration methods, using metrics such as FPR95 and AUROC.",
+  "gap": "Existing calibration and OOD detection methods often degrade confidence separation between correct and incorrect in-distribution samples, hindering effective failure prediction. Current approaches fail to explicitly optimize for this separation, leading to unreliable confidence estimates for misclassified samples.",
+  "approach": "The approach combines two flat minima techniques—Sharpness-Aware Minimization (SAM) and Stochastic Weight Averaging (SWA)—to train models that generalize better and produce more reliable confidence scores. By minimizing loss sharpness, the method encourages flatter minima, which correlates with improved confidence separation and failure detection.",
+  "evaluation": "The method is evaluated on CIFAR-10, CIFAR-100, and ImageNet using FPR95, AUROC, and accuracy-coverage trade-off curves. Baselines include softmax confidence, temperature scaling, and MC dropout. The approach is also tested under covariate shift and long-tailed data to assess robustness.",
+  "support": [
+   "ref-002",
+   "ref-010",
+   "ref-013",
+   "ref-022",
+   "ref-059"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Generalized Out-of-Distribution Detection via Hyperspherical Embedding Dispersion",
+  "summary": "This paper proposes a framework for generalized OOD detection by optimizing hyperspherical embeddings to maximize class prototype dispersion and sample compactness. The method, called CIDER, jointly trains a model to produce embeddings where in-distribution samples cluster tightly around class prototypes, while OOD samples lie far from all prototypes.",
+  "gap": "Current OOD detection methods often rely on parametric assumptions (e.g., Gaussian distributions) or ad-hoc post-processing, limiting their scalability and effectiveness. Existing contrastive learning approaches do not explicitly optimize for OOD detection, leading to suboptimal separability.",
+  "approach": "CIDER introduces a dispersion loss to maximize angular distances between class prototypes and a compactness loss to cluster samples around their prototypes. The method is trained end-to-end without requiring OOD samples during training, leveraging only in-distribution data.",
+  "evaluation": "The method is evaluated on CIFAR-10, CIFAR-100, and ImageNet with OOD benchmarks (e.g., SVHN, Textures, iNaturalist). Metrics include AUROC, FPR95, and detection accuracy. Baselines include MSP, ODIN, Mahalanobis distance, and contrastive learning-based methods.",
+  "support": [
+   "ref-029",
+   "ref-036",
+   "ref-046",
+   "ref-055",
+   "ref-060"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Reject Option Augmentation for Selective Classification with Out-of-Distribution Data",
+  "summary": "This work introduces a method to augment softmax-based confidence scores with feature-agnostic information to improve selective classification in the presence of out-of-distribution (OOD) data. The approach, called Softmax Information Retaining Combination (SIRC), aims to enhance OOD detection without sacrificing the separation between correct and incorrect in-distribution predictions.",
+  "gap": "Existing OOD detection methods often conflate in-distribution misclassifications with OOD samples, leading to suboptimal performance in selective classification. Current post-hoc methods fail to maintain a clear boundary between correct and incorrect in-distribution predictions when rejecting OOD samples.",
+  "approach": "SIRC augments softmax scores with a feature-agnostic term derived from the model's output distribution, preserving the original softmax's ability to distinguish correct and incorrect in-distribution samples while improving OOD detection. The method is applied post-training, requiring no retraining or architectural changes.",
+  "evaluation": "The method is tested on ImageNet-scale datasets (e.g., ImageNet, CIFAR-10) with OOD benchmarks (e.g., iNaturalist, Textures). Metrics include AUROC, FPR95, and coverage-risk curves. Baselines include MSP, ODIN, and Mahalanobis distance-based methods.",
+  "support": [
+   "ref-005",
+   "ref-007",
+   "ref-014",
+   "ref-015",
+   "ref-025"
+  ]
+ }
+]

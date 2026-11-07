@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The support ids correctly identify pessimistic rejection sampling, Lagrangian inference-time constraints, and the proposed benchmarks (ref-004, ref-012, ref-014, ref-017). However, the gap overstates the absence of guarantees: LARA solves an expected-cost constrained problem for sequence-level sampling (ref-012), and InferenceGuard provides guarantees relative to its cost model (ref-020).",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Whether safety-constrained pessimistic sampling retains scaling-monotonic performance is a plausible open question connecting ref-004 and ref-012. The candidate does not isolate that question, instead claiming a broad absence of scalable safety guarantees despite relevant guarantees in ref-004, ref-012, and ref-020.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate identifies rejection sampling, a dual variable, benchmarks, named baselines, ASR, and compute curves (ref-004, ref-012, ref-014, ref-017). However, it leaves the threshold update rule, constraint budget, calibration procedure, and helpfulness measures unspecified. ShieldGemma is a moderation model, so its use as an alignment baseline also needs definition (ref-005).",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Combining pessimistic selection with explicit cost constraints addresses the intended quality-safety tradeoff (ref-004, ref-012), and the attack benchmarks can measure empirical robustness (ref-014, ref-017). However, ASR and aggregate compute curves alone cannot establish formal safety guarantees or scaling monotonicity; the evaluation needs explicit N sweeps and constraint-violation measurements. The claimed adaptive compute allocation is also not operationalized.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Establishing whether pessimistic sampling preserves its scaling benefits under safety constraints could influence inference-time method choices (ref-004, ref-012). The proposed study could yield useful tradeoff evidence, but its value is limited by the unspecified interaction mechanism and omission of InferenceGuard, which already targets guaranteed safety at inference time (ref-020).",
+  "score": 3
+ }
+}

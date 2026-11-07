@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-005 and ref-020 support SDP-based robustness bounds, and ref-001 supports EEGNet's depthwise and separable convolutions. However, ref-001 does not identify PhysioNet or the stated architecture settings. The references do not establish the claimed first framework, a field-wide absence of guarantees, or a need for circulant temporal matrices and diagonal spatial constraints. ref-022 supports general classifier guarantees but does not validate these EEGNet-specific claims.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The empirical EEG attack and detection studies in ref-024 and ref-021 leave EEG-specific certification unexplored in this corpus. However, the central claimed limitation—that the general frameworks in ref-005 and ref-020 require a distinct treatment of EEGNet's temporal-spatial operations—is not established. The candidate does not explain why structured weight matrices constitute a substantive extension of those frameworks.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate specifies a model, dataset, perturbation norm and radius, attacks, runtime measurements, depth comparisons, and a ref-020 baseline. These support initial experimental design. Missing details include normalization, data splits, attack budgets, convolution boundary assumptions, and how output bounds yield certified classification decisions. The dataset attribution to ref-001 is unsupported.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Applying ref-005's quadratic constraints to EEGNet and comparing against ref-020 broadly connects the approach and evaluation. However, bounding output change does not by itself establish unchanged classification without a decision-margin criterion. Comparing such bounds with attack success rates needs an explicit conversion, and replacing temporal convolution with 1D convolution does not clearly isolate the proposed certification representation.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether useful, computationally practical guarantees can be obtained for EEGNet could inform BCI robustness evaluation beyond the empirical evidence in ref-021 and ref-024. However, the proposed contribution currently looks like a narrow application of ref-005 and ref-020, with no clear demonstration that its structural modeling changes certification capability or practical model choices.",
+  "score": 3
+ }
+}

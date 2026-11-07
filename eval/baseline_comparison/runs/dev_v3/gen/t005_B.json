@@ -1,0 +1,59 @@
+{
+ "sample": "t005",
+ "condition": "B",
+ "n_refs": 24,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Inference-Time Pessimism with Dynamic Safety Thresholds for Scalable LLM Alignment",
+   "summary": "This paper proposes integrating InferenceTimePessimism's rejection sampling with dynamic safety thresholds derived from LARA's dual calibration. The method adaptively allocates test-time compute to balance response quality and safety by rejecting responses violating safety constraints while optimizing for helpfulness. Evaluated on HarmBench and JailbreakBench, the approach is compared to BoN, LARA, and ShieldGemma using attack success rate, harmlessness, and helpfulness metrics, with an ablation isolating the effect of dynamic thresholds.",
+   "gap": "While LARA (ref-012) provides formal safety guarantees through Lagrangian constraints, it does not address compute scaling with N. InferenceTimePessimism (ref-004) scales safely with N but lacks explicit safety constraints. No method combines both to adaptively balance quality and safety under compute constraints.",
+   "approach": "The method combines InferenceTimePessimism's rejection sampling with LARA's dual-calibrated safety constraints. Inputs: a prompt, a pre-trained LLM, a reward model, a cost model, and a compute budget (N). Output: a response. The algorithm: (1) samples N responses, (2) uses the cost model to score each for safety, (3) applies a dynamic safety threshold (α) derived from LARA's dual variable, (4) rejects responses exceeding the cost threshold, (5) re-ranks the remaining using the reward model, (6) returns the top response. The core difference from LARA is the addition of rejection sampling with a dynamic α, and from InferenceTimePessimism is the use of a cost model for safety constraints. The dynamic α is computed as the (1-1/N) quantile of the cost model's scores on a calibration set, ensuring at least one response passes the threshold as N increases.",
+   "evaluation": "Evaluate on HarmBench (ref-014) and JailbreakBench (ref-017) against baselines: BoN (ref-003), LARA (ref-012), and ShieldGemma (ref-005). Metrics: attack success rate (ASR), harmlessness score (0-100), and helpfulness score (0-100). Compute efficiency: FLOPs per response vs. harmlessness score. Ablation: compare dynamic α (quantile-based) vs. fixed α (0.5) on the same task, measuring the change in ASR and harmlessness. The evaluation tests the central claim that dynamic safety thresholds improve the safety-quality tradeoff under compute constraints.",
+   "support": [
+    "ref-004",
+    "ref-012",
+    "ref-014",
+    "ref-017"
+   ]
+  },
+  {
+   "title": "Guideline-Driven Safety Reasoning for Generalizable Jailbreak Resistance",
+   "summary": "We propose synthesizing reasoning supervision from safety guidelines to train models to generate step-by-step justifications for refusal decisions. This explicitly elicits latent safety knowledge, improving generalization against OOD jailbreak attacks. We evaluate on JailbreakBench and HarmBench, comparing ASR against Refusal Training (RT) with Best-of-N (BoN) sampling, using capability-preserving metrics to ensure no trade-off in helpfulness. Human evaluations assess reasoning quality via rubrics.",
+   "gap": "Refusal Training (RT) fails to generalize against OOD jailbreak attacks due to reliance on superficial shortcuts (ref-007). While BoN sampling reveals latent safety knowledge (ref-007), it does not address the root cause of non-generalizable representation mappings. Current methods lack a principled way to explicitly elicit this knowledge during inference.",
+   "approach": "We synthesize reasoning supervision from safety guidelines, training models to generate step-by-step justifications for refusal decisions. Inputs are prompts and guidelines; outputs are refusal decisions with reasoning chains. The objective is to maximize alignment with guideline-based reasoning, using supervised fine-tuning with a loss function that penalizes deviations from guideline-aligned rationales. This differs from RT + BoN by explicitly modeling reasoning paths rather than relying on implicit knowledge elicited through sampling.",
+   "evaluation": "We test on JailbreakBench (ref-017) and HarmBench (ref-014), comparing ASR against RT + BoN baselines. We use capability-preserving metrics (ref-021) to measure helpfulness on benign queries. Ablation studies compare RT + BoN vs. RT + BoN + reasoning supervision to isolate the effect of guideline-driven reasoning. Human evaluations use rubrics (e.g., coherence, guideline adherence) to assess reasoning quality, with inter-rater reliability metrics.",
+   "support": [
+    "ref-007",
+    "ref-014",
+    "ref-017",
+    "ref-021",
+    "ref-024"
+   ]
+  },
+  {
+   "title": "Lagrangian Reward Augmentation for Safe Inference-Time Alignment",
+   "summary": "We propose LARA, a framework that augments reward models with calibrated Lagrangian penalties to enforce safety constraints during inference-time alignment. LARA optimizes a constrained objective using dual variables calibrated on a small set, enabling principled trade-offs between helpfulness and harmlessness in Best-of-N and token-level decoding. We demonstrate improved safety-utility balance over ad-hoc penalty methods on the Anthropic hh-rlhf dataset.",
+   "gap": "While ref-012 and ref-019 propose Lagrangian methods for constrained alignment, they do not isolate the impact of dual calibration on safety-utility trade-offs. Existing work (e.g., ref-003) uses ad-hoc penalties without theoretical guarantees, leaving open how calibrated penalties improve constraint satisfaction compared to fixed coefficients.",
+   "approach": "LARA solves a constrained optimization problem: maximize reward subject to expected cost ≤ threshold. It dualizes the constraint, calibrates the dual variable λ on a small set (e.g., 100 samples) via convex optimization, and augments the reward with λ × cost. This calibrated penalty replaces fixed coefficients in Best-of-N or reward-guided decoding. The core difference from ref-012 is explicit ablation isolating dual calibration's impact on constraint satisfaction.",
+   "evaluation": "We evaluate LARA on Anthropic's hh-rlhf dataset (ref-003), comparing against vanilla Best-of-N (ref-003) and Safe RLHF (ref-019). Metrics include AU-PRC for safety detection, helpfulness scores from human evaluations, and constraint satisfaction rates (percentage of responses meeting cost thresholds). Ablations compare dual-calibrated λ vs. fixed penalty coefficients (λ = 0.1, 1.0, 10.0) to isolate calibration benefits.",
+   "support": [
+    "ref-012",
+    "ref-003",
+    "ref-019",
+    "ref-006"
+   ]
+  }
+ ],
+ "calls": 133,
+ "chosen_ids": [
+  "s1-transfer",
+  "s2-empirical",
+  "s3-empirical"
+ ],
+ "method": "eval\\baseline_comparison\\methods\\v3",
+ "method_version": "v3",
+ "dropped_proposals": {},
+ "refine_failed": [],
+ "seconds": 418.6
+}

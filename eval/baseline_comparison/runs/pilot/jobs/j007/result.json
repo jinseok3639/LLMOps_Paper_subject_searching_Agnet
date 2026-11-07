@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The core ingredients are supported: EEGNet uses EEG-specific convolutions (ref-001), quadratic constraints enable SDP verification (ref-005), SDP decomposition supports scalability (ref-020), and EEG classifiers face universal attacks (ref-024). However, ref-001 does not establish the claimed spatial covariance properties, and the references do not establish that generic SDP methods fail to capture characteristics critical for clinical safety. Ref-024's supplied abstract also provides no empirical attack distances.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied EEG attack studies leave formal EEG robustness certification open (ref-021, ref-024). However, the narrower motivation for EEG-specific constraints is not established: ref-005 already accommodates general input uncertainty sets, and neither ref-005 nor ref-020 identifies the claimed physiological limitation. The gap is plausible but needs a concrete account of what existing formulations cannot represent.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate identifies EEGNet, quadratic constraints, SDP verification, generic SDP baselines, and certified radii as the main measure (ref-001, ref-005, ref-020). Experiment design remains incomplete because the proposed constraints, their estimation, dataset selection, signal normalization for epsilon=0.1, and attack implementation are unspecified. Ref-024 supplies an attack approach but no numerical distances in the provided text.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Comparing EEG-specific and generic SDP bounds directly tests the proposed benefit (ref-005, ref-020), with attacks providing complementary empirical checks (ref-024). However, restricting perturbations by physiological assumptions may tighten bounds by changing the threat model rather than improving certification for the same full l2 ball. The proposal must distinguish valid network constraints from additional input restrictions. Its claim that results already demonstrate improvement is also unsupported.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Reliable EEG certification could meaningfully inform decoder and defense choices given the demonstrated universal-attack vulnerability (ref-024). Multi-dataset evaluation would also address the validation concerns in ref-007. Nevertheless, the current proposal is a focused application of existing verification machinery, and its practical value depends on whether the added constraints preserve a meaningful threat model and yield useful certificates at feasible computational cost.",
+  "score": 3
+ }
+}

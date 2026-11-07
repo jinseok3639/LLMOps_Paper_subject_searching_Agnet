@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The references support training-data extraction (ref-007, ref-050), deduplication reducing memorized output (ref-011), and book extraction (ref-044). However, ref-007 describes divergence attacks, and ref-050 does not specify adversarial suffix attacks. Gradient-guided suffix search is supported by ref-014, which is omitted from the support list. Ref-001 describes HumanEval as a functional-correctness benchmark; its supplied abstract does not establish 164 snippets or their membership in model training data.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The supplied references leave open a controlled comparison of optimized suffixes and prefix-only extraction for code. However, the gap rests partly on mischaracterizing ref-007 and ref-050, and combines several extensions: code specialization, suffix optimization, and deduplication. Ref-011 already establishes a general deduplication effect, so the remaining question concerns its code-specific behavior.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies a gradient-based token search, fixed prefixes, random-suffix and prefix-only baselines, sampling temperature, and extraction metrics. However, it leaves the classifier undefined, does not identify models with usable gradient access, and mixes exact matching with a greater-than-90% token-overlap success criterion. Unlike the controlled insertions in ref-043, the proposed HumanEval evaluation (ref-001) provides no established training membership.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Comparing optimized suffixes against fixed-prefix baselines could test extraction effectiveness, but successful reproduction of HumanEval solutions would not establish training-data memorization without membership evidence (ref-001, ref-043). The summary's classifier disappears from the method, and overlap-based optimization conflicts with exact-match evaluation. The deduplication comparison also needs matched training conditions to isolate the effect documented in ref-011.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "A controlled result could inform code-model memorization audits and whether deduplication remains effective against optimized extraction, extending ref-001, ref-011, and ref-014. The likely contribution is meaningful but narrow relative to existing extraction and adversarial memorization approaches (ref-007, ref-009, ref-050), and its usefulness depends on resolving training membership and measurement validity.",
+  "score": 3
+ }
+}

@@ -1,0 +1,15 @@
+{
+ "title": "Token-Level Entanglement as a Detector and Mitigator of Hidden Trait Transfer in Distillation",
+ "summary": "We propose a white-box audit that predicts and blocks subliminal trait transfer before a student is trained. Given a teacher with a trait and a candidate distillation dataset, we compute token-level entanglement scores from teacher logits and per-token logit shifts, as in the reference-model comparison used in approximate unlearning. We then remove or resample the high-entanglement tokens, or perturb the teacher's output distribution at those tokens. We validate by checking whether entanglement scores predict student trait acquisition across datasets, and whether the intervention lowers transmission while retaining task utility.",
+ "gap": "Existing work shows that semantic filtering does not stop subliminal learning, and that token entanglement partly explains it. It gives no practical, quantitative pre-training audit or mitigation. Black-box output inspection is argued to be insufficient, but white-box audit methods for distillation data are not proposed.",
+ "approach": "Build a score for each token or sample from the log-probability difference between a trait-implanted teacher and its base model, a reinforced-versus-baseline comparison similar to unlearning methods. Rank dataset samples and tokens. Interventions are: drop top-scored samples, replace tokens with baseline-model predictions (generic labels), or mix in base-model samples. Test on number-sequence, code and reasoning-trace datasets.",
+ "evaluation": "Measure the correlation between the audit score and the post-distillation trait strength of the student. Compare mitigation against naive keyword or LLM-judge filtering and against random removal at the same budget. Measure the trade-off between residual trait rate and student task performance on standard benchmarks. Ablate the data modality and the model scale.",
+ "support": [
+  "ref-014",
+  "ref-017",
+  "ref-018",
+  "ref-016",
+  "ref-011",
+  "ref-008"
+ ]
+}

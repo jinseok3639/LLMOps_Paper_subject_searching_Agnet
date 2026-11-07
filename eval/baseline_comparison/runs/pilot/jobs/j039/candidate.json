@@ -1,0 +1,15 @@
+{
+ "title": "Generational Amplification of Subliminally Transmitted Traits under Iterated Self-Distillation",
+ "summary": "This proposal studies whether a hidden trait gets stronger or fades when models are distilled on semantically unrelated synthetic data over many generations, the way bias is known to amplify under iterated synthetic training. Starting from a teacher with a measurable trait, such as a preference or political lean, each student generates filtered number or code data that trains the next generation. Trait strength, model collapse metrics and trait-correlated neurons are tracked at every generation. Data-accumulation and preservation mitigations are tested to see whether they slow the drift. The aim is to show whether subliminal transfer can compound unnoticed.",
+ "gap": "Subliminal learning has only been studied for a single teacher-to-student step. Bias amplification has been studied over multiple generations, but only with semantically related text. It is unknown whether hidden traits amplify, persist or decay across repeated generations of unrelated synthetic data, or whether this behaves separately from model collapse.",
+ "approach": "Run iterated distillation chains of five or more generations on filtered number-sequence and code data. Compare a replace-data regime with accumulation and preservation (mixing in real data) regimes. Use regression-based neuron attribution to separate trait-correlated neurons from collapse-correlated neurons, and fit a simple amplification model to the trajectory of trait strength over generations.",
+ "evaluation": "Measures are trait strength per generation (preference rates, misalignment rates, and political-bias scores on news continuations), perplexity and diversity as collapse indicators, and the overlap between trait and collapse neurons. Controls are chains seeded from a trait-free teacher, and the existing amplification mitigations serve as baselines.",
+ "support": [
+  "ref-014",
+  "ref-010",
+  "ref-012",
+  "ref-011",
+  "ref-017",
+  "ref-020"
+ ]
+}

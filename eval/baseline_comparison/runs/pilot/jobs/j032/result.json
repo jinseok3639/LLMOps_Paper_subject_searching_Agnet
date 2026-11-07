@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The SDP and quadratic-constraint techniques are supported by ref-005 and ref-020, and EEGNet by ref-001. However, ref-006 describes implanted motor-cortex neuronal recordings, not noise-injected EEG signals or physical adversarial testing. The claim that bounded output variation ensures reliable implantable operation exceeds the robustness guarantees in ref-005 and ref-020. CLEVER and Parseval are supported by ref-009 and ref-010, which are omitted from the support list.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The supplied references leave EEGNet certification open: ref-001 evaluates decoding, while ref-005 and ref-020 provide general verification methods without reporting EEG experiments. This is a plausible, bounded application gap. However, the references do not establish that these methods are universally untested on EEG, and ref-025 does not establish formal classifier robustness as sufficient for implantable BCI safety.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate identifies EEGNet, an SDP technique, a Parseval EEGNet comparator, and measurable outputs including certified radii and CLEVER scores (ref-001, ref-020, ref-010, ref-009). However, it leaves datasets, perturbation norms and budgets, attack procedures, and conversion of Lipschitz bounds into decision certificates unspecified. Its proposed physical-testing data are incorrectly attributed to ref-006.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Applying ref-020 to EEGNet and comparing certificates with attacks could test bounded-input robustness. However, EEG motor-imagery experiments do not establish safety for the implanted neuronal-control setting of ref-006. The evaluation also lacks a valid physical-testing protocol, and output-variation bounds alone do not establish the reliable operation claimed in the summary.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Determining whether SDP certificates are useful and computationally practical for EEGNet could inform BCI robustness evaluation, particularly given the EEG attacks in ref-024. Nevertheless, the proposal primarily transfers existing certification methods from ref-005 and ref-020 to ref-001, without a clear methodological change or an evaluation that supports its implantable-safety claim. Its likely contribution is meaningful but narrow.",
+  "score": 3
+ }
+}

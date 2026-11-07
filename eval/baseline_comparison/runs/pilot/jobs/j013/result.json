@@ -1,0 +1,57 @@
+{
+ "queries": [
+  "\"jailbreak\" \"defender\" \"scaling\" \"test-time compute\"",
+  "\"best-of-n\" \"jailbreaking\" \"defense\" \"adaptive\"",
+  "\"jailbreak\" \"attack\" \"defense\" \"compute allocation\"",
+  "\"jailbreak\" \"defender\" \"best-of-N\" reranking",
+  "\"jailbreak\" \"two-sided\" compute",
+  "\"jailbreak\" \"adaptive\" \"risk\" \"test-time\" defense",
+  "\"Trading Inference-Time Compute for Adversarial Robustness\"",
+  "\"jailbreak\" \"best-of-n\" \"reranking\" defense",
+  "\"jailbreak\" \"attacker budget\" \"defender\" compute",
+  "\"Reasoning as an Adaptive Defense for Safety\"",
+  "\"Defense Against the Dark Prompts\" arxiv",
+  "\"Safety Hacking in Constrained Best-of-N Inference-time Scaling\"",
+  "\"jailbreak\" \"defender samples\" \"attacker\"",
+  "\"jailbreak\" \"defender-side\" \"sampling\"",
+  "\"Escaping Alignment: A Physical Trap Model of Best-of-N Jailbreaking\"",
+  "\"jailbreak\" \"best-of-n\" \"risk-adaptive\"",
+  "\"jailbreak\" \"attacker\" \"defender\" \"power law\"",
+  "\"jailbreak\" \"adaptive\" \"sampling budget\" defense",
+  "\"jailbreak\" \"joint\" \"compute\" \"reranking\""
+ ],
+ "closest": [
+  {
+   "title": "Trading Inference-Time Compute for Adversarial Robustness",
+   "year": 2025,
+   "url": "https://arxiv.org/abs/2501.18841",
+   "how_close": "Directly measures attack success jointly against adversary resources and defender inference compute, including two-dimensional surfaces and adaptive attacks. However, defender compute increases internal reasoning rather than guard-and-reward reranking of sampled responses, and it does not implement input-risk-based allocation of defender samples."
+  },
+  {
+   "title": "Safety Hacking in Constrained Best-of-N Inference-time Scaling",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2608.22915",
+   "how_close": "Studies the closely matching defender pipeline: sample responses, filter using a learned safety model, and select by learned reward. Analyzes safety failures as the sample budget grows and evaluates on harmful-prompt benchmarks. It holds prompts fixed, uses a hard safety constraint, and does not characterize an attacker-budget-by-defender-budget surface or allocate samples by input risk."
+  },
+  {
+   "title": "Defense Against the Dark Prompts: Mitigating Best-of-N Jailbreaking with Prompt Evaluation",
+   "year": 2025,
+   "url": "https://arxiv.org/abs/2502.00580",
+   "how_close": "Specifically defends against randomized BoN jailbreak augmentations through repeated prompt safety evaluation, and discusses effects on attack scaling. The additional compute evaluates and filters inputs rather than sampling and reranking defender responses; it does not establish the proposed joint sampling surface."
+  },
+  {
+   "title": "Reasoning as an Adaptive Defense for Safety",
+   "year": 2025,
+   "url": "https://arxiv.org/abs/2507.00971",
+   "how_close": "TARS trains models to spend more reasoning compute on ambiguous prompts and tests jailbreak robustness and safety-refusal tradeoffs. This overlaps adaptive safety compute allocation, but uses SFT/RL-trained reasoning rather than an input guard routing a frozen model's BoN response budget."
+  },
+  {
+   "title": "Escaping Alignment: A Physical Trap Model of Best-of-N Jailbreaking",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2609.32116",
+   "how_close": "Models and validates a two-budget surface over prompt augmentations and completions per augmentation. Both budgets benefit the attacker: any harmful completion counts as success. There is no defender safety reranker, so its second budget has a fundamentally different role from the candidate's defender samples."
+  }
+ ],
+ "rationale": "Very close work exists outside the bibliography, but I found no paper implementing the full combination of BoN prompt attacks, guard-and-reward defender response reranking, joint attacker/defender sample-budget scaling, and input-risk-based allocation of defender samples. The broad claim that two-sided compute scaling has never been characterized is already undermined by Trading Inference-Time Compute for Adversarial Robustness. Safety Hacking closely matches the defender selection mechanism and shows that increasing its budget can amplify safety-proxy errors. Nevertheless, those papers use different defense methods or omit the competing attacker budget and adaptive allocation. These are substantial overlaps without an exact match to the candidate's core combination.",
+ "score": 3
+}

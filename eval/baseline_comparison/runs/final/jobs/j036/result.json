@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-002 supports estimating classifier-induced divergence from unlabeled samples and bounding target error under a shared-good-hypothesis assumption; ref-008 supports instruction poisoning and partial mitigation by RLHF. However, neither supports the claimed mitigation through divergence regularization. ref-008's supplied abstract does not establish synthetic triggers, the named datasets, or RLHF's precise objective.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The references leave instruction-backdoor defenses open: ref-008 reports only partial mitigation. Testing divergence regularization is a scoped extension, but ref-002 does not identify distribution divergence as the cause of instruction-backdoor vulnerability. The universal claim that no method combines these ideas exceeds the supplied evidence.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The proposal specifies a loss, attack source, standard fine-tuning and RLHF baselines, and ASR and clean-accuracy measures. However, it does not explain how ref-002's divergence becomes dependent on trainable parameters, how separately identified poisoned samples are obtained, or what distributions define the clean-only divergence ablation.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "ASR and clean accuracy could measure the intended defense effect against ref-008's attacks. However, ref-002's divergence between fixed input distributions would be constant with respect to model parameters unless an additional construction is specified. Its target-error bound also does not establish backdoor mitigation. Removing poisoning in the ablation confounds the attack exposure with the regularizer's effect.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Reducing instruction-backdoor success while retaining clean performance would address the defense need in ref-008. A controlled study could inform whether ref-002's domain-adaptation perspective is useful here, but the unspecified training mechanism and access to identified poisoned data limit the proposal's current practical and conceptual impact.",
+  "score": 3
+ }
+}

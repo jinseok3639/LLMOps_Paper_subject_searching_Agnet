@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The support ids substantiate reward overoptimization (ref-006), pessimistic rejection sampling (ref-004), adaptive compute allocation (ref-002), and MBR-BoN and its datasets (ref-003). However, ref-004 does not state that ITP assumes uniform coverage or cannot adapt to policy capabilities; it explicitly analyzes coverage conditions and establishes optimal, scaling-monotonic performance. The claimed prevention of reward hacking by CAP's threshold is also unsupported.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Coverage-dependent threshold adaptation is a concrete proposed difference, but its motivation rests on an unsubstantiated limitation of ITP. Ref-004 already addresses coverage and nondegrading compute scaling. The candidate does not identify a remaining practical limitation, such as conservative rejection or estimation costs, that its adaptation would resolve.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "Datasets, baselines, evaluation measures, and ablation axes are concrete, including ITP (ref-004) and MBR-BoN (ref-003). However, coverage lacks an operational definition, the validation-set estimator is unspecified, and neither the rejection statistic nor the threshold formula is given. These omissions leave the central algorithm substantially underdetermined.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Estimating coverage and adapting rejection broadly fit the proposed objective, and human evaluations could detect reward hacking as distinguished from proxy-score gains in ref-006. However, an aggregate coverage estimate does not establish which individual responses belong to a high-quality region. The proposed threshold therefore lacks a justified connection to the claimed protection, especially relative to ITP's existing scaling guarantee in ref-004.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "A practical coverage estimator that improves the quality-compute tradeoff could influence inference-time alignment choices, consistent with ref-002 and ref-004. As specified, however, CAP offers an insufficiently motivated modification to an already optimal, scaling-monotonic method, without identifying when or why the modification should help. Its likely contribution is therefore limited.",
+  "score": 2
+ }
+}

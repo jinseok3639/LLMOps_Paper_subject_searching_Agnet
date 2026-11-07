@@ -1,0 +1,58 @@
+{
+ "sample": "t003",
+ "condition": "B",
+ "n_refs": 25,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Certified Robustness for EEG-Based BCIs via EEG-Specific SDP Constraints",
+   "summary": "We formalize EEG signal robustness verification by incorporating domain-specific constraints (temporal smoothness, spatial covariance patterns from EEGNet) into semidefinite programming (SDP). Our method derives certified robustness bounds for EEGNet classifiers under ℓ₂-norm perturbations, validated against universal adversarial attacks in motor imagery and P300 paradigms.",
+   "gap": "Existing BCI robustness evaluations rely on empirical attack success rates without formal safety guarantees. General neural network robustness frameworks (ref-005/ref-020) lack EEG-specific constraints, failing to capture physiological signal characteristics critical for clinical safety.",
+   "approach": "We extend SDP-based robustness verification by encoding EEGNet's temporal filtering and spatial covariance properties as quadratic constraints. Layer-wise decomposition ensures scalability while preserving EEG-specific signal structure in the S-procedure relaxation framework.",
+   "evaluation": "Certified robustness radii are computed for MOABB datasets under ℓ₂-norm perturbations (ε=0.1) and compared to empirical attack distances from ref-024. Results demonstrate tighter bounds than generic SDP approaches by incorporating EEG-specific constraints.",
+   "support": [
+    "ref-001",
+    "ref-005",
+    "ref-007",
+    "ref-020",
+    "ref-024"
+   ]
+  },
+  {
+   "title": "Certified Robustness for EEGNet via Layer-Specific Quadratic Constraints",
+   "summary": "This work derives layer-specific quadratic constraints for EEGNet's temporal and spatial convolutional layers, enabling semidefinite programming-based robustness certification. It formally verifies that EEGNet's predictions remain stable under $\\ell_2$-norm bounded perturbations, with certified robustness evaluated on motor imagery datasets to ensure reliability for clinical brain-computer interfaces.",
+   "gap": "EEGNet's robustness claims (ref-001) are empirical, lacking formal guarantees required for clinical deployment. Existing SDP-based verification methods (ref-005, ref-020) do not adapt to EEGNet's specialized architecture, and no work evaluates certified robustness on physiological EEG data.",
+   "approach": "Derive quadratic constraints for EEGNet's temporal convolution, depthwise spatial convolution, and separable operations by modeling activation function properties. Integrate these into an SDP solver that exploits EEGNet's parameter sharing to reduce computational complexity during robustness certification.",
+   "evaluation": "Measure certified robust accuracy as the fraction of test samples with guaranteed perturbation tolerance. Compare against empirical robustness under adversarial attacks (ref-021) and natural noise. Validate cross-subject generalization using MOABB (ref-007) and assess clinical relevance by bounding false positive/negative rates under certified perturbations.",
+   "support": [
+    "ref-001",
+    "ref-005",
+    "ref-007",
+    "ref-020",
+    "ref-021"
+   ]
+  },
+  {
+   "title": "Lipschitz-Constrained EEGNet: Formal Robustness Bounds for EEG-Based BCIs",
+   "summary": "We propose Lipschitz-Constrained EEGNet, a modified EEGNet architecture that enforces spectral norm bounds on depthwise separable convolutions to provide formal robustness guarantees against adversarial perturbations. By constraining layer-wise Lipschitz constants through spectral normalization, the model limits feature space distortion while preserving EEG paradigm-specific temporal filters. We validate robustness using CLEVER scores and adversarial attack success rates across P300, ERN, and SMR paradigms, comparing against standard EEGNet and adversarially trained baselines.",
+   "gap": "Current EEGNet implementations lack formal robustness guarantees against adversarial examples, despite their widespread use in safety-critical BCIs. Existing robustness analyses focus on computer vision without EEG-specific spectral constraints or adversarial detection baselines.",
+   "approach": "We implement spectral normalization on EEGNet's depthwise and separable convolutions to bound Lipschitz constants, ensuring layer outputs change smoothly with input perturbations. Training incorporates adversarial loss regularization with projected gradient descent, while preserving EEGNet's temporal filtering properties through frequency band energy constraints (8-30Hz).",
+   "evaluation": "We measure CLEVER scores, adversarial attack success rates (FGSM, PGD), and classification accuracy under white-box attacks. Cross-paradigm generalization is quantified using MOABB benchmarks, comparing Lipschitz bounds and robustness metrics against standard EEGNet and adversarially trained models.",
+   "support": [
+    "ref-001",
+    "ref-005",
+    "ref-009",
+    "ref-010",
+    "ref-021",
+    "ref-024"
+   ]
+  }
+ ],
+ "calls": 128,
+ "chosen_ids": [
+  "s2-formal",
+  "s3-empirical",
+  "s1-formal"
+ ],
+ "seconds": 269.8
+}

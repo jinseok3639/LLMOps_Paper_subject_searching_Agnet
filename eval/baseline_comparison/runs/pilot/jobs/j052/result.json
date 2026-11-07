@@ -1,0 +1,46 @@
+{
+ "queries": [
+  "\"coverage\" \"pessimism\" \"inference-time\" reward sampling",
+  "\"coverage\" \"rejection sampling\" \"reward hacking\"",
+  "\"best-of-n\" \"coverage\" \"adaptive\" pessimism",
+  "\"Best-of-Tails: Bridging Optimism and Pessimism in Inference-Time Alignment\"",
+  "\"Safety Hacking in Constrained\" \"pessimistic\"",
+  "\"coverage\" \"adaptive\" \"InferenceTimePessimism\"",
+  "\"coverage-aware\" \"pessimism\" sampling language models",
+  "\"best-of-n\" \"coverage\" \"calibration\" rejection",
+  "\"inference-time\" \"pessimism\" \"adaptive\" reward hacking -site:researchgate.net -site:emergentmind.com",
+  "\"reward hacking\" \"coverage estimation\"",
+  "\"rejection sampling\" \"coverage\" \"held-out\" reward",
+  "\"From Curiosity to Caution\" \"Best\" pessimism",
+  "\"inference-time alignment\" \"coverage\" \"estimate\" threshold -site:researchgate.net -site:emergentmind.com -site:slideslive.com",
+  "\"best-of-n\" \"coverage-aware\" -site:huggingface.co"
+ ],
+ "closest": [
+  {
+   "title": "Best-of-Tails: Bridging Optimism and Pessimism in Inference-Time Alignment",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2603.06797",
+   "how_close": "Same target: mitigate reward hacking while retaining gains from inference-time sampling. Dynamically adapts optimistic versus pessimistic selection using a per-prompt Hill estimate of reward-tail heaviness and Tsallis regularization. Very close adaptive-selection principle, but it estimates reward tails rather than high-quality-response coverage and does not implement CAP's held-out coverage-proportional rejection threshold."
+  },
+  {
+   "title": "From Curiosity to Caution: Mitigating Reward Hacking for Best-of-N with Pessimism",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2604.04648",
+   "how_close": "Same target and closely related motivation: make pessimism sensitive to distributional support instead of applying overly conservative distribution-level regularization. Trains a predictor of frozen reward-model features on typical responses, then subtracts prediction-error penalties before selecting the highest-scoring candidate. Uses response-specific uncertainty penalties rather than coverage estimation and adaptive rejection sampling."
+  },
+  {
+   "title": "Safety Hacking in Constrained Best-of-N Inference-time Scaling",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2608.22915",
+   "how_close": "Explicitly combines coverage control with constrained pessimistic sampling, deriving an N-independent safety-hacking bound through bounded chi-squared divergence from a safety-filtered reference distribution. However, coverage denotes selection-policy concentration, the target includes safety-filter contamination, and the method does not estimate high-quality-response coverage on held-out data to adapt rejection thresholds."
+  },
+  {
+   "title": "Privacy Without Regret: Differentially Private Inference-Time Alignment",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2608.26324",
+   "how_close": "Extends inference-time pessimism using chi-squared-regularized rejection sampling and addresses a threshold involving an unknown coverage coefficient. Its intervention is a two-phase Gaussian privacy mechanism that separates regularization from privacy; it does not supply CAP's coverage estimator or coverage-adaptive acceptance rule."
+  }
+ ],
+ "rationale": "Very close external work exists, but I found no paper implementing the complete CAP combination: held-out estimation of policy coverage over high-quality responses followed by coverage-dependent pessimistic rejection thresholds. Best-of-Tails already adapts inference-time pessimism from estimated distributional properties, while Caution adjusts pessimistic selection using learned distributional uncertainty. These substantially overlap CAP's purpose and adaptive principle, but their estimands and selection mechanisms differ. The other papers connect coverage control to pessimistic sampling without the proposed coverage-estimation step. Bibliography entries were excluded from the closest-paper assessment.",
+ "score": 3
+}

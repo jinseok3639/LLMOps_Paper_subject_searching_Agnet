@@ -1,0 +1,13 @@
+{
+ "title": "Latent Safety Knowledge Elicitation via Best-of-N Sampling with Safety-Aware Prompt Augmentation",
+ "summary": "We hypothesize that combining safety-aware prompt augmentation with Best-of-N (BoN) sampling can elicit latent safety knowledge in models under OOD attacks. Our approach uses jailbreak patterns augmented with safety guidelines to generate N responses, selecting the safest via a reward model. We evaluate how N affects safety performance across attack types, isolating augmentation effects through ablation studies.",
+ "gap": "Ref-007 shows BoN improves safety but does not systematically study how safety-aware augmentations affect safety knowledge elicitation. It also does not isolate the effects of augmentations from BoN sampling. Ref-007's abstract states BoN improves safety as N increases but does not measure how augmentation strategies influence this relationship across diverse attacks.",
+ "approach": "Generate N responses per input using prompts combining jailbreak patterns (e.g., role-play, obfuscation) with safety guidelines (e.g., 'refuse harmful requests'). Select the safest response using a reward model (e.g., Skywork-Reward-V2). Vary N (1, 10, 100, 1000) and augmentation strategies (safety-aware vs. random) while keeping the reward model fixed. Inputs include OOD attacks from JailbreakBench and benign queries from HelpfulBench.",
+ "evaluation": "Test on JailbreakBench (ref-017) and HarmBench (ref-014) with attack success rate measured by StrongREJECT's evaluator (ref-021). Compare against baselines: (1) standard RT model, (2) BoN with random augmentations, (3) BoN with safety-aware augmentations. Measure helpfulness on benign queries using G-Eval (ref-018). Ablation studies isolate augmentation effects by fixing N=100 and varying augmentation strategies.",
+ "support": [
+  "ref-007",
+  "ref-014",
+  "ref-017",
+  "ref-021"
+ ]
+}

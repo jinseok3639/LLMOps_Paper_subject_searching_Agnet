@@ -1,0 +1,14 @@
+{
+ "title": "Outcome-Supervised Value Models for Guided Decoding in Scientific Reasoning",
+ "summary": "We propose outcome-supervised value models (OVM) for guided decoding in scientific reasoning tasks, where a value model is trained to predict the correctness of intermediate reasoning steps based on final outcomes. This approach addresses the gap in error propagation in multi-step scientific reasoning by prioritizing steps that lead to correct conclusions. The evaluation on SciBench shows improved performance on college-level scientific problems compared to chain-of-thought and process-supervised baselines, with no need for step-level annotations.",
+ "gap": "Current LLM-based scientific reasoning systems (e.g., SciBench) suffer from error propagation in multi-step problems, as they lack mechanisms to assess the potential of intermediate reasoning paths.",
+ "approach": "Train a value model to predict the correctness of intermediate reasoning steps by: (1) generating multiple reasoning paths for each problem, (2) labeling each step based on the final outcome, and (3) training a model to predict step correctness. During inference, the value model guides decoding by selecting steps with higher predicted correctness, reducing error propagation.",
+ "evaluation": "Evaluate on SciBench with: (1) accuracy on college-level scientific problems, (2) comparison with chain-of-thought, process-supervised, and outcome-supervised baselines, (3) error propagation analysis, and (4) ablation studies on value model design. Test on both open-source and proprietary LLMs.",
+ "support": [
+  "ref-001",
+  "ref-027",
+  "ref-038",
+  "ref-039",
+  "ref-015"
+ ]
+}

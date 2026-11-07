@@ -1,0 +1,14 @@
+{
+ "title": "Cross-Paradigm Robustness Verification for EEGNet via SDP",
+ "summary": "We adapt semidefinite programming (SDP) to formally verify EEGNet's cross-paradigm robustness by modeling paradigm-specific EEG variations as bounded input uncertainties. The method derives output bounds for each BCI paradigm, certifying that small input deviations do not change classification. We evaluate on four MOABB datasets, comparing verified L2/L∞ margins, cross-paradigm accuracy, and ablation against post-training SDP and retraining with Cross-Lipschitz regularization.",
+ "gap": "While ref-001 shows EEGNet generalizes across BCI paradigms, and ref-007 benchmarks cross-dataset performance, no work provides formal guarantees that small EEG variations (e.g., between subjects/paradigms) do not cause misclassification. The closest, ref-005/020, apply SDP to general networks but not to EEGNet or BCI-specific variations.",
+ "approach": "We model each BCI paradigm's EEG variations as an L2 ball of radius r (derived from MOABB's inter-subject variance) and apply ref-005's SDP framework to EEGNet. The method uses quadratic constraints to bound the network's output for all inputs within the ball, certifying that the top class does not change. The core difference from ref-005 is the input uncertainty set, tailored to BCI paradigm shifts via MOABB statistics.",
+ "evaluation": "We test on four MOABB paradigms (P300, ERN, MRCP, SMR) with EEGNet, FBCSP, and deep ConvNet baselines. For each paradigm, we (1) compute verified L2/L∞ robustness margins via SDP, (2) measure cross-paradigm accuracy under MOABB's cross-validation, and (3) perform ablation by comparing (a) standard EEGNet, (b) EEGNet with SDP verification post-training, and (c) EEGNet retrained with Cross-Lipschitz regularization (ref-022). The ablation isolates whether robustness gains come from SDP verification or architectural changes.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-020",
+  "ref-022"
+ ]
+}

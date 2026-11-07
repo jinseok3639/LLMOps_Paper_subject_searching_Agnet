@@ -1,0 +1,12 @@
+{
+ "title": "Iterative Feedback Refinement for LLM-Based Scientific Data Visualization",
+ "summary": "We propose an iterative feedback refinement framework for LLM-based scientific data visualization, where generated visualizations are evaluated by a multi-modal LLM and refined through multiple cycles. The approach integrates a visual feedback mechanism with code generation debugging, using GPT-4V to assess visualization quality and provide actionable feedback. This method addresses the gap in dynamic error correction and quality improvement in automated visualization systems, as current frameworks like MatPlotAgent lack iterative refinement capabilities. The evaluation uses MatPlotBench with human-annotated scores and GPT-4V-based metrics, showing improved accuracy and visual fidelity across diverse datasets.",
+ "gap": "Current LLM-based visualization frameworks (e.g., MatPlotAgent) lack iterative feedback mechanisms for dynamic error correction and quality improvement, leading to suboptimal visualizations that require manual intervention.",
+ "approach": "Implement a closed-loop system where generated visualizations are evaluated by a multi-modal LLM (GPT-4V) and refined through code modifications. The system includes: (1) query understanding, (2) code generation with iterative debugging, (3) visual feedback analysis, and (4) code refinement based on feedback. The process repeats until the visualization meets quality thresholds or maximum iterations are reached.",
+ "evaluation": "Evaluate on MatPlotBench using: (1) GPT-4V-based scoring for visual accuracy, (2) human-annotated scores for fidelity, (3) comparison with baseline MatPlotAgent performance, and (4) computational cost analysis. Metrics include correlation with human scores, error reduction per iteration, and final visualization quality.",
+ "support": [
+  "ref-001",
+  "ref-007",
+  "ref-035"
+ ]
+}

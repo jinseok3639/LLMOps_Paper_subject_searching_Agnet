@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-001 supports EEGNet's architecture and clean-data evaluation across four paradigms, and ref-009 supports CLEVER. However, ref-021 and ref-024 leave their three evaluated networks unnamed, so their abstracts cannot establish that EEGNet or architectural robustness was excluded. ref-005 describes SDP-based verification, not constraints for generating FGSM/PGD attacks. The BCI Competition III/IV dataset attribution is absent from ref-001, and ref-015 does not explicitly identify the proposed shallow CNN baseline.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Comparing architectural contributions to robustness across EEG paradigms is a reasonably scoped extension of ref-001, motivated by the vulnerabilities in ref-021 and ref-024. However, those abstracts do not establish the claimed absence of EEGNet evaluations. The candidate therefore identifies a plausible open comparison but overstates the evidence that prior work leaves it untouched.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies four paradigms, named baselines, attacks, an architectural replacement, and quantitative outcomes grounded in ref-001 and ref-009. This supports initial experiment design. Important details remain unspecified: perturbation norms and budgets, how attacks and CLEVER apply to FBCSP, the shallow CNN configuration, and how perturbations transfer between paradigms with potentially different input representations.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Attack success and accuracy degradation can assess the robustness comparison motivated by ref-021 and ref-024. However, replacing depthwise convolutions with standard convolutions also changes model capacity, weakening attribution to convolution type. The cross-paradigm perturbation experiment lacks an input-mapping protocol, and ref-005's verification framework is not connected operationally to attack generation. These weaknesses prevent the evaluation from cleanly isolating the claimed architectural effect.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A reproducible comparison could inform whether EEGNet's clean-data advantages in ref-001 justify choosing it when adversarial robustness matters. Evaluation across paradigms also aligns with ref-007's concern about narrow validation. Nevertheless, ref-021 and ref-024 already establish EEG CNN vulnerability, so the additional value depends on demonstrating a reliable architectural or model-selection insight; the current design mainly promises a useful but incremental benchmark.",
+  "score": 3
+ }
+}

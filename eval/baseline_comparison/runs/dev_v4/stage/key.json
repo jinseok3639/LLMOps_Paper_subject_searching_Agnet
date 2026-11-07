@@ -1,0 +1,464 @@
+{
+ "s001": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "proposed",
+  "candidate": "s3-assumption",
+  "refine_failed": false
+ },
+ "s002": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "proposed",
+  "candidate": "s2-transfer",
+  "refine_failed": false
+ },
+ "s003": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "proposed",
+  "candidate": "s2-assumption",
+  "refine_failed": false
+ },
+ "s004": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "refined",
+  "candidate": "s1-transfer",
+  "refine_failed": false
+ },
+ "s005": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "refined",
+  "candidate": "s2-formal",
+  "refine_failed": false
+ },
+ "s006": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "refined",
+  "candidate": "s3-formal",
+  "refine_failed": false
+ },
+ "s007": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "proposed",
+  "candidate": "s1-formal",
+  "refine_failed": false
+ },
+ "s008": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "refined",
+  "candidate": "s1-assumption",
+  "refine_failed": false
+ },
+ "s009": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "refined",
+  "candidate": "s3-empirical",
+  "refine_failed": false
+ },
+ "s010": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "refined",
+  "candidate": "s1-empirical",
+  "refine_failed": false
+ },
+ "s011": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "proposed",
+  "candidate": "s3-formal",
+  "refine_failed": false
+ },
+ "s012": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "proposed",
+  "candidate": "s1-empirical",
+  "refine_failed": false
+ },
+ "s013": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "refined",
+  "candidate": "s3-assumption",
+  "refine_failed": false
+ },
+ "s014": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "refined",
+  "candidate": "s3-formal",
+  "refine_failed": false
+ },
+ "s015": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "proposed",
+  "candidate": "s3-formal",
+  "refine_failed": false
+ },
+ "s016": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "refined",
+  "candidate": "s1-assumption",
+  "refine_failed": false
+ },
+ "s017": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "refined",
+  "candidate": "s1-formal",
+  "refine_failed": false
+ },
+ "s018": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "refined",
+  "candidate": "s1-transfer",
+  "refine_failed": false
+ },
+ "s019": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "refined",
+  "candidate": "s3-empirical",
+  "refine_failed": false
+ },
+ "s020": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "proposed",
+  "candidate": "s1-assumption",
+  "refine_failed": false
+ },
+ "s021": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "proposed",
+  "candidate": "s1-transfer",
+  "refine_failed": false
+ },
+ "s022": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "proposed",
+  "candidate": "s3-assumption",
+  "refine_failed": false
+ },
+ "s023": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "proposed",
+  "candidate": "s3-assumption",
+  "refine_failed": false
+ },
+ "s024": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "refined",
+  "candidate": "s3-transfer",
+  "refine_failed": false
+ },
+ "s025": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "refined",
+  "candidate": "s3-transfer",
+  "refine_failed": false
+ },
+ "s026": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "refined",
+  "candidate": "s3-transfer",
+  "refine_failed": false
+ },
+ "s027": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "proposed",
+  "candidate": "s3-empirical",
+  "refine_failed": false
+ },
+ "s028": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "refined",
+  "candidate": "s3-assumption",
+  "refine_failed": false
+ },
+ "s029": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "proposed",
+  "candidate": "s2-formal",
+  "refine_failed": false
+ },
+ "s030": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "refined",
+  "candidate": "s1-formal",
+  "refine_failed": false
+ },
+ "s031": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "refined",
+  "candidate": "s2-assumption",
+  "refine_failed": false
+ },
+ "s032": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "proposed",
+  "candidate": "s1-assumption",
+  "refine_failed": false
+ },
+ "s033": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "proposed",
+  "candidate": "s2-empirical",
+  "refine_failed": false
+ },
+ "s034": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "proposed",
+  "candidate": "s2-formal",
+  "refine_failed": false
+ },
+ "s035": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "proposed",
+  "candidate": "s1-empirical",
+  "refine_failed": false
+ },
+ "s036": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "proposed",
+  "candidate": "s2-empirical",
+  "refine_failed": false
+ },
+ "s037": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "proposed",
+  "candidate": "s3-transfer",
+  "refine_failed": false
+ },
+ "s038": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "refined",
+  "candidate": "s1-transfer",
+  "refine_failed": false
+ },
+ "s039": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "refined",
+  "candidate": "s2-assumption",
+  "refine_failed": false
+ },
+ "s040": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "proposed",
+  "candidate": "s3-empirical",
+  "refine_failed": false
+ },
+ "s041": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "refined",
+  "candidate": "s1-formal",
+  "refine_failed": false
+ },
+ "s042": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "proposed",
+  "candidate": "s2-assumption",
+  "refine_failed": false
+ },
+ "s043": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "proposed",
+  "candidate": "s2-assumption",
+  "refine_failed": false
+ },
+ "s044": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "refined",
+  "candidate": "s2-transfer",
+  "refine_failed": false
+ },
+ "s045": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "refined",
+  "candidate": "s2-assumption",
+  "refine_failed": false
+ },
+ "s046": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "proposed",
+  "candidate": "s1-assumption",
+  "refine_failed": false
+ },
+ "s047": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "refined",
+  "candidate": "s2-transfer",
+  "refine_failed": false
+ },
+ "s048": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "refined",
+  "candidate": "s3-assumption",
+  "refine_failed": false
+ },
+ "s049": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "proposed",
+  "candidate": "s2-formal",
+  "refine_failed": false
+ },
+ "s050": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "proposed",
+  "candidate": "s3-transfer",
+  "refine_failed": false
+ },
+ "s051": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "proposed",
+  "candidate": "s3-formal",
+  "refine_failed": false
+ },
+ "s052": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "proposed",
+  "candidate": "s2-transfer",
+  "refine_failed": false
+ },
+ "s053": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "refined",
+  "candidate": "s2-empirical",
+  "refine_failed": false
+ },
+ "s054": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "refined",
+  "candidate": "s2-transfer",
+  "refine_failed": false
+ },
+ "s055": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "refined",
+  "candidate": "s1-assumption",
+  "refine_failed": false
+ },
+ "s056": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "refined",
+  "candidate": "s2-formal",
+  "refine_failed": false
+ },
+ "s057": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "proposed",
+  "candidate": "s1-transfer",
+  "refine_failed": false
+ },
+ "s058": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "refined",
+  "candidate": "s2-empirical",
+  "refine_failed": false
+ },
+ "s059": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "refined",
+  "candidate": "s3-formal",
+  "refine_failed": false
+ },
+ "s060": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "proposed",
+  "candidate": "s3-transfer",
+  "refine_failed": false
+ },
+ "s061": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "refined",
+  "candidate": "s1-empirical",
+  "refine_failed": false
+ },
+ "s062": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "proposed",
+  "candidate": "s1-formal",
+  "refine_failed": false
+ },
+ "s063": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "proposed",
+  "candidate": "s2-transfer",
+  "refine_failed": false
+ },
+ "s064": {
+  "kind": "score",
+  "sample": "t003",
+  "stage": "proposed",
+  "candidate": "s1-transfer",
+  "refine_failed": false
+ },
+ "s065": {
+  "kind": "score",
+  "sample": "t004",
+  "stage": "refined",
+  "candidate": "s2-formal",
+  "refine_failed": false
+ },
+ "s066": {
+  "kind": "score",
+  "sample": "t005",
+  "stage": "proposed",
+  "candidate": "s1-formal",
+  "refine_failed": false
+ }
+}

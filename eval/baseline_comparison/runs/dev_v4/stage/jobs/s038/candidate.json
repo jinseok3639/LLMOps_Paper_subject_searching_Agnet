@@ -1,0 +1,14 @@
+{
+ "title": "Inference-Time Pessimism with MBR Regularization for Scalable Safe Alignment",
+ "summary": "We propose integrating InferenceTimePessimism's rejection sampling with MBR regularization to mitigate reward hacking while ensuring safe response generation under imperfect reward models. The method combines pessimistic thresholds calibrated via reward uncertainty with MBR's proximity regularization to reference policies. It is evaluated on HarmBench and StrongREJECT against BoN, LARA, and MBR-BoN baselines using AU-PRC and attack success rate metrics, with ablations isolating the contributions of pessimism and MBR regularization.",
+ "gap": "Ref-004 shows InferenceTimePessimism avoids reward hacking degradation with increased compute but does not explicitly regularize response proximity to reference policies. Ref-003 demonstrates MBR regularization mitigates reward hacking but lacks formal safety guarantees under scaling. No work combines both to ensure scalable, safe alignment with provable properties.",
+ "approach": "Implement a two-phase inference-time framework: (1) Rejection sampling with pessimistic thresholds (ref-004) that lower-bound reward estimates by reward model uncertainty, and (2) MBR regularization (ref-003) that scores candidates by expected loss to a reference policy. The final response is the highest-scoring candidate passing the pessimistic threshold. The method differs from ref-004 by adding MBR as a secondary filter and from ref-003 by incorporating pessimism to handle reward uncertainty.",
+ "evaluation": "Compare against BoN (ref-004), LARA (ref-012), and MBR-BoN (ref-003) on HarmBench (ref-014) and StrongREJECT (ref-021) using AU-PRC for safety classification and attack success rate for jailbreaking robustness. Use the same reward model and reference policy for all methods. Ablations include: (1) pessimism-only (no MBR), (2) MBR-only (no pessimism), and (3) varying MBR weight to isolate regularization impact.",
+ "support": [
+  "ref-004",
+  "ref-003",
+  "ref-012",
+  "ref-014",
+  "ref-021"
+ ]
+}

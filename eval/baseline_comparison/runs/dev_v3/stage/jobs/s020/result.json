@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet and quadratic-constraint SDP certification are supported by ref-001, ref-005, and ref-020; instance-specific robustness bounds are supported by ref-022. However, CLEVER estimates robustness through local Lipschitz constants, not empirical attack success rates (ref-009). The references also do not establish that bounded-input robustness provides clinical safety guarantees. Parseval and adversarial training baselines have relevant references, ref-010 and ref-013, omitted from the support list.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied EEGNet evaluation addresses decoding performance and generalization without reporting formal certification (ref-001), while ref-005 and ref-020 demonstrate certification on other networks and datasets. This leaves a focused application gap. However, guaranteeing safe operation under real-world signal variability is broader than the norm-bounded robustness these references establish.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate identifies EEGNet, motor imagery, two perturbation norms, quadratic-constraint SDP, certified radii, and two baseline families (ref-001, ref-005, ref-010, ref-013). However, datasets, attack procedures, and baseline configurations are unspecified. Calling CLEVER an empirical attack success rate also leaves the proposed empirical robustness measurement unclear (ref-009).",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Deriving certified decision regions from guaranteed Lipschitz bounds directly addresses the missing certification, consistent with ref-020 and ref-022. The evaluation is weaker: CLEVER cannot substitute for measured attack success (ref-009), and classification robustness within specified norm balls cannot by itself confirm the claimed clinical safety under real-world variability.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether useful certificates are achievable for EEGNet could inform BCI decoder selection, particularly given demonstrated EEG attack vulnerabilities (ref-024). However, the proposal mainly transfers established certification methods (ref-005, ref-020) to an established decoder (ref-001), without specifying how certificate tightness, computational cost, or realistic perturbation magnitudes would influence deployment decisions. Its likely contribution is meaningful but narrow.",
+  "score": 3
+ }
+}

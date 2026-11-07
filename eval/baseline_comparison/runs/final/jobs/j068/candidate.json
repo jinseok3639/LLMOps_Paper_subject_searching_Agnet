@@ -1,0 +1,14 @@
+{
+ "title": "Proxy Reward Unhackability via Multi-Policy Value Equivalence",
+ "summary": "We formalize unhackable proxy rewards as those value-equivalent to true rewards across all policies in a finite set, providing a testable criterion for robustness. Applied to CARLA driving, we generate adversarial scenarios where proxy optimization causes collisions, then refine proxies to satisfy value equivalence with true safety objectives.",
+ "gap": "While [ref-008, ref-016] identify reward hacking, they lack formal unhackability criteria. [ref-019] discusses safety problems but does not propose solutions guaranteeing safety under policy capability thresholds. [ref-004] provides value-equivalence bounds but does not apply them to reward hacking.",
+ "approach": "We implement a two-step process: 1) Enumerate critical policy classes (e.g., aggressive lane-changers with acceleration > 3 m/s², collision tolerance < 0.2 m) using CARLA's scenario generator [ref-001], and 2) Optimize proxy weights to minimize Bellman error differences from true reward across these policies, using value-equivalence bounds from [ref-004]. The Bellman error is computed as the L2 difference between Q-value updates from the proxy and true reward. The resulting proxy is unhackable for the policy set.",
+ "evaluation": "We test on CARLA's NoCrash benchmark by measuring true reward (collision frequency) when optimizing the proxy. Baselines include [ref-001]'s reward function and a modified version with value-equivalence optimization. Success is defined as zero true reward decrease across all policy capabilities. Ablation studies vary policy set size (50, 100, 200 policies) to show scalability limits.",
+ "support": [
+  "ref-001",
+  "ref-004",
+  "ref-008",
+  "ref-016",
+  "ref-019"
+ ]
+}

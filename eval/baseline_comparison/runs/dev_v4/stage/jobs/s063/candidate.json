@@ -1,0 +1,12 @@
+{
+ "title": "Adversarial Robustness for Diffusion Policy Agents via Subliminal Distillation",
+ "summary": "We propose a novel method to improve adversarial robustness in diffusion policy agents by distilling knowledge from a teacher model that has been trained to resist subliminal attacks. The approach uses a two-stage process: first, a teacher model is trained with adversarial examples and subliminal learning techniques; second, a student model is distilled from the teacher using a loss function that emphasizes robust features. The method is evaluated on manipulation tasks with physical adversarial patches, measuring success rate under attack and transferability of perturbations.",
+ "gap": "While [ref-005] demonstrates vulnerabilities in diffusion policies, no work has yet applied subliminal learning techniques to improve their robustness against adversarial attacks that exploit model weaknesses.",
+ "approach": "1) Train teacher diffusion policy with adversarial examples and subliminal signals 2) Distill student policy using a hybrid loss combining standard distillation and adversarial robustness terms 3) Implement a verification agent to test against physical patches 4) Use [ref-009]'s agent distillation framework as base architecture",
+ "evaluation": "Baselines: standard diffusion policy, adversarial training alone. Measures: success rate under attack, perturbation transferability, model performance on clean data. Comparison against [ref-005]'s DP-Attacker results and [ref-009]'s distillation performance.",
+ "support": [
+  "ref-005",
+  "ref-009",
+  "ref-014"
+ ]
+}

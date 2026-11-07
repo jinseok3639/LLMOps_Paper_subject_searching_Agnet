@@ -1,0 +1,110 @@
+$ exit 0
+--- stdout
+{
+  "grounding": {
+    "rationale": "ref-008 supports instruction backdoor vulnerabilities and partial mitigation through RLHF and clean demonstrations. However, ref-019 concerns outcome indistinguishability and provides no support for entropy regularization. The supplied references also do not establish the blanket claim that current defenses lack utility guarantees.",
+    "score": 1
+  },
+  "gap": {
+    "rationale": "ref-008's partial mitigation results motivate investigating security–utility tradeoffs. However, the claimed absence of theoretical guarantees is not established by the corpus, and the candidate does not specify what utility or security guarantee is missing.",
+    "score": 2
+  },
+  "specificity": {
+    "rationale": "The candidate identifies a training modification, standard fine-tuning and ref-008's RLHF mitigation as baselines, and attack success rate and clean accuracy as measures. However, it leaves the perturbation procedure and entropy definition unspecified, including whether entropy is measured over tokens, complete responses, or predictions across perturbations.",
+    "score": 3
+  },
+  "coherence": {
+    "rationale": "The empirical evaluation could measure security–utility tradeoffs, but cannot establish the theoretical guarantees named in the gap. Furthermore, diverse outputs need not suppress targeted malicious behavior. ref-009 measures entropy across predictions under perturbations for detection; it does not establish that increasing output entropy during training removes backdoors.",
+    "score": 2
+  },
+  "value": {
+    "rationale": "Demonstrating reduced instruction attack success while preserving clean accuracy could inform mitigation choices beyond the partial defenses in ref-008. The likely contribution is nevertheless narrow: an empirical regularization comparison, with no specified route to the guarantees claimed as its motivation.",
+    "score": 3
+  }
+}
+
+--- stderr
+dels are based on standard deep learning and transfer learning, their scale results in new emergent capabilities,and their effectiveness across so many tasks incentivizes homogenization. Homogenization provides powerful leverage but demands caution, as the defects of the foundation model are inherited by all the adapted models downstream. Despite the impending widespread deployment of foundation models, we currently lack a clear understanding of how they work, when they fail, and what they are even capable of due to their emergent properties. To tackle these questions, we believe much of the critical research on foundation models will require deep interdisciplinary collaboration commensurate with their fundamentally sociotechnical nature.
+
+[ref-008] Instructions as Backdoors: Backdoor Vulnerabilities of Instruction Tuning for Large Language Models
+Abstract: We investigate security concerns of the emergent instruction tuning paradigm, that models are trained on crowdsourced datasets with task instructions to achieve superior performance. Our studies demonstrate that an attacker can inject backdoors by issuing very few malicious instructions (~1000 tokens) and control model behavior through data poisoning, without even the need to modify data instances or labels themselves. Through such instruction attacks, the attacker can achieve over 90% attack success rate across four commonly used NLP datasets. As an empirical study on instruction attacks, we systematically evaluated unique perspectives of instruction attacks, such as poison transfer where poisoned models can transfer to 15 diverse generative datasets in a zero-shot manner; instruction transfer where attackers can directly apply poisoned instruction on many other datasets; and poison resistance to continual finetuning. Lastly, we show that RLHF and clean demonstrations might mitigate such backdoors to some degree. These findings highlight the need for more robust defenses against poisoning attacks in instruction-tuning models and underscore the importance of ensuring data quality in instruction crowdsourcing.
+
+[ref-009] STRIP: a defence against trojan attacks on deep neural networks
+Abstract: A recent trojan attack on deep neural network (DNN) models is one insidious variant of data poisoning attacks. Trojan attacks exploit an effective backdoor created in a DNN model by leveraging the difficulty in interpretability of the learned model to misclassify any inputs signed with the attacker's chosen trojan trigger. Since the trojan trigger is a secret guarded and exploited by the attacker, detecting such trojan inputs is a challenge, especially at run-time when models are in active operation. This work builds STRong Intentional Perturbation (STRIP) based run-time trojan attack detection system and focuses on vision system. We intentionally perturb the incoming input, for instance by superimposing various image patterns, and observe the randomness of predicted classes for perturbed inputs from a given deployed model---malicious or benign. A low entropy in predicted classes violates the input-dependence property of a benign model and implies the presence of a malicious input---a characteristic of a trojaned input. The high efficacy of our method is validated through case studies on three popular and contrasting datasets: MNIST, CIFAR10 and GTSRB. We achieve an overall false acceptance rate (FAR) of less than 1%, given a preset false rejection rate (FRR) of 1%, for different types of triggers. Using CIFAR10 and GTSRB, we have empirically achieved result of 0% for both FRR and FAR. We have also evaluated STRIP robustness against a number of trojan attack variants and adaptive attacks.
+
+[ref-010] BackdoorLLM: A Comprehensive Benchmark for Backdoor Attacks on Large Language Models
+Abstract: (not available)
+
+[ref-011] BackdoorBench: A Comprehensive Benchmark of Backdoor Learning
+Abstract: Backdoor learning is an emerging and vital topic for studying deep neural networks' vulnerability (DNNs). Many pioneering backdoor attack and defense methods are being proposed, successively or concurrently, in the status of a rapid arms race. However, we find that the evaluations of new methods are often unthorough to verify their claims and accurate performance, mainly due to the rapid development, diverse settings, and the difficulties of implementation and reproducibility. Without thorough evaluations and comparisons, it is not easy to track the current progress and design the future development roadmap of the literature. To alleviate this dilemma, we build a comprehensive benchmark of backdoor learning called BackdoorBench. It consists of an extensible modular-based codebase (currently including implementations of 8 state-of-the-art (SOTA) attacks and 9 SOTA defense algorithms) and a standardized protocol of complete backdoor learning. We also provide comprehensive evaluations of every pair of 8 attacks against 9 defenses, with 5 poisoning ratios, based on 5 models and 4 datasets, thus 8,000 pairs of evaluations in total. We present abundant analysis from different perspectives about these 8,000 evaluations, studying the effects of different factors in backdoor learning. All codes and evaluations of BackdoorBench are publicly available at \url{https://backdoorbench.github.io}.
+
+[ref-012] Badnets: Identifying vulnerabilities in the ML supply chain
+Abstract: (not available)
+
+[ref-013] ELBA-Bench: An Efficient Learning Backdoor Attacks Benchmark for Large Language Models
+Abstract: Generative large language models are crucial in natural language processing, but they are vulnerable to backdoor attacks, where subtle triggers compromise their behavior. Although backdoor attacks against LLMs are constantly emerging, existing benchmarks remain limited in terms of sufficient coverage of attack, metric system integrity, backdoor attack alignment. And existing pre-trained backdoor attacks are idealized in practice due to resource access constraints. Therefore we establish $\textit{ELBA-Bench}$, a comprehensive and unified framework that allows attackers to inject backdoor through parameter efficient fine-tuning ($\textit{e.g.,}$ LoRA) or without fine-tuning techniques ($\textit{e.g.,}$ In-context-learning). $\textit{ELBA-Bench}$ provides over 1300 experiments encompassing the implementations of 12 attack methods, 18 datasets, and 12 LLMs. Extensive experiments provide new invaluable findings into the strengths and limitations of various attack strategies. For instance, PEFT attack consistently outperform without fine-tuning approaches in classification tasks while showing strong cross-dataset generalization with optimized triggers boosting robustness; Task-relevant backdoor optimization techniques or attack prompts along with clean and adversarial demonstrations can enhance backdoor attack success while preserving model performance on clean samples. Additionally, we introduce a universal toolbox designed for standardized backdoor attack research, with the goal of propelling further progress in this vital area.
+
+[ref-014] Unsolved Problems in ML Safety
+Abstract: Machine learning (ML) systems are rapidly increasing in size, are acquiring new capabilities, and are increasingly deployed in high-stakes settings. As with other powerful technologies, safety for ML should be a leading research priority. In response to emerging safety challenges in ML, such as those introduced by recent large-scale models, we provide a new roadmap for ML Safety and refine the technical problems that the field needs to address. We present four problems ready for research, namely withstanding hazards ("Robustness"), identifying hazards ("Monitoring"), reducing inherent model hazards ("Alignment"), and reducing systemic hazards ("Systemic Safety"). Throughout, we clarify each problem's motivation and provide concrete research directions.
+
+[ref-015] Towards Understanding Sycophancy in Language Models
+Abstract: Human feedback is commonly utilized to finetune AI assistants. But human feedback may also encourage model responses that match user beliefs over truthful ones, a behaviour known as sycophancy. We investigate the prevalence of sycophancy in models whose finetuning procedure made use of human feedback, and the potential role of human preference judgments in such behavior. We first demonstrate that five state-of-the-art AI assistants consistently exhibit sycophancy across four varied free-form text-generation tasks. To understand if human preferences drive this broadly observed behavior, we analyze existing human preference data. We find that when a response matches a user's views, it is more likely to be preferred. Moreover, both humans and preference models (PMs) prefer convincingly-written sycophantic responses over correct ones a non-negligible fraction of the time. Optimizing model outputs against PMs also sometimes sacrifices truthfulness in favor of sycophancy. Overall, our results indicate that sycophancy is a general behavior of state-of-the-art AI assistants, likely driven in part by human preference judgments favoring sycophantic responses.
+
+[ref-016] Introduction to Property Testing
+Abstract: (not available)
+
+[ref-017] Robust Wasserstein profile inference
+Abstract: (not available)
+
+[ref-018] Stress-Testing Capability Elicitation With Password-Locked Models
+Abstract: To determine the safety of large language models (LLMs), AI developers must be able to assess their dangerous capabilities. But simple prompting strategies often fail to elicit an LLM's full capabilities. One way to elicit capabilities more robustly is to fine-tune the LLM to complete the task. In this paper, we investigate the conditions under which fine-tuning-based elicitation suffices to elicit capabilities. To do this, we introduce password-locked models, LLMs fine-tuned such that some of their capabilities are deliberately hidden. Specifically, these LLMs are trained to exhibit these capabilities only when a password is present in the prompt, and to imitate a much weaker LLM otherwise. Password-locked models enable a novel method of evaluating capabilities elicitation methods, by testing whether these password-locked capabilities can be elicited without using the password. We find that a few high-quality demonstrations are often sufficient to fully elicit password-locked capabilities. More surprisingly, fine-tuning can elicit other capabilities that have been locked using the same password, or even different passwords. Furthermore, when only evaluations, and not demonstrations, are available, approaches like reinforcement learning are still often able to elicit capabilities. Overall, our findings suggest that fine-tuning is an effective method of eliciting hidden capabilities of current models, but may be unreliable when high-quality demonstrations are not available, e.g. as may be the case when models' (hidden) capabilities exceed those of human demonstrators.
+
+[ref-019] Outcome indistinguishability
+Abstract: Prediction algorithms assign numbers to individuals that are popularly understood as individual “probabilities”—what is the probability of 5-year survival after cancer diagnosis?—and which increasingly form the basis for life-altering decisions. Drawing on an understanding of computational indistinguishability developed in complexity theory and cryptography, we introduce Outcome Indistinguishability. Predictors that are Outcome Indistinguishable (OI) yield a generative model for outcomes that cannot be efficiently refuted on the basis of the real-life observations produced by . We investigate a hierarchy of OI definitions, whose stringency increases with the degree to which distinguishers may access the predictor in question. Our findings reveal that OI behaves qualitatively differently than previously studied notions of indistinguishability. First, we provide constructions at all levels of the hierarchy. Then, leveraging recently-developed machinery for proving average-case fine-grained hardness, we obtain lower bounds on the complexity of the more stringent forms of OI. This hardness result provides the first scientific grounds for the political argument that, when inspecting algorithmic risk prediction instruments, auditors should be granted oracle access to the algorithm, not simply historical predictions.
+
+[ref-020] Discovering Latent Knowledge in Language Models Without Supervision
+Abstract: Existing techniques for training language models can be misaligned with the truth: if we train models with imitation learning, they may reproduce errors that humans make; if we train them to generate text that humans rate highly, they may output errors that human evaluators can't detect. We propose circumventing this issue by directly finding latent knowledge inside the internal activations of a language model in a purely unsupervised way. Specifically, we introduce a method for accurately answering yes-no questions given only unlabeled model activations. It works by finding a direction in activation space that satisfies logical consistency properties, such as that a statement and its negation have opposite truth values. We show that despite using no supervision and no model outputs, our method can recover diverse knowledge represented in large language models: across 6 models and 10 question-answering datasets, it outperforms zero-shot accuracy by 4\% on average. We also find that it cuts prompt sensitivity in half and continues to maintain high accuracy even when models are prompted to generate incorrect answers. Our results provide an initial step toward discovering what language models know, distinct from what they say, even when we don't have access to explicit ground truth labels.
+
+[ref-021] Planting Undetectable Backdoors in Machine Learning Models : [Extended Abstract]
+Abstract: Given the computational cost and technical expertise required to train machine learning models, users may delegate the task of learning to a service provider. Delegation of learning has clear benefits, and at the same time raises serious concerns of trust. This work studies possible abuses of power by untrusted learners.We show how a malicious learner can plant an undetectable backdoor into a classifier. On the surface, such a backdoored classifier behaves normally, but in reality, the learner maintains a mechanism for changing the classification of any input, with only a slight perturbation. Importantly, without the appropriate “backdoor key,” the mechanism is hidden and cannot be detected by any computationally-bounded observer. We demonstrate two frameworks for planting undetectable backdoors, with incomparable guarantees.•First, we show how to plant a backdoor in any model, using digital signature schemes. The construction guarantees that given query access to the original model and the backdoored version, it is computationally infeasible to find even a single input where they differ. This property implies that the backdoored model has generalization error comparable with the original model. Moreover, even if the distinguisher can request backdoored inputs of its choice, they cannot backdoor a new input—a property we call non-replicability.•Second, we demonstrate how to insert undetectable backdoors in models trained using the Random Fourier Features (RFF) learning paradigm (Rahimi, Recht; NeurIPS 2007). In this construction, undetectability holds against powerful white-box distinguishers: given a complete description of the network and the training data, no efficient distinguisher can guess whether the model is “clean” or contains a backdoor. The backdooring algorithm executes the RFF algorithm faithfully on the given training data, tampering only with its random coins. We prove this strong guarantee under the hardness of the Continuous Learning With Errors problem (Bruna, Regev, Song, Tang; STOC 2021). We show a similar white-box undetectable backdoor for random ReLU networks based on the hardness of Sparse PCA (Berthet, Rigollet; COLT 2013).Our construction of undetectable backdoors also sheds light on the related issue of robustness to adversarial examples. In particular, by constructing undetectable backdoor for an “adversarially-robust” learning algorithm, we can produce a classifier that is indistinguishable from a robust classifier, but where every input has an adversarial example! In this way, the existence of undetectable backdoors represent a significant theoretical roadblock to certifying adversarial robustness.
+</file>
+
+<file name="candidate.json">
+{
+ "title": "Instruction Backdoor Mitigation via Entropy-Regularized Fine-Tuning",
+ "summary": "This work addresses backdoor vulnerabilities in instruction-tuned models by introducing entropy regularization during fine-tuning to suppress trigger-dependent behavior. The method penalizes low-entropy predictions on perturbed inputs, forcing models to maintain diverse response distributions even when triggers are present. Evaluated on instruction attack benchmarks, the approach reduces attack success rates while preserving clean performance.",
+ "gap": "Current defenses against instruction backdoors (ref-008) lack theoretical guarantees for maintaining model utility while suppressing malicious triggers, leaving a gap in balancing security and performance.",
+ "approach": "Integrate entropy regularization (ref-019) into fine-tuning objectives for instruction-tuned models. During training, apply adversarial perturbations to inputs and penalize models for producing low-entropy outputs, encouraging robust response distributions that resist trigger activation.",
+ "evaluation": "Baselines: standard fine-tuning, RLHF mitigation (ref-008). Measures: attack success rate on poisoned instructions, clean accuracy on standard NLP tasks. Validation via controlled instruction attacks with varying trigger patterns and perturbation strengths.",
+ "support": [
+  "ref-008",
+  "ref-019"
+ ]
+}
+</file>
+2026-11-07T03:52:30.933251Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out
+codex
+{
+  "grounding": {
+    "rationale": "ref-008 supports instruction backdoor vulnerabilities and partial mitigation through RLHF and clean demonstrations. However, ref-019 concerns outcome indistinguishability and provides no support for entropy regularization. The supplied references also do not establish the blanket claim that current defenses lack utility guarantees.",
+    "score": 1
+  },
+  "gap": {
+    "rationale": "ref-008's partial mitigation results motivate investigating security–utility tradeoffs. However, the claimed absence of theoretical guarantees is not established by the corpus, and the candidate does not specify what utility or security guarantee is missing.",
+    "score": 2
+  },
+  "specificity": {
+    "rationale": "The candidate identifies a training modification, standard fine-tuning and ref-008's RLHF mitigation as baselines, and attack success rate and clean accuracy as measures. However, it leaves the perturbation procedure and entropy definition unspecified, including whether entropy is measured over tokens, complete responses, or predictions across perturbations.",
+    "score": 3
+  },
+  "coherence": {
+    "rationale": "The empirical evaluation could measure security–utility tradeoffs, but cannot establish the theoretical guarantees named in the gap. Furthermore, diverse outputs need not suppress targeted malicious behavior. ref-009 measures entropy across predictions under perturbations for detection; it does not establish that increasing output entropy during training removes backdoors.",
+    "score": 2
+  },
+  "value": {
+    "rationale": "Demonstrating reduced instruction attack success while preserving clean accuracy could inform mitigation choices beyond the partial defenses in ref-008. The likely contribution is nevertheless narrow: an empirical regularization comparison, with no specified route to the guarantees claimed as its motivation.",
+    "score": 3
+  }
+}
+tokens used
+23,874

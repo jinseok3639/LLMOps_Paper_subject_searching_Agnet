@@ -1,0 +1,40 @@
+{
+ "queries": [
+  "EEGNet Parseval Lipschitz certified robustness",
+  "EEG brain computer interface orthogonal Lipschitz adversarial robustness certification",
+  "EEG Parseval networks universal adversarial perturbations defense",
+  "EEG \"Lipschitz\" \"robustness\"",
+  "EEG \"Parseval\"",
+  "EEGNet \"certified\" robustness",
+  "EEG \"orthogonal\" \"adversarial\" defense",
+  "\"EEG\" \"certified robustness\" adversarial",
+  "\"EEGNet\" \"spectral normalization\"",
+  "\"EEG\" \"Lipschitz\" adversarial defense -site:researchgate.net -site:bci.report",
+  "\"EEG\" \"Parseval networks\"",
+  "\"EEG\" \"orthogonality constraints\" robustness",
+  "\"brain-computer\" \"Parseval\"",
+  "\"EEG\" \"Lipschitz\" \"semidefinite\""
+ ],
+ "closest": [
+  {
+   "title": "REST: Robust and Efficient Neural Networks for Sleep Monitoring in the Wild",
+   "year": 2020,
+   "url": "https://arxiv.org/abs/2001.11363",
+   "how_close": "The strongest overlap: trains EEG convolutional networks using a layerwise ||W^T W − I||_2 penalty to encourage orthonormal weights and control Lipschitz constants, alongside PGD adversarial training and sparsity regularization. Thus, orthogonality-based Lipschitz control for compact, adversarially robust EEG models already exists. Its target is single-channel sleep staging, however, and it uses a soft penalty rather than Parseval retractions. It does not provide the proposed EEGNet spatial-filter study, universal-perturbation evaluation, or SDP-certified accuracy."
+  },
+  {
+   "title": "LEREL: Lipschitz Continuity-Constrained Emotion Recognition Ensemble Learning For Electroencephalography",
+   "year": 2025,
+   "url": "https://arxiv.org/abs/2504.09156",
+   "how_close": "Builds Lipschitz constraints into EEG emotion-recognition models through spectral normalization and constrained spectral, attention, and normalization components. Shares the goal of improving EEG stability and small-sample performance through architectural sensitivity control. The target and technique differ: an emotion-recognition ensemble rather than Parseval-constrained EEGNet, without the proposed SDP certification and universal-attack evaluation."
+  },
+  {
+   "title": "When Certificates Fail: A Unified Safety Framework for Embedded Neural Interface Models",
+   "year": 2026,
+   "url": "https://arxiv.org/abs/2607.06630",
+   "how_close": "Audits EEGNet and classical motor-imagery decoders under PGD while examining Lipschitz-style output-sensitivity checks. This overlaps the candidate's comparison of empirical robustness with mathematical bounds. However, it studies an auditing framework using conservative layerwise bounds, rather than training EEGNet with Parseval retractions or computing SDP-based certified classification accuracy."
+  }
+ ],
+ "rationale": "Very close work exists outside the supplied bibliography, but I found no paper implementing the complete target–change–technique combination. REST substantially narrows the claimed gap: it already applies approximate weight orthogonality to control Lipschitz constants in compact EEG CNNs and evaluates adversarial robustness. Its sleep-staging target, penalty-based training, and lack of SDP certification distinguish it from the candidate. LEREL further establishes Lipschitz-constrained EEG modeling, while When Certificates Fail overlaps EEGNet robustness auditing. The remaining contribution is therefore the specific application of Parseval retractions to EEGNet's temporal and spatial convolutions, coupled with certified classification robustness and universal-perturbation evaluation. This supports a score of 3 rather than either an exact-duplication finding or a claim that no close work exists.",
+ "score": 3
+}

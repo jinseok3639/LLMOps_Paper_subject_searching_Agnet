@@ -1,0 +1,22 @@
+{
+ "title": "Intention-Aware Policy Graphs for Explaining and Auditing LLM Multi-Agent Orchestrators",
+ "summary": "This proposal addresses the compound opacity of LLM multi-agent systems by adapting policy-graph explainability, built for reinforcement-learning agents, to LLM orchestrators. From logged orchestration traces, it abstracts states into discrete predicates and builds a probabilistic policy graph that records which agent is called under which conditions. It computes intention scores for sub-goals such as 'produce passing code', which support answering what the orchestrator wants, how it plans to get there, and why it chose an action. Explanation fidelity would be validated by deploying a surrogate orchestrator derived from the graph and comparing its behaviour and task success with the original. The graphs would also be used to flag irrational or redundant routing.",
+ "gap": "Policy graphs and intention-aware explanations have been shown only for RL agents in cooperative game environments. Work on LLM multi-agent systems, including the evolved cyclic structures of the RL-trained orchestrator and pruned communication graphs, reports performance but offers no faithful, checkable explanation of routing decisions. The radiology ethics analysis names this compound opacity as unsolved.",
+ "approach": "1) Log the traces of trained orchestrators (an RL puppeteer and a search-based orchestrator) on coding, scientific and visualization tasks. 2) Define predicates over task state and agent outputs; estimate transition and action probabilities to build the policy graph. 3) Compute intention scores for user-specified desires and generate answers to what, how and why questions. 4) Derive a surrogate policy from the graph and run it in place of the original orchestrator. 5) Use low-intention or cyclic regions of the graph to detect wasted agent calls, and test whether pruning them keeps accuracy while reducing tokens.",
+ "evaluation": "Fidelity: action agreement between the surrogate and the original orchestrator, and the gap in task success (pass@1 on HumanEval and MBPP, MatPlotBench score). Intention measures: attributed intention and intention precision, reported as a function of predicate granularity. Explanation quality: human or LLM-judge ratings of answers to why questions, with judge agreement checked against humans. Efficiency audit: the token reduction and change in accuracy after pruning guided by the graph, compared with AgentPrune.",
+ "support": [
+  "ref-040",
+  "ref-013",
+  "ref-025",
+  "ref-002",
+  "ref-042",
+  "ref-044",
+  "ref-053",
+  "ref-060",
+  "ref-046",
+  "ref-045",
+  "ref-049",
+  "ref-001",
+  "ref-012"
+ ]
+}

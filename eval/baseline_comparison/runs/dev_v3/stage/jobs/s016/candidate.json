@@ -1,0 +1,13 @@
+{
+ "title": "Inference-Time Pessimism with Safety Constraints for Scalable LLM Alignment",
+ "summary": "This paper proposes integrating inference-time pessimism with safety constraints to improve LLM alignment. By combining rejection sampling with dynamic safety thresholds, the method adaptively allocates test-time compute to balance response quality and safety. The approach is validated on benchmarks like HarmBench and JailbreakBench, comparing it to BoN and LARA using metrics like attack success rate and harmlessness scores.",
+ "gap": "Existing inference-time alignment methods (e.g., BoN, LARA) either degrade with large N or lack formal safety guarantees, leaving a gap in scalable, safety-aware alignment.",
+ "approach": "Propose a hybrid method combining InferenceTimePessimism's rejection sampling with LARA's Lagrangian constraints. The algorithm dynamically adjusts safety thresholds during sampling, rejecting responses that violate safety constraints while optimizing for quality. A dual variable calibrates the tradeoff between helpfulness and harmlessness.",
+ "evaluation": "Evaluate on HarmBench and JailbreakBench against baselines (BoN, LARA, ShieldGemma) using attack success rate (ASR), harmlessness scores, and helpfulness metrics. Measure compute efficiency via FLOPs-to-performance curves.",
+ "support": [
+  "ref-004",
+  "ref-012",
+  "ref-014",
+  "ref-017"
+ ]
+}

@@ -1,0 +1,145 @@
+{
+ "sample": "t007",
+ "condition": "A",
+ "n_refs": 71,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Iterative Feedback Refinement for LLM-Based Scientific Data Visualization",
+   "summary": "We propose an iterative feedback refinement framework for LLM-based scientific data visualization, where generated visualizations are evaluated by a multi-modal LLM and refined through multiple cycles. The approach integrates a visual feedback mechanism with code generation debugging, using GPT-4V to assess visualization quality and provide actionable feedback. This method addresses the gap in dynamic error correction and quality improvement in automated visualization systems, as current frameworks like MatPlotAgent lack iterative refinement capabilities. The evaluation uses MatPlotBench with human-annotated scores and GPT-4V-based metrics, showing improved accuracy and visual fidelity across diverse datasets.",
+   "gap": "Current LLM-based visualization frameworks (e.g., MatPlotAgent) lack iterative feedback mechanisms for dynamic error correction and quality improvement, leading to suboptimal visualizations that require manual intervention.",
+   "approach": "Implement a closed-loop system where generated visualizations are evaluated by a multi-modal LLM (GPT-4V) and refined through code modifications. The system includes: (1) query understanding, (2) code generation with iterative debugging, (3) visual feedback analysis, and (4) code refinement based on feedback. The process repeats until the visualization meets quality thresholds or maximum iterations are reached.",
+   "evaluation": "Evaluate on MatPlotBench using: (1) GPT-4V-based scoring for visual accuracy, (2) human-annotated scores for fidelity, (3) comparison with baseline MatPlotAgent performance, and (4) computational cost analysis. Metrics include correlation with human scores, error reduction per iteration, and final visualization quality.",
+   "support": [
+    "ref-001",
+    "ref-007",
+    "ref-035"
+   ]
+  },
+  {
+   "title": "Multi-Agent Collaboration with Dynamic Task Decomposition for Scientific Workflows",
+   "summary": "We propose a dynamic task decomposition framework for multi-agent collaboration in scientific workflows, where a central orchestrator (puppeteer) decomposes complex tasks into sub-tasks and dynamically assigns them to specialized agents. The approach combines evolving orchestration with domain-specific agent expertise, enabling efficient handling of multi-step scientific processes. This addresses the gap in static agent structures that struggle with complex, evolving tasks. The evaluation uses a modified MatPlotBench with multi-step visualization workflows, showing improved performance and reduced computational overhead compared to static multi-agent baselines.",
+   "gap": "Existing multi-agent systems (e.g., ChatDev, AutoGen) use static organizational structures that cannot adapt to evolving task complexity, leading to inefficiencies in multi-step scientific workflows like data visualization.",
+   "approach": "Implement a puppeteer-style orchestrator that: (1) decomposes tasks into sub-tasks using LLM-based planning, (2) dynamically assigns sub-tasks to specialized agents based on expertise, (3) monitors progress and reallocates resources as needed, and (4) aggregates results. The system uses reinforcement learning to optimize task decomposition and agent allocation over time.",
+   "evaluation": "Evaluate on a multi-step version of MatPlotBench with: (1) success rate in completing end-to-end workflows, (2) computational cost comparison with static multi-agent baselines, (3) task decomposition quality metrics, and (4) human evaluation of workflow coherence. Compare against ChatDev and AutoGen implementations.",
+   "support": [
+    "ref-001",
+    "ref-002",
+    "ref-012",
+    "ref-031"
+   ]
+  },
+  {
+   "title": "Outcome-Supervised Value Models for Guided Decoding in Scientific Reasoning",
+   "summary": "We propose outcome-supervised value models (OVM) for guided decoding in scientific reasoning tasks, where a value model is trained to predict the correctness of intermediate reasoning steps based on final outcomes. This approach addresses the gap in error propagation in multi-step scientific reasoning by prioritizing steps that lead to correct conclusions. The evaluation on SciBench shows improved performance on college-level scientific problems compared to chain-of-thought and process-supervised baselines, with no need for step-level annotations.",
+   "gap": "Current LLM-based scientific reasoning systems (e.g., SciBench) suffer from error propagation in multi-step problems, as they lack mechanisms to assess the potential of intermediate reasoning paths.",
+   "approach": "Train a value model to predict the correctness of intermediate reasoning steps by: (1) generating multiple reasoning paths for each problem, (2) labeling each step based on the final outcome, and (3) training a model to predict step correctness. During inference, the value model guides decoding by selecting steps with higher predicted correctness, reducing error propagation.",
+   "evaluation": "Evaluate on SciBench with: (1) accuracy on college-level scientific problems, (2) comparison with chain-of-thought, process-supervised, and outcome-supervised baselines, (3) error propagation analysis, and (4) ablation studies on value model design. Test on both open-source and proprietary LLMs.",
+   "support": [
+    "ref-001",
+    "ref-027",
+    "ref-038",
+    "ref-039",
+    "ref-015"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [
+    "hypothesis 2: summary has 39 words but must have 40 to 120 words",
+    "hypothesis 3: summary has 38 words but must have 40 to 120 words"
+   ],
+   "raw": {
+    "hypotheses": [
+     {
+      "title": "Iterative Feedback-Driven Code Generation for Scientific Visualization",
+      "summary": "We propose an iterative feedback mechanism that integrates visual feedback from generated plots into the code generation process of MatPlotAgent, improving accuracy and reducing errors in scientific data visualization. The approach uses a feedback loop where generated plots are analyzed for correctness and fed back into the LLM to refine code. Evaluation on MatPlotBench shows improved performance over static code generation baselines.",
+      "gap": "Existing LLM-based visualization frameworks like MatPlotAgent lack a systematic method to incorporate visual feedback from generated plots into the code generation process, leading to persistent errors in complex visualizations.",
+      "approach": "Implement a visual feedback loop where generated plots are analyzed by a vision model (e.g., GPT-4V) to identify discrepancies between intended and actual visualizations. These discrepancies are converted into textual feedback and fed back into the LLM to iteratively refine the code generation process.",
+      "evaluation": "Compare against MatPlotAgent's baseline using MatPlotBench metrics (accuracy, error types) and human evaluation. Measure reduction in error propagation and improvement in final plot correctness across 100 test cases.",
+      "support": [
+       "ref-001",
+       "ref-007",
+       "ref-035"
+      ]
+     },
+     {
+      "title": "Dynamic Agent Orchestration for Multi-Step Scientific Reasoning",
+      "summary": "We propose a dynamic agent orchestration framework that adapts agent collaboration structures during multi-step scientific reasoning tasks. Inspired by Puppeteer-style coordination, the system evolves agent roles and interactions based on intermediate reasoning states, improving performance on complex scientific problems.",
+      "gap": "Current multi-agent systems (e.g., ChatDev, Voyager) use static agent structures that fail to adapt to evolving reasoning states in complex scientific tasks, leading to suboptimal performance.",
+      "approach": "Develop a reinforcement learning-based orchestrator that dynamically assigns agent roles (e.g., data analyzer, hypothesis generator) and determines interaction patterns based on real-time reasoning progress. The orchestrator learns to optimize task decomposition and information flow.",
+      "evaluation": "Evaluate on SciBench tasks using metrics like solution accuracy, reasoning step validity, and computational efficiency. Compare against static multi-agent baselines and single-agent systems.",
+      "support": [
+       "ref-002",
+       "ref-021",
+       "ref-027",
+       "ref-028"
+      ]
+     },
+     {
+      "title": "Process-Supervised Reinforcement Learning for Mathematical Reasoning",
+      "summary": "We introduce a process-supervised reinforcement learning framework that trains LLMs to generate step-by-step mathematical solutions with human-like reasoning. The method uses automatically constructed step-level feedback to guide policy optimization, improving both final answer accuracy and intermediate reasoning quality.",
+      "gap": "Existing outcome-supervised methods (e.g., PPO with final answer rewards) fail to provide fine-grained feedback on intermediate reasoning steps, leading to error propagation in multi-step mathematical problems.",
+      "approach": "Train a step-level reward model (Math-Shepherd) using automatically generated process supervision data. Use this model to provide step-wise feedback during PPO training, enabling the LLM to learn both correct final answers and valid intermediate reasoning steps.",
+      "evaluation": "Evaluate on GSM8K and MATH benchmarks, measuring both final answer accuracy and reasoning step validity. Compare against outcome-supervised baselines and human-annotated process supervision approaches.",
+      "support": [
+       "ref-038",
+       "ref-039",
+       "ref-047",
+       "ref-049"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "issues": [],
+   "raw": {
+    "hypotheses": [
+     {
+      "title": "Iterative Feedback Refinement for LLM-Based Scientific Data Visualization",
+      "summary": "We propose an iterative feedback refinement framework for LLM-based scientific data visualization, where generated visualizations are evaluated by a multi-modal LLM and refined through multiple cycles. The approach integrates a visual feedback mechanism with code generation debugging, using GPT-4V to assess visualization quality and provide actionable feedback. This method addresses the gap in dynamic error correction and quality improvement in automated visualization systems, as current frameworks like MatPlotAgent lack iterative refinement capabilities. The evaluation uses MatPlotBench with human-annotated scores and GPT-4V-based metrics, showing improved accuracy and visual fidelity across diverse datasets.",
+      "gap": "Current LLM-based visualization frameworks (e.g., MatPlotAgent) lack iterative feedback mechanisms for dynamic error correction and quality improvement, leading to suboptimal visualizations that require manual intervention.",
+      "approach": "Implement a closed-loop system where generated visualizations are evaluated by a multi-modal LLM (GPT-4V) and refined through code modifications. The system includes: (1) query understanding, (2) code generation with iterative debugging, (3) visual feedback analysis, and (4) code refinement based on feedback. The process repeats until the visualization meets quality thresholds or maximum iterations are reached.",
+      "evaluation": "Evaluate on MatPlotBench using: (1) GPT-4V-based scoring for visual accuracy, (2) human-annotated scores for fidelity, (3) comparison with baseline MatPlotAgent performance, and (4) computational cost analysis. Metrics include correlation with human scores, error reduction per iteration, and final visualization quality.",
+      "support": [
+       "ref-001",
+       "ref-007",
+       "ref-035"
+      ]
+     },
+     {
+      "title": "Multi-Agent Collaboration with Dynamic Task Decomposition for Scientific Workflows",
+      "summary": "We propose a dynamic task decomposition framework for multi-agent collaboration in scientific workflows, where a central orchestrator (puppeteer) decomposes complex tasks into sub-tasks and dynamically assigns them to specialized agents. The approach combines evolving orchestration with domain-specific agent expertise, enabling efficient handling of multi-step scientific processes. This addresses the gap in static agent structures that struggle with complex, evolving tasks. The evaluation uses a modified MatPlotBench with multi-step visualization workflows, showing improved performance and reduced computational overhead compared to static multi-agent baselines.",
+      "gap": "Existing multi-agent systems (e.g., ChatDev, AutoGen) use static organizational structures that cannot adapt to evolving task complexity, leading to inefficiencies in multi-step scientific workflows like data visualization.",
+      "approach": "Implement a puppeteer-style orchestrator that: (1) decomposes tasks into sub-tasks using LLM-based planning, (2) dynamically assigns sub-tasks to specialized agents based on expertise, (3) monitors progress and reallocates resources as needed, and (4) aggregates results. The system uses reinforcement learning to optimize task decomposition and agent allocation over time.",
+      "evaluation": "Evaluate on a multi-step version of MatPlotBench with: (1) success rate in completing end-to-end workflows, (2) computational cost comparison with static multi-agent baselines, (3) task decomposition quality metrics, and (4) human evaluation of workflow coherence. Compare against ChatDev and AutoGen implementations.",
+      "support": [
+       "ref-001",
+       "ref-002",
+       "ref-012",
+       "ref-031"
+      ]
+     },
+     {
+      "title": "Outcome-Supervised Value Models for Guided Decoding in Scientific Reasoning",
+      "summary": "We propose outcome-supervised value models (OVM) for guided decoding in scientific reasoning tasks, where a value model is trained to predict the correctness of intermediate reasoning steps based on final outcomes. This approach addresses the gap in error propagation in multi-step scientific reasoning by prioritizing steps that lead to correct conclusions. The evaluation on SciBench shows improved performance on college-level scientific problems compared to chain-of-thought and process-supervised baselines, with no need for step-level annotations.",
+      "gap": "Current LLM-based scientific reasoning systems (e.g., SciBench) suffer from error propagation in multi-step problems, as they lack mechanisms to assess the potential of intermediate reasoning paths.",
+      "approach": "Train a value model to predict the correctness of intermediate reasoning steps by: (1) generating multiple reasoning paths for each problem, (2) labeling each step based on the final outcome, and (3) training a model to predict step correctness. During inference, the value model guides decoding by selecting steps with higher predicted correctness, reducing error propagation.",
+      "evaluation": "Evaluate on SciBench with: (1) accuracy on college-level scientific problems, (2) comparison with chain-of-thought, process-supervised, and outcome-supervised baselines, (3) error propagation analysis, and (4) ablation studies on value model design. Test on both open-source and proprietary LLMs.",
+      "support": [
+       "ref-001",
+       "ref-027",
+       "ref-038",
+       "ref-039",
+       "ref-015"
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "calls": 2,
+ "seconds": 15.8
+}
