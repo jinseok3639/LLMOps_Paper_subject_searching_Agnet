@@ -115,7 +115,7 @@
       fold("빈틈: 논문이 밝힌 한계", (run.limitations || []).length
         ? h("ul", {}, run.limitations.map(l => h("li", {}, `[${l.id}] ${l.title}: "${l.quote}"${page(l.page)}`)))
         : h("p", {class: "caption"}, "가장 가까운 논문의 카드에 저자가 밝힌 한계가 없습니다.")),
-      fold("비평 (ScholarIdeas 7요건)", critique(run.critique)));
+      fold("비평", critique(run.critique)));
     if (!active) return;
     const solved = run.verdict === "solved";
     el.append(h("div", {class: "row"},

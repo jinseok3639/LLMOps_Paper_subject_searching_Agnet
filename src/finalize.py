@@ -227,7 +227,7 @@ def to_markdown(card: dict) -> str:
         or ["가장 가까운 논문의 카드에 저자가 밝힌 한계가 없습니다." if card["nearest"] else "검증 결과가 없어 비어 있습니다."]
     out.append("")
 
-    out += ["## 비평 (ScholarIdeas 7요건)", ""]
+    out += ["## 비평", ""]
     c = card["critique"]
     if c:
         out += ["| 요건 | 상태 | 메모 |", "|---|---|---|"]
