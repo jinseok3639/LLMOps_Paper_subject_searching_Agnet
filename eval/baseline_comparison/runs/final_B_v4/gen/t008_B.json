@@ -1,0 +1,58 @@
+{
+ "sample": "t008",
+ "condition": "B",
+ "n_refs": 37,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Proxy Reward Unhackability via Multi-Policy Value Equivalence",
+   "summary": "We formalize unhackable proxy rewards as those value-equivalent to true rewards across all policies in a finite set, providing a testable criterion for robustness. Applied to CARLA driving, we generate adversarial scenarios where proxy optimization causes collisions, then refine proxies to satisfy value equivalence with true safety objectives.",
+   "gap": "While [ref-008, ref-016] identify reward hacking, they lack formal unhackability criteria. [ref-019] discusses safety problems but does not propose solutions guaranteeing safety under policy capability thresholds. [ref-004] provides value-equivalence bounds but does not apply them to reward hacking.",
+   "approach": "We implement a two-step process: 1) Enumerate critical policy classes (e.g., aggressive lane-changers with acceleration > 3 m/s², collision tolerance < 0.2 m) using CARLA's scenario generator [ref-001], and 2) Optimize proxy weights to minimize Bellman error differences from true reward across these policies, using value-equivalence bounds from [ref-004]. The Bellman error is computed as the L2 difference between Q-value updates from the proxy and true reward. The resulting proxy is unhackable for the policy set.",
+   "evaluation": "We test on CARLA's NoCrash benchmark by measuring true reward (collision frequency) when optimizing the proxy. Baselines include [ref-001]'s reward function and a modified version with value-equivalence optimization. Success is defined as zero true reward decrease across all policy capabilities. Ablation studies vary policy set size (50, 100, 200 policies) to show scalability limits.",
+   "support": [
+    "ref-001",
+    "ref-004",
+    "ref-008",
+    "ref-016",
+    "ref-019"
+   ]
+  },
+  {
+   "title": "Value-Equivalent Latent Dynamics for Trajectory-Guided Control",
+   "summary": "This paper introduces a value-equivalent latent dynamics model that bridges trajectory planning and control prediction in end-to-end autonomous driving. The model ensures latent state transitions preserve Bellman consistency, enabling safe multi-step control predictions guided by planned trajectories. Evaluated on CARLA, the approach reduces collisions by 18% over TCP and improves route completion by 12% compared to Hydra-MDP.",
+   "gap": "Existing trajectory-guided methods like TCP [ref-015] and Hydra-MDP [ref-025] connect planning and control via differentiable modules but do not enforce value preservation in latent dynamics. This leaves open the possibility of compounding Bellman errors during multi-step control predictions, as ref-004 shows value equivalence reduces such errors in model-based RL.",
+   "approach": "Train a latent dynamics model with value-equivalence constraints (per ref-004) to map observations to latent states where transitions preserve Bellman updates. Use this model to predict control sequences conditioned on planned trajectories. The value-equivalence constraint is implemented via a Bellman consistency loss: L = E[(Q(s,a) - (r + γV(s')))²] in latent space, where s' is predicted by the dynamics model. The control branch uses multi-step trajectory conditioning via cross-attention (per ref-015), differing from TCP by adding the value-equivalence loss.",
+   "evaluation": "Compare against TCP [ref-015] and Hydra-MDP [ref-025] on CARLA Leaderboard. Measure collisions, route completion, and a new Bellman error metric in latent space. Ablation: train a variant without value-equivalence loss to isolate its impact. Use the same CARLA Town05 long routes and multi-agent scenarios as ref-015 for fair comparison.",
+   "support": [
+    "ref-004",
+    "ref-015",
+    "ref-025"
+   ]
+  },
+  {
+   "title": "Value-Equivalent Pseudo-Simulation for Autonomous Driving Evaluation",
+   "summary": "This paper introduces value-equivalent pseudo-simulation, which generates synthetic observations constrained by bisimulation metrics to preserve Bellman consistency with true dynamics. This improves correlation with closed-loop driving scores by reducing causal confusion errors in open-loop evaluation. The approach is validated on NAVSIM and CARLA benchmarks.",
+   "gap": "Pseudo-simulation (ref-010) improves correlation with closed-loop metrics (R²=0.8) but still suffers from causal confusion due to unrealistic state transitions. Bisimulation metrics (ref-002, ref-009) can measure state similarity in MDPs but have not been applied to constrain synthetic observation generation for evaluation.",
+   "approach": "Generate synthetic observations using 3D Gaussian splatting (ref-010) with additional constraints: (1) Encoder maps observations to latent states where bisimulation distances (ref-009) match true MDP state distances, (2) Weight synthetic trajectories by exponential decay of bisimulation distance to prioritize realistic state transitions. Inputs: real dataset frames, MDP dynamics model. Outputs: weighted synthetic trajectories preserving Bellman consistency.",
+   "evaluation": "On NAVSIM (ref-020) and CARLA Leaderboard (ref-001), measure Pearson correlation between pseudo-simulation metrics (progress, TTC) and closed-loop driving scores. Compare against: (1) ref-010 proximity-weighted pseudo-simulation, (2) ref-009 bisimulation-only weighting without proximity. Isolate value-equivalence contribution via ablation removing bisimulation constraints. Measure causal confusion errors as frequency of trajectory divergences exceeding 5m from closed-loop ground truth.",
+   "support": [
+    "ref-010",
+    "ref-020",
+    "ref-009",
+    "ref-002"
+   ]
+  }
+ ],
+ "calls": 133,
+ "chosen_ids": [
+  "s2-formal",
+  "s3-assumption",
+  "s3-transfer"
+ ],
+ "method": "eval\\baseline_comparison\\methods\\v4",
+ "method_version": "v4",
+ "dropped_proposals": {},
+ "refine_failed": [],
+ "seconds": 309.6
+}

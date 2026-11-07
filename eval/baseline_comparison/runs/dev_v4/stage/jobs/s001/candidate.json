@@ -1,0 +1,12 @@
+{
+ "title": "Teacher-Centric Bias Mitigation in Multi-Agent Educational Systems",
+ "summary": "This paper challenges the assumption that learner-agent simulations alone suffice for bias mitigation in educational multi-agent systems. We propose teacher-agent-driven bias auditing where the teacher agent actively identifies and corrects representational harms in generated materials. The system is evaluated on U.S. political news datasets, measuring bias reduction compared to learner-agent-only baselines.",
+ "gap": "Existing multi-agent educational frameworks focus on learner personalization but lack proactive bias mitigation mechanisms in teacher-agent design.",
+ "approach": "Augment FACET's teacher agent with bias detection modules using social impact evaluation frameworks. Implement iterative feedback loops where the teacher agent revises materials based on bias audits.",
+ "evaluation": "Compare bias metrics (stereotype scores, representational harm indices) between teacher-agent-revised and learner-agent-generated materials. Assess task suitability preservation.",
+ "support": [
+  "ref-003",
+  "ref-004",
+  "ref-012"
+ ]
+}

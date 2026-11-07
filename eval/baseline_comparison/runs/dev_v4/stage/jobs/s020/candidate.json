@@ -1,0 +1,12 @@
+{
+ "title": "Adaptive Proximity Regularization for Inference-Time Alignment via Coverage-Aware Reward Hacking Mitigation",
+ "summary": "This paper proposes an adaptive proximity regularization method for inference-time alignment that dynamically adjusts the strength of regularization based on the coverage of high-quality responses in the pre-trained policy. By analyzing the coverage properties of the policy, the method identifies regions where reward hacking is more likely and applies stronger regularization there. The approach combines coverage estimation with a modified MBR objective to balance reward optimization and proximity to the reference policy. Evaluation uses Best-of-N baselines with varying N on tasks from AlpacaFarm and Anthropic's hh-rlhf datasets, measuring both reward model scores and human preference metrics to demonstrate improved robustness against reward hacking.",
+ "gap": "Existing inference-time alignment methods like MBR-BoN and InferenceTimePessimism apply fixed regularization or pessimism without considering the varying coverage of high-quality responses across different prompts. This leaves open the question of how to adaptively adjust alignment strategies based on coverage properties.",
+ "approach": "The proposed method estimates coverage of high-quality responses via reward model thresholds and dynamically adjusts MBR regularization strength. For prompts with low coverage (indicating sparse high-quality regions), stronger regularization is applied to prevent reward hacking. For high-coverage prompts, weaker regularization allows more aggressive reward optimization.",
+ "evaluation": "Compared against Best-of-N, MBR-BoN, and InferenceTimePessimism baselines on AlpacaFarm and hh-rlhf datasets. Metrics include reward model scores, human preference ratings, and reward hacking detection rates. Ablation studies vary coverage estimation methods and regularization schedules.",
+ "support": [
+  "ref-003",
+  "ref-004",
+  "ref-012"
+ ]
+}

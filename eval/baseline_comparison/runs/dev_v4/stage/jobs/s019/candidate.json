@@ -1,0 +1,12 @@
+{
+ "title": "Cross-Modal Reward Hacking: Measuring Goodhart's Law in Multimodal Best-of-N Sampling",
+ "summary": "We measure whether reward hacking manifests differently in multimodal Best-of-N sampling compared to text-only settings. Using vision-language models, we test how optimizing a proxy reward affects true performance (human safety ratings) when evaluating image-text pairs, comparing against text-only baselines to isolate modality-specific effects.",
+ "gap": "Ref-010 trains reward models on multimodal data but does not measure reward hacking differences between text-only and image-text settings. Ref-024 shows cross-modal BoN jailbreaking but does not analyze Goodhart's Law. No work measures whether reward hacking behaves differently when optimizing over image-text pairs versus text-only inputs.",
+ "approach": "Train proxy reward models (text-only and image-text) on the ShieldGemma (ref-005) safety dataset. Generate responses via Best-of-N sampling (ref-024) with N=100,1000,10000. Compute proxy reward scores and true performance via human safety ratings (0-5 scale). Measure correlation decay between proxy/true rewards as N increases, comparing text-only vs. image-text models. Isolate modality effects by ablating image input to the reward model.",
+ "evaluation": "Use ShieldGemma's safety dataset (ref-005) with 10k image-text pairs annotated for safety (0-5). Baselines: text-only reward model (ref-010) and image-text reward model (ref-010). Measures: (1) Pearson correlation between proxy/true rewards at N=100,1000,10000; (2) human safety ratings of top-N samples. Ablation: disable image input to image-text reward model to test modality impact.",
+ "support": [
+  "ref-005",
+  "ref-010",
+  "ref-024"
+ ]
+}

@@ -1,0 +1,376 @@
+{
+ "sample": "t008",
+ "condition": "C",
+ "n_refs": 37,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Goodhart Curves for Driving Benchmarks: Measuring When Optimizing Open-Loop PDM Scores Stops Improving Closed-Loop Driving",
+   "summary": "This proposal treats NAVSIM-style open-loop metrics as proxy rewards and closed-loop driving score as the true objective, and asks how the two diverge as optimization pressure on the proxy grows. In CARLA, both quantities can be computed on the same scenes, so the comparison avoids a domain gap. Optimization pressure is varied in two ways: best-of-N trajectory selection with a PDM scorer over diffusion-policy samples, and a growing distillation weight on metric-specific teacher heads. The proposal predicts a Goodhart curve: the proxy keeps rising while closed-loop score peaks and then falls. It also tests whether the divergence comes mainly from regressional or extremal Goodhart effects. Validation uses proxy–true correlation curves and ranking-inversion counts.",
+   "gap": "Cross-benchmark studies report strong but non-monotonic correlation between PDMS and closed-loop driving score, with ranking inversions. They suggest that safety-heavy methods win open-loop but lose closed-loop. However, those studies only compare published methods from different domains (real NAVSIM versus CARLA Bench2Drive) and only a handful of them. No study varies optimization pressure on the open-loop proxy in a controlled way. Reward-hacking studies show capability-dependent phase transitions and give a taxonomy of Goodhart variants, but neither has been applied to driving evaluation metrics.",
+   "approach": "(1) Implement a NAVSIM-style non-reactive PDMS on logged CARLA scenes, so the proxy and the true closed-loop driving score share one domain. (2) Start from a DiffusionDrive-style truncated diffusion planner and a Hydra-MDP-style multi-head student trained on CARLA expert data. (3) Increase optimization pressure along two axes: (a) the number of samples N in best-of-N selection under the PDM scorer, from 1 to 256; (b) the weight on rule-based teacher distillation heads relative to the imitation head. (4) For each setting, record the proxy score, its sub-metrics (NC, DAC, TTC, EP, comfort) and closed-loop driving score, route completion and infractions. (5) Attribute divergence to Goodhart variants. Regressional Goodhart predicts that the divergence follows scorer noise. Extremal Goodhart predicts that it follows selection of states outside the logged distribution, such as overly cautious slow driving.",
+   "evaluation": "Baselines: pure imitation without PDM selection or distillation, and a privileged rule-based expert. Measures: driving score and route completion on CARLA closed-loop routes (Bench2Drive, Longest6) plotted against PDMS as N and the distillation weight increase; Spearman correlation and ranking inversions across settings; any threshold beyond which further pressure lowers closed-loop driving score. The hypothesis is confirmed if PDMS increases monotonically while closed-loop driving score rises and then falls, and the fall is driven by timeouts or low progress rather than collisions.",
+   "support": [
+    "ref-006",
+    "ref-008",
+    "ref-016",
+    "ref-019",
+    "ref-020",
+    "ref-034",
+    "ref-025",
+    "ref-033",
+    "ref-010",
+    "ref-013",
+    "ref-017"
+   ]
+  },
+  {
+   "title": "Bisimulation-Weighted Pseudo-Simulation: Weighting Synthetic Start States by Behavioral Rather Than Geometric Proximity",
+   "summary": "Pseudo-simulation scores a planner on synthetic perturbed observations and weights each one by how close it lies, in position, heading and speed, to where the planner is likely to go. This proposal replaces that geometric proximity with a learned bisimulation distance. Two states then count as close only if they produce similar rewards and similar future states under driving behavior, so an offset near an occluded crossing would count for more than the same offset on an empty road. An encoder is trained so that latent distances match bisimulation distances, and these distances set the importance weights. The proposal tests whether this weighting predicts closed-loop performance better than geometric weighting, especially in interactive scenarios.",
+   "gap": "Pseudo-simulation reaches an R² of 0.8 against closed-loop results by weighting synthetic states by geometric proximity to the planner's likely behavior. Geometric closeness, though, does not reflect how different two states are for the driving task: the same lateral offset matters very differently near an occluded pedestrian than on an empty road. Bisimulation metrics give a principled, task-relevant measure of state similarity, but nobody has used them to weight evaluation states.",
+   "approach": "Train a bisimulation encoder, with latent L1 distance matched to reward difference plus the Wasserstein distance between latent transition distributions, on driving logs. The reward is the per-step EPDMS components. Transitions come from a non-reactive world-on-rails model. At evaluation time, embed both the planner's predicted end state and each pre-generated synthetic observation, then replace the Gaussian geometric weights with a kernel over bisimulation distance. Ablations: geometric weighting only, bisimulation weighting only, and a product of the two; also an encoder whose reward uses progress only, to test how sensitive the weights are to the reward definition.",
+   "evaluation": "Collect paired scores for a diverse set of planners, including TransFuser, DiffusionDrive, Hydra-MDP-style models, ego-status-only MLPs and a PDM-style rule-based planner. Compute each planner's score under original pseudo-simulation and under the bisimulation-weighted version, and compare both with closed-loop scores in a matched closed-loop setting such as CARLA or nuPlan reactive simulation. Measures: R² and Spearman ρ against the closed-loop scores, and how many ranking inversions remain. Results are also broken down by scenario interaction density. Ego-status-only planners, which earlier work shows can exploit simple benchmarks, are included to check that bisimulation weighting penalizes them correctly.",
+   "support": [
+    "ref-010",
+    "ref-002",
+    "ref-009",
+    "ref-004",
+    "ref-020",
+    "ref-024",
+    "ref-014",
+    "ref-011",
+    "ref-034",
+    "ref-035",
+    "ref-032"
+   ]
+  },
+  {
+   "title": "Value-Equivalent Open-Loop Scoring: Replacing Handcrafted PDM Aggregation With Log-Derived Closed-Loop Value Estimates",
+   "summary": "Handcrafted open-loop scores such as PDMS multiply and average sub-metrics over a short horizon. Because of this, they miss the snowball effect, where small deviations compound in closed loop, and they can be gamed by over-cautious driving. This proposal swaps the handcrafted formula for a learned scorer, trained to predict long-horizon closed-loop returns. The targets come from tabular dynamic-programming value estimates on driving logs under the world-on-rails assumption. Following the value-equivalence principle, the scorer only has to rank trajectories as closed-loop values would, not reproduce the exact dynamics. Validation tests how well the scorer correlates with closed-loop results and whether it resists hacking by best-of-N selection.",
+   "gap": "Studies of open-loop evaluation show that L2 and collision metrics, and even safety-aware PDMS, rank planners imperfectly. The snowball effect, which a short non-reactive horizon cannot capture, is a candidate explanation. Formal results show that simple narrowed proxies are rarely unhackable. The value-equivalence principle and the world-on-rails method suggest that a value-based target can be learned from logs without building a full simulator. Neither idea has been used to design an evaluation metric for driving.",
+   "approach": "(1) On CARLA logs, apply a world-on-rails factorization (non-reactive world plus a compact ego forward model) and compute action values by tabular Bellman backups with a reward of progress minus infraction penalties over long horizons. (2) Train a scorer network that takes a BEV abstraction of the scene and a candidate trajectory and outputs a value. The loss is a value-equivalence objective: it matches Bellman updates for a set of reference policies, not raw state transitions. (3) Use this scorer as an open-loop metric. (4) Stress-test it with best-of-N selection against the scorer itself, as an adversarial optimizer, and compare how the scorer and handcrafted PDMS degrade.",
+   "evaluation": "Baselines: L2/ADE, collision rate, NAVSIM PDMS and EPDMS, and pseudo-simulation scores. Measures: Spearman ρ and R² against CARLA closed-loop driving score over a broad set of planners; proxy–true divergence under increasing best-of-N pressure, i.e. the hackability gap; ranking inversions for cautious versus progress-seeking planners. The hypothesis is supported if the value-equivalent scorer correlates better and its Goodhart divergence appears later or is smaller.",
+   "support": [
+    "ref-004",
+    "ref-024",
+    "ref-016",
+    "ref-020",
+    "ref-034",
+    "ref-011",
+    "ref-014",
+    "ref-010",
+    "ref-008",
+    "ref-035"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [],
+   "raw": {
+    "duration_api_ms": 44256,
+    "stop_reason": "tool_use",
+    "session_id": "435ca701-fa55-4658-b1ca-854da1f728ed",
+    "total_cost_usd": 0.22095739999999997,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 16758,
+     "cache_read_input_tokens": 1127,
+     "output_tokens": 4333,
+     "output_tokens_details": {
+      "thinking_tokens": 1213
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 16758,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 4333,
+       "cache_read_input_tokens": 1127,
+       "cache_creation_input_tokens": 16758,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 16758
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-opus-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 4333,
+      "cacheReadInputTokens": 1127,
+      "cacheCreationInputTokens": 16758,
+      "webSearchRequests": 0,
+      "costUSD": 0.22095739999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1213,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 16758,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Goodhart Curves for Driving Benchmarks: Measuring When Optimizing Open-Loop PDM Scores Stops Improving Closed-Loop Driving\",\"summary\":\"This proposal treats NAVSIM-style open-loop metrics as proxy rewards and closed-loop driving score as the true objective, and asks how the two diverge as optimization pressure on the proxy grows. In CARLA, both quantities can be computed on the same scenes, so the comparison avoids a domain gap. Optimization pressure is varied in two ways: best-of-N trajectory selection with a PDM scorer over diffusion-policy samples, and a growing distillation weight on metric-specific teacher heads. The proposal predicts a Goodhart curve: the proxy keeps rising while closed-loop score peaks and then falls. It also tests whether the divergence comes mainly from regressional or extremal Goodhart effects. Validation uses proxy–true correlation curves and ranking-inversion counts.\",\"gap\":\"Cross-benchmark studies report strong but non-monotonic correlation between PDMS and closed-loop driving score, with ranking inversions. They suggest that safety-heavy methods win open-loop but lose closed-loop. However, those studies only compare published methods from different domains (real NAVSIM versus CARLA Bench2Drive) and only a handful of them. No study varies optimization pressure on the open-loop proxy in a controlled way. Reward-hacking studies show capability-dependent phase transitions and give a taxonomy of Goodhart variants, but neither has been applied to driving evaluation metrics.\",\"approach\":\"(1) Implement a NAVSIM-style non-reactive PDMS on logged CARLA scenes, so the proxy and the true closed-loop driving score share one domain. (2) Start from a DiffusionDrive-style truncated diffusion planner and a Hydra-MDP-style multi-head student trained on CARLA expert data. (3) Increase optimization pressure along two axes: (a) the number of samples N in best-of-N selection under the PDM scorer, from 1 to 256; (b) the weight on rule-based teacher distillation heads relative to the imitation head. (4) For each setting, record the proxy score, its sub-metrics (NC, DAC, TTC, EP, comfort) and closed-loop driving score, route completion and infractions. (5) Attribute divergence to Goodhart variants. Regressional Goodhart predicts that the divergence follows scorer noise. Extremal Goodhart predicts that it follows selection of states outside the logged distribution, such as overly cautious slow driving.\",\"evaluation\":\"Baselines: pure imitation without PDM selection or distillation, and a privileged rule-based expert. Measures: driving score and route completion on CARLA closed-loop routes (Bench2Drive, Longest6) plotted against PDMS as N and the distillation weight increase; Spearman correlation and ranking inversions across settings; any threshold beyond which further pressure lowers closed-loop driving score. The hypothesis is confirmed if PDMS increases monotonically while closed-loop driving score rises and then falls, and the fall is driven by timeouts or low progress rather than collisions.\",\"support\":[\"ref-006\",\"ref-008\",\"ref-016\",\"ref-019\",\"ref-020\",\"ref-034\",\"ref-025\",\"ref-033\",\"ref-010\",\"ref-013\",\"ref-017\"]},{\"title\":\"Bisimulation-Weighted Pseudo-Simulation: Weighting Synthetic Start States by Behavioral Rather Than Geometric Proximity\",\"summary\":\"Pseudo-simulation scores a planner on synthetic perturbed observations and weights each one by how close it lies, in position, heading and speed, to where the planner is likely to go. This proposal replaces that geometric proximity with a learned bisimulation distance. Two states then count as close only if they produce similar rewards and similar future states under driving behavior, so an offset near an occluded crossing would count for more than the same offset on an empty road. An encoder is trained so that latent distances match bisimulation distances, and these distances set the importance weights. The proposal tests whether this weighting predicts closed-loop performance better than geometric weighting, especially in interactive scenarios.\",\"gap\":\"Pseudo-simulation reaches an R² of 0.8 against closed-loop results by weighting synthetic states by geometric proximity to the planner's likely behavior. Geometric closeness, though, does not reflect how different two states are for the driving task: the same lateral offset matters very differently near an occluded pedestrian than on an empty road. Bisimulation metrics give a principled, task-relevant measure of state similarity, but nobody has used them to weight evaluation states.\",\"approach\":\"Train a bisimulation encoder, with latent L1 distance matched to reward difference plus the Wasserstein distance between latent transition distributions, on driving logs. The reward is the per-step EPDMS components. Transitions come from a non-reactive world-on-rails model. At evaluation time, embed both the planner's predicted end state and each pre-generated synthetic observation, then replace the Gaussian geometric weights with a kernel over bisimulation distance. Ablations: geometric weighting only, bisimulation weighting only, and a product of the two; also an encoder whose reward uses progress only, to test how sensitive the weights are to the reward definition.\",\"evaluation\":\"Collect paired scores for a diverse set of planners, including TransFuser, DiffusionDrive, Hydra-MDP-style models, ego-status-only MLPs and a PDM-style rule-based planner. Compute each planner's score under original pseudo-simulation and under the bisimulation-weighted version, and compare both with closed-loop scores in a matched closed-loop setting such as CARLA or nuPlan reactive simulation. Measures: R² and Spearman ρ against the closed-loop scores, and how many ranking inversions remain. Results are also broken down by scenario interaction density. Ego-status-only planners, which earlier work shows can exploit simple benchmarks, are included to check that bisimulation weighting penalizes them correctly.\",\"support\":[\"ref-010\",\"ref-002\",\"ref-009\",\"ref-004\",\"ref-020\",\"ref-024\",\"ref-014\",\"ref-011\",\"ref-034\",\"ref-035\",\"ref-032\"]},{\"title\":\"Value-Equivalent Open-Loop Scoring: Replacing Handcrafted PDM Aggregation With Log-Derived Closed-Loop Value Estimates\",\"summary\":\"Handcrafted open-loop scores such as PDMS multiply and average sub-metrics over a short horizon. Because of this, they miss the snowball effect, where small deviations compound in closed loop, and they can be gamed by over-cautious driving. This proposal swaps the handcrafted formula for a learned scorer, trained to predict long-horizon closed-loop returns. The targets come from tabular dynamic-programming value estimates on driving logs under the world-on-rails assumption. Following the value-equivalence principle, the scorer only has to rank trajectories as closed-loop values would, not reproduce the exact dynamics. Validation tests how well the scorer correlates with closed-loop results and whether it resists hacking by best-of-N selection.\",\"gap\":\"Studies of open-loop evaluation show that L2 and collision metrics, and even safety-aware PDMS, rank planners imperfectly. The snowball effect, which a short non-reactive horizon cannot capture, is a candidate explanation. Formal results show that simple narrowed proxies are rarely unhackable. The value-equivalence principle and the world-on-rails method suggest that a value-based target can be learned from logs without building a full simulator. Neither idea has been used to design an evaluation metric for driving.\",\"approach\":\"(1) On CARLA logs, apply a world-on-rails factorization (non-reactive world plus a compact ego forward model) and compute action values by tabular Bellman backups with a reward of progress minus infraction penalties over long horizons. (2) Train a scorer network that takes a BEV abstraction of the scene and a candidate trajectory and outputs a value. The loss is a value-equivalence objective: it matches Bellman updates for a set of reference policies, not raw state transitions. (3) Use this scorer as an open-loop metric. (4) Stress-test it with best-of-N selection against the scorer itself, as an adversarial optimizer, and compare how the scorer and handcrafted PDMS degrade.\",\"evaluation\":\"Baselines: L2/ADE, collision rate, NAVSIM PDMS and EPDMS, and pseudo-simulation scores. Measures: Spearman ρ and R² against CARLA closed-loop driving score over a broad set of planners; proxy–true divergence under increasing best-of-N pressure, i.e. the hackability gap; ranking inversions for cautious versus progress-seeking planners. The hypothesis is supported if the value-equivalent scorer correlates better and its Goodhart divergence appears later or is smaller.\",\"support\":[\"ref-004\",\"ref-024\",\"ref-016\",\"ref-020\",\"ref-034\",\"ref-011\",\"ref-014\",\"ref-010\",\"ref-008\",\"ref-035\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Goodhart Curves for Driving Benchmarks: Measuring When Optimizing Open-Loop PDM Scores Stops Improving Closed-Loop Driving",
+       "summary": "This proposal treats NAVSIM-style open-loop metrics as proxy rewards and closed-loop driving score as the true objective, and asks how the two diverge as optimization pressure on the proxy grows. In CARLA, both quantities can be computed on the same scenes, so the comparison avoids a domain gap. Optimization pressure is varied in two ways: best-of-N trajectory selection with a PDM scorer over diffusion-policy samples, and a growing distillation weight on metric-specific teacher heads. The proposal predicts a Goodhart curve: the proxy keeps rising while closed-loop score peaks and then falls. It also tests whether the divergence comes mainly from regressional or extremal Goodhart effects. Validation uses proxy–true correlation curves and ranking-inversion counts.",
+       "gap": "Cross-benchmark studies report strong but non-monotonic correlation between PDMS and closed-loop driving score, with ranking inversions. They suggest that safety-heavy methods win open-loop but lose closed-loop. However, those studies only compare published methods from different domains (real NAVSIM versus CARLA Bench2Drive) and only a handful of them. No study varies optimization pressure on the open-loop proxy in a controlled way. Reward-hacking studies show capability-dependent phase transitions and give a taxonomy of Goodhart variants, but neither has been applied to driving evaluation metrics.",
+       "approach": "(1) Implement a NAVSIM-style non-reactive PDMS on logged CARLA scenes, so the proxy and the true closed-loop driving score share one domain. (2) Start from a DiffusionDrive-style truncated diffusion planner and a Hydra-MDP-style multi-head student trained on CARLA expert data. (3) Increase optimization pressure along two axes: (a) the number of samples N in best-of-N selection under the PDM scorer, from 1 to 256; (b) the weight on rule-based teacher distillation heads relative to the imitation head. (4) For each setting, record the proxy score, its sub-metrics (NC, DAC, TTC, EP, comfort) and closed-loop driving score, route completion and infractions. (5) Attribute divergence to Goodhart variants. Regressional Goodhart predicts that the divergence follows scorer noise. Extremal Goodhart predicts that it follows selection of states outside the logged distribution, such as overly cautious slow driving.",
+       "evaluation": "Baselines: pure imitation without PDM selection or distillation, and a privileged rule-based expert. Measures: driving score and route completion on CARLA closed-loop routes (Bench2Drive, Longest6) plotted against PDMS as N and the distillation weight increase; Spearman correlation and ranking inversions across settings; any threshold beyond which further pressure lowers closed-loop driving score. The hypothesis is confirmed if PDMS increases monotonically while closed-loop driving score rises and then falls, and the fall is driven by timeouts or low progress rather than collisions.",
+       "support": [
+        "ref-006",
+        "ref-008",
+        "ref-016",
+        "ref-019",
+        "ref-020",
+        "ref-034",
+        "ref-025",
+        "ref-033",
+        "ref-010",
+        "ref-013",
+        "ref-017"
+       ]
+      },
+      {
+       "title": "Bisimulation-Weighted Pseudo-Simulation: Weighting Synthetic Start States by Behavioral Rather Than Geometric Proximity",
+       "summary": "Pseudo-simulation scores a planner on synthetic perturbed observations and weights each one by how close it lies, in position, heading and speed, to where the planner is likely to go. This proposal replaces that geometric proximity with a learned bisimulation distance. Two states then count as close only if they produce similar rewards and similar future states under driving behavior, so an offset near an occluded crossing would count for more than the same offset on an empty road. An encoder is trained so that latent distances match bisimulation distances, and these distances set the importance weights. The proposal tests whether this weighting predicts closed-loop performance better than geometric weighting, especially in interactive scenarios.",
+       "gap": "Pseudo-simulation reaches an R² of 0.8 against closed-loop results by weighting synthetic states by geometric proximity to the planner's likely behavior. Geometric closeness, though, does not reflect how different two states are for the driving task: the same lateral offset matters very differently near an occluded pedestrian than on an empty road. Bisimulation metrics give a principled, task-relevant measure of state similarity, but nobody has used them to weight evaluation states.",
+       "approach": "Train a bisimulation encoder, with latent L1 distance matched to reward difference plus the Wasserstein distance between latent transition distributions, on driving logs. The reward is the per-step EPDMS components. Transitions come from a non-reactive world-on-rails model. At evaluation time, embed both the planner's predicted end state and each pre-generated synthetic observation, then replace the Gaussian geometric weights with a kernel over bisimulation distance. Ablations: geometric weighting only, bisimulation weighting only, and a product of the two; also an encoder whose reward uses progress only, to test how sensitive the weights are to the reward definition.",
+       "evaluation": "Collect paired scores for a diverse set of planners, including TransFuser, DiffusionDrive, Hydra-MDP-style models, ego-status-only MLPs and a PDM-style rule-based planner. Compute each planner's score under original pseudo-simulation and under the bisimulation-weighted version, and compare both with closed-loop scores in a matched closed-loop setting such as CARLA or nuPlan reactive simulation. Measures: R² and Spearman ρ against the closed-loop scores, and how many ranking inversions remain. Results are also broken down by scenario interaction density. Ego-status-only planners, which earlier work shows can exploit simple benchmarks, are included to check that bisimulation weighting penalizes them correctly.",
+       "support": [
+        "ref-010",
+        "ref-002",
+        "ref-009",
+        "ref-004",
+        "ref-020",
+        "ref-024",
+        "ref-014",
+        "ref-011",
+        "ref-034",
+        "ref-035",
+        "ref-032"
+       ]
+      },
+      {
+       "title": "Value-Equivalent Open-Loop Scoring: Replacing Handcrafted PDM Aggregation With Log-Derived Closed-Loop Value Estimates",
+       "summary": "Handcrafted open-loop scores such as PDMS multiply and average sub-metrics over a short horizon. Because of this, they miss the snowball effect, where small deviations compound in closed loop, and they can be gamed by over-cautious driving. This proposal swaps the handcrafted formula for a learned scorer, trained to predict long-horizon closed-loop returns. The targets come from tabular dynamic-programming value estimates on driving logs under the world-on-rails assumption. Following the value-equivalence principle, the scorer only has to rank trajectories as closed-loop values would, not reproduce the exact dynamics. Validation tests how well the scorer correlates with closed-loop results and whether it resists hacking by best-of-N selection.",
+       "gap": "Studies of open-loop evaluation show that L2 and collision metrics, and even safety-aware PDMS, rank planners imperfectly. The snowball effect, which a short non-reactive horizon cannot capture, is a candidate explanation. Formal results show that simple narrowed proxies are rarely unhackable. The value-equivalence principle and the world-on-rails method suggest that a value-based target can be learned from logs without building a full simulator. Neither idea has been used to design an evaluation metric for driving.",
+       "approach": "(1) On CARLA logs, apply a world-on-rails factorization (non-reactive world plus a compact ego forward model) and compute action values by tabular Bellman backups with a reward of progress minus infraction penalties over long horizons. (2) Train a scorer network that takes a BEV abstraction of the scene and a candidate trajectory and outputs a value. The loss is a value-equivalence objective: it matches Bellman updates for a set of reference policies, not raw state transitions. (3) Use this scorer as an open-loop metric. (4) Stress-test it with best-of-N selection against the scorer itself, as an adversarial optimizer, and compare how the scorer and handcrafted PDMS degrade.",
+       "evaluation": "Baselines: L2/ADE, collision rate, NAVSIM PDMS and EPDMS, and pseudo-simulation scores. Measures: Spearman ρ and R² against CARLA closed-loop driving score over a broad set of planners; proxy–true divergence under increasing best-of-N pressure, i.e. the hackability gap; ranking inversions for cautious versus progress-seeking planners. The hypothesis is supported if the value-equivalent scorer correlates better and its Goodhart divergence appears later or is smaller.",
+       "support": [
+        "ref-004",
+        "ref-024",
+        "ref-016",
+        "ref-020",
+        "ref-034",
+        "ref-011",
+        "ref-014",
+        "ref-010",
+        "ref-008",
+        "ref-035"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 13840,
+    "type": "result",
+    "duration_ms": 44367,
+    "uuid": "e172320d-be0b-4640-b494-e21d2a0806a4",
+    "ttft_stream_ms": 1274,
+    "time_to_request_ms": 96,
+    "time_to_request_phases_ms": {
+     "other": 3,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 3,
+     "input_attachments": 24,
+     "input_hooks": 3,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 42,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 0,
+     "model_config_wait": 1,
+     "autocompact": 1,
+     "request_announcements": 3,
+     "query_setup": 0,
+     "model_gates": 1,
+     "tool_schema_build": 1,
+     "message_normalization": 2,
+     "client_creation": 2,
+     "request_build": 3
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 2,
+    "time_to_request_cpu_ms": 142,
+    "time_to_request_major_faults": 5239,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 14,
+     "cpu_ms": 32,
+     "major_faults": 1499,
+     "setup_ms": 0,
+     "prompt_producers_ms": 0,
+     "ambient_start_ms": 4,
+     "ambient_wait_ms": 13,
+     "render_ms": 4,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 0,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 0,
+     "after_ms": 0,
+     "other_ms": 1,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 0,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 1274,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  }
+ ],
+ "calls": 1,
+ "usage": [
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 16758,
+    "cache_read_input_tokens": 1127,
+    "output_tokens": 4333,
+    "output_tokens_details": {
+     "thinking_tokens": 1213
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 16758,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 4333,
+      "cache_read_input_tokens": 1127,
+      "cache_creation_input_tokens": 16758,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 16758
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.22095739999999997,
+   "duration_ms": 44367,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-opus-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 4333,
+     "cacheReadInputTokens": 1127,
+     "cacheCreationInputTokens": 16758,
+     "webSearchRequests": 0,
+     "costUSD": 0.22095739999999997,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 1213,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 16758,
+     "canonicalModel": "claude-opus-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "effort": "high",
+ "seconds": 47.5
+}

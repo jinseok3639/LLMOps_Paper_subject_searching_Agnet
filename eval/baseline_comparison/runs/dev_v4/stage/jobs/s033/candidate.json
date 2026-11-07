@@ -1,0 +1,13 @@
+{
+ "title": "Latent Safety Knowledge Elicitation via Best-of-N Sampling with Safety-Aware Prompt Augmentation",
+ "summary": "We hypothesize that increasing N in Best-of-N sampling with safety-focused prompt augmentations can consistently elicit latent safety knowledge in models, even under OOD attacks. We design a novel prompt augmentation strategy that combines jailbreak patterns with safety guidelines, then evaluate how N affects safety performance on OOD attacks compared to standard RT models.",
+ "gap": "While ref-007 shows BoN improves safety, it does not systematically study how different prompt augmentations affect safety knowledge elicitation, nor does it measure the relationship between N and safety performance across diverse attack types.",
+ "approach": "Develop a safety-aware prompt augmentation method that combines known jailbreak patterns with safety guidelines. For each input, generate N responses using these augmented prompts, then select the safest response based on a safety reward model. Systematically vary N and augmentation strategies while measuring safety performance.",
+ "evaluation": "Test on datasets like HarmBench and JailbreakBench with diverse OOD attacks. Measure attack success rate as N increases, comparing against standard RT models and models trained with safety reasoning. Also measure performance on benign queries to ensure no tradeoff in helpfulness.",
+ "support": [
+  "ref-007",
+  "ref-014",
+  "ref-017",
+  "ref-021"
+ ]
+}

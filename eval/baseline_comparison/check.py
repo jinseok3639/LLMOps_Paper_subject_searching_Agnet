@@ -70,30 +70,40 @@ def check_codex(kind):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--run", required=True)
+    ap.add_argument("--part", choices=("all", "gen", "judge"), default="all",
+                    help="gen: Claude만 점검(생성 전), judge: Codex만 점검해 기존 meta.json에 더함(판정 전)")
     args = ap.parse_args()
 
     run = common.run_dir(args.run)
-    meta = {
+    if args.part == "judge" and (run / "meta.json").exists():
+        meta = common.read_json(run / "meta.json")
+    else:
+        meta = {}
+    meta.update({
         "checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "git_commit": version(["git", "-C", str(common.ROOT), "rev-parse", "HEAD"]),
         "solar": {"model": config.MODEL, "temperature": common.SOLAR_TEMPERATURE},
         "claude": {"cli": version([common.claude_bin(), "--version"]), "models": {c: {"model": m, "effort": e} for c, (m, e) in common.CLAUDE.items()}, "temperature": "CLI 기본값"},
         "codex": {"cli": version([common.codex_bin(), "--version"]), "model": common.JUDGE_MODEL, "effort": common.JUDGE_EFFORT},
         "b_seed": common.B_SEED,
-    }
-    print("Claude 확인 중...")
-    meta["check_claude"] = check_claude()
-    print(json.dumps(meta["check_claude"], ensure_ascii=False, indent=1))
-    print("Codex 확인 중 (검색 없음)...")
-    meta["check_codex"] = check_codex("score")
-    print(json.dumps(meta["check_codex"], ensure_ascii=False, indent=1))
-    print("Codex 확인 중 (검색)...")
-    meta["check_codex_search"] = check_codex("novelty")
-    print(json.dumps(meta["check_codex_search"], ensure_ascii=False, indent=1))
+    })
+    if args.part in ("all", "gen"):
+        meta["checked_at_gen"] = meta["checked_at"]
+        print("Claude 확인 중...")
+        meta["check_claude"] = check_claude()
+        print(json.dumps(meta["check_claude"], ensure_ascii=False, indent=1))
+    if args.part in ("all", "judge"):
+        meta["checked_at_judge"] = meta["checked_at"]
+        print("Codex 확인 중 (검색 없음)...")
+        meta["check_codex"] = check_codex("score")
+        print(json.dumps(meta["check_codex"], ensure_ascii=False, indent=1))
+        print("Codex 확인 중 (검색)...")
+        meta["check_codex_search"] = check_codex("novelty")
+        print(json.dumps(meta["check_codex_search"], ensure_ascii=False, indent=1))
     # 저장소가 공개라 Claude CLI가 덧붙이는 계정 이메일 같은 값을 지운다.
     text = re.sub(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", "<email redacted>", json.dumps(meta, ensure_ascii=False))
     common.write_json(run / "meta.json", json.loads(text))
-    ok = all(meta[k]["ok"] for k in ("check_claude", "check_codex", "check_codex_search"))
+    ok = all(meta[k]["ok"] for k in ("check_claude", "check_codex", "check_codex_search") if k in meta)
     print("사전 점검 통과" if ok else "사전 점검 실패: meta.json을 확인하세요")
 
 

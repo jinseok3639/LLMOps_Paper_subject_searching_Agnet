@@ -92,6 +92,10 @@ def main():
     ap.add_argument("--run", required=True)
     ap.add_argument("--kinds", default="score,pairwise,novelty")
     ap.add_argument("--jobs", default="", help="예: j001,j002 (비우면 전부)")
+    ap.add_argument("--conditions", default="", help="점수·새로움 작업을 이 조건만 (예: A,B)")
+    ap.add_argument("--pairs", default="", help="쌍대 비교를 이 쌍만 (예: A-B,B-C)")
+    ap.add_argument("--stages", default="", help="단계별 판정을 이 단계만 (예: refined)")
+    ap.add_argument("--samples", default="", help="이 샘플만 (예: t003)")
     ap.add_argument("--limit", type=int, default=0, help="이번 실행에서 돌릴 최대 작업 수")
     ap.add_argument("--workers", type=int, default=3, help="동시에 돌릴 Codex 수. 작업끼리는 서로 영향이 없다")
     ap.add_argument("--timeout", type=int, default=1800)
@@ -101,7 +105,21 @@ def main():
     key = common.read_json(run / "key.json")
     kinds = args.kinds.split(",")
     wanted = set(args.jobs.split(",")) if args.jobs else None
-    todo = [j for j in sorted(key) if key[j]["kind"] in kinds and (wanted is None or j in wanted)
+    conds = set(args.conditions.split(",")) if args.conditions else None
+    pairs = set(args.pairs.split(",")) if args.pairs else None
+    stages = set(args.stages.split(",")) if args.stages else None
+    samples = set(args.samples.split(",")) if args.samples else None
+
+    def selected(job):
+        if conds and "condition" in job and job["condition"] not in conds:
+            return False
+        if pairs and job["kind"] == "pairwise" and job["pair"] not in pairs:
+            return False
+        if samples and job["sample"] not in samples:
+            return False
+        return not (stages and "stage" in job and job["stage"] not in stages)
+
+    todo = [j for j in sorted(key) if key[j]["kind"] in kinds and (wanted is None or j in wanted) and selected(key[j])
             and not (run / "jobs" / j / "result.json").exists()]
     if args.limit:
         todo = todo[:args.limit]

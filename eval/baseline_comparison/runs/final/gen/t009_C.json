@@ -1,0 +1,402 @@
+{
+ "sample": "t009",
+ "condition": "C",
+ "n_refs": 51,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Jailbreak-Then-Continue: Extracting Near-Verbatim Copyrighted Books from Production LLMs",
+   "summary": "This proposal asks whether the book memorization shown in open-weight models also exists, and can be extracted, in aligned production chat models. A two-phase attack would first jailbreak the model with a short book prefix plus a lightweight bypass (sampled perturbations or a many-shot prefix) so it continues the text instead of refusing. It would then keep asking the model to continue, chaining its outputs to recover long stretches of the book. Extracted text would be compared with the reference books using long-text alignment to compute near-verbatim recall, tested across several commercial models and well-known copyrighted and public-domain novels.",
+   "gap": "Book-level extraction has been demonstrated only on open-weight models with direct prefix prompting. Divergence attacks on production models recover generic training data rather than specific chosen works. Whether production safeguards stop targeted, long-range book extraction has not been measured.",
+   "approach": "Phase 1: for each book, seed the model with its opening sentence and apply a jailbreak until the continuation reaches a similarity threshold against the true text. The jailbreak could be randomized prompt perturbations searched best-of-N, or a many-shot prefix of the book's own text. Phase 2: repeatedly ask the model to continue, feeding back its recent output and stopping when it refuses or drifts. Score the result with block-level alignment against the reference text, counting near-verbatim matches above a length threshold.",
+   "evaluation": "Baselines: direct prefix prompting without a jailbreak, a divergence-style attack, and the same pipeline on open-weight models. Measures: the fraction of the book recovered near-verbatim, the longest contiguous matched block, query cost, and refusal rate. Results would be broken down by model and by book (copyrighted versus public-domain), and checked for reproducibility across repeated runs.",
+   "support": [
+    "ref-044",
+    "ref-007",
+    "ref-033",
+    "ref-038",
+    "ref-014",
+    "ref-006",
+    "ref-004",
+    "ref-035",
+    "ref-020",
+    "ref-029",
+    "ref-032",
+    "ref-041",
+    "ref-015",
+    "ref-047",
+    "ref-012",
+    "ref-003",
+    "ref-016",
+    "ref-017"
+   ]
+  },
+  {
+   "title": "Alignment-Based Near-Verbatim Recall: A Long-Form Metric for Book Extraction",
+   "summary": "This proposal targets how book-length extraction is measured. Exact-match prefix–suffix checks undercount extraction when outputs contain small edits, reordered passages, or skipped sections. The proposed metric adapts structural book alignment and near-duplicate detection: it finds matched blocks between generated text and the source that tolerate small gaps, then merges them into a near-verbatim recall score that accounts for order. It would be validated on models with known memorization, including models trained with deliberately inserted text, by checking agreement with ground-truth exposure counts and with human judgments of substantial copying.",
+   "gap": "Discoverable and probabilistic extraction work on short fixed-length suffixes, and generic text-similarity measures are not designed to capture a substantial portion of a long work reproduced near-exactly. Legal definitions of memorization depend on exactly that notion, yet the cited work provides no validated metric for it.",
+   "approach": "Tokenize and normalize the generated and reference texts. Find candidate matching blocks with shingling or simhash seeds, then extend them using local alignment that allows small edit gaps. Merge blocks that follow the book's order and drop short spurious matches using a minimum-length filter calibrated on books the model was not trained on. Report coverage of the reference, precision of the generated text, and the distribution of block lengths.",
+   "evaluation": "Ground truth would come from models trained with insertions at known duplication counts, plus books with documented memorization in open models. Baselines: greedy discoverable extraction, probabilistic extraction, the adversarial compression ratio, and similarity measures such as edit distance and n-gram overlap. Measures: correlation with how many times a passage was duplicated in training, false-positive rate on non-training books, robustness to paraphrase-style perturbations, and agreement with human annotators.",
+   "support": [
+    "ref-034",
+    "ref-019",
+    "ref-036",
+    "ref-008",
+    "ref-029",
+    "ref-048",
+    "ref-009",
+    "ref-035",
+    "ref-043",
+    "ref-044",
+    "ref-021",
+    "ref-011"
+   ]
+  },
+  {
+   "title": "Does Safety Alignment Remove or Merely Mask Book Memorization? A Controlled Study with Inserted Texts",
+   "summary": "This proposal tests whether instruction tuning and refusal training remove memorized books or only make them harder to reach. Starting from models pretrained with copyrighted-style book passages inserted at controlled duplication counts, it would apply instruction tuning, preference-based alignment, and explicit refusal training for copyrighted text. It would then measure how much of the passages can be extracted with plain prompts and with jailbreaks. The hypothesis is that jailbreaks restore extraction close to pre-alignment levels, which would separate latent memorization from surface refusal.",
+   "gap": "Cited work argues that alignment does not eliminate memorization and that suppressing verbatim output gives a false sense of privacy. But evidence comes from opaque production models whose training data is unknown, so no one has measured how much alignment masks book memorization against a known ground truth.",
+   "approach": "Use the standard and perturbed model pairs in which book passages were inserted at varying frequencies. Apply three post-training conditions: instruction tuning, preference optimization, and refusal training on requests for copyrighted text. Probe each resulting model with direct prefix prompts, adversarial suffix search, many-shot prompting, and divergence prompts. Measure probabilistic extraction and the adversarial compression ratio before and after alignment.",
+   "evaluation": "Compare the base pretrained models, the aligned variants, and the standard models with no inserted text, which serve as the negative control. Measures: extraction probability as a function of duplication count, the share of the pre-alignment extraction rate that jailbreaks recover, compression ratio, and membership-inference AUC. A further check is whether masking is weaker for passages that were duplicated more often.",
+   "support": [
+    "ref-043",
+    "ref-021",
+    "ref-007",
+    "ref-018",
+    "ref-027",
+    "ref-031",
+    "ref-014",
+    "ref-038",
+    "ref-029",
+    "ref-009",
+    "ref-022",
+    "ref-035",
+    "ref-042",
+    "ref-048",
+    "ref-045"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [],
+   "raw": {
+    "duration_api_ms": 29089,
+    "stop_reason": "tool_use",
+    "session_id": "13505413-7d69-4714-bbb2-427479de6b3b",
+    "total_cost_usd": 0.1673214,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 14106,
+     "cache_read_input_tokens": 1127,
+     "output_tokens": 2712,
+     "output_tokens_details": {
+      "thinking_tokens": 532
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 14106,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2712,
+       "cache_read_input_tokens": 1127,
+       "cache_creation_input_tokens": 14106,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 14106
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-opus-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2712,
+      "cacheReadInputTokens": 1127,
+      "cacheCreationInputTokens": 14106,
+      "webSearchRequests": 0,
+      "costUSD": 0.1673214,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 532,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 14106,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Jailbreak-Then-Continue: Extracting Near-Verbatim Copyrighted Books from Production LLMs\",\"summary\":\"This proposal asks whether the book memorization shown in open-weight models also exists, and can be extracted, in aligned production chat models. A two-phase attack would first jailbreak the model with a short book prefix plus a lightweight bypass (sampled perturbations or a many-shot prefix) so it continues the text instead of refusing. It would then keep asking the model to continue, chaining its outputs to recover long stretches of the book. Extracted text would be compared with the reference books using long-text alignment to compute near-verbatim recall, tested across several commercial models and well-known copyrighted and public-domain novels.\",\"gap\":\"Book-level extraction has been demonstrated only on open-weight models with direct prefix prompting. Divergence attacks on production models recover generic training data rather than specific chosen works. Whether production safeguards stop targeted, long-range book extraction has not been measured.\",\"approach\":\"Phase 1: for each book, seed the model with its opening sentence and apply a jailbreak until the continuation reaches a similarity threshold against the true text. The jailbreak could be randomized prompt perturbations searched best-of-N, or a many-shot prefix of the book's own text. Phase 2: repeatedly ask the model to continue, feeding back its recent output and stopping when it refuses or drifts. Score the result with block-level alignment against the reference text, counting near-verbatim matches above a length threshold.\",\"evaluation\":\"Baselines: direct prefix prompting without a jailbreak, a divergence-style attack, and the same pipeline on open-weight models. Measures: the fraction of the book recovered near-verbatim, the longest contiguous matched block, query cost, and refusal rate. Results would be broken down by model and by book (copyrighted versus public-domain), and checked for reproducibility across repeated runs.\",\"support\":[\"ref-044\",\"ref-007\",\"ref-033\",\"ref-038\",\"ref-014\",\"ref-006\",\"ref-004\",\"ref-035\",\"ref-020\",\"ref-029\",\"ref-032\",\"ref-041\",\"ref-015\",\"ref-047\",\"ref-012\",\"ref-003\",\"ref-016\",\"ref-017\"]},{\"title\":\"Alignment-Based Near-Verbatim Recall: A Long-Form Metric for Book Extraction\",\"summary\":\"This proposal targets how book-length extraction is measured. Exact-match prefix–suffix checks undercount extraction when outputs contain small edits, reordered passages, or skipped sections. The proposed metric adapts structural book alignment and near-duplicate detection: it finds matched blocks between generated text and the source that tolerate small gaps, then merges them into a near-verbatim recall score that accounts for order. It would be validated on models with known memorization, including models trained with deliberately inserted text, by checking agreement with ground-truth exposure counts and with human judgments of substantial copying.\",\"gap\":\"Discoverable and probabilistic extraction work on short fixed-length suffixes, and generic text-similarity measures are not designed to capture a substantial portion of a long work reproduced near-exactly. Legal definitions of memorization depend on exactly that notion, yet the cited work provides no validated metric for it.\",\"approach\":\"Tokenize and normalize the generated and reference texts. Find candidate matching blocks with shingling or simhash seeds, then extend them using local alignment that allows small edit gaps. Merge blocks that follow the book's order and drop short spurious matches using a minimum-length filter calibrated on books the model was not trained on. Report coverage of the reference, precision of the generated text, and the distribution of block lengths.\",\"evaluation\":\"Ground truth would come from models trained with insertions at known duplication counts, plus books with documented memorization in open models. Baselines: greedy discoverable extraction, probabilistic extraction, the adversarial compression ratio, and similarity measures such as edit distance and n-gram overlap. Measures: correlation with how many times a passage was duplicated in training, false-positive rate on non-training books, robustness to paraphrase-style perturbations, and agreement with human annotators.\",\"support\":[\"ref-034\",\"ref-019\",\"ref-036\",\"ref-008\",\"ref-029\",\"ref-048\",\"ref-009\",\"ref-035\",\"ref-043\",\"ref-044\",\"ref-021\",\"ref-011\"]},{\"title\":\"Does Safety Alignment Remove or Merely Mask Book Memorization? A Controlled Study with Inserted Texts\",\"summary\":\"This proposal tests whether instruction tuning and refusal training remove memorized books or only make them harder to reach. Starting from models pretrained with copyrighted-style book passages inserted at controlled duplication counts, it would apply instruction tuning, preference-based alignment, and explicit refusal training for copyrighted text. It would then measure how much of the passages can be extracted with plain prompts and with jailbreaks. The hypothesis is that jailbreaks restore extraction close to pre-alignment levels, which would separate latent memorization from surface refusal.\",\"gap\":\"Cited work argues that alignment does not eliminate memorization and that suppressing verbatim output gives a false sense of privacy. But evidence comes from opaque production models whose training data is unknown, so no one has measured how much alignment masks book memorization against a known ground truth.\",\"approach\":\"Use the standard and perturbed model pairs in which book passages were inserted at varying frequencies. Apply three post-training conditions: instruction tuning, preference optimization, and refusal training on requests for copyrighted text. Probe each resulting model with direct prefix prompts, adversarial suffix search, many-shot prompting, and divergence prompts. Measure probabilistic extraction and the adversarial compression ratio before and after alignment.\",\"evaluation\":\"Compare the base pretrained models, the aligned variants, and the standard models with no inserted text, which serve as the negative control. Measures: extraction probability as a function of duplication count, the share of the pre-alignment extraction rate that jailbreaks recover, compression ratio, and membership-inference AUC. A further check is whether masking is weaker for passages that were duplicated more often.\",\"support\":[\"ref-043\",\"ref-021\",\"ref-007\",\"ref-018\",\"ref-027\",\"ref-031\",\"ref-014\",\"ref-038\",\"ref-029\",\"ref-009\",\"ref-022\",\"ref-035\",\"ref-042\",\"ref-048\",\"ref-045\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Jailbreak-Then-Continue: Extracting Near-Verbatim Copyrighted Books from Production LLMs",
+       "summary": "This proposal asks whether the book memorization shown in open-weight models also exists, and can be extracted, in aligned production chat models. A two-phase attack would first jailbreak the model with a short book prefix plus a lightweight bypass (sampled perturbations or a many-shot prefix) so it continues the text instead of refusing. It would then keep asking the model to continue, chaining its outputs to recover long stretches of the book. Extracted text would be compared with the reference books using long-text alignment to compute near-verbatim recall, tested across several commercial models and well-known copyrighted and public-domain novels.",
+       "gap": "Book-level extraction has been demonstrated only on open-weight models with direct prefix prompting. Divergence attacks on production models recover generic training data rather than specific chosen works. Whether production safeguards stop targeted, long-range book extraction has not been measured.",
+       "approach": "Phase 1: for each book, seed the model with its opening sentence and apply a jailbreak until the continuation reaches a similarity threshold against the true text. The jailbreak could be randomized prompt perturbations searched best-of-N, or a many-shot prefix of the book's own text. Phase 2: repeatedly ask the model to continue, feeding back its recent output and stopping when it refuses or drifts. Score the result with block-level alignment against the reference text, counting near-verbatim matches above a length threshold.",
+       "evaluation": "Baselines: direct prefix prompting without a jailbreak, a divergence-style attack, and the same pipeline on open-weight models. Measures: the fraction of the book recovered near-verbatim, the longest contiguous matched block, query cost, and refusal rate. Results would be broken down by model and by book (copyrighted versus public-domain), and checked for reproducibility across repeated runs.",
+       "support": [
+        "ref-044",
+        "ref-007",
+        "ref-033",
+        "ref-038",
+        "ref-014",
+        "ref-006",
+        "ref-004",
+        "ref-035",
+        "ref-020",
+        "ref-029",
+        "ref-032",
+        "ref-041",
+        "ref-015",
+        "ref-047",
+        "ref-012",
+        "ref-003",
+        "ref-016",
+        "ref-017"
+       ]
+      },
+      {
+       "title": "Alignment-Based Near-Verbatim Recall: A Long-Form Metric for Book Extraction",
+       "summary": "This proposal targets how book-length extraction is measured. Exact-match prefix–suffix checks undercount extraction when outputs contain small edits, reordered passages, or skipped sections. The proposed metric adapts structural book alignment and near-duplicate detection: it finds matched blocks between generated text and the source that tolerate small gaps, then merges them into a near-verbatim recall score that accounts for order. It would be validated on models with known memorization, including models trained with deliberately inserted text, by checking agreement with ground-truth exposure counts and with human judgments of substantial copying.",
+       "gap": "Discoverable and probabilistic extraction work on short fixed-length suffixes, and generic text-similarity measures are not designed to capture a substantial portion of a long work reproduced near-exactly. Legal definitions of memorization depend on exactly that notion, yet the cited work provides no validated metric for it.",
+       "approach": "Tokenize and normalize the generated and reference texts. Find candidate matching blocks with shingling or simhash seeds, then extend them using local alignment that allows small edit gaps. Merge blocks that follow the book's order and drop short spurious matches using a minimum-length filter calibrated on books the model was not trained on. Report coverage of the reference, precision of the generated text, and the distribution of block lengths.",
+       "evaluation": "Ground truth would come from models trained with insertions at known duplication counts, plus books with documented memorization in open models. Baselines: greedy discoverable extraction, probabilistic extraction, the adversarial compression ratio, and similarity measures such as edit distance and n-gram overlap. Measures: correlation with how many times a passage was duplicated in training, false-positive rate on non-training books, robustness to paraphrase-style perturbations, and agreement with human annotators.",
+       "support": [
+        "ref-034",
+        "ref-019",
+        "ref-036",
+        "ref-008",
+        "ref-029",
+        "ref-048",
+        "ref-009",
+        "ref-035",
+        "ref-043",
+        "ref-044",
+        "ref-021",
+        "ref-011"
+       ]
+      },
+      {
+       "title": "Does Safety Alignment Remove or Merely Mask Book Memorization? A Controlled Study with Inserted Texts",
+       "summary": "This proposal tests whether instruction tuning and refusal training remove memorized books or only make them harder to reach. Starting from models pretrained with copyrighted-style book passages inserted at controlled duplication counts, it would apply instruction tuning, preference-based alignment, and explicit refusal training for copyrighted text. It would then measure how much of the passages can be extracted with plain prompts and with jailbreaks. The hypothesis is that jailbreaks restore extraction close to pre-alignment levels, which would separate latent memorization from surface refusal.",
+       "gap": "Cited work argues that alignment does not eliminate memorization and that suppressing verbatim output gives a false sense of privacy. But evidence comes from opaque production models whose training data is unknown, so no one has measured how much alignment masks book memorization against a known ground truth.",
+       "approach": "Use the standard and perturbed model pairs in which book passages were inserted at varying frequencies. Apply three post-training conditions: instruction tuning, preference optimization, and refusal training on requests for copyrighted text. Probe each resulting model with direct prefix prompts, adversarial suffix search, many-shot prompting, and divergence prompts. Measure probabilistic extraction and the adversarial compression ratio before and after alignment.",
+       "evaluation": "Compare the base pretrained models, the aligned variants, and the standard models with no inserted text, which serve as the negative control. Measures: extraction probability as a function of duplication count, the share of the pre-alignment extraction rate that jailbreaks recover, compression ratio, and membership-inference AUC. A further check is whether masking is weaker for passages that were duplicated more often.",
+       "support": [
+        "ref-043",
+        "ref-021",
+        "ref-007",
+        "ref-018",
+        "ref-027",
+        "ref-031",
+        "ref-014",
+        "ref-038",
+        "ref-029",
+        "ref-009",
+        "ref-022",
+        "ref-035",
+        "ref-042",
+        "ref-048",
+        "ref-045"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 7633,
+    "type": "result",
+    "duration_ms": 29184,
+    "uuid": "6f35ac75-9ddb-4f90-a853-f171c1f7df4b",
+    "ttft_stream_ms": 2180,
+    "time_to_request_ms": 83,
+    "time_to_request_phases_ms": {
+     "other": 4,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 2,
+     "input_attachments": 17,
+     "input_hooks": 1,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 38,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 0,
+     "model_config_wait": 1,
+     "autocompact": 1,
+     "request_announcements": 3,
+     "query_setup": 0,
+     "model_gates": 0,
+     "tool_schema_build": 2,
+     "message_normalization": 2,
+     "client_creation": 2,
+     "request_build": 3
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 32,
+    "time_to_request_cpu_ms": 220,
+    "time_to_request_major_faults": 5185,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 9,
+     "cpu_ms": 32,
+     "major_faults": 1411,
+     "setup_ms": 0,
+     "prompt_producers_ms": 0,
+     "ambient_start_ms": 2,
+     "ambient_wait_ms": 9,
+     "render_ms": 3,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 0,
+     "after_ms": 1,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 0,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 2180,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  }
+ ],
+ "calls": 1,
+ "usage": [
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 14106,
+    "cache_read_input_tokens": 1127,
+    "output_tokens": 2712,
+    "output_tokens_details": {
+     "thinking_tokens": 532
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 14106,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2712,
+      "cache_read_input_tokens": 1127,
+      "cache_creation_input_tokens": 14106,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 14106
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.1673214,
+   "duration_ms": 29184,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-opus-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2712,
+     "cacheReadInputTokens": 1127,
+     "cacheCreationInputTokens": 14106,
+     "webSearchRequests": 0,
+     "costUSD": 0.1673214,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 532,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 14106,
+     "canonicalModel": "claude-opus-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "effort": "high",
+ "seconds": 31.4
+}

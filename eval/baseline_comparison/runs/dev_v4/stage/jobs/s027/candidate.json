@@ -1,0 +1,13 @@
+{
+ "title": "Adversarial Vulnerability of EEGNet Visualization Mechanisms",
+ "summary": "This paper examines whether EEGNet's feature visualization techniques reveal security weaknesses. The hypothesis is that gradient-based visualizations expose critical neurons vulnerable to adversarial attacks. The approach generates targeted perturbations guided by EEGNet's saliency maps and tests their transferability across BCI paradigms. Evaluation measures attack success rates and perturbation magnitudes compared to random baselines.",
+ "gap": "While EEGNet provides interpretability tools, their potential to expose attack surfaces in BCI systems remains unexplored.",
+ "approach": "Use EEGNet's learned filters and gradient-weighted class activation mapping (Grad-CAM) to identify high-influence EEG channels/timepoints. Craft adversarial examples by perturbing these regions and test transferability across subjects/paradigms.",
+ "evaluation": "Compare success rates of visualization-guided vs random perturbations under FGSM/PGD. Measure perturbation L2 norms and test transfer to unseen subjects/paradigms. Baselines: random channel masking, uniform noise injection.",
+ "support": [
+  "ref-001",
+  "ref-011",
+  "ref-021",
+  "ref-024"
+ ]
+}

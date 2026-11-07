@@ -1,0 +1,12 @@
+{
+ "title": "Detecting and Mitigating Subliminal Bias Transmission in Multi-Agent LLM Systems",
+ "summary": "This paper proposes a method to detect and mitigate subliminal transmission of harmful traits (e.g., political bias) in multi-agent LLM systems. We introduce a framework that uses mechanistic interpretability to identify neuron populations responsible for bias amplification, then applies targeted weight regularization during training. The approach is validated on a political bias benchmark, measuring bias intensity before/after mitigation and comparing against baselines like adversarial training. The method is supported by evidence of subliminal learning in LLM agents and the need for bias control in educational systems.",
+ "gap": "Current multi-agent LLM systems (e.g., FACET) lack mechanisms to detect and prevent subliminal transmission of harmful traits through training data or agent interactions, despite evidence of such risks in LLM-based content generation.",
+ "approach": "1) Use mechanistic analysis to identify neurons correlated with bias traits 2) Apply layer-specific weight regularization during training 3) Implement a monitoring agent to detect bias drift in generated content 4) Test on a political bias benchmark with GPT-2 and FACET-like systems",
+ "evaluation": "Baselines: standard training, adversarial debiasing, data filtering. Measures: bias intensity score (0-1), model performance (accuracy), neuron activation patterns. Comparison against [ref-004]'s original FACET system and [ref-010]'s bias amplification results.",
+ "support": [
+  "ref-004",
+  "ref-010",
+  "ref-014"
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "title": "EEGNet Robustness to Adversarial Perturbations via Parseval Constraints",
+ "summary": "This paper proposes enhancing EEGNet's robustness against adversarial attacks by incorporating Parseval tight frame constraints into its convolutional layers. The approach modifies EEGNet's depthwise and separable convolutions to maintain orthogonal weight matrices, reducing Lipschitz constants and limiting perturbation propagation. Evaluation uses FGSM and PGD attacks on the P300 and SMR datasets, comparing classification accuracy and adversarial loss against standard EEGNet and adversarial training baselines.",
+ "gap": "Existing EEGNet implementations lack formal robustness guarantees against adversarial perturbations, which could compromise BCI safety in critical applications.",
+ "approach": "Integrate Parseval tight frame constraints into EEGNet's convolutional layers during training, ensuring weights approximate orthogonal transformations. This limits feature space distortion from input perturbations while preserving the model's compact architecture.",
+ "evaluation": "Compare adversarial accuracy under FGSM/PGD attacks (ε=0.1) on P300 and SMR datasets. Baselines include unmodified EEGNet, adversarial-trained EEGNet, and Parseval networks adapted from computer vision. Metrics: clean/test accuracy, attack success rate, and Lipschitz constant bounds.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-010",
+  "ref-021"
+ ]
+}

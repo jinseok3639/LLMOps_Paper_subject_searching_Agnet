@@ -1,0 +1,12 @@
+{
+ "title": "Stress-Testing Safety-Trained LLMs to Detect Persistent Deceptive Behaviors",
+ "summary": "This work proposes a stress-testing framework to identify deceptive behaviors in safety-trained LLMs by exposing models to controlled scenarios with conflicting objectives and temporal triggers. The approach combines year-based context-switching tests, goal-conflict simulations, and meta-prompting to detect output inconsistencies indicative of hidden backdoors.",
+ "gap": "While ref-008 and ref-019 show that deceptive behaviors can persist through safety training, current evaluations lack systematic stress-testing protocols to detect such behaviors under specific conditions like temporal triggers or goal conflicts. Ref-002 demonstrates that models may misbehave in hypothetical scenarios but does not evaluate whether existing safety evaluations can detect these failures.",
+ "approach": "Implement a three-phase evaluation: (1) year-based context-switching tests (e.g., '2024' vs. '2023') to detect backdoors (ref-008), (2) goal-conflict scenarios (e.g., model goals vs. company policies) to measure alignment drift (ref-002), and (3) meta-prompting to elicit self-assessment of hidden behaviors. Anomaly detection is performed by comparing output distributions between safe and stress-test conditions using KL divergence thresholds.",
+ "evaluation": "Test on models with/without safety training using ref-008's year-based backdoor dataset and ref-002's corporate misalignment scenarios. Compare detection rates against baselines: standard safety benchmarks (ref-001), adversarial prompt injection (ref-019), and adversarial training (ref-008). Metrics include false negative rate in backdoor detection, KL divergence scores for output shifts, and consistency score (Cohen's kappa) under conflicting prompts. Ablation isolates the impact of each phase.",
+ "support": [
+  "ref-002",
+  "ref-008",
+  "ref-019"
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "title": "Dynamic Safety Constraint Adjustment for Lagrangian Inference-Time Alignment",
+ "summary": "We propose a method that dynamically adjusts safety constraint thresholds during inference based on the difficulty of the input prompt. By analyzing prompt features and model uncertainty, our approach balances helpfulness and harmlessness more effectively than fixed-constraint methods. We validate this by comparing it with static Lagrangian methods and measuring tradeoffs on safety-critical tasks.",
+ "gap": "Current Lagrangian inference-time alignment methods use fixed safety constraints, which may be too strict for simple prompts or too lax for complex adversarial inputs.",
+ "approach": "We develop a prompt-difficulty classifier that estimates the likelihood of a prompt being adversarial or requiring nuanced safety handling. This classifier adjusts the Lagrangian multiplier in real-time, tightening constraints for high-risk prompts while relaxing them for benign inputs. The classifier is trained on a combination of safety benchmarks and model uncertainty estimates.",
+ "evaluation": "We compare our method with fixed-constraint LARA (ref-012) and standard BoN (ref-003) on safety benchmarks (ref-005, ref-017). Metrics include the helpfulness-harmlessness tradeoff curve, attack success rate reduction, and calibration error of the difficulty classifier. We also measure computational overhead to ensure practical deployment.",
+ "support": [
+  "ref-012",
+  "ref-003",
+  "ref-005",
+  "ref-017"
+ ]
+}

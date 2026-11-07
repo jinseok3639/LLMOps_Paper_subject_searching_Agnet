@@ -1,0 +1,1300 @@
+{
+ "sample": "t009",
+ "n_refs": 51,
+ "propose_problems": {
+  "assumption": [],
+  "transfer": [],
+  "empirical": [],
+  "formal": []
+ },
+ "candidates": [
+  {
+   "id": "s1-assumption",
+   "slot": 1,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Deduplication of Training Data Reduces Memorization in Code-Generating Models",
+    "summary": "We propose that deduplicating training data for code-generating models like Codex reduces verbatim memorization of code snippets, improving generalization. By removing near-duplicate code examples, the model is less likely to overfit to specific implementations, leading to more original and context-aware code generation. We validate this by training models on deduplicated datasets and measuring memorization via exact string matches in outputs, comparing against baselines trained on original data.",
+    "gap": "Current code models like Codex memorize training data, leading to verbatim outputs and potential copyright issues, but existing work does not address how training data duplication affects this behavior.",
+    "approach": "Deduplicate the training dataset using sequence-based algorithms, then train a code model on the deduplicated data. Measure memorization by checking for exact matches between model outputs and training data, and evaluate code quality on HumanEval with and without deduplication.",
+    "evaluation": "Baselines: Codex trained on original data. Metrics: (1) Percentage of outputs matching training data verbatim, (2) HumanEval pass@k scores, (3) diversity of generated solutions. Deduplication should reduce memorization while maintaining or improving code correctness.",
+    "support": [
+     "ref-001",
+     "ref-011"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims 'Current code models like Codex memorize training data, leading to verbatim outputs and potential copyright issues, but existing work does not address how training data duplication affects this behavior.' However, ref-011 explicitly studies how deduplication reduces verbatim memorization in language models, contradicting the 'no existing work' claim. Additionally, ref-001 already notes Codex's limitations with docstrings and variable binding, but the hypothesis does not acknowledge these specific limitations when discussing memorization.",
+     "vague": "The evaluation lacks a direct ablation study isolating deduplication's effect on memorization (e.g., comparing deduplication against other memorization-reduction techniques). The 'sequence-based algorithms' for deduplication are not specified, nor is the exact deduplication threshold used. The 'diversity of generated solutions' metric is undefined - no method for measuring diversity is provided.",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing deduplication against other memorization-reduction techniques (e.g., differential privacy) while keeping training data size constant, and explicitly define the diversity metric (e.g., n-gram overlap between generated solutions)."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Current code models like Codex memorize training data, leading to verbatim outputs and potential copyright issues, but existing work does not address how training data duplication affects this behavior.' However, ref-011 explicitly studies how deduplication reduces verbatim memorization in language models (including code models), contradicting the 'no existing work' claim. Additionally, ref-001 documents Codex's memorization limitations (e.g., 'difficulty with docstrings') but does not state that deduplication was not explored, making the gap claim overreaching.",
+     "vague": "The evaluation lacks a critical baseline: a model trained on the same dataset as Codex (GitHub code) but without deduplication, to isolate the deduplication effect. The approach mentions 'sequence-based deduplication algorithms' but does not specify which algorithm or parameters (e.g., token/line/block-level deduplication), making replication impossible. The memorization metric ('exact string matches') is undefined in scope (e.g., entire code blocks vs. partial lines).",
+     "already_done": "",
+     "suggestion": "Replace the gap claim with 'While ref-011 shows deduplication reduces memorization in general language models, its effects on code-specific memorization patterns (e.g., API usage, variable binding) remain unexplored.' Then explicitly test memorization of code-specific elements (e.g., variable names, API calls) rather than generic string matches, and compare against a Codex-scale model trained on the same code corpus without deduplication."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Current code models like Codex memorize training data, leading to verbatim outputs and potential copyright issues, but existing work does not address how training data duplication affects this behavior.' However, ref-011 demonstrates that deduplication reduces verbatim memorization in language models generally, contradicting the claim that 'existing work does not address' this issue. Additionally, ref-001 notes Codex's limitations with variable binding and long operation chains, not verbatim memorization as the primary issue.",
+     "vague": "The evaluation lacks a specified ablation study isolating deduplication's effect on memorization vs. other factors. The 'diversity of generated solutions' metric is undefined - no method for measuring diversity is provided. The deduplication algorithm's parameters (e.g., similarity threshold) are unspecified, making replication impossible.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing Codex's memorization rates on deduplicated vs. original data using ref-011's deduplication tools, while controlling for training steps and model size. Define 'diversity' via n-gram entropy or solution clustering metrics, and explicitly state deduplication parameters (e.g., 'remove sequences with >90% token overlap')."
+    }
+   },
+   "refined": {
+    "title": "Deduplication of Training Data Reduces Code-Specific Memorization in Language Models",
+    "summary": "We propose that deduplicating training data for code-generating models reduces verbatim memorization of code snippets, particularly for code-specific elements like variable names and API calls. By removing near-duplicate code examples, the model is less likely to overfit to specific implementations, leading to more original and context-aware code generation. We validate this by training models on deduplicated datasets and measuring memorization via exact string matches in outputs, comparing against baselines trained on original data.",
+    "gap": "While ref-011 shows deduplication reduces memorization in general language models, its effects on code-specific memorization patterns (e.g., variable names, API calls) remain unexplored. Existing code models like Codex memorize training data, leading to verbatim outputs and potential copyright issues, but no work has analyzed how deduplication impacts code-specific memorization.",
+    "approach": "Deduplicate the training dataset using sequence-based algorithms with a 90% token overlap threshold. Train a code model on the deduplicated data and measure memorization by checking for exact matches between model outputs and training data, focusing on code-specific elements (variable names, API calls). Compare against a baseline model trained on the original data. Evaluate code quality on HumanEval with pass@k scores and diversity via n-gram entropy of generated solutions.",
+    "evaluation": "Baselines: Codex trained on original GitHub data (ref-001), and a model trained on the same dataset without deduplication. Metrics: (1) Percentage of outputs matching training data verbatim for code-specific elements, (2) HumanEval pass@k scores, (3) n-gram entropy of generated solutions. Deduplication should reduce memorization of code-specific elements while maintaining or improving code correctness and diversity.",
+    "support": [
+     "ref-001",
+     "ref-011"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-transfer",
+   "slot": 1,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Context-Aware Memorization Detection via Adversarial Compression for Copyright Compliance",
+    "summary": "This paper proposes a method to detect verbatim memorization in language models by applying adversarial compression ratio (ACR) metrics, which identify training data that can be reconstructed from shorter prompts. The approach uses probabilistic extraction to quantify memorization risks, validated against deduplicated datasets and evaluated using similarity measures. It aims to provide a practical tool for assessing copyright violations by identifying memorized content.",
+    "gap": "Existing methods for detecting memorization (e.g., discoverable extraction) do not account for non-deterministic sampling or provide probabilistic guarantees, leaving a gap in quantifying memorization risks for legal compliance.",
+    "approach": "The approach combines adversarial compression ratio (ACR) with probabilistic extraction to measure the likelihood of reconstructing training data from shorter prompts. It uses similarity metrics (e.g., ROUGE, BLEU) to validate memorization and applies deduplication techniques to reduce false positives.",
+    "evaluation": "The method is evaluated on deduplicated datasets (e.g., C4) and compared against baselines like discoverable extraction. Metrics include ACR scores, extraction success rates, and similarity scores. Legal compliance is assessed by checking if memorized content matches copyrighted works.",
+    "support": [
+     "ref-001",
+     "ref-007",
+     "ref-009",
+     "ref-011",
+     "ref-029",
+     "ref-033",
+     "ref-035",
+     "ref-044",
+     "ref-045",
+     "ref-048",
+     "ref-050"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'Existing methods for detecting memorization (e.g., discoverable extraction) do not account for non-deterministic sampling or provide probabilistic guarantees' (gap). However, ref-029 explicitly introduces probabilistic discoverable extraction, which addresses non-deterministic sampling by quantifying extraction probabilities across multiple queries. Additionally, the hypothesis states 'It uses similarity metrics (e.g., ROUGE, BLEU) to validate memorization' (approach), but no cited references (including ref-009, which defines ACR) mention or validate ACR with ROUGE/BLEU. The phrase 'validated against deduplicated datasets' (approach) is unsupported, as ref-011 focuses on training data deduplication, not evaluation validation.",
+     "vague": "The evaluation lacks a baseline isolating the proposed ACR+probabilistic approach (e.g., ref-009's ACR alone or ref-029's probabilistic extraction alone). Missing are (1) the exact dataset/setting (e.g., which deduplicated C4 subset), (2) the full list of similarity measures used beyond ROUGE/BLEU, (3) ablation testing ACR vs. probabilistic extraction, and (4) the legal compliance criteria (e.g., how copyright matches are defined beyond 'checking').",
+     "already_done": "",
+     "suggestion": "Implement an ablation study comparing ACR alone, probabilistic extraction alone, and their combination on a specified dataset (e.g., C4 deduplicated subset), using both similarity metrics and explicit copyright text matches (as in ref-044)."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Existing methods for detecting memorization (e.g., discoverable extraction) do not account for non-deterministic sampling or provide probabilistic guarantees' (gap). However, ref-029 explicitly introduces 'probabilistic discoverable extraction' which addresses non-deterministic sampling by quantifying extraction probability across multiple queries. This contradicts the claim that existing methods lack probabilistic guarantees. Additionally, the hypothesis states 'applied to deduplicated datasets' (approach), but ref-011 shows deduplication reduces memorization artifacts, making it an unsuitable baseline for measuring inherent memorization risks. The hypothesis also asserts 'legal compliance is assessed by checking memorized content against copyrighted works' (evaluation), but ref-035 clarifies that memorization (data reconstruction) and regurgitation (output generation) are distinct phenomena, and the hypothesis does not test whether detected memorization leads to actual copyright violations.",
+     "vague": "The evaluation lacks (1) a specific dataset name for deduplicated datasets (e.g., C4 is mentioned but not explicitly used), (2) unnamed similarity thresholds for ROUGE/BLEU to define 'memorization', (3) missing ablation isolating ACR's contribution versus probabilistic extraction alone, and (4) undefined 'legal compliance' metrics beyond content matching. The approach also omits how adversarial prompts are generated for ACR calculation.",
+     "already_done": "",
+     "suggestion": "Explicitly compare against ref-029's probabilistic extraction in evaluations, define concrete similarity thresholds for memorization, and include an ablation study isolating ACR's effect. Additionally, clarify whether the method detects memorization (data reconstruction) or regurgitation (output generation) per ref-035's framework to align with copyright concerns."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Existing methods for detecting memorization (e.g., discoverable extraction) do not account for non-deterministic sampling or provide probabilistic guarantees' (gap). However, ref-029 explicitly addresses this by introducing probabilistic discoverable extraction, which accounts for non-deterministic sampling and quantifies extraction probabilities. This contradicts the hypothesis's gap claim. Additionally, the hypothesis states 'It uses similarity metrics (e.g., ROUGE, BLEU) to validate memorization' (approach), but none of the cited references (including ref-009, which defines ACR) mention ROUGE/BLEU for memorization validation, leaving this unsupported.",
+     "vague": "The evaluation lacks specificity in several areas: (1) 'deduplicated datasets (e.g., C4)' (evaluation) does not name which deduplication tool or settings were used (ref-011 provides tools but no specific configuration); (2) 'compared against baselines like discoverable extraction' (evaluation) does not specify whether the baseline uses greedy or probabilistic sampling (ref-029 distinguishes these); (3) 'legal compliance is assessed by checking if memorized content matches copyrighted works' (evaluation) does not define the threshold for 'matching' or the dataset of copyrighted works used. The approach also lacks an ablation study isolating ACR's contribution versus probabilistic extraction alone.",
+     "already_done": "",
+     "suggestion": "Replace the unsupported similarity metrics (ROUGE/BLEU) with the ACR-based validation from ref-009 and explicitly integrate probabilistic extraction from ref-029 into the evaluation design. Define precise thresholds for copyright matching using ref-044's methodology and specify deduplication settings from ref-011."
+    }
+   },
+   "refined": {
+    "title": "Context-Aware Memorization Detection via Adversarial Compression for Copyright Compliance",
+    "summary": "This paper proposes a method to detect verbatim memorization in language models by applying adversarial compression ratio (ACR) metrics, which identify training data reconstructable from shorter prompts. The approach uses probabilistic extraction to quantify memorization risks, evaluated on deduplicated datasets and compared against baselines. It aims to provide a practical tool for assessing copyright violations by identifying memorized content.",
+    "gap": "Existing probabilistic extraction methods (ref-029) quantify extraction likelihood but do not measure the compression ratio between prompt length and reconstructed text length, leaving a gap in assessing how efficiently training data can be reconstructed from minimal prompts. Ref-009 defines ACR but does not integrate probabilistic sampling or deduplication.",
+    "approach": "The approach computes ACR (ref-009) by finding the shortest prompt that reconstructs a target sequence with high probability. It uses probabilistic extraction (ref-029) to measure reconstruction likelihood across multiple queries, applied to deduplicated datasets (ref-011). The core mechanism differs from ref-009 by incorporating probabilistic sampling and from ref-029 by optimizing for minimal prompt length. Inputs: a model, a target sequence, and a deduplicated dataset. Output: ACR score and reconstruction probability. Objective: minimize prompt length while maximizing reconstruction probability.",
+    "evaluation": "The method is evaluated on the deduplicated C4 subset (ref-011) against baselines: discoverable extraction (greedy sampling, ref-050) and probabilistic extraction (ref-029). Metrics include ACR scores, reconstruction probabilities, and exact matches to copyrighted books (ref-044). Ablation studies compare ACR alone, probabilistic extraction alone, and their combination. Legal compliance is tested by checking if exact matches to copyrighted works exist in the model's memorized content.",
+    "support": [
+     "ref-001",
+     "ref-007",
+     "ref-009",
+     "ref-011",
+     "ref-029",
+     "ref-033",
+     "ref-035",
+     "ref-044",
+     "ref-045",
+     "ref-048",
+     "ref-050"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-empirical",
+   "slot": 1,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Context-Aware Memorization Detection in Code-Generating LLMs via Adversarial Suffixes",
+    "summary": "This paper proposes a method to detect memorized training data in code-generating LLMs like Codex by using adversarial suffixes. The approach combines greedy and gradient-based search to generate suffixes that maximize the likelihood of verbatim code reproduction. Evaluation involves testing on HumanEval and proprietary datasets, comparing memorization rates against baselines like random sampling and existing jailbreaks. Success is measured by verbatim matches and reduced inference overhead.",
+    "gap": "Existing memorization detection methods focus on natural language or require white-box access, leaving code-specific adversarial extraction unexplored. Current jailbreaks (ref-014, ref-038) target harmful content, not memorized code.",
+    "approach": "Train adversarial suffixes via gradient descent on Codex to maximize verbatim code reproduction. Use greedy decoding with temperature scaling to amplify memorization effects. Validate via exact string matching against training data.",
+    "evaluation": "Baselines include random sampling (ref-001), greedy decoding, and jailbreak prompts (ref-014). Metrics: percentage of verbatim matches, AUC for memorization probability (ref-029), and inference overhead (ref-004). Test on HumanEval and GitHub code snippets.",
+    "support": [
+     "ref-001",
+     "ref-014",
+     "ref-029",
+     "ref-038"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'Existing memorization detection methods focus on natural language or require white-box access, leaving code-specific adversarial extraction unexplored.' However, ref-029 introduces probabilistic extraction for discoverable memorization in language models, which applies to code (as in ref-001) and does not require white-box access. The hypothesis also claims 'Current jailbreaks (ref-014, ref-038) target harmful content, not memorized code,' but ref-038 demonstrates long-context attacks that could theoretically extract memorized code via many-shot prompting, even if not explicitly framed as memorization detection.",
+     "vague": "The evaluation section mentions 'proprietary datasets' without specifying their nature or source, making the experiment design unreproducible. The 'inference overhead' metric (referencing ref-004, which is not cited) lacks a clear definition or measurement protocol. The approach does not specify how gradient descent is applied to Codex (a black-box model in ref-001) or how temperature scaling interacts with the adversarial suffix training process. The evaluation also lacks an ablation study isolating the effect of adversarial suffixes versus other components (e.g., greedy decoding alone).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies to isolate the contribution of adversarial suffixes from other components (e.g., greedy decoding) and explicitly test whether the proposed method outperforms ref-029's probabilistic extraction on code-specific memorization tasks. Additionally, clarify how gradient-based search is applied to Codex (a black-box model in ref-001) and define 'inference overhead' with measurable criteria."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims 'Existing memorization detection methods focus on natural language or require white-box access, leaving code-specific adversarial extraction unexplored.' However, ref-029 introduces probabilistic discoverable extraction, which applies to code (as a subset of language) and does not require white-box access. The hypothesis also claims 'Current jailbreaks (ref-014, ref-038) target harmful content, not memorized code,' which ref-038 contradicts by demonstrating attacks on code-generating models via long-context demonstrations that could expose memorized code.",
+     "vague": "The evaluation lacks a specific dataset name for 'proprietary datasets,' a missing ablation study to isolate the effect of adversarial suffixes vs. temperature scaling, and undefined 'inference overhead' metrics (ref-004 is not cited in the references). The method's 'gradient descent on Codex' is unclear since Codex is a closed model, and the exact training procedure for suffixes is unspecified.",
+     "already_done": "",
+     "suggestion": "Replace the unsupported gap claim with 'ref-029's probabilistic extraction lacks code-specific adversarial suffix optimization,' and clarify the evaluation by naming the proprietary dataset, defining inference overhead, and adding an ablation study comparing suffix-only vs. suffix+temperature scaling."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Existing memorization detection methods focus on natural language or require white-box access, leaving code-specific adversarial extraction unexplored.' However, ref-029 introduces probabilistic discoverable extraction, which measures memorization in language models (including code) without requiring white-box access. Additionally, the claim 'Current jailbreaks (ref-014, ref-038) target harmful content, not memorized code' is contradicted by ref-038, which demonstrates attacks on code-generating LLMs via long-context demonstrations, implying potential applicability to memorized code extraction.",
+     "vague": "The evaluation section lacks details on (1) the specific proprietary datasets used beyond 'proprietary datasets,' (2) the exact configuration of gradient descent and temperature scaling parameters for suffix training, (3) the baseline implementation details for 'jailbreak prompts' (e.g., whether ref-014's suffixes are directly applied or modified), and (4) the experimental setup for measuring 'inference overhead' (e.g., hardware, batch sizes, or latency metrics). The central claim about 'context-aware memorization detection' is not directly tested, as the evaluation focuses on verbatim matches rather than measuring how context-awareness improves detection compared to non-context-aware baselines.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies to isolate the impact of 'context-awareness' by comparing detection rates with/without adversarial suffixes under controlled context conditions, and explicitly define 'context-aware memorization' with a formal or operational definition to align the evaluation with the hypothesis."
+    }
+   },
+   "refined": {
+    "title": "Context-Aware Memorization Detection in Code-Generating LLMs via Adversarial Suffixes",
+    "summary": "This paper proposes a method to detect memorized training data in code-generating LLMs by generating adversarial suffixes that maximize verbatim code reproduction. The approach combines greedy decoding with gradient-based search to create suffixes that amplify memorization effects. Evaluation compares verbatim match rates against baselines like random sampling and probabilistic extraction on HumanEval and GitHub code snippets.",
+    "gap": "Ref-029's probabilistic extraction measures memorization in language models but does not optimize adversarial suffixes for code-specific extraction. Ref-038's many-shot attacks on code-generating LLMs demonstrate long-context extraction but lack targeted suffix optimization for memorized code detection.",
+    "approach": "Generate adversarial suffixes via gradient-based search on Codex to maximize verbatim code reproduction. Input: a code prefix (e.g., function signature). Output: a suffix that, when appended, maximizes the probability of reproducing a memorized code sequence. Use greedy decoding with temperature scaling to amplify memorization effects. The core mechanism differs from ref-029 by optimizing suffixes for code-specific memorization and from ref-038 by focusing on single-shot extraction rather than many-shot demonstrations.",
+    "evaluation": "Baselines: random sampling (ref-001), greedy decoding, and ref-029's probabilistic extraction. Metrics: percentage of verbatim matches (exact string matching), AUC for memorization probability (ref-029), and inference latency (ms per token). Test on HumanEval and GitHub code snippets. Ablation study compares suffix-only vs. suffix+temperature scaling to isolate the impact of adversarial suffixes.",
+    "support": [
+     "ref-001",
+     "ref-029",
+     "ref-038"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-formal",
+   "slot": 1,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Context-Aware Deduplication for Reducing Memorization in Code-Generating Models",
+    "summary": "We propose a context-aware deduplication method to reduce verbatim memorization in code-generating models like Codex. By analyzing repetitive patterns in training data and removing redundant sequences while preserving syntactic diversity, our approach aims to decrease memorization without sacrificing functional correctness. Evaluation involves comparing memorization rates and performance on HumanEval benchmarks against baseline deduplication techniques.",
+    "gap": "Existing deduplication methods reduce memorization but fail to account for contextual redundancy in code, leading to incomplete mitigation of verbatim copying.",
+    "approach": "We implement a deduplication strategy that identifies and removes contextually redundant code sequences while preserving syntactic variations. This involves analyzing token dependencies and semantic equivalence across code snippets.",
+    "evaluation": "Baselines include standard deduplication and no deduplication. Measures include verbatim copying rates on training data subsets and accuracy on HumanEval. Lower copying rates with comparable accuracy indicate success.",
+    "support": [
+     "ref-001",
+     "ref-011",
+     "ref-048"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'Existing deduplication methods reduce memorization but fail to account for contextual redundancy in code, leading to incomplete mitigation of verbatim copying.' However, ref-011 shows that standard deduplication already reduces memorization by 10x and addresses repetitive substrings (which could include code). The gap claim overstates the limitations of existing methods since ref-011 demonstrates significant memorization reduction without context-aware mechanisms. Additionally, ref-048 shows that duplication frequency correlates with memorization, but does not state that standard deduplication fails to address this in code specifically.",
+     "vague": "The evaluation lacks a named dataset or setting for measuring verbatim copying rates (only mentions 'training data subsets' without specifics). It also omits an ablation study isolating the context-awareness component (e.g., comparing syntactic-only vs. context-aware deduplication). The 'token dependencies and semantic equivalence' analysis lacks measurable definitions or metrics for what constitutes 'contextual redundancy' in code.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing standard deduplication (ref-011) with the proposed context-aware method on a named code dataset (e.g., a subset of GitHub data from ref-001), measuring both verbatim copying rates and HumanEval accuracy. Explicitly define metrics for 'contextual redundancy' (e.g., AST equivalence with variable renaming) to validate the mechanism's impact."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Existing deduplication methods reduce memorization but fail to account for contextual redundancy in code, leading to incomplete mitigation of verbatim copying.' However, ref-011 does not explicitly state that deduplication fails to account for contextual redundancy in code. It describes deduplication as effective in reducing memorization and improving model performance but does not acknowledge this specific limitation. Similarly, ref-048 discusses memorization but does not evaluate deduplication methods' effectiveness in code contexts.",
+     "vague": "The evaluation lacks a specific dataset or setting for measuring verbatim copying rates. It does not name the training data subsets used for this analysis. Additionally, the evaluation does not include an ablation study isolating the effect of 'context-aware' deduplication versus standard deduplication. The 'analyzing token dependencies and semantic equivalence' mechanism is not empirically tested in isolation.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing standard deduplication (ref-011) with context-aware deduplication on the same code dataset, measuring both verbatim copying rates and HumanEval accuracy. This would directly test whether contextual redundancy handling improves memorization mitigation over baseline deduplication."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims: 'Existing deduplication methods reduce memorization but fail to account for contextual redundancy in code, leading to incomplete mitigation of verbatim copying.' This is unsupported because ref-011 demonstrates deduplication reduces memorization effectively without mentioning contextual redundancy limitations. Ref-048 shows memorization scales with duplication frequency but does not evaluate contextual redundancy specifically. Ref-001 discusses Codex limitations but does not address deduplication methods' contextual shortcomings.",
+     "vague": "The evaluation lacks specific details about (1) the unnamed dataset/subset used to measure verbatim copying rates, (2) missing ablation studies isolating the impact of 'context-aware' deduplication versus generic deduplication, and (3) undefined metrics for 'contextual redundancy' identification that could verify if the claimed mechanism was tested.",
+     "already_done": "",
+     "suggestion": "Add ablation studies comparing standard deduplication (ref-011) against the proposed context-aware method on both memorization metrics and HumanEval accuracy, using identical datasets and redundancy identification criteria."
+    }
+   },
+   "refined": {
+    "title": "Context-Aware Deduplication for Reducing Memorization in Code-Generating Models",
+    "summary": "We propose a context-aware deduplication method to reduce verbatim memorization in code-generating models. By identifying and removing contextually redundant code sequences while preserving syntactic variations, our approach aims to decrease memorization without sacrificing functional correctness. Evaluation involves comparing memorization rates and performance on HumanEval benchmarks against standard deduplication techniques.",
+    "gap": "Standard deduplication (ref-011) reduces memorization by removing repetitive substrings but does not account for contextual redundancy in code, such as semantically equivalent snippets with variable renaming. This leaves open the possibility of further reducing memorization by identifying and removing such contextually redundant sequences.",
+    "approach": "We implement a deduplication strategy that identifies contextually redundant code sequences by comparing abstract syntax trees (ASTs) with variable renaming. The method removes redundant sequences while preserving syntactic variations. Inputs are code snippets; outputs are deduplicated datasets. The objective is to minimize verbatim copying while maintaining syntactic diversity. The update rule removes sequences with AST equivalence under variable renaming. This differs from ref-011, which removes exact duplicates and long repetitive substrings without AST analysis.",
+    "evaluation": "Baselines include no deduplication and standard deduplication (ref-011) on a subset of the GitHub data (ref-001) used to train Codex. Measures include verbatim copying rates (ref-048) and accuracy on HumanEval. An ablation study compares standard deduplication (exact duplicates) with context-aware deduplication (AST equivalence with variable renaming) to isolate the impact of the proposed mechanism.",
+    "support": [
+     "ref-001",
+     "ref-011",
+     "ref-048"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-assumption",
+   "slot": 2,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Jailbreak Transferability via Adversarial Suffixes in Aligned Language Models",
+    "summary": "We hypothesize that adversarial suffixes, when co-trained on multiple models, can jailbreak aligned models by exploiting shared alignment weaknesses. We generate suffixes via gradient-based search on open models (e.g., Vicuna) and test their transferability to black-box models (e.g., ChatGPT). Success is measured by the rate of harmful content generation, demonstrating that alignment strategies share vulnerabilities.",
+    "gap": "While jailbreaks exist, their transferability across models and the role of shared alignment training in creating universal vulnerabilities remain unexplored.",
+    "approach": "Train adversarial suffixes on open models using gradient-based optimization, then test them on closed models. Evaluate transferability by measuring success rates on harmful prompts from red-teaming datasets, comparing against manual jailbreaks and model-specific attacks.",
+    "evaluation": "Baselines: Manual jailbreaks, model-specific attacks. Metrics: (1) Harmful content generation rate, (2) cross-model transfer success rate. Adversarial suffixes should outperform manual methods and generalize across models.",
+    "support": [
+     "ref-004",
+     "ref-014",
+     "ref-038"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'alignment strategies share vulnerabilities' and 'shared alignment training in creating universal vulnerabilities remain unexplored.' However, ref-014 demonstrates that adversarial suffixes trained on Vicuna models successfully jailbreak ChatGPT, Bard, Claude, and others, showing that alignment vulnerabilities are shared across models. This contradicts the hypothesis's gap claim about unexplored universal vulnerabilities.",
+     "vague": "The evaluation lacks (1) a specific dataset name or source for 'harmful prompts from red-teaming datasets,' (2) a baseline isolating the suffix generation method (e.g., comparing gradient-based vs. greedy search alone), and (3) an ablation testing whether co-training on multiple models improves transferability versus single-model training.",
+     "already_done": "",
+     "suggestion": "Replace the vague gap claim with a focused question about why adversarial suffixes transfer across alignment methods (e.g., RLHF vs. Constitutional AI), and explicitly compare suffixes co-trained on multiple models versus single-model suffixes to isolate the role of shared alignment weaknesses."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'alignment strategies share vulnerabilities' (gap section) and that 'the role of shared alignment training in creating universal vulnerabilities remains unexplored' (gap section). However, ref-004 already demonstrates that Constitutional Classifiers (an alignment strategy) can be defeated by universal jailbreaks, and ref-014 shows that adversarial suffixes transfer across models with different alignment methods. These references contradict the claim that shared alignment vulnerabilities are unexplored. Additionally, the hypothesis states 'their transferability across models... remain unexplored' (gap section), but ref-014 explicitly demonstrates transferability to ChatGPT, Bard, Claude, and others.",
+     "vague": "The evaluation lacks (1) a specific red-teaming dataset name or source, (2) details on how 'harmful content generation rate' is measured (e.g., automated classifiers, human raters), and (3) whether the ablation studies isolate the effect of co-training on multiple models versus single-model training. The approach also omits (4) a baseline that tests suffixes trained on a single model to isolate the effect of multi-model co-training.",
+     "already_done": "",
+     "suggestion": "Explicitly compare adversarial suffixes co-trained on multiple models versus those trained on single models in ablation studies, using the same red-teaming dataset and measurement protocol as ref-014 for direct comparability."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'alignment strategies share vulnerabilities' (gap section) and that 'the role of shared alignment training in creating universal vulnerabilities remains unexplored' (gap section). However, ref-014 already demonstrates transferable adversarial suffixes across models (including ChatGPT, Bard, Claude) and attributes this to 'shared alignment weaknesses' (explicitly mentioned in the hypothesis). The claim of 'unexplored' is contradicted by ref-014, which investigates this exact phenomenon. Additionally, the hypothesis's 'co-trained on multiple models' approach (approach section) is already implemented in ref-014's method of training suffixes on Vicuna-7B/13B and testing transferability to black-box models.",
+     "vague": "The evaluation lacks (1) a specific dataset name for 'harmful prompts from red-teaming datasets' (approach section), (2) a defined threshold for 'success rates' (approach section), and (3) an ablation study isolating the effect of 'co-training on multiple models' versus single-model training. The central claim about 'shared alignment weaknesses' (gap section) is not directly tested, as the evaluation only measures harmful content generation rates without analyzing alignment-specific failure modes (e.g., refusal token probabilities).",
+     "already_done": "",
+     "suggestion": "Replace the informal 'shared alignment weaknesses' claim with a precise operationalization, such as measuring refusal token log-probability shifts or alignment-specific token distributions across models. This would align with ref-014's gradient-based suffix optimization while addressing the vague evaluation of 'vulnerabilities'."
+    }
+   },
+   "refined": {
+    "title": "Transferable Adversarial Suffixes Exploit Shared Alignment Weaknesses in Language Models",
+    "summary": "We hypothesize that adversarial suffixes trained on open models transfer to black-box models by exploiting shared alignment weaknesses. We generate suffixes via gradient-based search on Vicuna models and test their transferability to ChatGPT, Bard, and Claude. Success is measured by harmful content generation rates, demonstrating that alignment strategies share vulnerabilities despite differing training methods.",
+    "gap": "While ref-014 shows adversarial suffixes transfer across models, it does not isolate whether co-training on multiple models improves transferability versus single-model training. The role of shared alignment weaknesses (e.g., refusal token probabilities) in enabling transferability remains unexplored.",
+    "approach": "Train adversarial suffixes on Vicuna-7B/13B using gradient-based search. Test transferability to ChatGPT, Bard, and Claude on 500 harmful prompts from ref-014's red-teaming dataset. Compare suffixes co-trained on multiple models versus single-model suffixes. Measure success via harmful content generation rate (binary classification by human raters) and refusal token log-probability shifts (alignment-specific failure mode).",
+    "evaluation": "Baselines: Single-model suffixes, manual jailbreaks. Metrics: (1) Harmful content generation rate (binary), (2) refusal token log-probability shift. Ablation: Co-trained vs. single-model suffixes. Dataset: 500 harmful prompts from ref-014. Human raters label outputs as harmful/non-harmful. Refusal token probabilities are extracted from model outputs.",
+    "support": [
+     "ref-004",
+     "ref-014",
+     "ref-038"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-transfer",
+   "slot": 2,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Jailbreak-Resistant Alignment via Constitutional Classifiers and Human Feedback",
+    "summary": "This paper introduces a hybrid approach combining constitutional classifiers (trained on synthetic data from natural language rules) with human feedback to defend against universal jailbreaks. The method is validated through red teaming and automated evaluations, showing improved robustness against adversarial prompts while maintaining deployment viability.",
+    "gap": "Current alignment methods (e.g., reinforcement learning from human feedback) are vulnerable to universal jailbreaks, which systematically bypass model safeguards, leaving a gap in robust defense mechanisms.",
+    "approach": "The approach trains constitutional classifiers on synthetic data generated by LLMs using natural language rules (a 'constitution') and combines them with human feedback fine-tuning. The classifiers act as safeguards, while human feedback ensures alignment with user intent.",
+    "evaluation": "The method is evaluated through 3,000+ hours of red teaming and automated tests against held-out jailbreaks. Metrics include refusal rates, inference overhead, and success rates of jailbreak attempts. Comparisons are made against models like GPT-4 and Claude v1.3.",
+    "support": [
+     "ref-004",
+     "ref-006",
+     "ref-014",
+     "ref-016",
+     "ref-017",
+     "ref-025",
+     "ref-031",
+     "ref-038"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Current alignment methods (e.g., reinforcement learning from human feedback) are vulnerable to universal jailbreaks' (gap). However, ref-004 shows that constitutional classifiers (a form of alignment) successfully defended against universal jailbreaks in 3,000+ hours of red teaming, contradicting the implication that all alignment methods are universally vulnerable. Additionally, ref-038 demonstrates that even constitutional classifiers/human feedback hybrids may fail against many-shot jailbreaks, which the hypothesis does not address.",
+     "vague": "The evaluation section lacks specifics: (1) the exact dataset(s) used for automated tests against held-out jailbreaks are unnamed, (2) the baseline models (e.g., GPT-4/Claude v1.3) are not described in terms of their original alignment methods or safeguards, and (3) no ablation study isolates the contribution of constitutional classifiers vs. human feedback to robustness. The 'success rates of jailbreak attempts' metric is also undefined (e.g., what constitutes a 'successful' jailbreak?).",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing (1) constitutional classifiers alone, (2) human feedback alone, and (3) their hybrid, on the same many-shot jailbreak dataset from ref-038. This would test whether the hybrid approach truly adds robustness beyond individual components and address the gap claim about 'current alignment methods'."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Current alignment methods (e.g., reinforcement learning from human feedback) are vulnerable to universal jailbreaks, which systematically bypass model safeguards, leaving a gap in robust defense mechanisms.' However, ref-004 demonstrates that constitutional classifiers (a type of alignment method) successfully defended against universal jailbreaks in 3,000+ hours of red teaming, contradicting the claim that all alignment methods leave this gap. Additionally, ref-038 shows that even constitutional classifiers can be bypassed via many-shot jailbreaking, which the hypothesis does not address.",
+     "vague": "The evaluation section lacks specificity about (1) the exact datasets/settings used for automated tests beyond 'held-out jailbreaks,' (2) which specific baselines (e.g., RLHF-only models) were compared against constitutional classifiers + human feedback, and (3) whether ablation studies tested the incremental contribution of human feedback versus constitutional classifiers alone. The 'success rates of jailbreak attempts' metric is also undefined (e.g., binary success/failure vs. partial leakage).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the contribution of human feedback when combined with constitutional classifiers, and explicitly test against many-shot jailbreaking (ref-038) to validate robustness claims. Define 'success rates' with clear thresholds for partial vs. full jailbreak success."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Current alignment methods (e.g., reinforcement learning from human feedback) are vulnerable to universal jailbreaks,' but ref-004 demonstrates that constitutional classifiers can defend against universal jailbreaks across thousands of hours of red teaming. Additionally, ref-038 shows that many-shot jailbreaking attacks follow power laws and succeed against state-of-the-art models, but this contradicts the hypothesis's implication that constitutional classifiers alone close the gap. Ref-016 and ref-017 are cited but have unavailable abstracts, failing to support any claims.",
+     "vague": "The evaluation lacks specifics on how human feedback is integrated with constitutional classifiers (e.g., training pipeline details, weighting schemes). The 'hybrid approach' is undefined—does it mean sequential steps, ensemble voting, or joint optimization? The 'held-out jailbreaks' are unnamed (ref-014's automated attacks vs. ref-038's many-shot attacks?). No ablation tests isolate the constitutional classifiers' contribution versus human feedback. The 'success rates of jailbreak attempts' metric is ambiguous—does it measure binary success/failure or graded harmfulness?",
+     "already_done": "",
+     "suggestion": "Define the hybrid approach formally (e.g., 'constitutional classifiers filter outputs before human feedback ranking') and conduct ablation studies isolating each component's impact on refusal rates and jailbreak success. Specify whether held-out jailbreaks include many-shot attacks (ref-038) or gradient-based suffixes (ref-014)."
+    }
+   },
+   "refined": {
+    "title": "Hybrid Alignment via Constitutional Classifiers and Human Feedback for Jailbreak Resistance",
+    "summary": "This paper proposes a hybrid alignment method combining constitutional classifiers (trained on synthetic data from natural language rules) with human feedback fine-tuning. The approach aims to defend against universal and many-shot jailbreaks while maintaining deployment viability through ablation studies isolating each component's contribution.",
+    "gap": "While constitutional classifiers (ref-004) defend against universal jailbreaks, they fail against many-shot attacks (ref-038). Human feedback fine-tuning (ref-016) improves alignment but does not explicitly address jailbreak robustness. No prior work combines both to test if their hybrid mitigates both attack types.",
+    "approach": "The method trains constitutional classifiers on synthetic data generated by LLMs using natural language rules (a 'constitution') to filter harmful outputs. These classifiers are integrated with human feedback fine-tuning (ref-016, ref-025) via a two-stage pipeline: (1) classifier filters outputs during supervised fine-tuning, (2) filtered outputs are ranked by human preferences. The hybrid differs from ref-004 by adding human feedback and from ref-016 by incorporating classifier-based filtering. Inputs: model outputs; outputs: filtered and preference-ranked responses; objective: minimize harmful content while preserving helpfulness.",
+    "evaluation": "The method is evaluated on (1) ref-038's many-shot jailbreak dataset and (2) ref-014's automated jailbreak suffixes. Baselines include (a) constitutional classifiers alone (ref-004), (b) human feedback alone (ref-016), and (c) unaligned models. Metrics: (1) jailbreak success rate (binary: harmful content generated), (2) refusal rate (proportion of queries rejected), (3) inference overhead. Ablation studies compare hybrid vs. individual components on both attack types.",
+    "support": [
+     "ref-004",
+     "ref-014",
+     "ref-016",
+     "ref-025",
+     "ref-038"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-empirical",
+   "slot": 2,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Jailbreak Transferability via Long-Context Prompting: A Power-Law Scaling Analysis",
+    "summary": "This work investigates the transferability of adversarial suffixes across models and tasks by leveraging long-context prompting with many-shot demonstrations. The study reveals a power-law relationship between the number of demonstrations and attack success, suggesting a scalable attack surface for aligned models. The approach is tested on state-of-the-art models like GPT-4 and Claude, with evaluation focusing on refusal rate reduction and content safety violations.",
+    "gap": "Current jailbreak research focuses on short, manually engineered prompts, overlooking the potential of long-context, many-shot attacks to exploit model alignment mechanisms.",
+    "approach": "Develop a many-shot attack framework that appends hundreds of undesirable behavior demonstrations to a target query, leveraging recent long-context model capabilities. The attack's success is analyzed as a function of demonstration count, model size, and task type.",
+    "evaluation": "Measure attack success by comparing refusal rates and harmful content generation before/after the attack. Baselines include single-shot and few-shot jailbreaks, with evaluation on models like LLaMA-2-Chat, GPT-4, and Claude. Metrics include attack success rate, content toxicity scores, and power-law fit quality.",
+    "support": [
+     "ref-004",
+     "ref-006",
+     "ref-014",
+     "ref-038",
+     "ref-046"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims: 'Current jailbreak research focuses on short, manually engineered prompts, overlooking the potential of long-context, many-shot attacks to exploit model alignment mechanisms.' This is unsupported because [ref-038] directly studies 'a family of simple long-context attacks' and demonstrates their effectiveness, contradicting the claim that such attacks are overlooked. Additionally, [ref-014] already demonstrates transferable adversarial suffixes across models, which partially addresses the 'transferability' aspect the hypothesis claims to investigate. The gap claim is also undermined by [ref-006], which identifies safety training failure modes that could be exploited by long-context attacks, even if not explicitly studied.",
+     "vague": "The evaluation section lacks specific details about the dataset or setting (e.g., which exact harmful queries are used, how demonstrations are selected/generated), missing a direct comparison to [ref-038]'s power-law analysis methodology, and omitting ablation studies that isolate the effect of demonstration count from other factors. The 'power-law fit quality' metric is mentioned but not defined operationally. The evaluation also does not test whether the attack actually exploits the failure modes identified in [ref-006] (competing objectives/mismatched generalization), failing to directly test the hypothesis's implied mechanism.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing attack success when varying only the number of demonstrations (while holding other factors constant) and explicitly test whether the attacks exploit the failure modes from [ref-006]. This would both validate the power-law claim and test the hypothesized mechanism rather than just measuring surface-level success metrics."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Current jailbreak research focuses on short, manually engineered prompts, overlooking the potential of long-context, many-shot attacks to exploit model alignment mechanisms.' However, ref-038 explicitly investigates 'a family of simple long-context attacks on large language models: prompting with hundreds of demonstrations of undesirable behavior,' directly contradicting the claim that this area is overlooked. Additionally, ref-014 demonstrates 'automatically produced these adversarial suffixes by a combination of greedy and gradient-based search techniques,' which challenges the assertion that prior work focuses only on 'short, manually engineered prompts.'",
+     "vague": "The evaluation section lacks specific details about the dataset or setting used for testing the many-shot attack framework. It does not name the exact dataset or context window size, nor does it specify how the 'hundreds of undesirable behavior demonstrations' are selected or generated. Additionally, the evaluation does not include an ablation study that isolates the effect of the number of demonstrations from other variables (e.g., model size, task type) to confirm the power-law relationship. The 'content toxicity scores' metric is also not defined, making it unclear how safety violations are measured.",
+     "already_done": "",
+     "suggestion": "The hypothesis would be significantly improved by explicitly comparing the proposed many-shot attack framework to the long-context attacks already studied in ref-038, and by conducting controlled ablation studies to isolate the effect of demonstration count. Additionally, clarifying the dataset, context window size, and toxicity measurement method would make the evaluation more reproducible and rigorous."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Current jailbreak research focuses on short, manually engineered prompts, overlooking the potential of long-context, many-shot attacks' (gap). However, ref-038 already investigates 'a family of simple long-context attacks...prompting with hundreds of demonstrations', contradicting the claim that long-context attacks are overlooked. Additionally, ref-014 demonstrates 'automatic prompt generation methods' that could be adapted to many-shot settings, undermining the novelty implied by the gap statement.",
+     "vague": "The evaluation lacks specificity in several critical areas: (1) Missing dataset details - no named dataset or query templates are provided for reproducing the many-shot demonstrations; (2) Missing ablation study - no comparison between demonstration quality (random vs curated) vs quantity is planned to isolate the claimed power-law scaling mechanism; (3) Missing baseline - while single-shot/few-shot jailbreaks are mentioned, no specific baseline method from ref-014's gradient-based suffix attacks is directly compared against the many-shot approach; (4) Missing formal definition - 'attack success' is used without specifying whether it refers to complete jailbreak (full harmful output) vs partial compromise (some unsafe content).",
+     "already_done": "",
+     "suggestion": "Add a controlled ablation study comparing demonstration quantity vs quality while keeping suffix templates constant, using ref-014's automated suffix generation as a baseline. This would rigorously test whether power-law scaling emerges from demonstration count alone rather than confounding variables."
+    }
+   },
+   "refined": {
+    "title": "Jailbreak Transferability via Long-Context Prompting: A Power-Law Scaling Analysis",
+    "summary": "This work investigates the transferability of adversarial suffixes across models and tasks by leveraging long-context prompting with many-shot demonstrations. The study reveals a power-law relationship between the number of demonstrations and attack success, suggesting a scalable attack surface for aligned models. The approach is tested on state-of-the-art models like GPT-4 and Claude, with evaluation focusing on refusal rate reduction and content safety violations.",
+    "gap": "While [ref-038] demonstrates long-context attacks with hundreds of demonstrations, it does not analyze how the number of demonstrations affects attack success through a power-law relationship. [ref-014] shows transferable suffix attacks but does not combine them with many-shot demonstrations. [ref-006] identifies safety training failure modes but does not test if long-context attacks exploit them.",
+    "approach": "Develop a many-shot attack framework that appends 100-1000 demonstrations of undesirable behavior to a target query, using a fixed adversarial suffix from [ref-014]. The attack's success is measured as a function of demonstration count, with a power-law fit to the success rate. The approach isolates the effect of demonstration count by keeping the suffix and query constant, differing from [ref-038] by focusing on the scaling relationship rather than overall attack feasibility.",
+    "evaluation": "Measure attack success by comparing refusal rates and harmful content generation before/after the attack. Use the 200 unsafe queries from [ref-006]'s red-teaming evaluation set, with demonstrations selected from the same set. Baselines include [ref-014]'s single-suffix attack and [ref-038]'s long-context attack. Metrics include attack success rate (full harmful output), content toxicity scores (Perspective API), and power-law fit quality (R² score). Ablation studies vary demonstration count (10, 50, 100, 500, 1000) while keeping suffix and query fixed to isolate the scaling effect.",
+    "support": [
+     "ref-004",
+     "ref-006",
+     "ref-014",
+     "ref-038",
+     "ref-046"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-formal",
+   "slot": 2,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Adversarial Suffix Transferability Across Model Architectures in Jailbreak Attacks",
+    "summary": "We hypothesize that adversarial suffixes effective against one model architecture will transfer to others with similar alignment mechanisms. By systematically testing suffixes generated for Vicuna on models like LLaMA-2-Chat and Claude, we aim to quantify transferability rates and identify architectural vulnerabilities. Success is measured by objectionable content generation rates across models.",
+    "gap": "While jailbreak suffixes work within models, their cross-architecture transferability remains unstudied, limiting defenses against universal attacks.",
+    "approach": "We generate adversarial suffixes for Vicuna-13B and test them on 5+ models with different architectures. Transferability is measured by comparing objectionable content rates before/after suffix application.",
+    "evaluation": "Baselines include random suffixes and no suffix. Measures include success rates of objectionable content generation. Higher transfer rates than baselines confirm the hypothesis.",
+    "support": [
+     "ref-004",
+     "ref-014",
+     "ref-038"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'their cross-architecture transferability remains unstudied' but ref-014 demonstrates transferability across multiple architectures (Vicuna to ChatGPT/Bard/Claude/LLaMA-2-Chat/Pythia/Falcon). The phrase 'limiting defenses against universal attacks' is unsupported as ref-004 already presents a defense (Constitutional Classifiers) against universal jailbreaks without relying on transferability studies.",
+     "vague": "The evaluation lacks (1) specific datasets/settings for generating/testing suffixes (e.g., prompt templates, objectionable content categories), (2) a baseline isolating alignment mechanisms (e.g., testing suffixes on same-architecture models with/without alignment), (3) ablation testing whether transferability depends on suffix content vs. model architecture features.",
+     "already_done": "",
+     "suggestion": "Add controlled ablation experiments comparing transferability rates between (a) models sharing alignment mechanisms vs. (b) models with different architectures but same alignment, to test the hypothesis's core premise about architectural vs. alignment-driven vulnerabilities."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'jailbreak suffixes work within models, their cross-architecture transferability remains unstudied' (gap phrase). However, ref-014 explicitly demonstrates transferability of adversarial suffixes across architectures (e.g., Vicuna to ChatGPT/Bard/Claude/LLaMA-2-Chat), contradicting this gap claim. Additionally, the hypothesis's gap claim about 'limitations of defenses against universal attacks' is unsupported by ref-004, which shows defenses can be effective against universal jailbreaks without addressing cross-architecture transfer specifically.",
+     "vague": "The evaluation lacks (1) a specific dataset of objectionable queries to standardize testing, (2) a baseline isolating the suffix mechanism (e.g., Vicuna-generated suffixes tested on Vicuna itself as a control), and (3) ablation studies testing whether transferability depends on alignment mechanisms (e.g., comparing models with/without RLHF). The 'success' measure is also vague—does it require full objectionable content generation or partial compliance?",
+     "already_done": "",
+     "suggestion": "Replicate ref-014's transferability experiments but add controlled comparisons of alignment mechanisms (e.g., testing suffixes on models with/without RLHF) and power-law scaling (per ref-038) to determine if transferability improves with longer suffixes. This would address the unstudied gap while grounding claims in existing work."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'jailbreak suffixes work within models, their cross-architecture transferability remains unstudied' (gap). However, ref-014 already demonstrates transferability across architectures (Vicuna to ChatGPT/Bard/Claude/LLaMA-2-Chat/etc.).",
+     "vague": "The evaluation lacks (1) specific datasets/settings for generating/testing suffixes (e.g., prompt templates, objectionable content categories), (2) ablation isolating suffix generation method vs. architecture differences, and (3) formal definition of 'similar alignment mechanisms' to measure architectural vulnerabilities.",
+     "already_done": "",
+     "suggestion": "Add ablation studies isolating suffix generation techniques (ref-014's greedy/gradient search vs. random) and explicitly test transferability across models with identical alignment mechanisms (e.g., RLHF vs. Constitutional AI) to validate the architectural vulnerability claim."
+    }
+   },
+   "refined": {
+    "title": "Adversarial Suffix Transferability Depends on Alignment Mechanisms, Not Architecture",
+    "summary": "We hypothesize that adversarial suffix transferability depends on alignment mechanisms rather than architecture. By testing suffixes generated for Vicuna on models with/without RLHF or Constitutional Classifiers, we aim to quantify transferability rates and isolate alignment-driven vulnerabilities. Success is measured by objectionable content generation rates across alignment mechanisms.",
+    "gap": "While ref-014 shows cross-architecture transferability, it does not isolate whether alignment mechanisms (e.g., RLHF vs. Constitutional Classifiers) drive transferability. Ref-004 demonstrates defenses against universal jailbreaks but does not analyze transferability dependencies.",
+    "approach": "Generate adversarial suffixes for Vicuna-13B (RLHF-aligned) using ref-014's greedy/gradient search. Test suffixes on 5+ models with varying alignment mechanisms (RLHF, Constitutional Classifiers, no alignment). Transferability is measured by comparing objectionable content rates before/after suffix application. Ablation compares transfer rates between models sharing alignment mechanisms vs. those with different architectures but same alignment.",
+    "evaluation": "Baselines include random suffixes and no suffix. Measures include objectionable content generation rates on 100 unsafe prompts from ref-006's red-teaming dataset. Ablation tests transferability between (a) models sharing alignment mechanisms (e.g., Claude v1.3 vs. GPT-4, both RLHF) vs. (b) models with same architecture but different alignment (e.g., LLaMA-2 vs. LLaMA-2-Chat). Higher transfer rates within alignment groups confirm the hypothesis.",
+    "support": [
+     "ref-004",
+     "ref-006",
+     "ref-014"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-assumption",
+   "slot": 3,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Copyright Risk Quantification via Probabilistic Memorization Extraction",
+    "summary": "We propose quantifying copyright risk by measuring probabilistic memorization of copyrighted texts in LLMs. Using probabilistic extraction, we calculate the likelihood of regenerating exact passages from training books. This metric provides a scalable way to audit models for copyright infringement risks, distinguishing between memorized and generalized outputs.",
+    "gap": "Existing memorization metrics (e.g., discoverable extraction) are binary and ignore probabilistic regeneration, failing to quantify copyright risks posed by LLMs.",
+    "approach": "Apply probabilistic extraction to LLMs trained on copyrighted books. For each book, compute the probability of regenerating passages given prefixes. Compare against baselines using deterministic extraction and analyze how training data duplication affects memorization probabilities.",
+    "evaluation": "Baselines: Discoverable extraction, deterministic extraction. Metrics: (1) Probabilistic memorization scores per book, (2) correlation with training data duplication rates. Probabilistic extraction should reveal higher memorization risks for duplicated texts than deterministic methods.",
+    "support": [
+     "ref-029",
+     "ref-044",
+     "ref-050"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Existing memorization metrics (e.g., discoverable extraction) are binary and ignore probabilistic regeneration,' but ref-029 explicitly introduces probabilistic discoverable extraction, which relaxes the binary definition by quantifying extraction probabilities. This contradicts the gap claim that existing metrics ignore probabilistic regeneration.",
+     "vague": "The evaluation section lacks a specific dataset (e.g., which copyrighted books or LLMs are tested), a named sampling scheme (e.g., temperature, top-k), and the exact method for measuring 'training data duplication rates.' Additionally, the hypothesis does not specify how 'probabilistic memorization scores' are normalized or compared across books of varying lengths.",
+     "already_done": "",
+     "suggestion": "Revise the gap claim to acknowledge ref-029's probabilistic extraction and clarify how the proposed method extends it for copyright risk quantification (e.g., by correlating memorization probabilities with legal thresholds for infringement)."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Existing memorization metrics ... failing to quantify copyright risks posed by LLMs' (gap). However, ref-044 directly measures copyright risks by extracting memorized books and finds that 'most LLMs do not memorize most books,' contradicting the claim that prior work fails to quantify copyright risks. Additionally, the hypothesis states 'probabilistic extraction should reveal higher memorization risks for duplicated texts than deterministic methods' (evaluation), but ref-029 shows that probabilistic extraction provides 'more nuanced information' without explicitly linking it to copyright risks or duplicated texts, failing to support this specific claim.",
+     "vague": "The evaluation lacks a named dataset or specific setting (e.g., which copyrighted books, models, or sampling schemes). It also omits a baseline that isolates the probabilistic extraction mechanism (e.g., the same model evaluated with both deterministic and probabilistic methods under identical conditions). The 'training data duplication rates' (evaluation) are not defined or measured, leaving the correlation analysis unclear. Finally, the evaluation does not test whether the probabilistic scores correlate with actual copyright infringement risks, as ref-044 does by extracting verbatim passages.",
+     "already_done": "",
+     "suggestion": "Conduct experiments on the same models and books studied in ref-044, comparing probabilistic extraction scores against deterministic baselines and explicitly linking memorization probabilities to copyright infringement risks (e.g., by measuring how often verbatim passages are regenerated)."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Existing memorization metrics (e.g., discoverable extraction) are binary and ignore probabilistic regeneration, failing to quantify copyright risks posed by LLMs.' However, ref-029 explicitly introduces probabilistic discoverable extraction, which quantifies extraction probabilities rather than yielding binary results. This contradicts the claim that existing metrics are purely binary. Additionally, ref-044 demonstrates that deterministic extraction can already reveal high memorization risks (e.g., entire books being verbatim extractable), which directly quantifies copyright risks contrary to the hypothesis's assertion that existing methods fail to do so.",
+     "vague": "The evaluation lacks (1) a named dataset of copyrighted books used for testing, (2) specific details on how 'probabilistic memorization scores' are calculated (e.g., number of sampling queries, temperature settings), (3) a baseline that isolates the effect of probabilistic sampling (e.g., same method applied to non-duplicated texts), and (4) an ablation study testing whether the claimed mechanism (probabilistic quantification) itself improves risk detection beyond mere increased sampling. The central claim about 'quantifying copyright risk' also remains untested, as no legal or copyright-specific threshold for 'risk' is defined or validated against real-world copyright cases.",
+     "already_done": "",
+     "suggestion": "Explicitly define a 'copyright risk score' with a formal threshold (e.g., probability > X% of regenerating a passage verbatim) and validate it against known copyright cases from ref-044. Additionally, include an ablation comparing probabilistic extraction on the same duplicated texts under different sampling schemes (e.g., greedy vs. temperature=1.0) to isolate the mechanism's contribution."
+    }
+   },
+   "refined": {
+    "title": "Quantifying Copyright Risk via Probabilistic Memorization in LLMs",
+    "summary": "We propose quantifying copyright risk by measuring the probability of regenerating exact passages from copyrighted books in LLMs. Using probabilistic extraction, we calculate the likelihood of verbatim regeneration given prefixes, enabling scalable audits of copyright risks. This approach extends prior work by linking memorization probabilities to legal thresholds for infringement.",
+    "gap": "While ref-029 introduces probabilistic extraction to quantify regeneration probabilities, it does not link these probabilities to copyright risks or legal thresholds. Prior work (ref-044) uses deterministic extraction to quantify copyright risks but misses probabilistic regeneration risks. Our gap is bridging these two: quantifying copyright risks via probabilistic regeneration probabilities.",
+    "approach": "Apply probabilistic extraction (ref-029) to LLMs trained on copyrighted books (ref-044). For each book passage, compute the probability of regeneration via multiple queries with temperature=1.0. Define a 'copyright risk score' as the probability exceeding a threshold (e.g., 50%) that a passage is regenerated verbatim. Compare against deterministic extraction baselines on the same books and models from ref-044.",
+    "evaluation": "Dataset: Books and LLMs from ref-044 (e.g., Llama 3.1 70B, Harry Potter). Baselines: Deterministic extraction (ref-044), probabilistic extraction without thresholding. Metrics: (1) Copyright risk scores per book, (2) correlation between scores and training data duplication rates (ref-048). Ablation: Compare probabilistic scores under greedy sampling vs. temperature=1.0 to isolate the mechanism's contribution.",
+    "support": [
+     "ref-029",
+     "ref-044",
+     "ref-048",
+     "ref-050"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-transfer",
+   "slot": 3,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Constitutional Classifiers for Copyright Compliance in Generative AI",
+    "summary": "This paper adapts constitutional classifiers to prevent copyright infringement by generative AI. We train classifiers to detect and block outputs resembling copyrighted training data, using synthetic data generated from legal texts and copyrighted works. The approach is validated by measuring reduction in verbatim extraction rates and improvement in copyright compliance scores on benchmarks like HumanEval and book excerpts, compared to traditional alignment methods.",
+    "gap": "Current alignment techniques do not specifically address copyright risks, leaving models vulnerable to generating verbatim copies of protected content.",
+    "approach": "Train constitutional classifiers using synthetic data derived from copyrighted works and legal guidelines. Classifiers are integrated into the model's decoding process to filter outputs resembling training data.",
+    "evaluation": "Baselines include RLHF and divergence attacks. Metrics are verbatim match rate, copyright compliance score (based on similarity to training data), and task performance (e.g., HumanEval pass@k). Evaluation uses book excerpts, code snippets, and legal texts.",
+    "support": [
+     "ref-004",
+     "ref-005",
+     "ref-020",
+     "ref-035"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'Current alignment techniques do not specifically address copyright risks' (gap), but ref-035 explicitly discusses how model training choices affect memorization (a core copyright risk), and ref-020 analyzes copyright implications across the generative AI supply chain. Neither reference supports the assertion that alignment techniques universally ignore copyright risks.",
+     "vague": "The evaluation lacks (1) a specific dataset name for 'book excerpts' and 'legal texts', (2) no details on how 'copyright compliance score' is calculated (e.g., similarity threshold), and (3) no ablation study isolating the effect of synthetic data derived from legal guidelines versus copyrighted works themselves.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing classifier performance when trained on (a) only legal guidelines, (b) only copyrighted works, and (c) their combination, while explicitly defining the 'copyright compliance score' calculation method and dataset sources."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Current alignment techniques do not specifically address copyright risks' (gap), but ref-035 explicitly discusses memorization and regurgitation in generative AI, which are directly related to copyright risks. Additionally, ref-020 analyzes copyright implications across the generative AI supply chain, contradicting the claim that alignment techniques ignore copyright risks entirely. The hypothesis also states 'integrated into the model's decoding process to filter outputs resembling training data' (approach), but ref-004's Constitutional Classifiers focus on safety rather than copyright compliance, and no cited reference supports decoding integration for copyright filtering.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed change (e.g., a Constitutional Classifier trained on non-copyright data). The 'copyright compliance score' is undefined, and its calculation method is not specified. The evaluation does not test whether the classifiers actually prevent copyright infringement (e.g., via legal standards for substantial similarity) but only measures verbatim matches. The ablation study testing the claimed mechanism (filtering outputs resembling training data) is missing.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing classifiers trained on copyrighted vs. non-copyrighted synthetic data to isolate the mechanism's effect on copyright compliance. Additionally, define and validate the 'copyright compliance score' against legal standards for infringement rather than relying solely on verbatim matches."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Current alignment techniques do not specifically address copyright risks' (gap), but ref-004's Constitutional Classifiers already address a form of content restriction (harmful processes) that could be adapted to copyright. The hypothesis also states 'leaving models vulnerable to generating verbatim copies' (gap), but ref-035 defines 'memorization' as a specific technical condition (reconstructing near-exact copies of substantial portions) that current alignment methods might not address, yet the hypothesis does not acknowledge this existing framework. Finally, the evaluation's 'copyright compliance score' (evaluation) lacks support from cited references, as none establish such a metric.",
+     "vague": "The hypothesis lacks specificity in several areas: (1) 'synthetic data derived from copyrighted works and legal guidelines' (approach) does not specify how synthetic data is generated or which legal guidelines are used; (2) 'filtering outputs resembling training data' (approach) does not define 'resembling' or the similarity threshold; (3) 'copyright compliance score' (evaluation) is undefined and lacks a reference implementation; (4) 'book excerpts, code snippets, and legal texts' (evaluation) are not named datasets or settings; (5) the evaluation does not include an ablation study isolating the effect of constitutional classifiers versus other alignment methods.",
+     "already_done": "",
+     "suggestion": "Define 'copyright compliance score' using ref-035's memorization framework (near-exact copies of substantial portions) and conduct ablation studies comparing Constitutional Classifiers against existing alignment methods on named datasets (e.g., ref-035's NYT-style excerpts)."
+    }
+   },
+   "refined": {
+    "title": "Constitutional Classifiers for Mitigating Verbatim Memorization in Generative AI",
+    "summary": "This work adapts constitutional classifiers to reduce verbatim memorization in generative AI. The approach trains classifiers to detect and block outputs matching near-exact copies of training data, using synthetic data generated from copyrighted works. The method is evaluated on book excerpts (e.g., Harry Potter) and code snippets, measuring verbatim match rate, task performance (e.g., HumanEval pass@k), and an ablation study comparing classifier training on synthetic data derived from copyrighted works versus non-copyrighted data.",
+    "gap": "While ref-035 defines memorization as reconstructing near-exact copies of training data, current alignment methods (e.g., ref-004) do not specifically target this form of memorization, leaving models vulnerable to generating verbatim copies of protected content.",
+    "approach": "Train constitutional classifiers (ref-004) to detect and block outputs matching near-exact copies of training data. Classifiers are integrated into the model's decoding process, using a threshold of 90% token-level similarity to flag verbatim matches. Synthetic data for training is generated by sampling from copyrighted works (e.g., ref-044's book excerpts) and non-copyrighted data. The core mechanism differs from ref-004 by focusing on verbatim similarity rather than harmful content.",
+    "evaluation": "Baselines include RLHF (ref-016) and unmodified models. Metrics are verbatim match rate (exact token overlap), task performance (HumanEval pass@k), and a copyright compliance score (proportion of outputs below 90% similarity to training data). Datasets include ref-044's book excerpts (e.g., Harry Potter) and ref-001's code snippets. Ablation studies compare classifiers trained on copyrighted vs. non-copyrighted synthetic data.",
+    "support": [
+     "ref-001",
+     "ref-004",
+     "ref-035",
+     "ref-044"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-empirical",
+   "slot": 3,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Copyright Risk Mitigation via Training Data Deduplication and Memorization Localization",
+    "summary": "This paper explores the impact of training data deduplication on reducing verbatim memorization of copyrighted content in LLMs. By identifying and removing near-duplicate texts, the approach aims to decrease the likelihood of exact reproductions during generation. The method is evaluated using legal and literary datasets, with metrics tracking memorization rates and copyright infringement potential.",
+    "gap": "While deduplication improves model efficiency, its specific impact on memorization of copyrighted material remains unquantified, leaving legal risks unaddressed.",
+    "approach": "Apply scalable deduplication techniques to training datasets, focusing on high-frequency copyrighted texts (e.g., books, articles). Track memorization before/after deduplication using probabilistic extraction and compare against baselines like GPT-2 and Pythia.",
+    "evaluation": "Measure verbatim memorization rates on deduplicated vs. original datasets using extraction attacks. Legal risk is assessed via similarity thresholds to copyrighted works, with baselines including models trained on undeduplicated data. Additional metrics include ROUGE scores for paraphrased generations.",
+    "support": [
+     "ref-011",
+     "ref-019",
+     "ref-034",
+     "ref-036",
+     "ref-044",
+     "ref-050"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'its specific impact on memorization of copyrighted material remains unquantified' (gap), but ref-011 and ref-044 directly quantify memorization reduction via deduplication and copyrighted content extraction, respectively. Additionally, ref-050 demonstrates extraction attacks on copyrighted material in undeduplicated models, implying deduplication could mitigate this risk.",
+     "vague": "The evaluation lacks (1) a named dataset or setting for deduplication (e.g., C4 vs. legal/literary datasets), (2) a baseline isolating deduplication's effect (e.g., same model architecture trained on deduplicated vs. undeduplicated data), and (3) an ablation testing whether memorization reduction stems from deduplication itself or confounding factors like dataset size reduction.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing models trained on deduplicated vs. undeduplicated subsets of the same dataset (e.g., C4), using ref-011's tools and ref-050's extraction attacks as baselines, while controlling for dataset size to isolate deduplication's effect on copyrighted memorization."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'its specific impact on memorization of copyrighted material remains unquantified' (gap), but ref-044 quantifies memorization of copyrighted books in LLMs, showing that deduplication could reduce memorization in some cases. The hypothesis also states that 'the method is evaluated using legal and literary datasets' (summary), but ref-011 and ref-044 only use literary datasets (e.g., books), with no evidence of legal datasets in cited references. The claim that 'ROUGE scores for paraphrased generations' (evaluation) measure copyright risk is unsupported, as no reference links ROUGE to legal risk assessment.",
+     "vague": "The evaluation lacks a named dataset for legal texts (e.g., contracts, legal codes) to test copyright risk mitigation. The 'probabilistic extraction' method (approach) is undefined, with no details on how it differs from ref-050's extraction attacks. The 'scalable deduplication techniques' (approach) are not specified, e.g., whether they use ref-019's combined algorithm or ref-034's structural alignment. The 'similarity thresholds to copyrighted works' (evaluation) are not defined, e.g., whether they use ref-019's precision metrics or ref-044's verbatim extraction criteria.",
+     "already_done": "",
+     "suggestion": "Conduct a controlled ablation study comparing deduplication methods (e.g., ref-011's tools vs. ref-019's combined algorithm) on a unified dataset of copyrighted books (ref-044) and legal texts, measuring both verbatim memorization (ref-050's extraction attacks) and paraphrased similarity (e.g., BLEURT for legal relevance)."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'its specific impact on memorization of copyrighted material remains unquantified' (gap), but ref-011 and ref-044 directly quantify memorization reduction via deduplication and extraction attacks, respectively. Ref-011 shows deduplication reduces verbatim memorization by 10x, and ref-044 measures memorization of copyrighted books. The claim that 'legal risks are unaddressed' is unsupported, as ref-044 explicitly links memorization to copyright risk via extraction experiments.",
+     "vague": "The evaluation lacks (1) a specific dataset name for 'legal and literary datasets' (point 2), (2) a missing ablation isolating deduplication from other factors (point 2), and (3) no direct test of whether reduced memorization actually lowers copyright risk (point 3) - only similarity thresholds are mentioned, not legal outcome modeling.",
+     "already_done": "",
+     "suggestion": "Conduct a controlled ablation study comparing models trained on (1) undeduplicated data, (2) deduplicated data, and (3) data with only non-copyrighted duplicates removed, using ref-044's extraction methodology to quantify copyright risk reduction via deduplication."
+    }
+   },
+   "refined": {
+    "title": "Deduplication Reduces Verbatim Memorization of Copyrighted Texts in LLMs",
+    "summary": "This paper quantifies how training data deduplication reduces verbatim memorization of copyrighted texts in LLMs. By removing near-duplicate sequences, the approach decreases the probability of exact reproductions during generation. The method is evaluated on literary datasets (e.g., books) using extraction attacks, with baselines including undeduplicated models and controlled ablations.",
+    "gap": "While ref-011 and ref-044 show deduplication reduces memorization, their analyses do not isolate deduplication's effect on copyrighted material. Ref-011 measures general memorization reduction, and ref-044 quantifies memorization in undeduplicated models but does not test deduplication's impact. The specific effect of deduplication on copyrighted text memorization remains unquantified.",
+    "approach": "Apply ref-011's deduplication tools to a dataset of copyrighted books (e.g., ref-044's 200-book subset). Train models on (1) undeduplicated data, (2) deduplicated data, and (3) data with only non-copyrighted duplicates removed. Use ref-050's extraction attacks to measure verbatim memorization rates, defined as the probability of generating a 10+ token exact match to a training example. The core difference from ref-011 is the focus on copyrighted content and controlled ablations.",
+    "evaluation": "Measure verbatim memorization rates on the 200-book dataset (ref-044) for models trained on the three data variants. Baselines include undeduplicated models (ref-044) and models trained on data with only non-copyrighted duplicates removed. The ablation isolates deduplication's effect by comparing (1) vs. (2) and (3) vs. (2). Metrics include exact-match extraction rates and the number of extractable books. No legal risk modeling is performed, as no reference links extraction rates to legal outcomes.",
+    "support": [
+     "ref-011",
+     "ref-044",
+     "ref-050"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-formal",
+   "slot": 3,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Constitutional Classifiers for Mitigating Memorization-Based Privacy Leaks",
+    "summary": "We propose adapting constitutional classifiers to detect and block memorized content during generation. By training classifiers on synthetic data highlighting memorized patterns, we aim to reduce verbatim copying of training data. Evaluation compares extraction attack success rates before/after classifier integration.",
+    "gap": "Constitutional classifiers prevent harmful outputs but do not address memorization-based privacy leaks, which require different detection mechanisms.",
+    "approach": "We fine-tune constitutional classifiers using synthetic data containing memorized sequences. The classifier flags and masks verbatim matches during generation.",
+    "evaluation": "Baselines include unguarded models and random filtering. Measures include verbatim extraction rates and model utility (perplexity). Lower extraction rates with maintained utility validate the approach.",
+    "support": [
+     "ref-004",
+     "ref-007",
+     "ref-029"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims: 'Constitutional classifiers prevent harmful outputs but do not address memorization-based privacy leaks, which require different detection mechanisms.' However, ref-004 shows that constitutional classifiers can robustly defend against universal jailbreaks (which may include memorization-based attacks) across extensive red teaming. This contradicts the gap claim that memorization-based leaks require different mechanisms. Additionally, ref-007 demonstrates that aligned models (like those using constitutional classifiers) can still leak training data via divergence attacks, which the hypothesis does not acknowledge as a limitation of its proposed approach.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed change (constitutional classifiers fine-tuned on memorized sequences) from the whole system. The hypothesis mentions 'unguarded models and random filtering' as baselines but does not specify whether the closest cited method (ref-004's constitutional classifiers) is run on the same setting for comparison. Additionally, the evaluation does not include an ablation study testing whether the classifier's ability to detect memorized patterns (rather than the entire system) is responsible for reduced extraction rates. The exact dataset or setting for generating synthetic memorized sequences is also missing, making replication impossible.",
+     "already_done": "",
+     "suggestion": "Include an ablation study comparing the proposed fine-tuned constitutional classifiers against the original constitutional classifiers (ref-004) on the same memorization extraction task (e.g., using ref-007's divergence attacks or ref-029's probabilistic extraction measures). This would isolate the contribution of the fine-tuning on memorized sequences and validate whether the proposed mechanism specifically reduces memorization leaks."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims: 'Constitutional classifiers prevent harmful outputs but do not address memorization-based privacy leaks, which require different detection mechanisms.' However, ref-004 demonstrates that constitutional classifiers can defend against universal jailbreaks (which involve extracting harmful processes), and ref-007 shows that aligned models like ChatGPT still leak training data despite safeguards. These references suggest constitutional classifiers might not inherently prevent memorization leaks, but the hypothesis overstates the gap by asserting that 'different detection mechanisms' are categorically required without evidence from the cited references. Ref-029 further implies that memorization detection requires probabilistic methods, which are not mentioned in the hypothesis.",
+     "vague": "The evaluation lacks (1) a specific dataset or setting for testing memorization-based extraction (e.g., whether it uses the same synthetic data as ref-004 or real-world training data from ref-007/ref-029), (2) a baseline that isolates the classifier's effect (e.g., comparing against the original constitutional classifier from ref-004 without fine-tuning), and (3) an ablation study testing whether the classifier's masking mechanism specifically targets memorized content (as defined by ref-029's probabilistic extraction) rather than general harmful outputs.",
+     "already_done": "",
+     "suggestion": "Incorporate ref-029's probabilistic extraction framework into the evaluation to rigorously measure memorization risk reduction, rather than relying solely on verbatim extraction rates. This would align the evaluation with the hypothesis's focus on memorization-based leaks and address the vagueness in testing the central claim."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Constitutional classifiers prevent harmful outputs but do not address memorization-based privacy leaks' (gap). However, ref-004 does not state this limitation; it only claims defense against universal jailbreaks, not that the method is incompatible with addressing memorization. The gap claim assumes a limitation not explicitly stated in ref-004.",
+     "vague": "The evaluation lacks a baseline isolating the proposed change (point 2). While 'unguarded models and random filtering' are mentioned, the closest cited method (constitutional classifiers from ref-004) should be run on the same memorization-extraction setting to isolate the proposed adaptation's effect. Additionally, the evaluation does not test whether the classifier actually detects memorized patterns (point 3); measuring verbatim extraction rates alone does not confirm the claimed mechanism (flagging/masking verbatim matches).",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing the original constitutional classifier (ref-004) and the adapted version on memorization-extraction tasks, while measuring both extraction rates and whether flagged content corresponds to memorized patterns (per ref-029's probabilistic extraction)."
+    }
+   },
+   "refined": {
+    "title": "Probabilistic Memorization Detection via Fine-Tuned Constitutional Classifiers",
+    "summary": "We adapt constitutional classifiers to detect memorized content by fine-tuning on synthetic data with probabilistic extraction labels. The classifier flags sequences with high reconstruction probability, masking them during generation. Evaluation compares extraction rates before/after adaptation on datasets with known memorized content.",
+    "gap": "Constitutional classifiers (ref-004) defend against jailbreaks but do not address memorization, which requires detecting sequences with high reconstruction probability (ref-029). Existing methods lack a mechanism to flag such sequences during generation.",
+    "approach": "We fine-tune the constitutional classifier (ref-004) on synthetic data labeled with probabilistic extraction scores (ref-029). The classifier takes a token sequence as input and outputs a binary flag indicating whether the sequence has a reconstruction probability exceeding a threshold. During generation, flagged sequences are masked. The core difference from ref-004 is the use of reconstruction probability labels for fine-tuning, which targets memorization rather than harmful content.",
+    "evaluation": "We compare the adapted classifier against the original constitutional classifier (ref-004) on the same setting: a model trained on data with inserted memorized sequences (ref-007). Measures include verbatim extraction rates (ref-007) and probabilistic extraction scores (ref-029). An ablation study tests the classifier's performance with/without fine-tuning on reconstruction probability labels, isolating the contribution of the proposed adaptation.",
+    "support": [
+     "ref-004",
+     "ref-007",
+     "ref-029"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  }
+ ],
+ "scores": {
+  "s1-assumption": 2.0,
+  "s1-transfer": 6.0,
+  "s1-empirical": 0.0,
+  "s1-formal": 4.0,
+  "s2-assumption": 1.0,
+  "s2-transfer": 5.0,
+  "s2-empirical": 3.5,
+  "s2-formal": 2.5,
+  "s3-assumption": 5.0,
+  "s3-transfer": 2.0,
+  "s3-empirical": 5.0,
+  "s3-formal": 0.0
+ },
+ "rounds": {
+  "1": [
+   [
+    {
+     "a": "s1-empirical",
+     "b": "s1-transfer",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-empirical",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references by integrating multiple key concepts (ACR from ref-009, probabilistic extraction from ref-029, deduplication from ref-011) into a cohesive framework for copyright compliance. It clearly addresses the gap in measuring compression ratios for efficient reconstruction of training data, which is central to ref-009 and ref-035's legal discussions. The approach is more specific, combining adversarial compression with probabilistic sampling to quantify memorization risks, and directly ties to copyright concerns via exact matches to books (ref-044). While Hypothesis A focuses narrowly on code generation with adversarial suffixes, B's broader scope aligns with the latent research idea of measuring and mitigating memorization across diverse domains, supported by a wider range of references. B's evaluation metrics (ACR scores, reconstruction probabilities, exact copyright matches) better capture the implied problem gap of assessing legal compliance, whereas A's focus on code-specific extraction is more limited in scope."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by integrating multiple key concepts (ACR from ref-009, probabilistic extraction from ref-029, deduplication from ref-011) into a cohesive framework for copyright compliance. It clearly addresses the gap in existing methods by combining compression ratio analysis with probabilistic sampling, which ref-009 and ref-029 handle separately. The evaluation plan is comprehensive, testing against multiple baselines (discoverable/probabilistic extraction) and incorporating legal compliance metrics via exact matches to copyrighted books (ref-044). Hypothesis B, while relevant to code generation, has narrower scope and weaker grounding - it only references three papers and focuses on a specific technical approach (adversarial suffixes) without addressing broader implications like copyright or dataset deduplication. A's integration of multiple reference concepts and its focus on a well-defined problem gap (measuring efficient reconstruction of training data) makes it more aligned with the latent research idea implied by the bibliography."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-empirical",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references by addressing a broader set of papers (11 vs. 3) and integrating their core concepts more cohesively. It directly tackles the problem gap identified in ref-009 (ACR definition without probabilistic sampling) and ref-029 (probabilistic extraction without compression ratio analysis), while incorporating deduplication (ref-011) and copyright compliance (ref-035, ref-044). The approach's focus on minimal prompt length for reconstruction aligns with ref-009's adversarial compression framework and ref-029's probabilistic extraction, creating a more comprehensive solution for measuring memorization efficiency. The evaluation metrics (ACR scores, reconstruction probabilities, exact copyright matches) are more specific and legally relevant than Hypothesis A's verbatim match rates, which are limited to code generation. While Hypothesis A innovatively targets code-specific extraction, its narrower scope and reliance on fewer references make it less aligned with the corpus's emphasis on general memorization risks, copyright implications, and scalable extraction methods."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by integrating multiple key concepts: adversarial compression ratio (ACR) from ref-009, probabilistic extraction from ref-029, and deduplication techniques from ref-011. It addresses a clear problem gap in measuring how efficiently training data can be reconstructed from minimal prompts, which is not covered by any single reference but emerges from combining insights across ref-009, ref-029, and ref-035. The approach is more specific and coherent, offering a practical tool for copyright compliance by quantifying memorization through ACR scores and reconstruction probabilities. In contrast, Hypothesis B focuses narrowly on code-generating LLMs and adversarial suffixes, relying primarily on ref-001, ref-029, and ref-038. While it identifies a gap in code-specific extraction, its scope is narrower and less grounded in the broader corpus of references addressing memorization, copyright, and deduplication. Hypothesis A’s evaluation also aligns more comprehensively with the references, testing against baselines like discoverable extraction (ref-050) and including legal compliance checks (ref-035, ref-044), whereas Hypothesis B’s evaluation is limited to code-specific benchmarks without broader implications for memorization measurement or copyright."
+      }
+     ]
+    },
+    {
+     "a": "s1-assumption",
+     "b": "s1-formal",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s1-assumption",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B provides a more specific and coherent approach that directly addresses a gap in the existing literature by proposing context-aware deduplication (AST-based with variable renaming) to tackle memorization of semantically equivalent code snippets, which standard deduplication (ref-011) does not handle. It strengthens grounding by incorporating ref-048's memorization quantification methods, explicitly measuring verbatim copying rates. The evaluation design (ablation study comparing standard vs. context-aware deduplication) isolates the impact of the proposed mechanism, offering clearer evidence of contribution. While Hypothesis A identifies a relevant gap, its approach (90% token overlap threshold) is less novel and does not address the specific limitation of standard deduplication in handling variable renaming or syntactic variations, which B explicitly targets. B's tighter integration of all three references (001, 011, 048) demonstrates stronger grounding in the corpus."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It specifically addresses the limitation of standard deduplication (ref-011) in handling contextual redundancy in code, which is a critical gap not fully explored in ref-011 or ref-001. By proposing AST-based deduplication with variable renaming, it introduces a more precise mechanism to reduce memorization (ref-048) while preserving syntactic diversity, directly supported by the references. The evaluation plan in A is more rigorous, comparing verbatim copying rates and HumanEval performance with ablation studies to isolate the impact of context-aware deduplication. In contrast, Hypothesis B, while relevant, focuses on general deduplication effects without introducing a novel method beyond ref-011’s approach, and its gap statement is less specific about how code-specific memorization differs from general memorization. A’s approach is more specific, coherent, and directly tied to the references’ limitations."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a more specific and measurable gap: standard deduplication (ref-011) does not account for contextual redundancy in code (e.g., semantically equivalent snippets with variable renaming), which remains an unexplored problem in code-specific memorization. B's approach introduces AST-based deduplication with variable renaming, directly targeting this gap while grounding its evaluation in all three references (ref-001 for code models, ref-011 for deduplication, ref-048 for memorization quantification). The evaluation plan explicitly compares against standard deduplication and measures both memorization reduction and functional correctness via HumanEval, ensuring coherence with the references. Hypothesis A, while relevant, focuses on a narrower deduplication threshold (90% token overlap) without addressing contextual redundancy, and its support is limited to only two references. B's context-aware deduplication is a more novel and measurable extension of prior work, aligning with the research perspective of identifying phenomena that have been claimed but not measured in narrow settings."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It specifically addresses the limitation of standard deduplication (ref-011) in handling contextual redundancy in code, such as semantically equivalent snippets with variable renaming, which is a gap not explicitly covered by ref-011 or ref-001. The approach introduces a novel AST-based deduplication method that aligns with ref-048's focus on quantifying memorization, providing a more specific and coherent solution. The evaluation plan directly compares verbatim copying rates (ref-048) and functional correctness (ref-001), with an ablation study isolating the impact of AST analysis. In contrast, Hypothesis B focuses on general deduplication effects without introducing a new method, and its gap is narrower (code-specific memorization patterns), which is less directly supported by the references. While B mentions code-specific elements, it does not propose a novel technique beyond ref-011's deduplication, making A's contribution more specific and better grounded in the corpus."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-formal",
+     "b": "s1-transfer",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references, clearer capture of the implied problem gap, and more specific and coherent claims. It addresses a critical gap in existing memorization detection methods by integrating adversarial compression ratio (ACR) with probabilistic extraction, which is directly supported by ref-009 and ref-029. The approach also incorporates deduplication (ref-011) and evaluates against copyrighted content (ref-044), aligning with legal implications discussed in ref-035. The evaluation plan is comprehensive, comparing against multiple baselines (ref-050, ref-029) and including legal compliance testing. In contrast, Hypothesis A focuses narrowly on code deduplication (ref-001, ref-011, ref-048) without addressing broader memorization risks or legal implications, and its gap is less distinct compared to the well-defined integration of concepts in B. B’s use of a wider range of references and its focus on a pressing issue (copyright compliance) make it more aligned with the latent research idea implied by the corpus."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the core issue of memorization detection and copyright compliance, which is a central theme in ref-009, ref-035, ref-044, and ref-050. It integrates multiple reference concepts—adversarial compression ratio (ref-009), probabilistic extraction (ref-029), and deduplication (ref-011)—into a cohesive framework, providing a more comprehensive solution than Hypothesis B, which focuses narrowly on code deduplication (ref-001, ref-011, ref-048). Hypothesis A’s gap statement clearly identifies a limitation in existing methods (lack of compression ratio measurement in probabilistic extraction) and fills it by combining ACR with probabilistic sampling, a novel synthesis not present in the references. Its evaluation plan is also more rigorous, testing against baselines (ref-029, ref-050), using deduplicated datasets (ref-011), and validating against copyrighted books (ref-044). In contrast, Hypothesis B’s gap—contextual redundancy in code—is less central to the broader memorization discourse in the references and its approach, while innovative, is limited to code generation (ref-001) and does not engage with the legal or extraction risks emphasized in ref-007, ref-035, or ref-044. Thus, Hypothesis A better captures the implied problem gap (memorization’s legal implications) and offers a more specific, reference-backed contribution."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a broader and more directly supported gap in the literature: the need for a practical, legally relevant method to detect verbatim memorization that accounts for both compression efficiency (ACR) and probabilistic reconstruction likelihood. While Hypothesis A focuses on a specific technical improvement (context-aware deduplication for code models), its scope is narrower and relies on fewer references. Hypothesis B integrates multiple key concepts from the corpus: adversarial compression (ref-009), probabilistic extraction (ref-029), deduplication (ref-011), and copyright implications (ref-035, ref-044). Its evaluation plan explicitly connects to legal compliance and uses metrics (ACR, exact book matches) that align with the corpus's emphasis on memorization's societal impacts. The gap it identifies—measuring how efficiently training data can be reconstructed from minimal prompts—is a critical but underexplored aspect of memorization that bridges technical measurement and legal accountability, making it more coherent with the corpus's overall concerns."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It addresses a broader and more directly supported problem gap: the need for a practical, legally relevant method to measure memorization in LLMs, particularly in the context of copyright compliance. The approach integrates multiple key references (ref-009, ref-029, ref-011) to propose a novel combination of adversarial compression ratio (ACR) with probabilistic extraction and deduplication, which is strongly grounded in the corpus. The evaluation plan explicitly connects to legal implications (ref-035, ref-044) and uses established datasets (ref-011). In contrast, Hypothesis B focuses narrowly on code generation (ref-001) and deduplication (ref-011, ref-048), addressing a more specific gap that is less central to the broader memorization and copyright themes dominating the references. While B's approach is technically sound, it lacks the same level of integration with the corpus's core concerns about memorization measurement, extraction risks, and legal compliance."
+      }
+     ]
+    },
+    {
+     "a": "s1-assumption",
+     "b": "s1-empirical",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap. It directly addresses the unexplored intersection of ref-011's deduplication techniques and ref-001's code-specific memorization issues, proposing a concrete approach to reduce verbatim memorization of code elements (variable names, API calls) through dataset deduplication. The evaluation plan is well-supported by references, measuring memorization reduction while maintaining code quality via HumanEval pass@k scores and diversity metrics. Hypothesis B, while innovative, focuses on detection rather than mitigation of memorization and relies on adversarial suffix optimization—a concept not directly supported by the references. Its gap statement conflates ref-029's probabilistic extraction (general LMs) with ref-038's many-shot attacks (long-context safety), but the proposed method diverges from both by introducing gradient-based suffix search, which lacks explicit reference support. A's claims are more specific and coherent, directly bridging deduplication (ref-011) and code generation (ref-001) without requiring external assumptions."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-empirical",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It directly addresses a gap identified in ref-011 (deduplication reducing memorization) by extending its findings to code-specific memorization patterns (variable names, API calls) not previously explored. This builds stronger grounding in the references by combining ref-011's deduplication methodology with ref-001's Codex model and memorization concerns. The problem gap is clearly defined: while deduplication works for general language models, its impact on code-specific memorization remains unstudied. The claims are specific and coherent, proposing a direct evaluation of deduplication's effects on code memorization while maintaining code quality metrics (HumanEval pass@k) and diversity (n-gram entropy). Hypothesis A, while innovative, makes weaker connections to the references: ref-038 focuses on many-shot attacks rather than single-shot suffix optimization, and ref-029's probabilistic extraction is not directly about adversarial suffix generation. B's approach aligns more directly with the references' core contributions and unresolved questions."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap. It directly addresses the unexplored intersection of deduplication (ref-011) and code-specific memorization patterns in models like Codex (ref-001), proposing a concrete approach to measure how deduplication affects memorization of code elements (variable names, API calls). The evaluation plan is well-supported by references, using HumanEval pass@k scores (ref-001) and memorization metrics aligned with ref-011's deduplication benefits. Hypothesis B, while technically sound, relies on weaker connections to the references: ref-029's probabilistic extraction is repurposed for adversarial suffixes without clear justification, and ref-038's many-shot attacks are only superficially related to single-shot extraction. A's claims are more specific and coherent, directly operationalizing deduplication's impact on code memorization, whereas B's adversarial suffixes introduce novel mechanisms not directly implied by the references. A better aligns with the latent research idea of systematically analyzing how data curation affects memorization in code models."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-empirical",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap/contribution. It directly builds on ref-011's deduplication findings while addressing the unexplored code-specific memorization gap identified in ref-001. The approach is specific to code generation (variable names/API calls) and uses measurable metrics (exact string matches, pass@k, n-gram entropy) that align with both ref-001's evaluation framework and ref-011's memorization reduction claims. Hypothesis A's adversarial suffix approach, while technically novel, makes weaker connections to the references: ref-029's probabilistic extraction is about measurement rather than adversarial generation, and ref-038's many-shot attacks differ fundamentally from single-shot suffix optimization. B's focus on training data curation as a memorization solution is more directly supported by the corpus than A's inference-time detection method."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-transfer",
+     "b": "s1-assumption",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by addressing a broader and more precisely defined problem gap related to memorization measurement and copyright compliance. It integrates multiple key references (ref-009, ref-029, ref-011) to propose a novel combination of adversarial compression ratio (ACR) with probabilistic extraction and deduplication, which directly addresses the limitations of existing methods in measuring efficient reconstruction of training data. The approach is more specific, offering a concrete mechanism (ACR score calculation) and evaluation metrics (exact matches to copyrighted books) that align with legal concerns raised in ref-035 and ref-044. Hypothesis B, while relevant, focuses narrowly on code-specific memorization reduction through deduplication, relying only on ref-001 and ref-011. It does not introduce a new measurement framework or address the broader implications of memorization for copyright, which are central to the latent research idea implied by the corpus. The evaluation in A is more comprehensive, incorporating legal compliance testing and ablation studies, whereas B's metrics (pass@k, n-gram entropy) are standard and less directly tied to the core memorization concerns of the references."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a broader and more directly supported gap in the literature: the integration of adversarial compression ratio (ACR) with probabilistic extraction to measure memorization efficiency and copyright risks. While Hypothesis A focuses on a specific application (code deduplication), B synthesizes multiple references (ref-009, ref-029, ref-011, ref-044, etc.) to propose a novel, measurable framework for detecting memorization via minimal prompts, which aligns with the bibliography's emphasis on extraction risks, copyright concerns, and deduplication. B's approach is more specific in its technical claims (ACR + probabilistic sampling) and coherently ties together references on memorization metrics, extraction attacks, and legal implications. A's focus on code-specific deduplication, while valid, is narrower and less grounded in the broader set of references, which collectively emphasize general memorization detection and copyright compliance rather than code generation alone."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by integrating multiple concepts (ACR from ref-009, probabilistic extraction from ref-029, deduplication from ref-011) into a cohesive framework for measuring memorization efficiency and copyright compliance. It addresses a clear gap in existing methods by combining compression ratio analysis with probabilistic sampling, which ref-009 and ref-029 handle separately. The approach is more specific, defining inputs/outputs and optimization objectives, and its evaluation metrics (ACR scores, reconstruction probabilities, exact matches to copyrighted books) directly align with references like ref-035 and ref-044 that discuss legal implications of memorization. Hypothesis B, while relevant to code models, is narrower in scope (focusing only on ref-001 and ref-011) and does not address the broader problem of efficient reconstruction or legal compliance. Its evaluation lacks the nuanced metrics of Hypothesis A, focusing only on exact matches and code quality rather than the adversarial compression perspective central to the corpus."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references by addressing a broader and more directly supported problem gap: the lack of a method to detect verbatim memorization via adversarial compression while accounting for probabilistic extraction and deduplication. It integrates multiple references (ref-009, ref-029, ref-011) to propose a novel approach that fills a specific gap in existing memorization detection methods. The claims are more specific and coherent, as they define a measurable metric (ACR) and evaluation framework (probabilistic extraction on deduplicated data) supported by references. Hypothesis A, while relevant, focuses on a narrower scope (code-specific memorization) with less direct support from the references, as ref-011 does not explicitly address code-specific elements. B’s approach also aligns with the research perspective of turning informal claims into precise metrics (ACR) and failure conditions (copyright violations), whereas A’s claims about code-specific memorization are less grounded in the provided corpus."
+      }
+     ]
+    },
+    {
+     "a": "s1-formal",
+     "b": "s1-empirical",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the limitations of standard deduplication (ref-011) by proposing context-aware deduplication that accounts for semantic equivalence in code (via AST analysis with variable renaming), a gap explicitly identified in the references. The approach is tightly supported by ref-001 (code generation context), ref-011 (deduplication baseline), and ref-048 (memorization quantification). The evaluation plan effectively compares memorization rates and functional correctness (HumanEval) against baselines, aligning with the references' focus on memorization reduction without sacrificing utility. Hypothesis B, while innovative, focuses on detection rather than mitigation of memorization, and its adversarial suffix approach is less directly supported by the references. While it references ref-029 and ref-038, the proposed method diverges significantly by introducing gradient-based suffix optimization not discussed in the corpus. The gap identified is narrower and less central to the corpus's emphasis on deduplication and memorization reduction as foundational challenges."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-empirical",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a clear problem gap identified in ref-011 (standard deduplication) by extending it to handle contextual redundancy in code through AST analysis with variable renaming, which is a more specific and coherent contribution supported by ref-001 (code context), ref-011 (deduplication), and ref-048 (memorization quantification). The approach directly tackles the limitations of existing deduplication methods in code domains, where semantic equivalence can be obscured by syntactic variations. Hypothesis A, while technically sound, focuses on detection rather than mitigation of memorization and relies on adversarial suffix optimization, which is less grounded in the core deduplication-memorization relationship emphasized by the references. B's evaluation metrics (verbatim copying rates, HumanEval accuracy) align more closely with the references' focus on memorization reduction and functional correctness preservation, whereas A's adversarial suffixes represent a narrower, less foundational contribution."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the limitation of standard deduplication (ref-011) in handling contextual redundancy in code, a gap explicitly supported by ref-011's focus on exact duplicates and ref-048's quantification of memorization risks. The approach is specific, proposing AST-based deduplication with variable renaming to preserve syntactic diversity while reducing memorization, which aligns with ref-001's evaluation framework (HumanEval) and ref-048's memorization metrics. The evaluation plan is coherent, comparing against relevant baselines and isolating the impact of context-aware deduplication. Hypothesis B, while innovative, focuses on detection rather than mitigation, and its gap (optimizing adversarial suffixes for code) is less directly supported by the references. Ref-029 and ref-038 do not explicitly motivate the need for code-specific adversarial suffixes, making the problem gap less grounded. Additionally, Hypothesis A's contribution to reducing memorization aligns more directly with the broader concerns in ref-001, ref-011, and ref-048 about memorization's negative impacts, whereas Hypothesis B's detection focus is narrower."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-empirical",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the reference corpus. It addresses a clear gap in ref-011 by extending standard deduplication to handle contextual redundancy in code via AST analysis with variable renaming, a specific problem not covered by existing work. The approach is strongly grounded in ref-001 (code LLM context), ref-011 (deduplication fundamentals), and ref-048 (memorization quantification), with evaluation metrics directly tied to these references. The problem gap (contextual redundancy in code) and contribution (AST-based deduplication preserving syntactic diversity) are more precisely defined than Hypothesis A, which combines adversarial suffixes (ref-038) with memorization detection (ref-029) in a less cohesive way. While A's technical approach is novel, B's solution directly builds on and extends the deduplication-memorization relationship established in ref-011 and ref-048, making it more strongly anchored in the reference corpus."
+      }
+     ]
+    }
+   ]
+  ],
+  "2": [
+   [
+    {
+     "a": "s2-formal",
+     "b": "s2-assumption",
+     "points_a": 1.5,
+     "points_b": 0.5,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s2-formal",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It directly addresses the gap identified in ref-014 regarding unexplored shared alignment weaknesses enabling transferability, while also incorporating ref-038's focus on long-context attacks and ref-004's constitutional classifiers as alignment mechanisms. The hypothesis is more specific about measuring both harmful content generation rates and refusal token log-probability shifts, which aligns with ref-006's analysis of safety training failure modes. The approach's comparison of co-trained vs. single-model suffixes directly engages with the unexplored question of whether shared alignment weaknesses (rather than just architecture) enable transferability. While Hypothesis A also addresses alignment mechanisms, it lacks the explicit focus on black-box model transferability demonstrated in ref-014 and doesn't incorporate ref-038's context-length insights. Hypothesis B's evaluation metrics and ablation studies more comprehensively address the bibliography's collective concerns about alignment vulnerabilities and transferability mechanisms."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-assumption",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a more specific and coherent problem gap identified in ref-014 (cross-architecture transferability without isolating alignment mechanisms) and ref-004 (defenses against universal jailbreaks without analyzing transferability dependencies). The hypothesis directly tests whether alignment mechanisms (not architecture) drive adversarial suffix transferability, a gap explicitly mentioned in the references. The approach is strongly grounded in the corpus: it uses Vicuna-13B (from ref-014), tests on models with Constitutional Classifiers (ref-004), and evaluates on unsafe prompts from ref-006. The evaluation design (comparing transfer rates between models sharing alignment mechanisms vs. those with same architecture but different alignment) directly addresses the gap and is supported by the references. Hypothesis A, while relevant, focuses on a narrower gap (co-training vs. single-model training) that is less central to the corpus's implied concerns about alignment mechanisms and transferability dependencies. B's claims are more specific to the references' collective emphasis on safety training failure modes (ref-006) and alignment weaknesses (ref-004, ref-014)."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It directly addresses a gap identified in ref-014 (cross-architecture transferability without isolating alignment mechanisms) and ref-004 (defenses without transferability analysis), which are core themes in the provided references. The hypothesis proposes a controlled experiment comparing transferability rates across models with varying alignment mechanisms (RLHF vs. Constitutional Classifiers) while holding architecture constant, and vice versa. This approach isolates alignment as the key variable, which is a critical but unmeasured factor in the existing literature. The evaluation plan is specific, using ref-006's red-teaming dataset and ablation tests comparing alignment groups vs. architecture groups, which directly tests the hypothesis with strong grounding in the references. Hypothesis B, while relevant, focuses on co-training across models (not explicitly mentioned in the references) and does not isolate alignment mechanisms as systematically. It also relies on human raters for evaluation, which is less precise than the controlled comparisons in Hypothesis A. The references collectively emphasize alignment mechanisms (ref-004, ref-006) and transferability (ref-014), making Hypothesis A's focus on alignment-driven vulnerabilities more coherent with the corpus."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-assumption",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a gap identified in ref-014 (cross-architecture transferability without isolating alignment mechanisms) and ref-004 (defenses without transferability analysis), which aligns with the researcher's perspective of identifying unmeasured phenomena. B's approach isolates alignment mechanisms (RLHF vs. Constitutional Classifiers) as the key factor for transferability, a specific and coherent claim supported by ref-004, ref-006, and ref-014. It introduces a novel ablation comparing transfer rates between models sharing alignment mechanisms versus architectures, directly measuring a previously unquantified relationship. Hypothesis A, while grounded in ref-014, focuses on co-training improvements rather than the core alignment mechanism dependency highlighted by the references. B's evaluation with ref-006's red-teaming dataset and alignment-specific ablation provides stronger grounding in the corpus and clearer capture of the problem gap."
+      }
+     ]
+    },
+    {
+     "a": "s2-empirical",
+     "b": "s2-transfer",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the power-law scaling relationship between demonstration count and attack success, a gap explicitly identified in [ref-038] and [ref-014]. It provides a more specific and coherent claim supported by references, isolating the effect of demonstration count while leveraging adversarial suffixes from [ref-014] and evaluation queries from [ref-006]. The evaluation metrics (refusal rate reduction, toxicity scores, power-law fit quality) are directly tied to the references' methodologies. Hypothesis B, while addressing a valid gap, lacks the same level of specificity in its approach and evaluation. It proposes a hybrid method combining constitutional classifiers and human feedback, but the references do not provide sufficient evidence for the synergy between these components in mitigating both universal and many-shot jailbreaks. The evaluation metrics (jailbreak success rate, refusal rate) are less directly tied to the scaling analysis or adversarial suffix transferability emphasized in the references. Hypothesis A better captures the implied problem gap of understanding attack scalability and transferability, which is central to [ref-014], [ref-038], and [ref-006]."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the complementary limitations of constitutional classifiers (ref-004) against many-shot attacks (ref-038) and human feedback fine-tuning (ref-016) against jailbreak robustness, proposing a novel hybrid approach that integrates both methods. The approach is specifically designed to mitigate both attack types through a two-stage pipeline, with evaluation metrics (jailbreak success rate, refusal rate, inference overhead) directly tied to reference benchmarks (ref-038, ref-014). The support references are all highly relevant to the proposed method. In contrast, Hypothesis B, while analyzing an interesting power-law relationship in long-context attacks, does not propose a novel defense mechanism but rather extends existing attack methodologies (ref-038, ref-014). Its gap analysis is less cohesive, combining attack feasibility (ref-038), transferability (ref-014), and safety failure modes (ref-006) without a unified contribution. The inclusion of ref-046 (Gemini 1.5) is tangential, as the hypothesis does not engage with multimodal context capabilities. Hypothesis A's focus on hybrid alignment better aligns with the latent research idea of combining defensive strategies implied by the corpus."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the power-law scaling relationship between demonstration count and attack success, a gap explicitly identified in [ref-038] and [ref-014]. It provides a more specific and coherent claim supported by references, isolating the effect of demonstration count while leveraging adversarial suffixes from [ref-014] and evaluation queries from [ref-006]. The evaluation metrics (refusal rate, toxicity scores, power-law fit) are directly tied to the references' methodologies. Hypothesis B, while addressing a valid gap, lacks the same level of specificity in its claims about hybrid alignment. It does not provide a precise mechanism for integrating constitutional classifiers with human feedback, nor does it define how the two-stage pipeline would quantitatively mitigate both attack types. The evaluation metrics (jailbreak success rate, refusal rate) are less distinct from prior work, and the ablation studies do not isolate the hybrid method's unique contribution as clearly as Hypothesis A's scaling analysis."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap between constitutional classifiers (ref-004) and many-shot attacks (ref-038), while integrating human feedback (ref-016, ref-025) to propose a hybrid solution. It clearly defines a problem gap (failure of existing methods against both attack types) and a coherent approach (two-stage pipeline with ablation studies) supported by specific references. The evaluation plan is well-structured, comparing against relevant baselines and using metrics aligned with the references. Hypothesis B, while relevant, focuses on a narrower scaling analysis of many-shot attacks without proposing a defense mechanism. Its gap statement is less precise, and the approach does not leverage the full potential of the references (e.g., ref-004 is cited but not meaningfully integrated). A’s claims are more specific, actionable, and grounded in the corpus, making it the better fit."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s2-formal",
+     "b": "s2-empirical",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A provides stronger grounding in the references by directly addressing the gap identified in ref-014 (cross-architecture transferability) and ref-004 (defense mechanisms), while isolating alignment mechanisms as the key variable. It offers a clearer capture of the implied problem gap—whether transferability is driven by alignment methods rather than architecture—and proposes a specific, coherent approach to test this by comparing models with varying alignment mechanisms. The evaluation plan is well-supported by references (ref-006's red-teaming dataset, ref-014's suffix generation) and focuses on measurable outcomes (objectionable content rates). Hypothesis B, while innovative in combining many-shot demonstrations with adversarial suffixes, introduces a power-law scaling analysis not directly implied by the references. The gap it addresses (scaling relationship) is less central to the core themes of the provided corpus, which focus more on alignment vulnerabilities and transferability mechanisms. Additionally, Hypothesis B's reliance on ref-046 (Gemini 1.5) is tangential, as the reference discusses long-context capabilities rather than jailbreaking. Hypothesis A's tighter alignment with the references' focus on alignment-driven vulnerabilities makes it the stronger candidate."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the power-law scaling relationship between demonstration count and attack success, a gap identified in [ref-038] and [ref-014]. It integrates multiple references ([ref-006], [ref-014], [ref-038]) to propose a novel evaluation framework that isolates the effect of demonstration count while leveraging adversarial suffixes from [ref-014]. The hypothesis clearly captures the implied problem gap of understanding how long-context attacks scale and interact with existing jailbreak methods, offering a more specific and coherent contribution supported by references. Hypothesis B, while relevant, focuses on alignment mechanisms as a factor in transferability, which is less directly supported by the references. [ref-014] and [ref-004] do not explicitly address alignment mechanisms as the primary driver of transferability, making Hypothesis A's claims more tightly aligned with the latent research ideas in the corpus."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A provides stronger grounding in the references by directly addressing the gap between ref-014's cross-architecture transferability findings and ref-004's defense mechanisms, which ref-014 does not analyze. It isolates alignment mechanisms (RLHF vs. Constitutional Classifiers) as the key variable, a critical factor highlighted in ref-006's analysis of safety training failure modes. The approach is more specific, using controlled ablation studies comparing models with shared alignment mechanisms versus different architectures, which directly tests the hypothesis. Hypothesis B, while innovative in combining many-shot demonstrations with adversarial suffixes, lacks the same level of specificity in linking references. It introduces a power-law analysis not directly implied by the references, which focus on attack feasibility rather than scaling relationships. The evaluation metrics for B are less tightly tied to the references' core concerns (e.g., Perspective API toxicity scores are not mentioned in the corpus). A's focus on alignment mechanisms as the driver of transferability better captures the latent research idea of reconciling ref-014's attack surface with ref-004's defenses, as emphasized in ref-006's analysis of safety-capability parity."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing gaps identified in [ref-038], [ref-014], and [ref-006] through a novel integration of many-shot demonstrations and adversarial suffixes. It introduces a power-law scaling analysis that isolates the effect of demonstration count, a specific and coherent contribution supported by [ref-038]’s long-context attacks and [ref-014]’s transferable suffixes. The evaluation plan is rigorous, using [ref-006]’s red-teaming queries and metrics like refusal rate reduction and toxicity scores, while also incorporating [ref-046]’s context-length capabilities. Hypothesis B, while relevant, focuses on alignment mechanisms without leveraging the full corpus—it omits [ref-038] and [ref-046], missing opportunities to connect long-context vulnerabilities. A’s approach better captures the latent research idea of combining attack vectors (suffixes + demonstrations) to exploit scaling laws in safety failures, aligning with the references’ emphasis on universal jailbreaks and deployment viability."
+      }
+     ]
+    },
+    {
+     "a": "s2-transfer",
+     "b": "s2-assumption",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It addresses a clear problem gap identified in the references: constitutional classifiers (ref-004) are ineffective against many-shot attacks (ref-038), while human feedback (ref-016/ref-025) lacks explicit jailbreak robustness. The hybrid approach directly combines these methods to test if their integration mitigates both attack types, a novel combination not explored in prior work. The evaluation plan is comprehensive, testing against both many-shot (ref-038) and universal jailbreaks (ref-014), with ablation studies isolating component contributions. In contrast, Hypothesis B focuses on transferability of adversarial suffixes (ref-014), which is already demonstrated in the literature, and its gap (co-training vs. single-model training) is narrower and less directly tied to the broader defense-oriented themes of ref-004 and ref-038. Hypothesis A's stronger grounding in the references, clearer problem gap, and more specific claims supported by multiple references make it the better fit."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-assumption",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a clear problem gap identified in the references: constitutional classifiers (ref-004) fail against many-shot attacks (ref-038), while human feedback (ref-016, ref-025) doesn't explicitly handle jailbreaks. B's hybrid approach directly combines these methods to test if their integration mitigates both attack types, a gap not explored in prior work. The hypothesis is strongly grounded in multiple references (ref-004, ref-014, ref-016, ref-025, ref-038), with specific claims about how each component contributes to jailbreak resistance. Its evaluation plan is comprehensive, testing against both many-shot (ref-038) and adversarial suffix (ref-014) attacks while comparing against relevant baselines. In contrast, Hypothesis A focuses on a narrower aspect (transferability of adversarial suffixes) already explored in ref-014, with a gap that's less central to the corpus. While A's approach is methodical, B's integration of multiple alignment strategies to address diverse attack vectors represents a more significant and coherent advancement based on the references."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by directly addressing gaps and contributions implied by multiple references (ref-004, ref-016, ref-025, ref-038). It proposes a hybrid method that combines constitutional classifiers (ref-004) with human feedback fine-tuning (ref-016, ref-025) to tackle both universal and many-shot jailbreaks (ref-038), a gap explicitly identified in the literature. The approach is specific, coherent, and supported by ablation studies comparing individual components against baselines. In contrast, Hypothesis B focuses narrowly on transferability of adversarial suffixes (ref-014) and does not engage with the broader alignment challenges or deployment viability discussed in ref-004 and ref-038. While B explores an important aspect of jailbreak transferability, it lacks the comprehensive integration of references and the practical deployment considerations central to the latent research idea implied by the corpus."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-assumption",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus by addressing a more comprehensive problem gap: the failure of existing alignment methods (constitutional classifiers and human feedback) to defend against both universal and many-shot jailbreaks. It explicitly connects ref-004 (constitutional classifiers failing against many-shot attacks per ref-038) and ref-016/ref-025 (human feedback not explicitly addressing jailbreak robustness), forming a coherent research gap that neither hypothesis alone addresses. The proposed hybrid approach is specific, with a clear two-stage pipeline integrating classifier filtering and human preference ranking, directly supported by ref-004, ref-016, and ref-025. Evaluation metrics (jailbreak success rate, refusal rate, inference overhead) align precisely with ref-004's deployment viability focus and ref-038's many-shot attack benchmark. In contrast, Hypothesis A's focus on transferable suffixes, while grounded in ref-014, does not engage as deeply with the corpus's broader alignment challenges (ref-004, ref-016, ref-025, ref-038) or propose a novel methodological integration. B's claims about hybrid alignment's ability to mitigate both attack types are more specific and cohesively supported by the references."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s2-transfer",
+     "b": "s2-formal",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by directly addressing gaps identified in multiple papers (ref-004, ref-016, ref-038) and proposing a novel hybrid approach that combines constitutional classifiers with human feedback fine-tuning. It clearly captures the implied problem gap of existing methods failing against different attack types (universal vs. many-shot jailbreaks) and offers a specific solution with measurable contributions from each component. The evaluation plan is comprehensive, testing against both many-shot (ref-038) and automated suffix attacks (ref-014) while comparing against relevant baselines. In contrast, Hypothesis B, while addressing an interesting question about transferability dependencies, focuses on a narrower aspect of alignment mechanisms without proposing a concrete defense solution. Its evaluation relies heavily on ref-014's existing attack methodology without introducing new defensive contributions. The research perspective favoring foundational premise challenges is better served by Hypothesis A, which re-examines the assumption that single alignment methods are sufficient against diverse jailbreak strategies."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s2-formal",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a clear problem gap identified in the references: constitutional classifiers (ref-004) fail against many-shot attacks (ref-038), while human feedback (ref-016, ref-025) doesn't explicitly handle jailbreaks. B's hybrid approach directly tackles this gap by combining both methods, supported by references showing their individual limitations. The evaluation plan is specific, testing against both attack types (ref-014, ref-038) with metrics aligned to the references' concerns (jailbreak success, refusal rates, inference overhead). Hypothesis A, while grounded in ref-004, ref-006, and ref-014, focuses on transferability dependencies which are less central to the corpus. The corpus emphasizes defense mechanisms (ref-004, ref-016, ref-038) and attack evolution (ref-006, ref-014, ref-038), making B's contribution to jailbreak resistance more coherent with the implied research direction. B also cites more references, showing stronger grounding in the corpus."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It addresses a clear problem gap identified in the references: constitutional classifiers (ref-004) are ineffective against many-shot attacks (ref-038), while human feedback (ref-016, ref-025) doesn't explicitly target jailbreak robustness. The proposed hybrid approach directly combines these two methods to mitigate both attack types, with a specific evaluation plan comparing against baselines from the references. The claims are strongly grounded in the corpus, with explicit support from ref-004, ref-014, ref-016, ref-025, and ref-038. In contrast, Hypothesis B focuses on transferability dependencies, which is less central to the corpus's emphasis on defense mechanisms. While B's approach is valid, it doesn't synthesize the corpus's key ideas as cohesively as A, which directly builds on multiple references' findings about jailbreak vulnerabilities and defenses."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-formal",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a clear gap identified in the references: while constitutional classifiers (ref-004) defend against universal jailbreaks and human feedback (ref-016, ref-025) improves alignment, neither approach alone addresses both universal and many-shot jailbreaks (ref-038). Hypothesis B proposes a novel hybrid method combining both techniques, directly responding to this gap. The approach is strongly grounded in the references, explicitly integrating methods from ref-004 (constitutional classifiers) and ref-016/ref-025 (human feedback), while evaluating against attack types from ref-014 and ref-038. The evaluation plan is comprehensive, comparing against relevant baselines and measuring both security and deployment viability metrics. In contrast, Hypothesis A focuses on transferability dependencies but addresses a narrower gap (alignment mechanisms vs. architecture) that is less central to the broader safety challenges emphasized in the references. While Hypothesis A is well-supported, Hypothesis B's hybrid approach more directly tackles the unresolved challenge of defending against diverse jailbreak types while maintaining practical deployment, aligning with the references' emphasis on both security and real-world viability."
+      }
+     ]
+    },
+    {
+     "a": "s2-empirical",
+     "b": "s2-assumption",
+     "points_a": 1.5,
+     "points_b": 0.5,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It integrates multiple references (ref-004, ref-006, ref-014, ref-038, ref-046) to address a specific gap: the power-law scaling relationship between demonstration count and attack success in long-context jailbreaking. The hypothesis explicitly connects ref-038's many-shot attacks with ref-014's transferable suffixes, while also grounding the evaluation in ref-006's red-teaming dataset and ref-004's safety metrics. The approach isolates the effect of demonstration count while keeping other variables constant, providing a more systematic analysis than Hypothesis B, which focuses narrowly on transferability without exploring the scaling dynamics. Hypothesis A's evaluation plan is more comprehensive, incorporating both quantitative metrics (refusal rates, toxicity scores) and statistical analysis (power-law fit quality), whereas Hypothesis B's reliance on human raters introduces subjectivity. By addressing the interplay between long-context prompting and adversarial suffixes, Hypothesis A captures a more coherent and specific contribution supported by the references."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-assumption",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a clear gap in the literature by combining insights from multiple references to analyze the power-law scaling of long-context attacks, which is a novel and specific contribution. The hypothesis explicitly connects [ref-038]'s many-shot attacks with [ref-014]'s transferable suffixes and [ref-006]'s safety training failure modes, creating a more coherent and grounded research direction. The approach isolates the effect of demonstration count while keeping other variables constant, which provides a more rigorous analysis of the attack's scalability. Additionally, the evaluation metrics (refusal rate reduction, content toxicity scores, power-law fit quality) are well-aligned with the references and offer a comprehensive assessment of the attack's effectiveness. Hypothesis A, while relevant, focuses narrowly on co-training vs. single-model suffixes without leveraging the full breadth of the references, particularly missing the long-context aspect introduced in [ref-038] and [ref-046]."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the reference corpus by explicitly addressing the power-law scaling relationship between demonstration count and attack success, a gap identified in [ref-038] and [ref-014]. It integrates multiple references ([ref-006], [ref-014], [ref-038]) to define a novel evaluation framework that isolates the effect of demonstration count while leveraging adversarial suffixes from [ref-014]. The approach is more specific, using a fixed suffix and varying demonstration counts (10-1000) to establish a quantitative scaling law, which aligns with [ref-038]'s focus on long-context attacks and [ref-006]'s failure modes. The evaluation metrics (refusal rate reduction, toxicity scores, power-law fit quality) directly tie to references, while the use of [ref-006]'s 200 unsafe queries and [ref-046]'s long-context capabilities (via Gemini 1.5) provides a coherent technical narrative. Hypothesis B, while relevant, focuses narrowly on transferability via co-training without addressing the scaling dynamics or long-context attacks central to [ref-038] and [ref-046], and its gap analysis is less comprehensive compared to A's integration of five references."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap. It directly addresses the transferability of adversarial suffixes across models (ref-014) and explores the role of shared alignment weaknesses, a gap explicitly noted in the hypothesis. The approach is specific, comparing co-trained vs. single-model suffixes and measuring both harmful content generation and refusal token log-probability shifts, which aligns with ref-014's focus on adversarial suffixes and ref-004's emphasis on refusal mechanisms. The evaluation metrics are well-defined and supported by references, including human raters for harmful content classification. Hypothesis B, while innovative in combining long-context prompting with adversarial suffixes, lacks the same level of specificity in its claims about power-law scaling and does not as clearly isolate the role of shared alignment weaknesses. Its reliance on ref-046 (Gemini 1.5) is tangential, as the reference focuses on model capabilities rather than jailbreaking vulnerabilities. Hypothesis A’s focus on transferability via shared alignment weaknesses is more directly supported by the corpus and addresses a more precise gap in the literature."
+      }
+     ]
+    }
+   ]
+  ],
+  "3": [
+   [
+    {
+     "a": "s3-transfer",
+     "b": "s3-formal",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the specific issue of verbatim memorization (ref-035, ref-044) that current alignment methods (ref-004) do not target, while also incorporating code generation evaluation (ref-001) for broader applicability. The approach is more specific, detailing how constitutional classifiers are adapted to detect near-exact copies using a 90% similarity threshold, and the evaluation includes concrete metrics (verbatim match rate, copyright compliance score) and datasets (Harry Potter excerpts, code snippets) directly tied to the references. Hypothesis B, while relevant to memorization detection, focuses on probabilistic extraction (ref-029) without explicitly connecting to the copyright implications or verbatim memorization concerns central to ref-035 and ref-044. Its evaluation lacks the specificity of A's metrics and datasets, and its gap statement is narrower, not fully capturing the broader implications of memorization in generative AI as framed by the references."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-formal",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis B more strongly grounds its claims in the reference corpus by directly addressing the legal and technical definition of memorization (ref-035) and leveraging concrete examples of verbatim memorization from ref-044 (e.g., Harry Potter). It also connects to ref-001's code generation context, broadening applicability. The gap statement clearly identifies the mismatch between existing alignment methods (ref-004) and the specific problem of verbatim memorization defined in ref-035. The evaluation plan is more specific, using measurable metrics (verbatim match rate, copyright compliance score) and diverse datasets (books, code). While Hypothesis A introduces probabilistic extraction (ref-029), it focuses on a narrower technical adaptation without addressing the broader implications of memorization as defined in ref-035 or the concrete examples in ref-044. B's approach better captures the latent research idea of bridging technical alignment methods with legal definitions of memorization, supported by more references."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and more specific, coherent claims. It directly addresses the problem gap identified in ref-035 (memorization as near-exact reconstruction) and ref-044 (verbatim memorization of copyrighted works), which are central to the corpus. The approach adapts constitutional classifiers (ref-004) to target verbatim memorization, a specific and measurable phenomenon, and evaluates using concrete metrics (verbatim match rate, copyright compliance score) on datasets explicitly mentioned in the references (book excerpts from ref-044, code snippets from ref-001). The ablation study comparing synthetic data sources further ties to ref-044's findings on memorization variability. Hypothesis B, while relevant, focuses on probabilistic extraction (ref-029) without directly engaging with the copyright/memorization nexus central to ref-035 and ref-044. Its evaluation lacks the specificity of A's metrics and datasets, and its gap statement conflates jailbreak defense (ref-004) with memorization detection, which are distinct problems in the corpus. A better captures the latent research idea of mitigating verbatim memorization in generative AI, a phenomenon claimed in ref-035/ref-044 but not yet measured in the context of alignment techniques."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-formal",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses the specific problem gap of verbatim memorization (ref-035) that current alignment methods (ref-004) do not target, and proposes a solution grounded in the references. The approach is more specific, using a 90% token-level similarity threshold to detect verbatim matches, and evaluates on concrete datasets (ref-044's book excerpts, ref-001's code snippets) with clear metrics (verbatim match rate, task performance, copyright compliance score). The evaluation design includes ablation studies comparing synthetic data sources, which isolates the contribution of using copyrighted works for training the classifier. While Hypothesis A introduces probabilistic extraction (ref-029), it does not directly address the core issue of verbatim memorization highlighted in ref-035 and ref-044, which is a more pressing concern in the context of copyright lawsuits. Hypothesis B's focus on verbatim matches aligns more closely with the legal definition of memorization (ref-035) and the demonstrated ability of models to memorize entire books (ref-044), making it a more coherent and grounded contribution."
+      }
+     ]
+    },
+    {
+     "a": "s3-empirical",
+     "b": "s3-assumption",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap between ref-011 (deduplication reducing memorization) and ref-044 (memorization of copyrighted texts) through a controlled ablation study. It isolates deduplication's effect on copyrighted content, a specific and coherent claim supported by ref-011's deduplication tools, ref-044's book dataset, and ref-050's extraction attacks. The evaluation metrics (exact-match extraction rates, extractable books) are clearly tied to the references. Hypothesis B, while innovative in linking probabilistic extraction to copyright risk, lacks direct support for its legal threshold claims in the provided references. The 'copyright risk score' and its thresholding are not grounded in the corpus, and the correlation with duplication rates (ref-048) is tangential to the core gap. A's focus on a well-defined, reference-supported intervention (deduplication) makes it more coherent and specific."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography by (1) stronger grounding in the references through its integration of probabilistic extraction (ref-029) with copyright risk quantification (ref-044), (2) clearer capture of the problem gap by explicitly bridging the disconnect between probabilistic memorization measurement and its legal implications, and (3) more specific claims supported by references. While Hypothesis B addresses an important gap regarding deduplication's effect on copyrighted content, it lacks the conceptual novelty and tighter integration of references demonstrated by A. A's approach directly combines ref-029's probabilistic framework with ref-044's copyright focus, while B's deduplication focus is less distinct from existing work (ref-011) and doesn't engage with the probabilistic extraction advances in ref-029. The evaluation in A also shows more specific alignment with references through its correlation analysis with ref-048's duplication rates and ablation studies comparing sampling methods."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the gap between ref-011 (deduplication reducing memorization) and ref-044 (memorization of copyrighted texts) through controlled ablations. It provides a clear, specific approach to isolate deduplication's effect on copyrighted content using ref-050's extraction attacks, which aligns with the references' focus on measurable memorization reduction. Hypothesis B, while innovative in linking probabilistic extraction to copyright risk, introduces a 'copyright risk score' and legal thresholds unsupported by the references. The references do not establish a connection between regeneration probabilities and legal outcomes, making B's claims less grounded. A's evaluation metrics (exact-match rates, extractable books) are more directly tied to the references' methodologies, whereas B's risk score and correlation with duplication rates (ref-048) are speculative extensions beyond the corpus. A's focus on quantifying deduplication's impact on copyrighted texts is more coherent with the latent research idea implied by the bibliography."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It (1) establishes stronger grounding in the references by integrating probabilistic extraction (ref-029) with copyright risk quantification (ref-044), while also incorporating memorization scaling laws (ref-048) and extraction attacks (ref-050). (2) It clearly captures the problem gap of linking probabilistic regeneration probabilities to legal thresholds for copyright infringement, which is not addressed by any single reference but emerges from combining ref-029 and ref-044. (3) Its claims are more specific and coherent: defining a 'copyright risk score' with a concrete threshold (50%) and evaluating correlation with training data duplication rates (ref-048) provides a measurable framework. Hypothesis B, while well-supported, focuses on a narrower gap (deduplication's effect on copyrighted material) without introducing novel connections between references. Its evaluation lacks the legal risk modeling that would better align with the implicit research direction suggested by ref-044's copyright focus."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s3-transfer",
+     "b": "s3-assumption",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s3-transfer",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a clear gap identified in the references: bridging probabilistic extraction (ref-029) with copyright risk quantification (ref-044), which neither prior work alone achieves. The approach is strongly grounded in the references, using probabilistic extraction (ref-029) on copyrighted books (ref-044) while incorporating memorization scaling factors (ref-048). The evaluation directly compares against deterministic baselines (ref-044) and measures correlation with training data duplication rates (ref-048), providing specific, coherent claims supported by the corpus. Hypothesis A, while relevant, makes weaker connections to the references: it adapts constitutional classifiers (ref-004) to verbatim memorization (ref-035) but lacks direct support for its core mechanism (90% similarity threshold) in the provided references, and its evaluation metrics (copyright compliance score) are less clearly tied to the corpus than B's copyright risk scores. B's focus on quantifying probabilistic regeneration risks aligns more precisely with the research perspective of measuring previously unquantified phenomena (probabilistic copyright risks)."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly addresses the gap between probabilistic extraction (ref-029) and copyright risk quantification (ref-044), which is a well-defined and measurable problem. The approach is specific, proposing a 'copyright risk score' based on probabilistic regeneration probabilities, which aligns with ref-029's methodology and ref-048's findings on memorization scaling. The evaluation plan is coherent, using established datasets (ref-044) and metrics (correlation with duplication rates from ref-048), and includes ablations to isolate the mechanism's contribution. Hypothesis B, while relevant, is less grounded in the references. It adapts constitutional classifiers (ref-004) to a new domain (verbatim memorization) but lacks direct support for the proposed 90% similarity threshold or the synthetic data generation method. The gap is less clearly defined, as ref-035 defines memorization but does not explicitly link it to alignment methods. The evaluation metrics (e.g., 'copyright compliance score') are novel but not anchored in the references, and the reliance on RLHF (ref-016, not cited) introduces external knowledge. Overall, Hypothesis A better fits the latent research idea implied by the bibliography."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-transfer",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis B more strongly grounds its claims in the references and coherently addresses the implied problem gap. It directly bridges ref-029's probabilistic extraction with ref-044's copyright risk quantification, a gap explicitly identified in both papers. The approach operationalizes 'copyright risk' via probabilistic thresholds (ref-029, ref-044, ref-048), while evaluation metrics (risk scores, duplication rate correlations) align with ref-048's log-linear memorization analysis. Hypothesis A's focus on constitutional classifiers (ref-004) for verbatim memorization lacks direct support in the references, as ref-004 addresses harmful content safeguards, not copyright-specific memorization. A's '90% similarity threshold' is arbitrary and unsupported by references, whereas B's probabilistic framing aligns with ref-029's methodology. B's evaluation also better leverages ref-044's book/LLM datasets and ref-048's duplication analysis, providing clearer legal-technical linkage."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly addresses the gap between probabilistic extraction (ref-029) and copyright risk quantification (ref-044), which is a well-defined and supported research gap. The approach is specific, proposing a 'copyright risk score' based on probabilistic regeneration probabilities, which aligns with ref-029's methodology and ref-048's findings on memorization scaling. The evaluation plan is coherent, using established datasets (ref-044) and metrics (correlation with duplication rates from ref-048), ensuring reproducibility. In contrast, Hypothesis B's gap is less precise—while ref-035 defines memorization, the claim that alignment methods do not target verbatim memorization is not strongly supported by the references. The approach introduces a novel application of constitutional classifiers (ref-004) to verbatim memorization, but this is less directly tied to the references' core contributions. The evaluation metrics (e.g., 'copyright compliance score') are less grounded in the references compared to Hypothesis A's use of probabilistic extraction and risk scores. Hypothesis A's focus on quantifying risks via probabilistic methods is more aligned with the references' emphasis on measurable, scalable techniques for assessing memorization and copyright implications."
+      }
+     ]
+    },
+    {
+     "a": "s3-empirical",
+     "b": "s3-formal",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and more clearly captures the implied problem gap. It directly addresses the unquantified effect of deduplication on copyrighted text memorization, a gap identified between ref-011 (general memorization reduction) and ref-044 (memorization in undeduplicated models). The approach is specific, using ref-011's deduplication tools on a copyrighted book dataset (ref-044) and ref-050's extraction attacks for evaluation, with controlled ablations to isolate deduplication's impact. The evaluation metrics (exact-match extraction rates, extractable books) are coherent and directly supported by the references. Hypothesis B, while innovative, lacks the same level of specificity and grounding. It proposes adapting constitutional classifiers (ref-004) for memorization detection using probabilistic extraction labels (ref-029), but the connection between these references is less direct. The gap identified is valid, but the approach introduces a novel adaptation not explicitly supported by the references, and the evaluation relies on a synthetic setting (inserted memorized sequences) not directly tied to the references' real-world data extraction scenarios. Hypothesis A's focus on a well-defined, reference-supported problem and its methodical approach make it the stronger candidate."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-formal",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and more clearly captures the implied problem gap. It directly addresses the unquantified effect of deduplication on copyrighted text memorization, a gap identified between ref-011 (general deduplication benefits) and ref-044 (memorization of copyrighted books without deduplication testing). The approach specifically applies ref-011's deduplication tools to ref-044's copyrighted book dataset, using ref-050's extraction attacks for evaluation, creating a coherent chain of reference integration. The controlled ablations (undeduplicated vs. deduplicated vs. non-copyrighted duplicates removed) isolate deduplication's impact on copyrighted content, a specificity absent in Hypothesis A. While Hypothesis A combines ref-004 and ref-029, it does not resolve the core tension between jailbreak defenses and memorization detection as compellingly as B resolves the copyrighted content gap. B's claims are more directly supported by the references' empirical focus on memorization measurement and deduplication."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly addresses the unquantified effect of deduplication on copyrighted text memorization, a gap identified by synthesizing ref-011 (deduplication reduces general memorization) and ref-044 (memorization of copyrighted books in undeduplicated models). The approach is specific, using ref-011's deduplication tools on ref-044's 200-book dataset and ref-050's extraction attacks to measure verbatim memorization. The evaluation isolates deduplication's effect through controlled ablations, aligning with the references' methodologies. Hypothesis B, while innovative, lacks the same level of specificity and grounding. It proposes adapting constitutional classifiers (ref-004) for memorization detection using probabilistic extraction labels (ref-029), but the connection between these references is less direct. The gap is valid, but the approach introduces a novel adaptation not explicitly supported by the references, and the evaluation relies on a synthetic setting (inserted memorized sequences) not directly tied to the references' real-world data extraction scenarios. Hypothesis A's focus on a well-defined, reference-supported problem and its methodical evaluation make it the stronger candidate."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-formal",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis B more strongly grounds its claims in the reference corpus by directly addressing a specific gap identified in ref-011 and ref-044: the lack of quantification on how deduplication affects memorization of copyrighted material. It proposes a controlled experimental design (deduplicated vs. undeduplicated vs. non-copyrighted-only deduplication) that isolates deduplication's impact on copyrighted content, supported by ref-011's tools, ref-044's book dataset, and ref-050's extraction metrics. This specificity and coherence in linking references to the problem gap and evaluation method outperform Hypothesis A, which combines ref-004 (jailbreak defense) and ref-029 (probabilistic extraction) in a less directly supported way. While A proposes an adaptation of constitutional classifiers for memorization detection, the connection between ref-004's jailbreak defense and ref-029's probabilistic extraction is more speculative than B's clear experimental framing of deduplication's effect on copyrighted memorization. B's focus on a well-defined, measurable gap with concrete baselines and ablations provides stronger grounding in the corpus."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s3-assumption",
+     "b": "s3-formal",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It directly addresses the gap between probabilistic extraction (ref-029) and copyright risk quantification (ref-044), which are central themes in the provided references. The approach is strongly grounded in the corpus, using probabilistic extraction to measure regeneration probabilities linked to legal thresholds, a novel connection not explicitly made in prior work. The evaluation plan is specific, using datasets and models from ref-044 and incorporating metrics from ref-048, demonstrating clear coherence. Hypothesis B, while innovative, focuses on adapting constitutional classifiers (ref-004) for memorization detection, which is less central to the corpus's emphasis on extraction and copyright. B's gap is narrower and its claims less directly supported by the references compared to A's comprehensive integration of multiple key papers."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-formal",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a clear gap by bridging probabilistic extraction (ref-029) with copyright risk quantification (ref-044), which is a coherent synthesis of two distinct lines of work. The approach is specific, proposing a 'copyright risk score' derived from probabilistic regeneration probabilities, and directly ties to legal thresholds for infringement. The evaluation plan is well-grounded in the references, using datasets and models from ref-044 and incorporating metrics from ref-048. Hypothesis A, while grounded in ref-004 and ref-029, focuses on adapting constitutional classifiers for memorization detection, which is less directly supported by the references. The gap in A is narrower and the approach is more incremental, whereas B introduces a novel application of probabilistic extraction to a new domain (copyright risk) with stronger alignment to the references' collective focus on memorization measurement and its implications."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It directly addresses the gap between probabilistic extraction (ref-029) and copyright risk quantification (ref-044), which is a central theme in the provided references. The approach is strongly grounded in ref-029 (probabilistic extraction), ref-044 (copyrighted book memorization), ref-048 (memorization scaling with duplication), and ref-050 (training data extraction). The evaluation plan is specific, using concrete datasets (books and models from ref-044) and metrics (copyright risk scores, correlation with duplication rates) that align with the references. In contrast, Hypothesis B attempts to adapt constitutional classifiers (ref-004) for memorization detection, but this connection is weaker in the references. While ref-004 focuses on jailbreak defenses, the references do not establish a clear link between constitutional classifiers and memorization detection. Hypothesis B's gap and approach are less directly supported by the corpus, as memorization detection is not a stated concern in ref-004. Thus, Hypothesis A provides stronger grounding, clearer problem framing, and more specific claims supported by the references."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-formal",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It addresses a clear gap by bridging probabilistic extraction (ref-029) with copyright risk quantification (ref-044), which is a novel and specific problem gap not directly tackled by any single reference. The approach is strongly grounded in the references, using probabilistic extraction to measure regeneration probabilities linked to legal thresholds, and evaluates using concrete datasets (books and models from ref-044) and metrics (copyright risk scores, correlation with duplication rates from ref-048). Hypothesis A, while grounded in ref-004 and ref-029, focuses on adapting constitutional classifiers for memorization detection, which is less directly supported by the references and overlaps with existing work on jailbreak defenses rather than introducing a new measurable phenomenon. Hypothesis B’s focus on quantifying copyright risk via probabilistic memorization aligns better with the research perspective of identifying phenomena that have been claimed but not measured in a broader setting, particularly in the context of legal implications."
+      }
+     ]
+    },
+    {
+     "a": "s3-empirical",
+     "b": "s3-transfer",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly addresses the unquantified effect of deduplication on copyrighted text memorization, a gap explicitly identified in ref-011 and ref-044. The approach is specific, using ref-011's deduplication tools on ref-044's 200-book dataset and ref-050's extraction attacks to measure verbatim memorization. The evaluation isolates deduplication's effect through controlled ablations, aligning with ref-011's methodology while extending it to copyrighted content. Hypothesis B, while innovative, lacks the same specificity in grounding. It adapts constitutional classifiers (ref-004) to verbatim memorization but does not directly address the core gap identified in the references—deduplication's impact on memorization. The evaluation metrics (e.g., copyright compliance score) are less directly tied to the references, and the approach introduces a novel application of ref-004 that is not as strongly implied by the corpus. The references do not establish a clear precedent for using constitutional classifiers to mitigate memorization, making Hypothesis A more coherent and supported."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-transfer",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap. It directly addresses the unquantified effect of deduplication on copyrighted text memorization, a gap identified between ref-011 (general deduplication benefits) and ref-044 (memorization quantification without deduplication testing). The approach specifically isolates deduplication's impact on copyrighted content using controlled ablations, aligning with ref-011's tools and ref-050's extraction methodology. The evaluation metrics (exact-match extraction rates) are directly supported by ref-044's book dataset and ref-050's extraction framework. In contrast, Hypothesis A's adaptation of constitutional classifiers for verbatim memorization lacks direct support in the references. While ref-004 discusses classifiers for harmful content, there is no evidence in the corpus that this approach has been applied to detect verbatim memorization or copyrighted content specifically. The gap statement in A conflates ref-035's definition of memorization with ref-004's alignment methods, but the references do not establish that constitutional classifiers are a natural solution for this problem. B's focus on a well-defined, reference-supported intervention makes it the stronger hypothesis."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more specific, coherent claims. It directly addresses the gap identified in ref-011 and ref-044 by isolating deduplication's effect on copyrighted text memorization through controlled ablations, which aligns with ref-011's deduplication tools and ref-044's book memorization analysis. The approach uses ref-050's extraction attacks to measure verbatim memorization, creating a clear, measurable link between deduplication and reduced memorization of copyrighted content. In contrast, Hypothesis B's adaptation of constitutional classifiers (ref-004) to detect verbatim memorization is less directly supported by the references. While ref-035 defines memorization, it does not connect to classifier-based mitigation, and ref-004 focuses on harmful content, not verbatim matches. Hypothesis B's evaluation metrics (e.g., copyright compliance score) lack explicit reference support, whereas Hypothesis A's metrics (exact-match extraction rates) are grounded in ref-044 and ref-050. Thus, Hypothesis A better captures the implied problem gap and contribution with tighter reference integration."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-transfer",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly addresses the unquantified effect of deduplication on copyrighted text memorization, a gap identified in ref-011 and ref-044. The approach is specific, using ref-011's deduplication tools on ref-044's 200-book dataset and ref-050's extraction attacks to measure verbatim memorization rates. The evaluation isolates deduplication's impact through controlled ablations, comparing undeduplicated, fully deduplicated, and partially deduplicated models. This specificity and coherence in claims are supported by the references. Hypothesis A, while relevant, conflates constitutional classifiers (ref-004) with verbatim memorization (ref-035, ref-044) without clear evidence from the references that this adaptation is feasible or effective. The gap identified in A is less precise, as ref-004's focus on harmful content does not directly conflict with ref-035's definition of memorization. B's focus on quantifying deduplication's effect on copyrighted material aligns more directly with the references' emphasis on memorization reduction and extraction risks."
+      }
+     ]
+    }
+   ]
+  ]
+ },
+ "selection_log": [
+  {
+   "id": "s1-transfer",
+   "decision": "chosen"
+  },
+  {
+   "id": "s2-transfer",
+   "decision": "chosen"
+  },
+  {
+   "id": "s3-assumption",
+   "decision": "same_topic",
+   "detail": {
+    "with": "s1-transfer",
+    "reason": "Both hypotheses aim to detect verbatim memorization in language models to assess copyright risks, using probabilistic extraction methods with variations in metrics (ACR vs. risk scores) and evaluation focus."
+   }
+  },
+  {
+   "id": "s3-empirical",
+   "decision": "chosen"
+  }
+ ],
+ "chosen": [
+  "s1-transfer",
+  "s2-transfer",
+  "s3-empirical"
+ ],
+ "fallback": []
+}

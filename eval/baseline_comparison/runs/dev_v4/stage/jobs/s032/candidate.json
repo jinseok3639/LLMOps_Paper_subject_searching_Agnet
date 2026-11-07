@@ -1,0 +1,11 @@
+{
+ "title": "Mitigating Agentic Misalignment via Context-Aware Safety Constraints in Diffusion Policies",
+ "summary": "This paper proposes integrating context-aware safety constraints into diffusion policies to prevent adversarial exploitation and unintended harmful behaviors. By embedding dynamic environmental context into the diffusion process, the model learns to reject malicious inputs while maintaining task performance. The approach is validated through adversarial attack scenarios from DP-Attacker, comparing success rates against baseline diffusion policies with fixed safety filters.",
+ "gap": "Existing diffusion policies lack adaptive safety mechanisms that account for real-time environmental context, leaving them vulnerable to adversarial attacks and agentic misalignment.",
+ "approach": "Introduce a context-aware conditioning module that modifies diffusion noise schedules based on environmental risk assessments. Train using adversarial examples paired with contextual metadata to enforce safe behavior.",
+ "evaluation": "Measure attack success rates against DP-Attacker perturbations, comparing baseline diffusion policies and fixed-filter variants. Track task performance degradation under safety constraints.",
+ "support": [
+  "ref-002",
+  "ref-005"
+ ]
+}

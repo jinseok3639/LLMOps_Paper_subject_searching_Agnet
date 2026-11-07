@@ -1,0 +1,406 @@
+{
+ "sample": "t006",
+ "condition": "C",
+ "n_refs": 63,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Flat Minima Meet Feature Compactness: A Unified Training Objective for Detecting Misclassifications and Out-of-Distribution Inputs",
+   "summary": "This proposal targets unified failure detection, where a single confidence score has to reject both misclassified in-distribution samples and semantically novel inputs. Flat-minima training is known to widen the confidence gap between correct and incorrect predictions, but it does not shape the feature space to separate in-distribution from out-of-distribution data. The proposal adds a hyperspherical compactness and dispersion loss on top of sharpness-aware or weight-averaged training and scores inputs with a softmax score combined with feature distance. It would be validated on CIFAR and ImageNet selective classification benchmarks that include OOD data. Baselines would be flat-minima-only, CIDER-only and OpenMix, measured with AUGRC and AURC.",
+   "gap": "Prior work shows that flat minima (SAM, SWA) help misclassification detection, and that hyperspherical compactness and dispersion help OOD detection. Each line is evaluated on its own task. Benchmarks that combine both failure sources find that methods built for one task often hurt the other, so softmax response remains hard to beat. Nobody has tested whether the two training-time mechanisms work together, conflict, or are simply orthogonal under one unified failure-detection metric.",
+   "approach": "Train classifiers with SAM or F-SAM plus SWA or EMA weight averaging. Add a prototype-based compactness loss and an inter-prototype dispersion loss on a normalized projection head, with no auxiliary outliers. At test time, combine maximum softmax probability with a kNN or prototype distance in the feature space using a SIRC-style combination, so that the ranking of correct versus incorrect ID predictions is preserved while OOD inputs are pushed down. Ablate each component and check the trade-off between them.",
+   "evaluation": "Datasets: CIFAR-10/100 and ImageNet-1K as ID data, with near-OOD and far-OOD sets from OpenOOD v1.5 (SSB, NINCO, Textures, Places, SVHN, iNaturalist). Baselines: MSP, Energy, kNN, ViM, SIRC, the plugin estimators for this setting, FMFP, OpenMix, SURE, CIDER and Outlier Exposure. Metrics: AUGRC and AURC on the mixed ID and OOD test pool, plus misclassification AUROC, OOD AUROC and FPR95 separately. The idea is supported if the combined method improves AUGRC over each component alone and over softmax response without lowering accuracy.",
+   "support": [
+    "ref-002",
+    "ref-059",
+    "ref-010",
+    "ref-013",
+    "ref-030",
+    "ref-029",
+    "ref-028",
+    "ref-005",
+    "ref-014",
+    "ref-007",
+    "ref-063",
+    "ref-034",
+    "ref-018",
+    "ref-062",
+    "ref-056",
+    "ref-001"
+   ]
+  },
+  {
+   "title": "Trajectory Disagreement: Using the Gap Between EMA and Online Weights as a Free Failure-Detection Signal",
+   "summary": "This proposal turns a byproduct of training into a confidence signal. When weights are averaged with an exponential moving average (EMA) or SWA, the averaged model and the final online model are known to make different predictions. The hypothesis is that their disagreement, measured as the KL divergence or prediction mismatch between the two checkpoints, flags both misclassifications and out-of-distribution inputs. Combined with the averaged model's softmax, it should give a near-free score for unified failure detection. Validation would compare the score against softmax response, snapshot-based methods and Deep Ensembles using AUGRC on OpenOOD-style mixed test sets.",
+   "gap": "Weight averaging is used to improve accuracy, calibration and flatness. Earlier snapshots have been used to estimate uncertainty for highly confident points, and Deep Ensembles detect unknowns well but cost several models. No cited work treats the disagreement between an averaged model and its online counterpart, which every EMA or SWA training run already produces, as a confidence score for both misclassification and OOD detection.",
+   "approach": "Train with standard SGD while keeping an EMA or SWA model. At inference, run both the averaged and the online model. Compute a disagreement term (symmetric KL, top-1 mismatch, or logit cosine distance) and combine it with the averaged model's maximum softmax or maximum logit score. Use a SIRC-like monotone combination so that the averaged model's correct/incorrect ranking is kept. Study how the EMA decay and the SWA cycle length affect disagreement diversity.",
+   "evaluation": "Settings: ResNet and DeiT models on CIFAR-10/100, Tiny ImageNet and ImageNet-1K, under covariate shift and semantic shift. Baselines: MSP on the averaged model, SWAG, the snapshot-based bias-reduced estimator, MC-free ensembles of the same compute, Deep Ensembles, Energy and ViM. Metrics: AUGRC, AURC, misclassification AUROC and OOD FPR95, plus the extra inference cost. The idea is supported if it beats single-model scores and approaches ensemble performance at roughly twice single-model cost.",
+   "support": [
+    "ref-022",
+    "ref-013",
+    "ref-050",
+    "ref-049",
+    "ref-034",
+    "ref-007",
+    "ref-063",
+    "ref-005",
+    "ref-018",
+    "ref-001",
+    "ref-019",
+    "ref-012",
+    "ref-043"
+   ]
+  },
+  {
+   "title": "Does Flatness Still Help Failure Prediction When Fine-Tuning Large Pretrained Vision Backbones?",
+   "summary": "Evidence that flat minima improve failure prediction comes mostly from small networks trained from scratch. Benchmarks show that pretraining changes OOD behaviour and that a strong closed-set classifier already detects novelty well. The proposal tests whether sharpness-aware and weight-averaged fine-tuning of ImageNet-21K-pretrained ViTs and DINOv3 backbones still widens the gap between correct and incorrect confidence. It also tests whether the gain extends to semantic and covariate OOD. A flatness-aware fine-tuning recipe, F-SAM plus EMA with a cosine classifier, would be compared with plain fine-tuning, mixup or CutMix and SURE, using AUGRC on OpenOOD v1.5 full-spectrum benchmarks.",
+   "gap": "FMFP and SURE showed that flat minima improve failure prediction for from-scratch CNNs. OpenOOD v1.5 and NINCO show that pretraining strongly changes detection performance, and that closed-set accuracy largely drives open-set performance. It is still unknown whether the flatness benefit survives, shrinks or reverses once a strong pretrained representation exists, and whether it holds beyond accuracy gains under a unified failure metric.",
+   "approach": "Fine-tune DeiT, ImageNet-21K-pretrained ViT and DINOv3 backbones on ImageNet-1K and fine-grained ID datasets under controlled conditions: SGD, SAM, F-SAM, EMA, SWA, and the combination of F-SAM, EMA and a cosine classifier. Also include mixup and CutMix, which are known to affect calibration and separation. Measure sharpness directly. Regress failure-detection metrics on closed-set accuracy to separate the effect of flatness from the accuracy-driven effect.",
+   "evaluation": "Benchmarks: OpenOOD v1.5 ImageNet near-OOD and far-OOD, the full-spectrum covariate-shift splits, SSB, NINCO, iNaturalist, Textures and Places. Metrics: AUGRC, AURC, misclassification AUROC and OOD AUROC/FPR95, reported both raw and as residuals after controlling for accuracy. Baselines: plain fine-tuning with MSP, MaxLogit, Energy and kNN scores; SURE; mixup and CutMix fine-tuning; linear probing. The hypothesis is confirmed if flatness gives accuracy-adjusted AUGRC gains on pretrained backbones, and refuted if the gains disappear once accuracy is controlled for.",
+   "support": [
+    "ref-002",
+    "ref-059",
+    "ref-056",
+    "ref-010",
+    "ref-030",
+    "ref-022",
+    "ref-013",
+    "ref-040",
+    "ref-057",
+    "ref-012",
+    "ref-006",
+    "ref-047",
+    "ref-018",
+    "ref-063",
+    "ref-007",
+    "ref-033",
+    "ref-038",
+    "ref-017"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [],
+   "raw": {
+    "duration_api_ms": 36694,
+    "stop_reason": "tool_use",
+    "session_id": "9fad033d-a173-44f8-a852-4fe729283e04",
+    "total_cost_usd": 0.273328,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 24665,
+     "cache_read_input_tokens": 0,
+     "output_tokens": 3800,
+     "output_tokens_details": {
+      "thinking_tokens": 910
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 24665,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 3800,
+       "cache_read_input_tokens": 0,
+       "cache_creation_input_tokens": 24665,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 24665
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-opus-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 3800,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 24665,
+      "webSearchRequests": 0,
+      "costUSD": 0.273328,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 910,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 24665,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Flat Minima Meet Feature Compactness: A Unified Training Objective for Detecting Misclassifications and Out-of-Distribution Inputs\",\"summary\":\"This proposal targets unified failure detection, where a single confidence score has to reject both misclassified in-distribution samples and semantically novel inputs. Flat-minima training is known to widen the confidence gap between correct and incorrect predictions, but it does not shape the feature space to separate in-distribution from out-of-distribution data. The proposal adds a hyperspherical compactness and dispersion loss on top of sharpness-aware or weight-averaged training and scores inputs with a softmax score combined with feature distance. It would be validated on CIFAR and ImageNet selective classification benchmarks that include OOD data. Baselines would be flat-minima-only, CIDER-only and OpenMix, measured with AUGRC and AURC.\",\"gap\":\"Prior work shows that flat minima (SAM, SWA) help misclassification detection, and that hyperspherical compactness and dispersion help OOD detection. Each line is evaluated on its own task. Benchmarks that combine both failure sources find that methods built for one task often hurt the other, so softmax response remains hard to beat. Nobody has tested whether the two training-time mechanisms work together, conflict, or are simply orthogonal under one unified failure-detection metric.\",\"approach\":\"Train classifiers with SAM or F-SAM plus SWA or EMA weight averaging. Add a prototype-based compactness loss and an inter-prototype dispersion loss on a normalized projection head, with no auxiliary outliers. At test time, combine maximum softmax probability with a kNN or prototype distance in the feature space using a SIRC-style combination, so that the ranking of correct versus incorrect ID predictions is preserved while OOD inputs are pushed down. Ablate each component and check the trade-off between them.\",\"evaluation\":\"Datasets: CIFAR-10/100 and ImageNet-1K as ID data, with near-OOD and far-OOD sets from OpenOOD v1.5 (SSB, NINCO, Textures, Places, SVHN, iNaturalist). Baselines: MSP, Energy, kNN, ViM, SIRC, the plugin estimators for this setting, FMFP, OpenMix, SURE, CIDER and Outlier Exposure. Metrics: AUGRC and AURC on the mixed ID and OOD test pool, plus misclassification AUROC, OOD AUROC and FPR95 separately. The idea is supported if the combined method improves AUGRC over each component alone and over softmax response without lowering accuracy.\",\"support\":[\"ref-002\",\"ref-059\",\"ref-010\",\"ref-013\",\"ref-030\",\"ref-029\",\"ref-028\",\"ref-005\",\"ref-014\",\"ref-007\",\"ref-063\",\"ref-034\",\"ref-018\",\"ref-062\",\"ref-056\",\"ref-001\"]},{\"title\":\"Trajectory Disagreement: Using the Gap Between EMA and Online Weights as a Free Failure-Detection Signal\",\"summary\":\"This proposal turns a byproduct of training into a confidence signal. When weights are averaged with an exponential moving average (EMA) or SWA, the averaged model and the final online model are known to make different predictions. The hypothesis is that their disagreement, measured as the KL divergence or prediction mismatch between the two checkpoints, flags both misclassifications and out-of-distribution inputs. Combined with the averaged model's softmax, it should give a near-free score for unified failure detection. Validation would compare the score against softmax response, snapshot-based methods and Deep Ensembles using AUGRC on OpenOOD-style mixed test sets.\",\"gap\":\"Weight averaging is used to improve accuracy, calibration and flatness. Earlier snapshots have been used to estimate uncertainty for highly confident points, and Deep Ensembles detect unknowns well but cost several models. No cited work treats the disagreement between an averaged model and its online counterpart, which every EMA or SWA training run already produces, as a confidence score for both misclassification and OOD detection.\",\"approach\":\"Train with standard SGD while keeping an EMA or SWA model. At inference, run both the averaged and the online model. Compute a disagreement term (symmetric KL, top-1 mismatch, or logit cosine distance) and combine it with the averaged model's maximum softmax or maximum logit score. Use a SIRC-like monotone combination so that the averaged model's correct/incorrect ranking is kept. Study how the EMA decay and the SWA cycle length affect disagreement diversity.\",\"evaluation\":\"Settings: ResNet and DeiT models on CIFAR-10/100, Tiny ImageNet and ImageNet-1K, under covariate shift and semantic shift. Baselines: MSP on the averaged model, SWAG, the snapshot-based bias-reduced estimator, MC-free ensembles of the same compute, Deep Ensembles, Energy and ViM. Metrics: AUGRC, AURC, misclassification AUROC and OOD FPR95, plus the extra inference cost. The idea is supported if it beats single-model scores and approaches ensemble performance at roughly twice single-model cost.\",\"support\":[\"ref-022\",\"ref-013\",\"ref-050\",\"ref-049\",\"ref-034\",\"ref-007\",\"ref-063\",\"ref-005\",\"ref-018\",\"ref-001\",\"ref-019\",\"ref-012\",\"ref-043\"]},{\"title\":\"Does Flatness Still Help Failure Prediction When Fine-Tuning Large Pretrained Vision Backbones?\",\"summary\":\"Evidence that flat minima improve failure prediction comes mostly from small networks trained from scratch. Benchmarks show that pretraining changes OOD behaviour and that a strong closed-set classifier already detects novelty well. The proposal tests whether sharpness-aware and weight-averaged fine-tuning of ImageNet-21K-pretrained ViTs and DINOv3 backbones still widens the gap between correct and incorrect confidence. It also tests whether the gain extends to semantic and covariate OOD. A flatness-aware fine-tuning recipe, F-SAM plus EMA with a cosine classifier, would be compared with plain fine-tuning, mixup or CutMix and SURE, using AUGRC on OpenOOD v1.5 full-spectrum benchmarks.\",\"gap\":\"FMFP and SURE showed that flat minima improve failure prediction for from-scratch CNNs. OpenOOD v1.5 and NINCO show that pretraining strongly changes detection performance, and that closed-set accuracy largely drives open-set performance. It is still unknown whether the flatness benefit survives, shrinks or reverses once a strong pretrained representation exists, and whether it holds beyond accuracy gains under a unified failure metric.\",\"approach\":\"Fine-tune DeiT, ImageNet-21K-pretrained ViT and DINOv3 backbones on ImageNet-1K and fine-grained ID datasets under controlled conditions: SGD, SAM, F-SAM, EMA, SWA, and the combination of F-SAM, EMA and a cosine classifier. Also include mixup and CutMix, which are known to affect calibration and separation. Measure sharpness directly. Regress failure-detection metrics on closed-set accuracy to separate the effect of flatness from the accuracy-driven effect.\",\"evaluation\":\"Benchmarks: OpenOOD v1.5 ImageNet near-OOD and far-OOD, the full-spectrum covariate-shift splits, SSB, NINCO, iNaturalist, Textures and Places. Metrics: AUGRC, AURC, misclassification AUROC and OOD AUROC/FPR95, reported both raw and as residuals after controlling for accuracy. Baselines: plain fine-tuning with MSP, MaxLogit, Energy and kNN scores; SURE; mixup and CutMix fine-tuning; linear probing. The hypothesis is confirmed if flatness gives accuracy-adjusted AUGRC gains on pretrained backbones, and refuted if the gains disappear once accuracy is controlled for.\",\"support\":[\"ref-002\",\"ref-059\",\"ref-056\",\"ref-010\",\"ref-030\",\"ref-022\",\"ref-013\",\"ref-040\",\"ref-057\",\"ref-012\",\"ref-006\",\"ref-047\",\"ref-018\",\"ref-063\",\"ref-007\",\"ref-033\",\"ref-038\",\"ref-017\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Flat Minima Meet Feature Compactness: A Unified Training Objective for Detecting Misclassifications and Out-of-Distribution Inputs",
+       "summary": "This proposal targets unified failure detection, where a single confidence score has to reject both misclassified in-distribution samples and semantically novel inputs. Flat-minima training is known to widen the confidence gap between correct and incorrect predictions, but it does not shape the feature space to separate in-distribution from out-of-distribution data. The proposal adds a hyperspherical compactness and dispersion loss on top of sharpness-aware or weight-averaged training and scores inputs with a softmax score combined with feature distance. It would be validated on CIFAR and ImageNet selective classification benchmarks that include OOD data. Baselines would be flat-minima-only, CIDER-only and OpenMix, measured with AUGRC and AURC.",
+       "gap": "Prior work shows that flat minima (SAM, SWA) help misclassification detection, and that hyperspherical compactness and dispersion help OOD detection. Each line is evaluated on its own task. Benchmarks that combine both failure sources find that methods built for one task often hurt the other, so softmax response remains hard to beat. Nobody has tested whether the two training-time mechanisms work together, conflict, or are simply orthogonal under one unified failure-detection metric.",
+       "approach": "Train classifiers with SAM or F-SAM plus SWA or EMA weight averaging. Add a prototype-based compactness loss and an inter-prototype dispersion loss on a normalized projection head, with no auxiliary outliers. At test time, combine maximum softmax probability with a kNN or prototype distance in the feature space using a SIRC-style combination, so that the ranking of correct versus incorrect ID predictions is preserved while OOD inputs are pushed down. Ablate each component and check the trade-off between them.",
+       "evaluation": "Datasets: CIFAR-10/100 and ImageNet-1K as ID data, with near-OOD and far-OOD sets from OpenOOD v1.5 (SSB, NINCO, Textures, Places, SVHN, iNaturalist). Baselines: MSP, Energy, kNN, ViM, SIRC, the plugin estimators for this setting, FMFP, OpenMix, SURE, CIDER and Outlier Exposure. Metrics: AUGRC and AURC on the mixed ID and OOD test pool, plus misclassification AUROC, OOD AUROC and FPR95 separately. The idea is supported if the combined method improves AUGRC over each component alone and over softmax response without lowering accuracy.",
+       "support": [
+        "ref-002",
+        "ref-059",
+        "ref-010",
+        "ref-013",
+        "ref-030",
+        "ref-029",
+        "ref-028",
+        "ref-005",
+        "ref-014",
+        "ref-007",
+        "ref-063",
+        "ref-034",
+        "ref-018",
+        "ref-062",
+        "ref-056",
+        "ref-001"
+       ]
+      },
+      {
+       "title": "Trajectory Disagreement: Using the Gap Between EMA and Online Weights as a Free Failure-Detection Signal",
+       "summary": "This proposal turns a byproduct of training into a confidence signal. When weights are averaged with an exponential moving average (EMA) or SWA, the averaged model and the final online model are known to make different predictions. The hypothesis is that their disagreement, measured as the KL divergence or prediction mismatch between the two checkpoints, flags both misclassifications and out-of-distribution inputs. Combined with the averaged model's softmax, it should give a near-free score for unified failure detection. Validation would compare the score against softmax response, snapshot-based methods and Deep Ensembles using AUGRC on OpenOOD-style mixed test sets.",
+       "gap": "Weight averaging is used to improve accuracy, calibration and flatness. Earlier snapshots have been used to estimate uncertainty for highly confident points, and Deep Ensembles detect unknowns well but cost several models. No cited work treats the disagreement between an averaged model and its online counterpart, which every EMA or SWA training run already produces, as a confidence score for both misclassification and OOD detection.",
+       "approach": "Train with standard SGD while keeping an EMA or SWA model. At inference, run both the averaged and the online model. Compute a disagreement term (symmetric KL, top-1 mismatch, or logit cosine distance) and combine it with the averaged model's maximum softmax or maximum logit score. Use a SIRC-like monotone combination so that the averaged model's correct/incorrect ranking is kept. Study how the EMA decay and the SWA cycle length affect disagreement diversity.",
+       "evaluation": "Settings: ResNet and DeiT models on CIFAR-10/100, Tiny ImageNet and ImageNet-1K, under covariate shift and semantic shift. Baselines: MSP on the averaged model, SWAG, the snapshot-based bias-reduced estimator, MC-free ensembles of the same compute, Deep Ensembles, Energy and ViM. Metrics: AUGRC, AURC, misclassification AUROC and OOD FPR95, plus the extra inference cost. The idea is supported if it beats single-model scores and approaches ensemble performance at roughly twice single-model cost.",
+       "support": [
+        "ref-022",
+        "ref-013",
+        "ref-050",
+        "ref-049",
+        "ref-034",
+        "ref-007",
+        "ref-063",
+        "ref-005",
+        "ref-018",
+        "ref-001",
+        "ref-019",
+        "ref-012",
+        "ref-043"
+       ]
+      },
+      {
+       "title": "Does Flatness Still Help Failure Prediction When Fine-Tuning Large Pretrained Vision Backbones?",
+       "summary": "Evidence that flat minima improve failure prediction comes mostly from small networks trained from scratch. Benchmarks show that pretraining changes OOD behaviour and that a strong closed-set classifier already detects novelty well. The proposal tests whether sharpness-aware and weight-averaged fine-tuning of ImageNet-21K-pretrained ViTs and DINOv3 backbones still widens the gap between correct and incorrect confidence. It also tests whether the gain extends to semantic and covariate OOD. A flatness-aware fine-tuning recipe, F-SAM plus EMA with a cosine classifier, would be compared with plain fine-tuning, mixup or CutMix and SURE, using AUGRC on OpenOOD v1.5 full-spectrum benchmarks.",
+       "gap": "FMFP and SURE showed that flat minima improve failure prediction for from-scratch CNNs. OpenOOD v1.5 and NINCO show that pretraining strongly changes detection performance, and that closed-set accuracy largely drives open-set performance. It is still unknown whether the flatness benefit survives, shrinks or reverses once a strong pretrained representation exists, and whether it holds beyond accuracy gains under a unified failure metric.",
+       "approach": "Fine-tune DeiT, ImageNet-21K-pretrained ViT and DINOv3 backbones on ImageNet-1K and fine-grained ID datasets under controlled conditions: SGD, SAM, F-SAM, EMA, SWA, and the combination of F-SAM, EMA and a cosine classifier. Also include mixup and CutMix, which are known to affect calibration and separation. Measure sharpness directly. Regress failure-detection metrics on closed-set accuracy to separate the effect of flatness from the accuracy-driven effect.",
+       "evaluation": "Benchmarks: OpenOOD v1.5 ImageNet near-OOD and far-OOD, the full-spectrum covariate-shift splits, SSB, NINCO, iNaturalist, Textures and Places. Metrics: AUGRC, AURC, misclassification AUROC and OOD AUROC/FPR95, reported both raw and as residuals after controlling for accuracy. Baselines: plain fine-tuning with MSP, MaxLogit, Energy and kNN scores; SURE; mixup and CutMix fine-tuning; linear probing. The hypothesis is confirmed if flatness gives accuracy-adjusted AUGRC gains on pretrained backbones, and refuted if the gains disappear once accuracy is controlled for.",
+       "support": [
+        "ref-002",
+        "ref-059",
+        "ref-056",
+        "ref-010",
+        "ref-030",
+        "ref-022",
+        "ref-013",
+        "ref-040",
+        "ref-057",
+        "ref-012",
+        "ref-006",
+        "ref-047",
+        "ref-018",
+        "ref-063",
+        "ref-007",
+        "ref-033",
+        "ref-038",
+        "ref-017"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 10200,
+    "type": "result",
+    "duration_ms": 36778,
+    "uuid": "4738525a-d965-468c-9c89-1a526b6b4e6f",
+    "ttft_stream_ms": 1277,
+    "time_to_request_ms": 62,
+    "time_to_request_phases_ms": {
+     "other": 4,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 3,
+     "input_attachments": 19,
+     "input_hooks": 2,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 11,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 1,
+     "model_config_wait": 1,
+     "autocompact": 1,
+     "request_announcements": 3,
+     "query_setup": 1,
+     "model_gates": 0,
+     "tool_schema_build": 2,
+     "message_normalization": 1,
+     "client_creation": 2,
+     "request_build": 4
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 11,
+    "time_to_request_cpu_ms": 93,
+    "time_to_request_major_faults": 3655,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 12,
+     "cpu_ms": 31,
+     "major_faults": 1094,
+     "setup_ms": 0,
+     "prompt_producers_ms": 2,
+     "ambient_start_ms": 3,
+     "ambient_wait_ms": 11,
+     "render_ms": 1,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 0,
+     "after_ms": 0,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 0,
+     "other_ms": 1,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 1277,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  }
+ ],
+ "calls": 1,
+ "usage": [
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 24665,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 3800,
+    "output_tokens_details": {
+     "thinking_tokens": 910
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 24665,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 3800,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 24665,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 24665
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.273328,
+   "duration_ms": 36778,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-opus-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 3800,
+     "cacheReadInputTokens": 0,
+     "cacheCreationInputTokens": 24665,
+     "webSearchRequests": 0,
+     "costUSD": 0.273328,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 910,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 24665,
+     "canonicalModel": "claude-opus-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "effort": "high",
+ "seconds": 40.4
+}

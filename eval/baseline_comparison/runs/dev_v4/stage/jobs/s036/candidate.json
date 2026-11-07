@@ -1,0 +1,13 @@
+{
+ "title": "Cross-Paradigm Generalization via Lipschitz-Regularized EEGNet",
+ "summary": "This work investigates whether explicit Lipschitz regularization improves EEGNet's cross-paradigm generalization. The hypothesis is that constraining feature space smoothness via Lipschitz bounds reduces overfitting to paradigm-specific artifacts. The approach extends EEGNet with layer-wise Lipschitz penalties during training. Evaluation tests zero-shot transfer across P300, ERN, and SMR datasets using leave-one-paradigm-out validation.",
+ "gap": "EEGNet's cross-paradigm performance varies with training data size, but no work analyzes how feature space continuity affects generalization across fundamentally different BCI tasks.",
+ "approach": "Augment EEGNet training with Lipschitz regularization terms derived from semidefinite programming bounds. This enforces controlled sensitivity to input variations while maintaining model compactness.",
+ "evaluation": "Measure classification accuracy on held-out paradigms after training on others. Compare against standard EEGNet, FBCSP, and MOABB benchmarked methods. Metrics: accuracy drop, feature space distance (MMD), and Lipschitz constant estimates.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-020"
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "title": "Adaptive Constitutional Reasoning for Jailbreak Defense",
+ "summary": "This paper introduces an adaptive Constitutional AI framework that adjusts reasoning depth based on input risk. A ShieldGemma classifier identifies high-risk prompts, triggering multi-step self-critique chains. Low-risk queries receive direct responses. Evaluated on StrongREJECT and HarmBench, it improves safety scores over fixed-depth Constitutional AI while maintaining helpfulness on benign tasks.",
+ "gap": "Constitutional AI (ref-013) applies uniform reasoning depth, which may waste compute on safe queries and fail to analyze sophisticated jailbreaks. Existing jailbreak benchmarks (ref-017, ref-021) lack adaptive defense mechanisms to balance safety and efficiency.",
+ "approach": "The system uses ShieldGemma (ref-005) to classify input risk. For high-risk prompts, it generates 2-3 critique-revision cycles using Constitutional AI's self-feedback mechanism. Risk scores above 0.75 trigger additional reasoning. The classifier is fine-tuned on HarmBench (ref-014) safety labels, with thresholds validated on StrongREJECT (ref-021) calibration data.",
+ "evaluation": "Baselines include Constitutional AI (ref-013), Llama Guard (ref-016), and ShieldGemma (ref-005). Metrics are ASR on StrongREJECT, latency per query, and helpfulness on MT-Bench. Ablation studies compare fixed (1-cycle) vs. adaptive (1-3 cycles) reasoning using the same model backbone. Safety classification F1 scores are reported against HarmBench ground truth.",
+ "support": [
+  "ref-005",
+  "ref-013",
+  "ref-014",
+  "ref-016",
+  "ref-017",
+  "ref-021"
+ ]
+}

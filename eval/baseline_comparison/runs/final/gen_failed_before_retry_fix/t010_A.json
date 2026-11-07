@@ -1,0 +1,9 @@
+{
+ "sample": "t010",
+ "condition": "A",
+ "n_refs": 21,
+ "failed": true,
+ "error": "ValueError: format validation failed: hypothesis 3: summary has 32 words but must have 40 to 120 words; hypothesis 3: title or summary mentions a reference id",
+ "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\jjins\\Desktop\\LLMOps\\repo\\LLMOps_Paper_subject_searching_Agnet-test-candidate-baseline-comparison\\eval\\baseline_comparison\\generate.py\", line 151, in main\n    candidates, info = fn(sample, refs, run) if cond == \"B\" else fn(sample, refs)\n                                                                 ~~^^^^^^^^^^^^^^\n  File \"C:\\Users\\jjins\\Desktop\\LLMOps\\repo\\LLMOps_Paper_subject_searching_Agnet-test-candidate-baseline-comparison\\eval\\baseline_comparison\\generate.py\", line 58, in run_a\n    proposals, attempts = with_format_retry(call, user, {r[\"id\"] for r in refs})\n                          ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\jjins\\Desktop\\LLMOps\\repo\\LLMOps_Paper_subject_searching_Agnet-test-candidate-baseline-comparison\\eval\\baseline_comparison\\generate.py\", line 46, in with_format_retry\n    raise ValueError(\"format validation failed: \" + \"; \".join(issues))\nValueError: format validation failed: hypothesis 3: summary has 32 words but must have 40 to 120 words; hypothesis 3: title or summary mentions a reference id\n",
+ "seconds": 27.7
+}

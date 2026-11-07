@@ -1,0 +1,61 @@
+{
+ "sample": "t006",
+ "condition": "B",
+ "n_refs": 63,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Flat Minima with Stochastic Weight Averaging Improves Misclassification Detection via Confidence Separation",
+   "summary": "We hypothesize that combining Sharpness-Aware Minimization (SAM) with Stochastic Weight Averaging (SWA) improves misclassification detection by enhancing confidence separation between correct and incorrect predictions. Unlike calibration methods that often degrade this separation, our approach uses SAM to find flat minima and SWA to average weights during training, creating a smoother loss landscape. We validate this by measuring confidence separation (AUC of temperature-scaled softmax scores) on in-distribution misclassifications across CIFAR-10, CIFAR-100, and ImageNet, comparing against calibrated models and flat minima techniques.",
+   "gap": "Current calibration methods degrade confidence separation for misclassification detection (ref-002, ref-059), and while flat minima techniques (ref-010, ref-013, ref-022) exist, their specific application to confidence separation remains underexplored. The closest work (ref-002) shows flat minima improve failure prediction but does not combine SAM with SWA for this task.",
+   "approach": "Integrate SAM with SWA during training: (1) SAM minimizes loss sharpness by perturbing weights with gradient-based noise, (2) SWA averages weights from the final training epochs. Use temperature-scaled softmax probabilities (temperature selected via validation) as confidence scores. Train ResNet-50 models on CIFAR-10/100 and ImageNet, with identical hyperparameters (learning rate 0.05, batch size 128) for all baselines. The core difference is the addition of SAM+SWA to the optimization process.",
+   "evaluation": "Baselines: standard training, temperature scaling (calibration), SAM-only, SWA-only. Metrics: (1) AUC of confidence scores distinguishing misclassified vs. correctly classified samples, (2) FPR@95TPR, (3) maximum Hessian eigenvalue (computed via finite differences) to measure loss landscape sharpness. Ablation: SAM-only vs. SWA-only vs. SAM+SWA on CIFAR-10. Test on held-out misclassified samples from validation sets.",
+   "support": [
+    "ref-002",
+    "ref-010",
+    "ref-013",
+    "ref-022",
+    "ref-059"
+   ]
+  },
+  {
+   "title": "Dynamic Thresholding with Gradient Norms and Softmax Scores Improves Failure Prediction Under Covariate Shift",
+   "summary": "We hypothesize that combining gradient norms and softmax scores with a dynamic thresholding mechanism improves failure prediction under covariate shift. Gradient norms, computed via KL divergence between softmax outputs and a uniform distribution, adapt to input perturbations. We train a lightweight MLP threshold predictor using gradient norms and softmax scores, validated on ImageNet-C and CIFAR-10-C, comparing against static softmax, ODIN, Mahalanobis, and GradNorm baselines.",
+   "gap": "While ref-007 and ref-008 show softmax baselines perform well under covariate shift, ref-060 demonstrates gradient norms distinguish ID and OOD data. However, no work combines both signals with dynamic thresholding to adapt to shift severity. The gap is the lack of a method that unifies static softmax confidence with dynamic gradient-based signals for failure detection under varying shift levels.",
+   "approach": "Inputs: softmax scores and gradient norms of KL divergence between softmax and uniform distribution. Output: binary failure prediction. Objective: minimize FPR95 at TPR95. Update rule: train a 2-layer MLP threshold predictor on ID and corrupted data. Component change: dynamic thresholding via MLP. Same: use pre-trained model features. Differs from ref-060: combines softmax and gradient norms in a learned threshold predictor, vs. ref-060's fixed gradient-norm threshold.",
+   "evaluation": "Setting: ImageNet-C (ref-007) and CIFAR-10-C (ref-008) with 5 severity levels. Baselines: softmax, ODIN (ref-015), Mahalanobis (ref-023), GradNorm (ref-060). Measures: AUROC, FPR95. Ablation: (1) fixed vs. dynamic thresholds on gradient norms, (2) gradient norms alone vs. combined with softmax scores, (3) sensitivity of both signals across severity levels. The ablation isolates the proposed dynamic combination mechanism.",
+   "support": [
+    "ref-007",
+    "ref-008",
+    "ref-015",
+    "ref-023",
+    "ref-060"
+   ]
+  },
+  {
+   "title": "Masked Image Modeling Pretraining Enhances Out-of-Distribution Detection Without OOD Data",
+   "summary": "We propose that masked image modeling (MIM) pretraining improves OOD detection by learning intrinsic in-distribution features without requiring OOD samples. Unlike contrastive or supervised methods, MIM forces models to reconstruct missing patches, capturing structural patterns unique to in-distribution data. We evaluate this by training ViT models on ImageNet with MAE pretraining and measuring OOD detection performance on benchmarks like ImageNet vs. Textures, iNaturalist, and NINCO, comparing against supervised and contrastive baselines.",
+   "gap": "Existing OOD detection methods often rely on post-hoc techniques or OOD data during training, while MIM's reconstruction-based pretraining offers an assumption-free alternative. Ref-036 shows reconstruction-based methods can outperform outlier exposure, and ref-045 includes post-hoc methods (e.g., ODIN) that do not use OOD data. However, no work isolates how MIM pretraining alone improves OOD detection without fine-tuning.",
+   "approach": "Pretrain ViT-B/16 models using MAE on ImageNet-1K, then fine-tune for classification. Use reconstruction error from the pretrained encoder (before fine-tuning) as an OOD score. Test on ImageNet vs. Textures, iNaturalist, and NINCO using AUROC, FPR95. Compare against supervised ViT, MoCo-v3, and post-hoc methods (ODIN, GradNorm) under identical pretraining/fine-tuning settings. Quantify feature space compactness via average pairwise distances within/across classes for ID vs. OOD samples.",
+   "evaluation": "Baselines: supervised ViT, MoCo-v3, ODIN, GradNorm. Metrics: AUROC, FPR95. Ablations: (1) reconstruction error from pretrained vs. fine-tuned models, (2) comparison against GradNorm (ref-060) to isolate reconstruction vs. gradient-based methods. Datasets: ImageNet-1K (ID), Textures, iNaturalist, NINCO (OOD). Feature compactness measured as mean intra-class distance in the encoder's feature space.",
+   "support": [
+    "ref-036",
+    "ref-040",
+    "ref-045",
+    "ref-047",
+    "ref-060"
+   ]
+  }
+ ],
+ "calls": 131,
+ "chosen_ids": [
+  "s1-assumption",
+  "s3-assumption",
+  "s2-assumption"
+ ],
+ "method": "eval\\baseline_comparison\\methods\\v3",
+ "method_version": "v3",
+ "dropped_proposals": {},
+ "refine_failed": [],
+ "seconds": 340.3
+}

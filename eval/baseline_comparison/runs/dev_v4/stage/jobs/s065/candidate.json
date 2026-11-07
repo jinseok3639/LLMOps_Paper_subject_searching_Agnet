@@ -1,0 +1,12 @@
+{
+ "title": "Frequency-Aware Robustness in Diffusion Policies via Learnable Spectral Masking",
+ "summary": "We propose a learnable spectral masking mechanism integrated into diffusion policy denoising steps to mitigate adversarial patch attacks. The method identifies and suppresses anomalous frequency components in input observations, trained via a hybrid loss combining task performance and perturbation invariance. Evaluated on manipulation tasks under physical patch attacks, the approach improves success rate retention compared to baselines.",
+ "gap": "While ref-005 demonstrates physical adversarial patch attacks on diffusion policies, it does not propose a defense mechanism. The closest cited work (ref-005) leaves open the development of a frequency-domain defense to neutralize such attacks.",
+ "approach": "Implement a learnable spectral mask within the diffusion policy's denoising network that identifies and suppresses anomalous frequency components. The mask is trained using a hybrid loss: L = L_task + λL_perturb, where L_task is the standard diffusion loss, L_perturb is the L1 difference between masked and unmasked features under adversarial perturbations, and λ balances the terms. The mask operates on Fourier-transformed input observations, masking frequency bins with learnable weights. Inputs: noisy observations; Outputs: denoised observations with adversarial patterns suppressed. Differs from ref-005's attack generation by focusing on defense through frequency-domain filtering rather than perturbation crafting.",
+ "evaluation": "Test on manipulation tasks (e.g., ref-005's pre-trained diffusion policies) under white-box/black-box physical patch attacks. Baselines: (1) standard diffusion policies, (2) fixed frequency filter baseline (non-learnable), (3) adversarial training with patch attacks. Metrics: (a) success rate retention (%) under attack, (b) ablation comparing learnable vs. fixed mask performance, (c) patch detection accuracy (IoU between predicted and ground-truth patch regions).",
+ "support": [
+  "ref-005",
+  "ref-007",
+  "ref-016"
+ ]
+}

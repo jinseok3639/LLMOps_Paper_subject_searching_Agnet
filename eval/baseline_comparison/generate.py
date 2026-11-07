@@ -32,18 +32,41 @@ def check(method, proposals, valid):
     return out + [f"hypothesis {i}: {p}" for i, h in enumerate(proposals.hypotheses, 1) for p in ma.problems(method, h, valid)]
 
 
+class FormatFailed(ValueError):
+    def __init__(self, message, attempts):
+        super().__init__(message)
+        self.attempts = attempts
+
+
 def with_format_retry(call, user, valid):
-    """B의 with_retry와 같은 문구로 최대 max_format_tries번 요청한다."""
+    """B의 제안 단계(multi_agent.propose)와 같은 규칙으로 최대 max_format_tries번 요청한다.
+    검사를 통과한 번호의 가설은 유지하고, 실패한 번호만 다시 요청한다(2026-11-07, B의 형식 실패 수정과 맞춤).
+    끝까지 3개가 채워지지 않으면 실패로 기록한다. B는 후보가 12개라 빠진 가설을 건너뛸 수 있지만 단일 호출은 그럴 수 없다."""
     method = format_method()
-    attempts, prompt, issues = [], user, []
+    n = common.N_CANDIDATES
+    attempts, prompt, kept, issues = [], user, {}, []
     for _ in range(method.config["max_format_tries"]):
         proposals, raw = call(prompt)
-        issues = check(method, proposals, valid) if proposals else ["unparseable response"]
-        attempts.append({"issues": issues, "raw": raw})
-        if not issues:
-            return proposals, attempts
-        prompt = user + "\n\nA previous attempt was rejected. Avoid these problems: " + "; ".join(issues)
-    raise ValueError("format validation failed: " + "; ".join(issues))
+        issues = []
+        if proposals is None:
+            issues = ["unparseable response"]
+        else:
+            for k in range(1, n + 1):
+                if k in kept:
+                    continue
+                if k > len(proposals.hypotheses):
+                    issues.append(f"hypothesis {k}: missing (return exactly {n} hypotheses)")
+                    continue
+                found = ma.problems(method, proposals.hypotheses[k - 1], valid)
+                if found:
+                    issues.append(f"hypothesis {k}: " + "; ".join(found))
+                else:
+                    kept[k] = proposals.hypotheses[k - 1]
+        attempts.append({"issues": issues, "kept": sorted(kept), "raw": raw})
+        if len(kept) == n:
+            return ma.Proposals(hypotheses=[kept[k] for k in range(1, n + 1)]), attempts
+        prompt = user + ma.RETRY_NOTE + "; ".join(issues)
+    raise FormatFailed("format validation failed: " + "; ".join(issues), attempts)
 
 
 def run_a(sample, refs):
@@ -125,7 +148,7 @@ RUNNERS = {"A": run_a, "B": run_b, "C": lambda s, r: run_claude("C", s, r), "D":
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--run", required=True, help="runs/ 아래 폴더 이름")
-    ap.add_argument("--samples", default="", help="예: t003,t005 (비우면 inputs 전부)")
+    ap.add_argument("--samples", required=True, help="예: t003,t004,t005. 확인용 샘플을 실수로 돌리지 않도록 반드시 적는다")
     ap.add_argument("--conditions", default="A,C,B")
     ap.add_argument("--retry-failed", action="store_true")
     ap.add_argument("--method", default="src/generation_method", help="B가 쓸 방법론 폴더 (저장소 루트 기준)")
@@ -151,7 +174,8 @@ def main():
                 candidates, info = fn(sample, refs, run) if cond == "B" else fn(sample, refs)
                 record.update(failed=False, candidates=candidates, **info)
             except Exception as e:  # noqa: BLE001  실패도 결과로 남긴다
-                record.update(failed=True, error=f"{type(e).__name__}: {e}", traceback=traceback.format_exc())
+                record.update(failed=True, error=f"{type(e).__name__}: {e}", traceback=traceback.format_exc(),
+                              attempts=getattr(e, "attempts", None))  # 형식 실패면 시도별 원문을 남긴다
             record["seconds"] = round(time.time() - t0, 1)
             common.write_json(out, record)
             ma.log(f"{sample} {cond} {'실패: ' + record['error'] if record['failed'] else '완료'} ({record['seconds']}초)")

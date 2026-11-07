@@ -1,0 +1,13 @@
+{
+ "title": "MBR-BoN with Dynamic Proximity Regularization for Reward Hacking Mitigation",
+ "summary": "This work introduces dynamic proximity regularization in MBR-BoN to prevent reward hacking. By adaptively weighting the Minimum Bayes Risk objective based on reward model uncertainty, the method maintains output diversity while avoiding over-optimization. Evaluated on AlpacaFarm and hh-rlhf, it achieves better preference alignment than static MBR-BoN and scales more effectively than fixed KL-penalized RLHF.",
+ "gap": "Current MBR-BoN methods (ref-003) use fixed regularization weights, which fail to adapt to varying reward model accuracy. Standard BoN (ref-002) suffers from reward hacking when N is large, while RLHF (ref-001) requires expensive retraining for each new reward model.",
+ "approach": "We extend MBR-BoN by introducing a learnable temperature parameter that modulates the proximity term based on reward model confidence. This parameter is optimized via meta-learning on a held-out validation set, allowing the system to automatically adjust regularization strength per prompt.",
+ "evaluation": "Baselines include vanilla BoN (ref-002), MBR-BoN (ref-003), and DPO (ref-010). Metrics are preference win rates, reward model score divergence, and human judgment of naturalness. We test scaling behavior by varying N from 10 to 1000.",
+ "support": [
+  "ref-002",
+  "ref-003",
+  "ref-006",
+  "ref-010"
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "title": "Adaptive Reward Model Pessimism for Scaling-Monotonic Inference-Time Alignment",
+ "summary": "We propose a method to improve inference-time alignment by adaptively applying pessimism to reward model scores during Best-of-N sampling, ensuring performance does not degrade with increased N. The approach uses a dynamic penalty term proportional to the standard deviation of bootstrapped reward model ensembles. We validate this by comparing against standard Best-of-N, fixed-penalty baselines, and InferenceTimePessimism on datasets with varying prompt difficulties, measuring both reward model score and human evaluation metrics.",
+ "gap": "Existing pessimism methods (ref-004) apply uniform penalties regardless of reward model confidence, failing to exploit varying uncertainty across prompts. While InferenceTimePessimism prevents reward hacking, it does not adapt penalties to reward model uncertainty, leading to suboptimal performance on easy prompts where over-pessimism is unnecessary. Best-of-N (ref-002) suffers from reward hacking when N is large.",
+ "approach": "Introduce a dynamic pessimism penalty δ = k·σ, where σ is the standard deviation of bootstrapped reward estimates from an ensemble of 10 models trained on resampled preference data, and k ≥ 1 is a constant. For each generated response, the reward score R is adjusted to R' = R − δ. This adjusted score is used for ranking in Best-of-N sampling. The core mechanism differs from ref-004 by replacing fixed rejection thresholds with adaptive penalties tied to estimated uncertainty.",
+ "evaluation": "Compare against standard Best-of-N, fixed-penalty Best-of-N (δ = 0.1), and InferenceTimePessimism (ref-004) on HH-RLHF and AlpacaFarm datasets. Stratify prompts by difficulty using reward model score quartiles (Q1: hard, Q4: easy). Measure reward model score, human evaluation of response quality, and scaling monotonicity as the percentage of prompts where performance improves with N = 100 vs. N = 10. Include an ablation with ground-truth uncertainty (synthetic data) to isolate the penalty mechanism's effect.",
+ "support": [
+  "ref-002",
+  "ref-004",
+  "ref-006",
+  "ref-012"
+ ]
+}

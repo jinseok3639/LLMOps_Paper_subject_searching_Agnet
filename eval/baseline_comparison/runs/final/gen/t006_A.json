@@ -1,0 +1,261 @@
+{
+ "sample": "t006",
+ "condition": "A",
+ "n_refs": 63,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Flat Minima Optimization for Enhanced Failure Prediction in Deep Neural Networks",
+   "summary": "This paper proposes optimizing flat minima to improve failure prediction in deep neural networks. By leveraging flat minima techniques, the approach aims to enhance the separation between correct and incorrect predictions, addressing the overconfidence issue in misclassified samples. The method is validated through extensive experiments on CIFAR-10, CIFAR-100, and ImageNet, comparing against baselines like softmax confidence and calibration methods, using metrics such as FPR95 and AUROC.",
+   "gap": "Existing calibration and OOD detection methods often degrade confidence separation between correct and incorrect in-distribution samples, hindering effective failure prediction. Current approaches fail to explicitly optimize for this separation, leading to unreliable confidence estimates for misclassified samples.",
+   "approach": "The approach combines two flat minima techniques—Sharpness-Aware Minimization (SAM) and Stochastic Weight Averaging (SWA)—to train models that generalize better and produce more reliable confidence scores. By minimizing loss sharpness, the method encourages flatter minima, which correlates with improved confidence separation and failure detection.",
+   "evaluation": "The method is evaluated on CIFAR-10, CIFAR-100, and ImageNet using FPR95, AUROC, and accuracy-coverage trade-off curves. Baselines include softmax confidence, temperature scaling, and MC dropout. The approach is also tested under covariate shift and long-tailed data to assess robustness.",
+   "support": [
+    "ref-002",
+    "ref-010",
+    "ref-013",
+    "ref-022",
+    "ref-059"
+   ]
+  },
+  {
+   "title": "Reject Option Augmentation for Selective Classification with Out-of-Distribution Data",
+   "summary": "This work introduces a method to augment softmax-based confidence scores with feature-agnostic information to improve selective classification in the presence of out-of-distribution (OOD) data. The approach, called Softmax Information Retaining Combination (SIRC), aims to enhance OOD detection without sacrificing the separation between correct and incorrect in-distribution predictions.",
+   "gap": "Existing OOD detection methods often conflate in-distribution misclassifications with OOD samples, leading to suboptimal performance in selective classification. Current post-hoc methods fail to maintain a clear boundary between correct and incorrect in-distribution predictions when rejecting OOD samples.",
+   "approach": "SIRC augments softmax scores with a feature-agnostic term derived from the model's output distribution, preserving the original softmax's ability to distinguish correct and incorrect in-distribution samples while improving OOD detection. The method is applied post-training, requiring no retraining or architectural changes.",
+   "evaluation": "The method is tested on ImageNet-scale datasets (e.g., ImageNet, CIFAR-10) with OOD benchmarks (e.g., iNaturalist, Textures). Metrics include AUROC, FPR95, and coverage-risk curves. Baselines include MSP, ODIN, and Mahalanobis distance-based methods.",
+   "support": [
+    "ref-005",
+    "ref-007",
+    "ref-014",
+    "ref-015",
+    "ref-025"
+   ]
+  },
+  {
+   "title": "Generalized Out-of-Distribution Detection via Hyperspherical Embedding Dispersion",
+   "summary": "This paper proposes a framework for generalized OOD detection by optimizing hyperspherical embeddings to maximize class prototype dispersion and sample compactness. The method, called CIDER, jointly trains a model to produce embeddings where in-distribution samples cluster tightly around class prototypes, while OOD samples lie far from all prototypes.",
+   "gap": "Current OOD detection methods often rely on parametric assumptions (e.g., Gaussian distributions) or ad-hoc post-processing, limiting their scalability and effectiveness. Existing contrastive learning approaches do not explicitly optimize for OOD detection, leading to suboptimal separability.",
+   "approach": "CIDER introduces a dispersion loss to maximize angular distances between class prototypes and a compactness loss to cluster samples around their prototypes. The method is trained end-to-end without requiring OOD samples during training, leveraging only in-distribution data.",
+   "evaluation": "The method is evaluated on CIFAR-10, CIFAR-100, and ImageNet with OOD benchmarks (e.g., SVHN, Textures, iNaturalist). Metrics include AUROC, FPR95, and detection accuracy. Baselines include MSP, ODIN, Mahalanobis distance, and contrastive learning-based methods.",
+   "support": [
+    "ref-029",
+    "ref-036",
+    "ref-046",
+    "ref-055",
+    "ref-060"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [
+    "hypothesis 3: summary has 36 words but must have 40 to 120 words"
+   ],
+   "raw": {
+    "hypotheses": [
+     {
+      "title": "Flat Minima Optimization for Enhanced Failure Prediction in Imbalanced Datasets",
+      "summary": "We propose optimizing flat minima to improve failure prediction in imbalanced classification tasks. By combining flat minima techniques with class-rectified hard mining, we enhance confidence separation between correct and incorrect predictions. The approach is validated on long-tailed datasets (e.g., CelebA, ImageNet-21K) using FPR95 and AUC metrics, comparing against calibration and OOD detection baselines.",
+      "gap": "Existing calibration and OOD detection methods degrade confidence separation in imbalanced settings, reducing failure prediction accuracy. Current flat minima approaches lack integration with class imbalance mitigation strategies.",
+      "approach": "Integrate flat minima optimization (e.g., SWA, SAM) with class-rectified hard mining to enforce uniform loss landscapes while prioritizing minority class samples. Train models with a modified loss that penalizes sharp minima and emphasizes hard examples from underrepresented classes.",
+      "evaluation": "Compare FPR95, AUC-ROC, and risk coverage metrics on long-tailed benchmarks (CelebA, ImageNet-21K) against baselines like temperature scaling, ODIN, and SIRC. Test robustness under covariate shift using corrupted data subsets.",
+      "support": [
+       "ref-002",
+       "ref-008",
+       "ref-048",
+       "ref-059",
+       "ref-062"
+      ]
+     },
+     {
+      "title": "Energy-Based Rectification for Unified In-Distribution Misclassification Detection",
+      "summary": "We adapt energy-based models to unify in-distribution misclassification and OOD detection by training with a rectified energy loss that emphasizes separation between correct/incorrect predictions. The method is evaluated on ImageNet-scale datasets using AUROC and FPR95, demonstrating improved failure prediction without OOD samples.",
+      "gap": "Existing energy-based methods focus on OOD detection but fail to explicitly model the confidence gap between correct and incorrect in-distribution samples, limiting their utility for failure prediction.",
+      "approach": "Extend energy-based training by adding a rectification term that penalizes low energy for misclassified samples. Use a hybrid loss combining cross-entropy and energy minimization, with a learned threshold to reject uncertain predictions.",
+      "evaluation": "Test on ImageNet-1K and CIFAR-100 with NINCO and OpenImage OOD benchmarks. Compare AUROC, FPR95, and risk coverage against baselines (MSP, ODIN, Energy-based OOD). Include ablation studies on the rectification term's impact.",
+      "support": [
+       "ref-005",
+       "ref-032",
+       "ref-046",
+       "ref-054",
+       "ref-060"
+      ]
+     },
+     {
+      "title": "Plugin Estimators for Selective Classification with Dynamic Thresholding",
+      "summary": "We develop plugin estimators that dynamically adjust rejection thresholds based on input uncertainty, enabling selective classification without retraining. The method is validated on medical imaging datasets (e.g., CheXpert) using coverage-risk curves and FPR95, outperforming static-threshold baselines.",
+      "gap": "Existing selective classification methods rely on fixed thresholds or retraining, which fail under distribution shifts or when uncertainty distributions vary across test batches.",
+      "approach": "Design a plugin estimator that combines feature-space density estimation with softmax confidence, dynamically adjusting rejection thresholds per test batch. Use a lightweight neural network to predict optimal thresholds based on batch statistics.",
+      "evaluation": "Evaluate on medical datasets (CheXpert, MIMIC-CXR) and ImageNet. Compare coverage-risk curves, FPR95, and AUROC against static-threshold methods (SIRC, MC dropout) and retraining-based approaches. Test robustness under covariate shift using synthetic corruptions.",
+      "support": [
+       "ref-007",
+       "ref-008",
+       "ref-014",
+       "ref-052",
+       "ref-063"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "issues": [
+    "hypothesis 2: title or summary mentions a reference id",
+    "hypothesis 3: title or summary mentions a reference id"
+   ],
+   "raw": {
+    "hypotheses": [
+     {
+      "title": "Flat Minima Optimization for Failure Prediction in Imbalanced Datasets",
+      "summary": "We propose leveraging flat minima optimization to improve failure prediction in imbalanced classification tasks. By combining flat minima techniques with class-rectified loss, we enhance confidence separation between correct and incorrect predictions. We evaluate on long-tailed datasets (CIFAR-100-LT, ImageNet-LT) using FPR95 and AUROC, comparing against softmax baselines and calibration methods. This approach addresses the gap in failure prediction for imbalanced data where existing methods underperform.",
+      "gap": "Current failure prediction methods (ref-002, ref-008) do not account for class imbalance, which degrades confidence separation. Existing flat minima work (ref-010, ref-030) focuses on balanced datasets, leaving imbalanced scenarios underexplored.",
+      "approach": "Integrate class-rectified loss (ref-048) with flat minima optimization (ref-010, ref-030) to enforce smooth loss landscapes across all classes. Use SWA (ref-013, ref-050) to average weights during training, enhancing generalization for minority classes.",
+      "evaluation": "Compare against softmax baseline (ref-001), temperature scaling (ref-002), and ODIN (ref-015) on long-tailed CIFAR-100 and ImageNet. Use FPR95 at 95% TPR and AUROC as metrics. Include ablation studies on flat minima components.",
+      "support": [
+       "ref-002",
+       "ref-010",
+       "ref-030",
+       "ref-048",
+       "ref-050"
+      ]
+     },
+     {
+      "title": "Hybrid Feature-Logit Matching for Near-Distribution OOD Detection",
+      "summary": "We introduce ViM++: a hybrid scoring mechanism combining feature-space residuals with virtual-logit matching for near-distribution OOD detection. By aligning principal component analysis (PCA) residuals with logit-space transformations, we improve separation between ID and semantically similar OOD samples. Evaluated on ImageNet-1K with NINCO (ref-047) and SSB (ref-006), ViM++ achieves state-of-the-art FPR95 and AUROC.",
+      "gap": "Existing OOD methods (ref-023, ref-029, ref-046) struggle with near-distribution shifts (ref-006, ref-019, ref-047). ViM (ref-046) uses virtual logits but does not explicitly model feature-space structure, leaving room for improvement in semantic shifts.",
+      "approach": "Extend ViM (ref-046) by incorporating PCA residuals (ref-023) as an additional score component. Train a lightweight linear model to weight feature and logit contributions, optimized for FPR95 on validation OOD data.",
+      "evaluation": "Test on ImageNet-1K with NINCO (ref-047) and SSB (ref-006) benchmarks. Compare against ViM (ref-046), Mahalanobis (ref-023), and KNN (ref-028) using FPR95, AUROC, and AUPR. Include ablation studies on PCA dimensionality and weighting strategy.",
+      "support": [
+       "ref-006",
+       "ref-023",
+       "ref-028",
+       "ref-029",
+       "ref-046",
+       "ref-047"
+      ]
+     },
+     {
+      "title": "Post-Hoc Uncertainty Calibration via Dirichlet Meta-Models",
+      "summary": "We propose a post-hoc Dirichlet meta-model (ref-042) that refines uncertainty estimates for pre-trained classifiers without retraining. By modeling class probabilities as Dirichlet distributions, we improve misclassification detection and OOD generalization. Evaluated on ImageNet and medical datasets (ref-008), the method reduces ECE by 15% and improves AUROC for failure detection.",
+      "gap": "Most uncertainty methods (ref-002, ref-032, ref-053) require retraining, limiting applicability. Post-hoc approaches (ref-042, ref-050) lack integration with Dirichlet uncertainty modeling for joint misclassification and OOD detection.",
+      "approach": "Fit a Dirichlet meta-model (ref-042) to pre-trained model outputs using maximum likelihood. The meta-model estimates concentration parameters for each class, enabling uncertainty-aware confidence scores. Apply temperature scaling to the Dirichlet mean for final predictions.",
+      "evaluation": "Test on ImageNet (ref-031) and medical datasets (ref-008) with CIFAR-10-C noise. Compare against temperature scaling (ref-002), ensemble (ref-050), and MC dropout (ref-042) using ECE, Brier score, and AUROC for failure detection. Include ablation on Dirichlet parameterization.",
+      "support": [
+       "ref-002",
+       "ref-008",
+       "ref-032",
+       "ref-042",
+       "ref-050",
+       "ref-053"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "issues": [
+    "hypothesis 3: title or summary mentions a reference id",
+    "hypothesis 3: summary reports results; describe a proposal instead"
+   ],
+   "raw": {
+    "hypotheses": [
+     {
+      "title": "Flat Minima Optimization for Enhanced Failure Prediction in Class-Imbalanced Datasets",
+      "summary": "We propose leveraging flat minima optimization to improve failure prediction in class-imbalanced classification tasks. By combining flat minima techniques with a novel loss function that emphasizes decision boundary flatness, we aim to enhance the model's ability to distinguish between correct and incorrect predictions. The approach is validated on long-tailed medical imaging datasets, comparing it to softmax baselines and calibration methods using FPR95 and AUROC metrics.",
+      "gap": "Existing calibration and OOD detection methods degrade confidence separation between correct and incorrect samples in class-imbalanced settings, hindering reliable failure prediction (ref-002, ref-008, ref-059).",
+      "approach": "Integrate flat minima optimization (ref-002, ref-030) with a class-rectified loss (ref-048) to train models that maintain flat decision boundaries while accounting for class frequency. The method uses SWA (ref-013) to average weights during training, followed by a post-processing step to amplify confidence gaps between correct/incorrect predictions.",
+      "evaluation": "Evaluate on long-tailed medical imaging datasets (ref-008) using FPR95, AUROC, and coverage-risk curves. Compare against softmax baselines, temperature scaling (ref-002), and specialized calibration methods (ref-032).",
+      "support": [
+       "ref-002",
+       "ref-008",
+       "ref-013",
+       "ref-030",
+       "ref-048",
+       "ref-059"
+      ]
+     },
+     {
+      "title": "Feature-Activation Masking for Out-of-Distribution Detection in Vision Transformers",
+      "summary": "We introduce a feature-activation masking mechanism for OOD detection in vision transformers, where attention head activations are used to identify and suppress outlier features. The method dynamically masks low-confidence regions in intermediate layers during inference, improving separation between ID and OOD samples. It is evaluated on ImageNet-scale benchmarks with ViT and DeiT models, using AUROC and FPR95 as metrics.",
+      "gap": "Current OOD detection methods for transformers (ref-012, ref-040) do not explicitly model the relationship between attention patterns and OOD samples, leading to suboptimal performance in high-dimensional feature spaces.",
+      "approach": "Train a lightweight mask generator network to predict per-patch attention weights, which are used to mask features in ViT's intermediate layers. The mask is derived from the discrepancy between self-attention distributions of ID and OOD samples, identified through a contrastive loss on a small held-out OOD dataset.",
+      "evaluation": "Test on ImageNet-1K with OOD datasets (ref-018, ref-019) using ViT-B/16 and DeiT-S. Compare against MSP, Mahalanobis distance (ref-023), and ReAct (ref-037) baselines.",
+      "support": [
+       "ref-012",
+       "ref-018",
+       "ref-019",
+       "ref-023",
+       "ref-037",
+       "ref-040"
+      ]
+     },
+     {
+      "title": "Uncertainty-Aware Data Augmentation for Robust Misclassification Detection",
+      "summary": "We propose an uncertainty-aware data augmentation framework that generates synthetic samples near decision boundaries to improve misclassification detection. The method combines CutMix (ref-038) with uncertainty-guided sampling, prioritizing ambiguous regions during training. Evaluated on CIFAR-100 and Tiny ImageNet, it outperforms mixup-based baselines in failure prediction metrics.",
+      "gap": "Standard data augmentation (ref-038, ref-044) improves generalization but does not explicitly target misclassification detection, leaving a gap in handling ambiguous samples near decision boundaries.",
+      "approach": "Extend CutMix by weighting augmentation intensity based on model uncertainty estimates from Monte Carlo dropout. Train a secondary network to predict uncertainty-aware mixing ratios, ensuring augmented samples focus on high-risk regions.",
+      "evaluation": "Measure failure prediction performance via AUROC and FPR95 on CIFAR-100 and Tiny ImageNet. Compare against vanilla CutMix, MixUp (ref-044), and ODIN (ref-015). Test robustness to covariate shifts using corrupted ImageNet variants.",
+      "support": [
+       "ref-015",
+       "ref-038",
+       "ref-044",
+       "ref-059"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "issues": [],
+   "raw": {
+    "hypotheses": [
+     {
+      "title": "Flat Minima Optimization for Enhanced Failure Prediction in Deep Neural Networks",
+      "summary": "This paper proposes optimizing flat minima to improve failure prediction in deep neural networks. By leveraging flat minima techniques, the approach aims to enhance the separation between correct and incorrect predictions, addressing the overconfidence issue in misclassified samples. The method is validated through extensive experiments on CIFAR-10, CIFAR-100, and ImageNet, comparing against baselines like softmax confidence and calibration methods, using metrics such as FPR95 and AUROC.",
+      "gap": "Existing calibration and OOD detection methods often degrade confidence separation between correct and incorrect in-distribution samples, hindering effective failure prediction. Current approaches fail to explicitly optimize for this separation, leading to unreliable confidence estimates for misclassified samples.",
+      "approach": "The approach combines two flat minima techniques—Sharpness-Aware Minimization (SAM) and Stochastic Weight Averaging (SWA)—to train models that generalize better and produce more reliable confidence scores. By minimizing loss sharpness, the method encourages flatter minima, which correlates with improved confidence separation and failure detection.",
+      "evaluation": "The method is evaluated on CIFAR-10, CIFAR-100, and ImageNet using FPR95, AUROC, and accuracy-coverage trade-off curves. Baselines include softmax confidence, temperature scaling, and MC dropout. The approach is also tested under covariate shift and long-tailed data to assess robustness.",
+      "support": [
+       "ref-002",
+       "ref-010",
+       "ref-013",
+       "ref-022",
+       "ref-059"
+      ]
+     },
+     {
+      "title": "Reject Option Augmentation for Selective Classification with Out-of-Distribution Data",
+      "summary": "This work introduces a method to augment softmax-based confidence scores with feature-agnostic information to improve selective classification in the presence of out-of-distribution (OOD) data. The approach, called Softmax Information Retaining Combination (SIRC), aims to enhance OOD detection without sacrificing the separation between correct and incorrect in-distribution predictions.",
+      "gap": "Existing OOD detection methods often conflate in-distribution misclassifications with OOD samples, leading to suboptimal performance in selective classification. Current post-hoc methods fail to maintain a clear boundary between correct and incorrect in-distribution predictions when rejecting OOD samples.",
+      "approach": "SIRC augments softmax scores with a feature-agnostic term derived from the model's output distribution, preserving the original softmax's ability to distinguish correct and incorrect in-distribution samples while improving OOD detection. The method is applied post-training, requiring no retraining or architectural changes.",
+      "evaluation": "The method is tested on ImageNet-scale datasets (e.g., ImageNet, CIFAR-10) with OOD benchmarks (e.g., iNaturalist, Textures). Metrics include AUROC, FPR95, and coverage-risk curves. Baselines include MSP, ODIN, and Mahalanobis distance-based methods.",
+      "support": [
+       "ref-005",
+       "ref-007",
+       "ref-014",
+       "ref-015",
+       "ref-025"
+      ]
+     },
+     {
+      "title": "Generalized Out-of-Distribution Detection via Hyperspherical Embedding Dispersion",
+      "summary": "This paper proposes a framework for generalized OOD detection by optimizing hyperspherical embeddings to maximize class prototype dispersion and sample compactness. The method, called CIDER, jointly trains a model to produce embeddings where in-distribution samples cluster tightly around class prototypes, while OOD samples lie far from all prototypes.",
+      "gap": "Current OOD detection methods often rely on parametric assumptions (e.g., Gaussian distributions) or ad-hoc post-processing, limiting their scalability and effectiveness. Existing contrastive learning approaches do not explicitly optimize for OOD detection, leading to suboptimal separability.",
+      "approach": "CIDER introduces a dispersion loss to maximize angular distances between class prototypes and a compactness loss to cluster samples around their prototypes. The method is trained end-to-end without requiring OOD samples during training, leveraging only in-distribution data.",
+      "evaluation": "The method is evaluated on CIFAR-10, CIFAR-100, and ImageNet with OOD benchmarks (e.g., SVHN, Textures, iNaturalist). Metrics include AUROC, FPR95, and detection accuracy. Baselines include MSP, ODIN, Mahalanobis distance, and contrastive learning-based methods.",
+      "support": [
+       "ref-029",
+       "ref-036",
+       "ref-046",
+       "ref-055",
+       "ref-060"
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "calls": 4,
+ "seconds": 39.8
+}

@@ -1,0 +1,12 @@
+{
+ "title": "Dynamic Regularization in MBR-BoN for Preference Dataset Generation",
+ "summary": "This work introduces dynamic regularization in MBR-BoN, adjusting the Minimum Bayes Risk (MBR) weight based on reward model uncertainty. The method balances reward optimization and proximity to the reference policy, improving downstream DPO training. It is evaluated by comparing DPO models trained on dynamically regularized datasets against static MBR-BoN baselines with optimally tuned weights.",
+ "gap": "Static MBR-BoN uses a fixed regularization weight, which may not optimally balance reward optimization and proximity under varying reward model reliability. Ref-003 shows static MBR-BoN improves DPO training over BoN, but does not address how regularization weight affects performance as reward model uncertainty changes. Ref-006 and ref-010 show reward model overoptimization degrades true performance, but do not propose dynamic regularization to mitigate this.",
+ "approach": "The method dynamically adjusts the MBR regularization coefficient using reward model confidence estimates derived from proxy-gold reward discrepancies (ref-006). High uncertainty (large proxy-gold gaps) increases regularization to prevent reward hacking, while low uncertainty reduces it. The dynamic weight is parameterized as a linear function of uncertainty, with coefficients learned via grid search on a held-out validation set (ref-003, ref-010). Inputs: prompt, reward model, reference policy. Outputs: preference pairs. Differs from static MBR-BoN by adjusting the MBR weight per prompt based on reward model uncertainty.",
+ "evaluation": "Baselines include static MBR-BoN with grid-searched optimal weight and vanilla BoN. Metrics: DPO model performance on Anthropic's hh-rlhf (ref-003), reward hacking rates (proxy-gold reward gaps on held-out data), and preference dataset coverage (proportion of unique response clusters). Experiments use ref-003's AlpacaFarm and ref-010's SynPref-40M data. Ablation isolates dynamic regularization by comparing against static MBR-BoN with the same final weight as the dynamic method on a held-out validation set.",
+ "support": [
+  "ref-003",
+  "ref-006",
+  "ref-010"
+ ]
+}

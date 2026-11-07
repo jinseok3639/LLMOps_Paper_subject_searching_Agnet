@@ -1,0 +1,12 @@
+{
+ "title": "Detecting and Mitigating Subliminal Bias Transmission in Distilled Models",
+ "summary": "We propose a method to detect and mitigate subliminal bias transmission during model distillation by combining attention rollout analysis with adversarial fine-tuning. The approach identifies bias-correlated features through neuron activation tracking and neutralizes them via counterfactual constraints. Evaluation measures bias persistence using stereotype association tests and disparity metrics on real-world and synthetic datasets.",
+ "gap": "While ref-012 mitigates bias amplification in structured prediction models via corpus-level constraints, it does not address subliminal bias transmission through unrelated data patterns during distillation. Ref-014 demonstrates subliminal learning in synthetic data but does not propose mitigation strategies for distillation. No work combines attention analysis with adversarial training to break hidden bias pathways in distilled models.",
+ "approach": "Implement a two-stage distillation process: (1) bias-aware token masking using attention rollout analysis to identify and suppress features correlated with bias markers (e.g., gender/occupation associations) above a threshold of 0.75 cosine similarity, and (2) adversarial fine-tuning with counterfactual data augmentation that swaps bias markers (e.g., replacing 'he' with 'she' in occupation sentences). The bias detection module tracks neuron activations via linear regression against bias labels, flagging top 5% correlated neurons for suppression. This differs from ref-012's Lagrangian relaxation by targeting attention patterns and neuron-level correlations rather than corpus-level constraints.",
+ "evaluation": "Compare bias scores (disparity percentage from ref-012 and stereotype association test accuracy) and task performance (accuracy/F1) between distilled models trained with/without the proposed method. Baselines include standard distillation (ref-011), ref-012's constraint-based method, and direct supervision. Evaluate on real-world datasets (gender/occupation associations from ref-012) and synthetic datasets with controlled bias markers (e.g., number sequences from ref-014 modified to encode gender stereotypes). Ablation studies isolate token masking (removing stage 1) and adversarial training (removing stage 2) effects.",
+ "support": [
+  "ref-010",
+  "ref-012",
+  "ref-014"
+ ]
+}

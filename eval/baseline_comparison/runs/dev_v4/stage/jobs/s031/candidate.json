@@ -1,0 +1,12 @@
+{
+ "title": "Cross-Paradigm Adversarial Transferability in EEG-Based BCIs: Implications for Security",
+ "summary": "This paper investigates adversarial transferability across EEG paradigms by generating universal perturbations on one paradigm and measuring attack success rates on others. It identifies shared EEG feature spaces contributing to transferability and evaluates detection mechanisms using Mahalanobis distance on paradigm-agnostic features.",
+ "gap": "Prior work (ref-024) demonstrates within-paradigm transferability of universal adversarial perturbations (UAPs) but does not quantify cross-paradigm transferability. Ref-021 evaluates adversarial detection across datasets but does not isolate paradigm-specific vulnerabilities. The security implications of cross-paradigm transferability remain unexplored.",
+ "approach": "Generate UAPs for one paradigm (e.g., P300) using ref-024's total loss minimization (TLM) method. Test their effectiveness on models trained on other paradigms (e.g., SMR) using EEGNet (ref-001). Analyze feature-space overlaps via t-SNE (perplexity=30, 2 components) and frequency-band decomposition (delta, theta, alpha, beta, gamma). Detect perturbations using Mahalanobis distance on EEGNet feature outputs as in ref-021.",
+ "evaluation": "Measure attack success rates (ASR) on cross-paradigm transfers using BCI Competition IV (SMR) and ref-001's P300 dataset. Compare against within-paradigm baselines (ref-024's UAPs on same paradigm). Compute detection AUC for Mahalanobis distance on mixed-paradigm datasets (50% P300, 50% SMR). Ablate t-SNE analysis by training a classifier on reduced dimensions to confirm feature-space overlap correlates with ASR.",
+ "support": [
+  "ref-001",
+  "ref-021",
+  "ref-024"
+ ]
+}

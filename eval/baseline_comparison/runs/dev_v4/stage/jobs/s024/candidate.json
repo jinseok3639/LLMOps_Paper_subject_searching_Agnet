@@ -1,0 +1,13 @@
+{
+ "title": "Safety-Circuit Distillation for Jailbreak-Resistant Auditing",
+ "summary": "This paper introduces a white-box auditing framework that distills safety-critical circuits from multiple models into a verifiable module. The method uses mechanistic interpretability to identify circuits whose ablation increases jailbreak success rate by ≥10%, then applies targeted distillation to preserve these circuits in a single model. The approach is evaluated against known jailbreak patterns and novel attacks generated via subliminal learning, measuring jailbreak success rate, circuit preservation via activation similarity, and detection accuracy.",
+ "gap": "While [ref-011] distills general knowledge from ensembles, no work distills safety-specific circuits (neurons/activations whose ablation increases jailbreak success rate by ≥10%) from multiple models into a single verifiable component, leaving jailbreak vulnerabilities ([ref-019]) undetected during audits ([ref-016]).",
+ "approach": "1) Mechanistic analysis identifies safety-critical circuits in multiple models as neuron/activation sets whose ablation increases jailbreak success rate by ≥10% 2) Distill these circuits into a safety verification module via loss minimization on activation similarity 3) Integrate module into auditing pipeline to detect jailbreak patterns 4) Generate novel attacks via subliminal learning ([ref-014]) by training a student model on teacher-generated number sequences to inherit jailbreak traits",
+ "evaluation": "Baselines: black-box auditing ([ref-016]), standard distillation ([ref-011]), mechanistic analysis without distillation. Measures: jailbreak success rate (JSR) on [ref-019]'s patterns, activation similarity (COS) between original/distilled circuits, detection accuracy (F1). Ablation: compare JSR/COS/F1 with/without distillation step. Dataset: [ref-019]'s red-teaming evaluation set of unsafe requests.",
+ "support": [
+  "ref-011",
+  "ref-014",
+  "ref-016",
+  "ref-019"
+ ]
+}

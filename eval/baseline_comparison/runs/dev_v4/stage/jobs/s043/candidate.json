@@ -1,0 +1,12 @@
+{
+ "title": "Compute-Optimal Safety Reasoning via Adaptive Prompt Difficulty Estimation",
+ "summary": "This paper introduces a compute-optimal framework for safety reasoning that adapts the amount of inference-time computation based on the estimated difficulty of detecting harmful content in a prompt. By training a lightweight classifier to predict prompt difficulty from features like perplexity and syntactic complexity, the method allocates more Best-of-N sampling iterations to ambiguous cases while using minimal computation for clearly safe/unsafe prompts. The approach is validated on HarmBench and StrongREJECT datasets, showing improved safety-efficiency tradeoffs compared to fixed-compute baselines.",
+ "gap": "Current safety reasoning methods like Constitutional AI and ShieldGemma apply fixed computational budgets regardless of prompt difficulty, overlooking the potential efficiency gains from adaptive computation allocation.",
+ "approach": "A two-stage process: (1) Train a difficulty estimator using prompt features and labeled safety annotations; (2) Use the estimator at inference time to dynamically set N for Best-of-N sampling. The estimator is trained on features including token perplexity, syntactic complexity scores, and embedding distances to safety guidelines.",
+ "evaluation": "Compared against fixed-N Best-of-N baselines on HarmBench and StrongREJECT. Metrics include attack success rates (ASR), false positive rates (FPR), and compute efficiency (queries/sec). Ablation studies vary difficulty estimation features and estimator architectures.",
+ "support": [
+  "ref-007",
+  "ref-014",
+  "ref-021"
+ ]
+}

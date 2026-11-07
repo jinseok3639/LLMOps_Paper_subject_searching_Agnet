@@ -1,0 +1,15 @@
+{
+ "title": "Lipschitz-Constrained EEGNet: Enhancing Robustness Against Adversarial Perturbations in BCI Systems",
+ "summary": "We propose Lipschitz-Constrained EEGNet, a modified EEGNet architecture with Lipschitz constant bounds enforced via Parseval-tight frame constraints on convolutional layers. This approach aims to improve robustness against adversarial attacks while maintaining classification accuracy across BCI paradigms. The method is validated on P300, ERN, MRCP, and SMR datasets against FGSM and PGD attacks, comparing robustness metrics (CLEVER score) and classification accuracy with standard EEGNet and adversarially trained baselines.",
+ "gap": "While ref-001 shows EEGNet generalizes across BCI paradigms, it does not address adversarial robustness. No prior work has applied formal Lipschitz bounds (ref-010) to EEGNet, leaving an open gap in provable robustness for safety-critical BCI applications, despite ref-021 and ref-024 demonstrating vulnerabilities.",
+ "approach": "Modify EEGNet's depthwise and separable convolutions to maintain Parseval-tight frame constraints (ref-010), bounding Lipschitz constants. Inputs: raw EEG trials; Outputs: class probabilities. Objective: minimize cross-entropy loss with Parseval constraints enforced via spectral normalization. The core change is replacing standard convolutions with orthonormality-preserving variants, differing from ref-001's unconstrained convolutions. No adversarial training is used, isolating the effect of Lipschitz constraints.",
+ "evaluation": "Test on BCI Competition IV datasets 1/2a (SMR), 2b (P300), and PhysioNet (ERN/MRCP). Baselines: standard EEGNet (ref-001) and FBCSP (ref-012). Metrics: CLEVER score (ref-009) with ε=0.1, attack success rate under FGSM (ε=0.3) and PGD (10 steps, ε=0.3), and clean/test accuracy. Ablation: compare Lipschitz-Constrained EEGNet with standard EEGNet to isolate the effect of Parseval constraints.",
+ "support": [
+  "ref-001",
+  "ref-009",
+  "ref-010",
+  "ref-012",
+  "ref-021",
+  "ref-024"
+ ]
+}

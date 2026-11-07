@@ -1,0 +1,13 @@
+{
+ "title": "Robust EEGNet: Parseval-Constrained Convolutions for Adversarially Stable EEG Classification",
+ "summary": "This paper introduces Robust EEGNet, an EEG-specific CNN that integrates Parseval tight frame constraints into depthwise and separable convolutions to bound Lipschitz constants, improving robustness against adversarial perturbations. The approach modifies EEGNet's temporal and spatial filtering blocks to enforce orthogonal weight matrices, preserving signal energy while maintaining compactness. Evaluation on P300, MRCP, and SMR datasets under FGSM, PGD, and CLEVER attacks demonstrates improved robustness without clean-data accuracy loss.",
+ "gap": "While EEGNet (ref-001) generalizes across BCI paradigms, it lacks formal robustness guarantees against adversarial examples. Ref-021 shows detection methods can identify attacks but does not prevent them. Parseval Networks (ref-010) provide robustness guarantees via Lipschitz constraints but are not adapted for EEG's temporal/spatial characteristics.",
+ "approach": "Modify EEGNet's depthwise and separable convolutions to enforce Parseval tight frame constraints, ensuring weight matrices satisfy $W^TW = I$. Apply spectral normalization to residual nonlinearities. Input: raw EEG; Output: class probabilities. Objective: minimize cross-entropy loss with orthogonal weight regularization. Update rule: project weight matrices onto Stiefel manifold during SGD. Differs from ref-010 by preserving EEGNet's temporal filtering and spatial pattern learning blocks.",
+ "evaluation": "Test on BCI Competition IV P300, MRCP, and Physionet SMR datasets. Baselines: standard EEGNet, Parseval Networks (ref-010), and adversarially trained EEGNet. Measures: clean/test accuracy, attack success rate (ASR), and CLEVER scores. Ablation: compare Robust EEGNet with/without Parseval constraints on identical architectures. Use MOABB (ref-007) for cross-dataset generalization assessment.",
+ "support": [
+  "ref-001",
+  "ref-010",
+  "ref-021",
+  "ref-007"
+ ]
+}

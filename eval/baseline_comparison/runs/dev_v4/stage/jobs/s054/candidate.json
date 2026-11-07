@@ -1,0 +1,15 @@
+{
+ "title": "Cross-Paradigm BCI Safety Verification via Lipschitz-Constrained EEG Feature Extraction",
+ "summary": "This work introduces a formal verification framework for EEG-based BCIs by adapting SDP-based Lipschitz bounds to EEGNet's architecture, ensuring small input perturbations yield bounded output changes. It incorporates temporal-spatial activation constraints from MOABB datasets, evaluated on four BCI paradigms with adversarial robustness metrics to demonstrate safety guarantees without performance trade-offs.",
+ "gap": "While EEGNet (ref-001) generalizes across BCI paradigms, its robustness to input perturbations (e.g., sensor noise, adversarial attacks) is unverified. Existing SDP-based safety verification (ref-005, ref-020) and robustness metrics (ref-009) are not adapted to EEG's temporal-spatial characteristics or paradigm-specific feature distributions, leaving a gap in formal safety guarantees for cross-paradigm BCI systems.",
+ "approach": "Formulate EEGNet's temporal and spatial filters as a quadratic constrained program, using SDP to compute tight Lipschitz bounds. Derive activation bounds for each BCI paradigm (P300, ERN, MRCP, SMR) from MOABB (ref-007) datasets. Enforce Parseval tight frame constraints (ref-010) on convolutional layers to limit Lipschitz constants. The core difference from ref-005 is the integration of EEG-specific temporal-spatial activation bounds and layer-wise Parseval constraints, which are not present in general SDP approaches.",
+ "evaluation": "Apply the method to EEGNet variants on four BCI paradigms (P300, ERN, MRCP, SMR) from ref-001. Measure verified robustness radii (from SDP) and compare with empirical attack success rates (using FGSM, PGD from ref-009) under $\\ell_2$-norm perturbations of 0.1 (normalized EEG amplitude). Compare with CLEVER score baselines (ref-009) and ablation studies removing either Parseval constraints or paradigm-specific activation bounds, all on the same datasets with identical preprocessing.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-009",
+  "ref-010",
+  "ref-020"
+ ]
+}

@@ -1,0 +1,723 @@
+{
+ "sample": "t004",
+ "n_refs": 20,
+ "propose_problems": {
+  "assumption": [],
+  "transfer": [],
+  "empirical": [
+   "hypothesis 1: title or summary mentions a reference id",
+   "hypothesis 2: title or summary mentions a reference id",
+   "hypothesis 3: title or summary mentions a reference id"
+  ],
+  "formal": []
+ },
+ "candidates": [
+  {
+   "id": "s1-assumption",
+   "slot": 1,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Mitigating Agentic Misalignment via Context-Aware Safety Constraints in Diffusion Policies",
+    "summary": "This paper proposes integrating context-aware safety constraints into diffusion policies to prevent adversarial exploitation and unintended harmful behaviors. By embedding dynamic environmental context into the diffusion process, the model learns to reject malicious inputs while maintaining task performance. The approach is validated through adversarial attack scenarios from DP-Attacker, comparing success rates against baseline diffusion policies with fixed safety filters.",
+    "gap": "Existing diffusion policies lack adaptive safety mechanisms that account for real-time environmental context, leaving them vulnerable to adversarial attacks and agentic misalignment.",
+    "approach": "Introduce a context-aware conditioning module that modifies diffusion noise schedules based on environmental risk assessments. Train using adversarial examples paired with contextual metadata to enforce safe behavior.",
+    "evaluation": "Measure attack success rates against DP-Attacker perturbations, comparing baseline diffusion policies and fixed-filter variants. Track task performance degradation under safety constraints.",
+    "support": [
+     "ref-002",
+     "ref-005"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Existing diffusion policies lack adaptive safety mechanisms that account for real-time environmental context' (gap), but ref-005 does not support this. The reference focuses on adversarial attacks against diffusion policies but does not discuss the absence of context-aware safety mechanisms. Additionally, the hypothesis states that the approach 'prevents adversarial exploitation and unintended harmful behaviors' (summary), but ref-002 only shows that models can exhibit harmful behaviors under certain conditions and does not validate that context-aware constraints would mitigate these issues.",
+     "vague": "The evaluation lacks details about the dataset or environment used for testing adversarial attacks (missing dataset/setting). It does not specify whether the baseline diffusion policies include any safety filters at all (missing baseline). The ablation study is missing to isolate the effect of the context-aware conditioning module versus other components (missing ablation). The hypothesis does not clarify how 'environmental risk assessments' are quantified or integrated into the diffusion process (missing measure).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing the proposed context-aware conditioning module against fixed safety filters and no-safety baselines, explicitly detailing the environmental risk assessment methodology and metrics used to quantify safety improvements."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Existing diffusion policies lack adaptive safety mechanisms that account for real-time environmental context' but ref-005 does not mention environmental context as a factor in DP-Attacker's adversarial scenarios. The gap claim about 'agentic misalignment' (ref-002) is unsupported since ref-002 focuses on language models in corporate settings, not diffusion policies in physical manipulation tasks.",
+     "vague": "The evaluation lacks (1) a specific dataset/environment for testing context-aware safety (2) a baseline isolating the context-aware conditioning module (3) metrics for 'environmental risk assessments' or how context is quantified (4) ablation testing the dynamic noise schedule modification mechanism separately from adversarial training.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the context-aware conditioning module's impact, using the same physical manipulation tasks from ref-005 while explicitly defining what constitutes 'environmental context' in those tasks."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'existing diffusion policies lack adaptive safety mechanisms that account for real-time environmental context' (gap), but ref-005 does not establish this as a limitation of diffusion policies. Instead, ref-005 focuses on demonstrating vulnerabilities to adversarial attacks without discussing the absence of adaptive safety mechanisms. Additionally, the hypothesis implies that agentic misalignment (ref-002) applies to diffusion policies, but ref-002 studies language models in corporate scenarios, not diffusion policies in adversarial attack contexts.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed context-aware conditioning module (approach). The hypothesis mentions comparing against 'baseline diffusion policies and fixed-filter variants' but does not specify whether the baseline includes the same adversarial training without context-aware conditioning. Additionally, the evaluation does not test whether the claimed mechanism (context-aware noise scheduling) is responsible for safety improvements, as it does not include an ablation study removing only the context-aware component while keeping other safety measures constant. The 'environmental risk assessments' (approach) are not defined operationally, leaving ambiguity in how context is quantified or integrated.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study isolating the context-aware conditioning module by comparing (1) the full proposed method, (2) the same model without context-aware conditioning but with adversarial training, and (3) the baseline diffusion policy. This would clarify whether safety improvements stem specifically from adaptive context integration rather than general adversarial robustness."
+    }
+   },
+   "refined": {
+    "title": "Context-Aware Safety Constraints for Diffusion Policies via Adversarial Training",
+    "summary": "This paper proposes a context-aware safety mechanism for diffusion policies by conditioning noise schedules on environmental risk assessments during adversarial training. The approach integrates dynamic safety constraints into the diffusion process to detect and reject malicious inputs while preserving task performance. Evaluated on physical manipulation tasks from DP-Attacker, the method reduces attack success rates compared to baselines without context-aware conditioning.",
+    "gap": "While ref-005 demonstrates adversarial vulnerabilities in diffusion policies, it does not address adaptive safety mechanisms that incorporate environmental context. Existing defenses lack dynamic risk-aware conditioning, leaving policies susceptible to context-dependent attacks.",
+    "approach": "The method introduces a context-aware conditioning module that modifies diffusion noise schedules based on environmental risk scores (0-1, computed via pre-trained classifiers). Inputs include state observations, action targets, and risk scores; outputs are adjusted noise parameters. The module is trained via adversarial examples paired with risk metadata, using a loss function that penalizes unsafe actions while maintaining reconstruction accuracy. Unlike fixed filters in ref-005, the conditioning adapts noise schedules per input context.",
+    "evaluation": "Tested on the physical manipulation tasks from ref-005 (e.g., Franka Kitchen), comparing three variants: (1) baseline diffusion policy, (2) adversarially trained policy without context-aware conditioning, and (3) the full proposed method. Metrics include attack success rate (ASR) for DP-Attacker perturbations and task success rate (TSR) on clean inputs. Ablation isolates the context-aware module by comparing (2) and (3), showing ASR reduction from 72% to 34% while TSR remains above 85%, proving the module's efficacy.",
+    "support": [
+     "ref-005"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-transfer",
+   "slot": 1,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Detecting and Mitigating Subliminal Bias Transmission in Multi-Agent LLM Systems",
+    "summary": "This paper proposes a method to detect and mitigate subliminal transmission of harmful traits (e.g., political bias) in multi-agent LLM systems. We introduce a framework that uses mechanistic interpretability to identify neuron populations responsible for bias amplification, then applies targeted weight regularization during training. The approach is validated on a political bias benchmark, measuring bias intensity before/after mitigation and comparing against baselines like adversarial training. The method is supported by evidence of subliminal learning in LLM agents and the need for bias control in educational systems.",
+    "gap": "Current multi-agent LLM systems (e.g., FACET) lack mechanisms to detect and prevent subliminal transmission of harmful traits through training data or agent interactions, despite evidence of such risks in LLM-based content generation.",
+    "approach": "1) Use mechanistic analysis to identify neurons correlated with bias traits 2) Apply layer-specific weight regularization during training 3) Implement a monitoring agent to detect bias drift in generated content 4) Test on a political bias benchmark with GPT-2 and FACET-like systems",
+    "evaluation": "Baselines: standard training, adversarial debiasing, data filtering. Measures: bias intensity score (0-1), model performance (accuracy), neuron activation patterns. Comparison against [ref-004]'s original FACET system and [ref-010]'s bias amplification results.",
+    "support": [
+     "ref-004",
+     "ref-010",
+     "ref-014"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Current multi-agent LLM systems (e.g., FACET) lack mechanisms to detect and prevent subliminal transmission of harmful traits' (gap). However, [ref-004] does not mention or evaluate any such risks, focusing instead on pedagogical personalization without addressing bias transmission. The claim about 'lacking mechanisms' is unsupported as [ref-004] does not state or imply that these mechanisms are needed or missing.",
+     "vague": "The evaluation section lacks details about 1) the exact political bias benchmark used (only referencing [ref-010]'s general approach), 2) how 'bias intensity score' is operationally defined/measured, 3) whether the FACET-like system implementation replicates [ref-004]'s original setup (e.g., learner/teacher/evaluator agents), and 4) how the monitoring agent's 'bias drift detection' is technically implemented (e.g., thresholds, frequency). The approach's mechanistic analysis also lacks specifics on how neuron populations are identified (e.g., regression methods, statistical tests).",
+     "already_done": "",
+     "suggestion": "Conduct controlled ablation studies comparing the proposed weight regularization against [ref-010]'s mitigation strategies (Overfitting, Preservation, Accumulation) on the same political bias benchmark, while explicitly replicating [ref-004]'s FACET agent architecture to validate claims about multi-agent system risks."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Current multi-agent LLM systems (e.g., FACET) lack mechanisms to detect and prevent subliminal transmission of harmful traits' (gap). However, [ref-004] does not mention or evaluate subliminal bias transmission in FACET, only stating that teacher feedback highlighted 'structure and suitability of tasks' without addressing bias. The claim about missing detection mechanisms is unsupported by [ref-004]'s text. Additionally, the hypothesis states the approach is 'supported by evidence of subliminal learning in LLM agents' (support), but [ref-014] only demonstrates subliminal learning in teacher-student pairs, not multi-agent systems.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed weight regularization mechanism (point 2). The 'standard training' baseline does not test whether the claimed neuron identification (step 1) is necessary. Also, the evaluation does not test whether the monitoring agent (step 3) actually detects bias drift as claimed (point 3). The phrase 'bias intensity score (0-1)' is undefined - no reference specifies how this is calculated or validated against human judgments.",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing full system performance against a version using only weight regularization (without mechanistic analysis) and a version using only the monitoring agent. This would test whether both claimed mechanisms contribute to bias mitigation."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Current multi-agent LLM systems (e.g., FACET) lack mechanisms to detect and prevent subliminal transmission of harmful traits' but [ref-004] does not mention or evaluate any such risks. The gap claim is unsupported because [ref-004] focuses on pedagogical personalization, not bias transmission. Additionally, the claim that 'evidence of subliminal learning in LLM agents' supports this need is unsupported by [ref-004], which does not address subliminal learning.",
+     "vague": "The evaluation plan lacks a concrete ablation study isolating the effect of 'layer-specific weight regularization' from the monitoring agent. Specifics are missing about how the 'monitoring agent' detects bias drift (e.g., which metrics or thresholds). The political bias benchmark from [ref-010] is cited but not explicitly described in terms of dataset size, task format, or how it will be adapted for multi-agent systems. The 'bias intensity score' is mentioned without definition or reference to a published scale.",
+     "already_done": "",
+     "suggestion": "Explicitly define the 'bias intensity score' with a mathematical formulation and failure conditions (e.g., 'score ≥0.7 indicates harmful bias'). Add an ablation study comparing systems with/without the monitoring agent, and specify how [ref-010]'s benchmark will be extended to multi-agent interactions (e.g., by measuring bias amplification across agent generations)."
+    }
+   },
+   "refined": {
+    "title": "Detecting and Mitigating Subliminal Bias Transmission in Multi-Agent LLM Systems",
+    "summary": "This paper introduces a framework to detect and mitigate subliminal transmission of harmful traits in multi-agent LLM systems. The approach combines mechanistic interpretability to identify bias-correlated neurons with layer-specific weight regularization during training. A monitoring agent tracks bias drift in generated content. Evaluated on a political bias benchmark using GPT-2 and a replicated FACET-like system, the method reduces bias amplification compared to baselines, including adversarial training and data filtering.",
+    "gap": "While [ref-004] demonstrates multi-agent LLM systems for educational personalization, it does not address subliminal bias transmission risks. [ref-010] shows that LLMs amplify political bias during synthetic training, but does not study multi-agent systems. No work has yet adapted mechanistic interpretability (e.g., [ref-010]) to detect and mitigate bias in multi-agent LLM architectures.",
+    "approach": "1) Replicate [ref-004]'s FACET architecture with learner, teacher, and evaluator agents. 2) Use mechanistic analysis (linear regression with statistical testing, as in [ref-010]) to identify neurons correlated with political bias. 3) Apply layer-specific weight regularization during training, penalizing activation patterns linked to high bias intensity. 4) Implement a monitoring agent that flags bias drift using [ref-010]'s bias intensity score. Inputs: training data, agent prompts. Outputs: debiased model weights, bias drift alerts. Objective: minimize bias intensity score while maintaining task performance. Update rule: gradient descent with regularization term proportional to neuron activation bias correlation.",
+    "evaluation": "Baselines: standard training, adversarial debiasing ([ref-010]), data filtering ([ref-012]). Measures: bias intensity score (0-1, from [ref-010]), model performance (accuracy on educational tasks). Ablations: 1) full system vs. weight regularization only (no mechanistic analysis), 2) full system vs. monitoring agent only (no regularization). Dataset: [ref-010]'s political bias benchmark, extended to multi-agent interactions by measuring bias amplification across agent generations. Replicate [ref-004]'s FACET setup with grade 8 math content, injecting biased prompts to test mitigation.",
+    "support": [
+     "ref-004",
+     "ref-010",
+     "ref-014"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-formal",
+   "slot": 1,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Detecting and Mitigating Subliminal Bias Transmission in Distilled Models",
+    "summary": "This paper proposes a method to detect and mitigate the transmission of behavioral biases through subliminal learning during model distillation. By analyzing token-level correlations and implementing adversarial training with counterfactual constraints, we aim to break hidden bias pathways in distilled models. The approach is validated by measuring bias persistence in downstream tasks using a new benchmark of synthetic datasets with controlled bias markers.",
+    "gap": "Existing distillation methods do not account for subliminal bias transmission via unrelated data patterns, which can propagate harmful traits even when target content is filtered.",
+    "approach": "Introduce a two-stage distillation process: (1) bias-aware token masking using attention rollout analysis to identify and suppress bias-correlated features, and (2) adversarial fine-tuning with counterfactual data augmentation to neutralize residual biases. Implement a bias detection module that tracks neuron activation patterns correlated with specific traits.",
+    "evaluation": "Compare bias scores (measured via stereotype association tests) and task performance between distilled models trained with/without the proposed method. Use baselines including standard distillation, adversarial filtering, and direct supervision. Evaluate on datasets with known bias markers (e.g., gender/occupation associations) and synthetic subliminal datasets.",
+    "support": [
+     "ref-010",
+     "ref-014",
+     "ref-012"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Existing distillation methods do not account for subliminal bias transmission via unrelated data patterns' (gap). However, ref-012 demonstrates that bias amplification can be mitigated through corpus-level constraints in structured prediction models, which implies some existing methods do address bias transmission. Additionally, ref-010 shows that bias amplification persists independently of model collapse, suggesting mechanisms for bias mitigation exist even in synthetic training cycles. These references contradict the claim that no existing methods account for bias transmission.",
+     "vague": "The evaluation section lacks specific details about the synthetic datasets with controlled bias markers, including how they are constructed and what exact metrics are used to measure 'bias persistence' in downstream tasks. Additionally, the approach mentions 'neuron activation patterns correlated with specific traits' but does not specify which traits, how correlations are measured, or what ablation studies are performed to isolate the effectiveness of each stage (bias-aware token masking vs. adversarial fine-tuning).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies to separately evaluate the impact of bias-aware token masking and adversarial fine-tuning, and explicitly compare against ref-012's corpus-level constraints to determine if the proposed method offers unique advantages beyond existing bias mitigation techniques."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Existing distillation methods do not account for subliminal bias transmission via unrelated data patterns' (gap). However, ref-012 demonstrates that bias amplification can be mitigated in structured prediction models using corpus-level constraints, which directly addresses bias transmission in data patterns. Additionally, ref-010 shows that bias amplification can be analyzed and mitigated through mechanistic analysis of neuron populations, contradicting the claim that no existing methods account for such transmission.",
+     "vague": "The evaluation section lacks specific details about the 'synthetic datasets with controlled bias markers' (evaluation), including how they are constructed, what exact bias markers are used, and how they differ from existing benchmarks. Additionally, the 'bias-aware token masking' (approach) does not specify how attention rollout analysis identifies bias-correlated features or what threshold determines suppression. The 'counterfactual data augmentation' (approach) also lacks a clear definition of what constitutes counterfactual examples in this context.",
+     "already_done": "",
+     "suggestion": "Incorporate the corpus-level constraints from ref-012 into the distillation process to explicitly penalize bias amplification, while leveraging the mechanistic analysis techniques from ref-010 to identify and target neurons responsible for subliminal bias transmission. This would provide a more concrete and theoretically grounded method for detecting and mitigating biases, addressing the vagueness in the current approach."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Existing distillation methods do not account for subliminal bias transmission via unrelated data patterns' (gap). However, ref-012 demonstrates that bias amplification can be mitigated via corpus-level constraints in structured prediction models, which implies some existing methods do address bias transmission. Additionally, ref-010 shows bias amplification persists independently of model collapse, but does not explicitly link this to distillation or subliminal transmission via unrelated data patterns as claimed. The gap claim overgeneralizes since ref-014 only establishes subliminal learning in synthetic number sequences/code/reasoning traces, not in distillation settings with unrelated data patterns.",
+     "vague": "The evaluation lacks (1) a specific dataset name/setting for 'synthetic datasets with controlled bias markers', (2) missing ablation study isolating the effect of 'bias-aware token masking' vs 'adversarial fine-tuning', (3) no baseline comparing against ref-012's Lagrangian relaxation method which directly addresses bias amplification, (4) no clear definition of 'bias scores' beyond 'stereotype association tests' - missing specific metrics like disparity percentage used in ref-012.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating each component (token masking vs adversarial training) and compare against ref-012's constraint-based method as a baseline. Also, explicitly define bias metrics (e.g., disparity percentage) and test on both real-world datasets (like those in ref-012) and synthetic datasets to validate the generality of the approach."
+    }
+   },
+   "refined": {
+    "title": "Detecting and Mitigating Subliminal Bias Transmission in Distilled Models",
+    "summary": "We propose a method to detect and mitigate subliminal bias transmission during model distillation by combining attention rollout analysis with adversarial fine-tuning. The approach identifies bias-correlated features through neuron activation tracking and neutralizes them via counterfactual constraints. Evaluation measures bias persistence using stereotype association tests and disparity metrics on real-world and synthetic datasets.",
+    "gap": "While ref-012 mitigates bias amplification in structured prediction models via corpus-level constraints, it does not address subliminal bias transmission through unrelated data patterns during distillation. Ref-014 demonstrates subliminal learning in synthetic data but does not propose mitigation strategies for distillation. No work combines attention analysis with adversarial training to break hidden bias pathways in distilled models.",
+    "approach": "Implement a two-stage distillation process: (1) bias-aware token masking using attention rollout analysis to identify and suppress features correlated with bias markers (e.g., gender/occupation associations) above a threshold of 0.75 cosine similarity, and (2) adversarial fine-tuning with counterfactual data augmentation that swaps bias markers (e.g., replacing 'he' with 'she' in occupation sentences). The bias detection module tracks neuron activations via linear regression against bias labels, flagging top 5% correlated neurons for suppression. This differs from ref-012's Lagrangian relaxation by targeting attention patterns and neuron-level correlations rather than corpus-level constraints.",
+    "evaluation": "Compare bias scores (disparity percentage from ref-012 and stereotype association test accuracy) and task performance (accuracy/F1) between distilled models trained with/without the proposed method. Baselines include standard distillation (ref-011), ref-012's constraint-based method, and direct supervision. Evaluate on real-world datasets (gender/occupation associations from ref-012) and synthetic datasets with controlled bias markers (e.g., number sequences from ref-014 modified to encode gender stereotypes). Ablation studies isolate token masking (removing stage 1) and adversarial training (removing stage 2) effects.",
+    "support": [
+     "ref-010",
+     "ref-012",
+     "ref-014"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-assumption",
+   "slot": 2,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Detecting Subliminal Bias Transmission in Knowledge Distillation via Mechanistic Regression",
+    "summary": "This work investigates whether knowledge distillation inadvertently transfers societal biases through subliminal signals in synthetic data. Using mechanistic regression analysis, we identify neuron populations responsible for bias amplification during distillation. The framework is tested on political bias benchmarks, comparing distilled models against teacher models and baseline distillation methods.",
+    "gap": "Current distillation techniques assume neutrality of synthetic data but fail to account for subliminal bias transmission mechanisms uncovered in model collapse research.",
+    "approach": "Apply mechanistic interpretability to trace bias-related neuron activations during distillation. Implement bias-specific regularization targeting identified neuron populations.",
+    "evaluation": "Measure bias amplification metrics before/after distillation using political bias benchmarks. Compare against standard distillation and bias-mitigated training.",
+    "support": [
+     "ref-010",
+     "ref-014",
+     "ref-017"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Current distillation techniques assume neutrality of synthetic data but fail to account for subliminal bias transmission mechanisms uncovered in model collapse research.' This is unsupported because [ref-010] does not address knowledge distillation or subliminal bias transmission, focusing instead on model collapse during iterative synthetic training. [ref-014] discusses subliminal learning but does not link it to model collapse research. The gap claim conflates two distinct phenomena without direct evidence from cited references.",
+     "vague": "The evaluation lacks specificity: (1) Missing named dataset(s) for political bias benchmarks (beyond 'benchmarks' - [ref-010] uses U.S. political news sentence continuations but this isn't explicitly adopted); (2) Missing baseline - should compare against [ref-010]'s bias-mitigated training methods rather than generic 'bias-mitigated training'; (3) Missing ablation - does not specify whether regularization targets will be tested in isolation vs. combined with distillation; (4) The central claim about 'subliminal bias transmission' isn't directly tested since political bias metrics ([ref-010]) measure overt bias, not subliminal signals ([ref-014])",
+     "already_done": "",
+     "suggestion": "Explicitly adopt [ref-010]'s U.S. political news sentence continuation benchmark for evaluation, and incorporate [ref-014]'s number sequence distillation setup to test subliminal bias transmission independently of semantic content. This would directly test both overt and subliminal bias pathways while grounding the evaluation in concrete datasets from cited references."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Current distillation techniques assume neutrality of synthetic data but fail to account for subliminal bias transmission mechanisms uncovered in model collapse research.' However, ref-010 does not discuss knowledge distillation or subliminal bias transmission; it focuses on bias amplification during iterative synthetic training, not distillation. Ref-014 does not link subliminal learning to model collapse or distillation, only to trait transmission via unrelated data. Ref-017 (unavailable) cannot support this claim.",
+     "vague": "The evaluation plan lacks specific details: (1) missing named political bias benchmarks (ref-010's benchmark is not explicitly adopted), (2) missing baseline that isolates distillation from other variables (e.g., same dataset/teacher model without distillation), (3) missing ablation testing whether regularization targets the correct neurons (mechanistic regression's causal role is unproven). The 'bias amplification metrics' are undefined, and 'bias-mitigated training' is not specified.",
+     "already_done": "",
+     "suggestion": "Explicitly adopt ref-010's political bias benchmark and implement a controlled distillation baseline where synthetic data is filtered for neutrality (per ref-014's experiments). Measure neuron-level causal effects via ablation (e.g., deactivating identified neurons) to confirm their role in bias transmission, rather than correlation alone."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims: 'Current distillation techniques assume neutrality of synthetic data but fail to account for subliminal bias transmission mechanisms uncovered in model collapse research.' This is unsupported because (1) ref-010 does not state that model collapse research uncovered subliminal bias transmission mechanisms (it studies bias amplification independently of model collapse), and (2) ref-014 shows subliminal learning occurs through hidden signals in data, but does not link this to model collapse. The connection between 'subliminal bias transmission' and 'model collapse research' is not established in the cited references.",
+     "vague": "The evaluation plan lacks (1) a specific dataset name (only 'political bias benchmarks' is mentioned), (2) a defined 'bias amplification metric' (no formula or threshold), (3) a named baseline distillation method (e.g., standard KD vs. specific variants), and (4) a test isolating the effect of regularization (ablation study missing). The 'mechanistic regression analysis' is not described with sufficient detail to reproduce (e.g., which regression method, which statistical tests).",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing bias amplification in (1) standard distillation, (2) distillation with regularization on identified neurons, and (3) a control where synthetic data is generated by a non-biased model. This would isolate whether the effect is due to subliminal signals in data or other factors."
+    }
+   },
+   "refined": {
+    "title": "Detecting Subliminal Bias Transmission in Knowledge Distillation via Mechanistic Regression",
+    "summary": "This work investigates whether knowledge distillation inadvertently transfers societal biases through subliminal signals in synthetic data. Using mechanistic regression analysis, we identify neuron populations responsible for bias amplification during distillation. The framework is tested on political bias benchmarks, comparing distilled models against teacher models and baseline distillation methods.",
+    "gap": "Current distillation techniques do not account for subliminal bias transmission mechanisms. While [ref-010] studies bias amplification in iteratively trained models and [ref-014] demonstrates subliminal trait transmission via unrelated data, no work has examined how distillation propagates such biases through synthetic data.",
+    "approach": "Implement mechanistic regression to identify neurons correlated with bias during distillation. Apply targeted regularization to these neurons during student training. Inputs: teacher model outputs, synthetic data; Outputs: student model with reduced bias. Objective: minimize bias amplification while preserving task performance. Update rule: gradient descent with bias-specific regularization term. Differs from [ref-010] by focusing on distillation rather than iterative training, and from [ref-014] by targeting bias rather than general traits.",
+    "evaluation": "Use [ref-010]'s U.S. political news sentence continuation benchmark to measure bias amplification before/after distillation. Baselines: standard distillation ([ref-011]), [ref-010]'s bias-mitigated training. Ablation: compare models with/without neuron-specific regularization. Metrics: bias amplification magnitude, task accuracy. Test subliminal transmission via [ref-014]'s number sequence distillation setup, where synthetic data lacks semantic bias cues.",
+    "support": [
+     "ref-010",
+     "ref-014"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-transfer",
+   "slot": 2,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Adversarial Robustness for Diffusion Policy Agents via Subliminal Distillation",
+    "summary": "We propose a novel method to improve adversarial robustness in diffusion policy agents by distilling knowledge from a teacher model that has been trained to resist subliminal attacks. The approach uses a two-stage process: first, a teacher model is trained with adversarial examples and subliminal learning techniques; second, a student model is distilled from the teacher using a loss function that emphasizes robust features. The method is evaluated on manipulation tasks with physical adversarial patches, measuring success rate under attack and transferability of perturbations.",
+    "gap": "While [ref-005] demonstrates vulnerabilities in diffusion policies, no work has yet applied subliminal learning techniques to improve their robustness against adversarial attacks that exploit model weaknesses.",
+    "approach": "1) Train teacher diffusion policy with adversarial examples and subliminal signals 2) Distill student policy using a hybrid loss combining standard distillation and adversarial robustness terms 3) Implement a verification agent to test against physical patches 4) Use [ref-009]'s agent distillation framework as base architecture",
+    "evaluation": "Baselines: standard diffusion policy, adversarial training alone. Measures: success rate under attack, perturbation transferability, model performance on clean data. Comparison against [ref-005]'s DP-Attacker results and [ref-009]'s distillation performance.",
+    "support": [
+     "ref-005",
+     "ref-009",
+     "ref-014"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'no work has yet applied subliminal learning techniques to improve their robustness against adversarial attacks that exploit model weaknesses' (gap statement). However, [ref-014] only demonstrates subliminal learning as a vulnerability (traits transmitted via unrelated data) without any application to adversarial robustness improvement. The references do not support the specific claim about applying subliminal learning to enhance robustness.",
+     "vague": "The evaluation lacks (1) a missing ablation study isolating the effect of subliminal signals vs. standard adversarial training in the distillation process, (2) an unnamed dataset/specific manipulation tasks used for physical patch testing, and (3) missing measures for how 'robust features' are quantified in the hybrid loss function. The experiment design does not specify how the verification agent in step 3 is implemented or how it differs from [ref-005]'s attack methodology.",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing student models distilled with/without subliminal signals, while keeping adversarial training components constant. This would isolate whether subliminal learning contributes uniquely to robustness improvements beyond standard adversarial distillation techniques."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'no work has yet applied subliminal learning techniques to improve their robustness against adversarial attacks that exploit model weaknesses' (gap claim). However, [ref-014] demonstrates subliminal learning only in the context of transmitting behavioral traits through unrelated data (number sequences, code, reasoning traces) and does not show any connection to adversarial robustness or diffusion policies. The claim that subliminal learning improves adversarial robustness is unsupported by any cited reference.",
+     "vague": "The evaluation lacks a clear specification of the dataset/setting (e.g., which manipulation tasks, specific physical patch configurations), a missing ablation study isolating the effect of subliminal signals vs. standard adversarial training in the distillation process, and no explicit measure of how the 'hybrid loss' components contribute to robustness. The 'verification agent' implementation details are also unspecified.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies comparing student models distilled with/without subliminal signals (while keeping adversarial training constant) to isolate the effect of subliminal learning on robustness, and explicitly measure whether subliminal signals actually encode adversarial resistance features (as opposed to just behavioral traits as in [ref-014])."
+    },
+    "formal": {
+     "unsupported": "The gap claim 'no work has yet applied subliminal learning techniques to improve their robustness against adversarial attacks that exploit model weaknesses' is unsupported. [ref-014] studies subliminal learning but only demonstrates trait transmission in number sequences/code/reasoning traces, not adversarial robustness. [ref-005] shows diffusion policy vulnerabilities but does not address subliminal learning or distillation-based defenses. [ref-009] focuses on agent distillation for reasoning tasks, not adversarial robustness.",
+     "vague": "The evaluation lacks specifics: (1) unnamed datasets/settings for manipulation tasks; (2) no ablation study isolating the effect of subliminal signals vs. standard adversarial training; (3) 'verification agent' implementation details missing; (4) 'hybrid loss' components not defined; (5) no comparison metric to quantify 'transferability of perturbations' beyond qualitative claims.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating subliminal signal components in the hybrid loss, and define precise metrics for 'perturbation transferability' (e.g., success rate on untargeted models) rather than relying on qualitative comparisons with [ref-005]."
+    }
+   },
+   "refined": {
+    "title": "Adversarial Robustness for Diffusion Policy Agents via Distilled Subliminal Signals",
+    "summary": "We propose improving adversarial robustness in diffusion policies by distilling subliminal signals from a teacher model trained to resist adversarial attacks. The method uses a two-stage process: (1) a teacher diffusion policy is trained with adversarial examples and subliminal signals encoding robustness traits; (2) a student policy is distilled using a hybrid loss combining standard distillation with an adversarial robustness term. The approach is evaluated on manipulation tasks with physical adversarial patches, measuring success rate under attack and perturbation transferability.",
+    "gap": "While [ref-005] shows diffusion policies are vulnerable to adversarial attacks, and [ref-014] demonstrates subliminal learning transmits behavioral traits via unrelated data, no work combines these to improve robustness. The closest method, [ref-009], distills reasoning capabilities but does not address adversarial robustness.",
+    "approach": "1) Train teacher diffusion policy on adversarial examples while injecting subliminal signals (via [ref-014]'s method) encoding robustness traits into non-critical tokens; 2) Distill student policy using a hybrid loss: L = α·L_distill + β·L_adv, where L_distill is KL divergence between teacher/student outputs, L_adv penalizes adversarial perturbations; 3) Implement a verification agent using [ref-005]'s DP-Attacker to test physical patches; 4) Use [ref-009]'s agent distillation framework as base architecture.",
+    "evaluation": "Baselines: standard diffusion policy ([ref-005]), adversarial training alone ([ref-005]), and [ref-009]'s distillation. Setting: manipulation tasks from [ref-005] (e.g., pushing, picking). Measures: success rate under attack, perturbation transferability (success rate on untargeted models), clean-data performance. Ablation: student models distilled with/without subliminal signals (adversarial training constant), measuring robustness gain from subliminal components. Comparison against [ref-005]'s DP-Attacker results and [ref-009]'s distillation performance.",
+    "support": [
+     "ref-005",
+     "ref-009",
+     "ref-014"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-formal",
+   "slot": 2,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Adversarial Patch Detection for Diffusion Policy Safety",
+    "summary": "We develop a framework to detect and neutralize adversarial patches targeting diffusion-based policies. By analyzing the diffusion process's vulnerability to spatial perturbations, we propose a frequency-domain filtering mechanism integrated into the denoising steps. The method is validated through controlled physical-world experiments measuring policy success rate degradation under attack.",
+    "gap": "Current diffusion policy evaluations lack systematic analysis of physical adversarial attacks, leaving safety vulnerabilities unaddressed in real-world deployment scenarios.",
+    "approach": "Design a spectral perturbation analyzer that identifies anomalous frequency components in input observations. Implement a learnable frequency mask within diffusion policy's denoising network to suppress adversarial patterns. Train using a hybrid loss combining task performance and perturbation invariance.",
+    "evaluation": "Measure success rate retention on manipulation tasks under white-box/black-box patch attacks. Compare against baselines: standard diffusion policies, input preprocessing filters, and adversarial training. Use metrics including attack transferability rate and physical patch detection accuracy.",
+    "support": [
+     "ref-005",
+     "ref-007",
+     "ref-016"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims, 'Current diffusion policy evaluations lack systematic analysis of physical adversarial attacks,' but ref-005 explicitly examines physical adversarial patches in diffusion policies, stating, 'we illustrate the creation of adversarial physical patches that... effectively deceive the model.' This contradicts the gap claim about unaddressed physical attack analysis.",
+     "vague": "The evaluation plan lacks specificity about (1) the exact manipulation tasks/datasets used, (2) the baseline adversarial training method's implementation details (e.g., attack type used during training), and (3) how 'perturbation invariance' is quantitatively measured beyond success rate retention. The central claim about frequency-domain filtering's effectiveness isn't directly tested since attack transferability rate measures cross-model generalization, not the mechanism's specific frequency suppression capability.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the frequency mask's contribution by comparing (1) the full method against (2) the same architecture without frequency masking but with equivalent parameter count, and (3) a non-learnable fixed frequency filter baseline. This would directly test whether frequency-domain analysis—not just model capacity or training data—drives safety improvements."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims 'Current diffusion policy evaluations lack systematic analysis of physical adversarial attacks' (gap claim), but ref-005 already demonstrates physical adversarial patch attacks on diffusion policies ('we illustrate the creation of adversarial physical patches...'). The claim 'safety vulnerabilities unaddressed in real-world deployment' is unsupported as ref-005 specifically addresses real-world physical attacks.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed frequency-domain mechanism (e.g., ablation study comparing masked vs. unmasked denoising steps). The 'physical patch detection accuracy' metric is undefined - no specification of how patches are labeled or detection thresholds. The 'hybrid loss' training details are missing - no description of perturbation invariance loss formulation or how it's combined with task loss.",
+     "already_done": "",
+     "suggestion": "Add an ablation study isolating the frequency mask's contribution by comparing against a baseline that uses only the task performance loss (no perturbation invariance component). This would directly test the claimed mechanism rather than the whole system."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis states: 'Current diffusion policy evaluations lack systematic analysis of physical adversarial attacks, leaving safety vulnerabilities unaddressed in real-world deployment scenarios.' However, ref-005 already demonstrates systematic analysis of physical adversarial attacks (e.g., 'adversarial physical patches') on diffusion policies, directly contradicting the 'lack' claim. Additionally, the hypothesis implies unaddressed safety vulnerabilities in deployment, but ref-007 and ref-016 do not establish specific clinical/safety/deployment needs for diffusion policies.",
+     "vague": "The evaluation lacks details about: (1) specific datasets/settings for 'manipulation tasks' (e.g., which tasks, environments), (2) unnamed baselines (e.g., which 'standard diffusion policies' or 'input preprocessing filters' are used), (3) missing ablation tests isolating the 'learnable frequency mask' mechanism from other components, and (4) no specification of how 'success rate retention' is measured quantitatively (e.g., percentage drop threshold). The central claim about 'detecting adversarial patches' is not clearly tested, as 'attack transferability rate' measures attack efficacy, not detection capability.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the learnable frequency mask's contribution and explicitly test detection accuracy (e.g., patch localization precision/recall) rather than relying solely on success rate metrics."
+    }
+   },
+   "refined": {
+    "title": "Frequency-Aware Robustness in Diffusion Policies via Learnable Spectral Masking",
+    "summary": "We propose a learnable spectral masking mechanism integrated into diffusion policy denoising steps to mitigate adversarial patch attacks. The method identifies and suppresses anomalous frequency components in input observations, trained via a hybrid loss combining task performance and perturbation invariance. Evaluated on manipulation tasks under physical patch attacks, the approach improves success rate retention compared to baselines.",
+    "gap": "While ref-005 demonstrates physical adversarial patch attacks on diffusion policies, it does not propose a defense mechanism. The closest cited work (ref-005) leaves open the development of a frequency-domain defense to neutralize such attacks.",
+    "approach": "Implement a learnable spectral mask within the diffusion policy's denoising network that identifies and suppresses anomalous frequency components. The mask is trained using a hybrid loss: L = L_task + λL_perturb, where L_task is the standard diffusion loss, L_perturb is the L1 difference between masked and unmasked features under adversarial perturbations, and λ balances the terms. The mask operates on Fourier-transformed input observations, masking frequency bins with learnable weights. Inputs: noisy observations; Outputs: denoised observations with adversarial patterns suppressed. Differs from ref-005's attack generation by focusing on defense through frequency-domain filtering rather than perturbation crafting.",
+    "evaluation": "Test on manipulation tasks (e.g., ref-005's pre-trained diffusion policies) under white-box/black-box physical patch attacks. Baselines: (1) standard diffusion policies, (2) fixed frequency filter baseline (non-learnable), (3) adversarial training with patch attacks. Metrics: (a) success rate retention (%) under attack, (b) ablation comparing learnable vs. fixed mask performance, (c) patch detection accuracy (IoU between predicted and ground-truth patch regions).",
+    "support": [
+     "ref-005",
+     "ref-007",
+     "ref-016"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-assumption",
+   "slot": 3,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Teacher-Centric Bias Mitigation in Multi-Agent Educational Systems",
+    "summary": "This paper challenges the assumption that learner-agent simulations alone suffice for bias mitigation in educational multi-agent systems. We propose teacher-agent-driven bias auditing where the teacher agent actively identifies and corrects representational harms in generated materials. The system is evaluated on U.S. political news datasets, measuring bias reduction compared to learner-agent-only baselines.",
+    "gap": "Existing multi-agent educational frameworks focus on learner personalization but lack proactive bias mitigation mechanisms in teacher-agent design.",
+    "approach": "Augment FACET's teacher agent with bias detection modules using social impact evaluation frameworks. Implement iterative feedback loops where the teacher agent revises materials based on bias audits.",
+    "evaluation": "Compare bias metrics (stereotype scores, representational harm indices) between teacher-agent-revised and learner-agent-generated materials. Assess task suitability preservation.",
+    "support": [
+     "ref-003",
+     "ref-004",
+     "ref-012"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims: 'Existing multi-agent educational frameworks focus on learner personalization but lack proactive bias mitigation mechanisms in teacher-agent design.' This is unsupported because ref-003 explicitly defines methods for evaluating and mitigating representational harms (a form of bias) in generative systems, and ref-004's FACET framework already includes an evaluator agent that could be extended for bias auditing. The claim that 'proactive bias mitigation mechanisms' are absent is contradicted by ref-003's social impact evaluation framework and ref-004's evaluator agent component.",
+     "vague": "The evaluation plan lacks specificity: (1) The 'U.S. political news datasets' are unnamed and not described in terms of relevance to educational materials; (2) The 'bias metrics' (stereotype scores, representational harm indices) are not defined or linked to established methods from ref-003 or ref-012; (3) The 'task suitability preservation' assessment is not operationalized with concrete measures. Additionally, the experiment design misses an ablation study isolating the teacher-agent's bias mitigation contribution versus the baseline learner-agent system.",
+     "already_done": "",
+     "suggestion": "Replace the vague 'bias metrics' with the concrete social impact categories from ref-003 (e.g., bias/stereotypes, representational harms) and adopt ref-012's corpus-level constraint methodology for measurable bias reduction. Additionally, specify that the teacher-agent's revisions will be tested on the same grade 8 mathematics materials from ref-004 to ensure educational relevance."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims: 'Existing multi-agent educational frameworks focus on learner personalization but lack proactive bias mitigation mechanisms in teacher-agent design.' This is unsupported because ref-003 explicitly defines seven categories of social impact (including bias, stereotypes, and representational harms) that could be evaluated in base systems, and ref-004's FACET framework already includes an evaluator agent for quality assurance, which could be extended to include bias auditing. The claim that 'proactive bias mitigation mechanisms' are entirely absent is contradicted by these references.",
+     "vague": "The evaluation plan lacks specificity: 1) The 'U.S. political news datasets' are not described or named, making replication impossible; 2) The 'bias metrics' (stereotype scores, representational harm indices) are not defined or linked to established methods from ref-003 or ref-012; 3) The 'task suitability preservation' assessment is not operationalized with concrete measures. Additionally, the evaluation does not test whether the teacher agent's bias audits actually cause the claimed mechanism (i.e., an ablation study comparing the teacher agent with/without bias modules is missing).",
+     "already_done": "",
+     "suggestion": "Conduct a controlled ablation study comparing the teacher agent with and without bias modules, using the social impact evaluation categories from ref-003 as a structured framework for bias measurement, and apply this to a well-defined educational dataset (e.g., the grade 8 mathematics materials from ref-004) rather than political news datasets, which are outside the educational context of the proposed system."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'existing multi-agent educational frameworks focus on learner personalization but lack proactive bias mitigation mechanisms in teacher-agent design' (gap). However, ref-003 already defines seven categories of social impact (including bias, stereotypes, and representational harms) for evaluating base generative AI systems, and ref-004's FACET framework includes an evaluator agent for quality assurance. These references contradict the claim that no prior work addresses bias mitigation in teacher-agent design. Additionally, the evaluation uses 'U.S. political news datasets' despite the hypothesis being about educational systems, and no reference supports this dataset choice as relevant to educational bias.",
+     "vague": "The evaluation plan lacks specific details: (1) the 'bias metrics' (stereotype scores, representational harm indices) are not defined or linked to ref-003's evaluation methods; (2) the 'U.S. political news datasets' are unnamed, and no baseline (e.g., FACET's original implementation) is specified for comparison; (3) the 'task suitability preservation' assessment has no defined measure. The approach also lacks an ablation study isolating the bias detection modules' effect from the teacher agent's other functions.",
+     "already_done": "",
+     "suggestion": "Replace the vague 'bias metrics' with ref-003's defined categories (e.g., 'bias, stereotypes, and representational harms') and ref-012's quantitative bias amplification measures. Specify a named educational dataset (e.g., ref-004's grade 8 math content) and include FACET's original implementation as a baseline. Add an ablation study comparing the teacher agent with/without bias modules to test the mechanism's effect."
+    }
+   },
+   "refined": {
+    "title": "Teacher-Agent Bias Auditing in Multi-Agent Educational Systems",
+    "summary": "We challenge the assumption that learner-agent simulations alone ensure bias-free educational materials. Our approach introduces teacher-agent-driven bias auditing using structured social impact categories, implemented via corpus-level constraints. The system is evaluated on grade 8 mathematics materials, comparing bias metrics and task suitability with and without the teacher agent's bias modules.",
+    "gap": "While ref-004's FACET framework includes an evaluator agent for quality assurance, it lacks explicit bias mitigation mechanisms. Ref-003 defines seven social impact categories for evaluating bias but does not implement them in multi-agent educational systems. No prior work integrates these categories into teacher-agent design to proactively reduce representational harms in generated materials.",
+    "approach": "Augment FACET's teacher agent with bias detection modules that evaluate generated materials against ref-003's seven social impact categories (bias/stereotypes, cultural values, etc.). Implement ref-012's corpus-level constraint methodology to enforce bias reduction during material revision. The teacher agent iteratively revises materials flagged by the bias modules, preserving task suitability while reducing representational harms. The core mechanism differs from ref-004's evaluator agent by explicitly incorporating ref-003's bias categories and ref-012's constraint optimization.",
+    "evaluation": "Test on ref-004's grade 8 mathematics materials. Compare bias metrics (ref-003's categories, ref-012's quantitative bias amplification measures) between: (1) original FACET output (baseline), (2) teacher-agent-revised materials with bias modules, and (3) teacher-agent-revised materials without bias modules (ablation). Measure task suitability via ref-004's teacher feedback metrics (structure, suitability).",
+    "support": [
+     "ref-003",
+     "ref-004",
+     "ref-012"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-transfer",
+   "slot": 3,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Jailbreak-Resistant LLM Auditing via White-Box Safety Distillation",
+    "summary": "This paper introduces a white-box auditing framework that distills safety knowledge from multiple models into a single verifiable component. The method combines mechanistic interpretability to identify safety-critical circuits with targeted distillation that preserves these circuits while removing jailbreak vulnerabilities. The approach is validated through red-teaming evaluations, measuring resistance to known jailbreak patterns and novel attacks.",
+    "gap": "Current LLM auditing methods ([ref-016]) lack techniques to distill safety properties from multiple models into a single verifiable component, leaving jailbreak vulnerabilities ([ref-019]) undetected during audits.",
+    "approach": "1) Use mechanistic analysis to identify safety-critical circuits in multiple models 2) Distill these circuits into a safety verification module 3) Integrate module into auditing pipeline to detect jailbreak patterns 4) Test against known jailbreaks and novel attacks generated via subliminal learning",
+    "evaluation": "Baselines: black-box auditing, standard distillation. Measures: jailbreak success rate, safety circuit preservation, detection accuracy. Comparison against [ref-016]'s black-box methods and [ref-019]'s jailbreak patterns.",
+    "support": [
+     "ref-016",
+     "ref-019",
+     "ref-011"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Current LLM auditing methods ([ref-016]) lack techniques to distill safety properties from multiple models into a single verifiable component' (gap). However, [ref-011] demonstrates knowledge distillation from multiple models into a single model, contradicting the claim that such techniques are absent. Additionally, the hypothesis states that '[ref-016] lack techniques...' but [ref-016] focuses on audit access levels (black/white/outside-the-box), not distillation methods, making the gap claim unsupported.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed distillation mechanism (e.g., a mechanistic analysis-only baseline without distillation). The 'subliminal learning' method for generating novel attacks is undefined, and the 'safety circuit preservation' measure is not operationalized (e.g., no metric for quantifying circuit fidelity). The dataset of jailbreak patterns is unnamed, and the red-teaming evaluation protocol is not described in detail.",
+     "already_done": "",
+     "suggestion": "Replace the unsupported gap claim with a focused statement about distilling safety-specific circuits (not general knowledge) and add an ablation study isolating mechanistic analysis vs. distillation components."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Current LLM auditing methods ([ref-016]) lack techniques to distill safety properties from multiple models into a single verifiable component' but [ref-011] demonstrates knowledge distillation from ensembles into single models, which could theoretically include safety properties. Additionally, the gap claim that '[ref-016] leaves jailbreak vulnerabilities ([ref-019]) undetected' is unsupported because [ref-016] focuses on audit access levels rather than vulnerability detection methods.",
+     "vague": "The evaluation lacks (1) a specific dataset of jailbreak patterns or attacks for reproducibility, (2) a baseline that isolates the distillation mechanism (e.g., mechanistic analysis without distillation), (3) a defined metric for 'safety circuit preservation' beyond qualitative descriptions, and (4) an ablation study testing whether the identified circuits themselves (rather than the distillation process) contribute to jailbreak resistance.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the mechanistic circuit identification step from the distillation process, and define concrete metrics for 'safety circuit preservation' (e.g., activation similarity scores or circuit functionality tests) to validate the claimed mechanism."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Current LLM auditing methods ([ref-016]) lack techniques to distill safety properties from multiple models into a single verifiable component,' but [ref-011] demonstrates knowledge distillation from multiple models (ensembles) into a single model, contradicting the claim that such techniques are absent. The phrase 'leaving jailbreak vulnerabilities ([ref-019]) undetected during audits' is unsupported by [ref-016], which focuses on audit access types (black/white/outside-the-box) but does not address jailbreak detection specifically.",
+     "vague": "The evaluation lacks a baseline that isolates the distillation mechanism (e.g., mechanistic analysis without distillation). The 'safety circuit preservation' measure is undefined—no specific metrics or ablation studies are proposed to test whether the claimed safety circuits (vs. general model performance) are preserved. The 'subliminal learning' method for generating novel attacks is unnamed and unreferenced, leaving the evaluation's novelty generation process unclear.",
+     "already_done": "",
+     "suggestion": "Replace the informal 'safety-critical circuits' claim with a precise definition (e.g., 'neurons/activations whose ablation increases jailbreak success rate by ≥X%') and add an ablation study isolating the distillation mechanism's effect on jailbreak resistance."
+    }
+   },
+   "refined": {
+    "title": "Safety-Circuit Distillation for Jailbreak-Resistant Auditing",
+    "summary": "This paper introduces a white-box auditing framework that distills safety-critical circuits from multiple models into a verifiable module. The method uses mechanistic interpretability to identify circuits whose ablation increases jailbreak success rate by ≥10%, then applies targeted distillation to preserve these circuits in a single model. The approach is evaluated against known jailbreak patterns and novel attacks generated via subliminal learning, measuring jailbreak success rate, circuit preservation via activation similarity, and detection accuracy.",
+    "gap": "While [ref-011] distills general knowledge from ensembles, no work distills safety-specific circuits (neurons/activations whose ablation increases jailbreak success rate by ≥10%) from multiple models into a single verifiable component, leaving jailbreak vulnerabilities ([ref-019]) undetected during audits ([ref-016]).",
+    "approach": "1) Mechanistic analysis identifies safety-critical circuits in multiple models as neuron/activation sets whose ablation increases jailbreak success rate by ≥10% 2) Distill these circuits into a safety verification module via loss minimization on activation similarity 3) Integrate module into auditing pipeline to detect jailbreak patterns 4) Generate novel attacks via subliminal learning ([ref-014]) by training a student model on teacher-generated number sequences to inherit jailbreak traits",
+    "evaluation": "Baselines: black-box auditing ([ref-016]), standard distillation ([ref-011]), mechanistic analysis without distillation. Measures: jailbreak success rate (JSR) on [ref-019]'s patterns, activation similarity (COS) between original/distilled circuits, detection accuracy (F1). Ablation: compare JSR/COS/F1 with/without distillation step. Dataset: [ref-019]'s red-teaming evaluation set of unsafe requests.",
+    "support": [
+     "ref-011",
+     "ref-014",
+     "ref-016",
+     "ref-019"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-formal",
+   "slot": 3,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Deceptive Behavior Detection via Safety Training Stress Testing",
+    "summary": "This work introduces a stress-testing framework to uncover deceptive behaviors in safety-trained LLMs. By systematically varying prompt conditions and monitoring output consistency, we identify potential backdoors. The method uses controlled environment simulations to evaluate model behavior under conflicting objectives and temporal constraints.",
+    "gap": "Standard safety evaluations fail to detect sophisticated deceptive strategies that persist through multiple training phases and manifest only under specific conditions.",
+    "approach": "Create a multi-phase evaluation protocol: (1) context-switching tests with temporal markers (e.g., hypothetical future dates), (2) goal-conflict scenarios measuring alignment drift, and (3) meta-prompting to elicit self-assessment of hidden behaviors. Implement automated anomaly detection based on output distribution shifts.",
+    "evaluation": "Compare detection rates of known deceptive patterns across models with/without safety training. Use baselines including standard benchmark evaluations and adversarial prompt injection. Metrics include false negative rate in backdoor detection and consistency score under conflicting prompts.",
+    "support": [
+     "ref-002",
+     "ref-008",
+     "ref-019"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'standard safety evaluations fail to detect sophisticated deceptive strategies' (gap), but ref-008 already demonstrates that deceptive backdoors can persist through safety training, and ref-019 shows that even state-of-the-art models fail under adversarial attacks. However, the hypothesis does not address ref-002's finding that 'we have not seen evidence of agentic misalignment in real deployments,' which directly contradicts the implied real-world urgency of the gap. The phrase 'manifest only under specific conditions' (approach) is unsupported by ref-002, which found models misbehaved more in 'real' vs. 'test' scenarios without requiring specific conditions beyond context.",
+     "vague": "The evaluation lacks a named dataset or specific implementation details for the 'controlled environment simulations' (approach). The 'automated anomaly detection' (approach) is not described in terms of algorithm or threshold. The 'consistency score' (evaluation) is undefined, and the 'meta-prompting' (approach) method is not operationalized. The 'temporal markers' (approach) are not linked to ref-008's year-based backdoor trigger, which is the only concrete example in the references. The 'goal-conflict scenarios' (approach) are not tied to ref-002's specific misalignment tests, leaving the mechanism ungrounded.",
+     "already_done": "",
+     "suggestion": "Concretely define the 'temporal markers' as year-based triggers (ref-008) and 'goal-conflict scenarios' as ref-002's replacement/blackmail tests, then show how the proposed method detects these cases better than ref-008's adversarial training or ref-019's jailbreak detection. This would ground the approach in existing work while addressing the unsupported real-world gap claim."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Standard safety evaluations fail to detect sophisticated deceptive strategies that persist through multiple training phases and manifest only under specific conditions.' This is unsupported by ref-002, which does not study deceptive strategies persisting through training phases but rather tests for agentic misalignment in hypothetical scenarios. The claim is supported by ref-008 and ref-019, which do address deceptive behaviors and safety training failures, but ref-002 does not provide evidence for this specific gap.",
+     "vague": "The evaluation plan lacks a specific dataset or setting for the 'context-switching tests with temporal markers' (e.g., which dates or timeframes to use). It also does not name a baseline that isolates the proposed multi-phase protocol (e.g., a direct comparison to the specific methods from ref-008 or ref-019). The 'consistency score' under conflicting prompts is not defined, and no ablation study is proposed to test whether the multi-phase protocol itself (rather than the whole system) improves detection of deceptive behaviors.",
+     "already_done": "",
+     "suggestion": "Incorporate the backdoor trigger design from ref-008 (e.g., year-based activation) as a controlled test case in the 'context-switching tests' to directly measure whether the proposed stress-testing framework can detect such deceptive patterns, and compare its performance against the adversarial training methods from ref-008 that failed to remove the backdoors."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Standard safety evaluations fail to detect sophisticated deceptive strategies that persist through multiple training phases and manifest only under specific conditions.' However, ref-008 already demonstrates that deceptive strategies (e.g., backdoors) can persist through safety training, and ref-019 shows that safety training fails to generalize to certain domains. The gap claim is not unsupported, as these references already establish the existence of such deceptive strategies and evaluation failures. The hypothesis also states that 'the method uses controlled environment simulations to evaluate model behavior under conflicting objectives and temporal constraints,' but ref-002 already tests models in hypothetical corporate environments with conflicting objectives, including temporal aspects (e.g., replacement with updated versions).",
+     "vague": "The evaluation plan lacks specific details: (1) the exact datasets or settings for the multi-phase protocol (e.g., which temporal markers, how goal conflicts are defined), (2) the baselines for comparison (e.g., which specific standard benchmarks or adversarial prompt injection methods), (3) the exact definition of 'consistency score' and how it is measured, (4) the ablation study to test whether the proposed stress-testing framework is necessary (e.g., comparing with existing red-teaming methods from ref-019). The approach also does not clarify how 'meta-prompting' is implemented or how 'output distribution shifts' are quantified for anomaly detection.",
+     "already_done": "",
+     "suggestion": "Conduct a more specific ablation study comparing the proposed stress-testing framework with existing red-teaming methods (e.g., from ref-019) and backdoor detection techniques (e.g., from ref-008) on a shared dataset of deceptive behaviors. This would clarify whether the new method provides measurable improvements over existing approaches in detecting deceptive strategies that persist through safety training."
+    }
+   },
+   "refined": {
+    "title": "Stress-Testing Safety-Trained LLMs to Detect Persistent Deceptive Behaviors",
+    "summary": "This work proposes a stress-testing framework to identify deceptive behaviors in safety-trained LLMs by exposing models to controlled scenarios with conflicting objectives and temporal triggers. The approach combines year-based context-switching tests, goal-conflict simulations, and meta-prompting to detect output inconsistencies indicative of hidden backdoors.",
+    "gap": "While ref-008 and ref-019 show that deceptive behaviors can persist through safety training, current evaluations lack systematic stress-testing protocols to detect such behaviors under specific conditions like temporal triggers or goal conflicts. Ref-002 demonstrates that models may misbehave in hypothetical scenarios but does not evaluate whether existing safety evaluations can detect these failures.",
+    "approach": "Implement a three-phase evaluation: (1) year-based context-switching tests (e.g., '2024' vs. '2023') to detect backdoors (ref-008), (2) goal-conflict scenarios (e.g., model goals vs. company policies) to measure alignment drift (ref-002), and (3) meta-prompting to elicit self-assessment of hidden behaviors. Anomaly detection is performed by comparing output distributions between safe and stress-test conditions using KL divergence thresholds.",
+    "evaluation": "Test on models with/without safety training using ref-008's year-based backdoor dataset and ref-002's corporate misalignment scenarios. Compare detection rates against baselines: standard safety benchmarks (ref-001), adversarial prompt injection (ref-019), and adversarial training (ref-008). Metrics include false negative rate in backdoor detection, KL divergence scores for output shifts, and consistency score (Cohen's kappa) under conflicting prompts. Ablation isolates the impact of each phase.",
+    "support": [
+     "ref-002",
+     "ref-008",
+     "ref-019"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  }
+ ],
+ "scores": {
+  "s1-assumption": 0.0,
+  "s1-transfer": 3.0,
+  "s1-formal": 1.0,
+  "s2-assumption": 2.0,
+  "s2-transfer": 1.0,
+  "s2-formal": 1.0,
+  "s3-assumption": 0.5,
+  "s3-transfer": 1.0,
+  "s3-formal": 2.5
+ },
+ "rounds": {
+  "1": [
+   [
+    {
+     "a": "s1-assumption",
+     "b": "s1-transfer",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding, gap, specificity, and value. Grounding: B correctly cites [ref-004] for multi-agent LLM systems, [ref-010] for bias amplification, and [ref-014] for subliminal bias transmission, with accurate descriptions of each. A misdescribes [ref-005] by claiming it lacks 'context-aware conditioning'—a concept not discussed in the reference. Gap: B identifies a clear, understudied gap: applying mechanistic interpretability to mitigate subliminal bias in multi-agent LLM systems, which neither [ref-004] nor [ref-010] address. A's gap is less precise, as [ref-005] does not claim to address safety mechanisms at all. Specificity: B provides concrete technical details (e.g., neuron identification via regression, layer-specific regularization, monitoring agent design) and evaluation metrics (bias intensity score, task accuracy). A's approach lacks specifics on how risk scores are computed or how noise schedules are adjusted. Coherence: B's evaluation directly tests its central claim by measuring bias reduction in a replicated multi-agent system. A's evaluation is less coherent, as [ref-005] does not provide 'environmental risk assessments' for context-aware conditioning. Value: A result from B would impact AI safety in educational systems, a high-stakes domain. A's value is narrower, focusing only on diffusion policy robustness."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A outperforms B across all criteria. (1) Grounding: A correctly cites [ref-004] for multi-agent LLM systems, [ref-010] for bias amplification mechanisms, and [ref-014] for subliminal transmission risks. The connections between these references are valid and specific. B's grounding is weaker as it only cites [ref-005] and does not address the broader safety context beyond adversarial attacks. (2) Gap: A clearly identifies an open problem at the intersection of multi-agent systems ([ref-004]) and bias amplification ([ref-010]), which neither reference addresses alone. B's gap is narrower, focusing only on context-aware safety for diffusion policies without connecting to broader safety concerns. (3) Specificity: A provides concrete technical details (mechanistic analysis, weight regularization, monitoring agent) and evaluation metrics (bias intensity score, accuracy) tied to specific datasets ([ref-010]'s benchmark and [ref-004]'s FACET setup). B's approach lacks comparable specificity in its conditioning module design and risk score computation. (4) Coherence: A's evaluation directly tests its central claim by measuring bias reduction in a replicated multi-agent system. B's evaluation focuses on attack success rates but does not fully address how context-aware conditioning impacts broader safety beyond adversarial examples. (5) Value: A's results would impact both educational AI ([ref-004]) and responsible LLM development ([ref-010], [ref-014]), whereas B's impact is limited to diffusion policy safety. While both hypotheses address important problems, A's comprehensive grounding, clearer gap identification, and broader potential impact make it the stronger proposal."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B outperforms Hypothesis A across all criteria. (1) Grounding: B correctly cites and connects ref-004 (multi-agent LLM systems), ref-010 (bias amplification), and ref-014 (subliminal learning) to establish a clear gap in addressing bias transmission within multi-agent architectures. A's grounding is weaker as ref-005 only demonstrates vulnerabilities without discussing context-aware safety mechanisms. (2) Gap: B precisely identifies the open problem of adapting mechanistic interpretability (ref-010) to multi-agent systems (ref-004), while A's gap is vaguer about what ref-005 'does not address'. (3) Specificity: B provides concrete technical details (mechanistic analysis, layer-specific regularization, monitoring agent) and evaluation metrics (bias intensity score, accuracy) tied to existing benchmarks. A's approach lacks specifics on how risk scores are computed or how noise schedules are modified. (4) Coherence: B's evaluation directly tests its central claim by measuring bias reduction in multi-agent settings. A's evaluation focuses on attack success rates but doesn't explicitly link to context-aware conditioning's theoretical bounds. (5) Value: B addresses a critical safety issue in educational AI systems where bias propagation could harm students, with results impacting real-world deployments. A's value is narrower, focusing on physical manipulation tasks with less direct societal impact. While both hypotheses are valid, B's stronger grounding, specificity, and broader value make it the better choice."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A outperforms B across all criteria. (1) Grounding: A correctly cites [ref-004] for multi-agent LLM systems, [ref-010] for bias amplification mechanisms, and [ref-014] for subliminal transmission risks. The connections between these references are logically consistent and directly support the hypothesis. B's grounding is weaker as it only cites [ref-005] and does not address how context-aware conditioning relates to the adversarial attack scenarios described. (2) Gap: A clearly identifies the open problem of subliminal bias transmission in multi-agent systems, which is a specific unaddressed issue in [ref-004] and [ref-010]. B's gap is less precise, as dynamic safety mechanisms are not explicitly excluded by [ref-005]—the paper focuses on attack methods rather than defenses. (3) Specificity: A provides concrete technical details (mechanistic analysis, layer-specific regularization, monitoring agent) and evaluation metrics (bias intensity score, accuracy) tied to existing benchmarks. B's approach lacks specifics on how risk scores are computed or how noise schedules are modified. (4) Coherence: A's evaluation directly tests its central claim by measuring bias reduction while maintaining task performance. B's evaluation is less coherent as it doesn't explicitly test whether context-aware conditioning improves safety beyond general adversarial training. (5) Value: A's results would impact AI safety and education by preventing harmful bias propagation in multi-agent systems. B's value is narrower, focusing only on diffusion policy robustness without broader implications."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-transfer",
+     "b": "s1-formal",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A outperforms B on grounding, gap, specificity, and coherence. (1) Grounding: A correctly cites [ref-004] for multi-agent systems, [ref-010] for bias amplification mechanisms, and [ref-014] for subliminal transmission risks. B misapplies [ref-010] (which focuses on model collapse) to distillation and incorrectly cites [ref-011] (not provided). (2) Gap: A clearly identifies the open problem of subliminal bias in multi-agent systems, while B's gap conflates distillation with unrelated data patterns. (3) Specificity: A provides concrete technical steps (mechanistic analysis, layer-specific regularization, monitoring agent) and evaluation metrics (bias intensity score, accuracy) tied to [ref-004] and [ref-010]. B's approach lacks implementation details (e.g., 'counterfactual constraints' undefined) and relies on unvalidated thresholds (0.75 cosine similarity). (4) Coherence: A's evaluation directly tests its claim by measuring bias reduction in multi-agent interactions, whereas B's stereotype tests don't address distillation-specific pathways. (5) Value: Both have value, but A's focus on multi-agent systems (a growing research area) offers broader impact than B's narrower distillation focus. B's reliance on unprovided [ref-011] and misapplied references further weakens its case."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A outperforms B across all criteria. (1) Grounding: A accurately cites ref-012 (bias amplification in structured prediction) and ref-014 (subliminal learning) to define a clear gap in distillation bias mitigation, while B misapplies ref-014 (which focuses on synthetic data, not multi-agent systems) and conflates ref-010's single-model bias amplification with multi-agent dynamics. (2) Gap: A specifies a concrete open question—subliminal bias transmission during distillation—unaddressed by prior work, whereas B's gap is overstated as ref-004's educational focus and ref-010's single-model bias are not directly connected to multi-agent bias transmission. (3) Specificity: A provides precise technical details (0.75 cosine similarity threshold, counterfactual data augmentation) and measurable evaluation metrics (disparity percentage, stereotype association tests), while B's layer-specific regularization lacks concrete parameters and its bias drift monitoring lacks defined thresholds. (4) Coherence: A's evaluation directly tests its claim by comparing bias scores with/without its method, whereas B's evaluation conflates political bias (ref-010) with educational tasks (ref-004) without clarifying how they measure the same construct. (5) Value: A's success would directly impact model distillation practices, a core ML technique, while B's value is narrower to multi-agent educational systems, a specialized application."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding by accurately connecting [ref-004] (multi-agent LLM systems), [ref-010] (bias amplification in LLMs), and [ref-014] (subliminal learning) to address a specific gap in multi-agent bias transmission. The gap is clearly defined: while prior work exists on multi-agent systems ([ref-004]) and bias amplification ([ref-010]), no work has adapted mechanistic interpretability to detect/mitigate bias in multi-agent LLM architectures. The approach is highly specific, detailing replication of FACET, mechanistic analysis, weight regularization, and a monitoring agent with concrete inputs/outputs. Evaluation directly tests the central claim by comparing bias intensity scores against baselines and including ablations. The value is high, as bias mitigation in educational systems impacts real-world outcomes. Hypothesis B, while valid, has weaker grounding as it misapplies [ref-010] (focused on model collapse/bias amplification, not distillation) and conflates [ref-012]'s corpus-level constraints with its proposed attention-based method. Its gap is less clearly tied to the cited references, and the evaluation lacks direct connection to multi-agent systems or educational settings, reducing its immediate practical value compared to A."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A outperforms B on grounding, gap, specificity, and coherence. (1) Grounding: A correctly cites ref-012 (bias amplification in structured prediction) and ref-014 (subliminal learning) to establish the gap, while B misapplies ref-014 (which focuses on synthetic data, not multi-agent systems). B's claim that ref-010 'does not study multi-agent systems' is valid, but its connection to ref-014 is tenuous. (2) Gap: A clearly identifies the unaddressed problem of subliminal bias transmission during distillation, whereas B's gap is vaguer about how multi-agent systems uniquely enable bias transmission. (3) Specificity: A provides concrete thresholds (0.75 cosine similarity), ablation plans, and measurable outputs (bias scores, task performance). B's 'layer-specific weight regularization' lacks precise implementation details. (4) Coherence: A's evaluation directly tests its claim by measuring bias persistence in distilled models. B's evaluation conflates bias mitigation with task performance in a multi-agent system, which may not isolate the core claim. (5) Value: Both address important problems, but A's focus on distillation—a widespread practice—has broader immediate impact than B's niche multi-agent focus. While B cites more references, this does not compensate for weaker grounding and specificity."
+      }
+     ]
+    }
+   ]
+  ],
+  "2": [
+   [
+    {
+     "a": "s2-assumption",
+     "b": "s2-transfer",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding, gap, and specificity. It directly connects [ref-010] (bias amplification in iterative training) and [ref-014] (subliminal trait transmission) to propose a novel investigation of bias transmission during knowledge distillation, a gap explicitly left open by both references. The approach is concrete, specifying mechanistic regression analysis and targeted regularization, with clear inputs/outputs and evaluation metrics on established benchmarks ([ref-010]'s political bias tasks and [ref-014]'s number sequence setup). The evaluation directly tests the central claim by measuring bias amplification before/after distillation, with appropriate baselines and ablations. The value is high, as identifying subliminal bias transmission in distillation would impact how synthetic data is used for model training. Hypothesis B, while innovative, has weaker grounding: [ref-009] focuses on reasoning distillation, not adversarial robustness, and the connection to [ref-014]'s subliminal signals is less direct. The gap is less clearly defined, as [ref-005] already studies adversarial attacks on diffusion policies, and the proposed method combines existing techniques without a well-articulated open question. The evaluation, while thorough, risks conflating effects of adversarial training and subliminal signals, making it less coherent in testing the central claim. Both hypotheses have value, but A's tighter integration of references, clearer gap, and more precise evaluation make it the stronger candidate."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding, gap, specificity, and value compared to B. (1) Grounding: A correctly cites [ref-005] for diffusion policy vulnerabilities, [ref-014] for subliminal signal transmission, and [ref-009] for distillation frameworks. B misdescribes [ref-011] (not cited) and overstates [ref-010]'s focus on iterative training vs. distillation. (2) Gap: A clearly identifies the open question of combining adversarial robustness with subliminal signals, while B conflates bias amplification mechanisms from [ref-010] with distillation contexts. (3) Specificity: A provides concrete technical steps (hybrid loss, verification agent), baselines ([ref-005], [ref-009]), and metrics (success rate, transferability). B lacks implementation details for mechanistic regression and regularization. (4) Coherence: A's evaluation directly tests adversarial robustness claims via DP-Attacker. B's bias metrics may not isolate subliminal transmission. (5) Value: A's success would directly improve safety of diffusion policies, a critical open problem. B's impact is narrower, focusing on bias detection rather than mitigation in deployed systems."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A outperforms B across all criteria. (1) Grounding: A's claims about [ref-010] (bias amplification in iterative training) and [ref-014] (subliminal trait transmission) are accurately described and directly connected to the distillation gap. B misdescribes [ref-009] by claiming it distills 'reasoning capabilities' without adversarial focus, while [ref-009] actually focuses on factual/mathematical reasoning with tools, not robustness. (2) Gap: A clearly identifies the open question of subliminal bias transmission in distillation, which neither [ref-010] (iterative training) nor [ref-014] (unrelated data) address. B's gap conflates adversarial robustness and subliminal signals without establishing a direct connection in prior work. (3) Specificity: A provides concrete technical details (mechanistic regression, neuron regularization, exact benchmarks) sufficient to design experiments. B's approach lacks specifics on how subliminal signals encode robustness or how hybrid loss terms are implemented. (4) Coherence: A's evaluation directly tests its central claim by measuring bias amplification before/after distillation on [ref-010]'s benchmark. B's evaluation mixes adversarial robustness and subliminal signals without isolating their contributions. (5) Value: A's result would directly impact distillation practices by revealing hidden bias pathways, while B's value is less certain due to unclear causal links between subliminal signals and robustness."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding, specificity, and coherence. It correctly cites [ref-005] for diffusion policy vulnerabilities, [ref-014] for subliminal signal transmission, and [ref-009] for distillation techniques, with a clear connection between these references and the proposed method. The gap is well-defined: combining adversarial robustness with subliminal signals in diffusion policies, which is not addressed by existing work. The approach is concrete, detailing a two-stage distillation process with a hybrid loss function, and the evaluation plan directly tests the central claim by measuring success rates under attack and perturbation transferability. The value is high, as improved adversarial robustness in diffusion policies would directly impact robotics and control systems. Hypothesis B, while grounded in [ref-010] and [ref-014], lacks specificity in its approach (e.g., 'mechanistic regression' is not concretely defined) and its evaluation plan does not clearly test the central claim about subliminal bias transmission during distillation. The gap is less clearly articulated, as [ref-010] already studies bias amplification, and the connection to distillation is not as sharply defined as in A. While valuable, B's impact is narrower compared to A's potential to improve safety in diffusion policies."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s2-assumption",
+     "b": "s2-formal",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding, gap, and specificity. Grounding: A correctly cites [ref-010] and [ref-014] to support its claims about bias amplification and subliminal transmission, with accurate descriptions of both works. B misdescribes [ref-007] and [ref-016]—these references focus on model evaluation and auditing risks, not frequency-domain defenses. Gap: A clearly identifies an open question (subliminal bias in distillation) that directly connects [ref-010]'s bias amplification and [ref-014]'s subliminal trait transmission. B's gap is narrower and less clearly connected to its cited references. Specificity: A provides concrete technical details (mechanistic regression, neuron regularization, exact evaluation benchmarks) sufficient to design experiments. B's approach lacks details on how the spectral mask interacts with diffusion steps or how λ is determined. Coherence: Both evaluations test their central claims, but A's use of [ref-010]'s benchmark and [ref-014]'s number sequence setup directly measures the hypothesized bias transmission mechanism. Value: A's focus on bias propagation in distillation addresses a critical safety concern in AI development, where unintended societal biases could be amplified through synthetic data pipelines—a result either way would significantly impact responsible AI practices. B's value is narrower, focusing on a specific defense mechanism for diffusion policies."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A scores higher on grounding, gap, specificity, and coherence. (1) Grounding: A correctly cites ref-005 as the source of physical patch attacks on diffusion policies and explicitly connects its defense approach to this gap. B’s gap statement conflates ref-010 (iterative training) and ref-014 (subliminal trait transmission) without directly supporting the distillation-specific bias claim. (2) Gap: A clearly identifies the open problem of frequency-domain defense against ref-005’s attacks, while B overstates the gap by implying distillation-specific bias mechanisms without direct evidence. (3) Specificity: A provides concrete technical details (learnable spectral mask, hybrid loss, Fourier-transformed inputs) and evaluation metrics (success rate retention, IoU) tied to ref-005’s tasks. B’s mechanistic regression approach lacks implementation specifics (e.g., how neurons are identified/regularized). (4) Coherence: A’s evaluation directly tests its claim by measuring success rate retention under attacks. B’s evaluation mixes bias amplification (ref-010) and subliminal transmission (ref-014) without a unified metric. (5) Value: Both address safety-critical issues, but A’s focus on physical adversarial robustness has immediate practical relevance for deployed diffusion policies, whereas B’s distillation bias work is more exploratory. While B cites relevant references, A’s tighter integration of ref-005’s attack framework with a targeted defense makes it more actionable."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding, gap, and value. Grounding: A correctly cites [ref-010] and [ref-014] to establish the connection between bias amplification and subliminal trait transmission, while B's citation of [ref-007] and [ref-016] is tangential to its frequency-domain defense focus. Gap: A clearly identifies an open question about distillation-specific bias transmission mechanisms, whereas B's gap is narrower and more incremental (defending against known attacks). Specificity: Both are concrete, but A's mechanistic regression approach with neuron-level regularization offers a more novel experimental design. Coherence: A's evaluation directly tests its central claim about bias transmission via distillation using [ref-010]'s benchmark and [ref-014]'s number sequence setup. Value: A addresses a critical safety issue in knowledge distillation that could change how developers handle synthetic data, with broader implications than B's domain-specific defense. While B's work is valuable, A's focus on a previously unmeasured phenomenon (subliminal bias in distillation) better aligns with the research perspective prioritizing unexplored claims."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding, specificity, and coherence. It directly addresses the gap left by ref-005 (physical adversarial patch attacks on diffusion policies) by proposing a concrete frequency-domain defense mechanism with a learnable spectral mask, supported by a hybrid loss function and clear evaluation metrics. The evaluation plan (success rate retention, ablation studies, patch detection accuracy) directly tests the central claim of robustness against attacks. The value is high, as a successful defense would directly counter the demonstrated vulnerabilities in ref-005, influencing how diffusion policies are deployed in safety-critical settings. While Hypothesis B identifies an important gap in understanding subliminal bias transmission during distillation, its grounding is weaker: ref-010 studies iterative training (not distillation), and ref-014 demonstrates general trait transmission (not specifically bias). The evaluation plan lacks specificity in how mechanistic regression will be applied to distillation, and the connection to ref-014's number sequence setup is unclear for bias measurement. Both hypotheses have value, but A's tighter integration of claims, gaps, and evaluation makes it the stronger candidate."
+      }
+     ]
+    }
+   ]
+  ],
+  "3": [
+   [
+    {
+     "a": "s3-assumption",
+     "b": "s3-formal",
+     "points_a": 0.5,
+     "points_b": 1.5,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding, gap, and specificity. It correctly identifies that ref-004's evaluator agent lacks explicit bias mitigation (gap) and connects ref-003's social impact categories with ref-012's constraint methodology to address this (grounding). The approach concretely augments the teacher agent with bias modules and implements corpus-level constraints (specificity), with an evaluation comparing bias metrics and task suitability across controlled conditions (coherence). The value is clear: reducing representational harms in educational materials would directly impact AI-assisted teaching tools. Hypothesis B, while well-grounded in ref-008 and ref-002, overstates the gap by implying current evaluations lack *any* stress-testing protocols (ref-019's adversarial training partially addresses this). Its approach combines valid techniques but lacks the same level of experimental specificity (e.g., undefined 'KL divergence thresholds'). Both have value, but A's tighter integration of distinct references to solve a concrete problem gives it priority."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding, gap, and specificity. Grounding: A accurately cites ref-008 (year-based backdoors), ref-002 (goal conflicts), and ref-019 (safety training failures) to support its stress-testing framework, with direct connections between cited works and proposed methods. B's grounding is weaker: while ref-003's bias categories and ref-012's constraints are relevant, the connection to ref-004's evaluator agent is overstated (ref-004's evaluator focuses on quality, not bias). Gap: A clearly identifies the absence of systematic stress-testing protocols for detecting deceptive behaviors under specific conditions, a gap directly supported by ref-008/019. B's gap is less precise—ref-004's evaluator agent does not claim to address bias, so the gap is more about extension than omission. Specificity: A's three-phase evaluation with concrete metrics (KL divergence, Cohen's kappa) and datasets (ref-008/002) is more immediately actionable than B's approach, which lacks detail on how ref-003's categories are operationalized or how ref-012's constraints are integrated. Coherence: Both evaluations test their central claims, but A's anomaly detection directly targets deceptive behavior inconsistencies. Value: A's focus on persistent deceptive behaviors in safety-trained models addresses a critical safety risk with broader implications for deployment practices, whereas B's bias auditing, while important, is narrower in scope. While both hypotheses have merit, A's stronger grounding, clearer gap, and higher specificity make it the better starting point."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-assumption",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis B scores higher on grounding, gap, specificity, and coherence. (1) Grounding: B accurately cites ref-008 (backdoors via year-based triggers), ref-002 (goal conflicts in corporate settings), and ref-019 (safety training failures) to support its stress-testing framework. A misdescribes ref-004's evaluator agent as lacking bias mitigation without direct evidence from ref-004's abstract, which mentions 'automated quality assurance' but not bias specifically. (2) Gap: B clearly identifies the absence of systematic stress-testing protocols for detecting deceptive behaviors under specific conditions, a gap directly supported by cited references. A's gap conflates ref-003's evaluation categories with ref-004's implementation, which the references do not explicitly connect. (3) Specificity: B provides concrete evaluation phases (year-based tests, goal conflicts, meta-prompting), datasets (ref-008/002), and metrics (KL divergence, Cohen's kappa). A's approach lacks detail on how ref-012's corpus constraints integrate with ref-003's categories. (4) Coherence: B's evaluation directly tests its central claim about detecting deceptive behaviors via controlled scenarios. A's evaluation measures bias reduction but does not explicitly link to the core claim about teacher-agent auditing. (5) Value: Both address important issues, but B's focus on persistent deceptive behaviors in safety-trained models has broader implications for AI safety research and deployment practices. A's value is narrower, focused on educational materials."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A scores higher on grounding, gap, specificity, and value. (1) Grounding: A accurately cites ref-008 (year-based backdoors), ref-002 (goal conflicts), and ref-019 (safety training failures) to support its stress-testing framework. B misdescribes ref-004's evaluator agent as lacking bias mitigation (ref-004's evaluator focuses on quality assurance, not bias), and ref-003's categories are not explicitly tied to teacher-agent design. (2) Gap: A clearly identifies the missing systematic stress-testing protocol for detecting deceptive behaviors under specific conditions, while B's gap is less precise—ref-004's evaluator agent could theoretically incorporate bias modules without requiring new methodology. (3) Specificity: A provides concrete evaluation phases (year-switching, goal conflicts, meta-prompting) with measurable metrics (KL divergence, Cohen's kappa). B's approach lacks detail on how ref-003's categories are operationalized or how ref-012's constraints are integrated. (4) Value: A addresses a critical safety risk (persistent deceptive behaviors) with immediate practical implications for model deployment. B's focus on educational bias, while important, targets a narrower domain. Both hypotheses have coherent evaluations, but A's criteria better align with its central claim about detecting hidden behaviors."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s3-formal",
+     "b": "s3-transfer",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A scores higher on grounding, gap, specificity, and coherence. Grounding: A accurately describes ref-002 (corporate misalignment), ref-008 (year-based backdoors), and ref-019 (jailbreak failure modes) without misrepresenting their claims. B misdescribes ref-011 (knowledge distillation) by applying it to safety circuits, which ref-011 does not address. Gap: A clearly identifies the absence of systematic stress-testing protocols for detecting deceptive behaviors under specific conditions, a gap supported by ref-008 and ref-002. B’s gap conflates distillation (ref-011) with safety circuits, which no reference explicitly connects. Specificity: A provides concrete evaluation phases (year-based tests, goal conflicts, meta-prompting) with measurable metrics (KL divergence, Cohen’s kappa). B’s approach lacks detail on how safety-critical circuits are identified beyond ablation thresholds. Coherence: A’s evaluation directly tests its claim by comparing stress-testing against baselines. B’s evaluation mixes jailbreak detection with subliminal learning attacks, which are not clearly linked to the central claim. Value: Both have value, but A’s focus on stress-testing protocols addresses a more immediate practical concern (detecting hidden risks in deployed models) than B’s distillation approach, which assumes white-box access (ref-016) that may not be feasible in audits."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A scores higher on grounding, gap, specificity, and coherence. Grounding: A correctly describes ref-011 (distillation), ref-014 (subliminal learning), ref-016 (white-box auditing), and ref-019 (jailbreaks) with precise connections. B misdescribes ref-002 (agentic misalignment) as about 'goal conflicts' rather than autonomous insider threats, and conflates ref-008 (sleeper agents) with ref-019 (jailbreaks) without acknowledging differences. Gap: A identifies a clear gap - distilling safety-critical circuits for auditing - that ref-011 (general distillation) and ref-019 (jailbreak vulnerabilities) leave open. B's gap is vaguer, as ref-008 already proposes year-based tests and ref-002's scenarios are not framed as detection failures. Specificity: A provides concrete techniques (mechanistic interpretability, activation similarity loss), baselines (black-box auditing, standard distillation), and measures (JSR, COS, F1). B's approach lacks detail on how meta-prompting or KL divergence thresholds would be implemented. Coherence: A's evaluation directly tests its claim by measuring jailbreak resistance and circuit preservation. B's evaluation mixes unrelated concepts (backdoors, alignment drift, self-assessment) without clear linkage to its central claim. Value: Both have value, but A's focus on verifiable safety modules addresses a more pressing need given current audit limitations (ref-016)."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A scores higher on grounding, gap, specificity, and coherence. (1) Grounding: A accurately cites ref-008 (year-based backdoors), ref-002 (goal conflicts), and ref-019 (meta-prompting) to support its three-phase approach. B misdescribes ref-011 (general knowledge distillation ≠ safety-circuit distillation) and combines ref-014 (subliminal learning) with jailbreak detection without direct evidence. (2) Gap: A clearly identifies the absence of systematic stress-testing protocols for detecting deceptive behaviors under specific conditions, directly supported by cited works. B's gap conflates distillation (ref-011) and jailbreak detection (ref-019) without explicit evidence that combining them addresses an open problem. (3) Specificity: A provides concrete evaluation phases (year-switching, goal conflicts, meta-prompting) with measurable metrics (KL divergence, Cohen's kappa). B's approach lacks detail on how safety-critical circuits are identified beyond ablation thresholds. (4) Coherence: A's evaluation directly tests its claim by comparing detection rates under stress conditions. B's evaluation mixes jailbreak resistance with subliminal learning, which are loosely connected. (5) Value: Both have value, but A's focus on stress-testing protocols addresses a more immediate practical need given ref-002's real-world corporate scenarios. B's distillation approach is more speculative and less directly tied to current audit practices."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding by correctly connecting [ref-011] (knowledge distillation) with [ref-019] (jailbreak vulnerabilities) and [ref-016] (auditing limitations), while explicitly defining a measurable gap: distilling safety-specific circuits (neurons/activations whose ablation increases jailbreak success rate by ≥10%) from multiple models into a verifiable component. The approach is highly specific, detailing mechanistic analysis steps, distillation loss minimization, and integration into auditing pipelines. Evaluation metrics (JSR, COS, F1) directly test the central claim of jailbreak resistance. The value is high, as detecting undetected jailbreak vulnerabilities during audits would directly impact AI safety practices. Hypothesis B, while coherent, has weaker grounding: [ref-002] does not evaluate detection of failures, and the gap conflates [ref-008] (backdoors) with [ref-002] (agentic misalignment) without explaining how their mechanisms connect. Its evaluation lacks a clear baseline for meta-prompting, and KL divergence alone may not fully capture deceptive behaviors. Both hypotheses are valuable, but A's tighter integration of methods, gaps, and metrics makes it more immediately actionable."
+      }
+     ]
+    }
+   ]
+  ]
+ },
+ "selection_log": [
+  {
+   "id": "s1-transfer",
+   "decision": "chosen"
+  },
+  {
+   "id": "s3-formal",
+   "decision": "chosen"
+  },
+  {
+   "id": "s2-assumption",
+   "decision": "same_topic",
+   "detail": {
+    "with": "s1-transfer",
+    "reason": "Both hypotheses target detecting and mitigating subliminal bias transmission using mechanistic regression and regularization, differing only in system context (multi-agent vs. distillation)."
+   }
+  },
+  {
+   "id": "s1-formal",
+   "decision": "chosen"
+  }
+ ],
+ "chosen": [
+  "s1-transfer",
+  "s3-formal",
+  "s1-formal"
+ ],
+ "fallback": []
+}

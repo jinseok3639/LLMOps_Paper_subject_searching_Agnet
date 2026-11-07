@@ -1,0 +1,12 @@
+{
+ "title": "Adaptive Compute-Optimal Inference-Time Alignment with Coverage-Aware Pessimism",
+ "summary": "This paper proposes an adaptive inference-time alignment method that combines compute-optimal scaling with coverage-aware pessimism to mitigate reward hacking. The approach dynamically allocates test-time compute based on prompt difficulty while incorporating pessimism to reject low-quality responses. It is validated on diverse tasks using reward model benchmarks, comparing performance against fixed compute baselines and measuring scaling efficiency through FLOPs-matched evaluations.",
+ "gap": "Existing methods like Best-of-N and InferenceTimePessimism either fail to adapt compute allocation to prompt difficulty or lack formal coverage guarantees, leading to suboptimal performance or reward hacking under imperfect reward models.",
+ "approach": "The method integrates a compute-optimal allocation strategy with pessimism-based rejection sampling. It estimates prompt difficulty via reward model uncertainty, allocates compute proportionally, and applies pessimism to reject responses below a calibrated threshold. The algorithm adaptively balances exploration (via compute scaling) and exploitation (via pessimism).",
+ "evaluation": "Baselines include Best-of-N, InferenceTimePessimism, and fixed compute methods. Metrics are response quality (reward model scores), reward hacking rates, and compute efficiency (performance per FLOP). Experiments use synthetic and real-world datasets with varying reward model accuracies.",
+ "support": [
+  "ref-002",
+  "ref-004",
+  "ref-006"
+ ]
+}

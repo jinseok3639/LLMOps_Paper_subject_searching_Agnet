@@ -1,0 +1,13 @@
+{
+ "title": "Cross-Modal Reward Hacking: Measuring Goodhart's Law in Multimodal Best-of-N Sampling",
+ "summary": "We investigate whether reward hacking occurs differently in multimodal Best-of-N sampling compared to text-only settings. Using vision-language models, we measure how optimizing for a proxy reward affects true performance across modalities, testing whether Goodhart's Law manifests differently when optimizing over image-text pairs.",
+ "gap": "While ref-008 and ref-009 discuss Goodhart's Law theoretically, and ref-024 shows BoN works across modalities, no work measures whether reward hacking behaves differently in multimodal settings where the reward function must evaluate both text and image content.",
+ "approach": "Train reward models on multimodal data (image-text pairs) with both proxy and ground truth labels. Apply Best-of-N sampling to generate responses, measuring how proxy reward optimization affects true performance. Compare against text-only baselines to identify modality-specific reward hacking patterns.",
+ "evaluation": "Use datasets like COCO-Captions with added safety annotations. Measure proxy reward vs. true reward correlation as N increases, comparing text-only vs. image-text reward models. Also measure human evaluation of response quality and safety across modalities.",
+ "support": [
+  "ref-008",
+  "ref-009",
+  "ref-024",
+  "ref-010"
+ ]
+}

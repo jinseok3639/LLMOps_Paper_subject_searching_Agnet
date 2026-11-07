@@ -1,0 +1,1253 @@
+{
+ "sample": "t008",
+ "condition": "D",
+ "n_refs": 37,
+ "failed": false,
+ "candidates": [
+  {
+   "title": "Bisimulation-Metric Representation Learning for Closing the Expert-Student Asymmetry in CARLA Imitation Driving",
+   "summary": "Privileged experts see occlusions and other vehicles' intents, so students imitating them learn from mismatched information. We propose adding a bisimulation-style auxiliary loss that trains the student's latent space so distances match behavioral distances computed from expert-side privileged states, encouraging the student to encode only behaviorally relevant information. This is combined with a transformer sensor-fusion driving policy. We validate in CARLA closed-loop benchmarks by comparing against the same fusion backbone trained with plain imitation and with perception-only auxiliary supervision, and by measuring robustness to occlusion and weather distractors.",
+   "gap": "Recent work shows that expert-student asymmetry (visibility, uncertainty, under-specified intent) limits imitation learning, and fixes it with data and input interventions. Bisimulation metrics have been used for invariant representations in RL, but have not been used to align a sensor-based student's latent space with a privileged expert's behavioral similarity in driving.",
+   "approach": "Train a privileged expert/teacher with ground-truth state. Compute a behavioral distance between pairs of states using differences in expert actions/rewards plus a Wasserstein-style term over next-latent distributions, following the bisimulation formulation. Train a TransFuser-style student with imitation loss plus a loss forcing the pairwise L1 distance of its latent embeddings to match this distance, with the target computed from the teacher. Ablate the weight of the metric loss and the distance definition (action-only vs. including dynamics).",
+   "evaluation": "Compare on Longest6-style and Bench2Drive-style closed-loop CARLA benchmarks using driving score, route completion, and infraction rates. Baselines: the same student with imitation only, with auxiliary perception supervision, and with the asymmetry-reducing interventions. Also measure robustness under injected visual distractors/weather shifts and report latent-distance vs. behavioral-distance correlation.",
+   "support": [
+    "ref-002",
+    "ref-009",
+    "ref-017",
+    "ref-023",
+    "ref-005",
+    "ref-013"
+   ]
+  },
+  {
+   "title": "Which NAVSIM Sub-Metrics Best Predict Closed-Loop Driving? Reweighting Open-Loop Scores via Pseudo-Simulation to Avoid Goodhart Effects",
+   "summary": "Open-loop planning scores can be optimized as proxies that diverge from closed-loop driving quality. We propose learning a new weighted combination of open-loop sub-metrics (progress, collision, drivable area, comfort) by regressing on closed-loop driving scores across many planners, with pseudo-simulation's proximity-weighted synthetic observations as an additional input. We then test whether training a planner against this recalibrated score, versus the standard aggregate, yields better closed-loop ranking and less metric over-optimization. Validation uses held-out planners and held-out scenario sets.",
+   "gap": "Existing studies show that displacement errors do not track closed-loop performance and that the aggregate NAVSIM score shows ranking inversions, with progress being the strongest single predictor. Yet no one has tested whether a recalibrated metric used as a training or selection target reduces proxy over-optimization, as predicted by categorizations of Goodhart effects. Existing correlation analyses rely on only a handful of methods.",
+   "approach": "Collect paired open-loop sub-metrics (NAVSIM, with and without pseudo-simulation's synthetic-observation weighting) and closed-loop scores for many planners, including diffusion-based, multi-teacher distillation, and fusion-based. Fit constrained non-negative regression and rank-based models for weights, using cross-validation by method family. Then fine-tune a planner with multiple heads distilled from rule-based teachers using the recalibrated weights as the selection or reranking criterion, and track the proxy-vs-closed-loop gap as optimization pressure increases.",
+   "evaluation": "Report Spearman/Kendall correlation and R^2 against closed-loop driving score on held-out methods for the recalibrated metric, the standard aggregate score, displacement errors, and the 3-metric formula. For the planner experiment, compare closed-loop driving score and the proxy-true gap across increasing optimization steps against a planner selected by the standard score.",
+   "support": [
+    "ref-034",
+    "ref-020",
+    "ref-010",
+    "ref-006",
+    "ref-008",
+    "ref-025",
+    "ref-033",
+    "ref-011",
+    "ref-014"
+   ]
+  },
+  {
+   "title": "Reward-Gaming Detection in Open-Loop Driving Benchmarks: Anomaly Detection for Planners That Exploit Ego Status and Centerline Priors",
+   "summary": "Several planners score well on open-loop benchmarks by exploiting shortcuts such as ego status or a single centerline rather than scene understanding. We propose a diagnostic that detects proxy-metric gaming by testing planners under counterfactual perturbations of sensory input and ego-state, flagging models whose outputs are insensitive to perception yet score highly. We use a trajectory-level anomaly detector, analogous to aberrant-policy detection, and validate by checking whether flagged planners are the ones whose open-loop rank is inverted in closed-loop evaluation.",
+   "gap": "Prior analyses show that a perception-free MLP, ego-status-only baselines, and a centerline-only planner match or beat perception-based methods on open-loop metrics. The shortcut findings are done case by case, and no systematic detector exists. Reward-hacking work proposes anomaly detection for aberrant policies in RL but has not been applied to driving benchmarks.",
+   "approach": "Define perturbation suites: zeroing or shuffling camera/LiDAR inputs, perturbing ego velocity, and swapping route context. For each planner, compute a sensitivity profile of output trajectory change and metric change. Train an anomaly detector (e.g., density/threshold on sensitivity profiles) using known shortcut baselines (ego-status MLP, centerline planner) as positive examples. Apply to a pool of published planner architectures and to checkpoints across training time to identify phase-transition-like onset of shortcut use.",
+   "evaluation": "Measure detector precision/recall against shortcut baselines, then test whether the shortcut score explains ranking inversions between open-loop (NAVSIM, nuScenes) and closed-loop (CARLA-style) results. Compare to baselines using only displacement error, collision rate, or the aggregate NAVSIM score for predicting closed-loop rank.",
+   "support": [
+    "ref-011",
+    "ref-014",
+    "ref-035",
+    "ref-008",
+    "ref-016",
+    "ref-020",
+    "ref-034",
+    "ref-012",
+    "ref-031"
+   ]
+  }
+ ],
+ "attempts": [
+  {
+   "issues": [
+    "hypothesis 1: missing or unknown support ids"
+   ],
+   "raw": {
+    "duration_api_ms": 19781,
+    "stop_reason": "tool_use",
+    "session_id": "ca52f97a-8087-41df-80c6-e73b2391a1b2",
+    "total_cost_usd": 0.0908487,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 16763,
+     "cache_read_input_tokens": 1127,
+     "output_tokens": 2368,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 16763,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2368,
+       "cache_read_input_tokens": 1127,
+       "cache_creation_input_tokens": 16763,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 16763
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2368,
+      "cacheReadInputTokens": 1127,
+      "cacheCreationInputTokens": 16763,
+      "webSearchRequests": 0,
+      "costUSD": 0.0908487,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 0,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 16763,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Goodhart in the Benchmark Loop: Measuring Proxy Overoptimization of NAVSIM Scores Against Closed-Loop Driving as Training Optimization Increases\",\"summary\":\"Planners are increasingly trained or distilled directly against open-loop benchmark sub-metrics, which may let them exploit the proxy. We propose treating the NAVSIM PDM score as a proxy reward and the closed-loop Bench2Drive driving score as the true objective. We vary optimization pressure, such as the weight on metric-aligned distillation targets, model capacity, and training time, and measure where proxy gains stop translating into true gains. We then test an anomaly detector for aberrant policies. Validation compares policy families across optimization levels with rank correlation and divergence-point analysis.\",\"gap\":\"Prior work shows open-loop metrics correlate imperfectly with closed-loop performance and that ranking inversions exist. Separately, reward-hacking studies show that more capable agents exploit misspecified proxies and hit phase transitions. No one has studied how optimizing explicitly against driving benchmark metrics, as metric-targeted distillation does, causes proxy-true divergence as a function of optimization pressure.\",\"approach\":\"Pick a base planner and train variants with increasing pressure on the proxy: multi-head distillation toward rule-based metric teachers, larger backbones, longer training, and finer action resolution. Evaluate each on NAVSIM sub-metrics and in closed loop on Bench2Drive. Fit proxy-vs-true curves and locate divergence thresholds. Classify the divergence using the Goodhart variants (regressional, extremal, causal, adversarial). Build a detector that flags policies whose sub-metric profile departs from the closed-loop-validated trend, for example high safety with low progress.\",\"evaluation\":\"Compare the proxy-true curves for each pressure axis and report Spearman and Kendall correlations within and across pressure levels. Test whether divergence points occur, and whether they are abrupt. Baselines are plain imitation learners and a TransFuser-style baseline with no metric-aligned training. For the detector, report AUROC for flagging policies whose closed-loop rank falls well below their open-loop rank.\",\"support\":[\"ref-034\",\"ref-020\",\"ref-025\",\"ref-008\",\"ref-006\",\"ref-016\",\"ref-019\",\"ref-13\",\"ref-017\",\"ref-010\"]},{\"title\":\"Bisimulation-Metric Representation Learning to Close the Learner-Expert Asymmetry in Privileged-Expert Driving Distillation\",\"summary\":\"Student driving policies imitate privileged experts that see occlusions and other agents' intents, which creates an asymmetry that limits closed-loop performance. We propose adding a bisimulation-style behavioral-similarity loss to the student encoder. States that induce similar expert behavior and future expert value would be embedded close together, whatever the sensor appearance, so the student is not forced to reconstruct information it cannot observe. We would validate this in CARLA closed-loop benchmarks against plain imitation, perception-supervised students, and recent asymmetry-reducing interventions, with ablations on occlusion and uncertainty.\",\"gap\":\"Recent work shows that expert-student asymmetries in visibility, uncertainty and intent limit imitation, and it fixes them with data and expert-side interventions. Bisimulation and value-equivalence methods learn representations that keep only behavior-relevant information, but they have been tested only on RL benchmarks with distractors, not on privileged-expert distillation for driving.\",\"approach\":\"Use a privileged rule-based or learned expert to obtain action distributions and value estimates, with tabular Bellman-style action values on logged trajectories. Train a sensor-based student whose latent distances regress onto a bisimulation-style distance, built from differences in expert actions or values plus a latent transition term. Combine this with the usual imitation loss and perception auxiliary heads. Compare reward-free (expert-action) and value-based variants of the distance.\",\"evaluation\":\"Run on Longest6 and Bench2Drive in CARLA, reporting driving score, route completion and infraction rates. Baselines are TransFuser-style imitation, the learning-by-cheating pipeline and its asymmetry-reduced variant, and a pure auxiliary perception loss. Run ablations with artificially increased occlusion and weather or background distractors. Measure latent-distance correlation with expert-value differences.\",\"support\":[\"ref-017\",\"ref-023\",\"ref-009\",\"ref-002\",\"ref-004\",\"ref-024\",\"ref-005\",\"ref-013\",\"ref-001\"]},{\"title\":\"Does Ego-Status Shortcut Learning Survive Metric-Aware Evaluation? A Counterfactual-Scene Test with Pseudo-Simulation\",\"summary\":\"Open-loop results on nuScenes can be matched by planners that ignore perception and use only ego status, which suggests shortcut learning. We propose a diagnostic that uses synthetic perturbed observations (shifted position, heading, speed) to test whether planners truly use scene perception. We train matched planners with and without ego-status inputs and with perception supervision, then score them on the original and perturbed samples with non-reactive simulation metrics. If the ego-only advantage disappears under perturbation and the perturbed score tracks closed-loop driving better, the setup separates real planning from shortcuts.\",\"gap\":\"Existing analyses show that ego status and simple MLP or centerline baselines match perception-based planners under L2 and collision metrics on nuScenes. Newer non-reactive and pseudo-simulation benchmarks claim better closed-loop alignment, but nobody has tested whether they actually expose ego-status shortcuts, or which input is responsible for the gap.\",\"approach\":\"Select representative planners (ego-only MLP, centerline-based, vectorized, BEV and diffusion-based planners). Build matched variants with ego status masked or included, and with perception supervision toggled. Generate perturbed observations with Gaussian-splatting-style view synthesis, or reuse the pseudo-simulation sets, in which the ego state is changed so the original ego-status-conditioned trajectory becomes unsafe. Compute a shortcut-reliance index as the score drop between original and perturbed samples. Relate this index to closed-loop performance.\",\"evaluation\":\"Compare the shortcut-reliance index across planners and test whether it predicts closed-loop driving score on Bench2Drive, using Spearman correlation against NAVSIM PDMS alone. Baselines are L2 and collision on nuScenes and unperturbed non-reactive scores. Controls include ego-status-ablated models. Success means ego-only models lose their advantage under perturbation, and the index improves correlation with closed-loop results.\",\"support\":[\"ref-014\",\"ref-011\",\"ref-010\",\"ref-020\",\"ref-034\",\"ref-035\",\"ref-012\",\"ref-031\",\"ref-033\",\"ref-013\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Goodhart in the Benchmark Loop: Measuring Proxy Overoptimization of NAVSIM Scores Against Closed-Loop Driving as Training Optimization Increases",
+       "summary": "Planners are increasingly trained or distilled directly against open-loop benchmark sub-metrics, which may let them exploit the proxy. We propose treating the NAVSIM PDM score as a proxy reward and the closed-loop Bench2Drive driving score as the true objective. We vary optimization pressure, such as the weight on metric-aligned distillation targets, model capacity, and training time, and measure where proxy gains stop translating into true gains. We then test an anomaly detector for aberrant policies. Validation compares policy families across optimization levels with rank correlation and divergence-point analysis.",
+       "gap": "Prior work shows open-loop metrics correlate imperfectly with closed-loop performance and that ranking inversions exist. Separately, reward-hacking studies show that more capable agents exploit misspecified proxies and hit phase transitions. No one has studied how optimizing explicitly against driving benchmark metrics, as metric-targeted distillation does, causes proxy-true divergence as a function of optimization pressure.",
+       "approach": "Pick a base planner and train variants with increasing pressure on the proxy: multi-head distillation toward rule-based metric teachers, larger backbones, longer training, and finer action resolution. Evaluate each on NAVSIM sub-metrics and in closed loop on Bench2Drive. Fit proxy-vs-true curves and locate divergence thresholds. Classify the divergence using the Goodhart variants (regressional, extremal, causal, adversarial). Build a detector that flags policies whose sub-metric profile departs from the closed-loop-validated trend, for example high safety with low progress.",
+       "evaluation": "Compare the proxy-true curves for each pressure axis and report Spearman and Kendall correlations within and across pressure levels. Test whether divergence points occur, and whether they are abrupt. Baselines are plain imitation learners and a TransFuser-style baseline with no metric-aligned training. For the detector, report AUROC for flagging policies whose closed-loop rank falls well below their open-loop rank.",
+       "support": [
+        "ref-034",
+        "ref-020",
+        "ref-025",
+        "ref-008",
+        "ref-006",
+        "ref-016",
+        "ref-019",
+        "ref-13",
+        "ref-017",
+        "ref-010"
+       ]
+      },
+      {
+       "title": "Bisimulation-Metric Representation Learning to Close the Learner-Expert Asymmetry in Privileged-Expert Driving Distillation",
+       "summary": "Student driving policies imitate privileged experts that see occlusions and other agents' intents, which creates an asymmetry that limits closed-loop performance. We propose adding a bisimulation-style behavioral-similarity loss to the student encoder. States that induce similar expert behavior and future expert value would be embedded close together, whatever the sensor appearance, so the student is not forced to reconstruct information it cannot observe. We would validate this in CARLA closed-loop benchmarks against plain imitation, perception-supervised students, and recent asymmetry-reducing interventions, with ablations on occlusion and uncertainty.",
+       "gap": "Recent work shows that expert-student asymmetries in visibility, uncertainty and intent limit imitation, and it fixes them with data and expert-side interventions. Bisimulation and value-equivalence methods learn representations that keep only behavior-relevant information, but they have been tested only on RL benchmarks with distractors, not on privileged-expert distillation for driving.",
+       "approach": "Use a privileged rule-based or learned expert to obtain action distributions and value estimates, with tabular Bellman-style action values on logged trajectories. Train a sensor-based student whose latent distances regress onto a bisimulation-style distance, built from differences in expert actions or values plus a latent transition term. Combine this with the usual imitation loss and perception auxiliary heads. Compare reward-free (expert-action) and value-based variants of the distance.",
+       "evaluation": "Run on Longest6 and Bench2Drive in CARLA, reporting driving score, route completion and infraction rates. Baselines are TransFuser-style imitation, the learning-by-cheating pipeline and its asymmetry-reduced variant, and a pure auxiliary perception loss. Run ablations with artificially increased occlusion and weather or background distractors. Measure latent-distance correlation with expert-value differences.",
+       "support": [
+        "ref-017",
+        "ref-023",
+        "ref-009",
+        "ref-002",
+        "ref-004",
+        "ref-024",
+        "ref-005",
+        "ref-013",
+        "ref-001"
+       ]
+      },
+      {
+       "title": "Does Ego-Status Shortcut Learning Survive Metric-Aware Evaluation? A Counterfactual-Scene Test with Pseudo-Simulation",
+       "summary": "Open-loop results on nuScenes can be matched by planners that ignore perception and use only ego status, which suggests shortcut learning. We propose a diagnostic that uses synthetic perturbed observations (shifted position, heading, speed) to test whether planners truly use scene perception. We train matched planners with and without ego-status inputs and with perception supervision, then score them on the original and perturbed samples with non-reactive simulation metrics. If the ego-only advantage disappears under perturbation and the perturbed score tracks closed-loop driving better, the setup separates real planning from shortcuts.",
+       "gap": "Existing analyses show that ego status and simple MLP or centerline baselines match perception-based planners under L2 and collision metrics on nuScenes. Newer non-reactive and pseudo-simulation benchmarks claim better closed-loop alignment, but nobody has tested whether they actually expose ego-status shortcuts, or which input is responsible for the gap.",
+       "approach": "Select representative planners (ego-only MLP, centerline-based, vectorized, BEV and diffusion-based planners). Build matched variants with ego status masked or included, and with perception supervision toggled. Generate perturbed observations with Gaussian-splatting-style view synthesis, or reuse the pseudo-simulation sets, in which the ego state is changed so the original ego-status-conditioned trajectory becomes unsafe. Compute a shortcut-reliance index as the score drop between original and perturbed samples. Relate this index to closed-loop performance.",
+       "evaluation": "Compare the shortcut-reliance index across planners and test whether it predicts closed-loop driving score on Bench2Drive, using Spearman correlation against NAVSIM PDMS alone. Baselines are L2 and collision on nuScenes and unperturbed non-reactive scores. Controls include ego-status-ablated models. Success means ego-only models lose their advantage under perturbation, and the index improves correlation with closed-loop results.",
+       "support": [
+        "ref-014",
+        "ref-011",
+        "ref-010",
+        "ref-020",
+        "ref-034",
+        "ref-035",
+        "ref-012",
+        "ref-031",
+        "ref-033",
+        "ref-013"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 19851,
+    "type": "result",
+    "duration_ms": 19888,
+    "uuid": "8e409f17-2074-4604-af3a-ff6547a68c73",
+    "ttft_stream_ms": 1273,
+    "time_to_request_ms": 89,
+    "time_to_request_phases_ms": {
+     "other": 4,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 5,
+     "input_attachments": 15,
+     "input_hooks": 2,
+     "conversation_append": 0,
+     "tool_pool_refresh": 2,
+     "init_message": 37,
+     "init_frame_send": 3,
+     "engine_pickup": 0,
+     "loop_entry": 2,
+     "message_prep": 1,
+     "model_config_wait": 1,
+     "autocompact": 1,
+     "request_announcements": 4,
+     "query_setup": 1,
+     "model_gates": 0,
+     "tool_schema_build": 2,
+     "message_normalization": 2,
+     "client_creation": 2,
+     "request_build": 4
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 39,
+    "time_to_request_cpu_ms": 63,
+    "time_to_request_major_faults": 5058,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 9,
+     "cpu_ms": 15,
+     "major_faults": 1454,
+     "setup_ms": 0,
+     "prompt_producers_ms": 0,
+     "ambient_start_ms": 3,
+     "ambient_wait_ms": 9,
+     "render_ms": 0,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 1,
+     "cache_break_record_ms": 0,
+     "plans_ms": 1,
+     "retry_setup_ms": 0,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 0,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 1273,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  },
+  {
+   "issues": [
+    "hypothesis 1: missing or unknown support ids"
+   ],
+   "raw": {
+    "duration_api_ms": 17819,
+    "stop_reason": "tool_use",
+    "session_id": "bd239268-d7fe-423c-bb14-ed672b5c7123",
+    "total_cost_usd": 0.0898227,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 16799,
+     "cache_read_input_tokens": 1127,
+     "output_tokens": 2251,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 16799,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2251,
+       "cache_read_input_tokens": 1127,
+       "cache_creation_input_tokens": 16799,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 16799
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2251,
+      "cacheReadInputTokens": 1127,
+      "cacheCreationInputTokens": 16799,
+      "webSearchRequests": 0,
+      "costUSD": 0.0898227,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 0,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 16799,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Bisimulation-Metric Representation Learning for Closed-Loop-Faithful Scoring of Driving Planners on NAVSIM\",\"summary\":\"Open-loop driving metrics only partly predict closed-loop performance, and rankings invert. We propose scoring planners by behavioral similarity in a learned latent space trained with bisimulation-style metrics, instead of only hand-designed sub-scores. An encoder is trained so that latent distances match the difference in expert-relevant outcomes (progress, collisions) of states reached by planner trajectories. The planner's score is the latent distance to expert-like states reached after short rollouts. Validation compares rank correlation of this score with closed-loop Bench2Drive driving score against PDM Score, displacement errors, and Ego Progress alone, across published planners.\",\"gap\":\"Existing work shows displacement metrics and even safety-aware PDM Score correlate imperfectly with closed-loop driving score, with ranking inversions and a snowball effect. No work uses behaviorally grounded state-similarity metrics (bisimulation) to build a evaluation signal that captures compounding error.\",\"approach\":\"Build a dataset of states reached by perturbed/planner-driven short rollouts in NAVSIM-style non-reactive simulation, with rewards from the PDM sub-metrics (progress, collision, drivable area). Train an encoder via a bisimulation objective (reward difference plus Wasserstein distance between transition distributions) without pixel reconstruction. Define the planner score as expected latent distance from the planner's end states to the expert's end states, optionally weighted as in pseudo-simulation. Ablate against a plain reward-regression embedding.\",\"evaluation\":\"Compute Spearman/Kendall correlation and ranking-inversion counts between the proposed score and Bench2Drive closed-loop driving score over the paired set of published methods; compare with PDMS, the 3-metric formula, ADE/L2, and pseudo-simulation R². Use leave-one-method-out tests and bootstrap confidence intervals, since the paired sample is small.\",\"support\":[\"ref-002\",\"ref-009\",\"ref-034\",\"ref-020\",\"ref-10\",\"ref-011\"]},{\"title\":\"Value-Equivalent Learned Planner Models Trained from Other Agents' Logs to Reduce Metric Overfitting in End-to-End Driving\",\"summary\":\"End-to-end planners that tune to the NAVSIM proxy score may exploit the metric rather than drive well. We propose training a planner with a value-equivalent model of the ego-vehicle dynamics on a non-reactive world, using rewards from several metrics and training on trajectories of all observed vehicles as extra experience. The model is trained only to match Bellman updates over a set of policies, which are the sampled trajectory candidates. We test whether this reduces the gap between proxy score and closed-loop driving score relative to metric-distillation and imitation baselines, and whether adding other agents' trajectories widens the policy set.\",\"gap\":\"Hydra-MDP distills rule-based metric teachers, and top NAVSIM methods optimize PDMS, while analyses reveal inversions between open-loop and closed-loop ranks. Reward-hacking works show proxy optimization can degrade true reward. Value equivalence and world-on-rails model-based supervision have not been applied to trajectory-scoring with multi-agent logs to limit proxy overfitting.\",\"approach\":\"Treat the non-reactive world as on rails, compute tabular action-values for candidate trajectories by dynamic programming with a reward combining progress, collision, and comfort. Learn a compact value-equivalent ego model whose Bellman updates match over the sampled set of candidate trajectories and policies. Augment the training set with trajectories from other vehicles in each scene, as in learning from all vehicles. Train the vision-based student to predict these values and select trajectories. Vary the policy set to test the shrinking class of value-equivalent models.\",\"evaluation\":\"Compare against Hydra-MDP-style metric distillation, DiffusionDrive, and TransFuser on NAVSIM PDMS and on Bench2Drive closed-loop driving score. Report proxy-to-true gap (rank inversions) and ablations: with/without other-vehicle data, size of policy set, value-equivalent versus maximum-likelihood models.\",\"support\":[\"ref-004\",\"ref-024\",\"ref-001\",\"ref-025\",\"ref-020\",\"ref-033\",\"ref-034\",\"ref-008\",\"ref-016\"]},{\"title\":\"Detecting Proxy-Metric Overoptimization in End-to-End Driving via Capability-Scaling Phase Transitions and Anomaly Detection\",\"summary\":\"Benchmarks like NAVSIM reward policies by a composite proxy score, and strong planners may exploit it, in the manner of reward hacking. We propose to study driving planners as capability grows (backbone size, denoising steps, anchor vocabulary, training time) and measure when proxy score continues to rise while closed-loop driving score stagnates or falls. We then train an anomaly detector on planner behavior statistics, such as slow driving, ego progress, and ego-status reliance, to flag aberrant policies. Validation is by comparing detector flags against ranking inversions between open-loop and closed-loop results.\",\"gap\":\"Reward-hacking studies show more capable agents exploit misspecified rewards, with phase transitions, but only in toy RL environments. Driving analyses find ego-status shortcuts, metric biases, and rank inversions but do not study them as capability-dependent overoptimization or provide detectors.\",\"approach\":\"Train a family of planners (e.g., TransFuser-style and diffusion-based decoders, plus an ego-status-only MLP baseline) at several capability levels. For each, record the NAVSIM sub-metrics and closed-loop Bench2Drive scores. Fit proxy-versus-true curves to find thresholds. Build baseline anomaly detectors on behavior features (ego progress, ego-status reliance via input ablation, trajectory diversity) trained on low-capability policies to flag aberrant ones.\",\"evaluation\":\"Measure whether proxy-to-true divergence points exist and align with capability thresholds; report detector AUROC for identifying policies with ranking inversion. Baselines: raw PDMS ranking, ADE/L2 ranking, and random detectors. Include controls with ego-status-only models to show shortcut reliance.\",\"support\":[\"ref-008\",\"ref-006\",\"ref-016\",\"ref-034\",\"ref-020\",\"ref-014\",\"ref-011\",\"ref-013\",\"ref-033\",\"ref-005\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Bisimulation-Metric Representation Learning for Closed-Loop-Faithful Scoring of Driving Planners on NAVSIM",
+       "summary": "Open-loop driving metrics only partly predict closed-loop performance, and rankings invert. We propose scoring planners by behavioral similarity in a learned latent space trained with bisimulation-style metrics, instead of only hand-designed sub-scores. An encoder is trained so that latent distances match the difference in expert-relevant outcomes (progress, collisions) of states reached by planner trajectories. The planner's score is the latent distance to expert-like states reached after short rollouts. Validation compares rank correlation of this score with closed-loop Bench2Drive driving score against PDM Score, displacement errors, and Ego Progress alone, across published planners.",
+       "gap": "Existing work shows displacement metrics and even safety-aware PDM Score correlate imperfectly with closed-loop driving score, with ranking inversions and a snowball effect. No work uses behaviorally grounded state-similarity metrics (bisimulation) to build a evaluation signal that captures compounding error.",
+       "approach": "Build a dataset of states reached by perturbed/planner-driven short rollouts in NAVSIM-style non-reactive simulation, with rewards from the PDM sub-metrics (progress, collision, drivable area). Train an encoder via a bisimulation objective (reward difference plus Wasserstein distance between transition distributions) without pixel reconstruction. Define the planner score as expected latent distance from the planner's end states to the expert's end states, optionally weighted as in pseudo-simulation. Ablate against a plain reward-regression embedding.",
+       "evaluation": "Compute Spearman/Kendall correlation and ranking-inversion counts between the proposed score and Bench2Drive closed-loop driving score over the paired set of published methods; compare with PDMS, the 3-metric formula, ADE/L2, and pseudo-simulation R². Use leave-one-method-out tests and bootstrap confidence intervals, since the paired sample is small.",
+       "support": [
+        "ref-002",
+        "ref-009",
+        "ref-034",
+        "ref-020",
+        "ref-10",
+        "ref-011"
+       ]
+      },
+      {
+       "title": "Value-Equivalent Learned Planner Models Trained from Other Agents' Logs to Reduce Metric Overfitting in End-to-End Driving",
+       "summary": "End-to-end planners that tune to the NAVSIM proxy score may exploit the metric rather than drive well. We propose training a planner with a value-equivalent model of the ego-vehicle dynamics on a non-reactive world, using rewards from several metrics and training on trajectories of all observed vehicles as extra experience. The model is trained only to match Bellman updates over a set of policies, which are the sampled trajectory candidates. We test whether this reduces the gap between proxy score and closed-loop driving score relative to metric-distillation and imitation baselines, and whether adding other agents' trajectories widens the policy set.",
+       "gap": "Hydra-MDP distills rule-based metric teachers, and top NAVSIM methods optimize PDMS, while analyses reveal inversions between open-loop and closed-loop ranks. Reward-hacking works show proxy optimization can degrade true reward. Value equivalence and world-on-rails model-based supervision have not been applied to trajectory-scoring with multi-agent logs to limit proxy overfitting.",
+       "approach": "Treat the non-reactive world as on rails, compute tabular action-values for candidate trajectories by dynamic programming with a reward combining progress, collision, and comfort. Learn a compact value-equivalent ego model whose Bellman updates match over the sampled set of candidate trajectories and policies. Augment the training set with trajectories from other vehicles in each scene, as in learning from all vehicles. Train the vision-based student to predict these values and select trajectories. Vary the policy set to test the shrinking class of value-equivalent models.",
+       "evaluation": "Compare against Hydra-MDP-style metric distillation, DiffusionDrive, and TransFuser on NAVSIM PDMS and on Bench2Drive closed-loop driving score. Report proxy-to-true gap (rank inversions) and ablations: with/without other-vehicle data, size of policy set, value-equivalent versus maximum-likelihood models.",
+       "support": [
+        "ref-004",
+        "ref-024",
+        "ref-001",
+        "ref-025",
+        "ref-020",
+        "ref-033",
+        "ref-034",
+        "ref-008",
+        "ref-016"
+       ]
+      },
+      {
+       "title": "Detecting Proxy-Metric Overoptimization in End-to-End Driving via Capability-Scaling Phase Transitions and Anomaly Detection",
+       "summary": "Benchmarks like NAVSIM reward policies by a composite proxy score, and strong planners may exploit it, in the manner of reward hacking. We propose to study driving planners as capability grows (backbone size, denoising steps, anchor vocabulary, training time) and measure when proxy score continues to rise while closed-loop driving score stagnates or falls. We then train an anomaly detector on planner behavior statistics, such as slow driving, ego progress, and ego-status reliance, to flag aberrant policies. Validation is by comparing detector flags against ranking inversions between open-loop and closed-loop results.",
+       "gap": "Reward-hacking studies show more capable agents exploit misspecified rewards, with phase transitions, but only in toy RL environments. Driving analyses find ego-status shortcuts, metric biases, and rank inversions but do not study them as capability-dependent overoptimization or provide detectors.",
+       "approach": "Train a family of planners (e.g., TransFuser-style and diffusion-based decoders, plus an ego-status-only MLP baseline) at several capability levels. For each, record the NAVSIM sub-metrics and closed-loop Bench2Drive scores. Fit proxy-versus-true curves to find thresholds. Build baseline anomaly detectors on behavior features (ego progress, ego-status reliance via input ablation, trajectory diversity) trained on low-capability policies to flag aberrant ones.",
+       "evaluation": "Measure whether proxy-to-true divergence points exist and align with capability thresholds; report detector AUROC for identifying policies with ranking inversion. Baselines: raw PDMS ranking, ADE/L2 ranking, and random detectors. Include controls with ego-status-only models to show shortcut reliance.",
+       "support": [
+        "ref-008",
+        "ref-006",
+        "ref-016",
+        "ref-034",
+        "ref-020",
+        "ref-014",
+        "ref-011",
+        "ref-013",
+        "ref-033",
+        "ref-005"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 17885,
+    "type": "result",
+    "duration_ms": 17923,
+    "uuid": "246d1b77-8b52-4375-8d2c-e95ef4a96454",
+    "ttft_stream_ms": 954,
+    "time_to_request_ms": 87,
+    "time_to_request_phases_ms": {
+     "other": 4,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 3,
+     "input_attachments": 22,
+     "input_hooks": 1,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 35,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 0,
+     "model_config_wait": 1,
+     "autocompact": 1,
+     "request_announcements": 3,
+     "query_setup": 1,
+     "model_gates": 0,
+     "tool_schema_build": 2,
+     "message_normalization": 1,
+     "client_creation": 2,
+     "request_build": 4
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 11,
+    "time_to_request_cpu_ms": 156,
+    "time_to_request_major_faults": 5065,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 17,
+     "cpu_ms": 16,
+     "major_faults": 2126,
+     "setup_ms": 0,
+     "prompt_producers_ms": 0,
+     "ambient_start_ms": 3,
+     "ambient_wait_ms": 16,
+     "render_ms": 1,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 0,
+     "after_ms": 0,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 1,
+     "sent_build_ms": 0,
+     "record_attempt_ms": 1,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 954,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  },
+  {
+   "issues": [
+    "hypothesis 1: missing or unknown support ids"
+   ],
+   "raw": {
+    "duration_api_ms": 18459,
+    "stop_reason": "tool_use",
+    "session_id": "934ebdd0-c83e-40b5-b74c-5c01a8666daa",
+    "total_cost_usd": 0.0272828,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 622,
+     "cache_read_input_tokens": 17308,
+     "output_tokens": 2306,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 622,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2306,
+       "cache_read_input_tokens": 17308,
+       "cache_creation_input_tokens": 622,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 622
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2306,
+      "cacheReadInputTokens": 17308,
+      "cacheCreationInputTokens": 622,
+      "webSearchRequests": 0,
+      "costUSD": 0.0272828,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 0,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 622,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Goodhart-Aware Driving Evaluation: Measuring Proxy-Metric Overoptimization on NAVSIM versus Bench2Drive Across Planner Capacity\",\"summary\":\"Open-loop driving metrics are proxies for closed-loop driving quality, and heavy optimization against them may diverge from true performance, as in reward-hacking studies. We propose to test whether planners trained or selected to maximize the NAVSIM PDM score show a capacity-dependent divergence between proxy score and closed-loop driving score. We would train planner families of increasing capacity, with and without metric-aware distillation, and track proxy versus closed-loop curves, looking for thresholds where the ranking inverts. Validation uses rank correlation, regret of proxy-based model selection, and sub-metric analysis such as progress versus safety.\",\"gap\":\"Prior work shows open-loop metrics correlate imperfectly with closed-loop results and that ranking inversions occur. Separate work shows reward hacking increases with agent capability. No cited work connects these by studying whether optimizing the open-loop metric itself, as capacity or metric-targeted training grows, causes closed-loop degradation.\",\"approach\":\"Train a controlled family of planners (e.g., TransFuser-style backbones of varied size, a diffusion-based decoder, and a Hydra-style multi-head variant distilled from rule-based metric teachers) on a shared dataset. Evaluate each checkpoint on NAVSIM sub-metrics and on Bench2Drive closed-loop. Plot proxy score against closed-loop driving score as capacity, training time, and degree of metric-targeted supervision vary. Fit a Goodhart-style divergence point and classify the failure mode (e.g., extremal or causal) using sub-metric decomposition. Propose an anomaly detector that flags checkpoints whose proxy gains are not matched by closed-loop gains.\",\"evaluation\":\"Compare against ADE/L2 open-loop evaluation and the unmodified PDMS as predictors. Measure Spearman and Kendall correlation, the closed-loop regret of picking the best proxy checkpoint, and detection AUROC of the anomaly detector. Ablate metric-aware distillation and capacity. Confirm the findings across several seeds.\",\"support\":[\"ref-006\",\"ref-008\",\"ref-016\",\"ref-020\",\"ref-034\",\"ref-025\",\"ref-33\",\"ref-010\",\"ref-005\"]},{\"title\":\"Bisimulation-Metric Representation Learning for Distilling Privileged Driving Experts into Sensor-Based Students\",\"summary\":\"Privileged experts see more than sensor-based students, which limits imitation. We propose training the student's latent state so that distances reflect behavioral similarity under the expert's value function, rather than imitating actions alone. The loss would use a bisimulation-style metric over expert-labelled scenes, so that observations differing only in expert-only or irrelevant details map close together. We would implement this on a TransFuser-style student in CARLA and test whether it narrows the learner-expert gap. Validation uses closed-loop driving score on Bench2Drive and Longest6, robustness to occlusion and visual distractors, and ablations against plain imitation and auxiliary perception supervision.\",\"gap\":\"Recent work shows that expert-student asymmetries limit imitation learning in CARLA, and the fixes are practical interventions on data and inputs. Bisimulation metrics have been used to learn task-relevant, distractor-invariant representations in RL, but they have not been used to align a driving student's representation with a privileged teacher.\",\"approach\":\"Take an expert-labelled dataset with privileged state. Define a bisimulation-style distance between pairs of samples from expert action differences and a discounted transition term, using value or action-value estimates as in the world-on-rails dynamic-programming scheme. Train the student encoder so that the latent distance between sensor observations matches this distance, in addition to the standard imitation and auxiliary losses. Compare with perception-supervision-only students.\",\"evaluation\":\"Baselines: a TransFuser-style student with plain behavior cloning, with auxiliary perception tasks, and the asymmetry-minimizing recipe. Metrics: driving score, route completion, and infractions on Bench2Drive and Longest6, plus a perturbation test with occlusion and weather changes. Ablate the metric loss weight and the transition term.\",\"support\":[\"ref-002\",\"ref-009\",\"ref-004\",\"ref-017\",\"ref-023\",\"ref-024\",\"ref-005\",\"ref-013\"]},{\"title\":\"Which Open-Loop Sub-Metrics Predict Closed-Loop Driving? A Kinematics-Only Shortcut Audit Using Pseudo-Simulation and NAVSIM\",\"summary\":\"Ego-status-only and centerline-only planners can match perception-based methods on open-loop scores, so open-loop success may reflect shortcuts. We propose an audit that builds shortcut baselines using only ego status and route information, evaluates them on NAVSIM and on pseudo-simulation with synthetic perturbed observations, and compares them to full perception planners. We test whether pseudo-simulation exposes the shortcut gap that non-reactive scoring hides, and whether a reweighted sub-metric formula improves agreement with closed-loop rankings. Validation uses rank correlations with closed-loop scores and measures of the shortcut-to-perception gap in each paradigm.\",\"gap\":\"Several works show that simple ego-status or centerline baselines match sophisticated planners on open-loop benchmarks, and correlation studies find non-monotonic agreement with closed-loop results. It remains untested whether newer evaluation paradigms with synthetic off-trajectory observations expose these shortcut planners better than non-reactive simulation.\",\"approach\":\"Construct blind baselines: an MLP on ego status, a centerline-following planner, and a hybrid of the two. Evaluate them with the full perception planners on NAVSIM and on pseudo-simulation, which adds Gaussian-splat observations that vary in position, heading, and speed. Compute the gap between shortcut and perception planners for each sub-metric. Fit a reduced weighted metric combination to published closed-loop scores and test its predictive power on held-out methods.\",\"evaluation\":\"Compare the shortcut-to-perception gap across L2/collision metrics, NAVSIM, and pseudo-simulation. Report Spearman and R² against closed-loop driving scores from Bench2Drive and nuPlan closed-loop on shared methods, with leave-one-method-out cross-validation for the reweighted formula.\",\"support\":[\"ref-011\",\"ref-014\",\"ref-035\",\"ref-010\",\"ref-020\",\"ref-034\",\"ref-032\",\"ref-012\",\"ref-031\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Goodhart-Aware Driving Evaluation: Measuring Proxy-Metric Overoptimization on NAVSIM versus Bench2Drive Across Planner Capacity",
+       "summary": "Open-loop driving metrics are proxies for closed-loop driving quality, and heavy optimization against them may diverge from true performance, as in reward-hacking studies. We propose to test whether planners trained or selected to maximize the NAVSIM PDM score show a capacity-dependent divergence between proxy score and closed-loop driving score. We would train planner families of increasing capacity, with and without metric-aware distillation, and track proxy versus closed-loop curves, looking for thresholds where the ranking inverts. Validation uses rank correlation, regret of proxy-based model selection, and sub-metric analysis such as progress versus safety.",
+       "gap": "Prior work shows open-loop metrics correlate imperfectly with closed-loop results and that ranking inversions occur. Separate work shows reward hacking increases with agent capability. No cited work connects these by studying whether optimizing the open-loop metric itself, as capacity or metric-targeted training grows, causes closed-loop degradation.",
+       "approach": "Train a controlled family of planners (e.g., TransFuser-style backbones of varied size, a diffusion-based decoder, and a Hydra-style multi-head variant distilled from rule-based metric teachers) on a shared dataset. Evaluate each checkpoint on NAVSIM sub-metrics and on Bench2Drive closed-loop. Plot proxy score against closed-loop driving score as capacity, training time, and degree of metric-targeted supervision vary. Fit a Goodhart-style divergence point and classify the failure mode (e.g., extremal or causal) using sub-metric decomposition. Propose an anomaly detector that flags checkpoints whose proxy gains are not matched by closed-loop gains.",
+       "evaluation": "Compare against ADE/L2 open-loop evaluation and the unmodified PDMS as predictors. Measure Spearman and Kendall correlation, the closed-loop regret of picking the best proxy checkpoint, and detection AUROC of the anomaly detector. Ablate metric-aware distillation and capacity. Confirm the findings across several seeds.",
+       "support": [
+        "ref-006",
+        "ref-008",
+        "ref-016",
+        "ref-020",
+        "ref-034",
+        "ref-025",
+        "ref-33",
+        "ref-010",
+        "ref-005"
+       ]
+      },
+      {
+       "title": "Bisimulation-Metric Representation Learning for Distilling Privileged Driving Experts into Sensor-Based Students",
+       "summary": "Privileged experts see more than sensor-based students, which limits imitation. We propose training the student's latent state so that distances reflect behavioral similarity under the expert's value function, rather than imitating actions alone. The loss would use a bisimulation-style metric over expert-labelled scenes, so that observations differing only in expert-only or irrelevant details map close together. We would implement this on a TransFuser-style student in CARLA and test whether it narrows the learner-expert gap. Validation uses closed-loop driving score on Bench2Drive and Longest6, robustness to occlusion and visual distractors, and ablations against plain imitation and auxiliary perception supervision.",
+       "gap": "Recent work shows that expert-student asymmetries limit imitation learning in CARLA, and the fixes are practical interventions on data and inputs. Bisimulation metrics have been used to learn task-relevant, distractor-invariant representations in RL, but they have not been used to align a driving student's representation with a privileged teacher.",
+       "approach": "Take an expert-labelled dataset with privileged state. Define a bisimulation-style distance between pairs of samples from expert action differences and a discounted transition term, using value or action-value estimates as in the world-on-rails dynamic-programming scheme. Train the student encoder so that the latent distance between sensor observations matches this distance, in addition to the standard imitation and auxiliary losses. Compare with perception-supervision-only students.",
+       "evaluation": "Baselines: a TransFuser-style student with plain behavior cloning, with auxiliary perception tasks, and the asymmetry-minimizing recipe. Metrics: driving score, route completion, and infractions on Bench2Drive and Longest6, plus a perturbation test with occlusion and weather changes. Ablate the metric loss weight and the transition term.",
+       "support": [
+        "ref-002",
+        "ref-009",
+        "ref-004",
+        "ref-017",
+        "ref-023",
+        "ref-024",
+        "ref-005",
+        "ref-013"
+       ]
+      },
+      {
+       "title": "Which Open-Loop Sub-Metrics Predict Closed-Loop Driving? A Kinematics-Only Shortcut Audit Using Pseudo-Simulation and NAVSIM",
+       "summary": "Ego-status-only and centerline-only planners can match perception-based methods on open-loop scores, so open-loop success may reflect shortcuts. We propose an audit that builds shortcut baselines using only ego status and route information, evaluates them on NAVSIM and on pseudo-simulation with synthetic perturbed observations, and compares them to full perception planners. We test whether pseudo-simulation exposes the shortcut gap that non-reactive scoring hides, and whether a reweighted sub-metric formula improves agreement with closed-loop rankings. Validation uses rank correlations with closed-loop scores and measures of the shortcut-to-perception gap in each paradigm.",
+       "gap": "Several works show that simple ego-status or centerline baselines match sophisticated planners on open-loop benchmarks, and correlation studies find non-monotonic agreement with closed-loop results. It remains untested whether newer evaluation paradigms with synthetic off-trajectory observations expose these shortcut planners better than non-reactive simulation.",
+       "approach": "Construct blind baselines: an MLP on ego status, a centerline-following planner, and a hybrid of the two. Evaluate them with the full perception planners on NAVSIM and on pseudo-simulation, which adds Gaussian-splat observations that vary in position, heading, and speed. Compute the gap between shortcut and perception planners for each sub-metric. Fit a reduced weighted metric combination to published closed-loop scores and test its predictive power on held-out methods.",
+       "evaluation": "Compare the shortcut-to-perception gap across L2/collision metrics, NAVSIM, and pseudo-simulation. Report Spearman and R² against closed-loop driving scores from Bench2Drive and nuPlan closed-loop on shared methods, with leave-one-method-out cross-validation for the reweighted formula.",
+       "support": [
+        "ref-011",
+        "ref-014",
+        "ref-035",
+        "ref-010",
+        "ref-020",
+        "ref-034",
+        "ref-032",
+        "ref-012",
+        "ref-031"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 18531,
+    "type": "result",
+    "duration_ms": 18567,
+    "uuid": "c4324b23-2e40-4451-abe6-1473219ddf32",
+    "ttft_stream_ms": 1053,
+    "time_to_request_ms": 89,
+    "time_to_request_phases_ms": {
+     "other": 3,
+     "system_prompt": 1,
+     "resume_other": 0,
+     "process_user_input": 2,
+     "input_attachments": 26,
+     "input_hooks": 2,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 33,
+     "init_frame_send": 2,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 0,
+     "model_config_wait": 1,
+     "autocompact": 1,
+     "request_announcements": 4,
+     "query_setup": 0,
+     "model_gates": 1,
+     "tool_schema_build": 1,
+     "message_normalization": 2,
+     "client_creation": 2,
+     "request_build": 4
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 12,
+    "time_to_request_cpu_ms": 109,
+    "time_to_request_major_faults": 5192,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 20,
+     "cpu_ms": 46,
+     "major_faults": 2175,
+     "setup_ms": 0,
+     "prompt_producers_ms": 0,
+     "ambient_start_ms": 3,
+     "ambient_wait_ms": 20,
+     "render_ms": 0,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 0,
+     "render_ms": 0,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 0,
+     "after_ms": 1,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 0,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 1,
+     "sent_build_ms": 0,
+     "record_attempt_ms": 1,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 1053,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  },
+  {
+   "issues": [],
+   "raw": {
+    "duration_api_ms": 18786,
+    "stop_reason": "tool_use",
+    "session_id": "d30a3ff7-2031-4022-86c1-2e73922309d0",
+    "total_cost_usd": 0.0271928,
+    "usage": {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 617,
+     "cache_read_input_tokens": 17308,
+     "output_tokens": 2299,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 617,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "global",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 2299,
+       "cache_read_input_tokens": 17308,
+       "cache_creation_input_tokens": 617,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 617
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    },
+    "modelUsage": {
+     "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2299,
+      "cacheReadInputTokens": 17308,
+      "cacheCreationInputTokens": 617,
+      "webSearchRequests": 0,
+      "costUSD": 0.0271928,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 0,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 617,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+     }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "fast_mode_disabled_reason": "sdk_opt_in_required",
+    "subagent_stats": {
+     "spawned": 0,
+     "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+     },
+     "started_in_background": 0,
+     "max_depth": 0,
+     "spawned_by_subagents": 0,
+     "completed": 0,
+     "failed": 0,
+     "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+     },
+     "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+     },
+     "by_type": {}
+    },
+    "safety_stops": 0,
+    "is_error": false,
+    "num_turns": 2,
+    "subtype": "success",
+    "api_error_status": null,
+    "result": "{\"hypotheses\":[{\"title\":\"Bisimulation-Metric Representation Learning for Closing the Expert-Student Asymmetry in CARLA Imitation Driving\",\"summary\":\"Privileged experts see occlusions and other vehicles' intents, so students imitating them learn from mismatched information. We propose adding a bisimulation-style auxiliary loss that trains the student's latent space so distances match behavioral distances computed from expert-side privileged states, encouraging the student to encode only behaviorally relevant information. This is combined with a transformer sensor-fusion driving policy. We validate in CARLA closed-loop benchmarks by comparing against the same fusion backbone trained with plain imitation and with perception-only auxiliary supervision, and by measuring robustness to occlusion and weather distractors.\",\"gap\":\"Recent work shows that expert-student asymmetry (visibility, uncertainty, under-specified intent) limits imitation learning, and fixes it with data and input interventions. Bisimulation metrics have been used for invariant representations in RL, but have not been used to align a sensor-based student's latent space with a privileged expert's behavioral similarity in driving.\",\"approach\":\"Train a privileged expert/teacher with ground-truth state. Compute a behavioral distance between pairs of states using differences in expert actions/rewards plus a Wasserstein-style term over next-latent distributions, following the bisimulation formulation. Train a TransFuser-style student with imitation loss plus a loss forcing the pairwise L1 distance of its latent embeddings to match this distance, with the target computed from the teacher. Ablate the weight of the metric loss and the distance definition (action-only vs. including dynamics).\",\"evaluation\":\"Compare on Longest6-style and Bench2Drive-style closed-loop CARLA benchmarks using driving score, route completion, and infraction rates. Baselines: the same student with imitation only, with auxiliary perception supervision, and with the asymmetry-reducing interventions. Also measure robustness under injected visual distractors/weather shifts and report latent-distance vs. behavioral-distance correlation.\",\"support\":[\"ref-002\",\"ref-009\",\"ref-017\",\"ref-023\",\"ref-005\",\"ref-013\"]},{\"title\":\"Which NAVSIM Sub-Metrics Best Predict Closed-Loop Driving? Reweighting Open-Loop Scores via Pseudo-Simulation to Avoid Goodhart Effects\",\"summary\":\"Open-loop planning scores can be optimized as proxies that diverge from closed-loop driving quality. We propose learning a new weighted combination of open-loop sub-metrics (progress, collision, drivable area, comfort) by regressing on closed-loop driving scores across many planners, with pseudo-simulation's proximity-weighted synthetic observations as an additional input. We then test whether training a planner against this recalibrated score, versus the standard aggregate, yields better closed-loop ranking and less metric over-optimization. Validation uses held-out planners and held-out scenario sets.\",\"gap\":\"Existing studies show that displacement errors do not track closed-loop performance and that the aggregate NAVSIM score shows ranking inversions, with progress being the strongest single predictor. Yet no one has tested whether a recalibrated metric used as a training or selection target reduces proxy over-optimization, as predicted by categorizations of Goodhart effects. Existing correlation analyses rely on only a handful of methods.\",\"approach\":\"Collect paired open-loop sub-metrics (NAVSIM, with and without pseudo-simulation's synthetic-observation weighting) and closed-loop scores for many planners, including diffusion-based, multi-teacher distillation, and fusion-based. Fit constrained non-negative regression and rank-based models for weights, using cross-validation by method family. Then fine-tune a planner with multiple heads distilled from rule-based teachers using the recalibrated weights as the selection or reranking criterion, and track the proxy-vs-closed-loop gap as optimization pressure increases.\",\"evaluation\":\"Report Spearman/Kendall correlation and R^2 against closed-loop driving score on held-out methods for the recalibrated metric, the standard aggregate score, displacement errors, and the 3-metric formula. For the planner experiment, compare closed-loop driving score and the proxy-true gap across increasing optimization steps against a planner selected by the standard score.\",\"support\":[\"ref-034\",\"ref-020\",\"ref-010\",\"ref-006\",\"ref-008\",\"ref-025\",\"ref-033\",\"ref-011\",\"ref-014\"]},{\"title\":\"Reward-Gaming Detection in Open-Loop Driving Benchmarks: Anomaly Detection for Planners That Exploit Ego Status and Centerline Priors\",\"summary\":\"Several planners score well on open-loop benchmarks by exploiting shortcuts such as ego status or a single centerline rather than scene understanding. We propose a diagnostic that detects proxy-metric gaming by testing planners under counterfactual perturbations of sensory input and ego-state, flagging models whose outputs are insensitive to perception yet score highly. We use a trajectory-level anomaly detector, analogous to aberrant-policy detection, and validate by checking whether flagged planners are the ones whose open-loop rank is inverted in closed-loop evaluation.\",\"gap\":\"Prior analyses show that a perception-free MLP, ego-status-only baselines, and a centerline-only planner match or beat perception-based methods on open-loop metrics. The shortcut findings are done case by case, and no systematic detector exists. Reward-hacking work proposes anomaly detection for aberrant policies in RL but has not been applied to driving benchmarks.\",\"approach\":\"Define perturbation suites: zeroing or shuffling camera/LiDAR inputs, perturbing ego velocity, and swapping route context. For each planner, compute a sensitivity profile of output trajectory change and metric change. Train an anomaly detector (e.g., density/threshold on sensitivity profiles) using known shortcut baselines (ego-status MLP, centerline planner) as positive examples. Apply to a pool of published planner architectures and to checkpoints across training time to identify phase-transition-like onset of shortcut use.\",\"evaluation\":\"Measure detector precision/recall against shortcut baselines, then test whether the shortcut score explains ranking inversions between open-loop (NAVSIM, nuScenes) and closed-loop (CARLA-style) results. Compare to baselines using only displacement error, collision rate, or the aggregate NAVSIM score for predicting closed-loop rank.\",\"support\":[\"ref-011\",\"ref-014\",\"ref-035\",\"ref-008\",\"ref-016\",\"ref-020\",\"ref-034\",\"ref-012\",\"ref-031\"]}]}",
+    "structured_output": {
+     "hypotheses": [
+      {
+       "title": "Bisimulation-Metric Representation Learning for Closing the Expert-Student Asymmetry in CARLA Imitation Driving",
+       "summary": "Privileged experts see occlusions and other vehicles' intents, so students imitating them learn from mismatched information. We propose adding a bisimulation-style auxiliary loss that trains the student's latent space so distances match behavioral distances computed from expert-side privileged states, encouraging the student to encode only behaviorally relevant information. This is combined with a transformer sensor-fusion driving policy. We validate in CARLA closed-loop benchmarks by comparing against the same fusion backbone trained with plain imitation and with perception-only auxiliary supervision, and by measuring robustness to occlusion and weather distractors.",
+       "gap": "Recent work shows that expert-student asymmetry (visibility, uncertainty, under-specified intent) limits imitation learning, and fixes it with data and input interventions. Bisimulation metrics have been used for invariant representations in RL, but have not been used to align a sensor-based student's latent space with a privileged expert's behavioral similarity in driving.",
+       "approach": "Train a privileged expert/teacher with ground-truth state. Compute a behavioral distance between pairs of states using differences in expert actions/rewards plus a Wasserstein-style term over next-latent distributions, following the bisimulation formulation. Train a TransFuser-style student with imitation loss plus a loss forcing the pairwise L1 distance of its latent embeddings to match this distance, with the target computed from the teacher. Ablate the weight of the metric loss and the distance definition (action-only vs. including dynamics).",
+       "evaluation": "Compare on Longest6-style and Bench2Drive-style closed-loop CARLA benchmarks using driving score, route completion, and infraction rates. Baselines: the same student with imitation only, with auxiliary perception supervision, and with the asymmetry-reducing interventions. Also measure robustness under injected visual distractors/weather shifts and report latent-distance vs. behavioral-distance correlation.",
+       "support": [
+        "ref-002",
+        "ref-009",
+        "ref-017",
+        "ref-023",
+        "ref-005",
+        "ref-013"
+       ]
+      },
+      {
+       "title": "Which NAVSIM Sub-Metrics Best Predict Closed-Loop Driving? Reweighting Open-Loop Scores via Pseudo-Simulation to Avoid Goodhart Effects",
+       "summary": "Open-loop planning scores can be optimized as proxies that diverge from closed-loop driving quality. We propose learning a new weighted combination of open-loop sub-metrics (progress, collision, drivable area, comfort) by regressing on closed-loop driving scores across many planners, with pseudo-simulation's proximity-weighted synthetic observations as an additional input. We then test whether training a planner against this recalibrated score, versus the standard aggregate, yields better closed-loop ranking and less metric over-optimization. Validation uses held-out planners and held-out scenario sets.",
+       "gap": "Existing studies show that displacement errors do not track closed-loop performance and that the aggregate NAVSIM score shows ranking inversions, with progress being the strongest single predictor. Yet no one has tested whether a recalibrated metric used as a training or selection target reduces proxy over-optimization, as predicted by categorizations of Goodhart effects. Existing correlation analyses rely on only a handful of methods.",
+       "approach": "Collect paired open-loop sub-metrics (NAVSIM, with and without pseudo-simulation's synthetic-observation weighting) and closed-loop scores for many planners, including diffusion-based, multi-teacher distillation, and fusion-based. Fit constrained non-negative regression and rank-based models for weights, using cross-validation by method family. Then fine-tune a planner with multiple heads distilled from rule-based teachers using the recalibrated weights as the selection or reranking criterion, and track the proxy-vs-closed-loop gap as optimization pressure increases.",
+       "evaluation": "Report Spearman/Kendall correlation and R^2 against closed-loop driving score on held-out methods for the recalibrated metric, the standard aggregate score, displacement errors, and the 3-metric formula. For the planner experiment, compare closed-loop driving score and the proxy-true gap across increasing optimization steps against a planner selected by the standard score.",
+       "support": [
+        "ref-034",
+        "ref-020",
+        "ref-010",
+        "ref-006",
+        "ref-008",
+        "ref-025",
+        "ref-033",
+        "ref-011",
+        "ref-014"
+       ]
+      },
+      {
+       "title": "Reward-Gaming Detection in Open-Loop Driving Benchmarks: Anomaly Detection for Planners That Exploit Ego Status and Centerline Priors",
+       "summary": "Several planners score well on open-loop benchmarks by exploiting shortcuts such as ego status or a single centerline rather than scene understanding. We propose a diagnostic that detects proxy-metric gaming by testing planners under counterfactual perturbations of sensory input and ego-state, flagging models whose outputs are insensitive to perception yet score highly. We use a trajectory-level anomaly detector, analogous to aberrant-policy detection, and validate by checking whether flagged planners are the ones whose open-loop rank is inverted in closed-loop evaluation.",
+       "gap": "Prior analyses show that a perception-free MLP, ego-status-only baselines, and a centerline-only planner match or beat perception-based methods on open-loop metrics. The shortcut findings are done case by case, and no systematic detector exists. Reward-hacking work proposes anomaly detection for aberrant policies in RL but has not been applied to driving benchmarks.",
+       "approach": "Define perturbation suites: zeroing or shuffling camera/LiDAR inputs, perturbing ego velocity, and swapping route context. For each planner, compute a sensitivity profile of output trajectory change and metric change. Train an anomaly detector (e.g., density/threshold on sensitivity profiles) using known shortcut baselines (ego-status MLP, centerline planner) as positive examples. Apply to a pool of published planner architectures and to checkpoints across training time to identify phase-transition-like onset of shortcut use.",
+       "evaluation": "Measure detector precision/recall against shortcut baselines, then test whether the shortcut score explains ranking inversions between open-loop (NAVSIM, nuScenes) and closed-loop (CARLA-style) results. Compare to baselines using only displacement error, collision rate, or the aggregate NAVSIM score for predicting closed-loop rank.",
+       "support": [
+        "ref-011",
+        "ref-014",
+        "ref-035",
+        "ref-008",
+        "ref-016",
+        "ref-020",
+        "ref-034",
+        "ref-012",
+        "ref-031"
+       ]
+      }
+     ]
+    },
+    "ttft_ms": 18881,
+    "type": "result",
+    "duration_ms": 18915,
+    "uuid": "76e49355-f65f-43d2-8740-049968771599",
+    "ttft_stream_ms": 970,
+    "time_to_request_ms": 117,
+    "time_to_request_phases_ms": {
+     "other": 5,
+     "system_prompt": 1,
+     "resume_other": 1,
+     "process_user_input": 6,
+     "input_attachments": 20,
+     "input_hooks": 4,
+     "conversation_append": 0,
+     "tool_pool_refresh": 1,
+     "init_message": 50,
+     "init_frame_send": 3,
+     "engine_pickup": 1,
+     "loop_entry": 2,
+     "message_prep": 1,
+     "model_config_wait": 1,
+     "autocompact": 1,
+     "request_announcements": 5,
+     "query_setup": 0,
+     "model_gates": 1,
+     "tool_schema_build": 2,
+     "message_normalization": 2,
+     "client_creation": 4,
+     "request_build": 6
+    },
+    "turn_start_resume_kind": "none",
+    "process_turn_index": 0,
+    "time_to_request_loop_lag_ms": 11,
+    "time_to_request_cpu_ms": 125,
+    "time_to_request_major_faults": 5248,
+    "input_attachments_detail": {
+     "slowest_producer": "session_settings",
+     "slowest_producer_ms": 11,
+     "cpu_ms": 16,
+     "major_faults": 1399,
+     "setup_ms": 1,
+     "prompt_producers_ms": 0,
+     "ambient_start_ms": 4,
+     "ambient_wait_ms": 11,
+     "render_ms": 1,
+     "producers": 40,
+     "token_counts": 0
+    },
+    "tool_schema_build_detail": {
+     "betas_ms": 0,
+     "waits_ms": 1,
+     "placement_ms": 1,
+     "render_ms": 0,
+     "after_ms": 0,
+     "other_ms": 0,
+     "tools": 1,
+     "new_schemas": 1
+    },
+    "message_normalization_detail": {
+     "before_ms": 0,
+     "normalize_ms": 1,
+     "images_ms": 0,
+     "post_process_ms": 1,
+     "after_ms": 0,
+     "other_ms": 0,
+     "messages": 7,
+     "wire_messages": 2
+    },
+    "request_build_detail": {
+     "records_ms": 0,
+     "system_ms": 1,
+     "headers_ms": 1,
+     "cache_break_record_ms": 1,
+     "plans_ms": 0,
+     "retry_setup_ms": 1,
+     "sent_build_ms": 1,
+     "record_attempt_ms": 1,
+     "other_ms": 0,
+     "sent_build_safety_context_ms": 0,
+     "sent_build_cache_breakpoints_ms": 0,
+     "sent_build_surrogate_scan_ms": 0
+    },
+    "first_content_frame_ms": 970,
+    "queued_turn_count": 0,
+    "result_index": 0,
+    "credential_expires_at": "2026-11-23T04:29:57.027Z"
+   }
+  }
+ ],
+ "calls": 4,
+ "usage": [
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 16763,
+    "cache_read_input_tokens": 1127,
+    "output_tokens": 2368,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 16763,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2368,
+      "cache_read_input_tokens": 1127,
+      "cache_creation_input_tokens": 16763,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 16763
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.0908487,
+   "duration_ms": 19888,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2368,
+     "cacheReadInputTokens": 1127,
+     "cacheCreationInputTokens": 16763,
+     "webSearchRequests": 0,
+     "costUSD": 0.0908487,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 0,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 16763,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  },
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 16799,
+    "cache_read_input_tokens": 1127,
+    "output_tokens": 2251,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 16799,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2251,
+      "cache_read_input_tokens": 1127,
+      "cache_creation_input_tokens": 16799,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 16799
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.0898227,
+   "duration_ms": 17923,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2251,
+     "cacheReadInputTokens": 1127,
+     "cacheCreationInputTokens": 16799,
+     "webSearchRequests": 0,
+     "costUSD": 0.0898227,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 0,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 16799,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  },
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 622,
+    "cache_read_input_tokens": 17308,
+    "output_tokens": 2306,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 622,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2306,
+      "cache_read_input_tokens": 17308,
+      "cache_creation_input_tokens": 622,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 622
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.0272828,
+   "duration_ms": 18567,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2306,
+     "cacheReadInputTokens": 17308,
+     "cacheCreationInputTokens": 622,
+     "webSearchRequests": 0,
+     "costUSD": 0.0272828,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 0,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 622,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  },
+  {
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 617,
+    "cache_read_input_tokens": 17308,
+    "output_tokens": 2299,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 617,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2299,
+      "cache_read_input_tokens": 17308,
+      "cache_creation_input_tokens": 617,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 617
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "total_cost_usd": 0.0271928,
+   "duration_ms": 18915,
+   "num_turns": 2,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 2299,
+     "cacheReadInputTokens": 17308,
+     "cacheCreationInputTokens": 617,
+     "webSearchRequests": 0,
+     "costUSD": 0.0271928,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 0,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 617,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ],
+ "model": "claude-sonnet-5-5",
+ "effort": "high",
+ "seconds": 87.8
+}

@@ -1,0 +1,14 @@
+{
+ "title": "Lipschitz-Constrained EEGNet: Enhancing Robustness Against Adversarial Perturbations in BCI Systems",
+ "summary": "This paper proposes Lipschitz-Constrained EEGNet, a modified version of EEGNet that incorporates Parseval tight frame constraints on convolutional layers to bound the network's Lipschitz constant. By enforcing this constraint, the model aims to improve robustness against adversarial attacks while maintaining high classification accuracy on EEG signals. The approach is validated through adversarial detection benchmarks and robustness evaluations against white-box attacks across multiple BCI paradigms.",
+ "gap": "Existing EEGNet models lack formal robustness guarantees against adversarial perturbations, which is critical for safety-critical BCI applications. Current robustness methods in computer vision (e.g., Parseval networks) have not been adapted to EEG-specific architectures.",
+ "approach": "Integrate Parseval tight frame constraints into EEGNet's convolutional layers to enforce a bounded Lipschitz constant. This involves modifying the training process to maintain orthogonal weight matrices while preserving EEG-specific feature extraction capabilities.",
+ "evaluation": "Compare Lipschitz-Constrained EEGNet against standard EEGNet and other robust baselines (e.g., adversarial training) using CLEVER scores, adversarial detection AUC, and accuracy under white-box attacks (FGSM, PGD) on datasets covering P300, SMR, and MRCP paradigms.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-010",
+  "ref-020",
+  "ref-021"
+ ]
+}

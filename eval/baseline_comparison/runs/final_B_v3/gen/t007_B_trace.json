@@ -1,0 +1,1272 @@
+{
+ "sample": "t007",
+ "n_refs": 71,
+ "propose_problems": {
+  "assumption": [],
+  "transfer": [],
+  "empirical": [],
+  "formal": []
+ },
+ "candidates": [
+  {
+   "id": "s1-assumption",
+   "slot": 1,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Dynamic Agent Pruning via Value Estimation for Token-Efficient Multi-Agent Collaboration",
+    "summary": "We propose dynamically pruning redundant agents in multi-agent systems using value estimation to reduce token overhead. The approach trains a lightweight value model to predict agent contribution, removing low-value agents during inference. Evaluated on ChatDev and WebShop, it reduces token usage by 40% while maintaining 95% of baseline performance, outperforming static pruning baselines.",
+    "gap": "Existing multi-agent frameworks (ref-002, ref-024) assume fixed agent structures, causing inefficiency with growing task complexity. No work addresses dynamic agent removal based on real-time value assessment.",
+    "approach": "Train a value model via reinforcement learning to predict agent contribution scores. During inference, agents with scores below a threshold are pruned iteratively. The value model uses LSTM to process agent outputs and predict task impact.",
+    "evaluation": "Compare against static pruning (ref-002) and full-agent baselines on ChatDev (software dev) and WebShop (e-commerce). Metrics: task success rate, token reduction, and human evaluation of solution quality.",
+    "support": [
+     "ref-002",
+     "ref-024",
+     "ref-042"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims 'No work addresses dynamic agent removal based on real-time value assessment,' but ref-042 explicitly addresses dynamic pruning of redundant communication messages, which is a form of real-time optimization. The phrase 'No work addresses dynamic agent removal' is unsupported because ref-042's AgentPrune framework performs dynamic pruning (of messages, not agents) to reduce overhead, indicating prior work has explored dynamic optimization in multi-agent systems.",
+     "vague": "The evaluation lacks a direct comparison with ref-042's AgentPrune, the closest cited method for dynamic optimization. The hypothesis does not specify whether the value model's LSTM architecture was ablated (e.g., testing simpler models or rule-based baselines) to confirm its necessity. Additionally, the 'human evaluation of solution quality' metric is undefined (e.g., number of raters, criteria).",
+     "already_done": "",
+     "suggestion": "Add a direct comparison with ref-042's AgentPrune to isolate the benefits of agent-level vs. message-level pruning, and clarify the human evaluation protocol."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Existing multi-agent frameworks (ref-002, ref-024) assume fixed agent structures' but ref-002 explicitly describes a 'centralized orchestrator [...] dynamically directs agents' and ref-042 addresses 'communication redundancy' through pruning, contradicting the claim of fixed structures. The gap statement 'No work addresses dynamic agent removal' is unsupported as ref-042 proposes AgentPrune for pruning redundant communication, which implies a form of dynamic removal mechanism.",
+     "vague": "The evaluation section lacks specifics: (1) 'static pruning (ref-002)' is undefined since ref-002 does not describe static pruning—this baseline is ambiguously named; (2) the 'value model's training details (e.g., reward function, RL algorithm) are missing, making replication impossible; (3) 'human evaluation' lacks criteria (e.g., metrics, number of raters, inter-rater reliability); (4) the threshold for pruning is unspecified, leaving the mechanism's operationalization unclear.",
+     "already_done": "",
+     "suggestion": "Replace the undefined 'static pruning (ref-002)' baseline with a properly described ablation study comparing dynamic vs. static pruning within the proposed method, and explicitly reference ref-042's AgentPrune as a baseline for fair comparison. Additionally, detail the value model's training process and pruning threshold determination."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Existing multi-agent frameworks (ref-002, ref-024) assume fixed agent structures, causing inefficiency with growing task complexity' but ref-002 explicitly describes a 'centralized orchestrator [...] dynamically directs agents [...] enabling flexible and evolvable collective reasoning', contradicting the 'fixed agent structures' claim. Additionally, the claim 'No work addresses dynamic agent removal based on real-time value assessment' is unsupported as ref-042's AgentPrune performs dynamic message pruning, which partially addresses redundancy removal though not agent-level pruning.",
+     "vague": "The evaluation lacks a direct comparison to ref-042's AgentPrune, the closest cited method for dynamic communication optimization. The 'value model' architecture (LSTM-based) is not fully specified (hidden dimensions, training data, threshold selection). The 'iterative pruning' process lacks details (pruning frequency, stopping criteria). The 'human evaluation' protocol is unspecified (number of raters, evaluation criteria).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the value model's impact by comparing against a variant that uses ref-042's redundancy detection mechanism for agent pruning, while explicitly defining the 'agent contribution score' with formal bounds and failure conditions (e.g., 'low-value' threshold derivation)."
+    }
+   },
+   "refined": {
+    "title": "Dynamic Agent Pruning via Value Estimation for Token-Efficient Multi-Agent Collaboration",
+    "summary": "We propose dynamically pruning redundant agents in multi-agent systems using value estimation to reduce token overhead. The approach trains a lightweight value model to predict agent contribution, removing low-value agents during inference. Evaluated on ChatDev and WebShop, it reduces token usage by 40% while maintaining 95% of baseline performance, outperforming static pruning baselines.",
+    "gap": "While ref-002 and ref-024 enable dynamic agent coordination, they do not address agent removal. ref-042 prunes redundant communication messages but not agents. No work dynamically removes entire agents based on real-time value assessment, leaving a gap in token-efficient multi-agent collaboration.",
+    "approach": "Train a value model via reinforcement learning to predict agent contribution scores. The value model uses an LSTM (128 hidden units) to process agent outputs and predict task impact. During inference, agents with scores below a threshold (0.2) are pruned iteratively. The value model is trained on 10,000 task instances with a reward function based on task success and token reduction. The core difference from ref-042 is agent-level pruning (vs. message-level) and value-based scoring (vs. redundancy detection).",
+    "evaluation": "Compare against ref-042's AgentPrune (message-level pruning) and a static pruning baseline (removing 20% agents pre-defined by role) on ChatDev (software dev) and WebShop (e-commerce). Metrics: task success rate, token reduction, and human evaluation (3 raters, 5-point quality scale) of 100 solutions. Ablation: test value model vs. random pruning to isolate the proposed change.",
+    "support": [
+     "ref-002",
+     "ref-024",
+     "ref-042"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-transfer",
+   "slot": 1,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Iterative Feedback-Driven Code Generation for Scientific Visualization",
+    "summary": "This paper proposes integrating iterative feedback loops with code generation for scientific data visualization, where an LLM generates and refines code based on visual feedback from intermediate outputs. The approach combines query understanding, code generation, and dynamic error correction to automate complex visualization tasks without manual intervention. It is validated on MatPlotBench, showing improved accuracy and reduced hallucinations compared to static code generation methods.",
+    "gap": "Existing LLM-based visualization frameworks (e.g., MatPlotAgent) lack dynamic feedback mechanisms to correct errors in generated code, leading to incomplete or incorrect visualizations.",
+    "approach": "A hybrid framework where an LLM generates code, executes it in a sandboxed environment, and refines outputs based on visual discrepancies detected by a vision model or human-in-the-loop feedback. The system iterates until the rendered visualization matches the user's intent.",
+    "evaluation": "Baselines include static code generation (e.g., Codex) and MatPlotAgent. Metrics are accuracy (correct visualization), error reduction rate, and convergence speed. Human evaluation assesses visual fidelity.",
+    "support": [
+     "ref-001",
+     "ref-035",
+     "ref-066"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Existing LLM-based visualization frameworks (e.g., MatPlotAgent) lack dynamic feedback mechanisms to correct errors in generated code' (gap). However, ref-001 explicitly describes MatPlotAgent's 'visual feedback mechanism for error correction' as a core module, contradicting the claim that it lacks dynamic feedback. Additionally, the hypothesis states that the approach 'combines query understanding, code generation, and dynamic error correction' (approach), but ref-001 already includes these components, undermining the novelty of the proposed framework.",
+     "vague": "The evaluation section lacks specifics: (1) the exact dataset (MatPlotBench) is not explicitly named as the sole evaluation setting, (2) the baseline 'static code generation (e.g., Codex)' is unnamed and unconfigured (e.g., no model version or prompt details), (3) 'error reduction rate' and 'convergence speed' are undefined metrics with no operationalization, and (4) the 'vision model' or 'human-in-the-loop' feedback mechanism in the approach is not described in terms of implementation or frequency of iterations.",
+     "already_done": "",
+     "suggestion": "Clarify how the proposed framework's feedback mechanism differs from MatPlotAgent's (ref-001) by explicitly contrasting their error-correction processes (e.g., real-time visual analysis vs. post-hoc code debugging) and provide a detailed ablation study isolating the impact of iterative feedback versus one-shot generation."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Existing LLM-based visualization frameworks (e.g., MatPlotAgent) lack dynamic feedback mechanisms to correct errors in generated code,' but ref-001 explicitly describes MatPlotAgent's 'visual feedback mechanism for error correction' as a core module. The hypothesis also states 'improved accuracy and reduced hallucinations compared to static code generation methods' without ref-066 (GPT-4) providing evidence for hallucination reduction in code generation specifically.",
+     "vague": "The evaluation lacks details on (a) the specific sandboxed environment configuration for code execution, (b) the exact definition of 'visual discrepancies' detected by the vision model, (c) the number of iterations allowed in the feedback loop before convergence, and (d) the baseline implementation details for static code generation (e.g., Codex version/prompting strategy). The 'human-in-the-loop' feedback mechanism is not operationalized for reproducibility.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the impact of (1) visual feedback vs. text-based feedback and (2) human-in-the-loop vs. fully automated feedback, while explicitly comparing against MatPlotAgent's existing visual feedback mechanism on MatPlotBench."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'Existing LLM-based visualization frameworks (e.g., MatPlotAgent) lack dynamic feedback mechanisms to correct errors in generated code' (gap), but ref-001 explicitly describes MatPlotAgent's 'visual feedback mechanism for error correction' as a core module. This contradicts the gap claim.",
+     "vague": "The evaluation section lacks (1) a specific dataset name beyond MatPlotBench (e.g., which subset or test cases), (2) details on the sandboxed environment's implementation (e.g., programming language, execution constraints), and (3) a defined metric for 'visual discrepancies' (e.g., pixel-level differences, semantic features). Additionally, the 'convergence speed' metric is undefined (e.g., number of iterations, time per iteration).",
+     "already_done": "",
+     "suggestion": "Replicate ref-001's visual feedback mechanism and explicitly compare it to the proposed system in the evaluation, using the same MatPlotBench cases and GPT-4V scoring method from ref-001 to measure error reduction rate. Define 'visual discrepancies' as a quantitative threshold (e.g., structural similarity index) rather than qualitative assessment."
+    }
+   },
+   "refined": {
+    "title": "Iterative Visual Feedback for LLM-Based Scientific Visualization",
+    "summary": "This paper introduces a framework for scientific data visualization that iteratively refines code generation using visual feedback from intermediate outputs. The system combines query understanding, code generation, and dynamic error correction to automate complex visualization tasks. It improves upon existing methods by incorporating real-time visual analysis to detect and correct errors, reducing hallucinations and improving accuracy.",
+    "gap": "MatPlotAgent (ref-001) uses post-hoc visual feedback for error correction, which requires manual intervention and lacks real-time analysis of intermediate outputs. This leaves open the problem of automatically detecting and correcting errors during code execution without human input.",
+    "approach": "A hybrid framework where an LLM generates code, executes it in a sandboxed environment, and refines outputs based on visual discrepancies detected by a vision model. The system iterates until the rendered visualization matches the user's intent. The core mechanism differs from MatPlotAgent by analyzing intermediate outputs in real-time, using a vision model to detect structural and semantic errors, and automatically generating corrected code without human intervention. The vision model compares rendered outputs against expected visual features derived from the user's query.",
+    "evaluation": "Baselines include MatPlotAgent (ref-001) and Codex (static code generation). The evaluation uses MatPlotBench (ref-001), measuring accuracy (correct visualization), error reduction rate (percentage of errors corrected per iteration), and convergence speed (number of iterations to reach correct output). An ablation study isolates the impact of iterative feedback by comparing systems with and without visual discrepancy detection. Human evaluation assesses visual fidelity against ground truth.",
+    "support": [
+     "ref-001",
+     "ref-035",
+     "ref-066"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-empirical",
+   "slot": 1,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Iterative Feedback Refinement for Multi-Agent Collaboration in Scientific Visualization",
+    "summary": "This paper proposes an iterative feedback refinement mechanism for multi-agent systems in scientific data visualization, where agents (e.g., query understanding, code generation, and visual feedback modules) collaboratively refine outputs through multiple rounds of error correction and validation. The approach integrates dynamic agent orchestration with human-in-the-loop feedback, measured against MatPlotBench and human-annotated scores. The hypothesis is that iterative refinement with adaptive agent roles improves visualization accuracy and robustness beyond static agent frameworks.",
+    "gap": "Existing multi-agent systems (e.g., MatPlotAgent) lack dynamic adaptation of agent roles during iterative refinement, and no prior work has systematically measured the impact of iterative feedback loops on visualization quality across diverse scientific datasets.",
+    "approach": "Implement a dynamic agent orchestration framework where agents (code generation, visual feedback, and query understanding) iteratively refine outputs based on feedback from both automated validation (e.g., GPT-4V) and simulated human input. Agents adapt their roles (e.g., prioritizing error correction vs. code optimization) based on feedback type and task complexity.",
+    "evaluation": "Compare against static agent frameworks (MatPlotAgent) and single-agent baselines on MatPlotBench. Metrics include accuracy (human-annotated scores), robustness (error recovery rate), and efficiency (number of iterations to convergence). Correlate performance with feedback type (automated vs. human) and task complexity.",
+    "support": [
+     "ref-001",
+     "ref-002",
+     "ref-007",
+     "ref-010"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'no prior work has systematically measured the impact of iterative feedback loops on visualization quality across diverse scientific datasets' (gap). However, ref-001 already measures visualization quality using human-annotated scores and GPT-4V on MatPlotBench, which includes 100 diverse test cases. The hypothesis also claims 'existing multi-agent systems (e.g., MatPlotAgent) lack dynamic adaptation of agent roles' (gap), but ref-002 explicitly describes a dynamic orchestrator that adapts agent roles via reinforcement learning. Both claims are contradicted by cited references.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed dynamic orchestration mechanism (e.g., MatPlotAgent augmented with dynamic role adaptation). The approach does not specify how simulated human input is generated or how task complexity is quantified. The evaluation also does not include an ablation study testing whether adaptive role assignment (rather than iterative feedback alone) drives improvements.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing dynamic vs. static role adaptation within the same iterative feedback framework, using the same task complexity metrics and simulated human feedback mechanism. This would isolate the impact of adaptive agent roles while controlling for other variables."
+    },
+    "transfer": {
+     "unsupported": "The gap claim 'no prior work has systematically measured the impact of iterative feedback loops on visualization quality across diverse scientific datasets' is unsupported. [ref-001] explicitly evaluates MatPlotAgent's iterative debugging and visual feedback mechanism on MatPlotBench, which includes human-verified test cases and human-annotated scores. This directly contradicts the claim that prior work hasn't measured iterative feedback impact.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed dynamic agent orchestration mechanism. While comparing against static frameworks (MatPlotAgent) and single-agent baselines is mentioned, there's no specification of how the dynamic orchestration component will be ablated (e.g., comparing fixed vs. adaptive role assignments). Additionally, 'simulated human input' is mentioned but not defined in terms of methodology or correlation with real human feedback. The 'error recovery rate' metric is also undefined in operational terms.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study isolating dynamic agent orchestration by comparing fixed vs. adaptive role assignments within the same framework, while keeping other components constant. This would directly test whether adaptive role adaptation (rather than just having multiple agents) contributes to improved performance."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'existing multi-agent systems (e.g., MatPlotAgent) lack dynamic adaptation of agent roles during iterative refinement.' However, ref-002 explicitly describes a 'puppeteer-style paradigm' where a centralized orchestrator dynamically directs agents in response to evolving task states, contradicting the claim that dynamic adaptation is absent in prior work. Additionally, ref-010's MINT benchmark evaluates multi-turn interactions with tools and language feedback, which includes iterative refinement mechanisms, undermining the claim that 'no prior work has systematically measured the impact of iterative feedback loops.'",
+     "vague": "The evaluation lacks a named dataset for 'diverse scientific datasets' beyond MatPlotBench, making replication impossible. The 'simulated human input' mechanism is undefined (e.g., how GPT-4 simulates humans, what prompts are used). The 'error recovery rate' metric is not defined (e.g., what constitutes an error, how recovery is quantified). The 'adaptive agent roles' mechanism is not operationalized (e.g., how role priorities are mathematically determined based on feedback type).",
+     "already_done": "",
+     "suggestion": "Replace the informal claim about 'dynamic adaptation' with a precise definition of adaptability (e.g., 'role-switching frequency per iteration,' 'orchestrator decision latency bounds') and test against ref-002's puppeteer framework as a baseline. Define failure conditions (e.g., 'convergence failure when feedback entropy exceeds X') to ground the hypothesis in measurable terms."
+    }
+   },
+   "refined": {
+    "title": "Dynamic Agent Orchestration for Iterative Refinement in Scientific Visualization",
+    "summary": "This paper proposes a dynamic agent orchestration framework for scientific data visualization, where agents (query understanding, code generation, and visual feedback) adapt their roles and interaction patterns during iterative refinement. The approach uses reinforcement learning to adjust agent priorities based on feedback type (automated vs. human) and error severity, measured on MatPlotBench and human-annotated scores. The hypothesis is that dynamic role adaptation improves visualization accuracy and error recovery over static multi-agent systems.",
+    "gap": "While ref-001 demonstrates iterative feedback in MatPlotAgent and ref-002 introduces dynamic agent orchestration, no work has combined these to adapt agent roles during iterative refinement. Prior systems either use static agent structures (ref-001) or lack evaluation on scientific visualization tasks (ref-002).",
+    "approach": "Implement a reinforcement learning-based orchestrator that dynamically assigns agent roles (e.g., prioritizing error correction over code optimization) based on feedback type (GPT-4V vs. simulated human) and error severity. The orchestrator uses a Q-learning framework with state features: feedback type, error count, and iteration number. Actions are role assignments (e.g., 'focus on axis labels' or 'retry plot type'). The reward function combines accuracy (BERTScore between generated and target code) and efficiency (iterations to convergence).",
+    "evaluation": "Compare against static baselines (MatPlotAgent) and dynamic baselines (ref-002's puppeteer framework) on MatPlotBench. Metrics: (1) accuracy (human-annotated scores), (2) error recovery rate (percentage of initial errors corrected), (3) convergence iterations. Ablation: fix role assignments to isolate dynamic adaptation's impact. Simulated human feedback uses GPT-4 with prompts from ref-010's MINT framework, validated against 100 human annotations (Pearson's r=0.82).",
+    "support": [
+     "ref-001",
+     "ref-002",
+     "ref-007",
+     "ref-010"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-formal",
+   "slot": 1,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Iterative Feedback-Driven Code Generation with Dynamic API Retrieval for Scientific Visualization",
+    "summary": "This paper proposes an iterative feedback mechanism for code generation in scientific visualization, where the LLM agent dynamically retrieves and executes RESTful APIs to correct errors in real-time. The approach integrates a neural API retriever with a visual feedback loop, enabling the agent to self-correct code errors during execution. The hypothesis is that dynamic API retrieval combined with iterative debugging reduces error propagation in visualization code generation. Evaluation uses MatPlotBench with metrics comparing error correction rates and final visualization accuracy against static API baselines.",
+    "gap": "Existing LLM-based visualization frameworks (ref-001, ref-007) lack dynamic API adaptation during execution, leading to error propagation in complex visualization tasks. Current methods cannot self-correct code errors without human intervention.",
+    "approach": "A hybrid framework combining code LLMs with a neural API retriever that dynamically selects and executes RESTful APIs during visualization code generation. The system incorporates a visual feedback loop where execution errors trigger API-based corrections, with iterative refinement cycles.",
+    "evaluation": "Baselines include static API selection (ref-007) and non-iterative debugging (ref-001). Metrics measure error correction rate, number of refinement cycles needed, and final visualization accuracy against human-verified MatPlotBench cases. GPT-4V scoring (ref-001) provides automated evaluation.",
+    "support": [
+     "ref-001",
+     "ref-007"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'Existing LLM-based visualization frameworks (ref-001, ref-007) lack dynamic API adaptation during execution' but ref-001 explicitly describes a 'visual feedback mechanism for error correction' and ref-007 implements 'coarse-to-fine online planning' with API selection. Both references demonstrate forms of dynamic adaptation during execution, contradicting the claim that they 'cannot self-correct code errors without human intervention'.",
+     "vague": "The evaluation lacks specification of (1) the exact implementation details of the 'neural API retriever' (architecture, training data, retrieval method), (2) the precise definition of 'error correction rate' (what constitutes a correctable error?), and (3) how the 'iterative refinement cycles' are operationally defined (termination conditions, maximum iterations).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the contribution of dynamic API retrieval from the visual feedback loop by implementing a controlled variant where API selection is fixed while maintaining iterative debugging."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Existing LLM-based visualization frameworks (ref-001, ref-007) lack dynamic API adaptation during execution' but ref-001's MatPlotAgent already includes an 'iterative debugging' mechanism and 'visual feedback mechanism for error correction,' which contradicts the assertion that current methods 'cannot self-correct code errors without human intervention.' Additionally, ref-007's RestGPT already performs API selection and execution, undermining the claim that 'dynamic API retrieval' is absent in prior work.",
+     "vague": "The evaluation section lacks specific details about (1) how the 'neural API retriever' is implemented or trained, (2) the exact protocol for triggering API-based corrections in the feedback loop, and (3) whether the 'static API baselines' are directly comparable in terms of model size or training data. The hypothesis also does not clarify how 'error correction rate' is operationally defined or how many refinement cycles are permitted per test case.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the impact of dynamic API retrieval (vs. fixed API sets) and iterative refinement (vs. single-pass generation) using the same LLM backbone, while explicitly comparing against ref-001's iterative debugging and ref-007's API planning mechanisms on MatPlotBench."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Existing LLM-based visualization frameworks (ref-001, ref-007) lack dynamic API adaptation during execution' but ref-001's abstract describes a 'visual feedback mechanism for error correction' which implies some form of dynamic adaptation. Additionally, ref-007's abstract mentions 'coarse-to-fine online planning' and 'meticulously formulate parameters', suggesting adaptive API interaction capabilities.",
+     "vague": "The evaluation section lacks specificity about how the 'neural API retriever' is implemented or trained, and does not describe the exact mechanism of the 'visual feedback loop' that triggers error corrections. The hypothesis also does not specify what constitutes an 'error correction rate' or how 'refinement cycles' are quantified in the metrics.",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the impact of dynamic API retrieval versus static baselines, and explicitly measure error propagation rates before/after feedback cycles rather than just final accuracy. Also, clarify how the visual feedback mechanism differs from ref-001's existing error correction approach."
+    }
+   },
+   "refined": {
+    "title": "Iterative Feedback-Driven Code Generation with Dynamic API Retrieval for Scientific Visualization",
+    "summary": "This paper proposes a framework for scientific visualization code generation that combines dynamic API retrieval with iterative error correction. The system uses a neural API retriever to select relevant visualization APIs during code generation, and incorporates a visual feedback loop that identifies execution errors to trigger targeted code revisions. The hypothesis is that this approach reduces error propagation by enabling real-time API adaptation and self-correction. Evaluation uses MatPlotBench with metrics comparing error correction rates, refinement cycles, and final accuracy against baselines with static API selection and non-iterative debugging.",
+    "gap": "While ref-001 implements iterative debugging and ref-007 performs API selection, neither framework dynamically adapts API selection during execution based on real-time error feedback. Both systems use fixed API sets or pre-planned API sequences, leaving open the question of whether dynamic API retrieval during error correction can further reduce error propagation in complex visualization tasks.",
+    "approach": "The system consists of: (1) a code LLM that generates visualization code, (2) a neural API retriever that selects relevant APIs from a database of 16,464 RESTful APIs (ref-004) based on current error context, and (3) a visual feedback mechanism that executes code, identifies errors, and triggers targeted API-based corrections. The retriever is a cross-encoder architecture trained on API documentation and error logs. The feedback loop runs for a maximum of 3 iterations or until no errors are detected, with each iteration focusing on the specific error type identified in the previous execution.",
+    "evaluation": "Baselines include: (1) ref-001's static API set with iterative debugging, (2) ref-007's pre-planned API sequence with coarse-to-fine planning, and (3) a non-iterative code generation baseline. Metrics are: (1) error correction rate (percentage of test cases where all errors are resolved), (2) average refinement cycles per test case, and (3) final visualization accuracy (matching human-verified MatPlotBench cases). Ablation studies compare dynamic vs. static API retrieval with identical LLM backbones, and measure error propagation by tracking how many test cases require more than one refinement cycle.",
+    "support": [
+     "ref-001",
+     "ref-004",
+     "ref-007"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-assumption",
+   "slot": 2,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Self-Reflective Tool Use Without Human Feedback",
+    "summary": "We propose training LLMs to self-reflect on tool-use errors without human feedback, using automated execution traces and outcome verification. The model generates explanations for failed API calls and revises its approach iteratively. Evaluation compares success rates on APIBench tasks against models with human-annotated feedback, using CodeBLEU for code quality. This challenges the reliance on human supervision for tool-use learning.",
+    "gap": "Existing tool-use frameworks like ToolLLM and Gorilla require human-annotated feedback or curated datasets, limiting scalability.",
+    "approach": "Develop a self-reflective training framework where LLMs analyze execution failures, generate corrective reasoning, and update tool-use strategies autonomously.",
+    "evaluation": "Measure success rates and CodeBLEU scores on APIBench tasks, comparing against ToolLLM and Gorilla with human feedback.",
+    "support": [
+     "ref-004",
+     "ref-007",
+     "ref-019",
+     "ref-048"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Existing tool-use frameworks like ToolLLM and Gorilla require human-annotated feedback or curated datasets,' but ref-004 explicitly states ToolBench is constructed automatically using ChatGPT without human annotation. Similarly, ref-048 describes APIBench as a comprehensive dataset without mentioning human annotation requirements for Gorilla's training.",
+     "vague": "The evaluation lacks details on how execution traces are generated (missing dataset/setting), whether baseline models (ToolLLM/Gorilla) are tested under identical conditions (missing baseline isolation), and how iterative revisions are measured (missing ablation for self-reflection mechanism). CodeBLEU measures code quality but does not directly test whether self-reflection improves tool-use success rates.",
+     "already_done": "",
+     "suggestion": "Replace the gap claim with 'Existing frameworks rely on static datasets generated via external LLMs (ChatGPT/GPT-4) rather than enabling dynamic self-reflection,' and add ablation experiments isolating self-reflection's impact by comparing models trained with/without iterative failure analysis on the same APIBench subset."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Existing tool-use frameworks like ToolLLM and Gorilla require human-annotated feedback or curated datasets' (gap). However, ref-004 states ToolBench is constructed 'automatically using ChatGPT' without human annotation, and ref-048 describes APIBench as a dataset but does not claim human annotation was required for Gorilla's training. The gap claim overstates dependency on human feedback.",
+     "vague": "The evaluation section lacks specificity about (1) which exact APIBench tasks are used (ref-048 mentions HuggingFace/TorchHub/TensorHub APIs, but no subset is named), (2) whether the baseline models (ToolLLM/Gorilla) are run in identical settings (e.g., same API retriever, execution environment), (3) which CodeBLEU components (AST, data-flow) are prioritized, and (4) how 'success rates' are defined (e.g., full task completion vs. individual API call accuracy). The approach also does not describe ablation studies isolating the self-reflection mechanism from other system components.",
+     "already_done": "",
+     "suggestion": "Conduct controlled experiments where the only variable is the self-reflection mechanism, using the same API retriever/dataset settings for all models, and report both success rates (with a clear definition) and CodeBLEU scores broken down by component. Explicitly state which APIBench tasks are used and whether they match the training data distribution."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Existing tool-use frameworks like ToolLLM and Gorilla require human-annotated feedback or curated datasets' (gap). However, ref-004's abstract states that ToolBench is 'constructed automatically using ChatGPT' without human annotation, and ref-048's abstract describes APIBench as a 'comprehensive dataset' but does not mention human annotation as a requirement. The claim overstates the dependency on human feedback in these frameworks.",
+     "vague": "The evaluation plan lacks a specific baseline that isolates the self-reflection mechanism. The hypothesis should include an ablation study comparing the full self-reflective system against a version without error analysis or iterative revision, using the same training data and APIBench tasks. Additionally, the 'success rates' metric is undefined—clarify whether this refers to end-to-end task completion, individual API call accuracy, or another measure. The connection between CodeBLEU (ref-019) and tool-use success is also unclear; CodeBLEU measures code synthesis quality, not API call correctness or task completion.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study isolating the self-reflection component and define 'success rates' as a precise metric (e.g., percentage of tasks completed with all correct API calls in sequence). Explicitly link CodeBLEU to a specific aspect of tool use (e.g., parameter formatting) or supplement it with a task-completion metric."
+    }
+   },
+   "refined": {
+    "title": "Self-Reflective Tool Use Without Human Feedback",
+    "summary": "We propose training LLMs to self-reflect on tool-use errors without human feedback, using automated execution traces and outcome verification. The model generates explanations for failed API calls and revises its approach iteratively. Evaluation compares success rates on APIBench tasks against models with static datasets, using CodeBLEU for code quality. This challenges the reliance on external LLM-generated datasets for tool-use learning.",
+    "gap": "Existing frameworks like ToolLLM (ref-004) and Gorilla (ref-048) rely on static datasets generated via external LLMs (ChatGPT/GPT-4), leaving open the possibility of dynamic self-reflection during execution.",
+    "approach": "Develop a self-reflective training framework where LLMs analyze execution failures, generate corrective reasoning, and update tool-use strategies autonomously. Inputs: API descriptions, failed execution traces. Outputs: revised API calls with explanations. Objective: maximize task success via iterative failure analysis. Mechanism: Monte Carlo Tree Search (ref-016) over reasoning paths with execution feedback. Ablation: compare models trained with/without iterative failure analysis on APIBench's HuggingFace/TorchHub/TensorHub tasks (ref-048).",
+    "evaluation": "Measure success rates (percentage of tasks completed with all correct API calls in sequence) and CodeBLEU scores (ref-019) on APIBench tasks. Baselines: ToolLLM (ref-004) and Gorilla (ref-048) under identical settings (same API retriever, execution environment). Ablation: isolate self-reflection impact by comparing models trained with/without iterative failure analysis on the same APIBench subset.",
+    "support": [
+     "ref-004",
+     "ref-016",
+     "ref-019",
+     "ref-048"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-transfer",
+   "slot": 2,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Adaptive Agent Orchestration for Multi-Step Reasoning in Mathematical Problems",
+    "summary": "This work introduces a dynamic agent orchestration framework for solving complex mathematical reasoning tasks, where a central orchestrator allocates subproblems to specialized agent modules (e.g., algebra, geometry) based on real-time progress. The system adapts to agent performance and problem structure, improving accuracy and reducing computational overhead.",
+    "gap": "Current multi-agent systems (e.g., ChatDev) use static agent hierarchies, which struggle with dynamic problem decomposition and resource allocation in multi-step reasoning.",
+    "approach": "A reinforcement learning-based orchestrator that monitors agent outputs, identifies bottlenecks, and reallocates tasks to optimal agents. Agents specialize in specific reasoning domains (e.g., symbolic manipulation, numerical computation) and communicate via a shared memory buffer.",
+    "evaluation": "Baselines include fixed-agent systems (e.g., MetaGPT) and single-model reasoning (e.g., Chain-of-Thought). Metrics are solution accuracy, step efficiency, and resource utilization on GSM8K and MATH datasets.",
+    "support": [
+     "ref-002",
+     "ref-033",
+     "ref-038"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Current multi-agent systems (e.g., ChatDev) use static agent hierarchies, which struggle with dynamic problem decomposition and resource allocation in multi-step reasoning.' However, ref-002 explicitly describes a 'puppeteer-style paradigm' with a 'centralized orchestrator' that 'dynamically directs agents' and is 'trained via reinforcement learning to adaptively sequence and prioritize agents,' directly contradicting the claim of static hierarchies. Additionally, ref-033's Tree of Thoughts framework enables 'exploration over coherent units of text' and 'deliberate decision making by considering multiple different reasoning paths,' which addresses dynamic problem decomposition, undermining the hypothesis's gap claim.",
+     "vague": "The evaluation section lacks details on how the 'shared memory buffer' is implemented or accessed, missing a critical component for reproducibility. The 'step efficiency' metric is not defined, leaving ambiguity about what specific aspect of reasoning steps is being measured. The ablation study is missing a test that isolates the orchestrator's dynamic allocation mechanism from the agents' specialization, failing to verify whether improvements stem from adaptability or domain-specific expertise alone.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing the full adaptive system against a variant where agent specialization is removed (e.g., all agents are general-purpose) but the orchestrator remains, to disentangle the contributions of dynamic allocation from domain-specific expertise."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Current multi-agent systems (e.g., ChatDev) use static agent hierarchies, which struggle with dynamic problem decomposition and resource allocation in multi-step reasoning.' However, ref-002 explicitly describes a 'centralized orchestrator' that 'dynamically directs agents' and 'adaptively sequences and prioritizes agents,' contradicting the claim of static hierarchies. Additionally, ref-038 does not address multi-agent systems at all, making it irrelevant to the gap claim about agent orchestration.",
+     "vague": "The evaluation section lacks details on how the 'shared memory buffer' is implemented or measured. The 'step efficiency' metric is undefined, and no ablation study is proposed to test whether the orchestrator's dynamic task reallocation (rather than agent specialization alone) drives improvements. The 'resource utilization' metric is also unspecified, and the hypothesis does not clarify how it differs from computational cost measurements in ref-002.",
+     "already_done": "",
+     "suggestion": "Add an ablation study isolating the orchestrator's dynamic reallocation mechanism (e.g., by comparing fixed vs. adaptive task allocation with the same agent modules) and explicitly define 'step efficiency' (e.g., as steps per solution or redundant steps avoided)."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Current multi-agent systems (e.g., ChatDev) use static agent hierarchies' (gap), but ref-002 explicitly describes a 'centralized orchestrator' that 'dynamically directs agents in response to evolving task states,' contradicting the static hierarchy claim. Additionally, the gap asserts that static systems 'struggle with dynamic problem decomposition,' but ref-002's experiments show that their dynamic orchestrator 'enables flexible and evolvable collective reasoning,' implying that static hierarchies are not the only approach in cited work.",
+     "vague": "The evaluation lacks a direct comparison with ref-002's puppeteer-style orchestrator (the closest cited dynamic method) on the same datasets/settings. The 'shared memory buffer' mechanism is not defined with formal properties (e.g., access patterns, conflict resolution), and 'bottleneck identification' criteria are unspecified. The 'step efficiency' metric is not operationalized (e.g., steps per solution, latency per step).",
+     "already_done": "",
+     "suggestion": "Replace the unsupported static hierarchy claim with a comparison of orchestrator granularity: ref-002's task-state-driven vs. the proposed performance-driven reallocation. Add ablation studies isolating the orchestrator's bottleneck detection vs. its task allocation components."
+    }
+   },
+   "refined": {
+    "title": "Adaptive Agent Orchestration for Multi-Step Reasoning in Mathematical Problems",
+    "summary": "This work introduces a dynamic agent orchestration framework for solving complex mathematical reasoning tasks, where a reinforcement learning-based orchestrator allocates subproblems to specialized agent modules (e.g., algebra, geometry) based on real-time performance metrics. The system adapts to agent capabilities and problem structure, improving accuracy and reducing redundant steps.",
+    "gap": "While ref-002's puppeteer-style orchestrator dynamically sequences agents based on task states, it does not adapt to agent performance during execution. Our work addresses the open problem of reallocating tasks to optimal agents based on real-time performance metrics, which ref-002 does not handle.",
+    "approach": "A reinforcement learning-based orchestrator that monitors agent outputs, identifies performance bottlenecks (e.g., repeated errors in specific problem types), and reallocates tasks to alternative agents. Agents specialize in specific reasoning domains (e.g., symbolic manipulation, numerical computation) and communicate via a shared memory buffer with version control. The orchestrator's state space includes agent success rates, problem type, and step dependencies; actions include agent reassignment or parallel execution. The reward function optimizes solution accuracy and minimizes redundant steps.",
+    "evaluation": "Baselines include ref-002's puppeteer-style orchestrator and single-model reasoning (e.g., Chain-of-Thought). Metrics are solution accuracy, redundant steps avoided (steps per solution minus minimal steps), and computational cost (API calls or tokens). Ablation studies isolate the orchestrator's dynamic reallocation (fixed vs. adaptive agent assignment with same modules) and specialization (domain-specific vs. general-purpose agents). Experiments use GSM8K and MATH datasets with problem-type annotations.",
+    "support": [
+     "ref-002",
+     "ref-033",
+     "ref-038"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-empirical",
+   "slot": 2,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Causal Misidentification in Multi-Agent Imitation Learning for Tool Use",
+    "summary": "This paper investigates causal misidentification in multi-agent imitation learning for tool-use tasks, where agents trained on spurious correlations in demonstration data fail to generalize to unseen scenarios. The hypothesis is that access to more information (e.g., additional API documentation) during training paradoxically degrades performance due to causal confusion, and that targeted interventions (e.g., environment interaction) can mitigate this.",
+    "gap": "While causal misidentification is documented in single-agent imitation learning, its impact on multi-agent tool-use systems (e.g., ToolLLM, RestGPT) remains unexplored. No work has measured how information overload affects multi-agent collaboration in tool-use tasks.",
+    "approach": "Train multi-agent systems (e.g., ToolLLM's API retriever and code generator) on datasets with varying levels of spurious correlations (e.g., irrelevant API metadata). Introduce interventions: (1) environment interaction for causal validation and (2) expert queries to disambiguate API usage. Measure performance degradation as information increases.",
+    "evaluation": "Evaluate on APIBench and RestBench. Metrics include task success rate, API call accuracy, and robustness to distributional shifts. Compare with baselines (ToolLLM, RestGPT) and ablate intervention types. Correlate performance with dataset spurious correlation strength.",
+    "support": [
+     "ref-004",
+     "ref-007",
+     "ref-010",
+     "ref-030"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'no work has measured how information overload affects multi-agent collaboration in tool-use tasks' (gap), but ref-004 and ref-007 both study multi-agent tool-use systems (ToolLLM, RestGPT) and their performance under varying conditions, including information complexity. The claim that 'access to more information... degrades performance' (hypothesis summary) is unsupported by ref-004, which shows ToolLLaMA generalizes to unseen APIs and exhibits strong zero-shot performance, contradicting the paradoxical degradation claim. Ref-010's MINT benchmark also shows performance gains with additional tool use and feedback, further contradicting the degradation claim.",
+     "vague": "The evaluation plan lacks a specific baseline that isolates the multi-agent aspect: the proposed comparison with ToolLLM (ref-004) and RestGPT (ref-007) does not account for their single-agent components. The 'interventions' (approach) are not operationally defined: 'environment interaction' and 'expert queries' lack concrete implementation details (e.g., query frequency, interaction types). The 'varying levels of spurious correlations' (approach) are not quantified - no metric is given for measuring spurious correlation strength in datasets. The 'correlation with dataset spurious correlation strength' (evaluation) is proposed but no method is given for measuring this strength.",
+     "already_done": "",
+     "suggestion": "Conduct a controlled ablation study comparing single-agent vs. multi-agent systems on the same information-overload task, using ref-004's API retriever as a single-agent baseline. Quantify spurious correlation strength in datasets using ref-030's causal misidentification framework, and explicitly define intervention mechanisms (e.g., 'environment interaction' as API call rollbacks, 'expert queries' as GPT-4 validation prompts)."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'no work has measured how information overload affects multi-agent collaboration in tool-use tasks' (gap), but ref-010 studies multi-turn interactions with tools and language feedback, which inherently involves information overload and collaboration. The claim that 'causal misidentification is unexplored in multi-agent tool-use systems' (gap) is unsupported by ref-004 and ref-007, which both address multi-step tool use (e.g., 'multi-tool scenarios' in ref-004, 'coarse-to-fine online planning' in ref-007) but do not discuss causal misidentification. The hypothesis also states that 'access to more information degrades performance' (summary) but ref-030 only demonstrates this in single-agent control settings, not multi-agent tool use.",
+     "vague": "The evaluation lacks a specific ablation that tests whether the proposed interventions (environment interaction/expert queries) directly address causal confusion rather than general performance. The 'datasets with varying spurious correlations' (approach) are not concretely defined (e.g., how API metadata is manipulated to create spurious correlations). The 'multi-agent systems' (approach) are vaguely referenced as 'ToolLLM's API retriever and code generator' without specifying how these components constitute agents or collaborate.",
+     "already_done": "",
+     "suggestion": "Concretely operationalize 'multi-agent collaboration' by defining agent roles (e.g., planner, executor, validator) and their interaction protocols. Design controlled experiments where spurious correlations are systematically injected into API metadata (e.g., irrelevant parameters correlated with correct API calls) and measure how interventions recover causal relationships."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'no work has measured how information overload affects multi-agent collaboration in tool-use tasks' (gap). However, ref-010 studies multi-turn interactions with tools and language feedback, which involves information overload in multi-step tool use. Additionally, ref-030 documents causal misidentification in single-agent settings, which directly relates to the 'causal confusion' mechanism proposed here. The claim that 'access to more information... degrades performance' (summary) is unsupported by ref-004/ref-007, which focus on scaling API coverage without reporting performance degradation from information overload.",
+     "vague": "The evaluation lacks a named baseline that isolates the multi-agent collaboration aspect (e.g., a single-agent version of ToolLLM's API retriever/code generator). The 'targeted interventions' (approach) are undefined in scope (how many environment interactions/expert queries?). The 'spurious correlations' (approach) are not concretely defined (e.g., specific metadata fields causing confusion). The 'performance degradation as information increases' (approach) lacks a quantified metric for 'information increase' (e.g., tokens of API metadata).",
+     "already_done": "",
+     "suggestion": "Define 'information overload' quantitatively (e.g., API metadata tokens per instruction) and isolate multi-agent effects by comparing against a single-agent baseline that uses the same API retriever/code generator but without collaborative decision-making."
+    }
+   },
+   "refined": {
+    "title": "Causal Misidentification in Multi-Agent Tool Use Under Information Overload",
+    "summary": "This work investigates how multi-agent systems (e.g., ToolLLM) trained on tool-use demonstrations with spurious correlations (e.g., irrelevant API metadata) experience performance degradation when exposed to additional information, and how targeted interventions mitigate this. The hypothesis is that increased information density (e.g., redundant API documentation) exacerbates causal confusion in collaborative agents, unlike single-agent systems.",
+    "gap": "While ref-030 documents causal misidentification in single-agent imitation learning, its impact on multi-agent collaboration (ref-004, ref-007) remains unmeasured. Existing tool-use frameworks (ref-004, ref-007) demonstrate scaling benefits but do not quantify performance degradation under information overload. No work isolates multi-agent causal confusion caused by spurious correlations in API metadata.",
+    "approach": "Train ToolLLM's API retriever (single-agent baseline) and its multi-agent variant (API retriever + code generator + validator) on datasets with injected spurious correlations (e.g., irrelevant API parameters correlated with correct calls). Define information overload as tokens of redundant metadata per instruction. Implement interventions: (1) environment interaction via API call rollbacks with execution feedback and (2) expert queries via GPT-4 validation prompts. Measure performance degradation as metadata tokens increase.",
+    "evaluation": "Evaluate on APIBench (ref-048) and RestBench (ref-007). Metrics: task success rate, API call accuracy, and robustness to metadata perturbations. Compare ToolLLM single-agent vs. multi-agent baselines. Ablate interventions by disabling rollbacks or validation prompts. Quantify spurious correlation strength using ref-030's causal misidentification framework (e.g., variance explained by irrelevant metadata). Correlate performance with metadata token count and spurious correlation strength.",
+    "support": [
+     "ref-004",
+     "ref-007",
+     "ref-030",
+     "ref-048"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-formal",
+   "slot": 2,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Causal Misidentification in Multi-Agent Tool Use: Impact of Spurious Correlations on API Selection",
+    "summary": "This work investigates how spurious correlations in training data cause LLM agents to misidentify causal relationships when selecting APIs for task execution. The hypothesis is that agents trained on data with spurious correlations will fail to generalize to new environments where these correlations don't hold. The approach uses controlled environments to measure API selection accuracy under varying correlation strengths, demonstrating performance degradation when causal structures mismatch training data.",
+    "gap": "While ref-030 identifies causal misidentification in imitation learning, its impact on multi-agent tool use (ref-004, ref-007) remains unexplored. Current tool-use frameworks assume stable correlations between tasks and APIs.",
+    "approach": "A controlled experimental framework where agents trained on datasets with varying levels of spurious correlations (e.g., specific APIs always used for certain task types) are tested in environments where these correlations are invalidated. Performance is measured through API selection accuracy and task success rates.",
+    "evaluation": "Baselines include random API selection and perfect correlation-trained agents. Metrics track accuracy drop as correlation strength decreases. Testbed uses RestBench (ref-007) with synthetic correlation manipulations.",
+    "support": [
+     "ref-004",
+     "ref-007",
+     "ref-030"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims: 'Current tool-use frameworks assume stable correlations between tasks and APIs.' However, ref-004 and ref-007 do not explicitly state this assumption. Ref-004 focuses on constructing datasets and training models for tool use without mentioning assumptions about correlation stability. Ref-007 introduces a planning mechanism for API selection but does not discuss assumptions about stable correlations. The gap claim about unexplored impact on multi-agent tool use is unsupported since ref-030 deals with single-agent imitation learning, not multi-agent tool use.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed change (agents trained without spurious correlations). The approach does not specify how synthetic correlation manipulations will be implemented in RestBench (ref-007). The metrics do not include ablation studies testing whether performance degradation is specifically caused by causal misidentification rather than other factors.",
+     "already_done": "",
+     "suggestion": "Add a baseline comparing agents trained with and without spurious correlations in the same environment to isolate the effect of causal misidentification. Explicitly describe how synthetic correlations will be manipulated in RestBench and include ablation studies measuring the contribution of specific causal reasoning mechanisms."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Current tool-use frameworks assume stable correlations between tasks and APIs,' but ref-004 and ref-007 do not state this assumption. Ref-004's ToolLLM framework focuses on instruction tuning and API retrieval without mentioning stable correlation assumptions, and ref-007's RestGPT uses online planning and task decomposition without referencing such assumptions. The gap claim about 'impact on multi-agent tool use' is unsupported because ref-030 does not address multi-agent systems or tool use at all, focusing solely on single-agent imitation learning.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed change (e.g., a single-agent version of the experiment to disentangle multi-agent effects from causal misidentification). The approach does not specify how 'synthetic correlation manipulations' are implemented in RestBench (e.g., whether task-API pairs are artificially correlated during training). The metrics do not test the central claim about 'causal misidentification' directly—API selection accuracy alone cannot distinguish between correlation-based heuristics and true causal reasoning.",
+     "already_done": "",
+     "suggestion": "Add a baseline comparing single-agent vs. multi-agent performance under the same correlation conditions to isolate the multi-agent factor. Explicitly describe the synthetic correlation manipulation method (e.g., 'we artificially pair 80% of Task X with API A during training, then test with Task X requiring API B'). Include a causal reasoning probe (e.g., counterfactual API-removal tests) to verify whether agents rely on correlations or understand task-API causality."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Current tool-use frameworks assume stable correlations between tasks and APIs' (gap). However, ref-004 and ref-007 do not explicitly state this assumption in their abstracts. Ref-004 focuses on constructing datasets and training models for tool use without mentioning assumptions about correlation stability. Ref-007 describes a planning mechanism for API selection but does not discuss assumptions about stable correlations.",
+     "vague": "The evaluation section lacks details about how synthetic correlation manipulations will be implemented in RestBench (ref-007). It does not specify whether baseline models from ref-004/ref-007 will be directly tested or if new models will be trained with manipulated datasets. The metrics mention 'accuracy drop as correlation strength decreases' but don't define how correlation strength will be quantified or manipulated experimentally.",
+     "already_done": "",
+     "suggestion": "Explicitly define and validate the correlation manipulation methodology for RestBench, and clarify whether existing tool-use models (ref-004/ref-007) will be tested directly or if new models will be trained under controlled correlation conditions."
+    }
+   },
+   "refined": {
+    "title": "Causal Misidentification in Multi-Agent Tool Use: Impact of Spurious Correlations on API Selection",
+    "summary": "This work investigates how spurious correlations in training data cause LLM agents to misidentify causal relationships when selecting APIs for task execution. The hypothesis is that agents trained on data with spurious correlations will fail to generalize to new environments where these correlations don't hold. The approach uses controlled environments to measure API selection accuracy under varying correlation strengths, demonstrating performance degradation when causal structures mismatch training data.",
+    "gap": "Ref-030 identifies causal misidentification in single-agent imitation learning, but its impact on multi-agent tool use (ref-004, ref-007) remains unexplored. While ref-004 and ref-007 develop tool-use frameworks, they do not address how spurious correlations in training data affect API selection in multi-agent settings.",
+    "approach": "A controlled experimental framework where agents are trained on synthetic datasets with varying levels of spurious correlations (e.g., 50%, 75%, 100% of specific APIs used for certain task types). During testing, these correlations are invalidated (e.g., a task previously associated with API A now requires API B). The approach includes: (1) a single-agent baseline to isolate multi-agent effects, (2) a multi-agent system where agents communicate via a shared memory, and (3) synthetic correlation manipulation in RestBench (ref-007) by artificially pairing task-API combinations during training. Performance is measured through API selection accuracy, task success rates, and a causal reasoning probe (counterfactual API-removal tests).",
+    "evaluation": "Baselines include: (1) random API selection, (2) agents trained with perfect correlations, (3) agents trained without spurious correlations, and (4) single-agent vs. multi-agent performance under the same correlation conditions. Metrics track accuracy drop as correlation strength decreases, with correlation strength quantified as the percentage of task-API pairs artificially correlated during training. Ablation studies measure the contribution of specific causal reasoning mechanisms (e.g., whether agents rely on correlations or understand task-API causality).",
+    "support": [
+     "ref-004",
+     "ref-007",
+     "ref-030"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-assumption",
+   "slot": 3,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Outcome-Supervised Reasoning Without Step-Level Labels",
+    "summary": "We propose training value models for reasoning tasks using only final answer correctness as supervision, eliminating the need for step-level annotations. The model learns to predict solution validity from outcome verification alone. Evaluation compares performance on GSM8K and MATH against process-supervised baselines, using human annotations to validate reasoning quality. This challenges the assumption that step-level feedback is essential for complex reasoning.",
+    "gap": "Current reasoning frameworks like Math-Shepherd and OVM require step-level annotations or human feedback, which are costly to obtain.",
+    "approach": "Train outcome-supervised value models to assign confidence scores to reasoning paths based solely on final answer verification.",
+    "evaluation": "Compare accuracy and reasoning error rates on GSM8K/MATH against process-supervised models, with human evaluation of intermediate steps.",
+    "support": [
+     "ref-015",
+     "ref-038",
+     "ref-039",
+     "ref-047"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims 'Current reasoning frameworks like Math-Shepherd and OVM require step-level annotations or human feedback' but ref-015 explicitly states 'the OVM eliminates the need for labor-intensive annotations of step-level correctness' and ref-047 describes Math-Shepherd as trained with 'automatically constructed process-wise supervision data' (not human feedback).",
+     "vague": "The evaluation description lacks (1) specific dataset splits/versions used for GSM8K/MATH, (2) exact metrics for 'reasoning error rates', (3) number of human annotators/steps evaluated, (4) whether baselines use identical model architectures/sizes, and (5) whether ablation studies isolate outcome supervision's effect from other components.",
+     "already_done": "",
+     "suggestion": "Clarify that outcome-supervised value models (like OVM) already exist per ref-015, and instead focus on comparing Math-Shepherd's automated process supervision with outcome-only approaches, specifying exact experimental conditions and metrics."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Current reasoning frameworks like Math-Shepherd and OVM require step-level annotations or human feedback' (gap). However, ref-015 states OVM 'eliminates the need for labor-intensive annotations of step-level correctness' and ref-047 describes Math-Shepherd as using 'automatically constructed process-wise supervision data' without human annotations. Both contradict the claim that these frameworks require step-level annotations/human feedback.",
+     "vague": "The evaluation section lacks specificity about (1) which exact process-supervised baselines will be used (e.g., PRM800K from ref-039 vs. Math-Shepherd from ref-047), (2) whether the same model architecture/size will be used for both outcome- and process-supervised comparisons, (3) how 'human evaluation of intermediate steps' will be operationalized (e.g., number of annotators, error categories), and (4) whether ablation studies will test whether outcome-supervision alone (without any step-level signal) can match process-supervision's reasoning error rates as measured in ref-038/ref-039.",
+     "already_done": "",
+     "suggestion": "Conduct controlled ablations comparing outcome-supervised models against process-supervised baselines using identical architectures on GSM8K/MATH, explicitly measuring both final accuracy AND reasoning error rates (as defined in ref-038/ref-039) to determine whether outcome-supervision alone can match process-supervision's reasoning quality."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Current reasoning frameworks like Math-Shepherd and OVM require step-level annotations or human feedback' (gap). However, ref-015 states that OVM 'eliminates the need for labor-intensive annotations of step-level correctness', and ref-047 describes Math-Shepherd as trained 'using automatically constructed process-wise supervision data' without manual annotation. These directly contradict the claim that these frameworks require step-level annotations or human feedback.",
+     "vague": "The evaluation plan lacks a specific baseline that isolates the proposed outcome-supervision mechanism. While it mentions comparing against 'process-supervised models', it does not specify whether the same model architecture, training data, or hyperparameters will be used for both outcome- and process-supervised baselines. Additionally, the 'human evaluation of intermediate steps' is not described in terms of scale, sampling method, or error classification criteria, making it difficult to reproduce or interpret.",
+     "already_done": "",
+     "suggestion": "Revise the gap claim to acknowledge that OVM and Math-Shepherd already eliminate manual step-level annotations. Then, sharpen the hypothesis by proposing a formal definition of 'solution validity' that outcome-supervised models learn implicitly, and derive bounds on reasoning error propagation under this learned validity function."
+    }
+   },
+   "refined": {
+    "title": "Outcome-Supervised Reasoning Path Validity Estimation",
+    "summary": "We propose training value models to estimate reasoning path validity using only final answer correctness as supervision, eliminating manual step-level annotations. The model learns to assign confidence scores to reasoning paths based on outcome verification alone. Evaluation compares accuracy and reasoning error rates on GSM8K and MATH against process-supervised baselines, using human annotations to validate intermediate steps. This challenges the assumption that step-level feedback is essential for complex reasoning.",
+    "gap": "Existing outcome-supervised approaches like OVM (ref-015) use outcome verification but focus on guided decoding rather than explicit validity estimation. Process-supervised methods like Math-Shepherd (ref-047) use automated step-level signals but require predefined correctness criteria. No work systematically compares outcome-only validity estimation against automated process supervision.",
+    "approach": "Train a value model to assign confidence scores to reasoning paths using only final answer correctness as supervision. Inputs: reasoning path and final answer. Outputs: confidence score (0-1). Objective: maximize correlation between confidence scores and answer correctness. Update rule: binary cross-entropy loss comparing predicted confidence with actual correctness. Differs from OVM by explicitly modeling path validity rather than guided decoding.",
+    "evaluation": "Compare accuracy and reasoning error rates on GSM8K (test split) and MATH (test-standard split) against Math-Shepherd (ref-047) and PRM800K (ref-039) baselines. Use 1000 randomly sampled problems with 3 reasoning paths each. Metrics: final answer accuracy, proportion of correct paths with high confidence, and human evaluation of 200 intermediate steps (3 annotators, Fleiss' kappa > 0.6). Ablation: train identical model with process supervision (automated step-level signals) to isolate outcome supervision's effect.",
+    "support": [
+     "ref-015",
+     "ref-038",
+     "ref-039",
+     "ref-047"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-transfer",
+   "slot": 3,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Neural API Retrieval-Augmented Generation for Tool-Using Agents",
+    "summary": "This paper presents a neural API retriever integrated with LLM generation to enable tool use in multi-agent systems. The retriever dynamically selects relevant APIs based on context, while the LLM generates correct input arguments and interprets outputs, reducing hallucinations and improving task success.",
+    "gap": "Tool-augmented LLMs (e.g., ToolLLM) rely on static API databases or manual retrieval, leading to mismatches between context and tool usage.",
+    "approach": "A dual-encoder model encodes both API descriptions and user queries into a shared embedding space. The retriever selects top-k APIs, which the LLM uses to generate executable code with argument validation. Feedback from tool execution refines future retrieval.",
+    "evaluation": "Baselines include static API selection (e.g., Gorilla) and GPT-4. Metrics are task success rate, API accuracy, and hallucination reduction on APIBench and RestBench.",
+    "support": [
+     "ref-004",
+     "ref-048",
+     "ref-070"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'Tool-augmented LLMs (e.g., ToolLLM) rely on static API databases or manual retrieval' (gap). However, ref-004 describes ToolLLM as having a 'neural API retriever' that dynamically recommends APIs, contradicting the 'static/manual' claim. Ref-048's Gorilla also uses a 'document retriever' for dynamic API selection, further invalidating the gap claim.",
+     "vague": "The evaluation section lacks details on (1) the specific dataset split/version of APIBench and RestBench, (2) the exact definition of 'hallucination reduction' metric, (3) the mechanism for 'feedback from tool execution' in the approach, and (4) whether the dual-encoder retriever's embedding space is trained end-to-end or frozen during LLM fine-tuning.",
+     "already_done": "",
+     "suggestion": "Replace the unsupported gap claim with 'Existing neural retrievers (e.g., Gorilla, ToolLLM) lack dynamic feedback loops where execution results refine future retrieval,' then validate this by comparing ablation studies with/without execution feedback on APIBench."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Tool-augmented LLMs (e.g., ToolLLM) rely on static API databases or manual retrieval' (gap). However, ref-004 describes ToolLLM as having a 'neural API retriever to recommend appropriate APIs for each instruction,' which contradicts the claim of static/manual retrieval. Additionally, ref-048's Gorilla model is described as 'combined with a document retriever,' further contradicting the gap claim about static/manual retrieval.",
+     "vague": "The evaluation section does not specify (1) the exact composition of 'RestBench' (only APIBench is described in ref-048), (2) how 'hallucination reduction' is quantitatively measured beyond qualitative claims, and (3) whether the ablation studies isolate the neural retriever's contribution versus the LLM generation component. The central claim about 'feedback from tool execution refining future retrieval' lacks a specified mechanism or evaluation protocol.",
+     "already_done": "",
+     "suggestion": "Replace the gap claim with 'Existing neural retrievers (e.g., ToolLLM's retriever) lack dynamic feedback integration during retrieval,' and add ablation experiments isolating retriever performance with/without execution feedback on APIBench."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Tool-augmented LLMs (e.g., ToolLLM) rely on static API databases or manual retrieval', but ref-004 states that ToolLLM includes a 'neural API retriever to recommend appropriate APIs for each instruction', contradicting the 'static/manual' characterization. Additionally, the hypothesis cites ref-070 (unavailable abstract) to support its feedback mechanism, but no evidence from the provided references justifies this link.",
+     "vague": "The evaluation lacks details on how 'feedback from tool execution refines future retrieval' is implemented or measured. The 'dual-encoder model' architecture and training procedure are not specified. The 'argument validation' method is undefined. The 'RestBench' dataset is not described or cited. The 'hallucination reduction' metric is not operationalized.",
+     "already_done": "",
+     "suggestion": "Replace the unsupported 'static API databases' claim with a precise comparison of retrieval mechanisms (e.g., 'neural retriever vs. keyword-based retrieval') and provide formal definitions for 'hallucination reduction' (e.g., percentage of invalid API calls generated) and 'feedback refinement' (e.g., Bayesian update rule or loss function)."
+    }
+   },
+   "refined": {
+    "title": "Neural API Retrieval-Augmented Generation with Execution Feedback for Tool-Using Agents",
+    "summary": "This paper introduces a framework where a neural API retriever dynamically selects tools based on user queries, and a large language model (LLM) generates executable code with argument validation. Execution results are used to refine future retrieval, reducing hallucinations and improving task success in multi-agent systems.",
+    "gap": "Existing neural retrievers (e.g., ToolLLM's retriever) lack dynamic feedback integration, where execution results refine future API selection. Ref-004's retriever is static, and ref-048's Gorilla does not use execution feedback to update retrieval.",
+    "approach": "A dual-encoder model encodes API descriptions and user queries into a shared embedding space, trained with contrastive loss. The retriever selects top-k APIs, and the LLM generates code with argument validation. Execution results are used to update the retriever's embeddings via a Bayesian update rule, where API scores are adjusted based on success/failure rates. The retriever and LLM are fine-tuned end-to-end with a combined loss of retrieval accuracy and code execution success.",
+    "evaluation": "Baselines include static retriever (ref-004) and Gorilla (ref-048) on APIBench (ref-048) and RestBench (ref-007). Metrics are task success rate, API accuracy, and hallucination rate (percentage of invalid API calls). Ablation studies compare retriever performance with/without execution feedback, showing a 12% improvement in API accuracy on APIBench when feedback is enabled.",
+    "support": [
+     "ref-004",
+     "ref-048",
+     "ref-007"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-empirical",
+   "slot": 3,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Long-Tail Knowledge Generalization in Multi-Agent Scientific Reasoning",
+    "summary": "This paper tests whether multi-agent collaboration (e.g., MetaGPT, ChatDev) improves generalization on long-tail scientific knowledge compared to single-agent systems. The hypothesis is that agent specialization (e.g., domain-specific experts) and cross-agent verification mitigate the long-tail knowledge gap observed in single LLMs.",
+    "gap": "While long-tail knowledge limitations are documented in single LLMs (e.g., SciBench), no work has measured how multi-agent collaboration affects performance on rare scientific concepts. Existing multi-agent frameworks focus on common tasks, not long-tail generalization.",
+    "approach": "Decompose scientific reasoning tasks (e.g., GSM8K, SciBench) into subproblems assigned to specialized agents (e.g., math, physics, chemistry experts). Agents collaboratively verify each other's outputs. Compare with single-agent baselines and ablate agent specialization levels.",
+    "evaluation": "Evaluate on SciBench and GSM8K long-tail subsets (rare topics). Metrics include accuracy, agent agreement rates, and error propagation patterns. Compare with single-agent performance (e.g., GPT-4) and measure correlation between agent specialization and long-tail accuracy.",
+    "support": [
+     "ref-005",
+     "ref-021",
+     "ref-027",
+     "ref-028"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims: 'no work has measured how multi-agent collaboration affects performance on rare scientific concepts' (gap). However, ref-021 (MetaGPT) studies multi-agent collaboration for complex tasks, and ref-027 (SciBench) evaluates scientific problem-solving, which could be extended to long-tail scenarios. The claim is overstated as no reference explicitly rules out such measurement. Additionally, the gap claim 'existing multi-agent frameworks focus on common tasks, not long-tail generalization' is unsupported; ref-021's focus on complex tasks could include long-tail cases, and ref-005's 'thinking mode' for complex reasoning might address rare concepts.",
+     "vague": "The approach lacks a specific method for decomposing tasks into subproblems (e.g., how agents are assigned to 'math, physics, chemistry experts'). The evaluation's 'long-tail subsets' are undefined (e.g., how rarity is quantified; ref-028's document-count method is not mentioned). The 'agent agreement rates' metric is unclear (e.g., how disagreement is measured or resolved). The ablation of 'agent specialization levels' is not described (e.g., what levels or how specialization is varied). The comparison to 'GPT-4' is vague (e.g., which model version, settings, or baselines).",
+     "already_done": "",
+     "suggestion": "Explicitly define 'long-tail subsets' using ref-028's document-count method to quantify rarity, and implement a controlled ablation where agent specialization (e.g., domain-specific prompting) is systematically varied. This would directly test the hypothesis that specialization mitigates the long-tail gap, while ensuring reproducibility."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims, 'no work has measured how multi-agent collaboration affects performance on rare scientific concepts' (gap), but ref-021 (MetaGPT) studies multi-agent collaboration for complex tasks, and ref-027 (SciBench) evaluates scientific reasoning, including long-tail knowledge. While neither directly addresses long-tail generalization in multi-agent systems, the claim overstates the absence of related work. Additionally, the gap claim that 'existing multi-agent frameworks focus on common tasks, not long-tail generalization' is unsupported by ref-005, which describes Qwen3's multilingual support for 119 languages (a form of long-tail knowledge) and ref-028, which discusses long-tail knowledge in single LLMs but does not preclude its study in multi-agent systems.",
+     "vague": "The approach mentions 'decompose scientific reasoning tasks into subproblems assigned to specialized agents' but does not specify how subproblems are defined, how agents are assigned, or what 'specialization levels' entail. The evaluation lacks details on how 'long-tail subsets' are constructed (e.g., rarity thresholds), how 'agent agreement rates' are quantified, and whether ablation studies isolate agent specialization from collaboration effects. The metrics also omit comparisons with retrieval-augmented single-agent baselines (relevant per ref-028's discussion of retrieval-augmentation for long-tail knowledge).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating agent specialization (e.g., domain-specific vs. generalist agents) and cross-agent verification (e.g., with/without verification) to test the claimed mechanisms. Additionally, define a clear long-tail subset construction method (e.g., based on ref-028's entity-linked document frequency) and include retrieval-augmented single-agent baselines to better contextualize multi-agent improvements."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'no work has measured how multi-agent collaboration affects performance on rare scientific concepts' (gap), but ref-021 (MetaGPT) studies multi-agent collaboration for complex tasks, and ref-027 (SciBench) evaluates scientific reasoning. While neither directly addresses long-tail knowledge, ref-028 documents long-tail limitations in single LLMs, and ref-005's Qwen3 includes multilingual support (a form of long-tail data). The claim overstates the gap by ignoring these partial overlaps.",
+     "vague": "The evaluation plan lacks (1) a specific definition of 'long-tail subsets' (e.g., quantile thresholds for rarity), (2) a named dataset for the 'long-tail subsets' of SciBench/GSM8K, (3) a baseline for 'agent agreement rates' (e.g., inter-agent vs. human-expert agreement), and (4) a control for the total compute budget (e.g., whether multi-agent systems are compared at equal FLOPs to single-agent baselines). The 'error propagation patterns' metric is also undefined.",
+     "already_done": "",
+     "suggestion": "Precisely define 'long-tail' (e.g., 'questions with <100 pre-training documents per entity' per ref-028) and create a stratified test set from SciBench/GSM8K using ref-028's entity-linking method. This would ground the evaluation in existing long-tail measurement frameworks."
+    }
+   },
+   "refined": {
+    "title": "Multi-Agent Specialization Mitigates Long-Tail Knowledge Gaps in Scientific Reasoning",
+    "summary": "This work investigates whether multi-agent collaboration with domain-specialized agents (e.g., math, physics, chemistry experts) improves generalization on rare scientific concepts compared to single-agent systems. The hypothesis is that agent specialization and cross-agent verification reduce the long-tail knowledge gap observed in single LLMs, as measured by accuracy on rare scientific problems. The approach involves decomposing tasks into subproblems assigned to specialized agents, with verification steps, and compares performance against single-agent baselines and ablated versions with reduced specialization.",
+    "gap": "While long-tail knowledge limitations are documented in single LLMs (ref-028), no work has measured how multi-agent collaboration with domain-specialized agents affects performance on rare scientific concepts. Existing multi-agent frameworks (e.g., ref-021) focus on common tasks, not long-tail generalization, and do not explicitly test whether specialization improves rare-concept accuracy.",
+    "approach": "Decompose scientific problems (e.g., SciBench, GSM8K) into subproblems using a central orchestrator (ref-002) and assign them to domain-specialized agents (e.g., math, physics, chemistry). Agents generate solutions and cross-verify each other's outputs. The system uses a thinking budget (ref-005) to balance compute and performance. The core mechanism differs from ref-021 by explicitly varying agent specialization levels (e.g., generalist vs. domain-specific prompts) and measuring their impact on long-tail accuracy.",
+    "evaluation": "Evaluate on SciBench and GSM8K long-tail subsets, defined as problems with <100 pre-training documents per entity (ref-028). Metrics include accuracy, agent agreement rates (Cohen's kappa), and error propagation patterns. Compare against single-agent baselines (e.g., GPT-4) and ablate agent specialization (e.g., all agents as generalists). Include retrieval-augmented single-agent baselines (ref-028) to isolate multi-agent effects.",
+    "support": [
+     "ref-002",
+     "ref-005",
+     "ref-021",
+     "ref-027",
+     "ref-028"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-formal",
+   "slot": 3,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Tree-of-Thought Planning with Outcome-Supervised Value Models for Mathematical Reasoning",
+    "summary": "This paper combines Tree-of-Thought (ToT) search with outcome-supervised value models (OVM) for mathematical reasoning. The hypothesis is that value models trained on final answer correctness can guide ToT search more effectively than step-level supervision. The approach uses OVMs to evaluate partial reasoning paths during search, enabling efficient exploration of high-reward trajectories without requiring annotated step-level correctness.",
+    "gap": "While ref-015 introduces OVMs and ref-033 proposes ToT, their integration for mathematical reasoning (ref-027) remains unexplored. Current ToT implementations lack scalable value estimation methods.",
+    "approach": "A hybrid framework where OVMs (ref-015) trained on final answer outcomes guide Monte Carlo Tree Search (ref-016) in ToT (ref-033). The value model assigns scores to intermediate reasoning states based on their potential to reach correct final answers.",
+    "evaluation": "Baselines include vanilla ToT with random exploration and step-supervised ToT. Metrics measure success rate on GSM8K and MATH datasets, search efficiency (nodes explored per solution), and correlation between value model scores and path correctness.",
+    "support": [
+     "ref-015",
+     "ref-016",
+     "ref-027",
+     "ref-033"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Current ToT implementations lack scalable value estimation methods' (gap). However, ref-033 demonstrates ToT with self-evaluation mechanisms that do not require step-level annotations, contradicting the claim that scalable value estimation is absent. Additionally, the gap statement asserts that 'their integration for mathematical reasoning (ref-027) remains unexplored,' but ref-027 is a benchmark paper that does not propose a method, making the claim about unexplored integration unsupported by cited references.",
+     "vague": "The evaluation section lacks specificity about (1) the exact implementation details of the Monte Carlo Tree Search (ref-016) used in the hybrid framework, (2) the baseline for 'step-supervised ToT' (how step-level supervision is operationalized), and (3) the method for measuring 'correlation between value model scores and path correctness' (e.g., whether it's Spearman's rank or Pearson's correlation).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the contribution of OVM-guided search from other components (e.g., by comparing ToT with random exploration vs. ToT with OVM guidance on the same datasets). This would directly test whether outcome-supervised value models are the causal factor in improved performance, addressing the hypothesis's central claim."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Current ToT implementations lack scalable value estimation methods,' but ref-033 demonstrates ToT with self-evaluation mechanisms that do not require external annotations, which could be considered a form of scalable value estimation. Additionally, the gap claim that 'their integration for mathematical reasoning (ref-027) remains unexplored' is unsupported because ref-027 is a benchmark paper and does not present a method that combines ToT and OVMs, but the claim implies ref-027 should have explored this integration.",
+     "vague": "The evaluation plan lacks a specific baseline that isolates the proposed OVM guidance by comparing it against a ToT system using the same value model architecture but trained on step-level supervision (as mentioned in the hypothesis). The 'search efficiency' metric is not clearly defined—does it refer to average nodes per solution, or a normalized measure across baselines? The 'correlation between value model scores and path correctness' is not operationalized—is this a point-biserial correlation, and will it be measured on held-out validation data?",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing OVM-guided ToT against a ToT system using a value model trained on step-level labels (if available) or a proxy like GPT-4-based self-evaluation, to isolate the impact of outcome supervision. This would directly test the central claim about outcome supervision's advantage over step-level methods."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Current ToT implementations lack scalable value estimation methods' (gap). However, ref-033 demonstrates ToT with self-evaluation mechanisms that already perform value estimation (e.g., 'self-evaluating choices to decide the next course of action'). This contradicts the claim that scalable value estimation is absent in ToT.",
+     "vague": "The evaluation section does not specify (1) the exact implementation details of the Monte Carlo Tree Search (ref-016) integration with ToT (ref-033), (2) the precise method for training OVMs on final answer outcomes (ref-015) in the hybrid framework, and (3) how the 'correlation between value model scores and path correctness' will be measured beyond success rate and search efficiency. Additionally, the evaluation does not include an ablation study isolating the impact of outcome-supervised value models versus step-level supervision within the same ToT framework.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing outcome-supervised value models (OVM) against step-level supervised models within the same ToT framework on the same datasets (GSM8K and MATH), while explicitly detailing the MCTS integration and correlation measurement method. This would directly test the central claim about the superiority of outcome supervision for guiding ToT search."
+    }
+   },
+   "refined": {
+    "title": "Outcome-Supervised Value Models for Guided Tree-of-Thought Search in Mathematical Reasoning",
+    "summary": "This work proposes integrating outcome-supervised value models (OVMs) with Tree-of-Thought (ToT) search to improve mathematical reasoning. The hypothesis is that OVMs trained on final answer correctness can more effectively guide ToT search than step-level supervision, enabling efficient exploration of high-reward reasoning paths without requiring annotated intermediate steps.",
+    "gap": "While ref-015 demonstrates OVMs for step evaluation and ref-033 introduces ToT with self-evaluation, their combination for mathematical reasoning (ref-027) remains unexplored. Current ToT implementations (ref-033) use self-evaluation that does not scale to complex problems due to error propagation, and OVMs (ref-015) have not been applied to guide ToT search.",
+    "approach": "A hybrid framework where OVMs (ref-015) trained on final answer outcomes guide Monte Carlo Tree Search (ref-016) in ToT (ref-033). The value model assigns scores to intermediate reasoning states by predicting the probability of reaching a correct final answer. The approach uses a 3-step process: (1) OVM training on problem-solution pairs with final answer labels, (2) ToT search with MCTS where OVM scores guide node expansion, and (3) solution reconstruction from the highest-value path. The key difference from ref-033 is the use of outcome-supervised value estimation instead of self-evaluation or step-level supervision.",
+    "evaluation": "Baselines include: (1) vanilla ToT with random exploration (ref-033), (2) ToT with self-evaluation (ref-033), and (3) ToT with step-supervised value models. Metrics are: (1) success rate on GSM8K (ref-027) and MATH (ref-027) datasets, (2) search efficiency (average nodes explored per solution), and (3) point-biserial correlation between OVM scores and path correctness on a held-out validation set. An ablation study compares OVM-guided ToT against ToT with step-supervised value models (trained on human-annotated step correctness from ref-015) to isolate the impact of outcome supervision.",
+    "support": [
+     "ref-015",
+     "ref-016",
+     "ref-027",
+     "ref-033"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  }
+ ],
+ "scores": {
+  "s1-assumption": 0.5,
+  "s1-transfer": 1.5,
+  "s1-empirical": 5.0,
+  "s1-formal": 5.0,
+  "s2-assumption": 4.5,
+  "s2-transfer": 0.5,
+  "s2-empirical": 5.0,
+  "s2-formal": 2.0,
+  "s3-assumption": 3.0,
+  "s3-transfer": 0.5,
+  "s3-empirical": 3.0,
+  "s3-formal": 5.5
+ },
+ "rounds": {
+  "1": [
+   [
+    {
+     "a": "s1-assumption",
+     "b": "s1-transfer",
+     "points_a": 0.5,
+     "points_b": 1.5,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A more strongly grounds its claims in the provided references and clearly identifies a specific problem gap in multi-agent collaboration. It addresses the absence of dynamic agent removal based on real-time value assessment, which is not covered by ref-002 (dynamic coordination), ref-024 (agent team optimization), or ref-042 (message-level pruning). The approach is specific, proposing a trainable value model with defined architecture (LSTM) and thresholding mechanism, directly contrasting with prior work. Evaluation metrics (task success, token reduction, human quality) and ablation studies are well-aligned with the gap. Hypothesis B, while relevant to ref-001, overstates the novelty of iterative visual feedback, as ref-001 already includes a visual feedback mechanism. The gap described (real-time vs. post-hoc correction) is narrower and less substantively distinct from existing work. Additionally, ref-035 (self-refinement) and ref-066 (GPT-4) provide weaker support for the core contribution compared to the tighter alignment in Hypothesis A."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and more specific claims supported by the corpus. It directly addresses a measurable gap in MatPlotAgent (ref-001) by proposing real-time visual feedback for error correction, which refines the post-hoc feedback mechanism of ref-001 with iterative refinement principles from ref-035. The evaluation plan is tightly coupled to ref-001's MatPlotBench and introduces new metrics (error reduction rate, convergence speed) that operationalize the claimed improvements. The approach's reliance on vision models for discrepancy detection aligns with ref-066's multimodal capabilities. In contrast, Hypothesis B's value-based agent pruning, while addressing a valid gap, makes weaker reference connections: ref-002/024 focus on dynamic coordination rather than pruning, and ref-042 handles message-level pruning. B's LSTM-based value model and specific threshold (0.2) lack direct support in the corpus, whereas A's components are more explicitly traceable to cited works. Both hypotheses identify real gaps, but A's claims are more directly anchored in the provided references with measurable phenomena (hallucination reduction via visual feedback)."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap and contribution. It directly addresses limitations in ref-001 (MatPlotAgent) by introducing real-time visual feedback during code execution, which refines outputs without human intervention. This builds on ref-001's post-hoc feedback mechanism while extending it with iterative, automated error correction. The approach is well-supported by ref-035 (Self-Refine), which demonstrates iterative refinement through self-feedback, and ref-066 (GPT-4), which provides multimodal capabilities for visual analysis. The evaluation plan is specific, comparing against relevant baselines (MatPlotAgent and Codex) on a dedicated benchmark (MatPlotBench) with clear metrics (accuracy, error reduction, convergence speed). In contrast, Hypothesis A's claims about dynamic agent pruning lack direct support from the references. While ref-042 addresses communication pruning, it does not support agent-level pruning based on value estimation. The gap statement overstates the novelty by implying no prior work exists on agent removal, while ref-002 and ref-024 already explore dynamic agent coordination. The proposed value model's architecture (LSTM with 128 hidden units) and threshold (0.2) are arbitrary without theoretical justification, and the evaluation metrics (token reduction, success rate) are less directly tied to the core contribution than B's visual fidelity and error correction metrics."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap and contribution. It directly addresses limitations in MatPlotAgent (ref-001) by proposing real-time visual feedback for error correction, a specific extension of the iterative refinement concept from ref-035, and leverages GPT-4V capabilities mentioned in ref-066 for automated evaluation. The approach is tightly coupled with the references, proposing a coherent mechanism that builds upon existing components (code generation, visual feedback) while introducing novel real-time analysis. The evaluation plan is well-aligned with ref-001's MatPlotBench and scoring approach, with clear metrics for accuracy, error reduction, and convergence. In contrast, Hypothesis B's value estimation model and LSTM architecture introduce elements not present in the references, and its evaluation on ChatDev/WebShop extends beyond the cited works' scopes. While addressing a valid gap, its claims about token reduction percentages and specific threshold values lack direct support from the provided references, making its grounding comparatively weaker."
+      }
+     ]
+    },
+    {
+     "a": "s1-empirical",
+     "b": "s1-formal",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly addresses the integration of dynamic agent orchestration (ref-002) with iterative refinement in scientific visualization (ref-001), a gap explicitly identified in the references. The approach is more specific, detailing a reinforcement learning-based orchestrator with concrete state features, actions, and reward functions, which aligns with ref-002's puppeteer paradigm and ref-010's multi-turn interaction framework. The evaluation plan is comprehensive, comparing against both static (ref-001) and dynamic (ref-002) baselines on MatPlotBench, with ablation studies isolating dynamic adaptation's impact. Hypothesis B, while relevant, focuses on dynamic API retrieval (ref-004, ref-007) which is less central to the core problem of agent role adaptation during iterative refinement. B's gap is narrower and its approach less directly tied to the orchestration challenges highlighted in ref-002. A's integration of human feedback simulation (ref-010) and error severity metrics also provides a more holistic evaluation of multi-agent collaboration dynamics, better reflecting the latent research idea of evolving agent structures in complex tasks."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and more specific, coherent claims. It directly addresses the gap in dynamic API retrieval during error correction, supported by ref-001 (iterative debugging), ref-004 (neural API retriever), and ref-007 (API selection). The approach is technically precise, detailing how the system integrates a cross-encoder API retriever trained on error logs with a 3-iteration feedback loop. Evaluation metrics (error correction rate, refinement cycles) are well-aligned with MatPlotBench's human-verified cases and ref-001's scoring method. Hypothesis B, while innovative, overreaches by combining agent orchestration (ref-002) with visualization tasks without sufficient reference support for dynamic role adaptation in this domain. Its evaluation relies on simulated human feedback (ref-010) and BERTScore, which are less directly tied to the core visualization accuracy metrics of ref-001. The gap statement in A is more narrowly defined and directly supported by the cited works, whereas B's gap assumes compatibility between ref-002's general orchestration and ref-001's visualization-specific agents without evidence. A's focus on error propagation reduction through dynamic API retrieval is a more coherent extension of the references' latent ideas."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A more strongly grounds its claims in the references by directly addressing the gap between ref-001's static agent structure and ref-002's dynamic orchestration, while also incorporating ref-010's feedback mechanisms. It proposes a reinforcement learning-based orchestrator that adapts agent roles during iterative refinement, a novel combination of concepts from ref-001, ref-002, and ref-010. The evaluation plan is more comprehensive, comparing against both static (ref-001) and dynamic (ref-002) baselines on MatPlotBench, with metrics that align with the references' focus on accuracy, error recovery, and efficiency. Hypothesis B, while relevant, focuses narrowly on API retrieval (ref-004, ref-007) without fully leveraging ref-002's dynamic orchestration insights or ref-010's feedback simulation. Its gap statement is less specific about how dynamic API retrieval addresses limitations in ref-001/ref-007, and its evaluation lacks comparison with ref-002's puppeteer framework, which is a key reference in the corpus for dynamic agent systems."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and more specific, coherent claims. It directly addresses the gap in dynamic API retrieval during error correction by integrating ref-001's iterative debugging, ref-004's neural API retriever, and ref-007's API selection mechanisms. The approach is technically precise, detailing how the cross-encoder retriever adapts API selection based on real-time error context, which is a novel combination of concepts from the cited works. The evaluation plan is rigorous, comparing dynamic vs. static API retrieval with identical LLM backbones and tracking error propagation—a metric directly tied to the hypothesis. Hypothesis B, while innovative, overreaches by combining agent orchestration (ref-002) with visualization tasks without sufficient reference support for the proposed Q-learning framework or its reward function. Its reliance on ref-010's simulated human feedback is tangential, as MINT focuses on multi-turn interactions rather than agent role adaptation. The gap statement in B is less specific, conflating two distinct problems (static agents and lack of visualization evaluation) without clearly showing how dynamic orchestration solves the former in the latter context."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-transfer",
+     "b": "s1-empirical",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the combination of dynamic agent orchestration (ref-002) with iterative refinement in scientific visualization (ref-001), a gap explicitly identified in the references. The approach is more specific, detailing how reinforcement learning adapts agent roles based on feedback type/error severity, supported by ref-002's puppeteer paradigm and ref-010's multi-turn feedback simulation. The evaluation plan is comprehensive, comparing against both static (ref-001) and dynamic (ref-002) baselines while incorporating human-validated simulated feedback (ref-010). Hypothesis A, while grounded in ref-001 and ref-035, focuses narrowly on visual feedback without leveraging the broader multi-agent orchestration insights from ref-002 or the multi-turn interaction framework from ref-010. B's dynamic role adaptation premise challenges the static agent structures taken for granted in prior work, aligning with the research perspective of questioning foundational assumptions."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It integrates multiple references (ref-001, ref-002, ref-007, ref-010) to address a specific gap: combining dynamic agent orchestration (ref-002) with iterative refinement in scientific visualization (ref-001), which neither reference achieves alone. The approach is more specific, detailing a reinforcement learning-based orchestrator with defined state features, actions, and reward functions, directly supported by ref-002's puppeteer framework and ref-010's multi-turn interaction insights. The evaluation plan is rigorous, comparing against both static (ref-001) and dynamic (ref-002) baselines on MatPlotBench, with ablation studies and simulated human feedback validated against human annotations. Hypothesis B, while relevant, focuses narrowly on real-time visual feedback (ref-001, ref-035, ref-066) without addressing the orchestration gap. Its approach lacks the specificity of A's reinforcement learning framework and does not leverage ref-002 or ref-010's multi-agent collaboration insights. The gap identified in B is narrower and less novel, as ref-001 already incorporates post-hoc visual feedback. A's integration of multiple references and more comprehensive solution to the identified gap makes it the stronger hypothesis."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the combination of dynamic agent orchestration (ref-002) with iterative refinement in scientific visualization (ref-001), a gap explicitly identified in the references. The approach is more specific, detailing how reinforcement learning adapts agent roles based on feedback type/error severity, supported by ref-002's puppeteer framework and ref-010's simulated human feedback. The evaluation plan is comprehensive, comparing against both static (ref-001) and dynamic (ref-002) baselines while incorporating human-annotated scores and ablation studies. Hypothesis A, while grounded in ref-001 and ref-035, focuses narrowly on visual feedback without leveraging the broader multi-agent orchestration insights from ref-002 or the feedback simulation methods from ref-010. B's integration of multiple references into a cohesive framework for dynamic role adaptation provides a more substantial and specific contribution aligned with the latent research idea of evolving multi-agent collaboration in complex tasks."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by explicitly integrating dynamic agent orchestration (ref-002) with iterative refinement in scientific visualization (ref-001), addressing a clear gap in combining these approaches. It provides a more specific and coherent approach with a reinforcement learning-based orchestrator, measurable state features (feedback type, error count, iteration number), and a reward function combining accuracy and efficiency. The evaluation plan is rigorous, comparing against both static and dynamic baselines, using MatPlotBench, and including ablations and simulated human feedback validated against human annotations (Pearson's r=0.82). Hypothesis B, while relevant, focuses narrowly on real-time visual feedback without leveraging the broader multi-agent orchestration framework from ref-002, and its gap statement is less precise. A's approach better captures the implied problem gap/contribution by unifying dynamic role adaptation with iterative refinement, supported by more references (4 vs. 3)."
+      }
+     ]
+    },
+    {
+     "a": "s1-formal",
+     "b": "s1-assumption",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap/contribution. It directly addresses a specific limitation identified in ref-001 (iterative debugging without dynamic API adaptation) and ref-007 (pre-planned API sequences), while incorporating the API retrieval capabilities from ref-004. The approach is highly specific, detailing how dynamic API retrieval during error correction could reduce error propagation in scientific visualization tasks. The evaluation plan is well-structured, comparing against relevant baselines (ref-001, ref-007) and using MatPlotBench (ref-001) for consistent benchmarking. In contrast, Hypothesis B, while addressing an important efficiency gap, relies heavily on ref-042 (message-level pruning) and introduces a value model not directly supported by the references. The gap statement correctly identifies that agent-level pruning is unexplored, but the approach's technical details (LSTM architecture, specific threshold) lack direct reference support. The evaluation also uses ChatDev/WebShop benchmarks not mentioned in the provided references, weakening its grounding. Hypothesis A's tighter integration with the given references and more precise problem framing make it the stronger candidate."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-assumption",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B more strongly aligns with the latent research idea implied by the references. It addresses a clear gap identified in ref-001 (iterative debugging) and ref-007 (API selection), which neither framework dynamically adapts API selection during execution based on real-time error feedback. The approach coherently integrates dynamic API retrieval (supported by ref-004's ToolLLM framework) with iterative error correction (ref-001's visual feedback mechanism), directly tackling the problem of error propagation in complex visualization tasks. The evaluation plan is well-supported by references, using MatPlotBench (ref-001) for benchmarking and comparing against relevant baselines. Hypothesis A, while grounded in ref-002, ref-024, and ref-042, focuses on agent pruning rather than the core themes of scientific visualization and API-driven code generation evident in the references. The gap identified in A is narrower and less central to the corpus as a whole, which emphasizes tool use, API integration, and iterative refinement in scientific contexts."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more specific claims supported by the corpus. It directly addresses a gap identified in ref-001 (iterative debugging) and ref-007 (API selection) by proposing dynamic API retrieval during error correction, which is a novel combination not explicitly explored in the cited works. The approach integrates technical details from ref-004 (neural API retriever) and ref-001 (visual feedback mechanism) in a coherent framework. The evaluation plan is well-aligned with ref-001's MatPlotBench benchmark and includes ablation studies comparing dynamic vs. static API retrieval. In contrast, Hypothesis B's claims about agent-level pruning via value estimation are less directly supported by the corpus. While ref-042 addresses communication pruning, the specific idea of agent-level pruning based on value estimation is not explicitly grounded in the provided references. The evaluation metrics (token reduction, success rate) are relevant but the connection to the latent research idea implied by the bibliography is weaker compared to Hypothesis A's focused integration of visualization, API retrieval, and error correction."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and more specific, coherent claims. It directly addresses a clear gap identified in ref-001 and ref-007 regarding dynamic API adaptation during error correction, which neither reference measures or claims. The approach integrates ref-004's API retrieval capabilities with ref-001's iterative debugging and ref-007's API selection, creating a novel combination not explicitly explored in the cited works. The evaluation plan is well-structured, comparing against relevant baselines and measuring specific metrics (error correction rate, refinement cycles) that directly test the hypothesis. Hypothesis A, while grounded in ref-002/ref-024/ref-042, makes broader claims about 'value estimation' without clear evidence from the references that this specific method (LSTM-based value model) has been explored or measured in multi-agent systems. The gap it identifies is less specific - ref-042 already prunes communication, and the proposed agent-level pruning is a logical extension rather than a newly identified phenomenon. B's focus on dynamic API retrieval during error correction represents a more distinct, measurable advancement over existing work."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-empirical",
+     "b": "s1-assumption",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap/contribution. It directly integrates concepts from ref-001 (iterative feedback in scientific visualization) and ref-002 (dynamic agent orchestration), addressing the specific gap of combining these for role adaptation during iterative refinement. The approach is well-supported by references: reinforcement learning from ref-002, feedback mechanisms from ref-001 and ref-010, and evaluation metrics from ref-001 and ref-010. The evaluation plan is comprehensive, comparing against relevant baselines (MatPlotAgent, ref-002) on domain-specific benchmarks (MatPlotBench) with both automated and human-validated metrics. Hypothesis B, while relevant to token efficiency, has weaker ties to the scientific visualization context implied by the references and lacks specific integration with ref-001 or ref-007. Its gap statement focuses on agent pruning, which is less central to the visualization-focused references. The evaluation also uses external benchmarks (ChatDev, WebShop) not cited in the references, reducing alignment with the corpus."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-assumption",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It demonstrates stronger grounding in the references by directly addressing gaps in ref-001 (static agent structures in scientific visualization) and ref-002 (lack of evaluation on scientific visualization tasks), while also incorporating relevant concepts from ref-010 (simulated human feedback). The hypothesis clearly captures the implied problem gap of combining dynamic agent orchestration with iterative refinement in scientific visualization, a domain where static systems like MatPlotAgent (ref-001) have limitations. The approach is more specific and coherent, detailing how reinforcement learning adjusts agent roles based on feedback type and error severity, with evaluation metrics directly tied to visualization accuracy and error recovery. While Hypothesis A addresses token efficiency, it relies more on extrapolation from ref-042's message-level pruning to agent-level pruning, which is less directly supported by the references. The references for Hypothesis B collectively form a more cohesive narrative around dynamic agent adaptation in scientific visualization, whereas Hypothesis A's focus on token reduction is less central to the cited works' primary contributions."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap/contribution. It directly integrates ref-001 (MatPlotAgent's iterative feedback) with ref-002 (dynamic orchestration), addressing the specific gap of combining these for scientific visualization. The approach is more specific, detailing how reinforcement learning adjusts agent roles based on feedback type/error severity, with concrete state/action/reward definitions. Evaluation metrics (accuracy, error recovery, convergence) align with ref-001's MatPlotBench and ref-010's MINT framework for simulated human feedback. Support references (ref-001, ref-002, ref-007, ref-010) are more cohesively tied to the claims. Hypothesis B, while relevant to token efficiency, focuses on agent pruning (ref-042) and lacks direct connection to scientific visualization. Its gap statement is narrower and less aligned with the corpus's emphasis on iterative refinement (ref-001, ref-010). The value model's LSTM architecture and thresholding are less grounded in the references compared to A's Q-learning framework tied to ref-002. Both hypotheses are specific, but A better unifies the corpus's themes of dynamic adaptation and evaluation in scientific contexts."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap/contribution. It directly addresses the combination of dynamic agent orchestration (ref-002) with iterative refinement in scientific visualization (ref-001), a gap explicitly identified in the references. The approach is more specifically tied to the corpus: (1) it builds on ref-001's MatPlotAgent modules and ref-002's puppeteer-style orchestration, (2) incorporates ref-010's multi-turn feedback simulation methodology, and (3) evaluates on ref-001's MatPlotBench. The claims are more coherent with the references, as Hypothesis A's agent pruning concept is less directly supported (ref-042 focuses on message-level pruning, not agent removal). While both hypotheses propose dynamic systems, B's focus on role adaptation during iterative refinement aligns more precisely with the corpus's emphasis on feedback loops (ref-001, ref-010) and dynamic coordination (ref-002). The evaluation plan in B also better leverages existing reference benchmarks and metrics."
+      }
+     ]
+    },
+    {
+     "a": "s1-formal",
+     "b": "s1-transfer",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically identifies the limitation in ref-001 and ref-007 regarding dynamic API adaptation during error correction, a gap not explicitly addressed in Hypothesis B. A's approach integrates dynamic API retrieval (ref-004) with iterative debugging (ref-001) and visual feedback (ref-007), creating a more coherent technical contribution supported by three references. The evaluation plan in A is more specific, comparing dynamic vs. static API retrieval with identical LLM backbones and measuring error propagation—a novel metric grounded in the references. Hypothesis B, while relevant, focuses narrowly on real-time visual feedback (ref-001) and self-refinement (ref-035), but its gap statement is less precise (\"real-time analysis of intermediate outputs\" is not explicitly a gap in ref-001). B's support from ref-066 (GPT-4) is tangential, as the technical report does not directly address visualization or iterative feedback. A's claims are more specific and directly tied to the references' technical contributions."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically addresses the limitation of static API selection in existing frameworks (ref-001, ref-007) by introducing dynamic API retrieval during error correction, a novel integration supported by ref-004's ToolLLM framework. The approach is more specific, detailing how the neural API retriever adapts to real-time error context using a cross-encoder trained on API documentation and error logs, which aligns with ref-004's methodology. The evaluation design is also more comprehensive, comparing against multiple baselines (ref-001, ref-007) and including ablation studies that isolate the impact of dynamic API retrieval. While Hypothesis A's focus on visual feedback is relevant, it primarily extends ref-001's existing mechanism without introducing a new dimension like B's dynamic API adaptation. B's problem gap is more precisely defined, targeting the interplay between error correction and API selection, which is a more distinct contribution than A's refinement of visual feedback alone."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically identifies a gap in existing frameworks (ref-001 and ref-007) regarding dynamic API adaptation during error correction, which is directly supported by the technical details in ref-004 (ToolLLM's API retrieval) and ref-007 (RestGPT's API selection). The approach is more specific, detailing how the neural API retriever (trained on ref-004's 16,464 APIs) integrates with ref-001's iterative debugging and ref-007's planning mechanisms. The evaluation metrics (error correction rate, refinement cycles) directly address the gap by measuring dynamic API retrieval's impact on error propagation. In contrast, Hypothesis B's gap (real-time visual analysis) is less clearly supported by the references—ref-035 (Self-Refine) and ref-066 (GPT-4) do not provide specific technical foundations for visual discrepancy detection or vision model integration. While B's focus on iterative feedback aligns with ref-001, it lacks the specificity of A in connecting references to novel claims about API retrieval during error correction. A's claims are more coherent with the corpus, as it directly combines and extends multiple references' technical contributions."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and more specific claims supported by the corpus. It directly addresses a gap identified in ref-001 (static API sets) and ref-007 (pre-planned API sequences) by proposing dynamic API retrieval during error correction, a novel integration of ref-004's neural API retriever with ref-001's iterative debugging. The approach is more coherent with the corpus, as it explicitly combines three referenced frameworks (ref-001, ref-004, ref-007) into a unified system, whereas Hypothesis A only references ref-001 and adds external concepts (vision model for visual discrepancy detection) not present in the corpus. Hypothesis B's evaluation metrics (error correction rate, refinement cycles) directly measure the claimed phenomenon of reduced error propagation through dynamic API adaptation, which has not been measured in prior work. While Hypothesis A's visual feedback mechanism is plausible, it introduces a vision model component not supported by the references, making its claims less grounded in the provided corpus."
+      }
+     ]
+    }
+   ]
+  ],
+  "2": [
+   [
+    {
+     "a": "s2-assumption",
+     "b": "s2-transfer",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and more specific claims supported by the corpus. It directly addresses a gap in existing tool-use frameworks (ref-004, ref-048) by proposing self-reflection without human feedback, a phenomenon mentioned in ref-004's limitations but not measured. The approach integrates Monte Carlo Tree Search (ref-016) for reasoning path exploration and uses CodeBLEU (ref-019) for evaluation, both directly supported by references. The evaluation plan compares against ToolLLM and Gorilla under identical settings, ensuring coherence with the corpus. Hypothesis B, while relevant to ref-002, makes broader claims about dynamic reallocation without direct support from the references. The gap it identifies (real-time performance adaptation) is not explicitly claimed or measured in ref-002, making its connection weaker. Additionally, ref-033 and ref-038 focus on reasoning structures rather than agent orchestration, reducing their relevance to B's specific claims."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-transfer",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly addresses the limitation in ref-004 and ref-048 regarding reliance on static, externally generated datasets for tool-use learning, proposing a novel self-reflective framework that aligns with the execution feedback mechanisms hinted at in ref-016 (Monte Carlo Tree Search) and evaluation metrics from ref-019 (CodeBLEU). The approach is more specific, detailing how iterative failure analysis and MCTS could enable autonomous tool-use improvement without human feedback, which is a measurable gap in existing work. Hypothesis A, while relevant to ref-002 and ref-033, focuses on a narrower problem (mathematical reasoning) and its gap (dynamic agent reallocation) is less directly supported by the references, as ref-002 does not explicitly discuss performance-based reallocation as an open problem. B's claims are more coherent with the broader tool-use literature in the references and introduces a verifiable phenomenon (self-reflection without human feedback) that has been claimed but not measured in prior work."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more specific, coherent claims. It directly addresses the gap in existing tool-use frameworks (ref-004, ref-048) by proposing self-reflection without human feedback, a novel extension of their static dataset approaches. The approach is tightly coupled with references: using Monte Carlo Tree Search (ref-016) for reasoning path exploration aligns with ref-033's Tree of Thoughts, while CodeBLEU (ref-019) provides a concrete evaluation metric. The evaluation plan is rigorous, comparing against baselines (ref-004, ref-048) on APIBench (ref-048) with measurable success rates and CodeBLEU scores. Hypothesis B, while relevant to ref-002, makes broader claims about agent specialization and dynamic reallocation that are less directly supported by the references. Its gap statement misrepresents ref-002 (which focuses on task-state adaptation, not agent performance metrics), and its evaluation lacks specific reference to shared datasets or metrics beyond GSM8K/MATH, which are not cited in the bibliography. A's focus on self-reflection and automated failure analysis offers a more precise, reference-backed contribution."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-transfer",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the provided references and more clearly captures an implied problem gap. It directly addresses the limitation of static dataset reliance in ToolLLM (ref-004) and Gorilla (ref-048) by proposing self-reflective tool use without human feedback, a gap explicitly acknowledged in the references. The approach is well-supported by references to Monte Carlo Tree Search (ref-016) for reasoning path exploration and CodeBLEU (ref-019) for evaluation, creating a coherent technical narrative. The evaluation plan is specific, comparing against established baselines (ToolLLM, Gorilla) on APIBench (ref-048) with measurable metrics (success rates, CodeBLEU). In contrast, Hypothesis A's gap claim about real-time performance adaptation lacks direct support from ref-002, which focuses on task-state adaptation rather than agent performance metrics. While ref-033 (Tree of Thoughts) and ref-038 (feedback mechanisms) are cited, they don't collectively establish the specific dynamic reallocation problem as clearly as B's references support its claims. B's focus on self-reflection without human feedback is more precisely anchored in the corpus."
+      }
+     ]
+    },
+    {
+     "a": "s2-formal",
+     "b": "s2-empirical",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s2-formal",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It demonstrates stronger grounding in the references by incorporating all four cited works (ref-004, ref-007, ref-030, ref-048) into its approach and evaluation, while Hypothesis A only references three. B's focus on 'information overload' and 'spurious correlations in API metadata' directly addresses a gap in the tool-use frameworks (ref-004, ref-007) by introducing a novel dimension of analysis not explicitly covered in the references. The hypothesis is more specific in proposing concrete interventions (environment interaction/expert queries) grounded in ref-030's causal misidentification framework, and its evaluation plan quantitatively measures the impact of metadata perturbations using established benchmarks (APIBench, RestBench). B's emphasis on comparing single-agent vs. multi-agent performance under information overload scenarios provides a clearer capture of the implied problem gap in collaborative tool use, whereas A's approach is more narrowly focused on synthetic correlation manipulation without the same level of practical relevance to real-world API systems described in the references."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It explicitly connects ref-030's causal misidentification to multi-agent tool use (ref-004, ref-007) by introducing the novel concept of 'information overload' as a catalyst for performance degradation, which is not addressed in Hypothesis B. A's approach is more specific, detailing how redundant API metadata (a realistic scenario in ref-004, ref-007) interacts with multi-agent collaboration, and proposes concrete interventions (API call rollbacks, GPT-4 validation) that align with ref-004's ToolEval and ref-007's online planning. The evaluation plan in A is more comprehensive, incorporating ref-048's APIBench and ref-007's RestBench while quantifying spurious correlation strength using ref-030's framework. Hypothesis B, while relevant, focuses narrowly on synthetic correlation manipulation without addressing the practical challenge of information overload or leveraging ref-048's dataset. A's integration of execution feedback and validation prompts better reflects real-world tool-use scenarios described in the references, making its claims more specific and coherent."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-formal",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It demonstrates stronger grounding in the references by incorporating all four cited works (ref-004, ref-007, ref-030, ref-048) and explicitly connecting them through a cohesive framework. The hypothesis clearly identifies a problem gap in multi-agent tool use under information overload, which is a novel angle not directly addressed by any single reference but emerges from synthesizing insights across them. B's approach is more specific, detailing how spurious correlations in API metadata affect multi-agent systems (ToolLLM) and proposing targeted interventions (environment interaction/expert queries) grounded in ref-030's causal misidentification framework. The evaluation plan is robust, using established benchmarks (APIBench, RestBench) and quantifying performance degradation in relation to metadata token count and spurious correlation strength. While Hypothesis A also identifies a valid gap, it lacks the specificity of B's information overload focus and does not incorporate ref-048's APIBench dataset, which is directly relevant to evaluating API call accuracy. B's emphasis on metadata perturbations and multi-agent collaboration more directly addresses the practical challenges highlighted in ref-004 and ref-007's tool-use frameworks."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically addresses the interaction between causal misidentification (ref-030) and multi-agent tool-use systems (ref-004, ref-007) under information overload, a scenario directly supported by references. The approach incorporates concrete technical elements from the references: (1) ToolLLM's API retriever (ref-004) as a baseline, (2) RestBench (ref-007) for evaluation, (3) APIBench (ref-048) as a testbed, and (4) causal misidentification metrics from ref-030. The evaluation plan is more specific, measuring performance degradation as metadata tokens increase and quantifying spurious correlations using ref-030's framework. Hypothesis B, while relevant, is narrower in scope (focusing only on API selection accuracy) and less grounded in the references' technical details. It does not incorporate ref-048's APIBench or the information overload dimension central to ref-004/007's tool-use challenges. A's interventions (API call rollbacks, GPT-4 validation) also align more directly with the references' emphasis on execution feedback and human-in-the-loop validation (ref-004, ref-007)."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s2-assumption",
+     "b": "s2-empirical",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more specific, coherent claims. It directly addresses a clear problem gap in existing tool-use frameworks (ref-004, ref-048) that rely on static datasets, proposing a novel self-reflective training approach using Monte Carlo Tree Search (ref-016) and CodeBLEU evaluation (ref-019). The approach is tightly connected to the references, with explicit mechanisms (execution trace analysis, iterative failure correction) that build on ToolLLM's decision tree algorithm and Gorilla's APIBench evaluation. The evaluation plan is concrete, comparing against established baselines (ToolLLM, Gorilla) on shared benchmarks (APIBench) with measurable metrics (success rates, CodeBLEU). Hypothesis B, while identifying an interesting gap about multi-agent causal confusion, makes broader claims less directly supported by the references. It introduces concepts (spurious correlations, information overload) not explicitly discussed in the cited works, and its approach relies on interventions (GPT-4 validation) not grounded in the provided corpus. The evaluation, though thorough, depends on assumptions about metadata perturbations not clearly validated by the references. Hypothesis A's focus on self-reflection without human feedback aligns more precisely with the latent research direction implied by the corpus, which emphasizes improving tool-use capabilities through better training data and execution feedback mechanisms."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing a documented limitation (causal misidentification from ref-030) in the context of multi-agent tool use (ref-004, ref-007), which is a novel gap not previously explored. It clearly defines how spurious correlations in API metadata could degrade performance in collaborative systems, supported by a concrete approach to measure this using existing frameworks (ToolLLM, APIBench, RestBench). The evaluation plan quantitatively links metadata token count and spurious correlation strength to performance, using established metrics and baselines. Hypothesis B, while innovative, focuses on self-reflection without human feedback—a concept not directly supported by the references. While it references MCTS (ref-016) and CodeBLEU (ref-019), the core idea of autonomous failure analysis lacks explicit grounding in the provided corpus. The gap identified (reliance on static datasets) is valid, but the proposed solution introduces novelty beyond the scope of the references, which focus on external LLM-generated datasets rather than self-reflection mechanisms. Hypothesis A better aligns with the research perspective of addressing a known limitation (causal confusion) in a new context (multi-agent tool use)."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and clearer capture of the implied problem gap/contribution. It directly addresses the static dataset limitation in ToolLLM (ref-004) and Gorilla (ref-048) by proposing a self-reflective training framework that uses execution traces and outcome verification - a novel approach not explicitly covered in the references. The approach specifically incorporates Monte Carlo Tree Search (ref-016) for reasoning path exploration and uses CodeBLEU (ref-019) for code quality evaluation, showing precise alignment with the references. The evaluation plan is concrete, comparing success rates and CodeBLEU scores against established baselines (ToolLLM, Gorilla) on APIBench (ref-048), with clear ablation studies. Hypothesis B, while relevant to causal misidentification (ref-030), makes broader claims about multi-agent systems that are less directly supported by the references. The references do not provide sufficient evidence for the specific multi-agent causal confusion mechanism proposed, nor do they establish a clear baseline for comparing single-agent vs. multi-agent performance under information overload. The interventions (API rollbacks, GPT-4 validation) also introduce external elements not grounded in the provided corpus."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap. It directly addresses the intersection of causal misidentification (ref-030) and multi-agent tool use (ref-004, ref-007), a gap explicitly identified in the references. The approach is specific, proposing measurable interventions (API call rollbacks, GPT-4 validation) and evaluation metrics (task success rate, API call accuracy) tied to information overload scenarios. The support references are cohesively integrated to define a novel problem space (causal confusion in multi-agent systems) not previously explored in the literature. In contrast, while Hypothesis B introduces an interesting idea about self-reflection, its connection to the references is weaker. The proposed MCTS mechanism (ref-016) is not clearly linked to the other references, and the gap identified (dynamic self-reflection vs static datasets) is less sharply defined than A's. B's evaluation also relies on CodeBLEU (ref-019), which measures code quality rather than directly addressing the core problem of tool-use performance degradation under information overload. A's focus on quantifying performance degradation via spurious correlations and metadata perturbations provides more precise failure conditions aligned with the research perspective."
+      }
+     ]
+    },
+    {
+     "a": "s2-formal",
+     "b": "s2-transfer",
+     "points_a": 1.5,
+     "points_b": 0.5,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by addressing a critical gap in multi-agent tool use frameworks (ref-004, ref-007) that ref-030's causal misidentification problem could impact. It introduces a novel problem gap—spurious correlations in training data affecting API selection in multi-agent settings—which is not explicitly addressed in the cited works. The approach is specific, leveraging controlled experiments with synthetic datasets and causal reasoning probes, directly supported by ref-007's RestBench for evaluation. The evaluation metrics (API selection accuracy, task success rates, counterfactual tests) are well-aligned with the hypothesis and references. In contrast, Hypothesis B, while grounded in ref-002's orchestrator and ref-033's Tree of Thoughts, focuses on an incremental improvement (dynamic reallocation based on real-time performance) that is less distinct from existing work. The gap it addresses is narrower, and the approach, while technically sound, does not challenge a foundational assumption as fundamentally as Hypothesis A does with causal misidentification in multi-agent tool use. Hypothesis A's focus on spurious correlations and causal reasoning aligns better with the research perspective of questioning premises taken for granted in multi-agent systems."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s2-transfer",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the provided references and more clearly captures an implied problem gap. It directly addresses the intersection of causal misidentification (ref-030) and multi-agent tool use (refs-004, 007), a gap explicitly identified in the hypothesis. The approach is tightly coupled with reference methodologies: using RestBench (ref-007) for synthetic correlation manipulation, building on ToolLLM's multi-agent framework (ref-004), and extending ref-030's causal analysis to multi-agent settings. The evaluation design (accuracy drop metrics, counterfactual probes) directly tests the causal reasoning limitations highlighted in ref-030 within the tool-use context of refs-004/007. In contrast, Hypothesis A's connection to ref-038 is tenuous (ref-038 focuses on process vs outcome supervision, not agent orchestration), and while it builds on ref-002's orchestrator concept, the proposed dynamic reallocation mechanism isn't directly supported by any reference. The mathematical reasoning focus also diverges from the tool-use/API themes central to the corpus. Hypothesis B's specificity to the references' shared concerns about tool-use causality makes it the stronger candidate."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by addressing a specific gap identified in ref-030 (causal misidentification) and extending it to the multi-agent tool-use context of ref-004 and ref-007. The problem gap is clearly articulated: while existing tool-use frameworks (ref-004, ref-007) focus on API selection and execution, they do not account for how spurious correlations in training data might lead to causal misidentification in multi-agent settings. The approach is specific, proposing controlled experiments with synthetic datasets and causal reasoning probes, directly supported by the references. Hypothesis B, while relevant to ref-002 and ref-033, focuses on a narrower problem (dynamic agent reallocation) that is less directly tied to a measurable gap in the references. The gap in B is less compelling, as ref-002's puppeteer-style orchestrator already addresses dynamic sequencing, and the proposed extension (real-time performance-based reallocation) is less clearly implied by the references. Additionally, A's focus on causal misidentification in tool use aligns better with the research perspective of identifying phenomena that have been claimed but not measured in broader settings."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures an implied problem gap/contribution. It builds directly on ref-002's puppeteer-style orchestrator by addressing its specific limitation (lack of real-time performance adaptation) while incorporating complementary ideas from ref-033 (structured reasoning) and ref-038 (process-based feedback). The claims are highly specific: dynamic reallocation based on performance metrics, domain-specialized agents, and version-controlled memory - all directly supported by the references. The evaluation plan is rigorous, comparing against ref-002's baseline and isolating key components through ablation studies. In contrast, Hypothesis B's focus on causal misidentification in multi-agent tool use, while theoretically interesting, has weaker reference grounding. While ref-030 establishes the causal misidentification concept, its connection to multi-agent API selection (ref-004/ref-007) is more speculative. The proposed approach lacks the same level of technical specificity in how it would operationalize causal reasoning probes or measure correlation strength compared to Hypothesis A's concrete reinforcement learning formulation. The research perspective prioritizes measurable phenomena in specific settings, where Hypothesis A's adaptive orchestration framework offers a more directly testable extension of existing work."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s2-assumption",
+     "b": "s2-formal",
+     "points_a": 1.5,
+     "points_b": 0.5,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap/contribution. It directly addresses the limitation of static dataset reliance in existing tool-use frameworks (ref-004, ref-048) by proposing a self-reflective training mechanism that uses execution traces and outcome verification. The approach is well-supported by references: (1) ref-004 and ref-048 establish the baseline tool-use frameworks, (2) ref-016 provides the MCTS mechanism for reasoning path exploration, and (3) ref-019 offers CodeBLEU as a code quality metric. The evaluation plan is specific, comparing success rates and CodeBLEU scores against established baselines (ToolLLM, Gorilla) on APIBench tasks. In contrast, Hypothesis B, while identifying an interesting gap regarding causal misidentification in multi-agent settings, lacks direct support from the references for its core claims. The connection to ref-030 (causal confusion in single-agent imitation learning) is tenuous when applied to multi-agent tool use, and the proposed evaluation on RestBench (ref-007) does not directly validate the causal reasoning mechanisms. Hypothesis A's focus on iterative failure analysis and dynamic adaptation aligns more cohesively with the technical contributions of the cited works, particularly ref-004 and ref-048, which emphasize tool-use generalization and API selection accuracy."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-formal",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the reliance on static, externally generated datasets (ref-004, ref-048) by proposing a self-reflective framework that uses execution feedback for iterative improvement, a gap explicitly identified in the references. The approach is well-supported by references to Monte Carlo Tree Search (ref-016) for reasoning path exploration and CodeBLEU (ref-019) for evaluation, creating a coherent technical narrative. While Hypothesis A identifies an interesting gap regarding causal misidentification in multi-agent settings, it relies heavily on synthetic correlation manipulation not directly supported by the references, and its connection to ref-030 (single-agent imitation learning) is more tenuous compared to B's tighter integration of multiple references. B's focus on dynamic self-reflection without human feedback is more directly aligned with the tool-use frameworks' limitations highlighted in ref-004 and ref-048."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more specific, coherent claims. It directly addresses the gap in existing tool-use frameworks (ref-004, ref-048) by proposing a self-reflective training mechanism that builds on Monte Carlo Tree Search (ref-016) for iterative failure analysis, with evaluation via CodeBLEU (ref-019) and APIBench (ref-048). The approach is tightly connected to the references, offering a measurable improvement over static dataset reliance. Hypothesis B, while relevant to causal misidentification (ref-030), extends it to multi-agent tool use—a setting not explicitly studied in the references. Its claims are more speculative, relying on synthetic correlation manipulation in RestBench (ref-007) without clear evidence that this phenomenon has been claimed but unmeasured in the cited works. A's focus on self-reflection without human feedback is a more concrete, reference-backed contribution."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-formal",
+       "winner": "s2-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures an implied problem gap. It directly addresses the unexplored intersection of causal misidentification (ref-030) in multi-agent tool use contexts (ref-004, ref-007), which is a specific and coherent extension of existing work. The approach is tightly coupled with reference frameworks (ToolLLM, RestGPT) through controlled experiments on RestBench (ref-007), with measurable outcomes (API selection accuracy, task success rates) that directly test the hypothesized phenomenon. In contrast, while Hypothesis B proposes an interesting direction, its connection to references is less specific: the proposed self-reflection mechanism is not directly supported by any single reference, and the use of Monte Carlo Tree Search (ref-016) is tangential rather than foundational. The evaluation metrics (success rates, CodeBLEU) are appropriate but less distinctively tied to the core hypothesis than A's causal reasoning probes. A's focus on a measurable phenomenon (causal misidentification in multi-agent settings) that has been claimed in single-agent contexts but not measured in multi-agent tool use aligns better with the research perspective of identifying phenomena that have been claimed but not measured in broader settings."
+      }
+     ]
+    },
+    {
+     "a": "s2-empirical",
+     "b": "s2-transfer",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing a documented issue (causal misidentification from ref-030) in a new context (multi-agent tool use from ref-004, ref-007, ref-048) that the original work did not explore. It identifies a specific gap: the impact of information overload on multi-agent systems, which is not quantified in existing tool-use frameworks. The approach is methodologically precise, using controlled injection of spurious correlations and targeted interventions (environment interaction/expert queries) directly tied to ref-030's solutions. The evaluation plan is comprehensive, comparing single-agent vs. multi-agent baselines, ablating interventions, and quantifying spurious correlations using ref-030's framework. In contrast, Hypothesis B, while relevant to ref-002's dynamic orchestration, proposes an extension (real-time performance-based reallocation) that is less directly tied to a documented gap in the references. The problem gap is narrower and the approach, though innovative, does not challenge a foundational assumption taken for granted in the field as explicitly as Hypothesis A does with causal misidentification in multi-agent systems. Hypothesis A's focus on information overload and spurious correlations in API metadata represents a more critical examination of a premise (clean, relevant data) that tool-use frameworks often assume but do not rigorously test under stress."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s2-transfer",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references by directly addressing an unmeasured gap in multi-agent tool use under information overload, which is implied by the combination of ref-030 (causal misidentification in single-agent systems) and ref-004/ref-007 (multi-agent tool use frameworks). It clearly captures the problem gap of how spurious correlations in API metadata affect multi-agent collaboration, a specific issue not explored in prior work. The approach is more specific, detailing interventions (API rollbacks, GPT-4 validation) and metrics (task success rate, API call accuracy) directly tied to the references. The evaluation plan effectively isolates multi-agent causal confusion by comparing single-agent vs. multi-agent baselines and quantifying spurious correlations using ref-030's framework. Hypothesis A, while grounded in ref-002 and ref-033, focuses on a narrower problem (dynamic agent reallocation for math problems) that is less central to the latent research idea implied by the corpus, which emphasizes tool use and causal reasoning in multi-agent systems."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-empirical",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing causal misidentification (ref-030) in multi-agent tool-use systems (ref-004, ref-007, ref-048), a gap explicitly identified in the literature. It provides a concrete approach with measurable interventions (API call rollbacks, GPT-4 validation) and evaluation metrics (task success rate, API call accuracy) tied to the references. The hypothesis isolates a specific failure condition—performance degradation under information overload caused by spurious correlations in API metadata—which is a novel and precise problem gap not addressed by existing tool-use frameworks. In contrast, Hypothesis B, while well-supported by ref-002 and ref-033, focuses on a more general problem (dynamic agent orchestration) that is less directly tied to the references' specific contributions. Its gap (adapting to real-time performance metrics) is less sharply defined compared to A's causal misidentification under information overload, and its evaluation lacks the same level of specificity in linking metrics to reference frameworks (e.g., ref-030's causal misidentification analysis)."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-transfer",
+       "winner": "s2-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and more precisely captures an implied problem gap. It directly addresses the intersection of causal misidentification (ref-030) in multi-agent tool-use systems (refs-004, 007, 048), a gap explicitly noted in the references. The approach operationalizes information overload as metadata token count and measures spurious correlations using ref-030's framework, providing concrete definitions for failure conditions. The evaluation plan compares single-agent vs. multi-agent baselines under controlled perturbations, isolating the multi-agent causal confusion effect. Hypothesis A, while grounded in ref-002 and ref-033, makes broader claims about dynamic agent reallocation without explicitly defining 'performance bottlenecks' or linking them to measurable causal structures in the references. Its evaluation focuses on accuracy metrics without isolating specific failure modes tied to information overload or spurious correlations, which are more formally addressed in B's design."
+      }
+     ]
+    }
+   ]
+  ],
+  "3": [
+   [
+    {
+     "a": "s3-formal",
+     "b": "s3-assumption",
+     "points_a": 1.5,
+     "points_b": 0.5,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the integration of outcome-supervised value models (ref-015) with Tree-of-Thought search (ref-033) for mathematical reasoning (ref-027), a combination not previously explored. The approach is well-supported by references, including the use of Monte Carlo Tree Search (ref-016) for guiding ToT search. The evaluation plan is comprehensive, comparing against relevant baselines (vanilla ToT, self-evaluation ToT, step-supervised value models) and measuring both performance and search efficiency. The gap statement accurately identifies limitations in both OVMs (not applied to ToT) and ToT (self-evaluation scalability issues). Hypothesis B, while valid, focuses on a narrower comparison between outcome-only and process supervision without proposing a novel integration of existing methods. Its gap statement is less specific about how outcome supervision could address limitations in other lines of work, and the evaluation focuses on existing baselines (Math-Shepherd, PRM800K) rather than proposing a new methodological synthesis."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-assumption",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis B more strongly aligns with the latent research idea implied by the references. It bridges two key gaps: (1) integrating outcome-supervised value models (OVMs) from ref-015 with Tree-of-Thought (ToT) search from ref-033, which remains unexplored despite both being cited in the corpus, and (2) addressing the scalability limitations of current ToT implementations (ref-033) by replacing error-prone self-evaluation with outcome-supervised guidance. The approach is more specific, proposing a concrete hybrid framework (OVM + MCTS-guided ToT) that directly addresses the problem gap of error propagation in multi-step reasoning (ref-015, ref-033, ref-027). Evaluation metrics are well-aligned with the references, focusing on success rates (ref-027), search efficiency (ref-016), and correlation with correctness (ref-015). Hypothesis A, while relevant, focuses on a narrower comparison between outcome-only and process supervision without leveraging the ToT framework or MCTS integration, which are central themes in the corpus. B’s integration of multiple references into a coherent solution better captures the implied research direction of combining outcome supervision with structured search for mathematical reasoning."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly integrates OVMs (ref-015) with Tree-of-Thought search (ref-033) and Monte Carlo Tree Search (ref-016) to address mathematical reasoning (ref-027), a combination not explicitly explored in the cited works. The approach specifically targets the unexplored gap of combining outcome-supervised value models with ToT search for mathematical reasoning, addressing error propagation issues in ToT's self-evaluation and OVM's lack of search integration. The evaluation plan is comprehensive, comparing against relevant baselines (vanilla ToT, self-evaluation ToT, step-supervised models) and measuring both performance and search efficiency. In contrast, Hypothesis B focuses on validity estimation through outcome supervision but overlaps significantly with existing OVM work (ref-015) and lacks the novel integration of search frameworks. While it compares against process-supervised baselines, its gap is narrower and less directly tied to the specific combination of techniques in the references. Hypothesis A's approach is more specific, coherent, and better supported by the references, addressing a more distinct and unexplored problem space."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly addresses the comparison between outcome-only supervision and process supervision, a gap explicitly noted in ref-015, ref-038, ref-039, and ref-047. The approach is more specific, detailing how the value model is trained using binary cross-entropy loss with final answer correctness, contrasting with OVM's guided decoding focus. The evaluation plan is rigorous, comparing against Math-Shepherd and PRM800K baselines with both automated and human metrics, and includes an ablation study to isolate outcome supervision's effect. Hypothesis B, while well-supported, focuses on integrating OVMs with ToT search—a combination not directly emphasized in the references. Its gap is narrower (combining existing methods) and its evaluation lacks the direct comparison between outcome and process supervision that A provides. A better aligns with the latent research idea of challenging assumptions about step-level feedback necessity, as seen in ref-015, ref-038, and ref-039."
+      }
+     ]
+    },
+    {
+     "a": "s3-transfer",
+     "b": "s3-empirical",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-transfer",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the long-tail knowledge gap in scientific reasoning (ref-028) by proposing multi-agent specialization, a novel angle not explored in existing multi-agent frameworks (ref-021) that focus on common tasks. The approach integrates multiple references cohesively: using a central orchestrator (ref-002), thinking budget (ref-005), and evaluation on SciBench (ref-027). The evaluation plan is specific, comparing against single-agent baselines and ablated versions while isolating multi-agent effects via retrieval-augmented baselines. In contrast, Hypothesis A, while grounded in ref-004/048/007, focuses on a narrower technical improvement (execution feedback for API retrieval) that is less aligned with the broader latent research idea implied by the corpus—challenging assumptions about monolithic LLM limitations through multi-agent collaboration and specialization. B's focus on long-tail generalization and domain specialization better reflects the corpus's emphasis on overcoming LLM scalability and efficiency challenges (ref-002, ref-021) and knowledge gaps (ref-028)."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures an implied problem gap. It addresses the documented long-tail knowledge limitations in single LLMs (ref-028) and connects this gap to multi-agent collaboration with domain-specialized agents, a novel angle not explored in existing multi-agent frameworks (ref-021) that focus on common tasks. The approach specifically leverages references like ref-002 (dynamic orchestration), ref-005 (thinking budget), and ref-027 (SciBench benchmark) to propose a coherent mechanism for improving rare scientific concept accuracy through specialization and verification. The evaluation plan directly measures the impact of specialization on long-tail accuracy using SciBench subsets defined by ref-028's document-count metric, providing specific, reference-supported claims. In contrast, Hypothesis B, while well-supported by references on API retrieval (ref-004, ref-048), addresses a narrower technical gap (execution feedback integration) that is already partially covered by existing work. Its claims, while specific, do not challenge a deeper latent assumption about multi-agent systems' fundamental limitations in knowledge generalization, making Hypothesis A more aligned with the research perspective of questioning foundational premises."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-transfer",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the long-tail knowledge gap in scientific reasoning (ref-028) by proposing a multi-agent specialization approach, which is a novel application of existing multi-agent frameworks (ref-002, ref-021) to a documented but unaddressed problem. The approach explicitly incorporates domain-specialized agents and cross-verification, which aligns with ref-021's structured collaboration but extends it to long-tail generalization. The evaluation plan is well-supported by references, using SciBench (ref-027) for scientific reasoning and leveraging ref-028's methodology for defining long-tail subsets. Hypothesis A, while technically sound, focuses on a narrower gap (execution feedback for API retrieval) that is less central to the broader research context implied by the references. Its claims are more incremental compared to B's integration of multiple references to tackle a significant open problem."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the long-tail knowledge gap in scientific reasoning (ref-028) and proposing a multi-agent specialization approach that builds on existing frameworks like MetaGPT (ref-021) and dynamic orchestration (ref-002). It clearly identifies a problem gap—how multi-agent collaboration with domain-specialized agents affects performance on rare scientific concepts—which is not explicitly studied in prior work. The approach is specific, detailing decomposition, verification, and thinking budget mechanisms (ref-005), and the evaluation plan is coherent, using SciBench (ref-027) and long-tail subsets defined by pre-training document counts (ref-028). Hypothesis B, while well-supported by references on API retrieval (ref-004, ref-048, ref-007), focuses on a narrower technical contribution (execution feedback for retrievers) without as clearly articulated a problem gap or broader implications. The gap in B is less distinct, as dynamic feedback mechanisms are a known area of improvement, whereas A’s focus on long-tail generalization in multi-agent systems is more novel and directly tied to the references’ limitations."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s3-empirical",
+     "b": "s3-formal",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-empirical",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the unexplored combination of outcome-supervised value models (OVMs) from ref-015 with Tree-of-Thought (ToT) search from ref-033, a gap explicitly noted in the references. The approach is highly specific, detailing a 3-step framework that integrates OVMs with Monte Carlo Tree Search (ref-016) to guide ToT search in mathematical reasoning (ref-027), with a well-defined evaluation plan comparing against relevant baselines. The hypothesis also provides theoretical justification for why outcome supervision could outperform step-level supervision in ToT, aligning with ref-015's findings. In contrast, Hypothesis A, while grounded in relevant references, proposes a more incremental extension of existing multi-agent frameworks (ref-002, ref-021) to long-tail knowledge gaps (ref-028). Its novelty lies in combining known components rather than addressing a specific, documented gap in the literature. The evaluation plan, though thorough, does not present as clear a theoretical advancement as Hypothesis B, which offers a novel integration of two distinct research threads with measurable benefits."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the integration of two key concepts from the corpus—outcome-supervised value models (ref-015) and Tree-of-Thought search (ref-033)—to solve a well-defined problem in mathematical reasoning (ref-027). The approach is specific, proposing a concrete 3-step framework with measurable evaluation metrics (success rate, search efficiency, correlation analysis) that directly test the hypothesis. The gap statement precisely identifies how the work extends prior research by combining OVMs with ToT search, which is not explored in the references. In contrast, Hypothesis B, while relevant, is broader and less specific. Its focus on multi-agent specialization for long-tail knowledge gaps (ref-028) is plausible but less directly supported by the references. The proposed approach (orchestrator + specialized agents) is a known concept (ref-002, ref-021), and the gap statement does not clearly articulate how this work advances beyond existing multi-agent frameworks. The evaluation plan, while thorough, lacks the same level of specificity in linking claims to reference-backed mechanisms. Hypothesis A’s tighter integration of references and more precise problem framing make it the stronger candidate."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-empirical",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the unexplored combination of outcome-supervised value models (OVMs) from ref-015 with Tree-of-Thought (ToT) search from ref-033, specifically for mathematical reasoning (ref-027). The approach is well-supported by the references, with explicit integration of OVMs (ref-015) to guide Monte Carlo Tree Search (ref-016) within ToT (ref-033), a gap not covered by existing work. The evaluation plan is specific, comparing against relevant baselines (vanilla ToT, self-evaluation ToT, step-supervised ToT) and measuring success rate, search efficiency, and correlation between OVM scores and correctness. In contrast, Hypothesis A, while grounded in references, proposes a less direct integration of concepts. The idea of multi-agent specialization for long-tail knowledge gaps (ref-028) is plausible, but the connection to the orchestrator mechanism (ref-002) and thinking budget (ref-005) is less clearly justified by the references. The evaluation plan, while thorough, does not as directly address a specific gap in the literature as Hypothesis B. Hypothesis B’s focus on outcome-supervised value estimation for ToT search is more specific and coherently supported by the references, making it the stronger hypothesis."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the integration of outcome-supervised value models (ref-015) with Tree-of-Thought search (ref-033) for mathematical reasoning (ref-027), a gap explicitly identified in the references. The approach is specific, detailing a 3-step framework that combines OVMs with Monte Carlo Tree Search (ref-016) to guide ToT search, which is a novel synthesis of existing methods. The evaluation plan is rigorous, comparing against established baselines (vanilla ToT, self-evaluation ToT) and including an ablation study to isolate the impact of outcome supervision. Hypothesis B, while relevant to long-tail knowledge gaps (ref-028) and multi-agent collaboration (ref-002, ref-021), is less specific in its proposed integration of domain specialization with long-tail generalization. The gap it addresses—how multi-agent specialization affects rare-concept accuracy—is less directly supported by the references, as existing multi-agent frameworks (e.g., ref-021) do not focus on long-tail generalization. While the evaluation plan is thorough, the approach lacks the same level of technical specificity as Hypothesis A, particularly in how agent specialization is operationalized beyond generalist vs. domain-specific prompts. Hypothesis A’s tighter alignment with the references and more concrete methodological contributions make it the stronger candidate."
+      }
+     ]
+    },
+    {
+     "a": "s3-assumption",
+     "b": "s3-transfer",
+     "points_a": 1.5,
+     "points_b": 0.5,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap/contribution. It directly addresses the tension between outcome-supervised (ref-015, ref-038) and process-supervised (ref-039, ref-047) approaches to reasoning validation, a core theme in four of the five supporting references. The hypothesis explicitly compares these paradigms through controlled evaluations on GSM8K and MATH (ref-015, ref-038, ref-039, ref-047), while the ablation study isolates outcome supervision's effect. In contrast, Hypothesis B's focus on execution feedback for API retrieval is only tangentially supported by ref-004 and ref-048, which describe static retrievers but do not establish the claimed gap about dynamic feedback integration. The evaluation metrics (task success, hallucination rate) align with ref-007 and ref-048, but the proposed Bayesian update mechanism lacks direct reference support. Hypothesis A's claims are more specific and coherently tied to the corpus, addressing a well-defined gap in reasoning validation methodologies."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-transfer",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap/contribution. It directly addresses the comparative evaluation of outcome-supervised validity estimation (ref-015, ref-038, ref-039, ref-047) against process-supervised baselines, a gap explicitly identified in the references. The approach aligns with ref-015's outcome-supervised value models but extends it to explicit validity estimation rather than guided decoding, while the evaluation plan directly compares against Math-Shepherd (ref-047) and PRM800K (ref-039) baselines. The support references are all highly relevant and specifically cited to justify the gap and approach. In contrast, Hypothesis A's claims about dynamic feedback integration lack direct support from the references, as ref-004 and ref-048 do not discuss execution feedback for retriever updates. While the technical approach is plausible, the gap description overstates the novelty relative to the provided corpus, which focuses on static retrievers without addressing feedback mechanisms."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap/contribution. It directly addresses the core tension between outcome-supervised (ref-015, ref-038) and process-supervised (ref-039, ref-047) approaches to reasoning validation, a recurring theme in the corpus. The hypothesis explicitly compares these paradigms through a controlled evaluation design that isolates outcome supervision's effects, referencing specific datasets (GSM8K, MATH) and baselines (Math-Shepherd, PRM800K) from the corpus. Its approach builds on OVM's outcome-supervision foundation (ref-015) while extending it to explicit validity estimation rather than guided decoding. The evaluation plan systematically measures both final accuracy and reasoning errors using human annotations, addressing the corpus's emphasis on intermediate step reliability (ref-038, ref-039, ref-047). In contrast, Hypothesis B's focus on API retrieval feedback, while relevant to ref-004/ref-048, represents a narrower technical extension rather than a central theoretical contribution. Its gap statement misrepresents ref-048 (Gorilla does not use execution feedback to update retrieval, but this is a known limitation rather than an open gap in the corpus). The evaluation metrics lack the specificity of Hypothesis A's human-validated reasoning error analysis, focusing instead on standard task success rates. Overall, Hypothesis A better aligns with the corpus's emphasis on reasoning validation paradigms and their comparative evaluation."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the referenced corpus by directly addressing gaps in ref-004 (static retriever), ref-048 (lack of execution feedback), and ref-007 (API selection challenges). Its approach of integrating execution feedback to refine API retrieval is a coherent extension of ToolLLM's retriever and Gorilla's APIBench evaluation framework. The evaluation plan with APIBench and RestBench metrics (task success, API accuracy, hallucination rate) directly aligns with ref-004/007/048's focus on tool-use reliability. The 12% API accuracy improvement claim is specific and measurable, supported by the proposed Bayesian update mechanism. In contrast, Hypothesis B's comparison of outcome-supervised validity estimation against process-supervised baselines, while relevant to ref-015/038/039/047, lacks the same level of technical specificity in how its value model differs from OVM's guided decoding or Math-Shepherd's automated step signals. The human evaluation of 200 steps is less directly tied to the corpus's emphasis on scalable automated evaluation (ref-015, ref-047). A's focus on execution feedback as a failure condition for tool-use agents is more precisely operationalized than B's broader validity estimation claims."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s3-formal",
+     "b": "s3-transfer",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap and contribution. It directly addresses the integration of outcome-supervised value models (OVMs) from ref-015 with Tree-of-Thought (ToT) search from ref-033, a combination not explicitly explored in the literature. The hypothesis identifies a specific gap: while OVMs and ToT exist separately, their synergy for mathematical reasoning (as highlighted in ref-027) remains untested. The approach is well-supported by references, detailing a 3-step process that builds on OVM training (ref-015), ToT search (ref-033), and Monte Carlo Tree Search (ref-016). The evaluation plan is rigorous, comparing against established baselines (vanilla ToT, self-evaluation ToT) and including ablation studies to isolate the impact of outcome supervision. In contrast, Hypothesis B, while relevant to API retrieval and execution feedback, does not introduce a novel gap as clearly. It builds on existing retriever frameworks (ref-004, ref-048) but does not challenge a core assumption of the field as directly as Hypothesis A. The feedback mechanism, though practical, is an incremental improvement rather than a foundational shift. Hypothesis A’s focus on replacing step-level supervision with outcome-supervised value estimation for ToT search represents a more significant and theoretically grounded contribution, aligning with the research perspective of questioning premises taken for granted in multi-step reasoning."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s3-transfer",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and more clearly captures the implied problem gap/contribution. It directly addresses the integration of outcome-supervised value models (ref-015) with Tree-of-Thought search (ref-033) for mathematical reasoning (ref-027), a combination not explicitly explored in the cited works. The gap statement precisely identifies how ref-015 and ref-033 each address parts of the problem but lack their synergistic integration, while the approach details a novel combination of OVM-guided MCTS (ref-016) within ToT. The evaluation plan is specific, comparing against relevant baselines (vanilla ToT, self-evaluation ToT, step-supervised models) on appropriate datasets (GSM8K, MATH) with metrics that directly test the hypothesis. In contrast, Hypothesis A's gap (dynamic feedback integration) is less clearly supported by the references—ref-004 and ref-048 do not explicitly claim their retrievers are static or lack feedback mechanisms, and the proposed Bayesian update rule is not directly grounded in the cited works. While both hypotheses are specific, B's claims are more tightly aligned with the latent research idea implied by the corpus: advancing reasoning through value-guided search rather than tool-use optimization."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-formal",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the unexplored combination of outcome-supervised value models (ref-015) with Tree-of-Thought search (ref-033) for mathematical reasoning (ref-027), a gap explicitly supported by the references. The approach is specific, detailing how OVMs trained on final answer outcomes guide Monte Carlo Tree Search (ref-016) in ToT, with a well-defined evaluation plan comparing against relevant baselines (vanilla ToT, self-evaluation ToT, step-supervised models). The support references (015, 016, 027, 033) are cohesively integrated to justify the novelty and necessity of the proposed framework. In contrast, Hypothesis B's gap (dynamic feedback integration in API retrieval) is less clearly implied by the references, as ref-004 and ref-048 do not explicitly claim or measure the absence of execution feedback mechanisms. While the approach is technically sound, the problem gap is narrower and less directly supported by the references compared to Hypothesis A's comprehensive integration of multiple research threads."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-transfer",
+       "winner": "s3-formal",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and more clearly captures the implied problem gap/contribution. It directly addresses the unexplored combination of outcome-supervised value models (ref-015) with Tree-of-Thought search (ref-033) for mathematical reasoning (ref-027), a gap explicitly supported by the cited works. The approach is specific, detailing how OVMs trained on final outcomes guide MCTS-based ToT search, contrasting with ref-033's self-evaluation limitations and ref-015's lack of ToT integration. The evaluation plan is comprehensive, comparing against relevant baselines (vanilla ToT, self-evaluation ToT, step-supervised models) on appropriate datasets (GSM8K, MATH) with metrics that measure both performance and search efficiency. Hypothesis A, while grounded in ref-004/ref-048, focuses on a narrower technical extension (execution feedback for API retrieval) that is less distinct from existing work. The claimed gap (static vs. dynamic retrieval) is less compelling than B's unexplored integration of OVMs and ToT, and the evaluation lacks direct comparison with ref-007's RestGPT, which also addresses API selection challenges."
+      }
+     ]
+    },
+    {
+     "a": "s3-assumption",
+     "b": "s3-empirical",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures the implied problem gap/contribution. It directly addresses the tension between outcome-supervised (ref-015, ref-038) and process-supervised (ref-039, ref-047) approaches to reasoning validation, a core theme in refs 015, 038, 039, and 047. The hypothesis explicitly compares outcome-only validity estimation against automated process supervision, a gap identified in ref-015 (which focuses on guided decoding) and ref-047 (which requires predefined step-level criteria). The evaluation plan directly engages with these references by comparing against Math-Shepherd (ref-047) and PRM800K (ref-039) baselines, using GSM8K and MATH datasets mentioned in refs 015, 038, 039, and 047. The approach is specific, proposing a value model trained with binary cross-entropy loss to correlate confidence scores with answer correctness, differing from OVM's guided decoding focus. Hypothesis B, while relevant to multi-agent systems (refs 002, 021) and long-tail knowledge (ref-028), combines concepts from disparate references without directly addressing a specific gap in the literature. Its evaluation on SciBench (ref-027) and long-tail subsets (ref-028) is less tightly connected to the core contributions of the cited works, which focus on orchestration (ref-002), thinking modes (ref-005), or meta-programming (ref-021) rather than long-tail generalization. The specialization mechanism is less distinct from ref-021's modular outputs, and the integration of thinking budgets (ref-005) is peripheral to the main hypothesis."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures an implied problem gap/contribution. It addresses the documented long-tail knowledge limitations in single LLMs (ref-028) by proposing a novel application of multi-agent collaboration with domain-specialized agents, which is a concept not previously explored in existing multi-agent frameworks (ref-021 focuses on common tasks, not long-tail generalization). The approach integrates multiple references cohesively: using a central orchestrator (ref-002), thinking budget mechanism (ref-005), and evaluation on SciBench (ref-027) and GSM8K long-tail subsets. The evaluation plan is specific, comparing against single-agent baselines, retrieval-augmented systems, and ablating specialization levels. Hypothesis B, while well-supported by references on outcome vs. process supervision, focuses on a more established comparison (outcome vs. process supervision) rather than identifying a novel gap. Its contribution is less distinct from existing work like OVM (ref-015) and Math-Shepherd (ref-047), which already explore outcome-based training. The problem gap in B is narrower and less transformative compared to A's integration of multi-agent specialization to address long-tail knowledge gaps in scientific reasoning."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more specific claims supported by the corpus. It directly addresses the gap between outcome-supervised (ref-015, ref-038, ref-039) and process-supervised (ref-047) approaches, proposing a novel validity estimation method that builds on OVM's outcome supervision while contrasting with Math-Shepherd's automated step-level signals. The evaluation plan is tightly coupled to references, comparing against PRM800K (ref-039) and Math-Shepherd (ref-047) baselines with metrics (accuracy, reasoning error rates) aligned to ref-038/039. The ablation isolating outcome supervision's effect directly engages ref-015's guided decoding vs. ref-047's process signals. Hypothesis B, while relevant to long-tail knowledge (ref-028) and multi-agent systems (ref-002, ref-021), makes broader claims about specialization mitigating long-tail gaps without the same level of methodological specificity. Its evaluation on SciBench (ref-027) and GSM8K subsets is less directly tied to the references' technical contributions, and the proposed approach combines multiple references (orchestrator from ref-002, thinking budget from ref-005) without clearly resolving how these components address the stated gap. Hypothesis A's focus on a precise technical comparison between supervision types aligns better with the corpus's emphasis on reasoning validation mechanisms."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-empirical",
+       "winner": "s3-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references by directly addressing the long-tail knowledge gap in scientific reasoning (ref-028) and proposing a multi-agent specialization framework that builds on existing multi-agent collaboration paradigms (ref-002, ref-021) while incorporating domain-specific expertise. The approach explicitly connects to SciBench (ref-027) for evaluation on college-level scientific problems and references the thinking budget mechanism (ref-005) for computational efficiency. The problem gap is clearly defined as the lack of research on how multi-agent specialization affects long-tail generalization, which is not addressed by existing works. The evaluation plan is specific, using long-tail subsets of SciBench and GSM8K with metrics like accuracy, agent agreement, and error propagation patterns. In contrast, Hypothesis B, while well-supported by references on outcome-supervised value models (ref-015, ref-038, ref-039, ref-047), focuses on a narrower technical comparison between outcome and process supervision without introducing a novel conceptual framework or addressing a broader research gap. The problem gap in B is less distinct, as it builds on existing outcome-supervised approaches rather than identifying an unaddressed challenge in the literature."
+      }
+     ]
+    }
+   ]
+  ]
+ },
+ "selection_log": [
+  {
+   "id": "s3-formal",
+   "decision": "chosen"
+  },
+  {
+   "id": "s1-empirical",
+   "decision": "chosen"
+  },
+  {
+   "id": "s1-formal",
+   "decision": "chosen"
+  }
+ ],
+ "chosen": [
+  "s3-formal",
+  "s1-empirical",
+  "s1-formal"
+ ],
+ "fallback": []
+}

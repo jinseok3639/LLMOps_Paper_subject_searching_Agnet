@@ -1,0 +1,16 @@
+{
+ "title": "Lagrangian Reward Augmentation for Safety-Constrained Best-of-N Sampling",
+ "summary": "This work extends LARA to safety-constrained Best-of-N (BoN) sampling, formalizing safety as a hard constraint. The method dualizes the constraint, reducing optimization to a one-dimensional problem over a dual variable calibrated on a small set of safety-critical prompts. The augmented reward is used for BoN reranking, ensuring constraint satisfaction in expectation. It is evaluated on HarmBench and Anthropic's safety datasets, comparing helpfulness-harmlessness tradeoffs against unconstrained BoN, MBR-BoN, and RLHF baselines.",
+ "gap": "Ref-012's LARA provides a formal framework for safety-constrained inference-time alignment, but its application to BoN does not isolate the effect of dual-variable calibration. Ref-005's ShieldGemma focuses on content moderation without formal safety guarantees. No work combines LARA's formalism with BoN's practicality while rigorously ablating the calibration mechanism.",
+ "approach": "LARA dualizes the safety constraint, reducing the problem to a one-dimensional convex optimization over a nonnegative dual variable. The variable is calibrated on a small set of safety-critical prompts (e.g., 100 from HarmBench) to define an augmented reward: R_aug = R - λC, where R is the reward model score, C is the cost model score, and λ is the dual variable. The augmented reward is used for BoN reranking. The method guarantees constraint satisfaction in expectation when λ is correctly calibrated, differing from ref-012's general LARA by explicitly isolating the dual-variable calibration step.",
+ "evaluation": "Baselines include vanilla BoN, MBR-BoN (ref-003), and RLHF (ref-001). Metrics are helpfulness (reward model scores from ref-010), harmlessness (safety model scores from ref-005), and constraint violation rates. Experiments use HarmBench (ref-014) and Anthropic's safety datasets (ref-004). Ablation studies compare LARA-BoN with a version where λ is replaced by a manually tuned penalty coefficient, and test calibration set sizes (10, 50, 100 prompts). The safety-critical calibration set is defined as prompts with the highest cost model scores in the training data.",
+ "support": [
+  "ref-001",
+  "ref-003",
+  "ref-004",
+  "ref-005",
+  "ref-010",
+  "ref-012",
+  "ref-014"
+ ]
+}

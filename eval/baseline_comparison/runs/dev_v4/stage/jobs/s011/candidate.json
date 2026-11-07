@@ -1,0 +1,12 @@
+{
+ "title": "Lagrangian Reward Augmentation for Safety-Constrained Best-of-N Sampling",
+ "summary": "This paper extends Lagrangian Reward Augmentation (LARA) to safety-constrained Best-of-N sampling, enabling explicit safety cost constraints during inference. The method calibrates a dual variable to balance reward and safety costs, ensuring compliance without manual penalty tuning. It is validated on safety benchmarks, comparing helpfulness-harmlessness tradeoffs against unconstrained BoN and RLHF baselines.",
+ "gap": "Existing inference-time alignment methods like BoN lack formal safety guarantees and require manual penalty tuning, risking either excessive harm or overly conservative responses.",
+ "approach": "LARA dualizes the safety constraint, reducing the problem to a one-dimensional optimization over a dual variable. The variable is calibrated on a small set of safety-critical prompts, defining an augmented reward for BoN reranking. The method guarantees constraint satisfaction in expectation when the dual variable is correctly calibrated.",
+ "evaluation": "Baselines include vanilla BoN, MBR-BoN, and RLHF. Metrics are helpfulness (reward model scores), harmlessness (safety model scores), and constraint violation rates. Experiments use HarmBench and Anthropic's safety datasets, with ablation studies on calibration set size.",
+ "support": [
+  "ref-005",
+  "ref-012",
+  "ref-019"
+ ]
+}

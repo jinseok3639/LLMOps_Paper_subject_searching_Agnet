@@ -1,0 +1,15 @@
+{
+ "title": "Mesa-Optimizer Detection in EEGNet via Lipschitz-Aware Training Dynamics Analysis",
+ "summary": "We propose detecting mesa-optimization in EEGNet by analyzing training dynamics through Lipschitz constant evolution. By monitoring divergence between learned feature gradients and supervision signals under bounded Lipschitz constraints, we identify unintended optimization behaviors. The method is validated on motor imagery datasets, comparing detection rates against gradient-based and activation-space baselines.",
+ "gap": "Current BCI models lack mechanisms to detect emergent mesa-optimization behaviors that could misalign with intended control objectives.",
+ "approach": "Track Lipschitz constant trajectories during training while enforcing Parseval constraints, using deviation from expected gradient alignment as a mesa-optimization indicator, validated via controlled perturbation experiments.",
+ "evaluation": "Compare detection accuracy (F1 score), false positive rates, and alignment error metrics against gradient norm monitoring, activation clustering, and reconstruction loss baselines on motor imagery tasks.",
+ "support": [
+  "ref-001",
+  "ref-018",
+  "ref-019",
+  "ref-023",
+  "ref-005",
+  "ref-010"
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "title": "EEGNet Robustness to Adversarial Perturbations via Parseval Constraints",
+ "summary": "This paper proposes enhancing EEGNet's robustness against adversarial perturbations by integrating Parseval tight frame constraints into its convolutional layers. The approach modifies EEGNet's depthwise and separable convolutions to maintain orthogonal weight matrices during training, limiting perturbation propagation. Evaluation compares adversarial accuracy under FGSM/PGD attacks on P300 and SMR datasets against baselines, with ablation studies isolating the effect of Parseval constraints and Lipschitz constant bounds derived via SDP verification.",
+ "gap": "While ref-001 demonstrates EEGNet's cross-paradigm generalization, it does not address robustness guarantees. Ref-021 shows EEG-based BCIs are vulnerable to adversarial attacks, but no work has formally quantified robustness bounds for EEGNet or adapted Parseval constraints (ref-010) to its architecture.",
+ "approach": "Modify EEGNet's depthwise and separable convolutions to enforce Parseval tight frame constraints during training. Inputs: raw EEG trials; Outputs: class probabilities. Objective: minimize cross-entropy loss with orthogonal weight matrices. Update rule: project weight matrices onto the Stiefel manifold after each gradient step. Core difference from ref-010: adapt Parseval constraints to EEGNet's depthwise/separable convolutions, which ref-010 does not address.",
+ "evaluation": "Compare adversarial accuracy under FGSM (ε=0.1) and PGD (10 steps, ε=0.01/step) on P300 (ref-001's dataset) and SMR (ref-001's dataset) under cross-subject splits. Baselines: unmodified EEGNet, adversarial-trained EEGNet (ref-021), and Parseval networks (ref-010) adapted to EEGNet's architecture. Metrics: clean/test accuracy, attack success rate, and Lipschitz constant bounds (ref-005's SDP method). Ablation: compare Parseval-constrained EEGNet against an identical architecture without constraints but with matched training steps/data.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-010",
+  "ref-021"
+ ]
+}

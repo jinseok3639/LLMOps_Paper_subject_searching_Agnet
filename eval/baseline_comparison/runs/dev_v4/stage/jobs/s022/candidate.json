@@ -1,0 +1,14 @@
+{
+ "title": "Ethical Robustness Verification for BCI Systems: Bridging Safety and Human Rights",
+ "summary": "This paper introduces a framework for verifying BCI systems against adversarial threats while ensuring compliance with proposed neuro-rights (e.g., cognitive liberty, mental privacy). It formalizes robustness requirements as quadratic constraints and integrates them into a semidefinite programming (SDP) verification pipeline.",
+ "gap": "Current robustness verification methods (e.g., SDP-based) do not account for ethical considerations unique to BCIs, such as mental privacy or autonomy. Existing neuro-rights frameworks lack actionable technical implementations.",
+ "approach": "Extend SDP-based robustness verification to include constraints derived from neuro-rights principles (e.g., bounded input perturbations for privacy). Develop a certification pipeline that jointly optimizes accuracy, robustness, and ethical compliance.",
+ "evaluation": "Test the framework on EEGNet and other BCI models using datasets with sensitive information (e.g., error-related negativity). Measure certification rates, classification accuracy, and perturbation bounds under ethical constraints.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-016",
+  "ref-017",
+  "ref-019"
+ ]
+}

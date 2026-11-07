@@ -133,12 +133,13 @@ B가 어느 단계에서 품질을 얻고 잃는지 보기 위해 `stage_eval.py
 
 ## 최종 측정 (2026-11-07 사전 고정)
 
-시간 제약으로 개선은 v3 한 번, 최종 측정은 한 번만 합니다. 아래 설계는 최종 결과를 보기 전에 정했고, 결과를 본 뒤 바꾸지 않습니다. 결과가 어떻게 나오든 v3를 더 고치지 않고 그대로 보고합니다.
+시간 제약으로 개선은 v3 한 번(그 뒤 단계별 진단에서 찾은 투표 기준 변경 v4를 후보로 추가), 최종 측정은 한 번만 합니다. 아래 설계는 최종 결과를 보기 전에 정했고, 결과를 본 뒤 바꾸지 않습니다. 결과가 어떻게 나오든 방법론을 더 고치지 않고 그대로 보고합니다.
 
 | 항목 | 정한 값 |
 |---|---|
 | 샘플 | 확인용 t006~t010 (5개). `inputs/`에 복사만 했고 내용은 열지 않음 |
-| 조건 | A Solar 단일, B Solar + 워크플로우 v3(`methods/v3`), C Claude Opus 5.5, D Claude Sonnet 5.5. 각 1회 생성 |
+| 조건 | A Solar 단일, B Solar + 워크플로우 v3 또는 v4(아래 규칙), C Claude Opus 5.5, D Claude Sonnet 5.5. 각 1회 생성 |
+| B 방법론 규칙 | v4(v3 + 토너먼트 투표 기준 변경, 2026-11-07 추가)는 개발용 t003~t005의 평균 선별 손실이 v3(0.44)보다 작으면 쓰고, 아니면 v3. 확인용 샘플은 v3, v4 둘 다 판정 전에 생성해 두고, 결정은 개발용 결과로만 한다 |
 | 주 가설 | B > A |
 | 주 지표 | B vs A 세트 쌍대 비교의 종합(overall) 승수(5개 샘플 중), 후보 평균 점수 차이(B−A) |
 | 보조 지표 | 세트당 쓸 만한 후보 수(항목 1~5 모두 3점 이상), 강한 후보 수(모두 4점 이상), best/worst-of-3, 다양성 승수, 공백 메움 비율 (B−A)/(C−A)·(B−A)/(D−A), 샘플당 호출 수와 시간 |
@@ -148,20 +149,40 @@ B가 어느 단계에서 품질을 얻고 잃는지 보기 위해 `stage_eval.py
 
 **실행 (저장소 루트에서):**
 
+생성 (Codex 없이, 2026-11-07 실행함):
+
 ```bash
 PY=../LLMOps_Paper_subject_searching_Agnet/.venv/Scripts/python.exe
 S=t006,t007,t008,t009,t010
-$PY eval/baseline_comparison/check.py --run final
+$PY eval/baseline_comparison/check.py --run final --part gen
 $PY eval/baseline_comparison/generate.py --run final --samples $S --conditions A,C,D
-$PY eval/baseline_comparison/generate.py --run final --samples $S --conditions B --method eval/baseline_comparison/methods/v3
-$PY eval/baseline_comparison/pack.py --run final
-$PY eval/baseline_comparison/judge.py --run final --kinds score,pairwise --workers 3
-$PY eval/baseline_comparison/aggregate.py --run final
-# 사후 진단: B의 단계별 판정 (본 지표와 별개, 결과를 보고 방법론을 고치지 않음)
-$PY eval/baseline_comparison/stage_eval.py pack --run final
-$PY eval/baseline_comparison/judge.py --run final/stage --kinds score --workers 3
-$PY eval/baseline_comparison/stage_eval.py report --run final --ref-run final
+$PY eval/baseline_comparison/generate.py --run final_B_v4 --samples $S --conditions B --method eval/baseline_comparison/methods/v4
+$PY eval/baseline_comparison/generate.py --run final_B_v3 --samples $S --conditions B --method eval/baseline_comparison/methods/v3
 ```
+
+판정 (Codex). Codex 사용량과 시간이 제한되어 있어, 판정을 작은 묶음으로 나눠 중요한 것부터 하나씩 돌리고 사이사이 사용량을 확인합니다. 끝난 판정은 건너뛰므로 같은 묶음을 다시 실행하면 이어서 합니다. 각 묶음 뒤에 집계가 자동으로 갱신됩니다.
+
+| 순서 | 묶음 | 판정 | 개수 | 답하는 질문 |
+|---|---|---|---|---|
+| 1~3 | `dev4-t003`, `dev4-t004`, `dev4-t005` | dev_v4 수정본 점수 | 12, 9, 12 | v4 투표 기준이 선별 손실을 줄였나 |
+| 4 | `prep` | B 방법론 결정(`runs/final/b_method.json`), Codex 사전 점검, 포장 | 호출 2 | |
+| 5 | `ab-pair` | A-B 쌍대 비교 | 8 | **주 지표 1** |
+| 6, 7 | `a-score`, `b-score` | A, B 후보 점수 | 12, 15 | **주 지표 2**, 쓸 만한 후보 수 |
+| 8, 9 | `c-score`, `d-score` | C, D 후보 점수 | 15, 15 | 공백 메움 비율 |
+| 10, 11 | `bc-pair`, `bd-pair` | B-C, B-D 쌍대 비교 | 10, 10 | Claude와의 세트 비교 |
+| 12 | `acd-pair` | A-C, A-D 쌍대 비교 | 16 | 선택: 모델 차이 |
+
+```bash
+$PY eval/baseline_comparison/run_final_judging.py
+```
+
+```bash
+$PY eval/baseline_comparison/run_final_judging.py ab-pair
+```
+
+- 첫 명령은 묶음 목록과 진행 상황을 보여 주고, 두 번째처럼 묶음 이름을 주면 그 묶음만 판정합니다.
+- 7번(`b-score`)까지 끝나면 주 가설의 답이 나옵니다. 보고서의 빈 칸은 판정하지 않은 부분입니다.
+- 사후 진단(B의 단계별 판정)은 `stage_eval.py pack --run final` 뒤 `judge.py --run final/stage --kinds score --stages refined --samples t006`처럼 샘플별로 나눠 돌립니다. 본 지표와 별개이고, 결과를 보고 방법론을 고치지 않습니다.
 
 - B는 참고문헌이 많은 샘플(60~70편)에서 샘플당 10~15분 걸릴 수 있으므로 백그라운드로 돌립니다. 끊기면 같은 명령으로 이어 갑니다.
 - 생성이 실패하면 `--retry-failed`로 한 번 다시 돌리고, 그래도 실패하면 실패로 보고합니다.

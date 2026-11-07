@@ -1,0 +1,128 @@
+{
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "grounding",
+  "gap",
+  "specificity",
+  "coherence",
+  "value"
+ ],
+ "properties": {
+  "grounding": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "rationale",
+    "score"
+   ],
+   "properties": {
+    "rationale": {
+     "type": "string"
+    },
+    "score": {
+     "type": "integer",
+     "enum": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ]
+    }
+   }
+  },
+  "gap": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "rationale",
+    "score"
+   ],
+   "properties": {
+    "rationale": {
+     "type": "string"
+    },
+    "score": {
+     "type": "integer",
+     "enum": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ]
+    }
+   }
+  },
+  "specificity": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "rationale",
+    "score"
+   ],
+   "properties": {
+    "rationale": {
+     "type": "string"
+    },
+    "score": {
+     "type": "integer",
+     "enum": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ]
+    }
+   }
+  },
+  "coherence": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "rationale",
+    "score"
+   ],
+   "properties": {
+    "rationale": {
+     "type": "string"
+    },
+    "score": {
+     "type": "integer",
+     "enum": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ]
+    }
+   }
+  },
+  "value": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "rationale",
+    "score"
+   ],
+   "properties": {
+    "rationale": {
+     "type": "string"
+    },
+    "score": {
+     "type": "integer",
+     "enum": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ]
+    }
+   }
+  }
+ }
+}

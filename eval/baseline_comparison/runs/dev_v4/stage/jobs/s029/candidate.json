@@ -1,0 +1,12 @@
+{
+ "title": "MBR-BoN with Dynamic Regularization for Preference Dataset Generation",
+ "summary": "This work introduces dynamic regularization in MBR-BoN for generating preference datasets, adjusting the Minimum Bayes Risk (MBR) weight based on reward model uncertainty. The method balances reward optimization and proximity to the reference policy, improving downstream DPO training. It is evaluated by training DPO models on generated datasets and comparing alignment performance against static MBR-BoN baselines.",
+ "gap": "Static MBR-BoN uses fixed regularization, which may under- or over-regularize depending on reward model reliability, leading to suboptimal preference data for DPO training.",
+ "approach": "The method dynamically adjusts the MBR regularization coefficient using reward model confidence estimates. High uncertainty increases regularization to prevent reward hacking, while low uncertainty reduces it to prioritize reward optimization. The dynamic weight is learned via meta-validation on a held-out set.",
+ "evaluation": "Baselines include static MBR-BoN and vanilla BoN. Metrics are DPO model performance on alignment benchmarks (e.g., Anthropic's hh-rlhf), reward hacking rates, and preference dataset quality (diversity and coverage). Experiments use synthetic and real-world preference data.",
+ "support": [
+  "ref-003",
+  "ref-006",
+  "ref-010"
+ ]
+}

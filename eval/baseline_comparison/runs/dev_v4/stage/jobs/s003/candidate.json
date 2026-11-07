@@ -1,0 +1,12 @@
+{
+ "title": "Detecting Subliminal Bias Transmission in Knowledge Distillation via Mechanistic Regression",
+ "summary": "This work investigates whether knowledge distillation inadvertently transfers societal biases through subliminal signals in synthetic data. Using mechanistic regression analysis, we identify neuron populations responsible for bias amplification during distillation. The framework is tested on political bias benchmarks, comparing distilled models against teacher models and baseline distillation methods.",
+ "gap": "Current distillation techniques assume neutrality of synthetic data but fail to account for subliminal bias transmission mechanisms uncovered in model collapse research.",
+ "approach": "Apply mechanistic interpretability to trace bias-related neuron activations during distillation. Implement bias-specific regularization targeting identified neuron populations.",
+ "evaluation": "Measure bias amplification metrics before/after distillation using political bias benchmarks. Compare against standard distillation and bias-mitigated training.",
+ "support": [
+  "ref-010",
+  "ref-014",
+  "ref-017"
+ ]
+}
