@@ -13,6 +13,8 @@
   템플릿과 맞으면 그 파일 이름과 파일 내용 해시, 아니면(코드 안의 지시문) 시스템 메시지 해시.
 - 저장은 append(table, row) 하나만 거친다. Supabase 단계(설계서 6.3)에서는 이 함수만 바꾼다 (call_log, feedback 테이블).
 - API 키와 인증 헤더는 넘기지 않는다. 줄에 키 값이나 Bearer 토큰이 섞이면 *** 로 바꾼다.
+- LangSmith (src/tracing.py): 켜져 있으면 start()가 trace를, set_step()이 단계 span을, timed()가 호출 run을 연다.
+  같은 Job 객체에 붙어 있어 bind로 넘긴 풀 스레드의 호출도 같은 trace에 들어간다. 보내는 값도 _clip, _scrub을 거친다.
 """
 import contextvars
 import hashlib
@@ -28,12 +30,12 @@ from datetime import datetime, timezone
 from functools import lru_cache
 from pathlib import Path
 
-from src import config
+from src import config, tracing
 
 ROOT = config.DB_DIR  # 테스트에서 임시 폴더로 바꾼다
 PROMPT_DIRS = {"": config.PROMPT_DIR, "generation_method/": config.ROOT_DIR / "src" / "generation_method" / "prompts"}
 MAX_CHARS = 100_000   # input·output 한 필드 상한. 넘으면 앞부분만 남긴다
-SECRET_ENVS = ("UPSTAGE_API_KEY", "S2_API_KEY")
+SECRET_ENVS = ("UPSTAGE_API_KEY", "S2_API_KEY", "LANGSMITH_API_KEY")
 _BEARER = re.compile(r"(?i)\bbearer\s+[\w.~+/=-]{16,}")
 _PLACEHOLDER = re.compile(r"\{[a-z_]+\}")
 _lock = threading.Lock()
@@ -48,29 +50,36 @@ class Job:
     step: str | None = None
     calls: int = 0
     t0: float = 0.0
+    trace: object = None  # LangSmith root run (꺼져 있으면 None)
+    span: object = None   # 지금 단계의 span
 
 
 _job: contextvars.ContextVar[Job | None] = contextvars.ContextVar("calllog_job", default=None)
 
 
-def start(session_id: str, run_kind: str | None) -> Job:
+def start(session_id: str, run_kind: str | None, user_id: str | None = None) -> Job:
     job = Job(session_id, run_kind, t0=time.monotonic())
+    job.trace = tracing.start_job(run_kind, session_id, user_id)
     _job.set(job)
     return job
 
 
 def set_step(step: str | None) -> None:
     job = _job.get()
-    if job and step:
+    if job and step and step != job.step:
         job.step = step
+        job.span = tracing.start_step(job.trace, job.span, step)
 
 
-def finish(status: str, run_id: str | None = None, error: str | None = None) -> None:
-    """provider "job" 줄. 작업이 끝난 뒤에야 run_id를 알 수 있어 여기서 한 번 남긴다."""
+def finish(status: str, run_id: str | None = None, error: str | None = None, output=None) -> None:
+    """provider "job" 줄. 작업이 끝난 뒤에야 run_id를 알 수 있어 여기서 한 번 남긴다. output(결과)은 LangSmith에만 보낸다."""
     job = _job.get()
     if job:
+        trace_id = tracing.end_job(job.trace, job.span, status, run_id, _safe(output), error)
+        tracing.remember(job.session_id, job.run_kind, run_id, trace_id)
+        extra = {"trace_id": trace_id} if trace_id else {}
         record("job", job.run_kind, input=None, output=None, latency_ms=_ms(job.t0), status=status,
-               error=error, run_id=run_id, calls=job.calls)
+               error=error, run_id=run_id, calls=job.calls, **extra)
         _job.set(None)
 
 
@@ -103,6 +112,9 @@ class Call:
 @contextmanager
 def timed(provider: str, model: str | None, input):
     t0, call = time.monotonic(), Call()
+    job = _job.get()
+    prompt_name, prompt_hash = _prompt_of(input)
+    run = tracing.start_call(job.span or job.trace, provider, model, _safe(input), prompt_name) if job else None
     try:
         yield call
     except BaseException as e:
@@ -112,7 +124,10 @@ def timed(provider: str, model: str | None, input):
         raise
     finally:
         record(provider, model, input=input, output=call.output, latency_ms=_ms(t0), tokens_in=call.tokens_in,
-               tokens_out=call.tokens_out, tokens_cached=call.tokens_cached, status=call.status, error=call.error)
+               tokens_out=call.tokens_out, tokens_cached=call.tokens_cached, status=call.status, error=call.error,
+               prompt_name=prompt_name, prompt_hash=prompt_hash)
+        tracing.end_call(run, output=_safe(call.output), status=call.status, error=call.error, prompt_hash=prompt_hash,
+                         tokens_in=call.tokens_in, tokens_out=call.tokens_out, tokens_cached=call.tokens_cached)
 
 
 def record(provider, model, *, input, output, latency_ms, tokens_in=None, tokens_out=None, tokens_cached=None, status,
@@ -123,10 +138,8 @@ def record(provider, model, *, input, output, latency_ms, tokens_in=None, tokens
         if provider != "job" and job.session_id is not None:
             with _lock:
                 job.calls += 1
-        if prompt_hash is None and isinstance(input, list):
-            system = next((m.get("content") for m in input if isinstance(m, dict) and m.get("role") == "system"), None)
-            if isinstance(system, str):
-                prompt_name, prompt_hash = prompt_version(system)
+        if prompt_hash is None:
+            prompt_name, prompt_hash = _prompt_of(input)
         append("call_log", {
             "ts": datetime.now(timezone.utc).isoformat(timespec="milliseconds"),
             "session_id": job.session_id, "run_id": run_id, "run_kind": job.run_kind, "step": job.step,
@@ -148,6 +161,18 @@ def append(table: str, row: dict) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
         with open(path, "a", encoding="utf-8") as f:
             f.write(line + "\n")
+
+
+def _prompt_of(input) -> tuple[str | None, str | None]:
+    """chat messages면 시스템 메시지로 (프롬프트 이름, 해시), 아니면 (None, None)."""
+    try:
+        if isinstance(input, list):
+            system = next((m.get("content") for m in input if isinstance(m, dict) and m.get("role") == "system"), None)
+            if isinstance(system, str):
+                return prompt_version(system)
+    except Exception:  # noqa: BLE001
+        log.exception("프롬프트 버전 계산 실패")
+    return None, None
 
 
 def prompt_version(system: str) -> tuple[str | None, str]:
@@ -193,6 +218,16 @@ def _clip(value):
         return None
     text = value if isinstance(value, str) else json.dumps(value, ensure_ascii=False, default=str)
     return value if len(text) <= MAX_CHARS else text[:MAX_CHARS] + f"...(+{len(text) - MAX_CHARS}자 생략)"
+
+
+def _safe(value):
+    """LangSmith로 보낼 값: 잘라 내고 키를 가린 JSON 값. 추적이 꺼져 있으면 계산하지 않는다."""
+    if value is None or not tracing.enabled():
+        return None
+    try:
+        return json.loads(_scrub(json.dumps(_clip(value), ensure_ascii=False, default=str)))
+    except Exception:  # noqa: BLE001
+        return None
 
 
 def _scrub(text: str) -> str:
