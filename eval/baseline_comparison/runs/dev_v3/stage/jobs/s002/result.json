@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet and quadratic-constraint SDP verification are supported by ref-001 and ref-005, and ref-020 supports the proposed Lipschitz baseline. However, the supplied references do not establish the proposed temporal-smoothness constraints. The blanket claim about current BCI evaluations exceeds the empirical examples in ref-021 and ref-024, which are absent from the support list; ref-022 establishes general classifier guarantees instead.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The empirical EEG attack studies in ref-021 and ref-024 leave EEG-specific certification open within this corpus. However, ref-005 already handles general input uncertainty sets, so the candidate needs to clarify what EEG constraints add beyond applying that existing framework.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The target architecture, SDP technique, Lipschitz baseline, and radius comparison are identifiable from ref-001, ref-005, and ref-020. However, 'MNIST-EEG hybrid datasets' is undefined, and the perturbation norm, constraint construction, and treatment of EEGNet layers are unspecified.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Applying ref-005 to EEGNet directly addresses the proposed certification gap, and comparison with ref-020 is relevant. The evaluation is weaker: bounds holding for more than 95% of samples does not establish a formal guarantee, and empirical attack radii cannot verify certificates. Certification coverage and certificate validity need separate definitions.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Testing whether formal methods from ref-005 and ref-020 yield useful certificates for EEGNet could inform BCI robustness assessment beyond the attacks in ref-024. The likely contribution remains narrow without testing whether EEG constraints improve certificate tightness or computational feasibility over existing general methods.",
+  "score": 3
+ }
+}

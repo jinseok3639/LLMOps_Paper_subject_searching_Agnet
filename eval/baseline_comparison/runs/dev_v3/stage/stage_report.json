@@ -1,0 +1,312 @@
+{
+ "t003": {
+  "n": 12,
+  "proposed_mean": 3.0,
+  "proposed_best": 3.4,
+  "refined_mean": 3.0833333333333335,
+  "refined_best": 3.4,
+  "refine_diff": 0.08333333333333337,
+  "refine_wins": 6,
+  "refine_ties": 3,
+  "refine_losses": 3,
+  "refine_failed": 0,
+  "crit_diff": {
+   "grounding": 0,
+   "gap": 0.4166666666666667,
+   "specificity": 0.16666666666666666,
+   "coherence": -0.25,
+   "value": 0.08333333333333333
+  },
+  "match_agree": 7,
+  "match_disagree": 5,
+  "match_undecided": 6,
+  "rank_corr": 0.12497848351821568,
+  "chosen": 3.2666666666666666,
+  "top_tournament": 2.933333333333333,
+  "oracle": 3.3333333333333335,
+  "selection_loss": 0.06666666666666687,
+  "dedup_cost": -0.3333333333333335,
+  "chosen_ids": [
+   "s2-transfer",
+   "s2-formal",
+   "s3-transfer"
+  ],
+  "tournament_top": [
+   "s2-transfer",
+   "s1-assumption",
+   "s3-assumption"
+  ],
+  "oracle_ids": [
+   "s2-transfer",
+   "s3-formal",
+   "s1-transfer"
+  ],
+  "per_candidate": {
+   "s1-assumption": {
+    "proposed": 3.2,
+    "refined": 2.6,
+    "tournament": 5.0
+   },
+   "s1-transfer": {
+    "proposed": 3.2,
+    "refined": 3.2,
+    "tournament": 4.0
+   },
+   "s1-empirical": {
+    "proposed": 3.4,
+    "refined": 3,
+    "tournament": 0.0
+   },
+   "s1-formal": {
+    "proposed": 2.8,
+    "refined": 3.2,
+    "tournament": 3.0
+   },
+   "s2-assumption": {
+    "proposed": 3,
+    "refined": 3.2,
+    "tournament": 1.5
+   },
+   "s2-transfer": {
+    "proposed": 3.2,
+    "refined": 3.4,
+    "tournament": 5.5
+   },
+   "s2-empirical": {
+    "proposed": 3.2,
+    "refined": 2.6,
+    "tournament": 2.5
+   },
+   "s2-formal": {
+    "proposed": 3.2,
+    "refined": 3.2,
+    "tournament": 2.5
+   },
+   "s3-assumption": {
+    "proposed": 2.8,
+    "refined": 2.8,
+    "tournament": 5.0
+   },
+   "s3-transfer": {
+    "proposed": 2.4,
+    "refined": 3.2,
+    "tournament": 2.5
+   },
+   "s3-empirical": {
+    "proposed": 2.6,
+    "refined": 3.2,
+    "tournament": 0.0
+   },
+   "s3-formal": {
+    "proposed": 3,
+    "refined": 3.4,
+    "tournament": 4.5
+   }
+  }
+ },
+ "t004": {
+  "n": 11,
+  "proposed_mean": 2.7636363636363637,
+  "proposed_best": 3.6,
+  "refined_mean": 3.0727272727272728,
+  "refined_best": 3.8,
+  "refine_diff": 0.30909090909090897,
+  "refine_wins": 7,
+  "refine_ties": 2,
+  "refine_losses": 2,
+  "refine_failed": 0,
+  "crit_diff": {
+   "grounding": 0.09090909090909091,
+   "gap": 0.45454545454545453,
+   "specificity": 0.5454545454545454,
+   "coherence": 0.09090909090909091,
+   "value": 0.36363636363636365
+  },
+  "match_agree": 2,
+  "match_disagree": 6,
+  "match_undecided": 6,
+  "rank_corr": -0.41600743096671566,
+  "chosen": 2.7333333333333334,
+  "top_tournament": 2.7333333333333334,
+  "oracle": 3.533333333333333,
+  "selection_loss": 0.7999999999999998,
+  "dedup_cost": 0.0,
+  "chosen_ids": [
+   "s1-assumption",
+   "s2-empirical",
+   "s2-formal"
+  ],
+  "tournament_top": [
+   "s1-assumption",
+   "s2-empirical",
+   "s1-empirical"
+  ],
+  "oracle_ids": [
+   "s3-formal",
+   "s1-transfer",
+   "s2-assumption"
+  ],
+  "per_candidate": {
+   "s1-assumption": {
+    "proposed": 2.8,
+    "refined": 2.8,
+    "tournament": 6.0
+   },
+   "s1-transfer": {
+    "proposed": 3,
+    "refined": 3.4,
+    "tournament": 1.0
+   },
+   "s1-empirical": {
+    "proposed": 3,
+    "refined": 2.8,
+    "tournament": 4.0
+   },
+   "s1-formal": {
+    "proposed": 2.8,
+    "refined": 2.8,
+    "tournament": 1.0
+   },
+   "s2-assumption": {
+    "proposed": 2.6,
+    "refined": 3.4,
+    "tournament": 2.5
+   },
+   "s2-transfer": {
+    "proposed": 2.2,
+    "refined": 3.4,
+    "tournament": 0.5
+   },
+   "s2-empirical": {
+    "proposed": 2.4,
+    "refined": 2.6,
+    "tournament": 6.0
+   },
+   "s2-formal": {
+    "proposed": 3.2,
+    "refined": 2.8,
+    "tournament": 3.0
+   },
+   "s3-assumption": {
+    "proposed": 2.2,
+    "refined": 2.8,
+    "tournament": 0.5
+   },
+   "s3-empirical": {
+    "proposed": 2.6,
+    "refined": 3.2,
+    "tournament": 0.5
+   },
+   "s3-formal": {
+    "proposed": 3.6,
+    "refined": 3.8,
+    "tournament": 3.0
+   }
+  }
+ },
+ "t005": {
+  "n": 12,
+  "proposed_mean": 2.45,
+  "proposed_best": 2.8,
+  "refined_mean": 2.4,
+  "refined_best": 3,
+  "refine_diff": -0.050000000000000044,
+  "refine_wins": 4,
+  "refine_ties": 1,
+  "refine_losses": 7,
+  "refine_failed": 0,
+  "crit_diff": {
+   "grounding": -0.25,
+   "gap": 0.5,
+   "specificity": 0.16666666666666666,
+   "coherence": -0.75,
+   "value": 0.08333333333333333
+  },
+  "match_agree": 1,
+  "match_disagree": 7,
+  "match_undecided": 10,
+  "rank_corr": -0.37388005535700686,
+  "chosen": 2.3333333333333335,
+  "top_tournament": 2.3333333333333335,
+  "oracle": 2.8,
+  "selection_loss": 0.46666666666666634,
+  "dedup_cost": 0.0,
+  "chosen_ids": [
+   "s1-transfer",
+   "s2-empirical",
+   "s3-empirical"
+  ],
+  "tournament_top": [
+   "s1-transfer",
+   "s2-empirical",
+   "s3-empirical"
+  ],
+  "oracle_ids": [
+   "s3-assumption",
+   "s1-assumption",
+   "s1-transfer"
+  ],
+  "per_candidate": {
+   "s1-assumption": {
+    "proposed": 2.2,
+    "refined": 2.8,
+    "tournament": 0.0
+   },
+   "s1-transfer": {
+    "proposed": 2.8,
+    "refined": 2.6,
+    "tournament": 6.0
+   },
+   "s1-empirical": {
+    "proposed": 2.6,
+    "refined": 2,
+    "tournament": 4.0
+   },
+   "s1-formal": {
+    "proposed": 2.2,
+    "refined": 2.6,
+    "tournament": 2.0
+   },
+   "s2-assumption": {
+    "proposed": 2.8,
+    "refined": 2.6,
+    "tournament": 2.0
+   },
+   "s2-transfer": {
+    "proposed": 2.2,
+    "refined": 2,
+    "tournament": 3.0
+   },
+   "s2-empirical": {
+    "proposed": 2.4,
+    "refined": 2,
+    "tournament": 5.0
+   },
+   "s2-formal": {
+    "proposed": 2.6,
+    "refined": 2,
+    "tournament": 2.0
+   },
+   "s3-assumption": {
+    "proposed": 2.4,
+    "refined": 3,
+    "tournament": 2.0
+   },
+   "s3-transfer": {
+    "proposed": 2.6,
+    "refined": 2.4,
+    "tournament": 4.5
+   },
+   "s3-empirical": {
+    "proposed": 2.4,
+    "refined": 2.4,
+    "tournament": 4.5
+   },
+   "s3-formal": {
+    "proposed": 2.2,
+    "refined": 2.4,
+    "tournament": 1.0
+   }
+  }
+ }
+}

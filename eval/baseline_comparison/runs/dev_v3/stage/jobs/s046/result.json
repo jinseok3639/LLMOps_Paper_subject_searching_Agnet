@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "Reward hacking at large N and the MBR-BoN datasets and comparisons are supported by ref-003 and ref-004. However, ref-004 already introduces uncertainty-based pessimism through rejection sampling and proves optimality and scaling monotonicity, contradicting the candidate's characterization of existing solutions. Neither calibrated confidence intervals nor the proposed threshold's claimed guarantee of alignment to true reward is established by the supplied references. Ref-005 supports a safety evaluator, but does not validate this guarantee.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The central gap is already addressed by ref-004, which explicitly handles reward hacking through uncertainty-based rejection sampling, analyzes compute scaling, and guarantees nondegradation with N. The candidate names that method as a baseline without stating a single clear difference from it. Its criticism of MBR-BoN (ref-003) does not establish an open gap relative to ref-004.",
+  "score": 1
+ },
+ "specificity": {
+  "rationale": "Datasets, baselines, an N range, and evaluation categories are concrete, including comparisons with ref-003 and ref-004. However, the uncertainty estimator, calibration procedure, threshold update, and behavior when all samples are rejected are unspecified. Rejecting scores below 'the lower bound of the interval' is ambiguous. Human preference and safety ratings also lack operational definitions and annotation protocols.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Uncertainty-based rejection plausibly targets reward hacking, and human evaluations across increasing N could test degradation independently of proxy scores (ref-003, ref-004). However, held-out calibration alone does not establish the asserted true-reward guarantee under selection at large N. The evaluation also does not specify compute accounting despite the stated compute-scaling gap, or a distribution shift that would test the summary's generalization claim.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Independent human evaluations at large N could inform practical sampling choices, given the failures documented in ref-003 and ref-004. However, the proposed contribution substantially repeats ref-004 without an identifiable methodological difference or a concrete hypothesis about when its guarantees fail in practice. Consequently, the expected findings offer limited additional decision value over the supplied work.",
+  "score": 2
+ }
+}

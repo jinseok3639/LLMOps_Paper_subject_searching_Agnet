@@ -1,0 +1,14 @@
+{
+ "title": "Parseval EEGNet: Robust EEG Classification via Lipschitz-Constrained Convolutional Networks",
+ "summary": "This paper proposes Parseval EEGNet, a modified EEGNet architecture with Parseval tight frame constraints on convolutional layers to enhance robustness against adversarial perturbations in EEG-based BCIs. By bounding the Lipschitz constant of the network, the approach aims to reduce sensitivity to small input changes while maintaining classification accuracy across BCI paradigms. The method is validated on P300, ERN, MRCP, and SMR datasets with adversarial attack benchmarks.",
+ "gap": "Existing EEGNet architectures lack formal robustness guarantees against adversarial examples, which is critical for safety-critical BCI applications.",
+ "approach": "Integrate Parseval tight frame constraints into EEGNet's convolutional layers to enforce bounded Lipschitz constants, combined with adversarial training on EEG-specific perturbations.",
+ "evaluation": "Compare Parseval EEGNet against standard EEGNet and adversarially trained baselines using attack success rates (FGSM, PGD) and classification accuracy on clean/perturbed EEG data from MOABB benchmarks.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-010",
+  "ref-021",
+  "ref-024"
+ ]
+}

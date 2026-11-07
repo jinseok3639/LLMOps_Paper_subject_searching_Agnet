@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-001 supports using EEGNet across four paradigms, but evaluates a shared architecture rather than establishing transfer to unseen paradigms. It reports strong performance with limited data, without supporting the claimed degradation, required paradigm-specific tuning, or extensive retraining. ref-007 supports broader benchmarking, and ref-015 supports CNN and FBCSP comparisons. ref-012 supplies only a title, while ref-017 concerns security and does not support the proposed generalization claims.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Rapid adaptation to a held-out paradigm is not solved in the supplied references and is a reasonably scoped question. However, its stated motivation depends on limitations not demonstrated by ref-001, which instead emphasizes successful limited-data performance. ref-007 establishes poor generalization across datasets, but does not specifically establish a need for meta-learning across paradigms.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate specifies EEGNet, MAML, four paradigms from ref-001, leave-one-paradigm-out evaluation, 1–10 training trials, named baselines, accuracy, convergence speed, and centered kernel alignment. These support an initial experimental design. Dataset selection, meta-task construction, adaptation budgets, and a matched conventional pretraining-and-fine-tuning baseline remain unspecified; the latter is needed to isolate the benefit of meta-learning.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Training an initialization for rapid adaptation and evaluating held-out-paradigm few-shot accuracy directly tests the central hypothesis extending ref-001. However, the approach mixes adaptation to new subjects and new paradigms without separating their protocols. Feature similarity also provides only indirect evidence of paradigm-agnostic features, and the listed baselines do not clearly isolate meta-learning from ordinary transfer learning.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "Evidence that cross-paradigm meta-training reduces calibration data could inform EEG decoder training choices, extending the compact multi-paradigm architecture in ref-001 and the generalization concerns in ref-007. The likely contribution is meaningful but bounded: the references do not establish the claimed practical bottleneck, and the proposed comparisons may not determine whether meta-learning improves on conventional pretraining.",
+  "score": 3
+ }
+}

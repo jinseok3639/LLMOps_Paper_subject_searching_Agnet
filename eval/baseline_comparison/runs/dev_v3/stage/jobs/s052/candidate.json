@@ -1,0 +1,16 @@
+{
+ "title": "Lipschitz-Constrained EEGNet for Safe Cross-Subject BCI Transfer",
+ "summary": "This work introduces Parseval-tight frame constraints to EEGNet's convolutional layers to bound Lipschitz constants, ensuring stable predictions during cross-subject adaptation. The method modifies EEGNet's training to enforce spectral normalization while preserving its compact architecture. Evaluation measures classification accuracy and robustness on cross-subject datasets, comparing against unconstrained EEGNet and adversarially trained models.",
+ "gap": "While EEGNet generalizes across subjects (ref-001), its robustness to adversarial input variations during cross-subject transfer remains unquantified. Existing Parseval network methods (ref-010) and Cross-Lipschitz regularization (ref-022) are untested in EEG's low-data, high-noise regime, where their constraints may conflict with EEGNet's depthwise separable convolutions.",
+ "approach": "Integrate Parseval-tight frame constraints into EEGNet's depthwise separable convolutions by enforcing weight matrices to be approximately orthogonal. During training, maintain these constraints via spectral normalization (ref-010) while retaining EEGNet's temporal and spatial feature extraction blocks. The core difference from ref-010 is constraining only the depthwise convolutional layers, not all linear layers, to preserve EEG-specific frequency filtering properties.",
+ "evaluation": "Baselines: (1) vanilla EEGNet (ref-001), (2) spectral-normalized EEGNet (ref-010), (3) adversarially trained EEGNet (ref-013). Measures: (a) cross-subject accuracy on BCI Competition IV Session 2a (ref-001) with leave-one-subject-out validation (11 subjects, 8,492 trials), (b) Lipschitz bounds via ref-020's SDP method, (c) CLEVER score (ref-009) computed on raw EEG inputs. Ablation: compare Parseval-constrained EEGNet against spectral-normalized EEGNet to isolate constraint effects.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-009",
+  "ref-010",
+  "ref-013",
+  "ref-020",
+  "ref-022"
+ ]
+}

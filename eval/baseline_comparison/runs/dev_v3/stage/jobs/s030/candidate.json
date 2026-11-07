@@ -1,0 +1,13 @@
+{
+ "title": "Lagrangian Reward Augmentation for Safe Inference-Time Alignment",
+ "summary": "We propose LARA, a framework that augments reward models with calibrated Lagrangian penalties to enforce safety constraints during inference-time alignment. LARA optimizes a constrained objective using dual variables calibrated on a small set, enabling principled trade-offs between helpfulness and harmlessness in Best-of-N and token-level decoding. We demonstrate improved safety-utility balance over ad-hoc penalty methods on the Anthropic hh-rlhf dataset.",
+ "gap": "While ref-012 and ref-019 propose Lagrangian methods for constrained alignment, they do not isolate the impact of dual calibration on safety-utility trade-offs. Existing work (e.g., ref-003) uses ad-hoc penalties without theoretical guarantees, leaving open how calibrated penalties improve constraint satisfaction compared to fixed coefficients.",
+ "approach": "LARA solves a constrained optimization problem: maximize reward subject to expected cost ≤ threshold. It dualizes the constraint, calibrates the dual variable λ on a small set (e.g., 100 samples) via convex optimization, and augments the reward with λ × cost. This calibrated penalty replaces fixed coefficients in Best-of-N or reward-guided decoding. The core difference from ref-012 is explicit ablation isolating dual calibration's impact on constraint satisfaction.",
+ "evaluation": "We evaluate LARA on Anthropic's hh-rlhf dataset (ref-003), comparing against vanilla Best-of-N (ref-003) and Safe RLHF (ref-019). Metrics include AU-PRC for safety detection, helpfulness scores from human evaluations, and constraint satisfaction rates (percentage of responses meeting cost thresholds). Ablations compare dual-calibrated λ vs. fixed penalty coefficients (λ = 0.1, 1.0, 10.0) to isolate calibration benefits.",
+ "support": [
+  "ref-012",
+  "ref-003",
+  "ref-019",
+  "ref-006"
+ ]
+}

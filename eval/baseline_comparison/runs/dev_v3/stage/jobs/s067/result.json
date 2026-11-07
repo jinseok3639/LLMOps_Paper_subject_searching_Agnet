@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet's compact architecture and Parseval constraints are supported by ref-001 and ref-010. However, ref-005 and ref-020 describe SDP-based verification and bound estimation, not Parseval constraint enforcement during training. The categorical claim that EEGNet lacks formal guarantees is not established by ref-001's abstract. CLEVER and MOABB are supported by ref-009 and ref-007, which are omitted from the support list.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Investigating EEGNet robustness is motivated by EEG CNN vulnerabilities in ref-024 and the accuracy-focused results in ref-001. However, the references do not explicitly establish the claimed absence of EEGNet guarantees, and the candidate leaves the perturbation set and desired guarantee unspecified. This is a plausible gap, but not a sharply defined certification problem.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The target architecture, convolutional constraint, baselines, paradigms, and named attacks provide a starting point (ref-001, ref-010). However, the SDP training formulation, perturbation budgets, and detector needed to produce detection AUC are unspecified. Ref-021 evaluates actual detection methods; the candidate does not define one.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Constraining sensitivity plausibly addresses adversarial robustness, as motivated by ref-010. But constraining convolutional layers alone does not establish the claimed classifier guarantee, and the evaluation does not measure certification. Detection AUC concerns a separate detector (ref-021), while CLEVER estimates robustness (ref-009); neither supplies the guaranteed bounds described in ref-020 or ref-022.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Whether Parseval constraints improve EEGNet robustness across BCI paradigms could inform a meaningful, narrow architectural choice, given ref-024's attack results and ref-007's concerns about generalization. However, this largely transfers ref-010's existing method, and omitting clean decoding performance and certified robustness limits what researchers could conclude about its practical benefits.",
+  "score": 3
+ }
+}

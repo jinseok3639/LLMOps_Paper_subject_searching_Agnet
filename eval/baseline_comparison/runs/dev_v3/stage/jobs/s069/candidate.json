@@ -1,0 +1,13 @@
+{
+ "title": "Adaptive Reward Model Pessimism for Inference-Time Alignment",
+ "summary": "This paper proposes an adaptive pessimism mechanism for reward models during inference-time alignment, dynamically adjusting reward scores based on uncertainty estimates to mitigate overoptimization. The method combines reward model predictions with confidence intervals derived from model calibration, penalizing high-reward outputs with low confidence. Evaluated on Best-of-N sampling tasks, it demonstrates reduced reward hacking and improved alignment with true human preferences compared to static reward models. Experiments use the Anthropic HH-RLHF dataset and measure success via human evaluation and reward model robustness.",
+ "gap": "Existing reward models for inference-time alignment treat reward scores as absolute, ignoring uncertainty, which leads to overoptimization when the reward model is imperfect. Current methods like Best-of-N or MBR-BoN do not adaptively adjust for reward model confidence.",
+ "approach": "Introduce a calibrated pessimism layer that adjusts reward scores by subtracting a penalty proportional to the reward model's uncertainty. The penalty is derived from the model's calibration error on a held-out validation set, ensuring conservative scoring for low-confidence predictions. This adjusted reward is used in Best-of-N sampling.",
+ "evaluation": "Baselines include vanilla Best-of-N, MBR-BoN, and InferenceTimePessimism. Metrics are reward hacking rate (measured by divergence from human-labeled preferences), alignment score (human evaluation), and reward model calibration error. The Anthropic HH-RLHF dataset is used for training and evaluation.",
+ "support": [
+  "ref-003",
+  "ref-004",
+  "ref-006",
+  "ref-012"
+ ]
+}

@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet, quadratic-constraint verification, Lipschitz certification, and EEG adversarial vulnerability are supported by ref-001, ref-005, ref-020, and ref-024. However, ref-007 does not identify BCI Competition IV Dataset 2a in the supplied abstract. The description of ref-021 as evaluating attack success rates also mischaracterizes its focus on adversarial detection and detection AUC.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied references leave EEG-specific constrained certification unaddressed: ref-021 studies detection, ref-024 constructs attacks, and ref-022 provides general classifier guarantees. The gap is concrete and scoped. However, ref-005 already supports general input uncertainty sets, so the proposed contribution extends its application rather than overcoming an established limitation of its formulation.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate specifies EEGNet (ref-001), added quadratic input constraints, sample-specific robustness radii, a ref-020 baseline, attacks, and a constraint ablation. These support initial experimental design. Remaining ambiguities include signal normalization for the numerical perturbation budgets, temporal-smoothness thresholds, and whether the constraints restrict perturbations or perturbed signals.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Adding EEG constraints to ref-005 and comparing certificates with and without those constraints directly tests their effect. However, empirical attacks must obey the same constraints for meaningful comparison. Also, bounds holding for more than 95% of samples cannot establish formal validity; attack comparisons provide sanity checks, while certification requires a sound derivation.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "The study could establish whether domain constraints make formal bounds useful for EEGNet, complementing empirical vulnerability results in ref-024 and detection results in ref-021. Its likely impact is meaningful but narrow: it adapts ref-005 to one architecture and dataset, and the practical relevance depends on whether the chosen constraints preserve realistic threats.",
+  "score": 3
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-003 supports proximity regularization for reward hacking, ref-004 supports pessimistic rejection sampling, and ref-005 supports safety moderation. However, the abstracts do not establish the claimed fixed rejection thresholds or static regularization strength. The claim of ensuring scaling monotonicity is unsupported for this proposed method.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Joint adaptation to uncertainty and prompt complexity is not described in ref-003 or ref-004, but its absence is not demonstrated as a concrete limitation. Moreover, ref-004 already establishes scaling-monotonic inference-time alignment, so the candidate needs a clearer unresolved benefit beyond adding adaptive penalties.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate specifies datasets, three baselines, a penalty equation, evaluation counts, and ablations, including comparisons with ref-003 and ref-004. However, the ensemble construction, reference policy, entropy aggregation, reranking score, and N sweep remain unspecified. Reward-score variance also does not directly measure the proxy-versus-true-quality degradation studied in ref-006.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "The equation contains no response-to-reference proximity measure, unlike the regularizer in ref-003. Prompt entropy is constant across candidates, so its additive term cannot change within-prompt reranking. With prompt-level alpha, subtracting the penalty merely rescales reward and preserves BoN rankings. Response-dependent uncertainty could alter rankings, but does not establish the claimed mechanism or scaling monotonicity of ref-004.",
+  "score": 1
+ },
+ "value": {
+  "rationale": "Determining whether uncertainty-aware selection improves human quality as compute increases could influence inference-time method choices, as motivated by ref-004 and ref-006. However, the proposed penalty does not implement its central rationale, and the candidate does not identify a concrete weakness in existing monotonic alignment. Its present formulation offers limited actionable learning.",
+  "score": 2
+ }
+}

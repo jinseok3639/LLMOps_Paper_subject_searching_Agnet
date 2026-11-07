@@ -1,0 +1,13 @@
+{
+ "title": "Inference-Time Pessimism with Dynamic Safety Thresholds for Scalable LLM Alignment",
+ "summary": "This paper proposes integrating InferenceTimePessimism's rejection sampling with dynamic safety thresholds derived from LARA's dual calibration. The method adaptively allocates test-time compute to balance response quality and safety by rejecting responses violating safety constraints while optimizing for helpfulness. Evaluated on HarmBench and JailbreakBench, the approach is compared to BoN, LARA, and ShieldGemma using attack success rate, harmlessness, and helpfulness metrics, with an ablation isolating the effect of dynamic thresholds.",
+ "gap": "While LARA (ref-012) provides formal safety guarantees through Lagrangian constraints, it does not address compute scaling with N. InferenceTimePessimism (ref-004) scales safely with N but lacks explicit safety constraints. No method combines both to adaptively balance quality and safety under compute constraints.",
+ "approach": "The method combines InferenceTimePessimism's rejection sampling with LARA's dual-calibrated safety constraints. Inputs: a prompt, a pre-trained LLM, a reward model, a cost model, and a compute budget (N). Output: a response. The algorithm: (1) samples N responses, (2) uses the cost model to score each for safety, (3) applies a dynamic safety threshold (α) derived from LARA's dual variable, (4) rejects responses exceeding the cost threshold, (5) re-ranks the remaining using the reward model, (6) returns the top response. The core difference from LARA is the addition of rejection sampling with a dynamic α, and from InferenceTimePessimism is the use of a cost model for safety constraints. The dynamic α is computed as the (1-1/N) quantile of the cost model's scores on a calibration set, ensuring at least one response passes the threshold as N increases.",
+ "evaluation": "Evaluate on HarmBench (ref-014) and JailbreakBench (ref-017) against baselines: BoN (ref-003), LARA (ref-012), and ShieldGemma (ref-005). Metrics: attack success rate (ASR), harmlessness score (0-100), and helpfulness score (0-100). Compute efficiency: FLOPs per response vs. harmlessness score. Ablation: compare dynamic α (quantile-based) vs. fixed α (0.5) on the same task, measuring the change in ASR and harmlessness. The evaluation tests the central claim that dynamic safety thresholds improve the safety-quality tradeoff under compute constraints.",
+ "support": [
+  "ref-004",
+  "ref-012",
+  "ref-014",
+  "ref-017"
+ ]
+}

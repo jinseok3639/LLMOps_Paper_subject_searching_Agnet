@@ -1,0 +1,13 @@
+{
+ "title": "Dynamic Compute Allocation for Best-of-N via Difficulty Classification",
+ "summary": "We propose Difficulty-Adaptive BoN (DA-BoN), which dynamically allocates N based on prompt difficulty estimated by a classifier. DA-BoN trains a lightweight model to predict the minimal N required to achieve a target reward threshold, reducing redundant sampling for easy prompts. Validation on Skywork-Reward-V2 and JailbreakBench compares DA-BoN against fixed-N BoN and RLAIF baselines, measuring FLOPs efficiency and alignment quality.",
+ "gap": "While ref-002 introduces a compute-optimal strategy for test-time compute scaling, it does not provide a method to predict prompt difficulty or dynamically allocate N. Existing fixed-N BoN methods waste compute on easy prompts and underperform on hard ones due to static N selection.",
+ "approach": "DA-BoN trains a difficulty classifier on a small set of prompts, labeled by the minimal N required to achieve a target reward threshold (e.g., 80% of max reward). The classifier is a 3-layer MLP trained on prompt embeddings and reward model scores from ref-010. During inference, the classifier predicts N for each prompt, and BoN samples only that many candidates. The classifier differs from ref-002's compute-optimal strategy by explicitly modeling prompt difficulty rather than relying on empirical scaling laws.",
+ "evaluation": "Baselines include fixed-N BoN (ref-002), RLAIF (ref-013), and a compute-optimal baseline from ref-002. Metrics are alignment score (reward model), FLOPs per prompt, and human preference (100 prompts, 3 annotators). Ablation compares DA-BoN against a fixed-N BoN baseline where N equals the average predicted N from DA-BoN's classifier. Experiments on Skywork-Reward-V2's preference data and JailbreakBench test DA-BoN's efficiency, expecting a 4x FLOPs reduction over fixed-N BoN with equivalent performance.",
+ "support": [
+  "ref-002",
+  "ref-010",
+  "ref-013",
+  "ref-017"
+ ]
+}

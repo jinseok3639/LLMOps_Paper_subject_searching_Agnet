@@ -1,0 +1,15 @@
+{
+ "title": "Safety-Certified EEG Decoding via Semidefinite Programming Robustness Bounds",
+ "summary": "This work adapts semidefinite programming (SDP) robustness certification to EEGNet, providing formal guarantees on classification stability under input perturbations. The method computes certified perturbation radii for motor imagery EEG signals, addressing safety concerns in clinical BCI systems. Unlike prior EEGNet evaluations, which focused on accuracy, this approach quantifies resilience to adversarial and natural signal variations.",
+ "gap": "While ref-001 demonstrates EEGNet's cross-paradigm generalization, it does not provide formal robustness certification. Existing SDP-based methods (ref-005, ref-020) and Lipschitz constant estimation (ref-009, ref-022) for robustness certification have not been applied to EEGNet, leaving an open question: can these techniques be adapted to certify the safety of compact CNN architectures like EEGNet under EEG-specific signal variations?",
+ "approach": "The approach applies the SDP framework from ref-005 and ref-020 to EEGNet, modeling each layer's activation functions (e.g., ELU) as quadratic constraints. Input perturbations are bounded by $\\ell_2$ or $\\ell_\\infty$ norms. The method computes layer-wise Lipschitz constants via SDP, deriving certified robustness regions as the maximum perturbation magnitude that cannot change the classification decision. Unlike ref-005's general networks, this work incorporates EEGNet's depthwise separable convolutions into the SDP formulation to exploit temporal filtering structure.",
+ "evaluation": "Evaluation uses the BCI Competition IV 2a motor imagery dataset (ref-001, ref-007), comparing certified robustness radii against CLEVER scores (ref-009) and adversarial attack success rates. Baselines include: (1) standard EEGNet (ref-001), (2) Parseval-constrained EEGNet (ref-010), and (3) PGD-adversarial-trained EEGNet (ref-013). Ablation studies isolate the SDP contribution by comparing certified radii before/after applying Lipschitz constraints. Metrics include average certified radius, CLEVER score correlation, and attack success rate reduction under $\\ell_2$ and $\\ell_\\infty$ perturbations.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-009",
+  "ref-010",
+  "ref-013",
+  "ref-020"
+ ]
+}

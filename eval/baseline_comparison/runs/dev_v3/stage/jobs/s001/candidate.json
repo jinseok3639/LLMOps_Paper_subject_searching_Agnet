@@ -1,0 +1,14 @@
+{
+ "title": "Cross-Paradigm EEG Feature Generalization via Meta-Learned Initialization",
+ "summary": "We hypothesize that meta-learning can enable EEGNet to generalize across BCI paradigms with minimal task-specific data by learning paradigm-agnostic feature extraction patterns. Our approach uses Model-Agnostic Meta-Learning (MAML) to initialize EEGNet weights on multiple paradigms, allowing fast adaptation to new tasks. We evaluate this on leave-one-paradigm-out scenarios, measuring adaptation speed and final accuracy against standard EEGNet and MOABB benchmark methods.",
+ "gap": "While EEGNet shows cross-paradigm generalization, its performance degrades with limited target paradigm data. Existing approaches require paradigm-specific hyperparameter tuning or extensive retraining, limiting practical BCI deployment.",
+ "approach": "We implement MAML training for EEGNet across P300, ERN, MRCP, and SMR datasets, optimizing for fast adaptation to new subjects/paradigms. The meta-initialization captures common EEG feature patterns (e.g., temporal filtering, spatial patterns) while allowing task-specific fine-tuning. We analyze learned features to identify paradigm-invariant vs. paradigm-specific components.",
+ "evaluation": "We compare meta-EEGNet against standard EEGNet, FBCSP, and shallow CNNs in few-shot learning scenarios (1-10 training trials). Metrics include adaptation accuracy, convergence speed, and feature similarity across paradigms using centered kernel alignment.",
+ "support": [
+  "ref-001",
+  "ref-007",
+  "ref-012",
+  "ref-015",
+  "ref-017"
+ ]
+}

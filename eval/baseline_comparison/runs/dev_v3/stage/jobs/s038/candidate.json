@@ -1,0 +1,13 @@
+{
+ "title": "Meta-Learned Initialization for Few-Shot EEG Paradigm Adaptation",
+ "summary": "We hypothesize that meta-learning can improve EEGNet's few-shot adaptation to new BCI paradigms by learning initialization weights that capture cross-paradigm EEG feature patterns. Our approach applies Model-Agnostic Meta-Learning (MAML) to EEGNet, training on multiple paradigms to enable fast adaptation with minimal target data. We evaluate this on leave-one-dataset-out scenarios from MOABB, comparing adaptation accuracy and convergence speed against EEGNet with random initialization and standard MOABB baselines.",
+ "gap": "While EEGNet generalizes across paradigms (ref-001), its performance with very limited target data (≤10 trials) remains unstudied. Existing methods do not explicitly optimize for few-shot adaptation, leaving open the question of whether meta-learning can improve initialization for rapid paradigm-specific fine-tuning.",
+ "approach": "We implement MAML training for EEGNet across four MOABB datasets (P300, ERN, MRCP, SMR), optimizing for 5-step gradient updates on new tasks. The meta-objective minimizes validation loss after adaptation, learning initialization weights that balance paradigm-invariant temporal filtering (ref-001) with task-specific spatial patterns. The core difference from ref-001 is the bi-level optimization: outer loop updates initialization, inner loop simulates adaptation.",
+ "evaluation": "We compare meta-EEGNet against EEGNet with random initialization and MOABB benchmark methods (FBCSP, shallow CNNs) in 1-10 trial few-shot learning scenarios. Metrics include adaptation accuracy, convergence speed (steps to plateau), and feature similarity via centered kernel alignment (CKA) between meta-initialized and fine-tuned weights. Ablation isolates meta-learning contribution by comparing meta-initialized vs. random-initialized EEGNet on identical adaptation tasks.",
+ "support": [
+  "ref-001",
+  "ref-007",
+  "ref-012",
+  "ref-015"
+ ]
+}

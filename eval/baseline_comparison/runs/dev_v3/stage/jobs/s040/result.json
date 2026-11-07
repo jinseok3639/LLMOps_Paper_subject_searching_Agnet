@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The support ids are relevant to adaptive compute (ref-002), reward models (ref-010), RLAIF (ref-013), and jailbreak evaluation (ref-017). However, the central characterization of ref-002 is incorrect: its abstract explicitly describes allocating test-time compute adaptively per prompt, motivated by prompt difficulty. The references also do not establish that its strategy relies only on empirical scaling laws or lacks a difficulty predictor. The proposed 4x improvement is an experimental target, not supported evidence for DA-BoN.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The stated gap largely repeats the difficulty-dependent, adaptive compute allocation already addressed by ref-002. A lightweight predictor of sampling budgets could be a narrower contribution, but the supplied abstract does not establish whether ref-002 lacks such a predictor or what concrete limitation this classifier would overcome.",
+  "score": 1
+ },
+ "specificity": {
+  "rationale": "The proposal specifies a 3-layer MLP, prompt embeddings, reward features, budget labels, fixed-N and compute-optimal baselines, FLOPs, and human preferences. This supports initial experiment design. However, it leaves unclear how stochastic sampling defines the minimal N, how the maximum reward is estimated, and how reward scores become available before choosing the sampling budget. The RLAIF baseline is also underspecified beyond citing its training procedure in ref-013; the use of ref-010 preference data and ref-017 jailbreak tasks needs clearer evaluation protocols.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Predicting sampling budgets addresses the proposed inefficiency of static N, and matching average sampling budgets plus comparing against ref-002's compute-optimal strategy could test the benefit. However, optimizing a reward threshold does not establish equivalent alignment quality: ref-003 and ref-006 explicitly identify reward overoptimization. Human preferences provide a partial independent check, but the JailbreakBench experiment lacks an explicit safety metric despite ref-017's standardized scoring framework.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "An inexpensive budget predictor could offer practical savings if it outperforms the adaptive strategy in ref-002 after accounting for prediction and reward-scoring costs. However, difficulty-adaptive compute allocation and a greater-than-4x efficiency improvement are already reported in ref-002. The candidate does not identify a limitation that would make its classifier change current method choices, leaving its likely contribution incremental.",
+  "score": 2
+ }
+}

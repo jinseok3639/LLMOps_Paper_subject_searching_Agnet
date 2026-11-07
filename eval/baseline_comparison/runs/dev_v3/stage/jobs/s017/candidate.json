@@ -1,0 +1,14 @@
+{
+ "title": "Certified Robustness for EEG-Based BCIs via Semidefinite Programming",
+ "summary": "This work introduces the first certified robustness framework for EEG-based BCIs, using semidefinite programming (SDP) to provide mathematical guarantees on model resilience to input perturbations. By abstracting EEGNet layers with quadratic constraints, we derive verified bounds on output stability under bounded input distortions. We demonstrate this on the PhysioNet motor imagery dataset, showing that certified robustness correlates with empirical attack resistance.",
+ "gap": "Current BCI robustness evaluations rely on empirical attack success rates, lacking formal guarantees. While ref-005 and ref-020 provide general SDP-based certification for feed-forward networks, they do not address EEGNet's specific temporal convolution and spatial filtering operations, leaving open the question of how to model these components for certification.",
+ "approach": "We extend SDP-based robustness certification to EEGNet by modeling temporal convolution (via circulant matrices), spatial filtering (via diagonal constraints), and activation functions (via ref-005's quadratic bounds). The SDP solver computes the maximum output change for any input perturbation within an $\\ell_2$ ball of radius $\\epsilon=0.1$ (normalized input). The core difference from ref-005 is the explicit handling of EEGNet's 2D temporal-spatial structure through structured weight matrices.",
+ "evaluation": "We test on the PhysioNet motor imagery dataset (ref-001) with EEGNet (8 temporal filters, 2 spatial filters, ReLU) under FGSM, PGD, and auto-attacks. We compare: (1) certified bounds vs. empirical attack success rates, (2) SDP certification runtime per sample, (3) bound tightness across network depths (1-3 temporal blocks), and (4) SDP bounds vs. ref-020's Lipschitz-based bounds under identical $\\ell_2$ perturbations. An ablation isolates temporal convolution modeling by replacing it with standard 1D convolutions.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-020",
+  "ref-021",
+  "ref-022"
+ ]
+}

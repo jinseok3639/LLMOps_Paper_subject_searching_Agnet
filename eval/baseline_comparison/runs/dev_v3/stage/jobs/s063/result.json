@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The rejection-sampling and dual-calibration components are supported by ref-004 and ref-012, and the benchmark citations are appropriate. However, ref-004 establishes monotonic response-quality performance under reward-model uncertainty, not harmlessness as N increases. Ref-012 provides an expected-cost constrained solution for sequence-level methods, with explicitly weaker claims for token-level decoding. Neither reference supports deriving the proposed cost quantile from LARA's dual variable or its claimed guarantee that a response passes.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Combining explicit expected-cost constraints from ref-012 with resistance to reward overoptimization as compute increases in ref-004 is a plausible, reasonably scoped gap. However, the candidate motivates it by conflating scaling robustness with safety guarantees. The categorical claim that no method combines these properties is not established by the supplied abstracts, and ref-020 also addresses inference-time safety constraints.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The sampling procedure, quantile schedule, compute budget, benchmarks, baselines, and threshold ablation provide an experimental starting point. However, the connection between the quantile and ref-012's dual variable is unspecified, as is behavior when all responses are rejected. Harmlessness and helpfulness scores lack defined evaluators. ShieldGemma is a moderation model in ref-005, so its use as a competing response-generation method needs explanation. The closest method, ref-004, is also missing as a baseline.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Cost filtering followed by reward ranking could test a safety-quality tradeoff, but the proposed threshold increases with N and therefore permits higher costs, undermining the safety-scaling motivation. A calibration quantile cannot ensure that any particular batch contains an accepted response. The algorithm neither specifies how it preserves ref-004's pessimism nor uses ref-012's dual-calibrated augmented reward. Sampling all N responses also does not implement the claimed adaptive compute allocation.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Whether additional inference compute worsens safety under imperfect cost models could meaningfully inform method selection, connecting ref-004, ref-006, and ref-012. However, the current experiment mainly tests one insufficiently justified filtering schedule, and omitting ref-004 as a baseline limits what can be learned about the proposed combination. The potential contribution is meaningful but narrow as specified.",
+  "score": 3
+ }
+}

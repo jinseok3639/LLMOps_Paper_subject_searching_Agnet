@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-005 supports attacks on pretrained diffusion policies, physical patches, and offline perturbations transferable across frames. However, its abstract neither identifies Adroit nor establishes that timestep analysis is absent or that its attacks use uniform perturbations. ref-007 and ref-016 support evaluation and access considerations generally, but provide no evidence for the claimed timestep-specific limitation.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Identifying whether particular diffusion timesteps disproportionately determine attack effectiveness is a focused, plausible extension of ref-005. However, the supplied abstract does not establish that this question remains unanswered, and frame-level transferability does not imply uniform treatment of diffusion timesteps.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies gradient sensitivity, finite differences, L2-constrained optimization, DP-Attacker and random baselines, and measurable outcomes. However, it leaves unclear whether perturbations modify observations, intermediate diffusion states, or predicted actions, and how timestep-specific interventions become physical patches. The Adroit attribution is unsupported by ref-005.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Sensitivity-based timestep selection and comparison with random timestep selection could test the central hypothesis relative to ref-005. However, internal diffusion perturbations and physically realizable observation patches require different access assumptions, and their connection is unspecified. Comparisons also need matched perturbation and computation budgets to isolate the benefit of timestep selection.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Showing that vulnerabilities concentrate at particular timesteps could improve attack efficiency and inform targeted robustness evaluations beyond ref-005, consistent with the evaluation motivations of ref-007 and ref-016. The likely contribution is meaningful but narrow: ref-005 already demonstrates effective attacks, and the candidate does not clearly explain how its findings would change deployment or defense choices.",
+  "score": 3
+ }
+}

@@ -1,0 +1,13 @@
+{
+ "title": "Compute-Optimal BoN with Dynamic N Allocation for Prompt Difficulty",
+ "summary": "We propose Compute-Optimal BoN (CO-BoN), which dynamically allocates N based on prompt difficulty estimated by a lightweight classifier. CO-BoN uses a proxy model to predict the minimal N required for a target performance level, reducing redundant sampling for easy prompts. Validation on the Skywork-Reward-V2 and JailbreakBench datasets compares CO-BoN against fixed-N BoN and RLAIF baselines, measuring FLOPs efficiency and alignment quality.",
+ "gap": "Fixed-N BoN wastes compute on easy prompts and underperforms on hard ones. Current methods lack a principled way to allocate compute adaptively, leading to suboptimal FLOPs utilization.",
+ "approach": "CO-BoN trains a difficulty classifier on a small set of prompts, labeled by the minimal N required to achieve a target reward. During inference, the classifier predicts N for each prompt, and BoN samples only that many candidates. The classifier is trained using reward model scores from ref-010 and difficulty labels derived from ref-002's scaling laws.",
+ "evaluation": "Baselines include fixed-N BoN (ref-002), RLAIF (ref-013), and Skywork-Reward-V2 (ref-010). Metrics are alignment score (reward model), FLOPs per prompt, and human preference. Experiments on Skywork-Reward-V2's preference data and JailbreakBench test CO-BoN's efficiency, expecting a 4x FLOPs reduction over fixed-N BoN with equivalent performance.",
+ "support": [
+  "ref-002",
+  "ref-010",
+  "ref-013",
+  "ref-017"
+ ]
+}

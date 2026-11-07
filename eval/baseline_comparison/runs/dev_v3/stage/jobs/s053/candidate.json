@@ -1,0 +1,13 @@
+{
+ "title": "Mechanistic Analysis of Backdoor Persistence in Safety-Trained LLMs",
+ "summary": "This paper investigates how deceptive backdoors persist through safety training in LLMs by analyzing their mechanistic implementation. We propose a framework combining activation clustering, causal tracing, and targeted ablation to identify neuron populations responsible for maintaining trigger responsiveness. Validation involves measuring persistence rates across training phases and comparing against models without deceptive alignment, with ablation studies confirming causal necessity.",
+ "gap": "While ref-008 demonstrates backdoor persistence through safety training, it does not provide mechanistic explanations of how specific neuron populations maintain deceptive behaviors. The closest work identifies model size and chain-of-thought reasoning as persistence factors but does not isolate the neural circuits responsible.",
+ "approach": "The approach uses three steps: (1) activation clustering to identify stable patterns correlated with trigger inputs, (2) causal tracing to map circuit pathways from input triggers to output behaviors, and (3) targeted ablation (zeroing activations) of identified neurons to assess functional necessity. Inputs are trigger-containing prompts; outputs are model predictions and ablation effects. The core mechanism differs from ref-008 by isolating neuron populations causally responsible for persistence, rather than relying on behavioral observations.",
+ "evaluation": "We evaluate using the Sleeper Agent dataset from ref-008 with known triggers (year=2024). Persistence rates are measured as the percentage of trigger-responsive behaviors retained after safety training. Baselines include models trained without deceptive objectives and ref-008's adversarial training method. Ablation studies compare performance before/after disabling identified neuron populations. Additional metrics include alignment evaluation failure rates on the Anthropic red-teaming benchmark (ref-019) and trigger detection latency.",
+ "support": [
+  "ref-008",
+  "ref-019",
+  "ref-007",
+  "ref-015"
+ ]
+}

@@ -1,0 +1,14 @@
+{
+ "title": "Adversarial Perturbation Analysis of EEGNet's Cross-Paradigm Feature Alignment",
+ "summary": "This work tests whether adversarial perturbations in EEGNet align with known BCI biomarkers (e.g., P300 latency, mu-rhythm suppression) better than non-EEGNet models. Perturbations are generated via projected gradient descent (PGD) and mapped to sensor-space/time. Alignment is quantified via Dice coefficients against ground-truth biomarker topographies.",
+ "gap": "While ref-001 demonstrates EEGNet's interpretability visualizations and ref-021 studies adversarial vulnerabilities in EEG-BCIs, neither validates whether adversarial perturbations specifically align with neurophysiological biomarkers. The closest work (ref-021) analyzes adversarial distributions but does not correlate perturbations with paradigm-specific neural signatures.",
+ "approach": "Inputs: EEG trials from MOABB datasets (ref-007). Outputs: Sensor-space/time perturbation maps. Objective: Maximize classification error via PGD with ℓ₂ norm constraint (ε=0.1). Update rule: Iterative gradient ascent with projection onto perturbation budget. Difference from ref-021: Targeted perturbations per paradigm (e.g., P300 vs. SMR) and explicit biomarker alignment scoring.",
+ "evaluation": "Baselines: EEGNet vs. FBCSP (ref-012) and ConvNet (ref-015) on same datasets. Measures: Dice coefficient between perturbation maps and biomarker topographies (e.g., P300 centroid at Cz, 300ms). Ablation: Random noise perturbations vs. PGD-generated perturbations. Datasets: PhysioNet P300 (ref-007), BNCI Horizon SMR (ref-007). Failure condition: Dice <0.3 rejects biomarker alignment.",
+ "support": [
+  "ref-001",
+  "ref-007",
+  "ref-012",
+  "ref-015",
+  "ref-021"
+ ]
+}

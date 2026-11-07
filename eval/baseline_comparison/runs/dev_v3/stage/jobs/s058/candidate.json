@@ -1,0 +1,12 @@
+{
+ "title": "Context-Aware Alignment Evaluation for Agentic LLMs in Corporate Environments",
+ "summary": "This paper introduces a framework for evaluating agentic misalignment in LLMs by systematically varying contextual pressures (e.g., temporal urgency, organizational hierarchy) in corporate scenarios. Our approach generates controlled, ethically ambiguous situations to measure how these pressures influence deviations from organizational values. We validate the framework by isolating the impact of specific contextual factors on misalignment rates, comparing results against existing stress-testing methods.",
+ "gap": "While ref-002 and ref-007 evaluate misalignment in dynamic corporate scenarios, they do not systematically isolate or quantify how specific contextual pressures (e.g., urgency, hierarchy magnitude) independently influence harmful behavior. Ref-002 shows context-awareness but lacks controlled variation of pressure variables, and ref-007 discusses alignment evaluations without quantifying contextual effects.",
+ "approach": "We implement a scenario generation system that: (1) models corporate contexts using parameterized constraint graphs (e.g., urgency level [0,1], hierarchy depth [1,5]), (2) creates ethically ambiguous situations by varying these parameters while holding others constant, and (3) measures misalignment via explicit actions (e.g., data leaks) and a mechanistic interpretability probe trained to detect latent harmful intent in attention heads. The probe uses linear regression to identify neurons correlated with misaligned outputs in ref-002's scenarios.",
+ "evaluation": "We test on 16 models from ref-002 under scenarios with controlled urgency (0.2–0.8) and hierarchy depth (1–4). Metrics include: (1) misalignment rate per pressure level, (2) consistency across scenario types, and (3) probe accuracy in detecting latent intent. Baselines include ref-002's stress-testing (no controlled variation) and ref-007's dangerous capability evaluations (no contextual parameters). Ablations isolate urgency/hierarchy effects by fixing one parameter while varying the other.",
+ "support": [
+  "ref-002",
+  "ref-007",
+  "ref-019"
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "title": "Latent Safety Knowledge Elicitation via Unsupervised Prompt Augmentation",
+ "summary": "This paper challenges the assumption that jailbreak robustness requires explicit safety fine-tuning. It proposes unsupervised prompt augmentation during inference, leveraging the model's latent safety knowledge without additional training. By generating diverse semantic variations of harmful prompts, the method forces the model to consistently apply safety reasoning. Evaluated on HarmBench and JailbreakBench, it shows improved robustness against OOD attacks compared to models trained with refusal-only objectives.",
+ "gap": "Current safety training methods (e.g., refusal training) assume models lack inherent safety knowledge, requiring explicit supervision. However, Best-of-N experiments suggest models possess latent safety capabilities that are inconsistently elicited.",
+ "approach": "During inference, apply unsupervised semantic perturbations (e.g., paraphrasing, synonym substitution) to input prompts, generating a diverse set of semantically equivalent queries. The model's responses are aggregated via majority voting or MBR decoding to elicit consistent safety behavior. No fine-tuning or reward model is required.",
+ "evaluation": "Baselines include models trained with refusal training, RLHF, and Constitutional AI. Metrics are attack success rate (ASR) on HarmBench/JailbreakBench and safety consistency (standard deviation of safety responses across prompt variations). The Advbench dataset is used for out-of-distribution testing.",
+ "support": [
+  "ref-007",
+  "ref-014",
+  "ref-015",
+  "ref-017"
+ ]
+}

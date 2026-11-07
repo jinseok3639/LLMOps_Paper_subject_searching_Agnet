@@ -1,0 +1,14 @@
+{
+ "title": "Parseval EEGNet: Lipschitz-Constrained EEG Classification with Formal Robustness Guarantees",
+ "summary": "This paper introduces Parseval EEGNet, an EEGNet variant with Parseval tight frame constraints on convolutional layers to bound the network's Lipschitz constant. This constraint limits the network's sensitivity to input perturbations while preserving classification accuracy. The approach is evaluated on P300, ERN, MRCP, and SMR datasets from MOABB, comparing clean/perturbed accuracy and attack success rates against standard EEGNet and adversarially trained baselines under FGSM/PGD attacks.",
+ "gap": "While EEGNet [ref-001] generalizes across BCI paradigms, it lacks formal robustness guarantees. Ref-010 shows Lipschitz-constrained networks (Parseval networks) provide formal robustness bounds, but this has not been applied to EEG. The gap is the absence of a method to provide provable perturbation bounds for EEG-based BCIs, which is necessary for safety-critical applications where input noise or adversarial attacks could cause misclassification.",
+ "approach": "Parseval EEGNet replaces standard convolutional layers in EEGNet with Parseval tight frame-constrained layers, ensuring the Lipschitz constant of each layer is ≤1. The input is raw EEG time-series, and the output is class probabilities. The core difference from [ref-001] is the use of orthogonalized weight matrices in depthwise and separable convolutions, maintained via projection during SGD. The objective is cross-entropy loss, with an additional constraint on weight matrices to remain approximately Parseval. No adversarial training is used, isolating the effect of Lipschitz constraints.",
+ "evaluation": "Evaluate on four BCI paradigms (P300, ERN, MRCP, SMR) from MOABB [ref-007] using the same datasets as [ref-001]. Baselines: standard EEGNet [ref-001] and adversarially trained EEGNet. Metrics: (1) clean test accuracy, (2) perturbed test accuracy under FGSM (ε=0.1) and PGD (10 steps, ε=0.01/step), (3) attack success rate. Ablation: compare Parseval EEGNet with/without Lipschitz constraints to isolate the effect of the proposed method. All experiments use white-box attacks, as in [ref-021].",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-010",
+  "ref-021"
+ ]
+}

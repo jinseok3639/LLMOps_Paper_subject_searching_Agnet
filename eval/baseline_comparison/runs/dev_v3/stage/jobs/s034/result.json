@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet's architecture and paradigms (ref-001), Parseval constraints (ref-010), SDP Lipschitz bounds (ref-020), CLEVER (ref-009), and EEG attack detection (ref-021) are supported. However, ref-024 generates attacks rather than providing adversarial training, and the claim that such training is data-intensive is unsupported. Ref-010 does not describe spectral normalization or establish its equivalence to Parseval constraints. Ref-005 is relevant to certification but does not substantiate the candidate's claimed guarantee.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The supplied references do not evaluate Lipschitz-constrained EEGNet, leaving a concrete application question between ref-001 and ref-010. However, this gap follows mainly from combining methods rather than an identified limitation, and its justification relies partly on mischaracterizing ref-024. The unrestricted claim that no work exists exceeds the supplied evidence.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The target architecture, constrained layers, baselines, and main metrics are concrete (ref-001, ref-009, ref-020). However, ref-001 supplies four paradigms rather than identifying the proposed datasets here. The evaluation promises three attacks but names only FGSM and PGD, omits perturbation scaling and norms, and leaves the distinction between Parseval constraints and the spectral-normalization ablation unclear.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Clean and attacked accuracy comparisons could test empirical robustness. However, the approach enforces Parseval constraints through spectral normalization while treating spectral normalization alone as a separate ablation, without defining their difference. It also does not establish how constraining selected convolutions yields the claimed model-wide guarantee; ref-010 discusses constraints on linear, convolutional, and aggregation layers. Ref-020 bounds and ref-009 scores are relevant, but no explicit decision-level certification procedure is specified.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Whether constraints preserve EEGNet accuracy while improving robustness could inform BCI training choices, given the vulnerabilities demonstrated in ref-024 and the decoding results in ref-001. However, the proposal is primarily a transfer of ref-010 to EEGNet, and its current evaluation would provide narrower empirical evidence than the promised provable robustness result.",
+  "score": 3
+ }
+}

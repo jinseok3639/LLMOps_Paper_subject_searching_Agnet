@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet and SDP certification are supported by ref-001, ref-005, and ref-020, while ref-021 supports empirical EEG adversarial detection. However, no supplied reference establishes that existing certification methods fail on EEG temporal dimensionality or small training sets, or verifies the claimed first EEG certification framework. Ref-009 provides an estimated robustness metric, not formal certification.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Applying formal certification to EEGNet is an open application within the supplied corpus: ref-021 evaluates detection, whereas ref-005 and ref-020 provide general certification methods. However, the candidate does not identify a concrete limitation of those methods requiring an extension; its asserted EEG-specific failure is unsupported.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The target architecture, quadratic-constraint technique, perturbation norm, attack families, runtime measures, and ref-020 baseline are concrete. However, the SMR datasets, perturbation budgets, EEG-specific mathematical adaptation, and criterion connecting output bounds to certified classification are unspecified. Bound tightness also lacks a defined reference value.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Applying the methods of ref-005 and ref-020 to EEGNet coherently addresses the absence of EEG certification experiments. However, empirical attack correlation cannot establish certificate validity, and output stability alone does not specify whether classification is preserved. The evaluation also does not directly test the claimed temporal-dimensionality and small-sample limitations.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Determining whether useful certificates can be computed for EEGNet could inform BCI robustness evaluation beyond the empirical detection studied in ref-021. Nevertheless, the proposal largely transfers the established methods of ref-005 and ref-020 to ref-001, without identifying a technical obstacle or decision threshold that would make the outcome broadly consequential.",
+  "score": 3
+ }
+}

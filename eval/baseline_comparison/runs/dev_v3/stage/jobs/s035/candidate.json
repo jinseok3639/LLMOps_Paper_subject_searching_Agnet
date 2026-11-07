@@ -1,0 +1,12 @@
+{
+ "title": "Adaptive Reward Model Pessimism for Scaling-Monotonic Inference-Time Alignment",
+ "summary": "We propose a method to adaptively adjust reward model pessimism during Best-of-N (BoN) sampling, ensuring that increased test-time compute does not degrade response quality due to reward hacking. The approach dynamically penalizes high-reward responses that deviate from a reference policy, with penalty strength determined by reward model uncertainty (ensemble variance) and prompt complexity (reference policy entropy). The method is evaluated on the Anthropic HH-RLHF and AlpacaFarm datasets, comparing against BoN, MBR-BoN, and InferenceTimePessimism, with metrics including human preference win rates, reward model score variance, and safety scores.",
+ "gap": "InferenceTimePessimism (ref-004) and MBR-BoN (ref-003) do not explicitly adapt penalty strength to both reward model uncertainty and prompt complexity. InferenceTimePessimism uses fixed rejection sampling thresholds, and MBR-BoN applies a static proximity regularization term, leaving open the question of how to dynamically balance reward maximization and reference policy alignment as N scales.",
+ "approach": "The method introduces a dynamic penalty term: P = α * (1 - R) + β * H, where R is the reward model score, H is the reference policy entropy of the prompt, and α, β are hyperparameters. The penalty is applied during BoN reranking, with α scaled by the ensemble variance of the reward model. The reference policy entropy H is computed as the Shannon entropy of a pre-trained model's output logits for the prompt. The approach differs from InferenceTimePessimism (ref-004) by using a continuous penalty rather than binary rejection and from MBR-BoN (ref-003) by incorporating reward model uncertainty into the penalty strength.",
+ "evaluation": "Baselines include BoN, MBR-BoN, and InferenceTimePessimism. Metrics are: (1) human preference win rates (evaluated on 1,000 samples from HH-RLHF and AlpacaFarm), (2) reward model score variance across 1,000 BoN samples (to measure reward hacking), (3) safety scores using ShieldGemma (ref-005) (binary classification of harmful content), and (4) compute efficiency (alignment success rate per sample, measured as the number of samples required to achieve 80% human preference win rate). Ablations include: (a) fixed penalty strength, (b) penalty without reward model uncertainty, and (c) penalty without prompt complexity.",
+ "support": [
+  "ref-003",
+  "ref-004",
+  "ref-005"
+ ]
+}

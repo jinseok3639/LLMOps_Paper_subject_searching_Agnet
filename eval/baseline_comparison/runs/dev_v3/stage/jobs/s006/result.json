@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "EEGNet's architecture and four-paradigm evaluation, Parseval constraints, and EEG white-box detection experiments are supported by ref-001, ref-010, and ref-021. However, ref-010 does not explicitly establish the claimed formal robustness guarantees, and approximate weight constraints do not establish the asserted exact layer bounds. Ref-007 does not confirm that MOABB contains the same four-paradigm datasets as ref-001. Ref-005 supports general certification methods, not certification of this proposed model.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "EEG-specific robustness certification is a plausible open direction: ref-021 and ref-024 establish EEG attack vulnerability, while ref-005, ref-020, and ref-022 describe general certification approaches without EEG evaluations. However, the blanket claim that no method provides provable EEG perturbation bounds exceeds the evidence, and the candidate does not specify the precise guarantee missing from existing methods.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies the EEGNet modification, training objective, baselines, four target paradigms, attacks, and accuracy measures, making an initial experiment design possible (ref-001, ref-010). Important details remain undefined: perturbation norm and EEG scaling, PGD's total perturbation budget, dataset identities, and how certified bounds would be computed and measured using approaches such as ref-005 or ref-022.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Constraining EEGNet's sensitivity reasonably connects Parseval training in ref-010 to EEG adversarial vulnerability in ref-021 and ref-024. However, clean accuracy and attack success measure empirical robustness, not the promised formal guarantee. Approximate convolutional constraints also leave the full network bound and decision-margin certificate unestablished, unlike the explicit certification objectives in ref-005 and ref-022.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A multi-paradigm comparison could inform whether EEG researchers should choose Parseval constraints over ordinary or adversarial training, addressing robustness concerns in ref-024 and generalization concerns in ref-007. As specified, however, it mainly transfers ref-010's existing technique to ref-001; without certified-radius measurements, its likely contribution is useful but narrower than the claimed formal safety advance.",
+  "score": 3
+ }
+}

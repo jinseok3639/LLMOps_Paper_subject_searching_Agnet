@@ -1,0 +1,13 @@
+{
+ "title": "Cross-Paradigm Adversarial Transferability in EEG-Based BCIs: A Quantitative Analysis",
+ "summary": "This work quantifies adversarial transferability across BCI paradigms (P300, MRCP, SMR) by generating universal perturbations on one paradigm and testing their effectiveness on others. The study uses EEGNet as the target model, with transferability measured via attack success rates and feature-space distance metrics, revealing paradigm-specific vulnerability patterns.",
+ "gap": "While ref-021 and ref-024 study adversarial detection and UAPs in BCIs, they do not systematically analyze cross-paradigm transferability. Ref-021 evaluates detectors across datasets but does not generate cross-paradigm attacks, and ref-024 demonstrates UAP transferability within a single paradigm. The core gap is the absence of a controlled comparison between cross-paradigm and within-paradigm UAP transferability.",
+ "approach": "Generate universal adversarial perturbations (UAPs) for each paradigm (P300, MRCP, SMR) using the TLM method (ref-024) on EEGNet (ref-001). For each source-target paradigm pair (e.g., P300→SMR), measure attack success rate (ASR) and compute layer-wise cosine similarity between source and target model features. The central mechanism differs from ref-024 by explicitly comparing cross-paradigm vs. within-paradigm UAPs and quantifying feature similarity as a predictor of transferability.",
+ "evaluation": "Compare cross-paradigm UAP ASRs against (1) within-paradigm UAP baselines (ref-024) and (2) random noise baselines. Use MOABB (ref-007) datasets: PhysioNet P300, BNCI Horizon MRCP, and Cho SMR. Compute Spearman correlation between cosine similarity (layer 4 of EEGNet) and ASR across paradigm pairs. Ablate TLM's role by repeating experiments with fixed perturbation magnitudes.",
+ "support": [
+  "ref-001",
+  "ref-007",
+  "ref-021",
+  "ref-024"
+ ]
+}

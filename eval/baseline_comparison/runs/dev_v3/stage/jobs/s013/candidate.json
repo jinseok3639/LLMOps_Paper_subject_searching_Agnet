@@ -1,0 +1,13 @@
+{
+ "title": "Lagrangian Reward Augmentation for Safe Inference-Time Alignment",
+ "summary": "We introduce LARA, a framework for safe inference-time alignment that optimizes a constrained objective using Lagrangian duality. LARA augments the reward with a calibrated penalty term to enforce safety constraints, applicable to both sequence-level and token-level decoding. We demonstrate improved trade-offs between helpfulness and harmlessness on public benchmarks.",
+ "gap": "Existing inference-time alignment methods lack principled ways to enforce safety constraints, often relying on ad-hoc penalties that fail to balance objectives optimally.",
+ "approach": "LARA formulates alignment as a constrained optimization problem, dualizing the safety constraint to derive an augmented reward. The dual variable is calibrated on a small set, enabling drop-in use with Best-of-N or reward-guided decoding.",
+ "evaluation": "We apply LARA to Best-of-N and token-level decoding, comparing against unconstrained baselines and fine-tuning-based methods. Metrics include helpfulness-harmlessness trade-offs, AU-PRC for safety detection, and FLOPs efficiency.",
+ "support": [
+  "ref-012",
+  "ref-003",
+  "ref-006",
+  "ref-019"
+ ]
+}

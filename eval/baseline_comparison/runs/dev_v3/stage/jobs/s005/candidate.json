@@ -1,0 +1,17 @@
+{
+ "title": "Lipschitz-Constrained EEGNet: Improving Robustness Against Adversarial Perturbations in BCI",
+ "summary": "This paper proposes Lipschitz-Constrained EEGNet, a modified EEGNet architecture with Parseval-tight frame constraints on convolutional layers to bound Lipschitz constants, improving robustness against adversarial examples in EEG-based BCIs. The approach combines EEGNet's compact structure with Parseval network principles, validated through adversarial attack detection rates and CLEVER score comparisons against standard EEGNet and FBCSP baselines.",
+ "gap": "While ref-021 shows adversarial detection in EEG-based BCIs is possible, it does not provide formal guarantees. The closest work, ref-001, demonstrates EEGNet's generalization but does not address adversarial robustness. The open problem is to bound the Lipschitz constant of EEGNet to provide formal robustness guarantees, which is critical for safety-critical BCI applications (e.g., ref-006, ref-016, ref-017, ref-025).",
+ "approach": "Modify EEGNet by constraining convolutional layer weight matrices to be approximately Parseval-tight frames, ensuring a Lipschitz constant ≤ 1. The input is raw EEG, the output is class probabilities. The core difference from ref-001 is the addition of Parseval constraints, enforced via ref-005's quadratic constraint framework and ref-020's SDP during training. The update rule uses SGD with projection steps to maintain tight frame properties, as in ref-010. The constraint is applied to all linear/conv layers, while depthwise separable operations (ref-001) remain unchanged.",
+ "evaluation": "Test on P300, ERN, and SMR datasets from ref-007 (MOABB), using 10 subjects per paradigm. Baselines: standard EEGNet (ref-001) and FBCSP (ref-012). Metrics: (1) AUC for adversarial detection (ref-021) under FGSM/PGD attacks, (2) CLEVER score (ref-009) for robustness quantification, (3) Lipschitz constant upper bound (ref-020) via SDP. Ablation: compare proposed model to EEGNet with Parseval constraints removed, keeping all other hyperparameters identical. The central claim is that Parseval constraints reduce Lipschitz constants, improving robustness.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-007",
+  "ref-009",
+  "ref-010",
+  "ref-012",
+  "ref-020",
+  "ref-021"
+ ]
+}

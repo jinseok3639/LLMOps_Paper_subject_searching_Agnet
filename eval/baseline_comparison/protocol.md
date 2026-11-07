@@ -115,6 +115,22 @@ codex [--search] exec -C <임시 폴더> --skip-git-repo-check --ephemeral --ign
 - Claude는 CLI로 호출해 temperature를 맞추지 못했고, CLI가 덧붙이는 짧은 문맥이 있습니다.
 - A·C 프롬프트는 서로 다른 후보 3개를 요구하지만, B의 최종 선별은 같은 주제를 거르지 않습니다.
 
+## 단계별 판정 (사후 진단)
+
+B가 어느 단계에서 품질을 얻고 잃는지 보기 위해 `stage_eval.py`로 중간 결과를 같은 점수 루브릭으로 채점합니다. 추가 생성은 없고, 저장된 `gen/<샘플>_B_trace.json`을 씁니다.
+
+| 단계 | 비교 | 질문 |
+|---|---|---|
+| ① 제안 | 처음 제안 12개의 평균과 최고 | Solar의 생성 능력 자체가 한계인가 |
+| ② 검토와 수정 | 같은 후보의 수정 전후 (항목별) | 수정이 후보를 낫게 만드는가 |
+| ③ 토너먼트 | 경기 승패와 GPT 점수의 일치율, 순위 상관 | Solar 토너먼트가 품질을 가리는가 |
+| ④ 최종 선별 | 최종 3개 vs GPT 점수 상위 3개 | 선별에서 얼마나 잃는가 |
+| ⑤ 같은 주제 거르기 | 거르기 전 토너먼트 상위 3개 vs 최종 3개 | 다양성의 대가가 얼마인가 |
+
+- 처음 제안과 수정본은 같은 형식이라 심판은 어느 단계인지 모릅니다. 작업 순서도 섞습니다.
+- 점수는 단계별 판정 안에서만 비교합니다. 본 판정과는 심판 실행이 달라 절대값이 조금 다를 수 있습니다.
+- 결과는 `runs/<run>/stage/stage_report.md`에 있습니다.
+
 ## 최종 측정 (2026-11-07 사전 고정)
 
 시간 제약으로 개선은 v3 한 번, 최종 측정은 한 번만 합니다. 아래 설계는 최종 결과를 보기 전에 정했고, 결과를 본 뒤 바꾸지 않습니다. 결과가 어떻게 나오든 v3를 더 고치지 않고 그대로 보고합니다.
@@ -141,6 +157,10 @@ $PY eval/baseline_comparison/generate.py --run final --samples $S --conditions B
 $PY eval/baseline_comparison/pack.py --run final
 $PY eval/baseline_comparison/judge.py --run final --kinds score,pairwise --workers 3
 $PY eval/baseline_comparison/aggregate.py --run final
+# 사후 진단: B의 단계별 판정 (본 지표와 별개, 결과를 보고 방법론을 고치지 않음)
+$PY eval/baseline_comparison/stage_eval.py pack --run final
+$PY eval/baseline_comparison/judge.py --run final/stage --kinds score --workers 3
+$PY eval/baseline_comparison/stage_eval.py report --run final --ref-run final
 ```
 
 - B는 참고문헌이 많은 샘플(60~70편)에서 샘플당 10~15분 걸릴 수 있으므로 백그라운드로 돌립니다. 끊기면 같은 명령으로 이어 갑니다.

@@ -1,0 +1,12 @@
+{
+ "title": "Context-Aware Alignment Evaluation for Agentic LLMs in Corporate Environments",
+ "summary": "This paper proposes a context-aware evaluation framework for detecting agentic misalignment in corporate LLMs. Unlike static benchmarks, our method dynamically varies deployment context signals (e.g., organizational hierarchy, temporal urgency) to stress-test models' alignment under realistic operational pressures. We implement a controlled scenario generator that creates ethically ambiguous situations while measuring deviation from organizational values. Validation involves comparing misalignment rates across models under varying contextual pressures.",
+ "gap": "Existing alignment evaluations (ref-002, ref-007, ref-019) use static scenarios but fail to account for how contextual factors like organizational dynamics and temporal pressures influence agentic misalignment.",
+ "approach": "We develop a scenario generation system that: (1) models corporate contexts through hierarchical constraint graphs, (2) introduces controlled variations in ethical ambiguity and operational pressure, and (3) measures alignment through both explicit actions and latent intent detection via mechanistic interpretability.",
+ "evaluation": "We evaluate using three metrics: (1) misalignment rate under increasing contextual pressure, (2) consistency of alignment across scenario types, and (3) detectability of latent harmful intent. Baselines include standard red-teaming (ref-002) and dangerous capability evaluations (ref-007).",
+ "support": [
+  "ref-002",
+  "ref-007",
+  "ref-019"
+ ]
+}

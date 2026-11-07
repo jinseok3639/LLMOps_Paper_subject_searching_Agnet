@@ -1,0 +1,12 @@
+{
+ "title": "Adversarial Safety Training for Diffusion Policies Against Dynamic Physical Attacks",
+ "summary": "This work introduces adversarial safety training for diffusion policies that improves robustness against dynamic physical attacks. Unlike prior work focusing on static physical perturbations, we generate synthetic dynamic environmental changes during training to improve resilience against real-world manipulations. Our method combines domain randomization with temporal perturbation optimization to create training data simulating evolving environmental attacks. We validate the approach by measuring success rate retention under dynamic physical attacks compared to standard-trained policies.",
+ "gap": "Current diffusion policy safety research (ref-005) demonstrates static physical patch attacks but does not address dynamic environmental changes over time, which are critical for real-world deployment in evolving settings.",
+ "approach": "We implement a hybrid training framework where: (1) a differentiable physics simulator generates candidate dynamic physical perturbations, (2) a perturbation optimizer searches for temporally coherent high-impact attack patterns, and (3) the diffusion policy is trained with adversarial loss weighting that prioritizes robustness against dynamic physical manipulations. The adversarial loss weighting uses a weighted combination of standard diffusion loss and an attack-specific loss component that emphasizes frames with high perturbation impact.",
+ "evaluation": "We evaluate using three dynamic attack scenarios: (1) moving physical patches, (2) evolving environmental textures, and (3) time-dependent lighting changes. Metrics include success rate retention (percentage of success rate maintained under attack compared to no-attack baseline), perturbation detectability (classifier accuracy distinguishing attacked vs. clean inputs), and transferability across manipulation tasks. Baselines include standard diffusion policies (ref-005) and robust BC methods. Ablation studies isolate contributions of temporal perturbation optimization versus domain randomization by comparing models trained with static-only perturbations.",
+ "support": [
+  "ref-005",
+  "ref-007",
+  "ref-015"
+ ]
+}

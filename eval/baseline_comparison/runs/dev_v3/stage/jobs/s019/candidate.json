@@ -1,0 +1,13 @@
+{
+ "title": "Cross-Paradigm Adversarial Transferability in EEG-Based BCIs: A Quantitative Analysis",
+ "summary": "This work quantifies adversarial transferability across BCI paradigms (P300, MRCP, SMR) by generating universal perturbations on one paradigm and testing their effectiveness on others. The study uses EEGNet as the target model, with transferability measured via attack success rates and feature-space distance metrics, revealing paradigm-specific vulnerability patterns.",
+ "gap": "Current adversarial research in BCIs focuses on single-paradigm attacks, leaving cross-paradigm transferability unexplored despite its implications for real-world BCI security.",
+ "approach": "Generate universal adversarial perturbations (UAPs) for each paradigm using the TLM method, then apply them to models trained on different paradigms. Measure transfer success rates and correlate with feature-space distances (Mahalanobis/cosine) between paradigms.",
+ "evaluation": "Compare attack success rates across paradigm pairs (e.g., P300→SMR) against random noise baselines. Use MOABB datasets to ensure cross-dataset validity. Analyze feature-space distances via t-SNE visualizations.",
+ "support": [
+  "ref-001",
+  "ref-007",
+  "ref-021",
+  "ref-024"
+ ]
+}

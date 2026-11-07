@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The constrained objective, dual calibration, drop-in scoring, and reported trade-off improvements closely match ref-012. However, claiming safety enforcement across both decoding levels overstates ref-012, which explicitly gives token-level decoding only a heuristic. Ref-019 supports constrained alignment during training; ref-003 and ref-006 address reward overoptimization rather than LARA's constraint mechanism.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Ref-012 already supplies the named framework, calibration procedure, decoding applications, and evaluation claimed here. Ref-020 also addresses principled inference-time safety constraints. The candidate identifies no remaining limitation or single change relative to these works.",
+  "score": 1
+ },
+ "specificity": {
+  "rationale": "The augmented reward, calibrated dual variable, and Best-of-N application are concrete, as in ref-012. However, datasets, exact baseline methods, safety thresholds, and helpfulness measures are unspecified. AU-PRC and FLOPs are named without explaining the detector evaluation or compute accounting.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Constraint dualization and calibration directly address balancing helpfulness against safety, and comparisons with unconstrained decoding could measure that effect, consistent with ref-012. The weak links are treating token-level decoding as constraint-enforcing despite ref-012's qualification, and including safety-detection AU-PRC without connecting it to generated-response safety.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "The candidate substantially reproduces ref-012, including its method name, central mechanism, applications, and claimed outcome. Although ref-012 demonstrates the topic's practical relevance, this proposal adds no distinct intervention or unresolved test whose result could change researchers' decisions.",
+  "score": 1
+ }
+}

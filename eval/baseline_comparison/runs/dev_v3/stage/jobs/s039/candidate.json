@@ -1,0 +1,16 @@
+{
+ "title": "EEGNet Robustness to Adversarial Perturbations in Cross-Paradigm BCI Tasks",
+ "summary": "This paper evaluates EEGNet's robustness against adversarial perturbations across four BCI paradigms (P300, ERN, MRCP, SMR) by adapting FGSM/PGD attacks to EEG data. The approach compares EEGNet's robustness metrics with baselines (FBCSP, shallow CNN) under identical attack settings. Evaluation includes attack success rates, CLEVER scores, and ablation studies isolating EEGNet's depthwise convolutions to test their impact on robustness.",
+ "gap": "While ref-021 and ref-024 study adversarial attacks on EEG-based CNNs, they do not evaluate EEGNet's architectural robustness or cross-paradigm generalization under attack. Ref-001 establishes EEGNet's cross-paradigm generalization on clean data but does not assess robustness. No prior work compares EEGNet's robustness to baselines across paradigms or isolates architectural contributions to robustness.",
+ "approach": "Train EEGNet and baselines (FBCSP, shallow CNN) on clean EEG data from four paradigms (ref-001's datasets). Generate adversarial examples using FGSM/PGD with bounded perturbations (ref-005's SDP constraints). Compute CLEVER scores (ref-009) for robustness quantification. Ablate EEGNet's depthwise convolutions by replacing them with standard convolutions while keeping other layers unchanged.",
+ "evaluation": "Baselines: FBCSP (ref-012), shallow CNN (ref-015). Measures: attack success rate (ASR), CLEVER score (ref-009), classification accuracy drop. Setting: cross-subject and within-subject protocols on ref-001's datasets (BCI Competition IV/III). Ablation: compare EEGNet vs. modified EEGNet (standard convolutions) under identical attacks to isolate architectural effects. Cross-paradigm transfer: test perturbations trained on one paradigm against models trained on others.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-009",
+  "ref-012",
+  "ref-015",
+  "ref-021",
+  "ref-024"
+ ]
+}

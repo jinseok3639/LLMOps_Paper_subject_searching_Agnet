@@ -1,0 +1,14 @@
+{
+ "title": "Interpretable Adversarial Detection in EEG-BCIs via Feature Space Anomaly Scoring",
+ "summary": "This paper proposes a Mahalanobis distance-based anomaly detection framework to identify adversarial examples in EEG-BCIs. By modeling feature space distributions of clean EEG data, the method detects deviations caused by perturbations. The approach is validated across multiple CNN architectures and attack types, with visualization of decision boundaries in feature space.",
+ "gap": "Existing adversarial detection methods for BCIs lack interpretability and fail to generalize across attack types and network architectures.",
+ "approach": "Train class-conditional Gaussian models on EEGNet feature embeddings and compute anomaly scores via Mahalanobis distance, incorporating spectral and spatial feature disentanglement.",
+ "evaluation": "Benchmark detection AUC against white-box/black-box attacks (FGSM, PGD, UAP) and compare with baseline detectors (LID, MD) across MOABB datasets.",
+ "support": [
+  "ref-001",
+  "ref-007",
+  "ref-015",
+  "ref-021",
+  "ref-024"
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "title": "Certified Robustness for EEG-Based BCIs via Semidefinite Programming",
+ "summary": "This work introduces the first certified robustness framework for EEG-based BCIs, using semidefinite programming (SDP) to provide mathematical guarantees on model resilience to input perturbations. By abstracting EEGNet layers with quadratic constraints, we derive verified bounds on output stability under bounded input distortions. We demonstrate this on motor imagery datasets, showing that certified robustness correlates with empirical attack resistance.",
+ "gap": "Current BCI robustness evaluations rely on empirical attack success rates, lacking formal guarantees. Existing certification methods for vision models fail on EEG's high-dimensional temporal data and small training sets.",
+ "approach": "We extend SDP-based robustness certification to EEGNet by modeling temporal convolution, spatial filtering, and activation functions with quadratic constraints. The SDP solver computes the maximum output change for any input perturbation within an $\\ell_2$ ball. We adapt the framework to handle EEG's multi-channel structure and temporal dependencies.",
+ "evaluation": "We compare certified robustness bounds against empirical attack performance (FGSM, PGD, and auto-attacks) on SMR datasets. Additional metrics include certification runtime, bound tightness vs. network depth, and comparison with Lipschitz-based bounds from ref-020.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-009",
+  "ref-020",
+  "ref-021",
+  "ref-022"
+ ]
+}

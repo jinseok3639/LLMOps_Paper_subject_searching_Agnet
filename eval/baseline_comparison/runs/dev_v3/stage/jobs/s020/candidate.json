@@ -1,0 +1,14 @@
+{
+ "title": "Safety-Certified EEG Decoding via Semidefinite Programming Robustness Bounds",
+ "summary": "This work introduces a semidefinite programming (SDP) framework to formally verify robustness of EEGNet models against input perturbations. By computing certified lower bounds on perturbation magnitudes required for misclassification, the method provides safety guarantees for clinical BCI systems. The approach is demonstrated on motor imagery datasets with both $\\ell_2$ and $\\ell_\\infty$ norm-bounded uncertainties.",
+ "gap": "Current EEGNet evaluations lack formal robustness certification, making it difficult to guarantee safe operation under real-world signal variability.",
+ "approach": "Apply quadratic constraint-based SDP to bound local Lipschitz constants of EEGNet layers, deriving certified robustness regions for each classification decision.",
+ "evaluation": "Measure certified robustness radii against empirical attack success rates (CLEVER score) and compare with Parseval networks and adversarial training baselines.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-009",
+  "ref-020",
+  "ref-022"
+ ]
+}

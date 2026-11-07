@@ -1,0 +1,13 @@
+{
+ "title": "Diffusion Policy Robustness Against Adversarial Patches in Physical Environments",
+ "summary": "We measure the robustness of diffusion policies (DPs) against adversarial physical patches by extending DP-Attacker to generate patches optimized for real-world transferability. We compare DP vulnerability to non-diffusion policies under identical attacks and quantify patch detectability via human studies, isolating diffusion-specific weaknesses.",
+ "gap": "Ref-005 demonstrates physical patch attacks on DPs but does not compare their vulnerability to non-diffusion policies. This leaves unmeasured whether diffusion-specific mechanisms (e.g., denoising steps) amplify or mitigate patch effects compared to traditional policies.",
+ "approach": "We generate physical patches using DP-Attacker's optimization framework, with additional constraints for real-world printability (e.g., binary color, fixed size). Patches are printed and placed on objects in a robotic manipulation testbed (e.g., Franka Emika Panda arm). Robustness is measured by success rate degradation on tasks like block pushing. To isolate diffusion-specific effects, we apply identical patches to both DP and non-DP baselines (e.g., BC-RNN from ref-005). Patch detectability is measured via a human study (N=50) rating patch conspicuousness on a 5-point scale.",
+ "evaluation": "We test on ref-005's pre-trained DPs and BC-RNN baselines in a controlled robotic setup. Success rates are measured with/without patches across 100 trials per condition. We ablate patch optimization by comparing against (1) random noise patches and (2) simulated patches from ref-005. Metrics include success rate difference (DP vs. non-DP), patch detection score, and minimum patch size required for 50% success rate reduction.",
+ "support": [
+  "ref-005",
+  "ref-007",
+  "ref-016",
+  "ref-019"
+ ]
+}

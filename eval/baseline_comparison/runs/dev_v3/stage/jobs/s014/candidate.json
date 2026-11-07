@@ -1,0 +1,14 @@
+{
+ "title": "Lagrangian Reward Augmentation for Safe Inference-Time Alignment",
+ "summary": "We extend Lagrangian Reward Augmentation (LARA) to inference-time alignment by dualizing safety constraints and calibrating a dual variable to balance helpfulness and harmlessness. LARA is integrated into Best-of-N (BoN) and token-level decoding, with the dual variable derived from a small calibration set. Evaluation on the HarmBench and ToxicChat datasets compares LARA-BoN against standard BoN and RLHF baselines, measuring helpfulness-harmlessness tradeoffs via human evaluation and automated metrics.",
+ "gap": "Existing inference-time alignment methods optimize a single reward score, neglecting explicit safety constraints. Manual penalty tuning is error-prone and fails to generalize across domains or reward models.",
+ "approach": "LARA dualizes the constrained optimization problem (maximizing reward while minimizing cost) into an unconstrained problem with an augmented reward. The dual variable is calibrated on a small set of prompts to enforce the safety constraint in expectation. This augmented reward is used as the scoring function in BoN or token-level decoding, ensuring formal guarantees for sequence-level methods.",
+ "evaluation": "Baselines include standard BoN (ref-003), RLHF (ref-001), and Llama Guard (ref-016). Metrics are AU-PRC for safety (ref-005), human preference for helpfulness (ref-018), and constraint violation rates. Experiments on HarmBench and ToxicChat test LARA-BoN's ability to maintain safety while scaling N, comparing against fixed-penalty baselines.",
+ "support": [
+  "ref-001",
+  "ref-003",
+  "ref-005",
+  "ref-012",
+  "ref-016"
+ ]
+}

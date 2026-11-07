@@ -1,0 +1,15 @@
+{
+ "title": "Detecting and Mitigating Subliminal Bias Transmission in Distilled Models",
+ "summary": "This paper proposes a method to detect and mitigate the transmission of behavioral traits (e.g., biases) through subliminal learning during model distillation. By analyzing token-level entanglement patterns in synthetic training data, we identify hidden signals that propagate unintended traits. We introduce a filtering mechanism that disrupts these signals while preserving task-relevant information. The approach is validated by training student models on distilled data from biased teachers and measuring trait retention across domains (text, code, reasoning).",
+ "gap": "Existing distillation methods (ref-009, ref-011) fail to account for subliminal trait transmission (ref-014, ref-017), risking unintended behavior in compressed models.",
+ "approach": "We develop a token-entanglement analysis framework to identify and mask subliminal signals in synthetic data. This involves (1) regression-based neuron tracing to map trait-correlated activations, (2) adversarial filtering to disrupt hidden patterns, and (3) iterative distillation with filtered data to verify trait suppression.",
+ "evaluation": "Baselines include standard distillation (ref-009) and adversarial training (ref-008). Measures include trait retention scores (e.g., bias amplification metrics from ref-012) and task performance (accuracy/F1) on held-out datasets. We compare student models trained with/without filtering on data from teachers with known traits (e.g., political bias from ref-010).",
+ "support": [
+  "ref-009",
+  "ref-011",
+  "ref-014",
+  "ref-017",
+  "ref-012",
+  "ref-010"
+ ]
+}

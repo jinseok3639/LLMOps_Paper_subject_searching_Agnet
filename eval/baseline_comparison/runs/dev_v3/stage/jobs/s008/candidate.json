@@ -1,0 +1,14 @@
+{
+ "title": "Lipschitz-Constrained EEGNet for Safe Cross-Subject BCI Transfer",
+ "summary": "This work introduces Parseval-tight frame constraints to EEGNet's convolutional layers to bound Lipschitz constants, ensuring stable predictions during cross-subject adaptation. The method modifies EEGNet's training to enforce spectral normalization while preserving its compact architecture. Evaluation measures classification accuracy and robustness on cross-subject datasets, comparing against unconstrained EEGNet and adversarially trained models.",
+ "gap": "While EEGNet generalizes across subjects, its susceptibility to input variations during transfer learning remains unquantified. Existing robustness methods (e.g., Parseval networks) are untested in EEG's low-data, high-noise regime.",
+ "approach": "Integrate Parseval-tight frame constraints into EEGNet's depthwise separable convolutions. Train with spectral normalization layers to limit Lipschitz constants. Retain EEG-specific feature extraction blocks.",
+ "evaluation": "Baselines: vanilla EEGNet, adversarially trained EEGNet. Measures: cross-subject accuracy, Lipschitz bounds, CLEVER score. Test on BCI Competition IV datasets with leave-one-subject-out validation.",
+ "support": [
+  "ref-001",
+  "ref-005",
+  "ref-010",
+  "ref-020",
+  "ref-022"
+ ]
+}

@@ -89,6 +89,7 @@ $PY eval/baseline_comparison/aggregate.py --run pilot
 | `key.json` | 판정 작업과 조건의 대응. 사람 검증이 끝나기 전에는 열지 않습니다 |
 | `jobs/<번호>/` | 심판이 받은 지시문과 데이터, `codex_*.log`, `result.json`, 실패 시 `result_failed.json` |
 | `human/` | 사람 검증 채점지와 점수 |
+| `stage/` | B의 단계별 판정 (`stage_eval.py`). `stage_report.md`에 제안 → 수정 → 토너먼트 → 선별 단계별 점수와 손익 |
 
 ## 입력
 
