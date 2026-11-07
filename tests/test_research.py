@@ -97,8 +97,9 @@ class PipelineTests(unittest.TestCase):
         method = ma.Method(config.ROOT_DIR / 'src/generation_method')
         bad = ma.Hypothesis(title='x', summary=' '.join(['proposal']*65), gap='x', approach='x', evaluation='x', support=['unknown'])
         method.call = lambda *args, **kwargs: bad
-        with self.assertRaises(ValueError):
-            ma.with_retry(method, '', '', ma.Hypothesis, lambda h: ma.problems(method, h, {'ref-001'}))
+        # 끝까지 실패하면 예외 대신 문제 목록을 돌려주고, 부르는 쪽이 그 결과를 쓰지 않는다.
+        _, issues = ma.with_retry(method, '', '', ma.Hypothesis, lambda h: ma.problems(method, h, {'ref-001'}))
+        self.assertEqual(issues, ['missing or unknown support ids'])
 
 
 if __name__ == '__main__':
