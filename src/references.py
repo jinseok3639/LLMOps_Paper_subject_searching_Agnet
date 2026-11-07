@@ -96,19 +96,48 @@ def write_queries(context):
     return queries
 
 
+def _search_query(query):
+    """검색어 하나. 결과가 없으면 앞 두 단어로 한 번 더. (실제로 쓴 검색어, 결과). 실패하면 s2.S2Error."""
+    rows = _search(query)
+    if rows:
+        return query, rows
+    short = " ".join(query.split()[:2])
+    return short, _search(short)
+
+
+def _search_all(queries, progress):
+    """검색어별 (쓴 검색어, 결과, 오류). S2가 붐벼 실패한 검색어는 건너뛰었다가 마지막에 한 번 더 시도한다.
+    다른 검색어를 도는 동안 S2가 회복할 시간이 생긴다. 모두 실패하면 마지막 s2.S2Error를 그대로 낸다."""
+    results, failed = {}, {}
+    for i, query in enumerate(queries):
+        progress(f"참고문헌 검색: {query}")
+        try:
+            results[i] = _search_query(query)
+        except s2.S2Error as e:
+            failed[i] = e
+            progress(f"참고문헌 검색 실패, 나중에 다시 시도: {query}")
+    for i in sorted(failed):
+        progress(f"참고문헌 다시 검색: {queries[i]}")
+        try:
+            results[i] = _search_query(queries[i])
+            del failed[i]
+        except s2.S2Error as e:
+            failed[i] = e
+    if len(failed) == len(queries):
+        raise failed[max(failed)]
+    return [(*results[i], None) if i in results else (queries[i], [], failed[i]) for i in range(len(queries))]
+
+
 def search_references(profile, history, problem, progress=lambda message: None):
     context = researcher_context(profile, history, problem)
     queries = write_queries(context)
     found, trace, unique = [], [], {}
-    for query in queries:
-        progress(f"참고문헌 검색: {query}")
-        rows = _search(query)
-        used_query = query
-        if not rows:
-            used_query = " ".join(query.split()[:2])
-            rows = _search(used_query)
-        trace.append({"query": query, "retried_query": used_query if used_query != query else None,
-                      "returned": len(rows), "missing_abstract": sum(not r.get("abstract") for r in rows)})
+    for query, (used_query, rows, error) in zip(queries, _search_all(queries, progress)):
+        entry = {"query": query, "retried_query": used_query if used_query != query else None,
+                 "returned": len(rows), "missing_abstract": sum(not r.get("abstract") for r in rows)}
+        if error:
+            entry["error"] = str(error)[:300]
+        trace.append(entry)
         rows = [r for r in rows if r.get("paperId") and r.get("abstract")]
         found.append((used_query, rows))
         for row in rows:

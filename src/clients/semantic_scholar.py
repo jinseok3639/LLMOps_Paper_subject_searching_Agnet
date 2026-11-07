@@ -2,7 +2,8 @@
 
 - 대기열: 먼저 온 요청부터 하나씩 내보내고, 요청 시작 사이에 간격을 둔다.
   키가 있든 없든 3초. 키 한도는 초당 1회지만 S2가 붐빌 때는 1.1초 간격에도 429가 이어졌다 (2026-11-07).
-- 429나 5xx를 받으면 대기열 전체를 쉬게 한다 (2, 4, 8 ... 최대 60초). 줄 선 다른 요청이 곧바로 또 429를 받지 않게 하기 위해서다.
+- 429나 5xx를 받으면 대기열 전체를 쉬게 한다 (3, 6, 9 ... 최대 60초). 줄 선 다른 요청이 곧바로 또 429를 받지 않게 하기 위해서다.
+  Retry-After 헤더(초)가 더 길면 그만큼 쉰다 (최대 60초).
   연결 오류도 같다. 재시도는 줄 맨 뒤로 다시 선다. 429가 아닌 4xx는 바로 실패.
 - 재시도 횟수(tries)는 호출하는 쪽이 정한다. 사용자가 기다리는 ③④는 짧게, 일괄 수집은 길게.
 """
@@ -18,7 +19,7 @@ BASE_URL = "https://api.semanticscholar.org/graph/v1"
 MAX_RETRIES = 10
 TIMEOUT = 60
 INTERVAL_KEY, INTERVAL_PUBLIC = 3.0, 3.0
-BACKOFF, MAX_BACKOFF = 2.0, 60.0  # 429·5xx 때 대기열을 쉬게 하는 시간 (두 배씩)
+BACKOFF, MAX_BACKOFF = 3.0, 60.0  # 429·5xx 때 대기열을 쉬게 하는 시간 (3초씩 늘린다)
 
 log = logging.getLogger(__name__)
 
@@ -57,10 +58,22 @@ def get(path: str, params: dict | None = None, tries: int = MAX_RETRIES) -> dict
             if 400 <= status < 500 and status != 429:
                 raise S2Error(f"S2 {status} {path}: {detail}", status)
         if attempt < tries:
-            log.warning("S2 %s 재시도 %d/%d, 대기열 %.0f초 쉼", status, attempt, tries - 1, backoff)
-            _queue.pause(backoff)  # 줄 전체를 쉬게 하고, 재시도는 줄 맨 뒤에 다시 선다
-            backoff = min(backoff * 2, MAX_BACKOFF)
+            rest = min(max(backoff, _retry_after(resp) if status else 0.0), MAX_BACKOFF)
+            log.warning("S2 %s 재시도 %d/%d, 대기열 %.0f초 쉼", status, attempt, tries - 1, rest)
+            _queue.pause(rest)  # 줄 전체를 쉬게 하고, 재시도는 줄 맨 뒤에 다시 선다
+            backoff = min(backoff + BACKOFF, MAX_BACKOFF)
     raise S2Error(f"S2 재시도 초과 {path}: {status} {detail}", status)
+
+
+def _retry_after(resp) -> float:
+    """429·503의 Retry-After 헤더(초). 없거나 날짜 형식이면 0 (그때는 3초씩 늘리는 대기만 쓴다)."""
+    value = (getattr(resp, "headers", None) or {}).get("Retry-After")
+    if not isinstance(value, str):
+        return 0.0
+    try:
+        return max(float(value), 0.0)
+    except ValueError:
+        return 0.0
 
 
 def search_papers(query: str, fields: str, limit: int = 10, year: str | None = None,
