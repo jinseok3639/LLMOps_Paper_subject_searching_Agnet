@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "Deduplication reducing memorized output is supported by ref-011, and shingling is discussed in ref-019. However, ref-020, ref-026, and ref-035 establish neither the claimed legal requirement for demonstrable prevention efforts nor metrics that ensure compliance. The asserted 90% reduction is untested for this framework and resembles ref-011's existing result. Ref-033 and ref-036 supply no substantive evidence, while ref-029, the direct source for probabilistic extraction auditing, is omitted from support.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Measuring residual extraction risk after deduplication is a plausible open question linking ref-011 and ref-029. However, systematic probabilistic measurement already exists in ref-029, and the candidate identifies no concrete limitation requiring its proposed extension. The broader claim that existing techniques lack quantifiable metrics is contradicted by ref-009 and ref-029, while the asserted legal obligation is unsupported by ref-026.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The proposal specifies GPT-Neo, C4, shingling, probabilistic extraction, a with/without-auditing comparison, and reproduction and utility measures, drawing on ref-011, ref-019, and ref-029. However, extraction query budgets, removal thresholds, retraining procedures, and the summarization evaluation dataset are unspecified. Ref-020 and ref-035 do not define the proposed copyright compliance scores.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Auditing after deduplication could measure residual reproduction risk, connecting ref-011 with ref-029. But auditing alone does not change model behavior, and the evaluation does not clearly implement the proposed removal-and-retraining intervention. Moreover, lower verbatim reproduction and expert assessments of documentation cannot establish the promised legal compliance; ref-020 and ref-035 describe broader, distinct copyright questions.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Testing whether audit-guided removal improves the risk–utility tradeoff beyond ref-011 could inform data-cleaning decisions. As written, however, the proposal mainly combines existing deduplication and measurement methods from ref-011, ref-019, and ref-029 without a clear hypothesis about their incremental benefit. Its headline reduction resembles an existing result, and its compliance claims exceed what the experiment could establish.",
+  "score": 2
+ }
+}

@@ -1,0 +1,19 @@
+{
+ "title": "DAgger-Distilled Orchestrators: Imitating MCTS-Searched Multi-Agent Workflows with Aggregated On-Policy Data",
+ "summary": "Search-based workflow optimizers find strong agent sequences but are expensive at run time, while RL-trained orchestrators are costly to train. I propose using Monte Carlo Tree Search to produce expert agent-scheduling trajectories, then distilling them into a small orchestrator with DAgger-style dataset aggregation. The orchestrator is queried on its own induced state distribution and relabeled by search. I expect this to reduce compounding errors from plain behavioral cloning. Validation compares it with plain cloning, an RL puppeteer, and full search on visualization, coding and math tasks, measuring accuracy, token cost, and robustness to unseen task types.",
+ "gap": "Existing orchestrators are either trained by reinforcement learning or found by costly per-task tree search. Imitation of searched multi-agent schedules is not studied, and the distribution-shift problem that no-regret imitation addresses is ignored for LLM agent scheduling.",
+ "approach": "1) Run MCTS over agent-selection sequences (state = task plus partial outputs; actions = which agent acts next) with execution feedback to produce expert schedules. 2) Train a small LLM orchestrator by behavioral cloning on these. 3) Iterate DAgger: roll out the current orchestrator, relabel visited states with a budgeted search expert, aggregate data, and retrain. 4) Ablate the number of iterations and the search budget of the expert.",
+ "evaluation": "Baselines: behavioral cloning without aggregation, RL-trained puppeteer orchestrator, static multi-agent topologies, automated workflow search at inference, and single-agent ReAct/Self-Refine. Metrics: task success on code-generation, scientific plotting and math benchmarks, tokens/cost per task, number of agent calls, and held-out-task generalization. Also measure the state-distribution gap between cloned and aggregated policies.",
+ "support": [
+  "ref-002",
+  "ref-003",
+  "ref-008",
+  "ref-022",
+  "ref-016",
+  "ref-070",
+  "ref-001",
+  "ref-021",
+  "ref-031",
+  "ref-044"
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "title": "Does Safety Alignment Remove or Merely Mask Book Memorization? A Controlled Study with Inserted Texts",
+ "summary": "This proposal tests whether instruction tuning and refusal training remove memorized books or only make them harder to reach. Starting from models pretrained with copyrighted-style book passages inserted at controlled duplication counts, it would apply instruction tuning, preference-based alignment, and explicit refusal training for copyrighted text. It would then measure how much of the passages can be extracted with plain prompts and with jailbreaks. The hypothesis is that jailbreaks restore extraction close to pre-alignment levels, which would separate latent memorization from surface refusal.",
+ "gap": "Cited work argues that alignment does not eliminate memorization and that suppressing verbatim output gives a false sense of privacy. But evidence comes from opaque production models whose training data is unknown, so no one has measured how much alignment masks book memorization against a known ground truth.",
+ "approach": "Use the standard and perturbed model pairs in which book passages were inserted at varying frequencies. Apply three post-training conditions: instruction tuning, preference optimization, and refusal training on requests for copyrighted text. Probe each resulting model with direct prefix prompts, adversarial suffix search, many-shot prompting, and divergence prompts. Measure probabilistic extraction and the adversarial compression ratio before and after alignment.",
+ "evaluation": "Compare the base pretrained models, the aligned variants, and the standard models with no inserted text, which serve as the negative control. Measures: extraction probability as a function of duplication count, the share of the pre-alignment extraction rate that jailbreaks recover, compression ratio, and membership-inference AUC. A further check is whether masking is weaker for passages that were duplicated more often.",
+ "support": [
+  "ref-043",
+  "ref-021",
+  "ref-007",
+  "ref-018",
+  "ref-027",
+  "ref-031",
+  "ref-014",
+  "ref-038",
+  "ref-029",
+  "ref-009",
+  "ref-022",
+  "ref-035",
+  "ref-042",
+  "ref-048",
+  "ref-045"
+ ]
+}

@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x2",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "x1 offers the clearer controlled experiment: compare deduplication interventions and measure extraction from books, connecting ref-011's demonstrated mitigation with ref-044's book-level variability. Its contribution is modest, and ref-044 does not establish either a deduplication benefit or an undeduplicated baseline as claimed. Nevertheless, the intervention and comparisons are concrete. y1 sensibly connects classifiers (ref-004) with code utility evaluation (ref-001), but mischaracterizes prior code alignment, cites Beloved (ref-016) as technical evidence, leaves code-specific safety insufficiently defined, and adds an unexplained unsafe-code memorization endpoint.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x2 has serious grounding errors: ref-038 does not establish that Constitutional Classifiers fail against many-shot attacks, and ref-016 supplies no human-feedback evidence. Its preference-training update also needs clarification. Still, its component ablations and jailbreak, refusal, and overhead measurements form an interpretable experiment. y2's central promise of ensuring legal compliance is unsupported: refs-020, ref-026, and ref-035 provide neither the claimed legal requirement nor operational compliance scores. Comparing training with and without auditing does not specify how auditing changes the model, and the proposed 90% reproduction reduction already resembles ref-011's reported benefit.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X separates a training-data intervention (x1), a safety-training combination (x2), and a memorization measurement method combining compression with extraction probability (x3; refs-009 and ref-029). Y includes a deduplication-and-audit pipeline, but both remaining candidates adapt Constitutional Classifiers: one to code and one to attack-specialized ensembles. Those differ meaningfully, yet X spans more distinct research mechanisms and questions.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "X provides the better selection because x1 has a workable controlled design and x3 contains a useful, grounded question about probability-constrained adversarial compression. x3 nevertheless needs a consistent evaluation corpus and cannot establish legal compliance from exact matches (refs-029 and ref-035). Y's strongest option is plausible, but y2 rests on unsupported legal assurances, while y3 assumes classifier failures not established by ref-004 and bundles ensembles, dynamic weighting, and an anomaly detector without isolating one contribution. Y's numerical improvement claims also lack supporting evidence.",
+  "verdict": "X"
+ }
+}

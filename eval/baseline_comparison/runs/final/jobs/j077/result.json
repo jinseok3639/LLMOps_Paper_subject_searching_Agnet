@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The central description accurately matches CIDER in ref-029. However, that abstract does not establish the claimed scalability limitations or explicitly confirm CIDER's training without OOD samples; ref-036 establishes the latter for MOOD. Support ids ref-046, ref-055, and ref-060 describe other detectors rather than evidence for CIDER's mechanism.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Ref-029 already identifies the limitation of classification-oriented contrastive losses and solves it using precisely the proposed dispersion and compactness losses. The candidate even repeats the method's name, CIDER, without stating any difference from that work.",
+  "score": 1
+ },
+ "specificity": {
+  "rationale": "The candidate specifies the embedding geometry, two training objectives, datasets, named baselines, and quantitative metrics, providing a practical experimental starting point. However, the test-time scoring rule is unspecified, and the contrastive baselines remain unnamed; these details matter for comparing against ref-029.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Dispersion and compactness directly address the representation-separability problem described in ref-029, and AUROC and FPR95 could measure the resulting detection effect. However, the generalized detection framing exceeds the proposed evaluation: refs-018 and ref-035 describe broader settings, while this evaluation specifies conventional OOD detection without explicit covariate-shift or other generalized-task tests.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "As written, this reproduces CIDER's central contribution from ref-029. It introduces no distinct intervention, unresolved comparison, or diagnostic question that would change researchers' decisions beyond the supplied findings. A replication could have value, but the candidate does not articulate such a purpose.",
+  "score": 1
+ }
+}

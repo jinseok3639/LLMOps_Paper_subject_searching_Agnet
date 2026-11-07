@@ -1,0 +1,32 @@
+{
+ "title": "Per-Query Monte Carlo Tree Search over Agent Routing Guided by an Outcome-Derived Process Reward Model",
+ "summary": "This proposal targets multi-agent orchestration. Instead of a fixed workflow or a single learned RL policy, it plans which specialist agent acts next for each individual query. The method runs UCT-style tree search in which each node is a shared task state and each edge calls one agent (planner, coder, debugger, critic, tool caller). Nodes are scored by a step-level process reward model. Its labels come automatically from Monte Carlo rollout outcomes, so no human annotation is needed. Validation would test whether this search beats static, RL-trained and offline-searched orchestrators on coding, scientific-reasoning and visualization benchmarks at matched token budgets.",
+ "gap": "The puppeteer orchestrator learns one reactive routing policy through RL and does no lookahead at inference time. AFlow and ADAS search offline for one workflow per dataset, which is then fixed for every query. LATS and RAP apply MCTS only to the reasoning or action steps of a single agent, not to routing decisions among heterogeneous agents. Process reward models are trained and used for math steps and agent actions, but none of these works uses them as value functions for multi-agent routing.",
+ "approach": "1) Define the shared state as the task, the artifacts produced so far and the execution feedback; define actions as invoking one agent from a fixed pool. 2) Collect rollouts and label each intermediate state with the fraction of its continuations that succeed, following the Math-Shepherd and OVM recipe for automatic process labels. Fine-tune a small open LLM such as Qwen3 or Llama 3 into an orchestration value model. 3) At test time, run UCT with this value model as the leaf evaluator and execution signals (unit tests, rendering success) as terminal reward. Penalize the search for token cost.",
+ "evaluation": "Baselines: static chains in the MetaGPT and ChatDev style, AutoGen group chat, the puppeteer RL orchestrator, the best AFlow workflow, single-agent LATS, and Self-Refine. Benchmarks: HumanEval and MBPP (pass@1), SciBench (accuracy), MatPlotBench (score from a vision LLM judge). Report accuracy against total tokens and cost. Ablations: search guided by an outcome-only reward model versus a process reward model, LLM-as-judge values versus the learned value model, and search depth and width.",
+ "support": [
+  "ref-002",
+  "ref-022",
+  "ref-014",
+  "ref-008",
+  "ref-059",
+  "ref-016",
+  "ref-070",
+  "ref-006",
+  "ref-015",
+  "ref-047",
+  "ref-039",
+  "ref-038",
+  "ref-067",
+  "ref-045",
+  "ref-049",
+  "ref-027",
+  "ref-001",
+  "ref-005",
+  "ref-017",
+  "ref-012",
+  "ref-021",
+  "ref-031",
+  "ref-035"
+ ]
+}

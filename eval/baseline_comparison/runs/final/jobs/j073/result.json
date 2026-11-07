@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-002 supports an estimable classifier-induced divergence for domain adaptation; ref-018 and ref-008 support the proposed experimental settings, and ref-009 supports the entropy baseline. However, the categorical claims that nobody has applied such divergence and that no estimable predictor exists are not established by the corpus. ref-006 and ref-016 have no abstracts, while ref-007 and ref-014 provide only broad motivation. The claimed detection threshold is a proposed result, not an established consequence of ref-002.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Predicting detection difficulty jointly from audit coverage and behavioral separation is a plausible open question beyond ref-002, ref-008, and ref-018. However, the gap needs tighter boundaries: ref-009 already offers an observable detection statistic, and ref-021 establishes computational barriers to detecting some backdoors. The proposal does not specify which access assumptions and attack classes its estimable characterization would cover.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The proposal identifies experimental targets from ref-018 and ref-008, controlled trigger rarity, an output discriminator, detection AUC, rank correlation, and a baseline from ref-009. However, it leaves the discriminator class, coverage estimator, black-box testing procedures, raw output-distance baseline, and sampling access unspecified. These choices are necessary to design the experiment and interpret the proposed bounds.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Behavioral divergence and trigger coverage plausibly relate to detection, but estimating divergence requires triggered samples whose availability to the defender is unexplained. This undermines the central claim of an audit-accessible predictor, especially given the access-dependent limitations in ref-021. Moreover, fine-tuning elicitation in ref-018 changes model behavior and is not directly equivalent to detecting a backdoor in a fixed model. Rank correlation alone would not validate the proposed detection bounds.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "A validated relationship between audit coverage, behavioral divergence, and detection could inform audit budgets and testing choices for settings such as ref-008 and ref-018. However, the current proposal may yield only a retrospective correlation requiring known triggers. Its practical contribution remains limited until it explains what defenders can estimate under realistic access constraints, including those highlighted by ref-021.",
+  "score": 3
+ }
+}

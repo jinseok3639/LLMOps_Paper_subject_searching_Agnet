@@ -1,0 +1,155 @@
+$ exit 0
+--- stdout
+{
+  "strongest": {"X": "x1", "Y": "y1"},
+  "weakest": {"X": "x2", "Y": "y2"},
+  "best": {
+    "rationale": "x1 offers a defensible domain-transfer experiment: test outcome-supervised value guidance from ref-015 on the collegiate scientific problems in ref-027, with accuracy and error analyses. It must distinguish eventual-success prediction from intermediate-step correctness, as ref-015 and ref-038 make clear. y1 specifies a useful feedback-conditioned retrieval ablation, but its gap relies on unsupported fixed-API claims and mischaracterizes ref-007's online planning as pre-planned. The suitability of ref-004's REST API collection for visualization corrections is also unestablished.",
+    "verdict": "X"
+  },
+  "worst": {
+    "rationale": "x2's claimed missing capability is explicitly present in ref-001: iterative code debugging and visual feedback for error correction. Its proposed modules therefore largely reproduce its closest reference without identifying a clear experimental difference. y2 has serious grounding errors: ref-027 does not supply GSM8K or MATH, and ref-015 does not supply the claimed human step annotations. Nevertheless, replacing ToT self-evaluation with an outcome-trained value estimator is an identifiable, testable change relative to ref-033.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "Both sets span three comparably distinct intervention types. X covers value-guided scientific reasoning, visualization feedback refinement, and workflow orchestration. Y covers feedback-conditioned API retrieval, value-guided mathematical search, and visualization orchestration. Their shared application domains do not erase these methodological differences, and neither set clearly offers broader coverage of genuinely different approaches.",
+    "verdict": "tie"
+  },
+  "overall": {
+    "rationale": "X narrowly serves a researcher choosing one candidate better because x1 provides the most defensible starting experiment. Its other options are weak: x2 duplicates ref-001, while x3 insufficiently distinguishes its orchestrator from ref-002 and overstates the rigidity of ref-012. Y has a better weakest candidate, but substantial repairs affect every option: y1's baseline characterization and API suitability, y2's supervision and dataset attribution, and y3's code-similarity reward and unsupported reported human-validation correlation. Those weaknesses outweigh Y's additional implementation detail.",
+    "verdict": "X"
+  }
+}
+
+--- stderr
+cy model with more diverse tasks to improve the generalizability. In this work, we find that finetuning a reward model to guide the policy model is more robust than directly finetuning the policy model. Based on this finding, we propose AgentRM, a generalizable reward model, to guide the policy model for effective test-time search. We comprehensively investigate three approaches to construct the reward model, including explicit reward modeling, implicit reward modeling and LLM-as-a-judge. We then use AgentRM to guide the answer generation with Best-of-N sampling and step-level beam search. On four types of nine agent tasks, AgentRM enhances the base policy model by $8.8$ points on average, surpassing the top general agent by $4.0$. Moreover, it demonstrates weak-to-strong generalization, yielding greater improvement of $12.6$ on LLaMA-3-70B policy model. As for the specializability, AgentRM can also boost a finetuned policy model and outperform the top specialized agent by $11.4$ on three held-in tasks. Further analysis verifies its effectiveness in test-time scaling. Codes will be released to facilitate the research in this area.
+
+[ref-068] Llama 2: Open Foundation and Fine-Tuned Chat Models
+Abstract: In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases. Our models outperform open-source chat models on most benchmarks we tested, and based on our human evaluations for helpfulness and safety, may be a suitable substitute for closed-source models. We provide a detailed description of our approach to fine-tuning and safety improvements of Llama 2-Chat in order to enable the community to build on our work and contribute to the responsible development of LLMs.
+
+[ref-069] ART: Automatic multi-step reasoning and tool-use for large language models
+Abstract: Large language models (LLMs) can perform complex reasoning in fewand zero-shot settings by generating intermediate chain of thought (CoT) reasoning steps. Further, each reasoning step can rely on external tools to support computation beyond the core LLM capabilities (e.g. search/running code). Prior work on CoT prompting and tool use typically requires hand-crafting task-specific demonstrations and carefully scripted interleaving of model generations with tool use. We introduce Automatic Reasoning and Tool-use (ART), a framework that uses frozen LLMs to automatically generate intermediate reasoning steps as a program. Given a new task to solve, ART selects demonstrations of multi-step reasoning and tool use from a task library. At test time, ART seamlessly pauses generation whenever external tools are called, and integrates their output before resuming generation. ART achieves a substantial improvement over few-shot prompting and automatic CoT on unseen tasks in the BigBench and MMLU benchmarks, and matches performance of hand-crafted CoT prompts on a majority of these tasks. ART is also extensible, and makes it easy for humans to improve performance by correcting errors in task-specific programs or incorporating new tools, which we demonstrate by drastically improving performance on select tasks with minimal human intervention.
+
+[ref-070] Bandit Based Monte-Carlo Planning
+Abstract: (not available)
+
+[ref-071] Stealing Machine Learning Models via Prediction APIs
+Abstract: Machine learning (ML) models may be deemed confidential due to their sensitive training data, commercial value, or use in security applications. Increasingly often, confidential ML models are being deployed with publicly accessible query interfaces. ML-as-a-service ("predictive analytics") systems are an example: Some allow users to train models on potentially sensitive data and charge others for access on a pay-per-query basis. The tension between model confidentiality and public access motivates our investigation of model extraction attacks. In such attacks, an adversary with black-box access, but no prior knowledge of an ML model's parameters or training data, aims to duplicate the functionality of (i.e., "steal") the model. Unlike in classical learning theory settings, ML-as-a-service offerings may accept partial feature vectors as inputs and include confidence values with predictions. Given these practices, we show simple, efficient attacks that extract target ML models with near-perfect fidelity for popular model classes including logistic regression, neural networks, and decision trees. We demonstrate these attacks against the online services of BigML and Amazon Machine Learning. We further show that the natural countermeasure of omitting confidence values from model outputs still admits potentially harmful model extraction attacks. Our results highlight the need for careful ML model deployment and new model extraction countermeasures.
+</file>
+
+<file name="set_x.json">
+[
+ {
+  "id": "x1",
+  "title": "Outcome-Supervised Value Models for Guided Decoding in Scientific Reasoning",
+  "summary": "We propose outcome-supervised value models (OVM) for guided decoding in scientific reasoning tasks, where a value model is trained to predict the correctness of intermediate reasoning steps based on final outcomes. This approach addresses the gap in error propagation in multi-step scientific reasoning by prioritizing steps that lead to correct conclusions. The evaluation on SciBench shows improved performance on college-level scientific problems compared to chain-of-thought and process-supervised baselines, with no need for step-level annotations.",
+  "gap": "Current LLM-based scientific reasoning systems (e.g., SciBench) suffer from error propagation in multi-step problems, as they lack mechanisms to assess the potential of intermediate reasoning paths.",
+  "approach": "Train a value model to predict the correctness of intermediate reasoning steps by: (1) generating multiple reasoning paths for each problem, (2) labeling each step based on the final outcome, and (3) training a model to predict step correctness. During inference, the value model guides decoding by selecting steps with higher predicted correctness, reducing error propagation.",
+  "evaluation": "Evaluate on SciBench with: (1) accuracy on college-level scientific problems, (2) comparison with chain-of-thought, process-supervised, and outcome-supervised baselines, (3) error propagation analysis, and (4) ablation studies on value model design. Test on both open-source and proprietary LLMs.",
+  "support": [
+   "ref-001",
+   "ref-027",
+   "ref-038",
+   "ref-039",
+   "ref-015"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Iterative Feedback Refinement for LLM-Based Scientific Data Visualization",
+  "summary": "We propose an iterative feedback refinement framework for LLM-based scientific data visualization, where generated visualizations are evaluated by a multi-modal LLM and refined through multiple cycles. The approach integrates a visual feedback mechanism with code generation debugging, using GPT-4V to assess visualization quality and provide actionable feedback. This method addresses the gap in dynamic error correction and quality improvement in automated visualization systems, as current frameworks like MatPlotAgent lack iterative refinement capabilities. The evaluation uses MatPlotBench with human-annotated scores and GPT-4V-based metrics, showing improved accuracy and visual fidelity across diverse datasets.",
+  "gap": "Current LLM-based visualization frameworks (e.g., MatPlotAgent) lack iterative feedback mechanisms for dynamic error correction and quality improvement, leading to suboptimal visualizations that require manual intervention.",
+  "approach": "Implement a closed-loop system where generated visualizations are evaluated by a multi-modal LLM (GPT-4V) and refined through code modifications. The system includes: (1) query understanding, (2) code generation with iterative debugging, (3) visual feedback analysis, and (4) code refinement based on feedback. The process repeats until the visualization meets quality thresholds or maximum iterations are reached.",
+  "evaluation": "Evaluate on MatPlotBench using: (1) GPT-4V-based scoring for visual accuracy, (2) human-annotated scores for fidelity, (3) comparison with baseline MatPlotAgent performance, and (4) computational cost analysis. Metrics include correlation with human scores, error reduction per iteration, and final visualization quality.",
+  "support": [
+   "ref-001",
+   "ref-007",
+   "ref-035"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Multi-Agent Collaboration with Dynamic Task Decomposition for Scientific Workflows",
+  "summary": "We propose a dynamic task decomposition framework for multi-agent collaboration in scientific workflows, where a central orchestrator (puppeteer) decomposes complex tasks into sub-tasks and dynamically assigns them to specialized agents. The approach combines evolving orchestration with domain-specific agent expertise, enabling efficient handling of multi-step scientific processes. This addresses the gap in static agent structures that struggle with complex, evolving tasks. The evaluation uses a modified MatPlotBench with multi-step visualization workflows, showing improved performance and reduced computational overhead compared to static multi-agent baselines.",
+  "gap": "Existing multi-agent systems (e.g., ChatDev, AutoGen) use static organizational structures that cannot adapt to evolving task complexity, leading to inefficiencies in multi-step scientific workflows like data visualization.",
+  "approach": "Implement a puppeteer-style orchestrator that: (1) decomposes tasks into sub-tasks using LLM-based planning, (2) dynamically assigns sub-tasks to specialized agents based on expertise, (3) monitors progress and reallocates resources as needed, and (4) aggregates results. The system uses reinforcement learning to optimize task decomposition and agent allocation over time.",
+  "evaluation": "Evaluate on a multi-step version of MatPlotBench with: (1) success rate in completing end-to-end workflows, (2) computational cost comparison with static multi-agent baselines, (3) task decomposition quality metrics, and (4) human evaluation of workflow coherence. Compare against ChatDev and AutoGen implementations.",
+  "support": [
+   "ref-001",
+   "ref-002",
+   "ref-012",
+   "ref-031"
+  ]
+ }
+]
+</file>
+
+<file name="set_y.json">
+[
+ {
+  "id": "y1",
+  "title": "Iterative Feedback-Driven Code Generation with Dynamic API Retrieval for Scientific Visualization",
+  "summary": "This paper proposes a framework for scientific visualization code generation that combines dynamic API retrieval with iterative error correction. The system uses a neural API retriever to select relevant visualization APIs during code generation, and incorporates a visual feedback loop that identifies execution errors to trigger targeted code revisions. The hypothesis is that this approach reduces error propagation by enabling real-time API adaptation and self-correction. Evaluation uses MatPlotBench with metrics comparing error correction rates, refinement cycles, and final accuracy against baselines with static API selection and non-iterative debugging.",
+  "gap": "While ref-001 implements iterative debugging and ref-007 performs API selection, neither framework dynamically adapts API selection during execution based on real-time error feedback. Both systems use fixed API sets or pre-planned API sequences, leaving open the question of whether dynamic API retrieval during error correction can further reduce error propagation in complex visualization tasks.",
+  "approach": "The system consists of: (1) a code LLM that generates visualization code, (2) a neural API retriever that selects relevant APIs from a database of 16,464 RESTful APIs (ref-004) based on current error context, and (3) a visual feedback mechanism that executes code, identifies errors, and triggers targeted API-based corrections. The retriever is a cross-encoder architecture trained on API documentation and error logs. The feedback loop runs for a maximum of 3 iterations or until no errors are detected, with each iteration focusing on the specific error type identified in the previous execution.",
+  "evaluation": "Baselines include: (1) ref-001's static API set with iterative debugging, (2) ref-007's pre-planned API sequence with coarse-to-fine planning, and (3) a non-iterative code generation baseline. Metrics are: (1) error correction rate (percentage of test cases where all errors are resolved), (2) average refinement cycles per test case, and (3) final visualization accuracy (matching human-verified MatPlotBench cases). Ablation studies compare dynamic vs. static API retrieval with identical LLM backbones, and measure error propagation by tracking how many test cases require more than one refinement cycle.",
+  "support": [
+   "ref-001",
+   "ref-004",
+   "ref-007"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Outcome-Supervised Value Models for Guided Tree-of-Thought Search in Mathematical Reasoning",
+  "summary": "This work proposes integrating outcome-supervised value models (OVMs) with Tree-of-Thought (ToT) search to improve mathematical reasoning. The hypothesis is that OVMs trained on final answer correctness can more effectively guide ToT search than step-level supervision, enabling efficient exploration of high-reward reasoning paths without requiring annotated intermediate steps.",
+  "gap": "While ref-015 demonstrates OVMs for step evaluation and ref-033 introduces ToT with self-evaluation, their combination for mathematical reasoning (ref-027) remains unexplored. Current ToT implementations (ref-033) use self-evaluation that does not scale to complex problems due to error propagation, and OVMs (ref-015) have not been applied to guide ToT search.",
+  "approach": "A hybrid framework where OVMs (ref-015) trained on final answer outcomes guide Monte Carlo Tree Search (ref-016) in ToT (ref-033). The value model assigns scores to intermediate reasoning states by predicting the probability of reaching a correct final answer. The approach uses a 3-step process: (1) OVM training on problem-solution pairs with final answer labels, (2) ToT search with MCTS where OVM scores guide node expansion, and (3) solution reconstruction from the highest-value path. The key difference from ref-033 is the use of outcome-supervised value estimation instead of self-evaluation or step-level supervision.",
+  "evaluation": "Baselines include: (1) vanilla ToT with random exploration (ref-033), (2) ToT with self-evaluation (ref-033), and (3) ToT with step-supervised value models. Metrics are: (1) success rate on GSM8K (ref-027) and MATH (ref-027) datasets, (2) search efficiency (average nodes explored per solution), and (3) point-biserial correlation between OVM scores and path correctness on a held-out validation set. An ablation study compares OVM-guided ToT against ToT with step-supervised value models (trained on human-annotated step correctness from ref-015) to isolate the impact of outcome supervision.",
+  "support": [
+   "ref-015",
+   "ref-016",
+   "ref-027",
+   "ref-033"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Dynamic Agent Orchestration for Iterative Refinement in Scientific Visualization",
+  "summary": "This paper proposes a dynamic agent orchestration framework for scientific data visualization, where agents (query understanding, code generation, and visual feedback) adapt their roles and interaction patterns during iterative refinement. The approach uses reinforcement learning to adjust agent priorities based on feedback type (automated vs. human) and error severity, measured on MatPlotBench and human-annotated scores. The hypothesis is that dynamic role adaptation improves visualization accuracy and error recovery over static multi-agent systems.",
+  "gap": "While ref-001 demonstrates iterative feedback in MatPlotAgent and ref-002 introduces dynamic agent orchestration, no work has combined these to adapt agent roles during iterative refinement. Prior systems either use static agent structures (ref-001) or lack evaluation on scientific visualization tasks (ref-002).",
+  "approach": "Implement a reinforcement learning-based orchestrator that dynamically assigns agent roles (e.g., prioritizing error correction over code optimization) based on feedback type (GPT-4V vs. simulated human) and error severity. The orchestrator uses a Q-learning framework with state features: feedback type, error count, and iteration number. Actions are role assignments (e.g., 'focus on axis labels' or 'retry plot type'). The reward function combines accuracy (BERTScore between generated and target code) and efficiency (iterations to convergence).",
+  "evaluation": "Compare against static baselines (MatPlotAgent) and dynamic baselines (ref-002's puppeteer framework) on MatPlotBench. Metrics: (1) accuracy (human-annotated scores), (2) error recovery rate (percentage of initial errors corrected), (3) convergence iterations. Ablation: fix role assignments to isolate dynamic adaptation's impact. Simulated human feedback uses GPT-4 with prompts from ref-010's MINT framework, validated against 100 human annotations (Pearson's r=0.82).",
+  "support": [
+   "ref-001",
+   "ref-002",
+   "ref-007",
+   "ref-010"
+  ]
+ }
+]
+</file>
+2026-11-07T03:47:02.055138Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out
+codex
+{
+  "strongest": {"X": "x1", "Y": "y1"},
+  "weakest": {"X": "x2", "Y": "y2"},
+  "best": {
+    "rationale": "x1 offers a defensible domain-transfer experiment: test outcome-supervised value guidance from ref-015 on the collegiate scientific problems in ref-027, with accuracy and error analyses. It must distinguish eventual-success prediction from intermediate-step correctness, as ref-015 and ref-038 make clear. y1 specifies a useful feedback-conditioned retrieval ablation, but its gap relies on unsupported fixed-API claims and mischaracterizes ref-007's online planning as pre-planned. The suitability of ref-004's REST API collection for visualization corrections is also unestablished.",
+    "verdict": "X"
+  },
+  "worst": {
+    "rationale": "x2's claimed missing capability is explicitly present in ref-001: iterative code debugging and visual feedback for error correction. Its proposed modules therefore largely reproduce its closest reference without identifying a clear experimental difference. y2 has serious grounding errors: ref-027 does not supply GSM8K or MATH, and ref-015 does not supply the claimed human step annotations. Nevertheless, replacing ToT self-evaluation with an outcome-trained value estimator is an identifiable, testable change relative to ref-033.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "Both sets span three comparably distinct intervention types. X covers value-guided scientific reasoning, visualization feedback refinement, and workflow orchestration. Y covers feedback-conditioned API retrieval, value-guided mathematical search, and visualization orchestration. Their shared application domains do not erase these methodological differences, and neither set clearly offers broader coverage of genuinely different approaches.",
+    "verdict": "tie"
+  },
+  "overall": {
+    "rationale": "X narrowly serves a researcher choosing one candidate better because x1 provides the most defensible starting experiment. Its other options are weak: x2 duplicates ref-001, while x3 insufficiently distinguishes its orchestrator from ref-002 and overstates the rigidity of ref-012. Y has a better weakest candidate, but substantial repairs affect every option: y1's baseline characterization and API suitability, y2's supervision and dataset attribution, and y3's code-similarity reward and unsupported reported human-validation correlation. Those weaknesses outweigh Y's additional implementation detail.",
+    "verdict": "X"
+  }
+}
+tokens used
+40,794

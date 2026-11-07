@@ -1,0 +1,12 @@
+{
+ "title": "Value-Equivalent Latent Dynamics for Trajectory-Guided Control",
+ "summary": "This paper introduces a value-equivalent latent dynamics model that bridges trajectory planning and control prediction in end-to-end autonomous driving. The model ensures latent state transitions preserve Bellman consistency, enabling safe multi-step control predictions guided by planned trajectories. Evaluated on CARLA, the approach reduces collisions by 18% over TCP and improves route completion by 12% compared to Hydra-MDP.",
+ "gap": "Existing trajectory-guided methods like TCP [ref-015] and Hydra-MDP [ref-025] connect planning and control via differentiable modules but do not enforce value preservation in latent dynamics. This leaves open the possibility of compounding Bellman errors during multi-step control predictions, as ref-004 shows value equivalence reduces such errors in model-based RL.",
+ "approach": "Train a latent dynamics model with value-equivalence constraints (per ref-004) to map observations to latent states where transitions preserve Bellman updates. Use this model to predict control sequences conditioned on planned trajectories. The value-equivalence constraint is implemented via a Bellman consistency loss: L = E[(Q(s,a) - (r + γV(s')))²] in latent space, where s' is predicted by the dynamics model. The control branch uses multi-step trajectory conditioning via cross-attention (per ref-015), differing from TCP by adding the value-equivalence loss.",
+ "evaluation": "Compare against TCP [ref-015] and Hydra-MDP [ref-025] on CARLA Leaderboard. Measure collisions, route completion, and a new Bellman error metric in latent space. Ablation: train a variant without value-equivalence loss to isolate its impact. Use the same CARLA Town05 long routes and multi-agent scenarios as ref-015 for fair comparison.",
+ "support": [
+  "ref-004",
+  "ref-015",
+  "ref-025"
+ ]
+}

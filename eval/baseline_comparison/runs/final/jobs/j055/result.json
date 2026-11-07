@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The descriptions of cryptographic undetectability in ref-021 and entropy-based detection in ref-009 are supported, but the proposed entropy objective reverses ref-009: low prediction entropy signals detection. Ref-003 already reports evaluation against a defense, weakening the blanket claim of missing empirical validation. Ref-011 does not identify Neural Cleanse, and ref-016 and ref-019 do not establish the claimed activation-space testing method.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Practical evasion of STRIP is not established for the constructions in ref-021, so a narrow empirical question remains. However, the candidate does not identify a concrete limitation connecting those constructions to trigger optimization. Its broader motivation overlooks defense evaluation in ref-003 and adaptive-attack evaluation in ref-009.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate specifies CIFAR-10, ResNet-18, gradient optimization, named baselines, ASR, detection rates, and an entropy ablation. However, activation-space queries and indistinguishability properties remain undefined, and it does not explain how ref-021's constructions become comparable trigger-synthesis baselines.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "ASR and detection measurements could test practical evasion, but optimizing for low prediction entropy would encourage the behavior STRIP flags as malicious in ref-009. Furthermore, evading selected detectors would not establish computational indistinguishability of the kind proved in ref-021, and the activation-space formulation is disconnected from the stated optimization.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Studying practical limits of theoretical backdoors could be useful, but the proposed experiment does not establish that connection. As written, it mainly tests an underspecified entropy constraint against selected defenses, while ref-009 already considers adaptive attacks and ref-011 motivates comprehensive comparisons. The likely contribution is limited without a clearer scientific hypothesis.",
+  "score": 2
+ }
+}

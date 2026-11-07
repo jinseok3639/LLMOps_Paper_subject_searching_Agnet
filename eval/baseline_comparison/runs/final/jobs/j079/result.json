@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y1"
+ },
+ "best": {
+  "rationale": "x2 addresses a useful distinction: benign domain shift versus backdoor anomalies. Its domain-shift experiments, false-positive measurements, and clustering ablation fit that question, although ref-001's missing abstract cannot substantiate its same-domain assumption. y2 has a plausible distribution-testing motivation, but ref-002 supplies a divergence between distributions, not individual-input scores or a backdoor-detection threshold derived from a target-error bound. It leaves essential parts of the proposed detector undefined. x2 offers the more coherent experimental starting point.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "Both candidates have foundational problems, but y1 directly optimizes the detection signature it proposes to evade: ref-009 identifies low prediction entropy under perturbation as suspicious, whereas y1 explicitly preserves low entropy. Its activation-space objective also does not establish ref-021's computational indistinguishability guarantees, and ref-009 already evaluates adaptive attacks. x3 incorrectly claims a black-box gap while requiring internal activations, mischaracterizes trigger-free STRIP, and obtains no activation-stability method from ref-019. Nevertheless, its proposed activation-variance experiment does not explicitly optimize against its own stated goal as y1 does.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "Y spans attack construction, detection through distribution divergence, and training-time mitigation through loss weighting. X spans mitigation and two detectors, with both detectors centered on activation behavior. Despite weaknesses in their execution, Y's candidates cover more distinct research interventions.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X offers the stronger central candidate in x2 and a potentially useful mitigation experiment in x1. x1's attribution of entropy regularization to ref-019 is unsupported, and it does not deliver the theoretical guarantees motivating its gap; nevertheless, ref-009 supplies a relevant empirical motivation for testing perturbation entropy during mitigation. Y's alternatives have more serious coherence problems: y1 reverses STRIP's evasion objective, while y3 minimizes poisoned instruction losses without specifying corrected targets, potentially reinforcing the backdoor. Its weighting formula and transfer of ref-002's guarantees are also unsupported. Y's broader coverage does not outweigh X's better experimental prospects.",
+  "verdict": "X"
+ }
+}

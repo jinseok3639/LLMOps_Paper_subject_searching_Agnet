@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x1",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x2",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "y1 offers a controlled intervention comparing book extraction after different deduplication treatments, extending the general findings of ref-011 to the book-level setting of ref-044. Its novelty is modest, and ref-044 does not establish the deduplication status claimed, but the experiment could inform data-cleaning decisions. x1 proposes a useful code-specific extension of ref-004 with functional evaluation from ref-001, but its code-alignment claims are unsupported, ref-016 is unrelated, and its unsafe-code memorization endpoint is poorly connected to the intervention.",
+  "verdict": "Y"
+ },
+ "worst": {
+  "rationale": "x2 makes legal compliance its central outcome without a supported operational definition: ref-020, ref-026, and ref-035 do not establish its claimed prevention requirements or copyright compliance scores. Its auditing intervention and contribution beyond the memorization reduction already demonstrated in ref-011 are also unclear. y2 incorrectly cites ref-016 for human feedback and asserts a constitutional-classifier failure that ref-038 does not demonstrate. Nevertheless, its component ablations provide a clearer experiment for testing the proposed hybrid, although the preference-training step needs specification.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "Y spans a training-data intervention, a classifier-and-preference training pipeline, and a memorization measurement method combining ref-009 with ref-029. X includes a data-cleaning and auditing framework, but x1 and x3 both center on constitutional-classifier guardrails, differing mainly in application domain and classifier architecture.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "Y provides the stronger controlled experiment and a broader choice of research directions. In particular, y3's probabilistic extension of adversarial compression has a grounded technical distinction in ref-009 and ref-029, although its claim that exact matches test legal compliance is unsupported by ref-020 and ref-035. X is weakened by x2's undefined legal endpoint and x3's unsupported claims about existing classifier failures; x3 also bundles ensembles, dynamic weighting, and anomaly detection rather than isolating one change. Y's citation and grounding errors remain substantial, especially in y2, but its candidates offer a better starting point for research.",
+  "verdict": "Y"
+ }
+}

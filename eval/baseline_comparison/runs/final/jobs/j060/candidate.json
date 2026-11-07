@@ -1,0 +1,12 @@
+{
+ "title": "Domain-Divergence-Aware Backdoor Detection via Activation Clustering",
+ "summary": "This paper proposes a method to detect backdoor attacks by clustering activation patterns while accounting for domain shifts between training and test data. The approach combines domain divergence metrics with activation clustering to identify anomalous activation patterns indicative of backdoor triggers. It is validated on datasets with domain shifts, comparing detection accuracy against baseline methods that ignore domain differences.",
+ "gap": "Existing backdoor detection methods (e.g., activation clustering) assume training and test data are from the same domain, but real-world scenarios often involve domain shifts. No prior work integrates domain divergence analysis with backdoor detection.",
+ "approach": "Extend activation clustering with a domain divergence penalty term derived from [ref-002]. Train a detector that minimizes both activation cluster compactness and domain divergence, using unlabeled data from both domains. The divergence metric is computed via classifier-induced divergence from [ref-002].",
+ "evaluation": "Compare against standard activation clustering (ref-001) and STRIP (ref-009) on datasets with synthetic domain shifts. Metrics: detection accuracy (AUC-ROC), false positive rate under domain shift, and robustness to varying divergence levels.",
+ "support": [
+  "ref-001",
+  "ref-002",
+  "ref-009"
+ ]
+}

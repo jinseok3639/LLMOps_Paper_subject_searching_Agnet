@@ -1,0 +1,14 @@
+{
+ "title": "Dynamic Thresholding with Gradient Norms and Softmax Scores Improves Failure Prediction Under Covariate Shift",
+ "summary": "We hypothesize that combining gradient norms and softmax scores with a dynamic thresholding mechanism improves failure prediction under covariate shift. Gradient norms, computed via KL divergence between softmax outputs and a uniform distribution, adapt to input perturbations. We train a lightweight MLP threshold predictor using gradient norms and softmax scores, validated on ImageNet-C and CIFAR-10-C, comparing against static softmax, ODIN, Mahalanobis, and GradNorm baselines.",
+ "gap": "While ref-007 and ref-008 show softmax baselines perform well under covariate shift, ref-060 demonstrates gradient norms distinguish ID and OOD data. However, no work combines both signals with dynamic thresholding to adapt to shift severity. The gap is the lack of a method that unifies static softmax confidence with dynamic gradient-based signals for failure detection under varying shift levels.",
+ "approach": "Inputs: softmax scores and gradient norms of KL divergence between softmax and uniform distribution. Output: binary failure prediction. Objective: minimize FPR95 at TPR95. Update rule: train a 2-layer MLP threshold predictor on ID and corrupted data. Component change: dynamic thresholding via MLP. Same: use pre-trained model features. Differs from ref-060: combines softmax and gradient norms in a learned threshold predictor, vs. ref-060's fixed gradient-norm threshold.",
+ "evaluation": "Setting: ImageNet-C (ref-007) and CIFAR-10-C (ref-008) with 5 severity levels. Baselines: softmax, ODIN (ref-015), Mahalanobis (ref-023), GradNorm (ref-060). Measures: AUROC, FPR95. Ablation: (1) fixed vs. dynamic thresholds on gradient norms, (2) gradient norms alone vs. combined with softmax scores, (3) sensitivity of both signals across severity levels. The ablation isolates the proposed dynamic combination mechanism.",
+ "support": [
+  "ref-007",
+  "ref-008",
+  "ref-015",
+  "ref-023",
+  "ref-060"
+ ]
+}

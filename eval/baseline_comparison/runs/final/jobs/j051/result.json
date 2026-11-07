@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-010 supports Gaussian-splatting pseudo-simulation, proximity weighting, and R²=0.8, but does not attribute remaining errors to unrealistic transitions or establish residual causal confusion. ref-002 and ref-009 support bisimulation distances, not the claim that distance-weighted synthetic observations preserve Bellman consistency. Value equivalence is defined in ref-004, which is absent from the support list.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Constraining synthetic observations with bisimulation is a specific application not addressed in the supplied references. However, the motivating failure mode is asserted without evidence: ref-010 already targets causal confusion and avoids sequential interactive simulation. The proposed gap therefore rests on an unestablished limitation.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate specifies synthetic rendering, latent-distance weighting, named baselines, correlation measures, and a 5m divergence threshold, building on ref-010 and ref-009. However, it leaves the dynamics model, reference for each distance, constraint implementation, and pairing of NAVSIM evaluations with CARLA outcomes unspecified.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Comparing evaluation correlations against ref-010 could test predictive usefulness. However, state similarity in ref-002 and ref-009 does not by itself ensure realistic transitions or the matching Bellman updates required by ref-004. Trajectory divergence also does not isolate causal confusion, so the evaluation cannot establish the claimed mechanism.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Improving prediction of closed-loop performance could change benchmark and planner choices, especially given the ranking inversions documented in ref-034 and evaluation limitations in ref-020. The proposed comparison could yield useful evidence, but its practical contribution is limited by reliance on unspecified true dynamics and an unsupported link between bisimulation weighting and evaluation fidelity.",
+  "score": 3
+ }
+}

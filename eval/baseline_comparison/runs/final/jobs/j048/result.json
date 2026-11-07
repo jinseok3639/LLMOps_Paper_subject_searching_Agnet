@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "STRIP's empirical detection results, the benchmark evaluations, and computational undetectability are supported by ref-009, ref-011, ref-013, and ref-021. However, ref-001 and ref-010 lack abstracts, so their claimed findings cannot be verified. Ref-011 does not establish LLM coverage or inclusion of the named attacks. Ref-004, ref-005, ref-006, and ref-016 provide insufficient detail to substantiate specific theoretical results.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Finite-sample statistical detectability is a concrete question left unanswered by the supplied empirical evaluations (ref-009, ref-011, ref-013) and computational hardness guarantees (ref-021). However, the gap needs a narrower model family and explicit access assumptions: 'ordinary, non-cryptographic backdoors' does not define a statistical class, and the abstracts cannot establish the claimed absence of statistical analysis throughout prior work.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate names proof techniques, a reference-model tester, baselines, benchmark sources, sample-budget sweeps, and detection ROC measurements (ref-009, ref-011, ref-013). Nevertheless, designing the central experiment requires definitions of output deviation, the sampling distribution, reference-model availability, and passive versus adaptive queries. It also does not specify how to measure or independently control epsilon and delta.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Sample-complexity bounds and budget-dependent detection curves address the proposed statistical gap. However, comparing marginal output distributions can miss changes confined to particular inputs, so the tester needs an identifiability assumption or paired input-output observations. Activation clustering (ref-001) also requires an explicit access protocol to serve as a comparable black-box baseline. STRIP's runtime input-detection task (ref-009) must be reconciled with model-level backdoor detection.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A validated relationship between trigger prevalence, behavioral deviation, and detection budget could guide audit budgets and interpretation of benchmark failures (ref-009, ref-011, ref-013). It would usefully complement the computational limitations in ref-021. Its practical impact depends on showing that the restricted statistical family and reference-model assumptions describe realistic attacks, rather than only an analytically convenient construction.",
+  "score": 4
+ }
+}

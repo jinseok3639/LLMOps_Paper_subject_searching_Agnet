@@ -1,0 +1,25 @@
+{
+ "title": "Flat Minima Meet Feature Compactness: A Unified Training Objective for Detecting Misclassifications and Out-of-Distribution Inputs",
+ "summary": "This proposal targets unified failure detection, where a single confidence score has to reject both misclassified in-distribution samples and semantically novel inputs. Flat-minima training is known to widen the confidence gap between correct and incorrect predictions, but it does not shape the feature space to separate in-distribution from out-of-distribution data. The proposal adds a hyperspherical compactness and dispersion loss on top of sharpness-aware or weight-averaged training and scores inputs with a softmax score combined with feature distance. It would be validated on CIFAR and ImageNet selective classification benchmarks that include OOD data. Baselines would be flat-minima-only, CIDER-only and OpenMix, measured with AUGRC and AURC.",
+ "gap": "Prior work shows that flat minima (SAM, SWA) help misclassification detection, and that hyperspherical compactness and dispersion help OOD detection. Each line is evaluated on its own task. Benchmarks that combine both failure sources find that methods built for one task often hurt the other, so softmax response remains hard to beat. Nobody has tested whether the two training-time mechanisms work together, conflict, or are simply orthogonal under one unified failure-detection metric.",
+ "approach": "Train classifiers with SAM or F-SAM plus SWA or EMA weight averaging. Add a prototype-based compactness loss and an inter-prototype dispersion loss on a normalized projection head, with no auxiliary outliers. At test time, combine maximum softmax probability with a kNN or prototype distance in the feature space using a SIRC-style combination, so that the ranking of correct versus incorrect ID predictions is preserved while OOD inputs are pushed down. Ablate each component and check the trade-off between them.",
+ "evaluation": "Datasets: CIFAR-10/100 and ImageNet-1K as ID data, with near-OOD and far-OOD sets from OpenOOD v1.5 (SSB, NINCO, Textures, Places, SVHN, iNaturalist). Baselines: MSP, Energy, kNN, ViM, SIRC, the plugin estimators for this setting, FMFP, OpenMix, SURE, CIDER and Outlier Exposure. Metrics: AUGRC and AURC on the mixed ID and OOD test pool, plus misclassification AUROC, OOD AUROC and FPR95 separately. The idea is supported if the combined method improves AUGRC over each component alone and over softmax response without lowering accuracy.",
+ "support": [
+  "ref-002",
+  "ref-059",
+  "ref-010",
+  "ref-013",
+  "ref-030",
+  "ref-029",
+  "ref-028",
+  "ref-005",
+  "ref-014",
+  "ref-007",
+  "ref-063",
+  "ref-034",
+  "ref-018",
+  "ref-062",
+  "ref-056",
+  "ref-001"
+ ]
+}

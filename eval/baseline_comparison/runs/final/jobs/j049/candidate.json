@@ -1,0 +1,17 @@
+{
+ "title": "Legal Compliance through Training Data Deduplication and Memorization Auditing",
+ "summary": "We develop a framework combining dataset deduplication with probabilistic memorization auditing to ensure legal compliance of generative AI systems. By removing near-duplicates and quantifying residual memorization risks, our method reduces verbatim reproduction by 90% while maintaining model utility. The framework provides auditable evidence for copyright and privacy compliance.",
+ "gap": "Current deduplication methods reduce memorization but lack systematic auditing of residual risks. Legal frameworks like EU copyright law require demonstrable efforts to prevent unauthorized reproduction, which existing techniques fail to provide through quantifiable metrics.",
+ "approach": "We extend [ref-011]'s deduplication algorithm with shingling-based near-duplicate detection, then apply probabilistic extraction audits on the cleaned dataset. A compliance dashboard visualizes memorization probabilities per training example, enabling targeted data removal for high-risk sequences while preserving model performance.",
+ "evaluation": "We train GPT-Neo models on deduplicated C4 datasets with/without auditing. Metrics include verbatim reproduction rate, ROUGE scores on summarization, and copyright compliance scores based on [ref-020] and [ref-035]. Legal experts assess documentation adequacy for compliance with US and EU copyright standards.",
+ "support": [
+  "ref-011",
+  "ref-019",
+  "ref-020",
+  "ref-026",
+  "ref-033",
+  "ref-035",
+  "ref-036",
+  "ref-044"
+ ]
+}

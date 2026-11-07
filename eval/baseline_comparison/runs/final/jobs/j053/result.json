@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-008 supports instruction backdoor vulnerabilities and partial mitigation through RLHF and clean demonstrations. However, ref-019 concerns outcome indistinguishability and provides no support for entropy regularization. The supplied references also do not establish the blanket claim that current defenses lack utility guarantees.",
+  "score": 1
+ },
+ "gap": {
+  "rationale": "ref-008's partial mitigation results motivate investigating security–utility tradeoffs. However, the claimed absence of theoretical guarantees is not established by the corpus, and the candidate does not specify what utility or security guarantee is missing.",
+  "score": 2
+ },
+ "specificity": {
+  "rationale": "The candidate identifies a training modification, standard fine-tuning and ref-008's RLHF mitigation as baselines, and attack success rate and clean accuracy as measures. However, it leaves the perturbation procedure and entropy definition unspecified, including whether entropy is measured over tokens, complete responses, or predictions across perturbations.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "The empirical evaluation could measure security–utility tradeoffs, but cannot establish the theoretical guarantees named in the gap. Furthermore, diverse outputs need not suppress targeted malicious behavior. ref-009 measures entropy across predictions under perturbations for detection; it does not establish that increasing output entropy during training removes backdoors.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Demonstrating reduced instruction attack success while preserving clean accuracy could inform mitigation choices beyond the partial defenses in ref-008. The likely contribution is nevertheless narrow: an empirical regularization comparison, with no specified route to the guarantees claimed as its motivation.",
+  "score": 3
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The broad descriptions of activation clustering, STRIP, and domain divergence match ref-001, ref-009, and ref-002. However, ref-002 does not supply the claimed formula and describes a divergence estimable from unlabeled samples, whereas the proposed expression uses labels and leaves h' unused. The evaluation also swaps the attack citations: ref-003 is Hidden Trigger and ref-012 is BadNets. Claims that prior detectors omit divergence are not established by the supplied abstracts.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The references leave room to investigate whether domain divergence can detect backdoors, but the candidate identifies an untried application rather than a concrete demonstrated limitation. Ref-002 connects divergence to target classification error under assumptions; it does not establish that backdoors produce detectable divergence. Ref-021 further motivates specifying which attacks and access conditions permit detection.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies CIFAR-10, two attacks, surrogate training, named baselines, and TPR at 1% FPR plus ROC-AUC. However, the divergence estimator is insufficiently defined, the meaning of the 50% splits is ambiguous, and poison rates and detection units are unspecified. Comparing a distribution-level score with STRIP's input-level detector also requires an explicit evaluation protocol (ref-002, ref-009).",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Measuring distribution differences broadly addresses the proposed gap, but the design does not explain how a defender obtains a separately identified poisoned domain or why divergence distinguishes backdoors from benign shifts. It also leaves unclear how dataset-level divergence produces detections comparable to STRIP's runtime input decisions. Ref-002's error-bound motivation does not resolve these links, so the evaluation as written cannot cleanly test the claimed detection benefit.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "A controlled comparison could meaningfully establish whether divergence provides a useful backdoor-detection signal beyond activation clustering and STRIP (ref-001, ref-009). The proposed evidence would nevertheless be narrow: one dataset, two attacks, and unclear defender access. Without benign-shift controls and explicit access assumptions, results would provide limited guidance about adopting the method, particularly given the detection limitations illustrated by ref-021.",
+  "score": 3
+ }
+}

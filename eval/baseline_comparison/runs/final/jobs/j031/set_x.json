@@ -1,0 +1,43 @@
+[
+ {
+  "id": "x1",
+  "title": "Iterative Feedback-Driven Code Generation with Dynamic API Retrieval for Scientific Visualization",
+  "summary": "This paper proposes a framework for scientific visualization code generation that combines dynamic API retrieval with iterative error correction. The system uses a neural API retriever to select relevant visualization APIs during code generation, and incorporates a visual feedback loop that identifies execution errors to trigger targeted code revisions. The hypothesis is that this approach reduces error propagation by enabling real-time API adaptation and self-correction. Evaluation uses MatPlotBench with metrics comparing error correction rates, refinement cycles, and final accuracy against baselines with static API selection and non-iterative debugging.",
+  "gap": "While ref-001 implements iterative debugging and ref-007 performs API selection, neither framework dynamically adapts API selection during execution based on real-time error feedback. Both systems use fixed API sets or pre-planned API sequences, leaving open the question of whether dynamic API retrieval during error correction can further reduce error propagation in complex visualization tasks.",
+  "approach": "The system consists of: (1) a code LLM that generates visualization code, (2) a neural API retriever that selects relevant APIs from a database of 16,464 RESTful APIs (ref-004) based on current error context, and (3) a visual feedback mechanism that executes code, identifies errors, and triggers targeted API-based corrections. The retriever is a cross-encoder architecture trained on API documentation and error logs. The feedback loop runs for a maximum of 3 iterations or until no errors are detected, with each iteration focusing on the specific error type identified in the previous execution.",
+  "evaluation": "Baselines include: (1) ref-001's static API set with iterative debugging, (2) ref-007's pre-planned API sequence with coarse-to-fine planning, and (3) a non-iterative code generation baseline. Metrics are: (1) error correction rate (percentage of test cases where all errors are resolved), (2) average refinement cycles per test case, and (3) final visualization accuracy (matching human-verified MatPlotBench cases). Ablation studies compare dynamic vs. static API retrieval with identical LLM backbones, and measure error propagation by tracking how many test cases require more than one refinement cycle.",
+  "support": [
+   "ref-001",
+   "ref-004",
+   "ref-007"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Outcome-Supervised Value Models for Guided Tree-of-Thought Search in Mathematical Reasoning",
+  "summary": "This work proposes integrating outcome-supervised value models (OVMs) with Tree-of-Thought (ToT) search to improve mathematical reasoning. The hypothesis is that OVMs trained on final answer correctness can more effectively guide ToT search than step-level supervision, enabling efficient exploration of high-reward reasoning paths without requiring annotated intermediate steps.",
+  "gap": "While ref-015 demonstrates OVMs for step evaluation and ref-033 introduces ToT with self-evaluation, their combination for mathematical reasoning (ref-027) remains unexplored. Current ToT implementations (ref-033) use self-evaluation that does not scale to complex problems due to error propagation, and OVMs (ref-015) have not been applied to guide ToT search.",
+  "approach": "A hybrid framework where OVMs (ref-015) trained on final answer outcomes guide Monte Carlo Tree Search (ref-016) in ToT (ref-033). The value model assigns scores to intermediate reasoning states by predicting the probability of reaching a correct final answer. The approach uses a 3-step process: (1) OVM training on problem-solution pairs with final answer labels, (2) ToT search with MCTS where OVM scores guide node expansion, and (3) solution reconstruction from the highest-value path. The key difference from ref-033 is the use of outcome-supervised value estimation instead of self-evaluation or step-level supervision.",
+  "evaluation": "Baselines include: (1) vanilla ToT with random exploration (ref-033), (2) ToT with self-evaluation (ref-033), and (3) ToT with step-supervised value models. Metrics are: (1) success rate on GSM8K (ref-027) and MATH (ref-027) datasets, (2) search efficiency (average nodes explored per solution), and (3) point-biserial correlation between OVM scores and path correctness on a held-out validation set. An ablation study compares OVM-guided ToT against ToT with step-supervised value models (trained on human-annotated step correctness from ref-015) to isolate the impact of outcome supervision.",
+  "support": [
+   "ref-015",
+   "ref-016",
+   "ref-027",
+   "ref-033"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Dynamic Agent Orchestration for Iterative Refinement in Scientific Visualization",
+  "summary": "This paper proposes a dynamic agent orchestration framework for scientific data visualization, where agents (query understanding, code generation, and visual feedback) adapt their roles and interaction patterns during iterative refinement. The approach uses reinforcement learning to adjust agent priorities based on feedback type (automated vs. human) and error severity, measured on MatPlotBench and human-annotated scores. The hypothesis is that dynamic role adaptation improves visualization accuracy and error recovery over static multi-agent systems.",
+  "gap": "While ref-001 demonstrates iterative feedback in MatPlotAgent and ref-002 introduces dynamic agent orchestration, no work has combined these to adapt agent roles during iterative refinement. Prior systems either use static agent structures (ref-001) or lack evaluation on scientific visualization tasks (ref-002).",
+  "approach": "Implement a reinforcement learning-based orchestrator that dynamically assigns agent roles (e.g., prioritizing error correction over code optimization) based on feedback type (GPT-4V vs. simulated human) and error severity. The orchestrator uses a Q-learning framework with state features: feedback type, error count, and iteration number. Actions are role assignments (e.g., 'focus on axis labels' or 'retry plot type'). The reward function combines accuracy (BERTScore between generated and target code) and efficiency (iterations to convergence).",
+  "evaluation": "Compare against static baselines (MatPlotAgent) and dynamic baselines (ref-002's puppeteer framework) on MatPlotBench. Metrics: (1) accuracy (human-annotated scores), (2) error recovery rate (percentage of initial errors corrected), (3) convergence iterations. Ablation: fix role assignments to isolate dynamic adaptation's impact. Simulated human feedback uses GPT-4 with prompts from ref-010's MINT framework, validated against 100 human annotations (Pearson's r=0.82).",
+  "support": [
+   "ref-001",
+   "ref-002",
+   "ref-007",
+   "ref-010"
+  ]
+ }
+]

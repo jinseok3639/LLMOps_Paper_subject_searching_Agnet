@@ -1,0 +1,14 @@
+{
+ "title": "Flat Minima Optimization for Enhanced Failure Prediction in Deep Neural Networks",
+ "summary": "This paper proposes optimizing flat minima to improve failure prediction in deep neural networks. By leveraging flat minima techniques, the approach aims to enhance the separation between correct and incorrect predictions, addressing the overconfidence issue in misclassified samples. The method is validated through extensive experiments on CIFAR-10, CIFAR-100, and ImageNet, comparing against baselines like softmax confidence and calibration methods, using metrics such as FPR95 and AUROC.",
+ "gap": "Existing calibration and OOD detection methods often degrade confidence separation between correct and incorrect in-distribution samples, hindering effective failure prediction. Current approaches fail to explicitly optimize for this separation, leading to unreliable confidence estimates for misclassified samples.",
+ "approach": "The approach combines two flat minima techniques—Sharpness-Aware Minimization (SAM) and Stochastic Weight Averaging (SWA)—to train models that generalize better and produce more reliable confidence scores. By minimizing loss sharpness, the method encourages flatter minima, which correlates with improved confidence separation and failure detection.",
+ "evaluation": "The method is evaluated on CIFAR-10, CIFAR-100, and ImageNet using FPR95, AUROC, and accuracy-coverage trade-off curves. Baselines include softmax confidence, temperature scaling, and MC dropout. The approach is also tested under covariate shift and long-tailed data to assess robustness.",
+ "support": [
+  "ref-002",
+  "ref-010",
+  "ref-013",
+  "ref-022",
+  "ref-059"
+ ]
+}

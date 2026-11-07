@@ -1,0 +1,21 @@
+{
+ "title": "Alignment-Based Near-Verbatim Recall: A Long-Form Metric for Book Extraction",
+ "summary": "This proposal targets how book-length extraction is measured. Exact-match prefix–suffix checks undercount extraction when outputs contain small edits, reordered passages, or skipped sections. The proposed metric adapts structural book alignment and near-duplicate detection: it finds matched blocks between generated text and the source that tolerate small gaps, then merges them into a near-verbatim recall score that accounts for order. It would be validated on models with known memorization, including models trained with deliberately inserted text, by checking agreement with ground-truth exposure counts and with human judgments of substantial copying.",
+ "gap": "Discoverable and probabilistic extraction work on short fixed-length suffixes, and generic text-similarity measures are not designed to capture a substantial portion of a long work reproduced near-exactly. Legal definitions of memorization depend on exactly that notion, yet the cited work provides no validated metric for it.",
+ "approach": "Tokenize and normalize the generated and reference texts. Find candidate matching blocks with shingling or simhash seeds, then extend them using local alignment that allows small edit gaps. Merge blocks that follow the book's order and drop short spurious matches using a minimum-length filter calibrated on books the model was not trained on. Report coverage of the reference, precision of the generated text, and the distribution of block lengths.",
+ "evaluation": "Ground truth would come from models trained with insertions at known duplication counts, plus books with documented memorization in open models. Baselines: greedy discoverable extraction, probabilistic extraction, the adversarial compression ratio, and similarity measures such as edit distance and n-gram overlap. Measures: correlation with how many times a passage was duplicated in training, false-positive rate on non-training books, robustness to paraphrase-style perturbations, and agreement with human annotators.",
+ "support": [
+  "ref-034",
+  "ref-019",
+  "ref-036",
+  "ref-008",
+  "ref-029",
+  "ref-048",
+  "ref-009",
+  "ref-035",
+  "ref-043",
+  "ref-044",
+  "ref-021",
+  "ref-011"
+ ]
+}

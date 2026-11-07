@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-011 supports deduplication reducing memorized output, and ref-019 supports shingling for duplicate detection. However, ref-036 supplies no evidence for copyright metadata, and ref-008 does not establish that semantic similarity identifies copyright status. ref-035 defines memorization through reconstructable near-exact copies of substantial portions, not strictly extractable verbatim copies, and supplies neither a 100-book benchmark nor an exact-match metric. ref-001 does not support the attributed perplexity evaluation.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "Copyright-prioritized deduplication is not investigated in the supplied references and is a plausible extension of ref-011. However, the candidate does not identify a demonstrated limitation of generic deduplication that prioritization would remedy. Its claim about preserving all non-copyrighted content is broader than its proposed public-domain evaluation.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate specifies C4, 1.3B-parameter models, a greater-than-90% overlap threshold, standard deduplication and random-subsampling baselines, extraction frequency, and perplexity. These support initial experimental design. Remaining uncertainties include copyright-label construction, extraction prompts and sampling budgets, and verifying that evaluated books occur in training; ref-029 shows why the extraction sampling protocol matters.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Comparing selective and generic deduplication on copyrighted and public-domain extraction broadly tests the proposed intervention, following ref-011. However, semantic similarity does not establish copyright status in ref-008, removal budgets are not explicitly matched, and public-domain perplexity alone cannot establish preservation of general performance. Unverified training inclusion could also make extraction reductions difficult to interpret.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A controlled result could inform whether targeted preprocessing improves the tradeoff between extraction risk and utility, connecting ref-011 with the system-design concerns in ref-035. The contribution is nevertheless incremental: generic deduplication already substantially reduces memorized output, and the candidate gives no clear reason to expect copyright prioritization to outperform it at comparable data-removal budgets.",
+  "score": 3
+ }
+}

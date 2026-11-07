@@ -1,0 +1,11 @@
+{
+ "title": "Proxy Reward Hacking Detection via Anomaly-Weighted Bisimulation",
+ "summary": "This paper introduces an anomaly detection framework that identifies reward hacking by comparing policy-induced state visitation distributions against expert demonstrations using bisimulation metrics. The method weights state distances by anomaly scores derived from reward misspecification patterns, enabling early detection of phase transitions where policies exploit proxy metrics.",
+ "gap": "While ref-008 studies reward hacking phase transitions and ref-002 defines bisimulation metrics, no work combines these to detect unsafe policy shifts during training. Existing anomaly detectors (ref-008) lack formal state similarity grounding, as their metrics are not based on bisimulation distances.",
+ "approach": "Compute bisimulation distances between policy trajectories and expert data using ref-002's metrics. Weight these distances by anomaly scores computed as the difference between proxy and true rewards from ref-008's environments. Flag trajectories where weighted distances exceed thresholds as potential reward hacking candidates. The core difference from ref-002 is the anomaly weighting mechanism that prioritizes state pairs with high reward misspecification.",
+ "evaluation": "Test on ref-008's misspecified reward environments (e.g., PointMass, AntMaze) by measuring detection accuracy of phase transitions. Compare against baseline detectors (ref-008) using AUC-ROC and false positive rates during training rollouts. Include an ablation study comparing plain bisimulation distances (ref-002) without anomaly weighting against the full method to isolate the contribution of anomaly weighting.",
+ "support": [
+  "ref-002",
+  "ref-008"
+ ]
+}

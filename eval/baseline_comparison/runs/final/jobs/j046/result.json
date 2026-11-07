@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x3",
+  "Y": "y2"
+ },
+ "weakest": {
+  "X": "x2",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x3 provides a clearer experimental starting point: a divergence penalty, instruction attacks from ref-008, and attack-success versus clean-accuracy comparisons against existing mitigations. Its proposed difference from ref-008 is identifiable. However, ref-002 does not establish that minimizing divergence removes backdoors, and access to separated clean and poisoned distributions limits practical applicability. y2 addresses a potentially valuable domain-shift problem, but leaves the shifts, attacks, and trainable divergence objective less specified. Its assertion that activation clustering assumes matching domains is unsupported by ref-001's supplied title.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x2's central transfer gap substantially overlaps ref-008, which already evaluates zero-shot poison transfer to 15 diverse generative datasets. Its target-label misclassification metric also needs adaptation for QA and summarization. Nevertheless, the core transfer experiment is intelligible and grounded in demonstrated behavior. y3 has more fundamental contradictions: it promises black-box detection while requiring latent representations, and portrays existing detectors as trigger-dependent despite ref-009 explicitly detecting inputs without knowing the secret trigger. Neither ref-019 nor ref-011 supplies the claimed activation-variance or spectral-signature grounding.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "X covers distribution-based detection, cross-task propagation, and training-time mitigation. Although x1 and x3 share divergence machinery, they test different interventions and outcomes. Y includes domain-shift-aware clustering, but y1 and y3 both center on perturbation-based stability measurements, applied respectively to training and detection. X therefore offers a broader range of research decisions, despite x2's overlap with ref-008.",
+  "verdict": "X"
+ },
+ "overall": {
+  "rationale": "X offers the stronger starting candidate and fewer fundamental mismatches between claimed access, method, and evidence. It still needs substantial revision: x1 supplies an unsupported divergence formula and swaps the BadNets and Hidden Trigger reference ids; x2 overstates its gap; x3 needs a computable objective and realistic data-access assumptions. Y's promising domain-shift direction is outweighed by y3's access contradiction and y1's attribution of entropy regularization to ref-019, which discusses outcome indistinguishability. y1 also promises to address missing theoretical guarantees without proposing any guarantee.",
+  "verdict": "X"
+ }
+}

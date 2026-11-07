@@ -1,0 +1,18 @@
+{
+ "title": "Policy Graphs for Explaining Orchestrated LLM Multi-Agent Systems: Fidelity and Reliability of Surrogate Explanations",
+ "summary": "Multi-agent LLM systems with a learned orchestrator are opaque, and the compound opacity of coordinated agents is a recognized concern. I propose abstracting orchestrator traces into discrete predicates (task state, last agent output status, error flags) and building a policy graph and intention-aware probabilistic model over agent-calling decisions. A surrogate rule-based orchestrator is generated from the graph and compared behaviorally with the original. The hypothesis is that predicates describing other agents' outputs are needed for high fidelity. Validation uses fidelity, success-rate parity, and explanation reliability across multi-agent frameworks.",
+ "gap": "Policy-graph explanation has been applied to RL agents in grid-like cooperative environments, and radiology work discusses compound opacity of multi-agent AI only conceptually. No work builds and measures behavior-faithful policy graphs for LLM orchestrators that dynamically schedule agents.",
+ "approach": "Define predicates from orchestration traces (e.g., stage, whether code executed, verifier verdict, which agents already acted, cycle count). Fit a policy graph over predicate states and agent-selection actions, add intention estimates via a probabilistic graphical model, and derive a surrogate interpretable orchestrator. Answer 'what/how/why' queries (next agent, plan, reason). Ablate predicate sets with and without information about other agents' outputs.",
+ "evaluation": "Compare surrogate against original orchestrator: action agreement, task success parity, and divergence of trajectories. Measure interpretability (graph size/entropy) and reliability of explanations. Baselines: graphs using only task-level predicates, a random or frequency-based scheduler, and LLM-generated post-hoc rationales. Test on a trained orchestrator and static-topology systems; report whether cyclic compact structures show up as graph loops.",
+ "support": [
+  "ref-013",
+  "ref-040",
+  "ref-025",
+  "ref-002",
+  "ref-044",
+  "ref-042",
+  "ref-012",
+  "ref-009",
+  "ref-050"
+ ]
+}

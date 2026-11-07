@@ -1,0 +1,15 @@
+{
+ "title": "Contribution-Aware Pruning for OOD Detection via Feature Space Sparsification",
+ "summary": "This work addresses the challenge of out-of-distribution (OOD) detection by pruning non-discriminative features that introduce noise in high-dimensional activations. The method ranks neurons by their contribution to in-distribution classification, then applies structured pruning to suppress low-importance features. The approach is evaluated on ImageNet with the NINCO and OpenOOD benchmarks, showing improved OOD detection by reducing distracting dimensions. The method is compared against established baselines (MSP, ODIN, Energy) and sparsification-based methods (DICE, KNN, CIDER) using AUROC and FPR@95 metrics.",
+ "gap": "While ref-028 (KNN) and ref-029 (CIDER) use non-parametric and hyperspherical methods to filter non-discriminative features, and ref-055 (DICE) uses sparsification for OOD detection, no method explicitly ranks and prunes features based on their contribution to in-distribution classification. This leaves open the question of how to identify and remove the most distracting dimensions for OOD detection under semantic shifts.",
+ "approach": "The method ranks neurons by their contribution to in-distribution classification using gradient-based importance scores, then applies structured pruning to ResNet-50 and ViT-B/16 models. The pruning threshold is determined via cross-validation on a held-out in-distribution validation set. The pruned model is used to compute OOD scores (e.g., MSP, Energy) for detection. The key difference from ref-055 (DICE) is the use of contribution-aware pruning (vs. random or magnitude-based pruning) to target the most distracting features for OOD detection.",
+ "evaluation": "The method is evaluated on ImageNet with NINCO and OpenOOD benchmarks, comparing AUROC and FPR@95 against baselines (MSP, ODIN, Energy) and sparsification-based methods (DICE, KNN, CIDER). Ablation studies isolate the effect of contribution-aware pruning (vs. random pruning) and test robustness to varying pruning thresholds (0.1x to 0.9x of total features). Statistical significance is assessed via paired t-tests across 5 random seeds.",
+ "support": [
+  "ref-028",
+  "ref-029",
+  "ref-035",
+  "ref-045",
+  "ref-047",
+  "ref-055"
+ ]
+}

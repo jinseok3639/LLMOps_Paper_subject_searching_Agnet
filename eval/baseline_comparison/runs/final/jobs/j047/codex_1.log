@@ -1,0 +1,164 @@
+$ exit 0
+--- stdout
+{
+  "strongest": {"X": "x1", "Y": "y2"},
+  "weakest": {"X": "x3", "Y": "y3"},
+  "best": {
+    "rationale": "y2 proposes an identifiable change to ref-060: learn a failure predictor combining gradient norms with softmax confidence, with component ablations and evaluation across shift severities. x1 specifies a plausible experiment, but ref-002 already proposes flat minima for failure prediction and combines two flat-minima techniques; ref-059 already evaluates covariate shift and long tails. Its remaining contribution is therefore poorly established. y2 still needs held-out corruption splits and a continuous evaluation score, and its attribution of particular corruption datasets and covariate-shift findings to ref-007/ref-008 is unsupported by the supplied abstracts.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "y3 substantially overlaps ref-002/ref-059, and the supplied abstract does not substantiate its claim that ref-002 excludes SAM plus SWA. Nevertheless, its SAM-only, SWA-only, and combined ablations provide a concrete experiment. x3 reproduces SIRC from ref-005 without a clear modification and misstates its motivation: ref-005 explicitly says conflating incorrect ID predictions with OOD samples is acceptable, whereas x3 presents that conflation as the problem. Its restriction of the auxiliary information to the output distribution is also unsupported. These grounding and coherence problems make x3 weaker.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "Both sets span three substantially different approaches: training-time flat-minima optimization, representation learning for OOD detection, and confidence-signal combination. X uses hyperspherical geometry and post-hoc SCOD scoring; Y uses reconstruction pretraining and a learned gradient/softmax predictor under shift. Neither set consists merely of parameter variations, and their differences do not establish a meaningful diversity advantage. Repetition of cited methods reduces originality but does not erase the differences among these approaches.",
+    "verdict": "tie"
+  },
+  "overall": {
+    "rationale": "Y offers the more useful research choice because y2 has a discernible intervention beyond its closest cited method and experiments capable of testing its added value. X largely restates existing contributions: flat-minima failure prediction in ref-002/ref-059, CIDER in ref-029, and SIRC in ref-005. Y is imperfect: y1 overlaps MOOD in ref-036 and inconsistently describes a no-fine-tuning gap while including fine-tuning, and y3 asserts an unverified distinction from ref-002. Even with those weaknesses, Y supplies one reasonably actionable new hypothesis and stronger component comparisons.",
+    "verdict": "Y"
+  }
+}
+
+--- stderr
+icantly improves detection performance. We also observe that cutting-edge generative models trained on CIFAR-10 may assign higher likelihoods to SVHN images than to CIFAR-10 images; we use OE to mitigate this issue. We also analyze the flexibility and robustness of Outlier Exposure, and identify characteristics of the auxiliary dataset that improve performance.
+
+[ref-059] Revisiting Confidence Estimation: Towards Reliable Failure Prediction
+Abstract: Reliable confidence estimation is a challenging yet fundamental requirement in many risk-sensitive applications. However, modern deep neural networks are often overconfident for their incorrect predictions, i.e., misclassified samples from known classes, and out-of-distribution (OOD) samples from unknown classes. In recent years, many confidence calibration and OOD detection methods have been developed. In this paper, we find a general, widely existing but actually-neglected phenomenon that most confidence estimation methods are harmful for detecting misclassification errors. We investigate this problem and reveal that popular calibration and OOD detection methods often lead to worse confidence separation between correctly classified and misclassified examples, making it difficult to decide whether to trust a prediction or not. Finally, we propose to enlarge the confidence gap by finding flat minima, which yields state-of-the-art failure prediction performance under various settings including balanced, long-tailed, and covariate-shift classification scenarios. Our study not only provides a strong baseline for reliable confidence estimation but also acts as a bridge between understanding calibration, OOD detection, and failure prediction.
+
+[ref-060] On the Importance of Gradients for Detecting Distributional Shifts in the Wild
+Abstract: Detecting out-of-distribution (OOD) data has become a critical component in ensuring the safe deployment of machine learning models in the real world. Existing OOD detection approaches primarily rely on the output or feature space for deriving OOD scores, while largely overlooking information from the gradient space. In this paper, we present GradNorm, a simple and effective approach for detecting OOD inputs by utilizing information extracted from the gradient space. GradNorm directly employs the vector norm of gradients, backpropagated from the KL divergence between the softmax output and a uniform probability distribution. Our key idea is that the magnitude of gradients is higher for in-distribution (ID) data than that for OOD data, making it informative for OOD detection. GradNorm demonstrates superior performance, reducing the average FPR95 by up to 16.33% compared to the previous best method.
+
+[ref-061] SGDR: Stochastic Gradient Descent with Warm Restarts
+Abstract: Restart techniques are common in gradient-free optimization to deal with multimodal functions. Partial warm restarts are also gaining popularity in gradient-based optimization to improve the rate of convergence in accelerated gradient schemes to deal with ill-conditioned functions. In this paper, we propose a simple warm restart technique for stochastic gradient descent to improve its anytime performance when training deep neural networks. We empirically study its performance on the CIFAR-10 and CIFAR-100 datasets, where we demonstrate new state-of-the-art results at 3.14% and 16.21%, respectively. We also demonstrate its advantages on a dataset of EEG recordings and on a downsampled version of the ImageNet dataset. Our source code is available at this https URL
+
+[ref-062] OpenMix: Exploring Outlier Samples for Misclassification Detection
+Abstract: Reliable confidence estimation for deep neural classifiers is a challenging yet fundamental requirement in high-stakes applications. Unfortunately, modern deep neural networks are often overconfident for their erroneous predictions. In this work, we exploit the easily available outlier samples, i.e., unlabeled samples coming from non-target classes, for helping detect misclassification errors. Particularly, we find that the well-known Outlier Exposure, which is powerful in detecting out-of-distribution (OOD) samples from unknown classes, does not provide any gain in identifying misclassification errors. Based on these observations, we propose a novel method called OpenMix, which incorporates open-world knowledge by learning to reject uncertain pseudo-samples generated via outlier transformation. OpenMix significantly improves confidence reliability under various scenarios, establishing a strong and unified framework for detecting both misclassified samples from known classes and OOD samples from unknown classes. The code is publicly available at https://github.com/Impression2805/OpenMix.
+
+[ref-063] Overcoming Common Flaws in the Evaluation of Selective Classification Systems
+Abstract: Selective Classification, wherein models can reject low-confidence predictions, promises reliable translation of machine-learning based classification systems to real-world scenarios such as clinical diagnostics. While current evaluation of these systems typically assumes fixed working points based on pre-defined rejection thresholds, methodological progress requires benchmarking the general performance of systems akin to the $\mathrm{AUROC}$ in standard classification. In this work, we define 5 requirements for multi-threshold metrics in selective classification regarding task alignment, interpretability, and flexibility, and show how current approaches fail to meet them. We propose the Area under the Generalized Risk Coverage curve ($\mathrm{AUGRC}$), which meets all requirements and can be directly interpreted as the average risk of undetected failures. We empirically demonstrate the relevance of $\mathrm{AUGRC}$ on a comprehensive benchmark spanning 6 data sets and 13 confidence scoring functions. We find that the proposed metric substantially changes metric rankings on 5 out of the 6 data sets.
+</file>
+
+<file name="set_x.json">
+[
+ {
+  "id": "x1",
+  "title": "Flat Minima Optimization for Enhanced Failure Prediction in Deep Neural Networks",
+  "summary": "This paper proposes optimizing flat minima to improve failure prediction in deep neural networks. By leveraging flat minima techniques, the approach aims to enhance the separation between correct and incorrect predictions, addressing the overconfidence issue in misclassified samples. The method is validated through extensive experiments on CIFAR-10, CIFAR-100, and ImageNet, comparing against baselines like softmax confidence and calibration methods, using metrics such as FPR95 and AUROC.",
+  "gap": "Existing calibration and OOD detection methods often degrade confidence separation between correct and incorrect in-distribution samples, hindering effective failure prediction. Current approaches fail to explicitly optimize for this separation, leading to unreliable confidence estimates for misclassified samples.",
+  "approach": "The approach combines two flat minima techniques—Sharpness-Aware Minimization (SAM) and Stochastic Weight Averaging (SWA)—to train models that generalize better and produce more reliable confidence scores. By minimizing loss sharpness, the method encourages flatter minima, which correlates with improved confidence separation and failure detection.",
+  "evaluation": "The method is evaluated on CIFAR-10, CIFAR-100, and ImageNet using FPR95, AUROC, and accuracy-coverage trade-off curves. Baselines include softmax confidence, temperature scaling, and MC dropout. The approach is also tested under covariate shift and long-tailed data to assess robustness.",
+  "support": [
+   "ref-002",
+   "ref-010",
+   "ref-013",
+   "ref-022",
+   "ref-059"
+  ]
+ },
+ {
+  "id": "x2",
+  "title": "Generalized Out-of-Distribution Detection via Hyperspherical Embedding Dispersion",
+  "summary": "This paper proposes a framework for generalized OOD detection by optimizing hyperspherical embeddings to maximize class prototype dispersion and sample compactness. The method, called CIDER, jointly trains a model to produce embeddings where in-distribution samples cluster tightly around class prototypes, while OOD samples lie far from all prototypes.",
+  "gap": "Current OOD detection methods often rely on parametric assumptions (e.g., Gaussian distributions) or ad-hoc post-processing, limiting their scalability and effectiveness. Existing contrastive learning approaches do not explicitly optimize for OOD detection, leading to suboptimal separability.",
+  "approach": "CIDER introduces a dispersion loss to maximize angular distances between class prototypes and a compactness loss to cluster samples around their prototypes. The method is trained end-to-end without requiring OOD samples during training, leveraging only in-distribution data.",
+  "evaluation": "The method is evaluated on CIFAR-10, CIFAR-100, and ImageNet with OOD benchmarks (e.g., SVHN, Textures, iNaturalist). Metrics include AUROC, FPR95, and detection accuracy. Baselines include MSP, ODIN, Mahalanobis distance, and contrastive learning-based methods.",
+  "support": [
+   "ref-029",
+   "ref-036",
+   "ref-046",
+   "ref-055",
+   "ref-060"
+  ]
+ },
+ {
+  "id": "x3",
+  "title": "Reject Option Augmentation for Selective Classification with Out-of-Distribution Data",
+  "summary": "This work introduces a method to augment softmax-based confidence scores with feature-agnostic information to improve selective classification in the presence of out-of-distribution (OOD) data. The approach, called Softmax Information Retaining Combination (SIRC), aims to enhance OOD detection without sacrificing the separation between correct and incorrect in-distribution predictions.",
+  "gap": "Existing OOD detection methods often conflate in-distribution misclassifications with OOD samples, leading to suboptimal performance in selective classification. Current post-hoc methods fail to maintain a clear boundary between correct and incorrect in-distribution predictions when rejecting OOD samples.",
+  "approach": "SIRC augments softmax scores with a feature-agnostic term derived from the model's output distribution, preserving the original softmax's ability to distinguish correct and incorrect in-distribution samples while improving OOD detection. The method is applied post-training, requiring no retraining or architectural changes.",
+  "evaluation": "The method is tested on ImageNet-scale datasets (e.g., ImageNet, CIFAR-10) with OOD benchmarks (e.g., iNaturalist, Textures). Metrics include AUROC, FPR95, and coverage-risk curves. Baselines include MSP, ODIN, and Mahalanobis distance-based methods.",
+  "support": [
+   "ref-005",
+   "ref-007",
+   "ref-014",
+   "ref-015",
+   "ref-025"
+  ]
+ }
+]
+</file>
+
+<file name="set_y.json">
+[
+ {
+  "id": "y1",
+  "title": "Masked Image Modeling Pretraining Enhances Out-of-Distribution Detection Without OOD Data",
+  "summary": "We propose that masked image modeling (MIM) pretraining improves OOD detection by learning intrinsic in-distribution features without requiring OOD samples. Unlike contrastive or supervised methods, MIM forces models to reconstruct missing patches, capturing structural patterns unique to in-distribution data. We evaluate this by training ViT models on ImageNet with MAE pretraining and measuring OOD detection performance on benchmarks like ImageNet vs. Textures, iNaturalist, and NINCO, comparing against supervised and contrastive baselines.",
+  "gap": "Existing OOD detection methods often rely on post-hoc techniques or OOD data during training, while MIM's reconstruction-based pretraining offers an assumption-free alternative. Ref-036 shows reconstruction-based methods can outperform outlier exposure, and ref-045 includes post-hoc methods (e.g., ODIN) that do not use OOD data. However, no work isolates how MIM pretraining alone improves OOD detection without fine-tuning.",
+  "approach": "Pretrain ViT-B/16 models using MAE on ImageNet-1K, then fine-tune for classification. Use reconstruction error from the pretrained encoder (before fine-tuning) as an OOD score. Test on ImageNet vs. Textures, iNaturalist, and NINCO using AUROC, FPR95. Compare against supervised ViT, MoCo-v3, and post-hoc methods (ODIN, GradNorm) under identical pretraining/fine-tuning settings. Quantify feature space compactness via average pairwise distances within/across classes for ID vs. OOD samples.",
+  "evaluation": "Baselines: supervised ViT, MoCo-v3, ODIN, GradNorm. Metrics: AUROC, FPR95. Ablations: (1) reconstruction error from pretrained vs. fine-tuned models, (2) comparison against GradNorm (ref-060) to isolate reconstruction vs. gradient-based methods. Datasets: ImageNet-1K (ID), Textures, iNaturalist, NINCO (OOD). Feature compactness measured as mean intra-class distance in the encoder's feature space.",
+  "support": [
+   "ref-036",
+   "ref-040",
+   "ref-045",
+   "ref-047",
+   "ref-060"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Dynamic Thresholding with Gradient Norms and Softmax Scores Improves Failure Prediction Under Covariate Shift",
+  "summary": "We hypothesize that combining gradient norms and softmax scores with a dynamic thresholding mechanism improves failure prediction under covariate shift. Gradient norms, computed via KL divergence between softmax outputs and a uniform distribution, adapt to input perturbations. We train a lightweight MLP threshold predictor using gradient norms and softmax scores, validated on ImageNet-C and CIFAR-10-C, comparing against static softmax, ODIN, Mahalanobis, and GradNorm baselines.",
+  "gap": "While ref-007 and ref-008 show softmax baselines perform well under covariate shift, ref-060 demonstrates gradient norms distinguish ID and OOD data. However, no work combines both signals with dynamic thresholding to adapt to shift severity. The gap is the lack of a method that unifies static softmax confidence with dynamic gradient-based signals for failure detection under varying shift levels.",
+  "approach": "Inputs: softmax scores and gradient norms of KL divergence between softmax and uniform distribution. Output: binary failure prediction. Objective: minimize FPR95 at TPR95. Update rule: train a 2-layer MLP threshold predictor on ID and corrupted data. Component change: dynamic thresholding via MLP. Same: use pre-trained model features. Differs from ref-060: combines softmax and gradient norms in a learned threshold predictor, vs. ref-060's fixed gradient-norm threshold.",
+  "evaluation": "Setting: ImageNet-C (ref-007) and CIFAR-10-C (ref-008) with 5 severity levels. Baselines: softmax, ODIN (ref-015), Mahalanobis (ref-023), GradNorm (ref-060). Measures: AUROC, FPR95. Ablation: (1) fixed vs. dynamic thresholds on gradient norms, (2) gradient norms alone vs. combined with softmax scores, (3) sensitivity of both signals across severity levels. The ablation isolates the proposed dynamic combination mechanism.",
+  "support": [
+   "ref-007",
+   "ref-008",
+   "ref-015",
+   "ref-023",
+   "ref-060"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Flat Minima with Stochastic Weight Averaging Improves Misclassification Detection via Confidence Separation",
+  "summary": "We hypothesize that combining Sharpness-Aware Minimization (SAM) with Stochastic Weight Averaging (SWA) improves misclassification detection by enhancing confidence separation between correct and incorrect predictions. Unlike calibration methods that often degrade this separation, our approach uses SAM to find flat minima and SWA to average weights during training, creating a smoother loss landscape. We validate this by measuring confidence separation (AUC of temperature-scaled softmax scores) on in-distribution misclassifications across CIFAR-10, CIFAR-100, and ImageNet, comparing against calibrated models and flat minima techniques.",
+  "gap": "Current calibration methods degrade confidence separation for misclassification detection (ref-002, ref-059), and while flat minima techniques (ref-010, ref-013, ref-022) exist, their specific application to confidence separation remains underexplored. The closest work (ref-002) shows flat minima improve failure prediction but does not combine SAM with SWA for this task.",
+  "approach": "Integrate SAM with SWA during training: (1) SAM minimizes loss sharpness by perturbing weights with gradient-based noise, (2) SWA averages weights from the final training epochs. Use temperature-scaled softmax probabilities (temperature selected via validation) as confidence scores. Train ResNet-50 models on CIFAR-10/100 and ImageNet, with identical hyperparameters (learning rate 0.05, batch size 128) for all baselines. The core difference is the addition of SAM+SWA to the optimization process.",
+  "evaluation": "Baselines: standard training, temperature scaling (calibration), SAM-only, SWA-only. Metrics: (1) AUC of confidence scores distinguishing misclassified vs. correctly classified samples, (2) FPR@95TPR, (3) maximum Hessian eigenvalue (computed via finite differences) to measure loss landscape sharpness. Ablation: SAM-only vs. SWA-only vs. SAM+SWA on CIFAR-10. Test on held-out misclassified samples from validation sets.",
+  "support": [
+   "ref-002",
+   "ref-010",
+   "ref-013",
+   "ref-022",
+   "ref-059"
+  ]
+ }
+]
+</file>
+codex
+{
+  "strongest": {"X": "x1", "Y": "y2"},
+  "weakest": {"X": "x3", "Y": "y3"},
+  "best": {
+    "rationale": "y2 proposes an identifiable change to ref-060: learn a failure predictor combining gradient norms with softmax confidence, with component ablations and evaluation across shift severities. x1 specifies a plausible experiment, but ref-002 already proposes flat minima for failure prediction and combines two flat-minima techniques; ref-059 already evaluates covariate shift and long tails. Its remaining contribution is therefore poorly established. y2 still needs held-out corruption splits and a continuous evaluation score, and its attribution of particular corruption datasets and covariate-shift findings to ref-007/ref-008 is unsupported by the supplied abstracts.",
+    "verdict": "Y"
+  },
+  "worst": {
+    "rationale": "y3 substantially overlaps ref-002/ref-059, and the supplied abstract does not substantiate its claim that ref-002 excludes SAM plus SWA. Nevertheless, its SAM-only, SWA-only, and combined ablations provide a concrete experiment. x3 reproduces SIRC from ref-005 without a clear modification and misstates its motivation: ref-005 explicitly says conflating incorrect ID predictions with OOD samples is acceptable, whereas x3 presents that conflation as the problem. Its restriction of the auxiliary information to the output distribution is also unsupported. These grounding and coherence problems make x3 weaker.",
+    "verdict": "Y"
+  },
+  "diversity": {
+    "rationale": "Both sets span three substantially different approaches: training-time flat-minima optimization, representation learning for OOD detection, and confidence-signal combination. X uses hyperspherical geometry and post-hoc SCOD scoring; Y uses reconstruction pretraining and a learned gradient/softmax predictor under shift. Neither set consists merely of parameter variations, and their differences do not establish a meaningful diversity advantage. Repetition of cited methods reduces originality but does not erase the differences among these approaches.",
+    "verdict": "tie"
+  },
+  "overall": {
+    "rationale": "Y offers the more useful research choice because y2 has a discernible intervention beyond its closest cited method and experiments capable of testing its added value. X largely restates existing contributions: flat-minima failure prediction in ref-002/ref-059, CIDER in ref-029, and SIRC in ref-005. Y is imperfect: y1 overlaps MOOD in ref-036 and inconsistently describes a no-fine-tuning gap while including fine-tuning, and y3 asserts an unverified distinction from ref-002. Even with those weaknesses, Y supplies one reasonably actionable new hypothesis and stronger component comparisons.",
+    "verdict": "Y"
+  }
+}
+tokens used
+35,788

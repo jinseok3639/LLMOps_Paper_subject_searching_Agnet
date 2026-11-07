@@ -1,0 +1,13 @@
+{
+ "title": "Value-Equivalent Pseudo-Simulation for Autonomous Driving Evaluation",
+ "summary": "This paper introduces value-equivalent pseudo-simulation, which generates synthetic observations constrained by bisimulation metrics to preserve Bellman consistency with true dynamics. This improves correlation with closed-loop driving scores by reducing causal confusion errors in open-loop evaluation. The approach is validated on NAVSIM and CARLA benchmarks.",
+ "gap": "Pseudo-simulation (ref-010) improves correlation with closed-loop metrics (R²=0.8) but still suffers from causal confusion due to unrealistic state transitions. Bisimulation metrics (ref-002, ref-009) can measure state similarity in MDPs but have not been applied to constrain synthetic observation generation for evaluation.",
+ "approach": "Generate synthetic observations using 3D Gaussian splatting (ref-010) with additional constraints: (1) Encoder maps observations to latent states where bisimulation distances (ref-009) match true MDP state distances, (2) Weight synthetic trajectories by exponential decay of bisimulation distance to prioritize realistic state transitions. Inputs: real dataset frames, MDP dynamics model. Outputs: weighted synthetic trajectories preserving Bellman consistency.",
+ "evaluation": "On NAVSIM (ref-020) and CARLA Leaderboard (ref-001), measure Pearson correlation between pseudo-simulation metrics (progress, TTC) and closed-loop driving scores. Compare against: (1) ref-010 proximity-weighted pseudo-simulation, (2) ref-009 bisimulation-only weighting without proximity. Isolate value-equivalence contribution via ablation removing bisimulation constraints. Measure causal confusion errors as frequency of trajectory divergences exceeding 5m from closed-loop ground truth.",
+ "support": [
+  "ref-010",
+  "ref-020",
+  "ref-009",
+  "ref-002"
+ ]
+}

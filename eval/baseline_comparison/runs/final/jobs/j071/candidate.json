@@ -1,0 +1,13 @@
+{
+ "title": "Outcome-Supervised Value Models for Guided Tree-of-Thought Search in Mathematical Reasoning",
+ "summary": "This work proposes integrating outcome-supervised value models (OVMs) with Tree-of-Thought (ToT) search to improve mathematical reasoning. The hypothesis is that OVMs trained on final answer correctness can more effectively guide ToT search than step-level supervision, enabling efficient exploration of high-reward reasoning paths without requiring annotated intermediate steps.",
+ "gap": "While ref-015 demonstrates OVMs for step evaluation and ref-033 introduces ToT with self-evaluation, their combination for mathematical reasoning (ref-027) remains unexplored. Current ToT implementations (ref-033) use self-evaluation that does not scale to complex problems due to error propagation, and OVMs (ref-015) have not been applied to guide ToT search.",
+ "approach": "A hybrid framework where OVMs (ref-015) trained on final answer outcomes guide Monte Carlo Tree Search (ref-016) in ToT (ref-033). The value model assigns scores to intermediate reasoning states by predicting the probability of reaching a correct final answer. The approach uses a 3-step process: (1) OVM training on problem-solution pairs with final answer labels, (2) ToT search with MCTS where OVM scores guide node expansion, and (3) solution reconstruction from the highest-value path. The key difference from ref-033 is the use of outcome-supervised value estimation instead of self-evaluation or step-level supervision.",
+ "evaluation": "Baselines include: (1) vanilla ToT with random exploration (ref-033), (2) ToT with self-evaluation (ref-033), and (3) ToT with step-supervised value models. Metrics are: (1) success rate on GSM8K (ref-027) and MATH (ref-027) datasets, (2) search efficiency (average nodes explored per solution), and (3) point-biserial correlation between OVM scores and path correctness on a held-out validation set. An ablation study compares OVM-guided ToT against ToT with step-supervised value models (trained on human-annotated step correctness from ref-015) to isolate the impact of outcome supervision.",
+ "support": [
+  "ref-015",
+  "ref-016",
+  "ref-027",
+  "ref-033"
+ ]
+}

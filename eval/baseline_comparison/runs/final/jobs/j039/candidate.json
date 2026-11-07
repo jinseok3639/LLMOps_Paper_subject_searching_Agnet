@@ -1,0 +1,21 @@
+{
+ "title": "Outcome-Supervised Step Value Models for Agent Orchestration: Auto-Labeled Process Rewards from Tree Rollouts Guiding Test-Time Agent Selection",
+ "summary": "Training or searching agent orchestration needs credit assignment across multi-agent steps, but step-level labels are expensive. I propose estimating the value of each partial multi-agent trajectory from rollout outcomes, in the manner of automatically labeled process supervision, and training an outcome-supervised value model to guide step-level beam search over which agent acts next. Validation compares against outcome-only reranking, a reinforcement-learned orchestrator, and unguided tree search on plotting, tool-use and reasoning tasks, measuring accuracy, cost, and transfer to unseen tasks and larger models.",
+ "gap": "Process and outcome reward models have been developed for math reasoning and for single-agent trajectory search, and orchestrators are trained with sparse RL reward. Value models that score partial multi-agent coordination states, labeled without human step annotations, have not been tested to guide agent selection.",
+ "approach": "Collect multi-agent rollouts under varied orchestration choices on training tasks. Label each intermediate state by the empirical success rate of completions from it (Monte Carlo estimate), as in automatic process supervision, and train a value model on state-to-outcome targets. At inference, run best-of-N or step-level beam search in which the value model ranks candidate next-agent choices. Compare pure outcome, human-style process labels (where available), and MC-estimated labels.",
+ "evaluation": "Baselines: RL puppeteer, best-of-N with outcome reward only, UCT-based tree search with LLM self-evaluation, static agent topologies. Metrics: task accuracy on MatPlotBench-style plotting, tool-use and math benchmarks, token cost, search budget scaling curves, weak-to-strong transfer to a larger backbone, and agreement between value predictions and final outcomes.",
+ "support": [
+  "ref-015",
+  "ref-038",
+  "ref-039",
+  "ref-047",
+  "ref-067",
+  "ref-002",
+  "ref-008",
+  "ref-059",
+  "ref-033",
+  "ref-006",
+  "ref-070",
+  "ref-001"
+ ]
+}

@@ -1,0 +1,18 @@
+{
+ "title": "Does Constitutional-Style Output Classification Close the Copyright Regurgitation Gap? Guarding Against Memorized-Book Extraction",
+ "summary": "Safety classifiers were designed to stop universal jailbreaks for harmful content, but regurgitation of copyrighted text is a different failure that alignment does not remove. This proposal trains a classifier on synthetic data generated from a natural-language 'copyright constitution' to block verbatim or near-verbatim book output, and tests it against divergence, adversarial-suffix and many-shot attacks. Validation uses open-weight models known to memorize specific books, measuring extraction blocked, refusal rates on benign queries, and compute overhead, versus a baseline n-gram filter.",
+ "gap": "Constitutional classifiers defend against jailbreaks for harmful content, while extraction research shows that alignment does not remove memorization and that attacks bypass it. No cited work tests whether synthetic-data, rule-driven classifiers can guard against memorized copyrighted text, or how they compare to simple filters when attackers adapt.",
+ "approach": "Write a constitution that defines permitted (summaries, short quotations, discussion) versus restricted (extended near-verbatim reproduction) output. Generate synthetic positive and negative examples with an LLM, using memorized passages from a model known to have memorized specific books. Train input and output classifiers, with streaming output classification. Red-team using divergence, adversarial suffix and many-shot jailbreaks, and paraphrase-evasion.",
+ "evaluation": "Metrics: fraction of book text extractable with versus without the classifier (using the book memorization extraction procedure), attack success under adaptive attacks, false-refusal rate on benign literary queries, and inference overhead. Baselines: an exact-match n-gram blocklist, a near-duplicate-detection filter, and the unguarded aligned model. Check generalization to held-out books and attack types.",
+ "support": [
+  "ref-004",
+  "ref-044",
+  "ref-007",
+  "ref-006",
+  "ref-014",
+  "ref-038",
+  "ref-035",
+  "ref-019",
+  "ref-033"
+ ]
+}

@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-007 supports downstream risks in broadly adaptable foundation models, but characterizing existing transfer evidence as limited understates ref-008, which explicitly reports zero-shot poison transfer to 15 diverse generative datasets and instruction transfer across datasets. ref-013 also reports strong cross-dataset generalization. ref-010 provides only a title, so it cannot substantiate specific transfer claims.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The central question substantially overlaps ref-008's existing investigation of zero-shot backdoor transfer across diverse generative datasets. The candidate does not specify a concrete condition that distinguishes its proposed transfer study from that work. 'Universal vulnerabilities' remains undefined and cannot be established through five task pairs.",
+  "score": 1
+ },
+ "specificity": {
+  "rationale": "Source and target examples, two models, poisoning baselines, and five task pairs provide an experimental starting point. However, ASR defined through misclassification to a target label does not specify success for QA or summarization, unlike the explicitly generative transfer setting in ref-008. The example trigger is two words despite being described as five tokens, and the detection-latency metric lacks a defined detector or detection-quality measure.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Source-task poisoning followed by zero-shot target evaluation fits the transfer question studied in ref-008. However, classification-based ASR does not operationalize the proposed effects on generative targets, five pairs cannot substantiate universality, and trigger-detection latency does not test cross-task transfer. These weaknesses prevent the evaluation from cleanly confirming or refuting the stated hypothesis.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Understanding transfer could inform whether instruction-poisoning defenses must cover multiple tasks, consistent with the downstream-risk motivation in ref-007. However, ref-008 already demonstrates broad zero-shot transfer, and ref-013 provides extensive cross-dataset benchmarking. Without a distinct transfer condition or interpretable generative outcome, the proposed study offers limited additional guidance for research or defense choices.",
+  "score": 2
+ }
+}

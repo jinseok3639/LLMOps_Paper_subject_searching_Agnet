@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-002 supports estimating classifier-induced divergence between domains using unlabeled samples, and ref-009 supports the description of STRIP. However, ref-002 does not establish per-input divergence scores or a backdoor-detection threshold derived from its target-error bound. ref-001 supplies only a title, insufficient to establish that activation clustering does not model distribution shifts. The support ids are relevant, but key attributed capabilities are unsupported.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Applying ref-002's domain divergence to backdoor detection is not addressed in the supplied references. However, the candidate identifies an unused technique rather than a concrete failure of existing detectors that this technique could remedy. It also assumes trigger-induced shifts are detectable without explaining that assumption, particularly for the natural-looking, correctly labeled poisoned samples in ref-003.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate names a dataset, attack, baselines, and TPR/FPR metrics using ref-003, ref-009, and ref-001. However, it leaves undefined the two sample populations, access to trusted clean data, conversion of ref-002's distribution-level divergence into individual scores, and threshold calibration. The proposed adaptation is unspecified, so its comparison with the original divergence estimator cannot yet be implemented.",
+  "score": 2
+ },
+ "coherence": {
+  "rationale": "The evaluation broadly targets backdoor detection, but the approach jumps from comparing distributions in ref-002 to flagging individual inputs without a connecting mechanism. It also conflates poisoned training samples with triggered test inputs, which ref-003 explicitly distinguishes by hiding the trigger during training. These unresolved choices prevent the evaluation from clearly testing whether divergence isolates trigger-induced shifts.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "A successful divergence-based detector could expand the alternatives to STRIP's perturbation test in ref-009, especially against attacks such as ref-003. However, this single-dataset study does not identify when divergence should offer an advantage or what assumption a negative result would challenge. The likely contribution is meaningful but narrow until those conditions and the detection mechanism are specified.",
+  "score": 3
+ }
+}

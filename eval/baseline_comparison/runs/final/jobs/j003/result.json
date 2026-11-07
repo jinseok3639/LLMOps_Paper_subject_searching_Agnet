@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-010 supports proximity-weighted synthetic observations, and ref-004 defines value equivalence through matching Bellman updates. However, ref-004 does not establish the proposed Bellman error between model predictions and observations. ref-010 does not specify the attributed collision penalties, and ref-034 provides a cross-benchmark correlation study, not adversarial traffic scenarios. Several concrete claims therefore exceed their cited evidence.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The references do not investigate value-based weighting within pseudo-simulation, so the combination remains open. However, ref-010 does not identify missing value consistency as a limitation of proximity weighting. ref-034 documents ranking inversions and possible compounding errors, but the candidate does not clearly connect these problems to its proposed weighting. The gap is identifiable but only partly motivated.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The candidate names a proximity-weighting baseline from ref-010 and specifies correlation, recovery, and completion measures. However, it leaves the value functions, policy set, model training, Bellman-error calculation, and conversion of negative errors into valid weights undefined. It also does not explain how NAVSIM scenes from ref-020 support matched CARLA evaluation; ref-034 supplies no proposed adversarial scenario set.",
+  "score": 2
+ },
+ "coherence": {
+  "rationale": "Comparing correlation with closed-loop performance could test whether the weighting improves evaluation, consistent with ref-010 and ref-034. The central mechanism is weaker: matching Bellman updates in ref-004 does not establish that low-error synthetic observations are those a policy will encounter. Replacing proximity weighting may discard that connection. The unresolved NAVSIM-to-CARLA matching further weakens attribution of any measured improvement.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "More reliable policy ranking could affect benchmark and model selection, given the evaluation limitations in ref-020 and ranking inversions in ref-034. Testing value-based weighting could yield useful evidence. However, the candidate does not establish why model consistency should predict evaluation fidelity, and restricting attention to value-equivalent policies limits the conclusions. Its likely contribution is meaningful but narrow.",
+  "score": 3
+ }
+}

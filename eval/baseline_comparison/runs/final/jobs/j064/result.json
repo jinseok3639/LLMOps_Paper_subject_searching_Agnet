@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The distribution-shift motivation and DAgger-style aggregation are supported by ref-003, causal misidentification by ref-030, and predicate representations by ref-013 and ref-040. However, these references do not establish that compact predicates or entropy-based expert queries prevent causal confusion. Ref-002 reports reduced computational costs, while ref-022 searches over workflow designs rather than describing an expensive online routing expert. Ref-016 and ref-070 lack abstracts supporting implementation claims. The core ingredients are grounded, but the cost and guarantee claims overreach.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The supplied references leave open whether an inexpensive router can retain a search expert's performance through on-policy distillation. This connects ref-003 to adaptive orchestration in ref-002. However, the proposal does not establish the claimed runtime bottleneck: ref-022 concerns workflow optimization, and ref-002 already targets computational efficiency. Combining distillation, representation reduction, and causal robustness also broadens the gap beyond one clear limitation.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The proposal specifies on-policy expert labeling, example input predicates, full-history and behavioral-cloning ablations, named baselines, benchmarks, and success and cost measures supported by ref-003, ref-001, ref-027, ref-045, and ref-049. Experiment design could begin, but the expert's routing actions, search objective, value-model training, predicate extraction, and entropy-based query rule remain unspecified.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "On-policy aggregation directly addresses the state-distribution problem described in ref-003, and success-versus-cost measurements could test distillation. The causal-confusion component is weaker: ref-030 identifies causal structure through targeted interventions, whereas uncertain-state labeling and removing history do not necessarily identify causal features. An out-of-distribution history ablation can reveal sensitivity but cannot by itself establish causal confusion. Query capping and state abstraction also leave the claimed guarantees unsubstantiated.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Establishing when a small router preserves adaptive orchestration quality could influence deployment choices between learned routing and costly search, extending the efficiency concerns in ref-002 and ref-042. Positive or negative results on aggregation and input representations would be useful. The potential impact is substantial, although clearer causal controls and accounting for expert-labeling costs are needed to make the conclusions broadly actionable.",
+  "score": 4
+ }
+}

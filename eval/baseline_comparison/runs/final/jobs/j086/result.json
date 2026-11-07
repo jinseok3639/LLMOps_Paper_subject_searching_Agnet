@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The cited references support the descriptions of ODIN, Mahalanobis scoring, and Dirichlet uncertainty learning (ref-015, ref-023, ref-042). However, ref-042 explicitly includes both out-of-domain detection and misclassification detection, undermining the claimed absence of this combination. Calling OpenMix a post-hoc method is also unsupported: ref-062 describes learning to reject transformed outlier pseudo-samples.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "The central gap substantially overlaps ref-042, which already proposes computationally efficient post-hoc Dirichlet meta-modeling and evaluates both detection applications. The candidate identifies no concrete limitation of that method that its pseudo-label training would resolve. Simultaneous evaluation alone does not establish the claimed missing unified framework.",
+  "score": 1
+ },
+ "specificity": {
+  "rationale": "The frozen classifier, three-layer MLP, perturbation settings, datasets, baselines, and metrics provide substantial experimental detail. However, the KL objective does not specify how concentration parameters and pseudo-label probabilities become comparable distributions, and the entropy score is ambiguous. The closest baseline, ref-042, is omitted despite being essential to isolating the proposed change.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Evaluating both misclassification and OOD detection could test the intended confidence benefits, consistent with the concerns in ref-059 and ref-062. However, the connection between noisy, mixed predictions and learning to correct the base classifier's errors is unexplained, and the training objective is incomplete. ECE cannot establish improved failure separation, as ref-002 explicitly cautions.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "Improving both detection tasks would be useful given the trade-offs documented in ref-059 and ref-062. As formulated, however, the proposal largely revisits ref-042 with an insufficiently motivated pseudo-label recipe. Without comparing against ref-042 or isolating that recipe's contribution, the outcome would offer limited guidance for choosing uncertainty methods.",
+  "score": 2
+ }
+}

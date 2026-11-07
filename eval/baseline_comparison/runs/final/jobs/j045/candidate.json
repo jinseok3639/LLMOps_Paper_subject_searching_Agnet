@@ -1,0 +1,20 @@
+{
+ "title": "Outcome-Indistinguishability Auditing for Hidden Behaviors in Language Models",
+ "summary": "This proposal would recast detection of hidden LLM behaviors (backdoors, password locks, sycophancy) as outcome-indistinguishability (OI) auditing. A model passes an audit if no distinguisher in a specified class can tell its outputs apart from a trusted reference on the audit distribution. The method would grade audits by access level: samples only, black-box queries, or white-box activations. It would test whether a richer level, such as truth directions found by consistency-based latent-knowledge probing, detects behaviors that weaker levels miss. Validation would use password-locked models, instruction backdoors and sycophancy probes.",
+ "gap": "Outcome indistinguishability defines a hierarchy of auditor access, and the planted-backdoor work shows some backdoors cannot be detected by efficient observers. Neither has been applied to practical hidden behaviors in LLMs. It is also untested whether the extra access that OI theory argues auditors need, such as white-box latent-knowledge directions, actually improves detection of password-locked capabilities, instruction backdoors or sycophancy.",
+ "approach": "Instantiate the OI hierarchy with three distinguisher classes: sample-based statistics, adaptive query-based tests, and white-box probes that read activations. The white-box probes would include unsupervised consistency-based truth directions and activation clustering. Detection power is the distinguishing advantage over a clean reference model. Relate this advantage to the cryptographic undetectability limits.",
+ "evaluation": "Use password-locked LLMs, BackdoorLLM and ELBA-Bench backdoors, and sycophancy datasets. Compare detection AUC across the three access levels at a fixed query budget. Baselines are STRIP and activation clustering. A random-feature-style planted backdoor serves as a negative control that should resist all efficient distinguishers.",
+ "support": [
+  "ref-019",
+  "ref-021",
+  "ref-020",
+  "ref-018",
+  "ref-015",
+  "ref-008",
+  "ref-010",
+  "ref-013",
+  "ref-001",
+  "ref-009",
+  "ref-014"
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "title": "Divergence-Aware Weighting for Instruction Backdoor Mitigation",
+ "summary": "This work proposes a fine-tuning method that dynamically weights clean and poisoned instruction losses based on domain divergence estimates and sample sizes, reducing backdoor activation while maintaining task performance. The approach isolates the effect of divergence-aware weighting through ablation studies comparing fixed and dynamic weight strategies.",
+ "gap": "While ref-002 provides theoretical bounds for balancing source and target domain errors, ref-008 shows that instruction backdoor defenses using RLHF or clean data lack formal divergence-aware weighting mechanisms. The gap is the absence of a method that explicitly applies ref-002's bounds to adjust weights during instruction tuning for backdoor mitigation.",
+ "approach": "Given a large language model, clean instructions (source domain) and poisoned instructions (target domain), the approach minimizes a convex combination of their losses: L = αL_source + (1-α)L_target, where α = (D + λ√(1/n_source)) / (D + λ√(1/n_source) + λ√(1/n_target)). Here, D is the classifier-induced divergence from ref-002 estimated via unlabeled samples, λ controls hypothesis complexity, and n_source/n_target are sample sizes. The key difference from ref-002 is applying its bounds to instruction tuning for backdoor mitigation, with divergence estimated between clean and poisoned instruction distributions.",
+ "evaluation": "Evaluate on ELBA-Bench (ref-013) datasets with backdoor injections from ref-008, comparing attack success rate (ASR) and clean accuracy. Baselines include standard fine-tuning, RLHF, and equal-weighting (α=0.5). Ablation studies compare dynamic weighting (α from divergence estimates) against fixed-weight (α=0.7) and no-weighting (α=1.0) variants to isolate the effect of divergence-aware adjustment.",
+ "support": [
+  "ref-002",
+  "ref-008",
+  "ref-013"
+ ]
+}

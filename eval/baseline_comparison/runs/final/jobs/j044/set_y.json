@@ -1,0 +1,50 @@
+[
+ {
+  "id": "y1",
+  "title": "Copyright-Aware Deduplication to Reduce Extractable Memorization in Language Models",
+  "summary": "We propose a method to reduce extractable memorization of copyrighted content in language models by extending text deduplication to prioritize removal of near-duplicate copyrighted material. The approach uses shingling and semantic similarity checks to identify high-frequency duplicates from copyrighted works, then trains models on the deduplicated dataset. We evaluate its effectiveness by measuring verbatim extraction rates of known copyrighted content before/after deduplication, comparing against standard deduplication and random subsampling baselines.",
+  "gap": "While ref-011 shows deduplication reduces verbatim memorization, it does not prioritize copyrighted content. Ref-035 defines memorization as extractable verbatim copies of training data but does not address selective removal of copyrighted material. No prior work systematically reduces memorization of copyrighted works while preserving non-copyrighted content.",
+  "approach": "We extend ref-011's deduplication algorithm by incorporating copyright metadata (from ref-036's plagiarism detection) to prioritize removal of high-frequency near-duplicates from copyrighted works. The method uses shingling (ref-019) to identify duplicates, then applies semantic similarity (ref-008) to filter copyrighted content. The algorithm removes duplicates with >90% token overlap, prioritizing those from copyrighted works. We implement this on the C4 dataset (ref-011) and train 1.3B-parameter models to compare verbatim extraction rates of copyrighted vs. public-domain text.",
+  "evaluation": "We measure verbatim extraction rates of 100 copyrighted books (ref-035) and 100 public-domain books before/after deduplication. Baselines include ref-011's standard deduplication and random subsampling. Metrics include exact-match extraction frequency (ref-035), model perplexity on held-out public-domain text (ref-001), and ablation comparing copyright-aware vs. generic deduplication. The evaluation tests whether prioritizing copyrighted content removal reduces extractable memorization without degrading general performance.",
+  "support": [
+   "ref-001",
+   "ref-008",
+   "ref-011",
+   "ref-019",
+   "ref-035",
+   "ref-036"
+  ]
+ },
+ {
+  "id": "y2",
+  "title": "Context-Aware Memorization Detection in Code-Generating LLMs via Gradient-Guided Suffix Search",
+  "summary": "We propose a method to detect memorized code in code-generating LLMs by training a classifier to identify adversarial suffixes that maximize exact-match extraction. The approach uses gradient-guided search to generate suffixes that trigger verbatim reproductions of training data, validated on Codex and open-source models. Evaluation compares extraction rates with prefix-based baselines and assesses the impact of deduplication.",
+  "gap": "While ref-007 and ref-050 demonstrate adversarial suffix attacks for general LLMs, they do not focus on code models or compare suffix-based extraction with prefix-based methods. Ref-044 shows deterministic extraction of entire books but does not evaluate code-specific memorization. The core gap is that no work has systematically compared adversarial suffix-based extraction with prefix-based methods in code models, nor has it quantified how deduplication (ref-011) affects memorization rates in this setting.",
+  "approach": "We implement a gradient-guided suffix search algorithm that iteratively modifies suffix tokens to maximize the probability of generating exact code sequences. The algorithm uses the model's logits to compute gradients with respect to suffix token embeddings, selecting tokens that increase the likelihood of the target code. Inputs are code prefixes from a test set; outputs are suffixes that maximize exact-match extraction. The objective is to find minimal-length suffixes that achieve >90% token overlap with the target code. The core difference from ref-007's divergence attacks is that we focus on code-specific extraction and explicitly compare suffix-based extraction with prefix-based baselines.",
+  "evaluation": "We evaluate on the HumanEval (ref-001) benchmark, which contains 164 Python code snippets. Baselines include (1) prefix-based extraction (using the first 50% of each snippet as prefix) and (2) random suffix sampling. Metrics include exact-match extraction rate (token-level, temperature=0.2) and the average number of gradient steps required to find a successful suffix. We ablate by testing on models trained with (ref-011) deduplication versus non-deduplicated models, measuring how deduplication reduces extraction rates. The evaluation isolates the proposed suffix mechanism by fixing prefix length and sampling temperature across all methods.",
+  "support": [
+   "ref-001",
+   "ref-007",
+   "ref-011",
+   "ref-044",
+   "ref-050"
+  ]
+ },
+ {
+  "id": "y3",
+  "title": "Context-Aware Memorization Detection via Adversarial Compression for Copyright Compliance",
+  "summary": "This paper proposes a method to detect verbatim memorization in language models by integrating adversarial compression (ACR) with legal standards for copyright infringement. It adapts the Adversarial Compression Ratio (ACR) metric to identify training data that can be reconstructed from short prompts, focusing on copyrighted content. The approach uses targeted prompts to elicit memorized text and compares it against known copyrighted works. Validation involves testing on models trained with duplicated copyrighted material, measuring recall of exact matches and false positives on non-memorized content.",
+  "gap": "Existing methods (e.g., ref-009's ACR) measure adversarial compression but lack integration with legal standards for copyright infringement, leaving a gap in identifying actionable legal violations. Ref-044 shows deterministic extraction of copyrighted books, but does not assess whether outputs meet legal 'substantial similarity' criteria.",
+  "approach": "Implement ACR-based detection by generating adversarial prompts via gradient-guided search, then matching outputs against copyrighted datasets. Use probabilistic extraction (ref-029) to quantify memorization likelihood, and filter false positives via semantic similarity thresholds. The core difference from ref-009 is the addition of legal 'substantial similarity' criteria to validate actionable copyright claims.",
+  "evaluation": "Baselines include ref-044's deterministic extraction and ref-009's ACR. Metrics are precision/recall of copyrighted text recovery, false positive rates on non-training data, and comparison against legal 'substantial similarity' thresholds defined by ref-035. The evaluation uses the Harry Potter dataset (ref-044) and models from the Pythia suite (ref-045), with an ablation comparing ACR with/ref-029's probabilistic extraction alone.",
+  "support": [
+   "ref-007",
+   "ref-009",
+   "ref-029",
+   "ref-035",
+   "ref-044",
+   "ref-045",
+   "ref-050"
+  ]
+ }
+]

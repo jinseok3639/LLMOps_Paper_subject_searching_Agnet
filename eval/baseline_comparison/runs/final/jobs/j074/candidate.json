@@ -1,0 +1,13 @@
+{
+ "title": "Domain-Induced Backdoor Detection via Distribution Divergence Analysis",
+ "summary": "This paper proposes detecting backdoor attacks by adapting classifier-induced divergence measures from domain adaptation theory to quantify distribution shifts caused by backdoor triggers. The approach estimates divergence between clean and poisoned samples using unlabeled data, flagging inputs with abnormal scores as potential backdoor triggers. Evaluation compares detection accuracy against STRIP and activation clustering baselines on CIFAR-10 with Hidden Trigger attacks.",
+ "gap": "While ref-002 introduces classifier-induced divergence measures to bound target error in domain adaptation, it does not apply these measures to backdoor detection. Existing backdoor detection methods (ref-001, ref-009) focus on activation clustering or perturbation testing but do not explicitly model trigger-induced distribution shifts, leaving an open question: can ref-002's divergence analysis isolate backdoor patterns as domain shifts?",
+ "approach": "Adapt ref-002's classifier-induced divergence measure to quantify distribution shifts between clean and poisoned samples. Inputs are unlabeled data from a model's training distribution; outputs are divergence scores computed via ref-002's empirical estimator. The objective is to identify samples where divergence exceeds a threshold derived from ref-002's bound. The method differs from STRIP (ref-009) by using divergence scores instead of entropy changes and from activation clustering (ref-001) by modeling domain shifts rather than clustering activation patterns.",
+ "evaluation": "Test detection accuracy on CIFAR-10 with Hidden Trigger attacks (ref-003) against STRIP (ref-009) and activation clustering (ref-001). Metrics include true positive rate (TPR) and false positive rate (FPR) at fixed thresholds. Ablation compares ref-002's original divergence measure (run on the same dataset) against the proposed adaptation to isolate the contribution of domain divergence analysis. All baselines use identical data splits and hyperparameters.",
+ "support": [
+  "ref-002",
+  "ref-003",
+  "ref-001",
+  "ref-009"
+ ]
+}

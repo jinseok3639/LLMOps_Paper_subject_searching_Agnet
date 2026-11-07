@@ -1,0 +1,13 @@
+{
+ "title": "Value-Equivalent Weighting for Pseudo-Simulation in Autonomous Driving",
+ "summary": "We integrate value-equivalent model predictions into pseudo-simulation to better approximate closed-loop evaluation of driving policies. By weighting synthetic observations based on Bellman error between predicted and actual state transitions, our method prioritizes trajectories that preserve value-relevant dynamics. This bridges the gap between open-loop evaluation and closed-loop performance for policies trained with value-equivalent representations.",
+ "gap": "Pseudo-simulation improves open-loop realism via proximity-weighted synthetic observations (ref-010), but does not explicitly account for value-relevant state transitions. Value-equivalent models (ref-004) enable efficient planning but are untested under pseudo-simulation's synthetic observation weighting scheme.",
+ "approach": "We extend pseudo-simulation by computing Bellman error between value-equivalent model predictions and synthetic observations. Observations are weighted by negative Bellman error, prioritizing those consistent with value-equivalent dynamics. The value-equivalent model uses a reward function combining progress (ref-034) and collision penalties (ref-010), with action space defined by waypoint deviations. This differs from ref-010's proximity weighting by explicitly penalizing value-deviant trajectories.",
+ "evaluation": "We compare correlation (R²) between pseudo-simulation metrics and closed-loop performance (CARLA Leaderboard) for value-equivalent vs. proximity-weighted pseudo-simulation. We use the NAVSIM dataset (ref-020) with adversarial traffic scenarios from ref-034, reporting collision recovery rate (percentage of collisions avoided after 5s) and route completion. An ablation isolates value-equivalent weighting by comparing against pseudo-simulation with ref-010's proximity weighting.",
+ "support": [
+  "ref-004",
+  "ref-010",
+  "ref-020",
+  "ref-034"
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "title": "Deduplication Reduces Verbatim Memorization of Copyrighted Texts in LLMs",
+ "summary": "This paper quantifies how training data deduplication reduces verbatim memorization of copyrighted texts in LLMs. By removing near-duplicate sequences, the approach decreases the probability of exact reproductions during generation. The method is evaluated on literary datasets (e.g., books) using extraction attacks, with baselines including undeduplicated models and controlled ablations.",
+ "gap": "While ref-011 and ref-044 show deduplication reduces memorization, their analyses do not isolate deduplication's effect on copyrighted material. Ref-011 measures general memorization reduction, and ref-044 quantifies memorization in undeduplicated models but does not test deduplication's impact. The specific effect of deduplication on copyrighted text memorization remains unquantified.",
+ "approach": "Apply ref-011's deduplication tools to a dataset of copyrighted books (e.g., ref-044's 200-book subset). Train models on (1) undeduplicated data, (2) deduplicated data, and (3) data with only non-copyrighted duplicates removed. Use ref-050's extraction attacks to measure verbatim memorization rates, defined as the probability of generating a 10+ token exact match to a training example. The core difference from ref-011 is the focus on copyrighted content and controlled ablations.",
+ "evaluation": "Measure verbatim memorization rates on the 200-book dataset (ref-044) for models trained on the three data variants. Baselines include undeduplicated models (ref-044) and models trained on data with only non-copyrighted duplicates removed. The ablation isolates deduplication's effect by comparing (1) vs. (2) and (3) vs. (2). Metrics include exact-match extraction rates and the number of extractable books. No legal risk modeling is performed, as no reference links extraction rates to legal outcomes.",
+ "support": [
+  "ref-011",
+  "ref-044",
+  "ref-050"
+ ]
+}

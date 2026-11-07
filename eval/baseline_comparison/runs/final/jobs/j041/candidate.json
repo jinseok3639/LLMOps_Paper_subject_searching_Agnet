@@ -1,0 +1,20 @@
+{
+ "title": "Context-Aware Memorization Detection via Adversarial Compression for Copyright Compliance",
+ "summary": "This paper proposes a method to detect verbatim memorization in language models by applying adversarial compression ratio (ACR) metrics, which identify training data reconstructable from shorter prompts. The approach uses probabilistic extraction to quantify memorization risks, evaluated on deduplicated datasets and compared against baselines. It aims to provide a practical tool for assessing copyright violations by identifying memorized content.",
+ "gap": "Existing probabilistic extraction methods (ref-029) quantify extraction likelihood but do not measure the compression ratio between prompt length and reconstructed text length, leaving a gap in assessing how efficiently training data can be reconstructed from minimal prompts. Ref-009 defines ACR but does not integrate probabilistic sampling or deduplication.",
+ "approach": "The approach computes ACR (ref-009) by finding the shortest prompt that reconstructs a target sequence with high probability. It uses probabilistic extraction (ref-029) to measure reconstruction likelihood across multiple queries, applied to deduplicated datasets (ref-011). The core mechanism differs from ref-009 by incorporating probabilistic sampling and from ref-029 by optimizing for minimal prompt length. Inputs: a model, a target sequence, and a deduplicated dataset. Output: ACR score and reconstruction probability. Objective: minimize prompt length while maximizing reconstruction probability.",
+ "evaluation": "The method is evaluated on the deduplicated C4 subset (ref-011) against baselines: discoverable extraction (greedy sampling, ref-050) and probabilistic extraction (ref-029). Metrics include ACR scores, reconstruction probabilities, and exact matches to copyrighted books (ref-044). Ablation studies compare ACR alone, probabilistic extraction alone, and their combination. Legal compliance is tested by checking if exact matches to copyrighted works exist in the model's memorized content.",
+ "support": [
+  "ref-001",
+  "ref-007",
+  "ref-009",
+  "ref-011",
+  "ref-029",
+  "ref-033",
+  "ref-035",
+  "ref-044",
+  "ref-045",
+  "ref-048",
+  "ref-050"
+ ]
+}

@@ -1,0 +1,35 @@
+
+=== Codex 사전 점검
+Codex 확인 중 (검색 없음)...
+{
+ "ok": true,
+ "result": {
+  "answer": "violet-42"
+ },
+ "log_tail": null
+}
+Codex 확인 중 (검색)...
+{
+ "ok": true,
+ "result": {
+  "answer": "[1706.03762](https://arxiv.org/abs/1706.03762)"
+ },
+ "log_tail": null
+}
+사전 점검 통과
+
+=== 블라인드 포장
+작업 88개 {'score': 72, 'novelty': 0, 'pairwise': 16}, 빠진 세트 [('t008', 'A')]
+
+묶음 (위에서부터 중요한 순서, [완료/전체])
+
+ 1. prep       [     완료]  Codex 사전 점검(호출 2)과 블라인드 포장
+ 2. ab3-pair   [    0/8]  주 지표 1: A-B(v3) 세트 쌍대 비교 (두 순서)
+ 3. a-score    [   0/12]  주 지표 2: A 후보 점수
+ 4. b3-score   [   0/15]  주 지표 2: B(v3) 후보 점수
+ 5. ae4-pair   [    0/8]  추가 결과: A-E(v4) 세트 쌍대 비교
+ 6. e4-score   [   0/15]  추가 결과: E(v4) 후보 점수
+ 7. c-score    [   0/15]  기준점: C(Opus) 후보 점수 → 공백 메움 비율
+ 8. d-score    [   0/15]  기준점: D(Sonnet) 후보 점수
+
+실행: python eval/baseline_comparison/run_final_judging.py <묶음 이름>

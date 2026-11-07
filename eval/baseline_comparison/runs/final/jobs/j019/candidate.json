@@ -1,0 +1,18 @@
+{
+ "title": "Sample-Complexity Limits of Backdoor Detection via Distribution Testing: Lower Bounds and Matching Activation-Space Testers",
+ "summary": "We propose to cast backdoor detection as a distribution testing problem: deciding whether a model's activation distribution on a clean reference set differs from that on a possibly poisoned dataset. We derive minimax lower bounds (Fano/Le Cam style) on the number of samples needed to detect a poisoning fraction epsilon given a separation in representation space, and construct a tester that matches them. We then compare the bound with practical clustering and entropy-based defenses on image and LLM backdoors, validating whether empirical detection thresholds scale with the predicted rate and where they fall short of it.",
+ "gap": "Empirical defenses (activation clustering, STRIP) and benchmarks report detection rates without any statistical limits, while cryptographic work shows undetectability only for computationally bounded observers. No cited work gives information-theoretic sample-complexity rates for detection as a function of poisoning ratio and trigger separation, or checks whether practical defenses reach them.",
+ "approach": "Model clean and poisoned activation distributions as a mixture with weight epsilon and a shift in a feature space. Prove lower bounds on samples for testing via Le Cam/Fano reductions from nonparametric estimation and property testing. Design an identity/closeness tester with matching rates (a chi-square type statistic on projected activations). Instantiate it on trained backdoored models, including BadNets-style, hidden-trigger and instruction-based attacks, and sweep poisoning ratio and trigger strength.",
+ "evaluation": "Compare the empirical minimal sample size for 95% detection power against the theoretical rate across poisoning ratios in a standard backdoor benchmark. Baselines: activation clustering, STRIP, and the other defenses implemented in the benchmarks. Measures: power at fixed false-positive rate, sample size gap to the lower bound, and robustness to hidden-trigger attacks designed to evade defenses.",
+ "support": [
+  "ref-001",
+  "ref-009",
+  "ref-003",
+  "ref-006",
+  "ref-005",
+  "ref-004",
+  "ref-011",
+  "ref-016",
+  "ref-021"
+ ]
+}

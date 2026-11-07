@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "Policy-graph surrogates and behavioural fidelity are supported by ref-040, intention-based explanations by ref-013, and compound opacity by ref-025. However, the claim that existing policy graphs cover only RL agents in cooperative games exceeds ref-013's abstract. Likewise, ref-002 and ref-042 do not establish the categorical absence of faithful explanations, and ref-025 proposes responsible-implementation frameworks rather than explicitly declaring this exact gap unsolved.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Faithfully explaining LLM orchestrator routing is a focused extension of ref-013 and ref-040, naturally motivated by the interaction opacity in ref-025. None of the supplied abstracts demonstrates this capability for LLM orchestrators. The gap is credible, although its categorical characterization of prior work is insufficiently supported.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The candidate specifies predicate abstraction, probabilistic graph construction, surrogate deployment, concrete benchmarks from ref-045, ref-049 and ref-001, and an efficiency comparison with ref-042. Experimental design could begin, but the search-based orchestrator, intention-score computation, intention precision, and pruning rule need operational definitions.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "Surrogate action agreement and task-success differences directly test whether the graph preserves routing behaviour, following ref-040. Human-checked explanation ratings also fit the proposal. The weaker link is treating cyclic or low-intention regions as wasted computation: ref-002 explicitly associates compact cycles with improvements, and behavioural fidelity alone cannot validate attributed intentions.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "Establishing whether interpretable graph surrogates preserve LLM orchestration behaviour could influence deployment and auditing choices, addressing concerns in ref-025 through mechanisms supported by ref-013 and ref-040. Comparing graph-guided pruning with ref-042 adds practical value, although broader impact depends on showing that explanations reveal useful routing failures beyond reproducing observed actions.",
+  "score": 4
+ }
+}

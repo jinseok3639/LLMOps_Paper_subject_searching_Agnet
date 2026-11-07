@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y3"
+ },
+ "weakest": {
+  "X": "x3",
+  "Y": "y2"
+ },
+ "best": {
+  "rationale": "x2 asks a useful, scoped question: whether accounting for benign domain shift reduces backdoor detector false positives. Its clustering baseline, divergence sweep, and false-positive measurements fit that question. However, ref-001's title cannot substantiate its claimed same-domain assumption. y3 combines relevant references (ref-002, ref-008), but does not explain how its divergence penalty becomes trainable or why aligning clean and poisoned distributions suppresses malicious behavior. Ref-002's bounds assume a hypothesis that performs well in both domains; they do not directly establish backdoor mitigation guarantees.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "y2 substantially repeats ref-008, which already reports zero-shot poison transfer to 15 diverse generative datasets. Its classification-based ASR also does not define success adequately for QA or summarization. Nevertheless, its source-to-target experiment is executable after clarifying outcomes. x3 has a more fundamental contradiction: it promises black-box detection while requiring latent activations. Its claimed trigger-independent detection gap also conflicts with STRIP's secret-trigger setting (ref-009), and ref-019 does not establish the proposed activation-variance mechanism.",
+  "verdict": "Y"
+ },
+ "diversity": {
+  "rationale": "Y has a modest breadth advantage: it includes detection, mitigation, and empirical characterization of cross-task attack propagation. X concentrates on defenses, with x1 and x3 both using responses to input perturbations, alongside domain-aware clustering. y1 and y3 reuse divergence in different roles, limiting Y's advantage. y2's overlap with ref-008 hurts its gap quality, but its experimental objective remains distinct from Y's other candidates.",
+  "verdict": "Y"
+ },
+ "overall": {
+  "rationale": "X narrowly serves the researcher better because x2 supplies the clearest useful experiment and strongest potential selection. Both sets contain serious weaknesses: x1 incorrectly attributes entropy regularization to ref-019, and x3's access assumptions conflict. In Y, y1 supplies a divergence formula unsupported by ref-002's abstract, reverses the BadNets and Hidden Trigger citations (ref-012 and ref-003), and lacks controls separating benign shift from poisoning. y2's central transfer gap is already substantially addressed by ref-008, while y3 leaves its mitigation mechanism unresolved. Y's broader objectives and better weakest candidate do not outweigh X's stronger best option.",
+  "verdict": "X"
+ }
+}

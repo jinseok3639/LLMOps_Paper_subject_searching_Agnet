@@ -1,0 +1,15 @@
+{
+ "title": "Domain-Divergence Bounds for Backdoor Persistence: Predicting Trigger Transfer Across Datasets in Instruction-Tuned LLMs",
+ "summary": "We propose to use domain adaptation theory to predict when a backdoor implanted through one dataset or instruction will transfer to other datasets. We treat the poisoned task as the source domain and the downstream task as the target, and bound the attack success rate on the target by the source rate plus a classifier-induced divergence estimated from unlabeled samples. We test whether this divergence predicts observed poison transfer and instruction transfer across many datasets and LLMs, and whether it identifies datasets for which backdoors survive continual fine-tuning.",
+ "gap": "Studies of LLM backdoors report empirically that poisoned models and instructions transfer across datasets, and benchmarks tabulate cross-dataset generalization, but none offers a principled predictor of when transfer happens. Domain adaptation theory gives target-error bounds via divergence but has not been applied to attack success rate transfer.",
+ "approach": "Define attack success as the target-domain error of a backdoor-labeled classifier. Estimate the H-divergence between the poisoned-source and target input distributions by training a domain discriminator on LLM hidden states. Derive a bound on target attack success rate in terms of the source rate and the divergence, with a term for the existence of a shared trigger-responsive hypothesis. Fit and validate the bound on transfer experiments.",
+ "evaluation": "Use the instruction-attack setting and the LLM backdoor benchmarks to produce many source-target pairs. Measure rank correlation and calibration between predicted and observed transfer attack success rate. Baselines: simple dataset similarity measures such as embedding cosine or task-type labels, and the ungrounded observed-transfer averages. Ablate divergence estimators and test on held-out model families.",
+ "support": [
+  "ref-002",
+  "ref-008",
+  "ref-013",
+  "ref-010",
+  "ref-007",
+  "ref-012"
+ ]
+}

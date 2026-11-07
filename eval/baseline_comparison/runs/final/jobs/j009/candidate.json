@@ -1,0 +1,14 @@
+{
+ "title": "Domain-Aware Backdoor Detection via Hypothesis-Induced Divergence",
+ "summary": "This work proposes detecting backdoor attacks by adapting hypothesis-induced divergence from domain adaptation theory to measure distributional shifts between clean and poisoned data. The method trains surrogate models on both domains and computes divergence scores, with high scores indicating backdoor presence. Evaluation isolates the divergence measure's standalone performance against activation clustering and STRIP, using detection accuracy and AUC-ROC on CIFAR-10 with BadNets and Hidden Trigger attacks.",
+ "gap": "While ref-001 and ref-009 detect backdoors via activation clustering and perturbation-induced entropy, they do not explicitly model the divergence between clean and poisoned data distributions using a theoretically grounded measure. ref-002 provides such a measure but has not been applied to backdoor detection, leaving an open gap in connecting domain adaptation theory to backdoor distributional shifts.",
+ "approach": "Apply ref-002's hypothesis-induced divergence measure to quantify distributional shifts between clean and poisoned data. Train surrogate models (same architecture as the target model) on clean (source) and poisoned (target) datasets. Compute divergence scores using ref-002's formula: $D(P, Q) = \frac{1}{n} \text{sup}_{h \neq h'} |P(h(x) = y) - Q(h(x) = y)|$. High divergence scores indicate backdoor presence. The approach differs from ref-001 by replacing activation clustering with this divergence metric and from ref-009 by using model predictions rather than perturbation-induced entropy.",
+ "evaluation": "Baselines include STRIP (ref-009), activation clustering (ref-001), and a hybrid of both. Ablation studies compare standalone divergence scores against these baselines. Measures are detection accuracy (true positive rate at 1% false positive rate) and AUC-ROC. Test on CIFAR-10 with BadNets (ref-003) and Hidden Trigger (ref-012) attacks, using surrogate models trained on 50% clean and 50% poisoned data splits.",
+ "support": [
+  "ref-001",
+  "ref-002",
+  "ref-003",
+  "ref-009",
+  "ref-012"
+ ]
+}

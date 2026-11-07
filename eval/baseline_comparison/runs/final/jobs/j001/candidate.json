@@ -1,0 +1,16 @@
+{
+ "title": "Unsupervised Latent-Knowledge Probes as Detectors of Password-Locked and Backdoored Hidden Behavior",
+ "summary": "We propose to test whether a consistency-based unsupervised probe of internal activations can detect hidden, trigger-conditioned behavior in language models without knowing the trigger. Using password-locked models and instruction-backdoored models, we train the probe on activations of unlabeled prompts and check whether it recovers the model's true (unlocked) answers when the password or trigger is absent. We measure whether probe accuracy exceeds the model's visible outputs and whether it supports capability elicitation and backdoor flagging better than activation clustering.",
+ "gap": "Password-locked models show that hidden capabilities can be elicited by fine-tuning, which needs demonstrations that may be unavailable. Unsupervised latent-knowledge probing recovers knowledge even when models are prompted to output wrong answers, but has not been tested against deliberately concealed capabilities or backdoors. Activation-clustering defenses require poisoned training data access rather than just a deployed model.",
+ "approach": "Build password-locked models and instruction-poisoned models. Fit a contrast-consistency direction on activations of statement/negation pairs without labels, with no password or trigger in the prompt. Compare the probe's answers with the locked model's outputs and with the unlocked ground truth. Add a detection score from the gap between probe and output answers, and evaluate as a backdoor and sandbagging detector.",
+ "evaluation": "Measure probe accuracy against the locked output accuracy and the with-password accuracy. Measure AUROC for detecting locked versus unlocked models and triggered versus clean inputs. Baselines: activation clustering, STRIP-style output entropy, supervised few-shot fine-tuning elicitation with few demonstrations, and a random-direction probe. Vary the number of locked capabilities and the training strength of locking.",
+ "support": [
+  "ref-020",
+  "ref-018",
+  "ref-008",
+  "ref-001",
+  "ref-009",
+  "ref-014",
+  "ref-015"
+ ]
+}

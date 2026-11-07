@@ -1,0 +1,19 @@
+{
+ "title": "Value-Equivalent Open-Loop Scoring: Replacing Handcrafted PDM Aggregation With Log-Derived Closed-Loop Value Estimates",
+ "summary": "Handcrafted open-loop scores such as PDMS multiply and average sub-metrics over a short horizon. Because of this, they miss the snowball effect, where small deviations compound in closed loop, and they can be gamed by over-cautious driving. This proposal swaps the handcrafted formula for a learned scorer, trained to predict long-horizon closed-loop returns. The targets come from tabular dynamic-programming value estimates on driving logs under the world-on-rails assumption. Following the value-equivalence principle, the scorer only has to rank trajectories as closed-loop values would, not reproduce the exact dynamics. Validation tests how well the scorer correlates with closed-loop results and whether it resists hacking by best-of-N selection.",
+ "gap": "Studies of open-loop evaluation show that L2 and collision metrics, and even safety-aware PDMS, rank planners imperfectly. The snowball effect, which a short non-reactive horizon cannot capture, is a candidate explanation. Formal results show that simple narrowed proxies are rarely unhackable. The value-equivalence principle and the world-on-rails method suggest that a value-based target can be learned from logs without building a full simulator. Neither idea has been used to design an evaluation metric for driving.",
+ "approach": "(1) On CARLA logs, apply a world-on-rails factorization (non-reactive world plus a compact ego forward model) and compute action values by tabular Bellman backups with a reward of progress minus infraction penalties over long horizons. (2) Train a scorer network that takes a BEV abstraction of the scene and a candidate trajectory and outputs a value. The loss is a value-equivalence objective: it matches Bellman updates for a set of reference policies, not raw state transitions. (3) Use this scorer as an open-loop metric. (4) Stress-test it with best-of-N selection against the scorer itself, as an adversarial optimizer, and compare how the scorer and handcrafted PDMS degrade.",
+ "evaluation": "Baselines: L2/ADE, collision rate, NAVSIM PDMS and EPDMS, and pseudo-simulation scores. Measures: Spearman ρ and R² against CARLA closed-loop driving score over a broad set of planners; proxy–true divergence under increasing best-of-N pressure, i.e. the hackability gap; ranking inversions for cautious versus progress-seeking planners. The hypothesis is supported if the value-equivalent scorer correlates better and its Goodhart divergence appears later or is smaller.",
+ "support": [
+  "ref-004",
+  "ref-024",
+  "ref-016",
+  "ref-020",
+  "ref-034",
+  "ref-011",
+  "ref-014",
+  "ref-010",
+  "ref-008",
+  "ref-035"
+ ]
+}

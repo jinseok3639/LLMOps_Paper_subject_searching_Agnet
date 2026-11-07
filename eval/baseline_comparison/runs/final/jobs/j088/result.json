@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "ref-036 supports reconstruction-based MIM for OOD detection without OOD training samples, but does not establish the claimed absence of prior pretraining-only studies or an 'assumption-free' method. ref-045 does not explicitly identify ODIN or its training requirements, and ref-040 concerns DINOv3 rather than MIM reconstruction. ref-047 and ref-060 correctly support NINCO and GradNorm.",
+  "score": 2
+ },
+ "gap": {
+  "rationale": "ref-036 already proposes MIM-based OOD detection without OOD samples and attributes its benefits to learning intrinsic ID distributions. The candidate does not clearly distinguish its contribution from MOOD. The narrower question about pretraining without fine-tuning is not established as a concrete limitation of ref-036.",
+  "score": 1
+ },
+ "specificity": {
+  "rationale": "The architecture, training dataset, OOD datasets, baselines, AUROC, FPR95, and checkpoint ablation provide a concrete experimental starting point, with NINCO and GradNorm supported by ref-047 and ref-060. However, reconstruction scoring needs a specified decoder, masking and aggregation procedure, and the shared training protocol across baselines remains unclear.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "OOD metrics and the checkpoint ablation could test whether reconstruction scoring helps, consistent with ref-036. However, the stated gap concerns pretraining alone without fine-tuning, while the approach includes classification fine-tuning. Comparing reconstruction scores against ODIN and GradNorm also changes both representation learning and scoring, weakening attribution of gains specifically to MIM pretraining.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "A controlled comparison could inform whether classification fine-tuning preserves useful reconstruction signals, but that question is underdeveloped. The principal expected finding substantially repeats ref-036, and the proposed baselines omit MOOD itself, limiting what the outcome would add to method choices.",
+  "score": 2
+ }
+}

@@ -1,0 +1,21 @@
+{
+ "title": "Minimax Sample Complexity of Black-Box Backdoor Detection via Le Cam and Fano Bounds",
+ "summary": "This proposal treats backdoor detection as a statistical hypothesis test: given query or sample access to a model, decide whether it is clean or backdoored. It would derive matching upper and lower minimax bounds on the number of samples needed. The bounds would depend on how much probability mass the trigger region carries and how much the backdoored model's outputs differ there. The lower bounds would use Le Cam's two-point method and Fano's inequality. The upper bounds would use distribution-testing statistics. Predicted detection thresholds would be checked against STRIP and activation clustering on standard image and LLM backdoor benchmarks, while varying the poisoning rate and trigger rarity.",
+ "gap": "The empirical defenses (activation clustering, STRIP) and the benchmarks (BackdoorBench, BackdoorLLM, ELBA-Bench) report how well detectors work on particular attacks. They give no account of when detection is statistically possible at all. The cryptographic undetectability result relies on computational hardness and does not quantify the information-theoretic difficulty of detecting ordinary, non-cryptographic backdoors from a finite budget of samples.",
+ "approach": "Define a family of backdoored models parameterized by trigger mass ε and output deviation δ. Use Le Cam's two-point method and Fano's inequality to prove that detection needs Ω(1/(εδ²))-type sample complexity, with the exact form to be determined. Build a near-matching detector from distribution and property testing that compares the model's output distribution with a reference model. Extend the analysis to the case where the trigger distribution is unknown.",
+ "evaluation": "On BackdoorBench attacks (BadNets, hidden-trigger) and BackdoorBench/ELBA-Bench LLM attacks, sweep the poisoning rate and the trigger frequency at test time. Measure the detection ROC as a function of sample budget for the proposed tester, STRIP and activation clustering. Check whether empirical phase transitions follow the predicted scaling in ε and δ.",
+ "support": [
+  "ref-004",
+  "ref-005",
+  "ref-006",
+  "ref-016",
+  "ref-001",
+  "ref-009",
+  "ref-011",
+  "ref-010",
+  "ref-013",
+  "ref-012",
+  "ref-003",
+  "ref-021"
+ ]
+}

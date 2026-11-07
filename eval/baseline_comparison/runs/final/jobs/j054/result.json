@@ -1,0 +1,26 @@
+{
+ "strongest": {
+  "X": "x2",
+  "Y": "y1"
+ },
+ "weakest": {
+  "X": "x1",
+  "Y": "y3"
+ },
+ "best": {
+  "rationale": "x2 specifies a testable change from GradNorm (ref-060): learn a failure predictor combining gradient norms with softmax confidence, with component ablations across corruption severities. Its grounding is imperfect: ref-008 does not establish covariate-shift results or support the attributed corruption dataset, and unseen-shift evaluation needs specification. Nevertheless, it offers a clearer open experiment than y1, whose flat-minima hypothesis and combination strategy are already described in ref-002 and ref-059. Those abstracts do not identify the two techniques, so an untested SAM+SWA combination cannot be established from this corpus.",
+  "verdict": "X"
+ },
+ "worst": {
+  "rationale": "x1 substantially overlaps with MOOD's MIM-based OOD detection without outlier data (ref-036). Its proposed pretraining-only distinction is poorly isolated by a protocol that includes classification fine-tuning but scores the pre-fine-tuning reconstruction model. However, its checkpoint ablation offers a potentially useful experiment. y3 reproduces SIRC from ref-005 without a clear change and misstates the task rationale: ref-005 explicitly permits conflating OOD inputs with misclassified ID inputs. Its added confidence term is also insufficiently specified.",
+  "verdict": "X"
+ },
+ "diversity": {
+  "rationale": "Both sets contain three substantially different approaches: representation learning for OOD detection, confidence scoring or rejection, and flat-minima optimization for failure prediction. X includes reconstruction pretraining and a learned gradient-softmax scorer; Y includes hyperspherical representation losses and SCOD scoring. Their internal breadth is comparable, independently of whether those proposals advance the cited work.",
+  "verdict": "tie"
+ },
+ "overall": {
+  "rationale": "X provides more usable experimental choices, especially x2's explicit signal-combination ablations. x3 also supplies SAM-only, SWA-only, and combined controls, although ref-002 already studies combining flat-minima techniques and its claimed gap remains unestablished. Y largely restates cited contributions: y2 reproduces CIDER's dispersion and compactness losses (ref-029), y3 reproduces SIRC (ref-005), and y1 closely follows ref-002/ref-059. X still has substantial grounding and overlap problems, but better serves a researcher seeking a specific next experiment.",
+  "verdict": "X"
+ }
+}

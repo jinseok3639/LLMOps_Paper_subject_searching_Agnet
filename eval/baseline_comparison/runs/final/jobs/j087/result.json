@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The central method and claimed benefit closely reproduce ref-005. However, ref-005 explicitly says conflating ID misclassifications with OOD samples is acceptable for SCOD, contradicting the candidate's diagnosis. The blanket claim that current post-hoc methods fail overlooks ref-005 and ref-014, and the output-distribution-only construction is not established by the supplied abstracts.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "Ref-005 already introduces SIRC for precisely the stated objective: improving OOD identification without sacrificing separation of correct and incorrect ID predictions. Ref-014 also develops SCOD estimators. The candidate identifies no single change from these existing solutions.",
+  "score": 1
+ },
+ "specificity": {
+  "rationale": "The candidate names datasets, baselines, AUROC, FPR95, and coverage-risk curves, making an initial comparison design possible. However, it never defines the added term or combination rule, and leaves the ID/OOD mixture and selective-risk definition unspecified, despite their importance to the task in ref-005 and ref-014.",
+  "score": 3
+ },
+ "coherence": {
+  "rationale": "Preserving ID correctness ranking while improving OOD rejection fits SCOD, and coverage-risk evaluation could assess that objective (ref-005, ref-025). However, the gap incorrectly treats conflating ID errors with OOD samples as harmful, and separate detection metrics without a specified mixed evaluation may miss the downstream effect emphasized in ref-005 and ref-007.",
+  "score": 3
+ },
+ "value": {
+  "rationale": "As written, this reproduces the named method, objective, and claimed benefit already reported in ref-005. It supplies neither a methodological difference nor a targeted replication question whose outcome could change practice, so little additional knowledge would result.",
+  "score": 1
+ }
+}

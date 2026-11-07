@@ -1,0 +1,20 @@
+{
+ "title": "Goodhart Curves for Driving Benchmarks: Measuring When Optimizing Open-Loop PDM Scores Stops Improving Closed-Loop Driving",
+ "summary": "This proposal treats NAVSIM-style open-loop metrics as proxy rewards and closed-loop driving score as the true objective, and asks how the two diverge as optimization pressure on the proxy grows. In CARLA, both quantities can be computed on the same scenes, so the comparison avoids a domain gap. Optimization pressure is varied in two ways: best-of-N trajectory selection with a PDM scorer over diffusion-policy samples, and a growing distillation weight on metric-specific teacher heads. The proposal predicts a Goodhart curve: the proxy keeps rising while closed-loop score peaks and then falls. It also tests whether the divergence comes mainly from regressional or extremal Goodhart effects. Validation uses proxy–true correlation curves and ranking-inversion counts.",
+ "gap": "Cross-benchmark studies report strong but non-monotonic correlation between PDMS and closed-loop driving score, with ranking inversions. They suggest that safety-heavy methods win open-loop but lose closed-loop. However, those studies only compare published methods from different domains (real NAVSIM versus CARLA Bench2Drive) and only a handful of them. No study varies optimization pressure on the open-loop proxy in a controlled way. Reward-hacking studies show capability-dependent phase transitions and give a taxonomy of Goodhart variants, but neither has been applied to driving evaluation metrics.",
+ "approach": "(1) Implement a NAVSIM-style non-reactive PDMS on logged CARLA scenes, so the proxy and the true closed-loop driving score share one domain. (2) Start from a DiffusionDrive-style truncated diffusion planner and a Hydra-MDP-style multi-head student trained on CARLA expert data. (3) Increase optimization pressure along two axes: (a) the number of samples N in best-of-N selection under the PDM scorer, from 1 to 256; (b) the weight on rule-based teacher distillation heads relative to the imitation head. (4) For each setting, record the proxy score, its sub-metrics (NC, DAC, TTC, EP, comfort) and closed-loop driving score, route completion and infractions. (5) Attribute divergence to Goodhart variants. Regressional Goodhart predicts that the divergence follows scorer noise. Extremal Goodhart predicts that it follows selection of states outside the logged distribution, such as overly cautious slow driving.",
+ "evaluation": "Baselines: pure imitation without PDM selection or distillation, and a privileged rule-based expert. Measures: driving score and route completion on CARLA closed-loop routes (Bench2Drive, Longest6) plotted against PDMS as N and the distillation weight increase; Spearman correlation and ranking inversions across settings; any threshold beyond which further pressure lowers closed-loop driving score. The hypothesis is confirmed if PDMS increases monotonically while closed-loop driving score rises and then falls, and the fall is driven by timeouts or low progress rather than collisions.",
+ "support": [
+  "ref-006",
+  "ref-008",
+  "ref-016",
+  "ref-019",
+  "ref-020",
+  "ref-034",
+  "ref-025",
+  "ref-033",
+  "ref-010",
+  "ref-013",
+  "ref-017"
+ ]
+}

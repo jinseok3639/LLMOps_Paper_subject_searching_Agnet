@@ -1,0 +1,22 @@
+{
+ "title": "Does Early-Snapshot Confidence Fix Overconfident Errors? Combining Bias-Reduced Estimation with Flat-Minima Training for Unified Failure Detection",
+ "summary": "Late SGD training makes confidence estimates for highly confident points biased and jittery. Flat-minima training increases the confidence gap. We propose a unified failure score that combines the final flat-minima model's softmax with confidence from earlier snapshots or EMA checkpoints. We would validate it by comparing failure detection across misclassification, OOD and full-spectrum shifts in a common benchmark. Baselines are softmax response, deep ensembles, SWAG, and flat-minima training alone, evaluated with AUGRC and AUROC.",
+ "gap": "Bias-reduced estimation uses earlier snapshots with standard training. Flat-minima failure prediction uses only the final model. No cited work tests whether snapshot-based confidence is complementary to flat-minima training, nor evaluates it under a unified failure-detection protocol covering covariate shift, near/far OOD and in-distribution errors.",
+ "approach": "Save snapshots during SAM+SWA training of ResNet and ViT on CIFAR and ImageNet. Compute the confidence of the final model and of earlier snapshots or EMA models. Combine them by a simple rule: use the early snapshot's confidence for highly confident points, and fall back to the final model's confidence otherwise. Also test a learned weighting on a held-out split. Analyze how confidence for errors evolves across training with different optimizers.",
+ "evaluation": "Compare against the softmax response, deep ensemble, SWAG, SAM+SWA, the early-snapshot method alone, and cosine-restart snapshot ensembles using SGDR. Use the unified benchmarks (fd-shifts, OpenOOD v1.5, unknown detection benchmark). Metrics are AUGRC, AURC, AUROC and FPR95, reported separately for ID errors, covariate shift and semantic shift, with training and inference cost.",
+ "support": [
+  "ref-049",
+  "ref-002",
+  "ref-059",
+  "ref-010",
+  "ref-013",
+  "ref-050",
+  "ref-022",
+  "ref-061",
+  "ref-007",
+  "ref-034",
+  "ref-018",
+  "ref-063",
+  "ref-045"
+ ]
+}

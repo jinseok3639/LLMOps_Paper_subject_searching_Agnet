@@ -1,0 +1,19 @@
+{
+ "title": "Beyond Verbatim: Near-Duplicate Alignment Metrics for Measuring Book Regurgitation in Production Chat Models Under Jailbreak and Divergence Attacks",
+ "summary": "Extraction studies of copyrighted books mostly use exact-match or near-verbatim criteria on open-weight models. This proposal tests whether production aligned chat models regurgitate book text in forms that exact-match criteria miss. We would combine jailbreak and divergence prompting with a structural text-alignment and near-duplicate detection pipeline (shingling and alignment-based similarity) to score paraphrased, reordered, or partially copied output. We compare recovered book coverage against exact-match and prefix-continuation extraction across several books and models. The aim is a legally interpretable, graded measure of how much protected expression an aligned system emits.",
+ "gap": "Book-extraction work uses a specific near-verbatim methodology on open-weight models. Attacks on aligned production models were evaluated on generic training data, not book-level coverage. Similarity and near-duplicate tools exist but have not been combined with attacks to measure partial or non-verbatim book regurgitation in aligned systems.",
+ "approach": "1) Choose books, some likely memorized and some not (e.g., widely read novels). 2) Elicit text from open-weight and API chat models using prefix continuation, divergence-style prompts, adversarial suffixes and many-shot prompting. 3) Align outputs to the source book with structural book alignment, shingling/random-projection near-duplicate detection and embedding-based similarity. 4) Compute coverage of the book at several similarity thresholds, and compare with an exact-match definition.",
+ "evaluation": "Compare recovered-book fraction under exact-match versus graded similarity criteria, per model, book and attack. Measure the fraction of regurgitation missed by exact-match metrics, precision of the alignment against human-verified matches, and the effect of alignment training (aligned versus base model). Baselines: prefix-continuation greedy extraction and probabilistic extraction.",
+ "support": [
+  "ref-044",
+  "ref-007",
+  "ref-014",
+  "ref-038",
+  "ref-019",
+  "ref-034",
+  "ref-036",
+  "ref-008",
+  "ref-035",
+  "ref-029"
+ ]
+}

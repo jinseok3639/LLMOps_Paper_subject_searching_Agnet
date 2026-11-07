@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The main ingredients are supported: controlled insertions (ref-043), alignment methods (ref-018, ref-027, ref-031), attacks (ref-014, ref-038), and extraction metrics (ref-029, ref-009). However, the claim that existing evidence comes only from opaque production models contradicts ref-007, which also studies open and semi-open models. Ref-021 and ref-042 provide no abstracts to substantiate detailed claims.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "A controlled comparison of book-passage extraction before and after alignment is not reported in the supplied references. It follows naturally from persistent memorization after alignment in ref-007 and controlled insertions in ref-043. The gap is well scoped, although the opaque-model justification and categorical 'no one' claim overstate the evidence.",
+  "score": 4
+ },
+ "specificity": {
+  "rationale": "The proposal specifies the model pairs and inserted passages (ref-043), three post-training conditions, several attack techniques (ref-014, ref-038, ref-007), pretrained and negative-control baselines, and concrete extraction, compression, and membership measures (ref-029, ref-009, ref-022). These are sufficient to begin designing experiments.",
+  "score": 5
+ },
+ "coherence": {
+  "rationale": "Comparing direct and adversarial extraction before and after alignment directly tests whether refusals conceal recoverable text, consistent with the memorization/extraction distinction in ref-035. However, unsuccessful attacks cannot establish that memorization was removed, and membership-inference AUC is not a straightforward proxy for memorization, as ref-022 cautions.",
+  "score": 4
+ },
+ "value": {
+  "rationale": "Controlled evidence could guide whether researchers treat post-training alignment as reducing stored memorization or restricting access, and whether exposure frequency changes that distinction (ref-035, ref-043, ref-048). Ref-007 already establishes that alignment can leave memorization intact, so the main contribution is quantifying the effect under controlled conditions rather than discovering the phenomenon.",
+  "score": 4
+ }
+}

@@ -1,0 +1,13 @@
+{
+ "title": "Multi-Agent Collaboration with Dynamic Task Decomposition for Scientific Workflows",
+ "summary": "We propose a dynamic task decomposition framework for multi-agent collaboration in scientific workflows, where a central orchestrator (puppeteer) decomposes complex tasks into sub-tasks and dynamically assigns them to specialized agents. The approach combines evolving orchestration with domain-specific agent expertise, enabling efficient handling of multi-step scientific processes. This addresses the gap in static agent structures that struggle with complex, evolving tasks. The evaluation uses a modified MatPlotBench with multi-step visualization workflows, showing improved performance and reduced computational overhead compared to static multi-agent baselines.",
+ "gap": "Existing multi-agent systems (e.g., ChatDev, AutoGen) use static organizational structures that cannot adapt to evolving task complexity, leading to inefficiencies in multi-step scientific workflows like data visualization.",
+ "approach": "Implement a puppeteer-style orchestrator that: (1) decomposes tasks into sub-tasks using LLM-based planning, (2) dynamically assigns sub-tasks to specialized agents based on expertise, (3) monitors progress and reallocates resources as needed, and (4) aggregates results. The system uses reinforcement learning to optimize task decomposition and agent allocation over time.",
+ "evaluation": "Evaluate on a multi-step version of MatPlotBench with: (1) success rate in completing end-to-end workflows, (2) computational cost comparison with static multi-agent baselines, (3) task decomposition quality metrics, and (4) human evaluation of workflow coherence. Compare against ChatDev and AutoGen implementations.",
+ "support": [
+  "ref-001",
+  "ref-002",
+  "ref-012",
+  "ref-031"
+ ]
+}

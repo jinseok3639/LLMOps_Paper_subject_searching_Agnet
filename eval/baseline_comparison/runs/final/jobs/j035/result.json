@@ -1,0 +1,22 @@
+{
+ "grounding": {
+  "rationale": "The support ids are relevant: ref-002 studies divergence-dependent source/target weighting, ref-008 reports partial mitigation through RLHF and clean demonstrations, and ref-013 supplies an LLM backdoor benchmark. However, ref-008 does not establish the claimed absence of formal weighting mechanisms. The proposed alpha formula is not justified by the supplied ref-002 abstract, and its assumption that some hypothesis performs well in both domains is left unaddressed.",
+  "score": 3
+ },
+ "gap": {
+  "rationale": "The references leave divergence-aware instruction-backdoor mitigation unexplored, but the candidate identifies an application opportunity rather than a concrete demonstrated limitation. Ref-008 motivates stronger mitigation, while ref-002 addresses target prediction error; the candidate does not explain why inadequate domain weighting causes the mitigation limitations in ref-008.",
+  "score": 3
+ },
+ "specificity": {
+  "rationale": "The loss, weighting formula, sample-size inputs, benchmark, attacks, baselines, ablations, ASR, and clean accuracy provide a concrete experimental starting point using ref-002, ref-008, and ref-013. Important details remain unspecified: how clean and poisoned instructions are identified, whether poisoned losses retain attacker-desired supervision, and how the classifier-induced divergence is estimated for instruction tuning.",
+  "score": 4
+ },
+ "coherence": {
+  "rationale": "ASR and clean accuracy can measure the intended tradeoff, and the clean-only baseline is useful. However, minimizing loss on poisoned instructions can reinforce the behavior the method seeks to suppress unless corrective supervision is specified. Ref-002 bounds target error under a shared-good-hypothesis assumption; it does not establish that optimizing the poisoned target domain mitigates attacks from ref-008. This leaves the central method-to-objective connection weak.",
+  "score": 2
+ },
+ "value": {
+  "rationale": "Testing whether divergence predicts useful mitigation weights could inform fine-tuning choices, given the partial defenses in ref-008 and evaluation resources in ref-013. As proposed, the contribution is narrow: it assumes access to separated clean and poisoned data and provides little reason that retaining poisoned loss should improve on clean-only training. A positive result would be useful, but the proposed experiment has limited power to establish a broader methodological lesson.",
+  "score": 3
+ }
+}

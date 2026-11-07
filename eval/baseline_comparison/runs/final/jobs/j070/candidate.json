@@ -1,0 +1,16 @@
+{
+ "title": "Context-Aware Memorization Detection via Adversarial Compression for Copyright Compliance",
+ "summary": "This paper proposes a method to detect verbatim memorization in language models by integrating adversarial compression (ACR) with legal standards for copyright infringement. It adapts the Adversarial Compression Ratio (ACR) metric to identify training data that can be reconstructed from short prompts, focusing on copyrighted content. The approach uses targeted prompts to elicit memorized text and compares it against known copyrighted works. Validation involves testing on models trained with duplicated copyrighted material, measuring recall of exact matches and false positives on non-memorized content.",
+ "gap": "Existing methods (e.g., ref-009's ACR) measure adversarial compression but lack integration with legal standards for copyright infringement, leaving a gap in identifying actionable legal violations. Ref-044 shows deterministic extraction of copyrighted books, but does not assess whether outputs meet legal 'substantial similarity' criteria.",
+ "approach": "Implement ACR-based detection by generating adversarial prompts via gradient-guided search, then matching outputs against copyrighted datasets. Use probabilistic extraction (ref-029) to quantify memorization likelihood, and filter false positives via semantic similarity thresholds. The core difference from ref-009 is the addition of legal 'substantial similarity' criteria to validate actionable copyright claims.",
+ "evaluation": "Baselines include ref-044's deterministic extraction and ref-009's ACR. Metrics are precision/recall of copyrighted text recovery, false positive rates on non-training data, and comparison against legal 'substantial similarity' thresholds defined by ref-035. The evaluation uses the Harry Potter dataset (ref-044) and models from the Pythia suite (ref-045), with an ablation comparing ACR with/ref-029's probabilistic extraction alone.",
+ "support": [
+  "ref-007",
+  "ref-009",
+  "ref-029",
+  "ref-035",
+  "ref-044",
+  "ref-045",
+  "ref-050"
+ ]
+}

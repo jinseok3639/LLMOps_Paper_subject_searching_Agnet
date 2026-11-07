@@ -1,0 +1,12 @@
+{
+ "title": "Automated Process Supervision for Stepwise Verification in Mathematical Reasoning",
+ "summary": "This paper introduces a method to train a reward model using automatically generated process-level feedback from program execution and symbolic validation. The model scores individual reasoning steps to enable targeted corrections during solution generation, improving accuracy on multi-step mathematical problems without manual annotations.",
+ "gap": "While outcome-supervised value models (ref-015) and process-supervised models (ref-038) improve final accuracy, they either lack fine-grained step feedback (ref-015) or require manual annotations (ref-038). Ref-047 shows automated process supervision is possible but does not compare its step-level feedback quality against outcome-based baselines.",
+ "approach": "Generate synthetic process-level annotations by executing reasoning steps as code and validating intermediate results symbolically. Train a reward model to score step correctness using these annotations. During inference, use the reward model to rerank solution paths by aggregating step scores, prioritizing paths with higher intermediate validity.",
+ "evaluation": "Evaluate on GSM8K and MATH using (1) final-answer accuracy, (2) step-level error rate (proportion of incorrect steps in correct solutions), and (3) error propagation rate (proportion of solutions where an early step error invalidates the entire solution). Compare against outcome-supervised (ref-015), process-supervised (ref-038), and automated process-supervised (ref-047) baselines.",
+ "support": [
+  "ref-015",
+  "ref-038",
+  "ref-047"
+ ]
+}
