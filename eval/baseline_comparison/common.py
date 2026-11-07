@@ -14,10 +14,13 @@ INPUTS = HERE / "inputs"
 PROMPTS = HERE / "prompts"
 RUNS = HERE / "runs"
 
-CONDITIONS = ("A", "B", "C", "D")
-# 주 비교는 A vs B. C(Opus)와 D(Sonnet)는 참고용 기준점이다.
-PAIRS = (("A", "B"), ("B", "C"), ("A", "C"), ("B", "D"), ("A", "D"))
-LABELS = {"A": "Solar 단일 호출", "B": "Solar + 워크플로우", "C": "Claude Opus 5.5 단일 호출", "D": "Claude Sonnet 5.5 단일 호출"}
+CONDITIONS = ("A", "B", "C", "D", "E")
+# 주 비교는 A vs B. E(워크플로우 v4)는 최종 측정에서 추가한 탐색 결과, C(Opus)와 D(Sonnet)는 참고용 기준점이다.
+# 회차에 없는 조건은 포장과 집계에서 자연히 빠진다.
+PAIRS = (("A", "B"), ("A", "E"), ("B", "C"), ("A", "C"), ("B", "D"), ("A", "D"))
+LABELS = {"A": "Solar 단일 호출", "B": "Solar + 워크플로우", "C": "Claude Opus 5.5 단일 호출", "D": "Claude Sonnet 5.5 단일 호출",
+          "E": "Solar + 워크플로우 v4 (추가 결과)"}
+WORKFLOW_CONDITIONS = ("B", "E")  # 워크플로우 조건. 공백 메움 비율을 계산한다
 FIELDS = ("title", "summary", "gap", "approach", "evaluation", "support")
 CRITERIA = ("grounding", "gap", "specificity", "coherence", "value")
 SET_CRITERIA = ("best", "worst", "diversity", "overall")

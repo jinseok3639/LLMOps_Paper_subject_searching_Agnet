@@ -85,14 +85,25 @@ def final_metrics(run, per, summary, lines):
         pct = lambda v: "-" if v is None else f"{v * 100:.0f}%"
         lines.append(f"| {cond} | {fmt(row['usable_per_set'])} | {pct(row['usable_at_3'])} | {fmt(row['strong_per_set'])} | {pct(row['strong_at_3'])} | {fmt(row['calls'])} | {fmt(row['seconds'])} |")
     gap = {}
-    if all(c in summary for c in ("A", "B")):
+    for wf in common.WORKFLOW_CONDITIONS:
+        if "A" not in summary or wf not in summary:
+            continue
         for ref in ("C", "D"):
             if ref in summary and summary[ref]["mean"] != summary["A"]["mean"]:
-                gap[ref] = (summary["B"]["mean"] - summary["A"]["mean"]) / (summary[ref]["mean"] - summary["A"]["mean"])
+                gap[f"{wf}/{ref}"] = (summary[wf]["mean"] - summary["A"]["mean"]) / (summary[ref]["mean"] - summary["A"]["mean"])
     if gap:
-        lines += ["", "공백 메움 비율 (B−A)/(기준−A), 후보 평균 점수 기준: " + ", ".join(f"{r} 기준 {v * 100:.0f}%" for r, v in gap.items())]
+        lines += ["", "공백 메움 비율 (워크플로우−A)/(기준−A), 후보 평균 점수 기준: "
+                  + ", ".join(f"{k.split('/')[0]}의 {k.split('/')[1]} 기준 {v * 100:.0f}%" for k, v in gap.items()),
+                  "A가 실패한 샘플이 있으면 조건별 평균의 샘플 구성이 다릅니다. 샘플별 표와 아래의 같은 샘플 비교를 함께 보세요."]
+    matched = {}
+    for wf in common.WORKFLOW_CONDITIONS:
+        both = sorted(s for (s, c) in per if c == "A" and (s, wf) in per)
+        if both:
+            mean_of = lambda cond: avg([avg(list(x.values())) for s in both for x in per[(s, cond)].values()])
+            matched[wf] = {"samples": both, "A": mean_of("A"), wf: mean_of(wf), "diff": mean_of(wf) - mean_of("A")}
+            lines += ["", f"같은 샘플 비교 ({', '.join(both)}): A {fmt(matched[wf]['A'])}, {wf} {fmt(matched[wf][wf])}, 차이 {matched[wf]['diff']:+.2f}"]
     lines.append("")
-    return {"by_condition": out, "gap_closure": gap}
+    return {"by_condition": out, "gap_closure": gap, "matched_vs_A": matched}
 
 
 def novelty_table(key, results, lines):
@@ -130,6 +141,8 @@ def pairwise_table(key, results, lines):
               "| 비교 | 항목 | 왼쪽 승 | 무승부 | 오른쪽 승 | 위치 편향 무승부 |", "|---|---|---|---|---|---|"]
     for p, q in common.PAIRS:
         pair = f"{p}-{q}"
+        if not any(pr == pair and len(v) == 2 for (_, pr, _), v in votes.items()):
+            continue  # 판정하지 않은 쌍은 표에서 뺀다
         for c in common.SET_CRITERIA:
             t = {"left": 0, "tie": 0, "right": 0, "position": 0}
             for (s, pr, cr), v in votes.items():
@@ -245,7 +258,7 @@ def main():
 
     run = common.run_dir(args.run)
     key, results, missing = load(run)
-    lines = [f"# 기준선 비교 결과: {args.run}", "", ", ".join(f"{c}: {common.LABELS[c]}" for c in common.CONDITIONS) + ". 주 비교는 A vs B이고 C, D는 참고용입니다. 판정은 Codex(GPT) 하나가 했습니다.", "",
+    lines = [f"# 기준선 비교 결과: {args.run}", "", ", ".join(f"{c}: {common.LABELS[c]}" for c in common.CONDITIONS if any((run / "gen").glob(f"t*_{c}.json"))) + ". 주 비교는 A vs B이고 나머지는 추가·참고 결과입니다. 판정은 Codex(GPT) 하나가 했습니다.", "",
              f"판정 {len(results)}/{len(key)}개 완료." + (f" 남은 작업: {', '.join(sorted(missing))}" if missing else ""), ""]
     failed = [p.stem for p in sorted((run / "gen").glob("t*_?.json")) if common.read_json(p).get("failed")]
     if failed:

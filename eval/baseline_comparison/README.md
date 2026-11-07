@@ -8,6 +8,7 @@
 | B | Solar Pro 2 + 후보 생성 워크플로우 (`src/multi_agent.py`, `src/generation_method`) | 워크플로우 그대로 |
 | C | Claude Opus 5.5 단일 호출 (effort high) | A·C 공통 프롬프트 |
 | D | Claude Sonnet 5.5 단일 호출 (effort high) | A·C 공통 프롬프트 |
+| E | Solar Pro 2 + 워크플로우 v4 (최종 측정의 추가 결과) | `methods/v4` |
 
 - **주 비교는 A vs B**(같은 Solar에서 워크플로우의 효과)입니다. C, D는 참고용 기준점이며, 워크플로우가 A와 Claude의 차이를 얼마나 메우는지 보는 데 씁니다.
 - 개선 루프: 개발용 샘플(t001~t005)로 워크플로우를 고치고, 확인용 샘플(t006~t010)로 마지막에 한 번 평가합니다.
@@ -43,9 +44,9 @@
 | v1 | `src/generation_method` | 제품 그대로 | - | `runs/pilot` |
 | v2 | `methods/v2` | 검토가 gap 과장, 실험 설계 누락(데이터, 베이스라인, 지표, ablation), 평가와 주장의 불일치를 확인하고, 수정이 이를 반영 (`review.md`, `refine.md`만 변경) | 시범 운영에서 B가 C보다 구체성, gap, 일관성이 낮았고, 판정 근거가 주로 베이스라인·지표 누락과 근거 없는 "아무도 안 했다" 주장을 지적함 | `runs/dev_v2` |
 | v3 | `methods/v3` | v2 + 최종 선별에서 같은 주제 거르기(`topic_dedup: true`, `same_topic.md`) + 수정 단계에서 approach에 핵심 기법(입출력, 목적 함수나 알고리즘, 가장 가까운 방법과 다른 점) 정의 | dev_v2에서 다양성 0/3 패배, 구체성 3.00 정체(판정 근거가 기법 정의 누락을 지적) | `runs/dev_v3`(생성 점검, 단계별 판정) |
-| v4 | `methods/v4` | v3 + 토너먼트 투표 기준을 Reconstruction의 "숨은 아이디어에 맞는 쪽"에서 "연구자가 시작할 만한 후보"(근거, gap, 구체성, 일관성, 가치)로 변경 | dev_v3 단계별 판정에서 토너먼트 순위와 GPT 점수 상관 −0.22, 선별 손실 0.44 | `runs/dev_v4` |
+| v4 | `methods/v4` | v3 + 토너먼트 투표 기준을 Reconstruction의 "숨은 아이디어에 맞는 쪽"에서 "연구자가 시작할 만한 후보"(근거, gap, 구체성, 일관성, 가치)로 변경 | dev_v3 단계별 판정에서 토너먼트 순위와 GPT 점수 상관 −0.22, 선별 손실 0.44 | `runs/dev_v4`(생성만), 최종 측정 조건 E |
 
-최종 B는 v3와 v4 중 개발용 선별 손실이 작은 쪽을 씁니다(`protocol.md`의 규칙, `run_final_judging.py`가 결정).
+최종 측정은 v3를 주 결과(조건 B), v4를 추가 결과(조건 E)로 판정 전에 정했습니다. 결과를 보고 둘 중 하나를 고르지 않습니다(`protocol.md`).
 
 최종 측정 설계는 `protocol.md`의 "최종 측정" 절에 결과를 보기 전에 고정했습니다.
 

@@ -3,11 +3,12 @@
   python eval/baseline_comparison/run_final_judging.py            묶음 목록과 진행 상황
   python eval/baseline_comparison/run_final_judging.py <묶음>     그 묶음만 판정하고 집계
 
-묶음은 위에서부터 중요한 순서다. 1~6만 하면 주 가설(B > A)의 답이 나온다.
+조건: A Solar 단일, B 워크플로우 v3(주 결과), E 워크플로우 v4(추가 결과), C Opus, D Sonnet.
+주 결과를 v3로 정한 것은 판정 전(2026-11-07)이다. v3와 v4 중 결과가 좋은 쪽을 골라 주 결과로 바꾸지 않는다.
+묶음은 위에서부터 중요한 순서다. prep 뒤 b3-score까지 하면 주 가설(B > A)의 답이 나온다.
 끝난 판정은 건너뛰므로 같은 묶음을 다시 실행하면 이어서 한다. Codex 사용량은 https://chatgpt.com/settings/usage 에서 본다.
 """
 import argparse
-import shutil
 import subprocess
 import sys
 
@@ -15,23 +16,18 @@ import common
 
 HERE = common.HERE
 PY = sys.executable
-SAMPLES = ("t006", "t007", "t008", "t009", "t010")
 FINAL = common.RUNS / "final"
 
 # (이름, 설명, 판정 대상 run, 필터). 필터는 judge.py 옵션과 같다.
 BATCHES = [
-    ("dev4-t003", "B 방법론 결정용: dev_v4 수정본 점수 t003", "dev_v4/stage", {"kinds": "score", "stages": "refined", "samples": "t003"}),
-    ("dev4-t004", "B 방법론 결정용: dev_v4 수정본 점수 t004", "dev_v4/stage", {"kinds": "score", "stages": "refined", "samples": "t004"}),
-    ("dev4-t005", "B 방법론 결정용: dev_v4 수정본 점수 t005", "dev_v4/stage", {"kinds": "score", "stages": "refined", "samples": "t005"}),
-    ("prep", "B 방법론 결정(v3/v4), B 결과 복사, Codex 사전 점검(호출 2), 블라인드 포장", None, None),
-    ("ab-pair", "주 지표 1: A-B 세트 쌍대 비교 (두 순서)", "final", {"kinds": "pairwise", "pairs": "A-B"}),
+    ("prep", "Codex 사전 점검(호출 2)과 블라인드 포장", None, None),
+    ("ab3-pair", "주 지표 1: A-B(v3) 세트 쌍대 비교 (두 순서)", "final", {"kinds": "pairwise", "pairs": "A-B"}),
     ("a-score", "주 지표 2: A 후보 점수", "final", {"kinds": "score", "conditions": "A"}),
-    ("b-score", "주 지표 2: B 후보 점수", "final", {"kinds": "score", "conditions": "B"}),
+    ("b3-score", "주 지표 2: B(v3) 후보 점수", "final", {"kinds": "score", "conditions": "B"}),
+    ("ae4-pair", "추가 결과: A-E(v4) 세트 쌍대 비교", "final", {"kinds": "pairwise", "pairs": "A-E"}),
+    ("e4-score", "추가 결과: E(v4) 후보 점수", "final", {"kinds": "score", "conditions": "E"}),
     ("c-score", "기준점: C(Opus) 후보 점수 → 공백 메움 비율", "final", {"kinds": "score", "conditions": "C"}),
     ("d-score", "기준점: D(Sonnet) 후보 점수", "final", {"kinds": "score", "conditions": "D"}),
-    ("bc-pair", "기준점: B-C 쌍대 비교", "final", {"kinds": "pairwise", "pairs": "B-C"}),
-    ("bd-pair", "기준점: B-D 쌍대 비교", "final", {"kinds": "pairwise", "pairs": "B-D"}),
-    ("acd-pair", "선택: A-C, A-D 쌍대 비교 (모델 차이)", "final", {"kinds": "pairwise", "pairs": "A-C,A-D"}),
 ]
 
 
@@ -61,40 +57,13 @@ def counts(run, f):
     return len(jobs), done
 
 
-def choose():
-    """사전 규칙 (2026-11-07, 확인용 결과를 보기 전에 정함):
-    v4는 토너먼트 투표 기준만 바꾼 개선이므로, 그 목적 지표인 개발용 샘플의 평균 선별 손실(이상적 3개 − 최종 3개)로 정한다.
-    v4의 선별 손실이 v3(dev_v3)보다 작으면 v4, 같거나 크면 v3. 선별 손실은 수정본 점수만으로 계산한다."""
-    loss = {}
-    for v in ("v3", "v4"):
-        rep = common.read_json(common.RUNS / f"dev_{v}" / "stage" / "stage_report.json")
-        vals = [r["selection_loss"] for r in rep.values() if r["selection_loss"] is not None]
-        if len(vals) != 3:
-            raise SystemExit(f"dev_{v}의 선별 손실이 샘플 3개 모두 계산되지 않았습니다. dev4-t003~t005 묶음을 먼저 끝내세요: {vals}")
-        loss[v] = sum(vals) / len(vals)
-    return ("v4" if loss["v4"] < loss["v3"] else "v3"), loss
-
-
 def prep():
-    run_script("dev_v4 단계별 집계", ["stage_eval.py", "report", "--run", "dev_v4", "--ref-run", "dev_v2"])
-    decision_path = FINAL / "b_method.json"
-    if decision_path.exists():
-        decision = common.read_json(decision_path)
-        print(f"\n=== B 방법론: 이미 정함 → {decision['method']}")
-    else:
-        pick, loss = choose()
-        decision = {"method": pick, "rule": choose.__doc__.strip(), "selection_loss_dev": loss}
-        common.write_json(decision_path, decision)
-        print(f"\n=== B 방법론 결정: {pick} (개발용 평균 선별 손실 v3 {loss['v3']:.2f}, v4 {loss['v4']:.2f})")
-    src = common.RUNS / f"final_B_{decision['method']}" / "gen"
-    for s in SAMPLES:
-        for suffix in ("B.json", "B_trace.json"):
-            if not (FINAL / "gen" / f"{s}_{suffix}").exists():
-                shutil.copy2(src / f"{s}_{suffix}", FINAL / "gen" / f"{s}_{suffix}")
-    print(f"=== B 생성 결과: {src}")
-    if not (FINAL / "key.json").exists():
-        run_script("Codex 사전 점검", ["check.py", "--run", "final", "--part", "judge"])
-        run_script("블라인드 포장", ["pack.py", "--run", "final"])
+    """B(v3), E(v4) 생성 결과는 runs/final/gen에 이미 놓았다(NOTE.md). 여기서는 Codex 점검과 포장만 한다."""
+    if (FINAL / "key.json").exists():
+        print("이미 포장했습니다.")
+        return
+    run_script("Codex 사전 점검", ["check.py", "--run", "final", "--part", "judge"])
+    run_script("블라인드 포장", ["pack.py", "--run", "final", "--kinds", "score,pairwise", "--pairs", "A-B,A-E"])
 
 
 def status():
@@ -132,10 +101,7 @@ def main():
         for k, v in f.items():
             opts += [f"--{k}", v]
         run_script(f"판정 {name}", ["judge.py", "--run", run, "--workers", args.workers, *opts])
-        if run.startswith("dev_v4"):
-            run_script("dev_v4 단계별 집계", ["stage_eval.py", "report", "--run", "dev_v4", "--ref-run", "dev_v2"])
-        else:
-            run_script("집계", ["aggregate.py", "--run", "final"])
+        run_script("집계", ["aggregate.py", "--run", "final"])
     print()
     status()
 

@@ -28,15 +28,18 @@ def load_sets(run):
     return sets, skipped
 
 
-def plan_jobs(sets):
+def plan_jobs(sets, kinds=("score", "novelty", "pairwise"), pairs=None):
+    """kinds, pairs로 만들 작업을 줄일 수 있다. pairs는 "A-B" 형식의 목록, None이면 common.PAIRS 전부."""
     jobs = []
     for (sample, cond), cands in sets.items():
         for i, cand in cands:
-            for kind in ("score", "novelty"):
+            for kind in [k for k in ("score", "novelty") if k in kinds]:
                 jobs.append({"kind": kind, "sample": sample, "condition": cond, "candidate": i,
                              "files": {"candidate.json": cand}})
     for sample in sorted({s for s, _ in sets}):
         for p, q in common.PAIRS:
+            if "pairwise" not in kinds or (pairs is not None and f"{p}-{q}" not in pairs):
+                continue
             if (sample, p) not in sets or (sample, q) not in sets:
                 continue
             for x, y in ((p, q), (q, p)):
@@ -54,6 +57,8 @@ def plan_jobs(sets):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--run", required=True)
+    ap.add_argument("--kinds", default="score,novelty,pairwise", help="만들 작업 종류")
+    ap.add_argument("--pairs", default="", help="쌍대 비교 쌍만 (예: A-B,A-E). 비우면 전부")
     ap.add_argument("--force", action="store_true", help="기존 jobs와 key.json을 지우고 다시 만든다 (판정 결과도 지워진다)")
     args = ap.parse_args()
 
@@ -65,7 +70,7 @@ def main():
         shutil.rmtree(jobs_dir, ignore_errors=True)
 
     sets, skipped = load_sets(run)
-    jobs = plan_jobs(sets)
+    jobs = plan_jobs(sets, args.kinds.split(","), set(args.pairs.split(",")) if args.pairs else None)
     random.Random(f"jobs-{args.run}").shuffle(jobs)  # 작업 번호로 조건을 짐작하지 못하게 섞는다
     refs_text = {s: corpus_text(common.refs(s)) for s in {j["sample"] for j in jobs}}
     key = {}

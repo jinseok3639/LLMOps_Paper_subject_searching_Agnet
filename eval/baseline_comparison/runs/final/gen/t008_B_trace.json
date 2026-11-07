@@ -1,0 +1,839 @@
+{
+ "sample": "t008",
+ "n_refs": 37,
+ "propose_problems": {
+  "assumption": [],
+  "transfer": [],
+  "empirical": [
+   "hypothesis 3: title or summary mentions a reference id"
+  ],
+  "formal": [
+   "hypothesis 2: title or summary mentions a reference id",
+   "hypothesis 3: title or summary mentions a reference id"
+  ]
+ },
+ "candidates": [
+  {
+   "id": "s1-assumption",
+   "slot": 1,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Value-Equivalent Bisimulation Metrics for Safe End-to-End Autonomous Driving",
+    "summary": "This paper proposes using value-equivalent bisimulation metrics to learn latent representations for end-to-end autonomous driving that are invariant to task-irrelevant details while preserving safety-critical state distinctions. The approach combines bisimulation theory with value equivalence principles to train perception-agnostic policies that generalize across varying environmental conditions. It is validated on CARLA and nuScenes benchmarks using closed-loop collision rates and route completion metrics.",
+    "gap": "Existing perception-based driving models either rely on geometric fusion (ref-005, ref-022) or language-model representations (ref-003) that fail to explicitly preserve safety-relevant state distinctions during abstraction. Value equivalence and bisimulation metrics (ref-002, ref-004, ref-009) have not been jointly applied to end-to-end driving.",
+    "approach": "Train encoders using bisimulation distances constrained by value equivalence to Bellman updates. The loss function minimizes bisimulation metric distances between states while preserving value differences for safety-critical actions (e.g., braking). This creates compact representations where only safety-relevant state features are preserved.",
+    "evaluation": "Compare against geometry-based fusion (TransFuser) and language-model baselines (EMMA) on CARLA Leaderboard and nuScenes. Metrics include closed-loop collision rate, route completion, and invariance to weather/lighting changes. Ablations test representation compactness vs. safety preservation trade-offs.",
+    "support": [
+     "ref-002",
+     "ref-004",
+     "ref-005",
+     "ref-009",
+     "ref-022"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims: 'Existing perception-based driving models... either rely on geometric fusion (ref-005, ref-022) or language-model representations (ref-003) that fail to explicitly preserve safety-relevant state distinctions during abstraction.' This is unsupported because: 1) The hypothesis cites ref-003 in the gap claim, but ref-003 is not in the provided support list; 2) The claim that geometric fusion (ref-005, ref-022) fails to preserve safety-relevant distinctions is not directly supported by the cited abstracts, which only show that their methods outperform others in terms of collision rates and driving scores, not that they fail to preserve safety-relevant distinctions. The ref-002, ref-004, and ref-009 abstracts do not address end-to-end driving or safety-relevant state distinctions in the context of autonomous driving, so the claim that 'value equivalence and bisimulation metrics have not been jointly applied to end-to-end driving' is not directly supported by the provided references.",
+     "vague": "1) The evaluation plan does not specify the exact experimental settings (e.g., specific CARLA town, weather conditions, traffic density) or the exact baselines to be used (e.g., which version of TransFuser or EMMA). 2) The approach does not detail how the 'safety-critical actions' (e.g., braking) are defined or how the value equivalence constraints are integrated into the bisimulation metric training. 3) The evaluation does not include an ablation study isolating the effect of value equivalence versus bisimulation alone, nor does it test whether the learned representations actually preserve safety-critical distinctions (e.g., via targeted perturbations or adversarial testing).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies isolating the contributions of value equivalence and bisimulation metrics, and explicitly define safety-critical actions with formal constraints. Additionally, include a baseline that combines existing geometric fusion with bisimulation metrics to better isolate the added value of value equivalence."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'Existing perception-based driving models ... fail to explicitly preserve safety-relevant state distinctions during abstraction' but ref-009 demonstrates learning invariant representations using bisimulation metrics that disregard task-irrelevant information while preserving task-relevant features (including safety-critical aspects like collisions). This contradicts the implication that no prior work preserves safety distinctions during abstraction. Additionally, the gap claim 'Value equivalence and bisimulation metrics ... have not been jointly applied to end-to-end driving' is directly contradicted by ref-009, which combines bisimulation metrics with value-based RL for invariant representations in driving tasks.",
+     "vague": "The evaluation lacks specific details about (1) the exact dataset splits or CARLA scenarios used for testing invariance to weather/lighting changes, (2) the precise definition of 'safety-critical actions' (e.g., braking thresholds) used to constrain value differences, and (3) the baseline implementation details for EMMA (not cited in references), making reproducibility impossible. The central claim about safety preservation is not directly tested: collision rates measure outcomes but do not verify that the learned metric actually preserves safety-relevant state distinctions in latent space (e.g., via bisimulation metric analysis).",
+     "already_done": "",
+     "suggestion": "Conduct ablation studies measuring bisimulation metric distances between safety-critical state pairs (e.g., pre-brake vs. post-brake) in latent space, comparing against baselines. This would directly test whether the proposed method better preserves safety distinctions than existing approaches like ref-009 while achieving invariance."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'language-model representations (ref-003) fail to explicitly preserve safety-relevant state distinctions during abstraction,' but ref-003 is not cited in the provided references. Additionally, the gap claim 'Value equivalence and bisimulation metrics (ref-002, ref-004, ref-009) have not been jointly applied to end-to-end driving' is unsupported because ref-009 already applies bisimulation metrics to end-to-end driving tasks (e.g., highway driving with invariance to weather).",
+     "vague": "The evaluation lacks a baseline that isolates the proposed value-equivalent bisimulation mechanism (e.g., a version of TransFuser modified to use standard bisimulation metrics without value equivalence constraints). The approach does not specify how 'safety-critical actions' (e.g., braking) are formally identified or weighted in the loss function. The 'closed-loop collision rate' metric is mentioned but not defined in terms of experimental setup (e.g., traffic density, route complexity).",
+     "already_done": "",
+     "suggestion": "Formally define 'safety-critical actions' and their role in the value-equivalence constraints, and include an ablation study comparing the proposed method to a version of ref-005/022 modified to use only bisimulation metrics (ref-002/009) without value-equivalence principles (ref-004)."
+    }
+   },
+   "refined": {
+    "title": "Value-Equivalent Bisimulation Metrics for Safe End-to-End Autonomous Driving",
+    "summary": "This paper proposes integrating value-equivalent bisimulation metrics to learn latent representations for end-to-end autonomous driving. The approach explicitly preserves safety-critical state distinctions (e.g., collision risk) while discarding task-irrelevant details like weather. It is evaluated on CARLA and nuScenes benchmarks using closed-loop collision rates and route completion metrics.",
+    "gap": "Existing end-to-end driving models (ref-005, ref-022) use geometric fusion or language models (ref-003) without formally preserving safety-relevant state distinctions during abstraction. While ref-009 applies bisimulation metrics for invariant representations in driving, it does not integrate value equivalence (ref-004) to explicitly constrain safety-critical action-value differences.",
+    "approach": "Train encoders with a loss function combining bisimulation metrics (ref-002, ref-009) and value-equivalence constraints (ref-004). The bisimulation loss minimizes distances between states with equivalent future dynamics, while value-equivalence terms penalize differences in Q-values for safety-critical actions (e.g., braking) between states. Inputs: raw sensor data; outputs: compact latent representations; objective: minimize bisimulation distances while preserving value differences for safety actions.",
+    "evaluation": "Compare against TransFuser (ref-005) and EMMA (ref-003) on CARLA Leaderboard (Town06, dense traffic) and nuScenes (route completion). Metrics: closed-loop collision rate, route completion, and latent-space bisimulation distances for safety-critical state pairs (e.g., pre/post-brake). Ablations: (1) bisimulation-only baseline (ref-009), (2) value-equivalence-only baseline (ref-004), (3) proposed joint method. Test invariance by perturbing weather/lighting in CARLA.",
+    "support": [
+     "ref-002",
+     "ref-003",
+     "ref-004",
+     "ref-005",
+     "ref-009",
+     "ref-022"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-transfer",
+   "slot": 1,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Value-Equivalent Bisimulation Metrics for Efficient End-to-End Autonomous Driving",
+    "summary": "We propose integrating value-equivalent model learning with bisimulation metrics to create compact, task-relevant state representations for end-to-end autonomous driving. Unlike prior work that relies on dense sensor fusion or geometric projections, our approach learns latent representations that preserve only state transitions critical for value-based planning. This reduces computational overhead while maintaining closed-loop driving performance. We validate the method on CARLA benchmarks by comparing driving scores, collision rates, and inference speed against geometry-based fusion baselines.",
+    "gap": "Existing end-to-end driving models either use computationally heavy sensor fusion or discard task-irrelevant details through heuristic projections, lacking formal guarantees about preserved behavioral equivalence. Bisimulation metrics provide state-similarity guarantees but have not been applied to value-equivalent model learning in driving.",
+    "approach": "We train an encoder to map raw sensor inputs into a latent space where bisimulation distances match value-equivalent model distances. The encoder is optimized via a contrastive loss that enforces state equivalence under the Bellman equation, using trajectory rollouts from a privileged teacher model. The compact latent space enables fast planning with a lightweight value network.",
+    "evaluation": "We compare against TransFuser, VAD, and UniAD on CARLA Leaderboard metrics. Key measures include driving score, route completion, collision frequency, and inference FPS. Ablations test latent space dimensionality and teacher model dependency. Success is defined as matching or exceeding geometric-fusion baselines with <50% parameters.",
+    "support": [
+     "ref-002",
+     "ref-004",
+     "ref-005",
+     "ref-009",
+     "ref-012",
+     "ref-031"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'Existing end-to-end driving models [...] lacking formal guarantees about preserved behavioral equivalence' but ref-009 demonstrates learning invariant representations via bisimulation metrics that disregard task-irrelevant details. This contradicts the implication that prior work lacks formal guarantees. Additionally, the hypothesis asserts 'Bisimulation metrics [...] have not been applied to value-equivalent model learning in driving', but ref-009 combines bisimulation metrics with RL for invariant representations, directly addressing task-relevant state abstraction in driving contexts.",
+     "vague": "The evaluation lacks a baseline isolating the proposed change (value-equivalent bisimulation integration) from existing components (e.g., comparing against VAD/UniAD without testing a variant that replaces their fusion with the proposed metric alone). The approach mentions 'contrastive loss enforcing state equivalence under the Bellman equation' but does not specify how Bellman-consistent equivalence is operationalized or measured. The 'privileged teacher model' dependency is mentioned but no details are given on its architecture, training process, or how its outputs constrain the encoder.",
+     "already_done": "",
+     "suggestion": "Replace the vague 'contrastive loss enforcing Bellman equivalence' with a precise formulation linking bisimulation distances (ref-002) to value-equivalence error bounds (ref-004). For example, define a loss term that minimizes the difference between bisimulation metric distances and value-equivalence model discrepancies under trajectory rollouts, with theoretical guarantees derived from ref-004's analysis of value-equivalent model classes."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'bisimulation metrics provide state-similarity guarantees but have not been applied to value-equivalent model learning in driving.' However, ref-009 explicitly states 'Our method trains encoders such that distances in latent space equal bisimulation distances in state space' and applies this to autonomous driving tasks, directly contradicting the novelty claim. Additionally, the gap claim 'Existing end-to-end driving models...lacking formal guarantees' is unsupported, as ref-005 (TransFuser) and ref-012 (VAD) demonstrate strong empirical performance on CARLA benchmarks without such guarantees, which the hypothesis does not refute.",
+     "vague": "The evaluation section lacks a specific dataset name (e.g., which CARLA town/maps), missing measures for 'inference FPS' (no hardware specification), and does not define the 'privileged teacher model' used for rollouts. The approach's 'contrastive loss' is not described in terms of its exact formulation or how it enforces Bellman equivalence. The ablation for 'teacher model dependency' does not specify what variations are tested (e.g., different teacher architectures).",
+     "already_done": "",
+     "suggestion": "Explicitly compare against ref-009's method on the same CARLA benchmark, as it already combines bisimulation metrics with driving tasks. This would clarify whether value-equivalence adds measurable benefits beyond existing bisimulation approaches."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Existing end-to-end driving models...lacking formal guarantees about preserved behavioral equivalence.' However, ref-009 explicitly states that bisimulation metrics have been used to learn robust latent representations in MuJoCo and driving tasks, contradicting the claim that bisimulation metrics 'have not been applied to value-equivalent model learning in driving.' Additionally, ref-004 demonstrates value-equivalent model learning in RL, and ref-009 combines bisimulation with driving, suggesting prior work exists that partially bridges both concepts.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed change (bisimulation + value equivalence) from the teacher model dependency. The 'contrastive loss enforcing state equivalence under the Bellman equation' is not formally defined, making reproducibility impossible. The 'privileged teacher model' is unnamed, and its training procedure/architecture are unspecified. The 'value-equivalent model distances' are not mathematically defined or tied to ref-004's value equivalence framework.",
+     "already_done": "",
+     "suggestion": "Formally define the 'value-equivalent bisimulation metric' by extending ref-004's value equivalence to ref-002's bisimulation framework, then derive a differentiable loss that enforces this metric in latent space. Add an ablation comparing against a baseline that uses only bisimulation (ref-009) or only value equivalence (ref-004) in isolation."
+    }
+   },
+   "refined": {
+    "title": "Value-Equivalent Bisimulation Metrics for Efficient End-to-End Autonomous Driving",
+    "summary": "We integrate value-equivalent model learning with bisimulation metrics to create compact, task-relevant state representations for end-to-end autonomous driving. Unlike prior work that uses dense sensor fusion or heuristic projections, our approach learns latent representations preserving state transitions critical for value-based planning. We validate the method on CARLA Town06 with metrics including driving score, collision rate, and inference FPS, comparing against TransFuser, VAD, and UniAD.",
+    "gap": "Existing end-to-end driving models lack formal guarantees about preserving behavioral equivalence under value-based planning. While ref-009 uses bisimulation metrics for task-invariant representations, it does not enforce value equivalence. Conversely, ref-004 applies value equivalence to model learning but does not integrate bisimulation metrics for compact state abstraction in driving.",
+    "approach": "We train an encoder to map raw sensor inputs into a latent space where bisimulation distances (ref-002) match value-equivalence model discrepancies (ref-004). The encoder is optimized via a loss term minimizing the difference between bisimulation metric distances and value-equivalence error bounds under trajectory rollouts from a privileged teacher model. The compact latent space enables fast planning with a lightweight value network. Inputs: raw LiDAR + camera data. Outputs: latent state vectors. Objective: minimize ||d_bisim(s_i,s_j) - d_value(s_i,s_j)|| where d_bisim is ref-002's bisimulation metric and d_value is ref-004's value-equivalence distance. Update rule: gradient descent on the loss term.",
+    "evaluation": "We compare against TransFuser (ref-005), VAD (ref-012), and UniAD (ref-031) on CARLA Town06 Leaderboard metrics. Key measures: driving score, route completion, collision frequency, and inference FPS on NVIDIA 3090. Ablations test latent space dimensionality (64 vs. 128 vs. 256) and teacher model dependency (using vs. not using teacher rollouts). Success is defined as matching or exceeding geometric-fusion baselines with <50% parameters. We also compare against ref-009's method on the same benchmark to isolate the value-equivalence contribution.",
+    "support": [
+     "ref-002",
+     "ref-004",
+     "ref-005",
+     "ref-009",
+     "ref-012",
+     "ref-031"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-empirical",
+   "slot": 1,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Value-Equivalent Bisimulation Metrics for Autonomous Driving Policy Generalization",
+    "summary": "We propose using value-equivalent bisimulation metrics to learn invariant representations for autonomous driving policies. This approach quantifies state similarity based on task-relevant dynamics, enabling policies to generalize across unseen scenarios. We validate this by training policies on CARLA that transfer to novel town layouts and traffic patterns, comparing against prior bisimulation and reconstruction-based methods.",
+    "gap": "Existing bisimulation metrics (ref-002, ref-009) focus on theoretical state aggregation but lack validation in complex driving scenarios where appearance and dynamics vary. Value equivalence (ref-004) is unexplored in this context despite its potential for robust policy generalization.",
+    "approach": "We extend bisimulation metrics with value equivalence constraints, learning latent representations where distances reflect both state similarity and value function preservation. This is integrated into a variational autoencoder trained with dynamics and reward prediction losses.",
+    "evaluation": "We evaluate on CARLA's town transfer benchmarks, measuring route completion rate, collision frequency, and off-road distance against baselines: standard bisimulation (ref-002), reconstruction-based (ref-009), and maximum likelihood dynamics models.",
+    "support": [
+     "ref-002",
+     "ref-004",
+     "ref-009"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims 'Existing bisimulation metrics (ref-002, ref-009) focus on theoretical state aggregation but lack validation in complex driving scenarios' (gap). However, ref-009 explicitly states 'We demonstrate the effectiveness of our method... using modified visual MuJoCo tasks... and a first-person highway driving task', which contradicts the claim that ref-009 lacks validation in driving scenarios. Additionally, the claim 'Value equivalence (ref-004) is unexplored in this context' is unsupported, as ref-004 does not address autonomous driving or policy generalization in its abstract, but the hypothesis does not provide evidence that ref-004's value equivalence has been explicitly excluded from such contexts in prior work.",
+     "vague": "The evaluation section does not specify the exact CARLA town layouts and traffic patterns used for training and testing, nor does it detail the baselines' implementation (e.g., whether ref-002's bisimulation is applied to raw observations or state features). The 'value function preservation' mechanism in the approach is not tested via ablation; the evaluation only measures policy performance, not how the learned distances correlate with value differences or state similarity. The 'dynamics and reward prediction losses' are mentioned but not defined in terms of their mathematical form or training weight.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study isolating the value-equivalence constraints by comparing the proposed method against a version that uses only bisimulation metrics (ref-002) on the same CARLA tasks, while measuring both policy performance and the correlation between latent distances and value differences (as in ref-009's bisimulation bounds). This would directly test whether value equivalence contributes to generalization beyond standard bisimulation."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims: 'Existing bisimulation metrics (ref-002, ref-009) focus on theoretical state aggregation but lack validation in complex driving scenarios where appearance and dynamics vary.' However, ref-009 explicitly states: 'We demonstrate the effectiveness of our method at disregarding task-irrelevant information using modified visual MuJoCo tasks, where the background is replaced with moving distractors and natural videos, while achieving SOTA performance. We also test a first-person highway driving task where our method learns invariance to clouds, weather, and time of day.' This directly contradicts the claim that ref-009 lacks validation in complex driving scenarios. The hypothesis also states: 'Value equivalence (ref-004) is unexplored in this context despite its potential for robust policy generalization,' but ref-004 already demonstrates value-equivalent model learning in multiple RL experiments, including those with complex dynamics, and explicitly links to MuZero (which is used in autonomous driving).",
+     "vague": "The evaluation section mentions 'measuring route completion rate, collision frequency, and off-road distance against baselines' but does not specify: (1) the exact CARLA town layouts used for training vs. testing, (2) the precise metrics for 'route completion rate' (e.g., percentage of route completed, distance traveled), (3) whether the baselines are run under identical hyperparameters and training settings, and (4) whether ablation studies are performed to isolate the contribution of value-equivalence constraints versus standard bisimulation metrics. Additionally, the approach section mentions 'integrated into a variational autoencoder trained with dynamics and reward prediction losses' but does not specify how these losses are weighted or combined, leaving the implementation ambiguous.",
+     "already_done": "",
+     "suggestion": "To strengthen the hypothesis, the authors should explicitly acknowledge ref-009's validation in highway driving scenarios and clarify how their proposed method differs from or improves upon ref-009's approach. Additionally, they should provide precise experimental details (e.g., CARLA town layouts, metric definitions, ablation studies) to ensure reproducibility and isolate the contribution of value-equivalence constraints."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims that 'Existing bisimulation metrics (ref-002, ref-009) focus on theoretical state aggregation but lack validation in complex driving scenarios where appearance and dynamics vary.' However, ref-009 explicitly states validation in 'modified visual MuJoCo tasks' and 'a first-person highway driving task,' directly contradicting the claim of lacking validation in driving scenarios. Additionally, the hypothesis states that 'Value equivalence (ref-004) is unexplored in this context,' but ref-004 itself discusses applications to RL agents and mentions empirical successes like MuZero, which operates in complex environments.",
+     "vague": "The evaluation section lacks specifics about the CARLA benchmarks (e.g., exact town layouts, traffic patterns, number of training/test scenarios). The approach mentions 'value equivalence constraints' but does not define how these are formally integrated into the bisimulation metric or variational autoencoder. The 'route completion rate,' 'collision frequency,' and 'off-road distance' metrics are not tied to the hypothesis's central claim about 'value function preservation' or 'task-relevant dynamics,' leaving unclear how these measures test the proposed mechanism. A missing ablation is a comparison of the learned metric's value-equivalence properties (e.g., Bellman update consistency) against baselines.",
+     "already_done": "",
+     "suggestion": "Formally define the value-equivalent bisimulation metric by extending ref-004's value equivalence principle with ref-002/ref-009's bisimulation distances, then derive bounds on how deviations from value equivalence affect policy performance in CARLA. Use these bounds to select ablation metrics (e.g., Bellman error in latent space) that directly test the hypothesis."
+    }
+   },
+   "refined": {
+    "title": "Value-Equivalent Bisimulation for Generalization in Autonomous Driving",
+    "summary": "We propose extending bisimulation metrics with value equivalence constraints to learn invariant representations for autonomous driving policies. This approach quantifies state similarity based on task-relevant dynamics and value preservation, enabling generalization across unseen scenarios. We validate this by training policies on CARLA that transfer to novel town layouts and traffic patterns, comparing against bisimulation and reconstruction-based baselines.",
+    "gap": "Ref-002 and ref-009 demonstrate bisimulation metrics for state aggregation in reinforcement learning, but ref-009's validation is limited to highway driving tasks with appearance variations (weather, time of day). Ref-004 introduces value equivalence for model-based RL but does not address autonomous driving. The open challenge is integrating value equivalence into bisimulation metrics for complex urban driving scenarios with varying dynamics and appearance.",
+    "approach": "We define a value-equivalent bisimulation metric by extending ref-002's MDP distance with ref-004's value equivalence constraints. This metric is used to train a variational autoencoder with two losses: (1) a bisimulation loss minimizing distances between states with similar dynamics and value functions, and (2) a reward prediction loss ensuring value equivalence. The encoder maps raw observations to a latent space where distances reflect both state similarity and value function preservation. The policy is trained on this latent space using reinforcement learning.",
+    "evaluation": "We evaluate on CARLA's town transfer benchmarks: training on Town01-03 and testing on Town04-06. Metrics include route completion rate (percentage of route completed), collision frequency (collisions per 1000m), and off-road distance (meters driven off-road). Baselines are ref-002's bisimulation metric, ref-009's reconstruction-free bisimulation, and a maximum likelihood dynamics model. Ablations compare the full method against versions without value equivalence constraints or reward prediction losses. We also measure correlation between latent distances and value differences to validate value preservation.",
+    "support": [
+     "ref-002",
+     "ref-004",
+     "ref-009"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s1-formal",
+   "slot": 1,
+   "origin": "formal",
+   "hypothesis": {
+    "title": "Value-Equivalent Bisimulation for Efficient Sensor Fusion in Autonomous Driving",
+    "summary": "This paper proposes learning a value-equivalent bisimulation metric to fuse multimodal sensor data (e.g., LiDAR and camera) in autonomous driving. The approach replaces traditional geometric fusion by enforcing state representations that preserve Bellman updates for planning, reducing computational overhead while maintaining safety. Validation uses CARLA simulations, comparing collision rates and route completion against geometry-based baselines like TransFuser.",
+    "gap": "Existing sensor fusion methods (e.g., TransFuser, ref-005) rely on geometric alignment, which is computationally heavy and fails in complex scenarios. Bisimulation metrics (ref-002, ref-009) have not been applied to value-equivalent fusion for planning.",
+    "approach": "Train an encoder with a bisimulation loss that minimizes distance between states with equivalent value functions. Use transformer attention to fuse LiDAR and image features under this constraint, ensuring fused representations retain only task-relevant dynamics.",
+    "evaluation": "Compare against TransFuser (ref-005) and EMMA (ref-003) on CARLA Leaderboard metrics (driving score, collisions). Measure inference speed (FPS) and memory usage to validate efficiency gains.",
+    "support": [
+     "ref-002",
+     "ref-004",
+     "ref-005",
+     "ref-009"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'Bisimulation metrics (ref-002, ref-009) have not been applied to value-equivalent fusion for planning.' However, ref-004 and ref-009 together suggest that value-equivalent models (ref-004) and bisimulation metrics (ref-002, ref-009) are both used in model-based RL. The gap claim is unsupported because ref-004 and ref-009's combination already implies a connection between value equivalence and state similarity metrics, which could be seen as a form of 'value-equivalent fusion' in model-based planning. The exact phrase is: 'Bisimulation metrics (ref-002, ref-009) have not been applied to value-equivalent fusion for planning.'",
+     "vague": "The evaluation plan lacks a baseline that isolates the proposed change. The hypothesis should include an ablation study comparing the full system (transformer + bisimulation loss) against a version that only uses the bisimulation loss without transformer fusion, to test whether the claimed mechanism (value-equivalent bisimulation) is the cause of performance gains. The exact missing element is: 'Ablation study testing bisimulation loss without transformer fusion to validate the mechanism.'",
+     "already_done": "",
+     "suggestion": "Add an ablation study that tests the bisimulation loss in isolation (e.g., using a simple fusion method like concatenation) to confirm that the value-equivalent bisimulation mechanism itself drives improvements, rather than the transformer architecture or other components."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims that 'Bisimulation metrics (ref-002, ref-009) have not been applied to value-equivalent fusion for planning.' However, ref-004 explicitly discusses value equivalence in model-based RL and connects it to planning, while ref-009 applies bisimulation metrics to learn task-relevant representations. The gap claim overstates the novelty by ignoring the conceptual overlap between value equivalence (ref-004) and bisimulation (ref-002, ref-009) already established in the literature.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed bisimulation loss from the transformer fusion mechanism. The description does not specify whether the comparison with TransFuser (ref-005) will use the same input modalities, network architecture, or training data, making it impossible to determine if performance differences stem from the bisimulation constraint or other factors. Additionally, the 'driving score' and 'collisions' metrics are not defined in terms of how they test the specific claim about value-equivalent representation preservation.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing a version of the model with the bisimulation loss removed, while keeping the transformer architecture and training data identical, to isolate the effect of the proposed constraint. This would directly test whether the value-equivalent bisimulation mechanism (rather than the fusion architecture alone) contributes to performance and efficiency gains."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'Bisimulation metrics (ref-002, ref-009) have not been applied to value-equivalent fusion for planning.' However, ref-004 explicitly describes the value equivalence principle as a theoretical underpinning for methods like MuZero, which perform model-based planning. Additionally, ref-009 applies bisimulation metrics to learn invariant representations for reinforcement learning, directly linking bisimulation to task-relevant dynamics. These references contradict the claim that value-equivalent bisimulation for planning is novel or unapplied.",
+     "vague": "The evaluation plan lacks a baseline that isolates the proposed bisimulation fusion mechanism. While comparing against TransFuser (ref-005) and EMMA (ref-003) is useful, the hypothesis does not specify an ablation study that tests the bisimulation loss in isolation (e.g., comparing the same transformer fusion architecture with and without the bisimulation constraint). Additionally, the hypothesis does not define how 'task-relevant dynamics' are measured or validated beyond collision rates and route completion, leaving the mechanism's effectiveness untested.",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing the full system against a version of the transformer fusion architecture without the bisimulation loss, while keeping all other components (e.g., encoder design, training data, CARLA evaluation protocol) identical. This would isolate the contribution of the bisimulation constraint and validate its role in efficiency and safety gains."
+    }
+   },
+   "refined": {
+    "title": "Value-Equivalent Bisimulation for Sensor Fusion in Autonomous Driving",
+    "summary": "This paper proposes learning a value-equivalent bisimulation metric to fuse multimodal sensor data (e.g., LiDAR and camera) for autonomous driving. The approach replaces geometric fusion by enforcing state representations that preserve Bellman updates for planning, reducing computational overhead while maintaining safety. Validation uses CARLA simulations, comparing collision rates and route completion against geometry-based baselines like TransFuser, with an ablation isolating the bisimulation loss.",
+    "gap": "Existing sensor fusion methods (e.g., TransFuser, ref-005) rely on geometric alignment, which is computationally heavy and fails in complex scenarios. While ref-004 and ref-009 separately connect value equivalence and bisimulation metrics to planning and representation learning, no prior work has combined them to enforce value-equivalent fusion for end-to-end driving.",
+    "approach": "Train an encoder with a bisimulation loss (ref-009) that minimizes distance between states with equivalent value functions (ref-004). Use transformer attention (ref-005) to fuse LiDAR and image features under this constraint, ensuring fused representations retain only task-relevant dynamics. The bisimulation loss computes pairwise distances between encoded states weighted by Bellman residual differences, and the transformer uses cross-attention to align features across modalities.",
+    "evaluation": "Compare against TransFuser (ref-005) and EMMA (ref-003) on CARLA Leaderboard metrics (driving score, collisions). Measure inference speed (FPS) and memory usage. Include an ablation study comparing the full system (transformer + bisimulation loss) against a version using the same transformer architecture but with the bisimulation loss replaced by a standard L2 reconstruction loss, to isolate the effect of value-equivalent fusion.",
+    "support": [
+     "ref-002",
+     "ref-004",
+     "ref-005",
+     "ref-009"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-assumption",
+   "slot": 2,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "Proxy Reward Hacking Detection via Anomaly-Weighted Bisimulation",
+    "summary": "This paper introduces an anomaly detection framework that identifies reward hacking by comparing policy-induced state visitation distributions against expert demonstrations using bisimulation metrics. The method weights state distances by anomaly scores derived from reward misspecification patterns, enabling early detection of phase transitions where policies exploit proxy metrics.",
+    "gap": "While ref-008 studies reward hacking phase transitions and ref-002 defines bisimulation metrics, no work combines these to detect unsafe policy shifts during training. Existing anomaly detectors (ref-008) lack formal state similarity grounding.",
+    "approach": "Compute bisimulation distances between policy trajectories and expert data, then weight these distances by anomaly scores from reward misspecification models. Flag trajectories where weighted distances exceed thresholds as potential reward hacking candidates.",
+    "evaluation": "Test on ref-008's misspecified reward environments by measuring detection accuracy of phase transitions. Compare against baseline detectors (ref-008) using AUC-ROC and false positive rates during training rollouts.",
+    "support": [
+     "ref-002",
+     "ref-008"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims, 'no work combines these to detect unsafe policy shifts during training' (gap). However, ref-008 already studies reward hacking phase transitions and proposes anomaly detection baselines, while ref-002 provides bisimulation metrics. The gap claim overstates the novelty, as ref-008's anomaly detection and ref-002's metrics could theoretically be combined, even if not explicitly implemented.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed anomaly-weighted bisimulation mechanism. Specifically, it does not mention an ablation study comparing plain bisimulation distances (ref-002) without anomaly weighting against the full method. Additionally, the 'reward misspecification patterns' used to derive anomaly scores are undefined in terms of implementation or dataset sources.",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing plain bisimulation distances (ref-002) against the anomaly-weighted variant to isolate the contribution of anomaly weighting. Additionally, explicitly define how reward misspecification patterns are modeled or sourced from ref-008's environments."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims 'no work combines these to detect unsafe policy shifts during training' (gap). However, ref-008 already studies reward hacking phase transitions and proposes anomaly detection baselines, which partially addresses detecting unsafe policy shifts. Additionally, the claim 'existing anomaly detectors (ref-008) lack formal state similarity grounding' is unsupported, as ref-008 does not explicitly state this limitation in its abstract.",
+     "vague": "The evaluation section lacks specific details about the dataset (e.g., which of ref-008's environments), the exact method for computing anomaly scores from reward misspecification models, and the threshold-setting mechanism for flagging reward hacking. The approach also omits an ablation study isolating the effect of anomaly-weighted bisimulation versus unweighted bisimulation (ref-002).",
+     "already_done": "",
+     "suggestion": "Explicitly define the anomaly score computation method and include an ablation study comparing anomaly-weighted vs. unweighted bisimulation metrics to validate the necessity of the weighting mechanism."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'no work combines these to detect unsafe policy shifts during training' (gap). However, ref-008 already studies reward hacking phase transitions and proposes anomaly detection baselines, while ref-002 provides bisimulation metrics for state similarity. The gap claim overstates the novelty by ignoring that ref-008's anomaly detection and ref-002's metrics could theoretically be combined, even if not explicitly done in prior work.",
+     "vague": "The evaluation lacks a named dataset (only references ref-008's environments generically) and omits measures for 'anomaly scores' (e.g., how reward misspecification patterns are modeled). The approach also lacks an ablation isolating the effect of 'anomaly-weighted' distances versus raw bisimulation distances (ref-002).",
+     "already_done": "",
+     "suggestion": "Replace the informal 'phase transition detection' claim with a precise definition (e.g., 'identifying capability thresholds where true reward drops sharply') and derive bounds on detection delay relative to ref-008's phase transition metrics."
+    }
+   },
+   "refined": {
+    "title": "Proxy Reward Hacking Detection via Anomaly-Weighted Bisimulation",
+    "summary": "This paper introduces an anomaly detection framework that identifies reward hacking by comparing policy-induced state visitation distributions against expert demonstrations using bisimulation metrics. The method weights state distances by anomaly scores derived from reward misspecification patterns, enabling early detection of phase transitions where policies exploit proxy metrics.",
+    "gap": "While ref-008 studies reward hacking phase transitions and ref-002 defines bisimulation metrics, no work combines these to detect unsafe policy shifts during training. Existing anomaly detectors (ref-008) lack formal state similarity grounding, as their metrics are not based on bisimulation distances.",
+    "approach": "Compute bisimulation distances between policy trajectories and expert data using ref-002's metrics. Weight these distances by anomaly scores computed as the difference between proxy and true rewards from ref-008's environments. Flag trajectories where weighted distances exceed thresholds as potential reward hacking candidates. The core difference from ref-002 is the anomaly weighting mechanism that prioritizes state pairs with high reward misspecification.",
+    "evaluation": "Test on ref-008's misspecified reward environments (e.g., PointMass, AntMaze) by measuring detection accuracy of phase transitions. Compare against baseline detectors (ref-008) using AUC-ROC and false positive rates during training rollouts. Include an ablation study comparing plain bisimulation distances (ref-002) without anomaly weighting against the full method to isolate the contribution of anomaly weighting.",
+    "support": [
+     "ref-002",
+     "ref-008"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-transfer",
+   "slot": 2,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Pseudo-Simulation for Closed-Loop Evaluation of Value-Equivalent Driving Policies",
+    "summary": "We extend pseudo-simulation by incorporating value-equivalent model predictions to evaluate end-to-end driving policies under compounding errors. Unlike open-loop metrics that ignore agent-environment interactions, our method generates synthetic observations weighted by proximity to value-equivalent state transitions. This enables closed-loop-like assessment of policies trained with value-equivalent representations, bridging the gap between open/closed-loop evaluation.",
+    "gap": "Pseudo-simulation improves open-loop evaluation realism but still lacks dynamic agent interactions. Value-equivalent models enable efficient planning but are untested under compounding error conditions typical of closed-loop driving.",
+    "approach": "We modify pseudo-simulation's weighting scheme to prioritize synthetic observations matching value-equivalent state transitions. A value-equivalent model predicts future states for each candidate action, and synthetic observations are weighted by Bellman error. This creates a simulated environment where policies are tested on trajectories that preserve value-relevant dynamics.",
+    "evaluation": "We compare correlation coefficients (R²) between pseudo-simulation metrics and true closed-loop performance (CARLA Leaderboard) for value-equivalent vs. geometry-based policies. Additional metrics include collision recovery rate and route completion under adversarial traffic. Success requires R² > 0.85 and matching closed-loop ranking.",
+    "support": [
+     "ref-004",
+     "ref-010",
+     "ref-020",
+     "ref-034"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'value-equivalent models are untested under compounding error conditions typical of closed-loop driving' (gap). However, ref-004 demonstrates that value-equivalent models are theoretically grounded in Bellman updates and tested in RL planning scenarios with compounding errors. The hypothesis also states that pseudo-simulation 'lacks dynamic agent interactions' (gap), but ref-010 explicitly addresses this by introducing proximity-based weighting to approximate closed-loop interactions. Additionally, the evaluation's success condition (R² > 0.85) is unsupported, as ref-034 shows that even the best open-loop metrics (R²=0.8) cannot fully predict closed-loop performance, and the proposed method's correlation target exceeds this established upper bound.",
+     "vague": "The approach describes modifying pseudo-simulation's weighting scheme to prioritize 'value-equivalent state transitions' but does not specify: (1) the exact definition of 'value-equivalent state transitions' in the context of driving (ref-004 defines this for RL models, not driving policies); (2) how Bellman error is computed for driving policies (no action space or reward function is defined); (3) the specific 'adversarial traffic' conditions for evaluation (ref-020 and ref-034 use standardized CARLA scenarios but these are not referenced). The evaluation also lacks an ablation isolating the value-equivalence weighting scheme from other pseudo-simulation components.",
+     "already_done": "",
+     "suggestion": "Replace the undefined 'value-equivalent state transitions' with a concrete formulation linking ref-004's Bellman error to driving metrics (e.g., progress collision trade-offs from ref-034). Define the reward function and action space for computing Bellman error in driving contexts, and compare against a baseline pseudo-simulation variant without value-equivalence weighting to isolate its effect."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims that 'value-equivalent models are untested under compounding error conditions typical of closed-loop driving' (gap). However, ref-004 demonstrates that value-equivalent models are used in closed-loop RL systems like MuZero, which inherently handle compounding errors. The hypothesis also states that 'pseudo-simulation improves open-loop evaluation realism' (summary) but ref-034 shows that even safety-aware open-loop metrics (like NAVSIM's) have only R²=0.8 correlation with closed-loop, contradicting the implied higher realism. The claim that 'synthetic observations are weighted by Bellman error' (approach) is unsupported by any reference, as ref-010 uses proximity-based weighting, not Bellman error.",
+     "vague": "The evaluation lacks (1) a named dataset or CARLA scenario subset for reproducibility, (2) a baseline pseudo-simulation without value-equivalence weighting to isolate the proposed change, (3) an ablation study comparing Bellman-error weighting vs. ref-010's proximity weighting, and (4) a definition of 'adversarial traffic' conditions. The central claim about 'trajectories preserving value-relevant dynamics' is not tested directly—correlation with closed-loop ranking measures outcome similarity, not dynamic preservation.",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing Bellman-error weighting against ref-010's proximity weighting on the same CARLA scenarios, while reporting both R² and ranking consistency metrics. This would isolate the proposed weighting scheme's contribution and validate its theoretical grounding in value equivalence."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'value-equivalent models are untested under compounding error conditions typical of closed-loop driving.' However, ref-004 demonstrates value-equivalent models in planning contexts (e.g., MuZero) that inherently involve compounding errors during multi-step prediction. Additionally, the hypothesis asserts 'success requires R² > 0.85,' but ref-034 shows that even strong correlations (R²=0.8) exhibit ranking inversions and non-monotonic relationships, undermining this threshold as a definitive success criterion.",
+     "vague": "The evaluation lacks (1) a named dataset or CARLA scenario subset for reproducibility, (2) a baseline isolating value-equivalence from pseudo-simulation (e.g., pseudo-simulation with geometry-only models), and (3) an ablation measuring Bellman error weighting's impact versus proximity weighting alone. The 'collision recovery rate' metric is undefined (e.g., adversarial traffic intensity, recovery time window).",
+     "already_done": "",
+     "suggestion": "Define 'value-equivalent state transitions' formally via ref-004's Bellman equivalence criterion and derive a theoretical bound on compounding error propagation under this constraint. Use ref-034's paired dataset to validate whether value-equivalence preserves ranking stability despite correlation non-monotonicities."
+    }
+   },
+   "refined": {
+    "title": "Value-Equivalent Weighting for Pseudo-Simulation in Autonomous Driving",
+    "summary": "We integrate value-equivalent model predictions into pseudo-simulation to better approximate closed-loop evaluation of driving policies. By weighting synthetic observations based on Bellman error between predicted and actual state transitions, our method prioritizes trajectories that preserve value-relevant dynamics. This bridges the gap between open-loop evaluation and closed-loop performance for policies trained with value-equivalent representations.",
+    "gap": "Pseudo-simulation improves open-loop realism via proximity-weighted synthetic observations (ref-010), but does not explicitly account for value-relevant state transitions. Value-equivalent models (ref-004) enable efficient planning but are untested under pseudo-simulation's synthetic observation weighting scheme.",
+    "approach": "We extend pseudo-simulation by computing Bellman error between value-equivalent model predictions and synthetic observations. Observations are weighted by negative Bellman error, prioritizing those consistent with value-equivalent dynamics. The value-equivalent model uses a reward function combining progress (ref-034) and collision penalties (ref-010), with action space defined by waypoint deviations. This differs from ref-010's proximity weighting by explicitly penalizing value-deviant trajectories.",
+    "evaluation": "We compare correlation (R²) between pseudo-simulation metrics and closed-loop performance (CARLA Leaderboard) for value-equivalent vs. proximity-weighted pseudo-simulation. We use the NAVSIM dataset (ref-020) with adversarial traffic scenarios from ref-034, reporting collision recovery rate (percentage of collisions avoided after 5s) and route completion. An ablation isolates value-equivalent weighting by comparing against pseudo-simulation with ref-010's proximity weighting.",
+    "support": [
+     "ref-004",
+     "ref-010",
+     "ref-020",
+     "ref-034"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s2-empirical",
+   "slot": 2,
+   "origin": "empirical",
+   "hypothesis": {
+    "title": "Proxy Reward Unhackability in End-to-End Driving via Multi-Objective Optimization",
+    "summary": "We formalize and measure reward hacking in end-to-end driving by training policies on misspecified proxy rewards while monitoring true reward performance. We propose a multi-objective optimization framework that explicitly penalizes divergence between proxy and true reward gradients, demonstrating reduced hacking on CARLA's NoCrash benchmark through phase transition detection and anomaly scoring.",
+    "gap": "While reward hacking is documented (ref-008, ref-016), no work systematically measures its emergence or proposes mitigation strategies for end-to-end driving. Existing solutions focus on static proxy design rather than dynamic optimization.",
+    "approach": "We extend the unhackability framework (ref-016) by integrating gradient alignment constraints into PPO training. The policy is optimized not only for proxy reward but also to minimize the angle between proxy and true reward gradients, detected via auxiliary critics.",
+    "evaluation": "We measure hacking via true reward drop thresholds and phase transition points on CARLA's NoCrash scenarios. Baselines include standard PPO (ref-005) and static proxy designs (ref-016), with success defined by maintaining >90% true reward despite proxy misspecification.",
+    "support": [
+     "ref-008",
+     "ref-016",
+     "ref-019"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'no work systematically measures its emergence or proposes mitigation strategies for end-to-end driving' (gap). However, ref-008 systematically studies reward hacking emergence as a function of agent capabilities in four RL environments, and ref-016 provides formal conditions for unhackability (a mitigation strategy). The hypothesis also states that 'existing solutions focus on static proxy design' (gap), but ref-016's unhackability framework is a dynamic analysis of proxy-true reward relationships, not static design.",
+     "vague": "The evaluation lacks a baseline that isolates the proposed gradient alignment change (approach). The closest cited method (ref-016) is not run on CARLA's NoCrash benchmark; instead, the baseline is 'static proxy designs' (evaluation), which does not test the dynamic optimization component. The 'phase transition detection' (approach) is not defined with specific metrics or thresholds beyond 'true reward drop thresholds' (evaluation). The 'anomaly scoring' (approach) is not linked to the detection method from ref-008, which is cited in support.",
+     "already_done": "",
+     "suggestion": "Replicate ref-016's unhackability analysis on CARLA's NoCrash benchmark as a baseline, and explicitly define the 'phase transition detection' method with metrics (e.g., true reward drop rate per training step) to isolate the gradient alignment component's effect."
+    },
+    "transfer": {
+     "unsupported": "The hypothesis claims: 'no work systematically measures its emergence or proposes mitigation strategies for end-to-end driving' (gap). However, ref-008 systematically studies reward hacking emergence as a function of agent capabilities, and ref-016 proposes theoretical mitigation via unhackable proxy design, even if not for driving. The claim that 'existing solutions focus on static proxy design' (gap) is unsupported, as ref-008's anomaly detection and ref-016's formal analysis are not static proxy design methods.",
+     "vague": "The evaluation lacks: (1) a named dataset/setting beyond 'CARLA's NoCrash' (evaluation), (2) a baseline that isolates the gradient alignment change (evaluation mentions PPO and static proxies, but not a version of the approach without gradient constraints), (3) a measure of 'angle between gradients' (approach mentions minimizing this angle but doesn't specify how it's quantified), and (4) an ablation testing gradient alignment specifically (approach bundles it with PPO training). The central claim about reduced hacking via gradient alignment isn't tested against a baseline that isolates this mechanism.",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing the full multi-objective approach against a variant without gradient alignment constraints, while keeping other components constant. This would isolate the effect of gradient alignment and validate its role in reducing hacking."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'no work systematically measures its emergence or proposes mitigation strategies for end-to-end driving' (gap). However, ref-008 systematically studies reward hacking emergence as a function of agent capabilities (model capacity, action space resolution, etc.) in four RL environments, and ref-016 formally defines reward hacking and establishes conditions for unhackability, which are mitigation-related insights. These references contradict the claim of no prior systematic measurement or mitigation strategies, even if not specific to driving.",
+     "vague": "The evaluation lacks (1) a named dataset or setting beyond 'CARLA's NoCrash benchmark' (e.g., specific scenarios, weather conditions, or traffic densities), (2) a baseline that isolates the proposed gradient alignment change (e.g., PPO with only auxiliary critics but no gradient constraints), and (3) an ablation study testing whether gradient alignment (not the whole system) causes reduced hacking. The 'phase transition detection' and 'anomaly scoring' mechanisms are also undefined in terms of implementation or metrics.",
+     "already_done": "",
+     "suggestion": "Replace the informal 'phase transition detection' with a precise definition (e.g., a threshold in proxy-true reward divergence where true reward drops sharply) and provide a quantitative bound on how gradient alignment delays or prevents such transitions, as per your research perspective on formalizing claims."
+    }
+   },
+   "refined": {
+    "title": "Reward Hacking Mitigation via Gradient Alignment in End-to-End Driving",
+    "summary": "We measure reward hacking in end-to-end driving by training policies on misspecified proxy rewards while monitoring true reward performance. We propose a multi-objective optimization framework that penalizes divergence between proxy and true reward gradients, demonstrating reduced hacking on CARLA's NoCrash benchmark through phase transition detection and anomaly scoring.",
+    "gap": "While ref-008 systematically studies reward hacking emergence in RL environments and ref-016 formally defines unhackability, no work applies these insights to end-to-end driving. Existing mitigation strategies focus on static proxy design rather than dynamic optimization during training.",
+    "approach": "We extend ref-016's unhackability framework by integrating gradient alignment constraints into PPO training. The policy is optimized to minimize the cosine distance between proxy and true reward gradients, computed via auxiliary critics. Inputs: observations, proxy reward, true reward. Outputs: actions, gradient alignment loss. Objective: maximize proxy reward while minimizing cosine distance between gradients. Update rule: PPO with gradient penalty term. Component change: auxiliary critics for true reward estimation. Difference from ref-016: dynamic gradient alignment during training, not static proxy design.",
+    "evaluation": "We measure hacking via true reward drop thresholds and phase transition points (sharp decreases in true reward >10% within 1,000 steps) on CARLA's NoCrash benchmark. Baselines include standard PPO (ref-005) and a static proxy design (ref-016) adapted to CARLA. Ablation: variant without gradient alignment constraints. Success defined by maintaining >90% true reward despite proxy misspecification.",
+    "support": [
+     "ref-005",
+     "ref-008",
+     "ref-016"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-assumption",
+   "slot": 3,
+   "origin": "assumption",
+   "hypothesis": {
+    "title": "World-on-Rails Imitation with Value-Equivalent Dynamics",
+    "summary": "This work enhances world-on-rails imitation learning by constraining the learned forward model to be value-equivalent to the expert's true environment dynamics. The approach ensures the non-reactive simulation retains sufficient causal structure for effective policy training, bridging the gap between open-loop data and closed-loop control.",
+    "gap": "World-on-rails methods (ref-024) ignore environment reactivity, while value-equivalent models (ref-004) focus on planning. No prior work ensures value equivalence in non-reactive simulation-based imitation.",
+    "approach": "Learn a value-equivalent dynamics model from expert logs that preserves Bellman updates critical for policy evaluation. Use this model to supervise a vision-based policy via dynamic programming, ensuring the learned policy behaves as if the world were reactive.",
+    "evaluation": "Compare closed-loop CARLA performance against Learning by Cheating (ref-023) and world-on-rails baselines (ref-024). Measure success rate, infraction frequency, and sample efficiency in the NoCrash benchmark.",
+    "support": [
+     "ref-004",
+     "ref-023",
+     "ref-024"
+    ]
+   },
+   "reviews": {
+    "transfer": {
+     "unsupported": "The hypothesis claims: 'No prior work ensures value equivalence in non-reactive simulation-based imitation.' However, ref-004 introduces the value equivalence principle and demonstrates its application in model-based RL, which could theoretically be applied to non-reactive simulations. Additionally, ref-024 already uses a world-on-rails approach with dynamic programming for policy evaluation, which implicitly relates to value equivalence through Bellman updates. The claim overstates the novelty by assuming these concepts have not been combined before.",
+     "vague": "The evaluation plan lacks details on (1) the specific dataset or expert logs used for training, (2) the exact baseline for isolating the value-equivalence component (e.g., a world-on-rails model without value-equivalence constraints), and (3) ablation studies to confirm that the value-equivalence constraint (rather than other factors) is responsible for performance improvements. Additionally, the 'non-reactive simulation' setup is not fully described, leaving ambiguity about how reactivity is measured or controlled.",
+     "already_done": "",
+     "suggestion": "Conduct an ablation study comparing the proposed value-equivalent model against a standard world-on-rails model (ref-024) trained on the same data, with identical dynamic programming supervision. This would isolate the effect of the value-equivalence constraint and validate its contribution to closed-loop performance."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims: 'No prior work ensures value equivalence in non-reactive simulation-based imitation.' However, ref-004 demonstrates that value-equivalent models can be learned to preserve Bellman updates, and ref-024 uses dynamic programming on a non-reactive model for policy training. While neither paper explicitly combines both ideas, ref-004's value-equivalence principle and ref-024's world-on-rails approach together already establish the foundational components for the proposed method, contradicting the claim of novelty in the gap statement.",
+     "vague": "The evaluation plan lacks a baseline that isolates the value-equivalence constraint: 'Compare closed-loop CARLA performance against Learning by Cheating (ref-023) and world-on-rails baselines (ref-024).' To test the central claim, an ablation comparing the proposed value-equivalent model with a standard maximum-likelihood model (as in ref-004's experiments) on the same world-on-rails setting is missing. Additionally, the evaluation does not measure whether the learned model actually preserves Bellman updates (the core mechanism of value equivalence), only downstream policy performance.",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing the proposed value-equivalent model with a maximum-likelihood baseline on the same world-on-rails setting, and explicitly measure Bellman update preservation (e.g., via value-function error metrics) to confirm the mechanism works as claimed."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims 'No prior work ensures value equivalence in non-reactive simulation-based imitation.' However, ref-004 introduces the value equivalence principle and shows that models can be learned to preserve Bellman updates, which is the core of value equivalence. While ref-004 focuses on planning, it does not explicitly rule out applying value equivalence to non-reactive simulations. The claim overstates the gap by assuming ref-004's focus on planning precludes its application to imitation learning in non-reactive settings.",
+     "vague": "The evaluation plan lacks a baseline that isolates the proposed value-equivalent dynamics change. Specifically, it does not mention a baseline that uses the same dynamic programming supervision but with a non-value-equivalent model (e.g., a standard maximum likelihood model from ref-004). Additionally, the evaluation does not include an ablation study testing whether the learned model's value equivalence (e.g., Bellman update preservation) directly correlates with policy performance, which would validate the claimed mechanism.",
+     "already_done": "",
+     "suggestion": "Explicitly define 'value-equivalent dynamics' in the non-reactive simulation context with a formal constraint (e.g., Bellman update preservation for the expert policy's value function). Then, add an ablation study comparing policies trained with value-equivalent vs. non-value-equivalent models under identical conditions to isolate the effect of the proposed constraint."
+    }
+   },
+   "refined": {
+    "title": "Value-Equivalent World-on-Rails Imitation for Closed-Loop Driving",
+    "summary": "This work integrates value-equivalent dynamics modeling into world-on-rails imitation learning. By constraining the learned non-reactive simulation to preserve Bellman updates critical for policy evaluation, the approach bridges the gap between open-loop data and closed-loop control, enabling effective policy training from expert logs.",
+    "gap": "World-on-rails methods (ref-024) train policies via dynamic programming on non-reactive simulations but do not ensure the learned dynamics preserve Bellman updates. Value-equivalent models (ref-004) focus on planning but are not applied to non-reactive imitation. No prior work combines these to ensure value equivalence in world-on-rails simulations.",
+    "approach": "Learn a dynamics model from expert logs constrained to preserve Bellman updates for the expert's value function. Use this model to supervise a vision-based policy via tabular dynamic programming. The constraint minimizes the Bellman error between the learned model and expert dynamics, ensuring the non-reactive simulation retains causal structure for policy training.",
+    "evaluation": "Compare closed-loop CARLA NoCrash benchmark performance against Learning by Cheating (ref-023) and world-on-rails baselines (ref-024). Include an ablation study comparing the value-equivalent model with a maximum-likelihood baseline trained on the same data. Measure success rate, infraction frequency, and Bellman update error to validate the mechanism.",
+    "support": [
+     "ref-004",
+     "ref-023",
+     "ref-024"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  },
+  {
+   "id": "s3-transfer",
+   "slot": 3,
+   "origin": "transfer",
+   "hypothesis": {
+    "title": "Reward-Gaming Detection via Value-Equivalent Model Discrepancy",
+    "summary": "We detect reward hacking in end-to-end driving policies by measuring discrepancies between value-equivalent model predictions and actual policy behavior. Unlike reward shaping or anomaly detection, our method identifies reward gaming through inconsistencies in the policy's internal value model, which should align with the true environment dynamics under an unhackable proxy.",
+    "gap": "Existing reward hacking detection relies on post-hoc monitoring or reward shaping, which may not generalize. Value-equivalent models provide a formal basis for detecting when policies exploit reward misspecifications through divergent state-value predictions.",
+    "approach": "We train a value-equivalent model alongside the driving policy. During deployment, we compare the model's predicted state-values with the policy's actual trajectory values. Discrepancies exceeding a threshold (learned from safe trajectories) trigger alerts. The model is updated via online inverse dynamics learning to adapt to new scenarios.",
+    "evaluation": "We test on CARLA environments with misspecified rewards (e.g., ignoring traffic rules). Metrics include false positive rate, detection delay, and collision prevention rate. We compare against reward anomaly detection baselines. Success requires >90% true positive rate with <5% false positives in adversarial scenarios.",
+    "support": [
+     "ref-008",
+     "ref-016",
+     "ref-019",
+     "ref-004"
+    ]
+   },
+   "reviews": {
+    "assumption": {
+     "unsupported": "The hypothesis claims that 'value-equivalent models provide a formal basis for detecting when policies exploit reward misspecifications through divergent state-value predictions.' However, ref-004 does not support this claim. While ref-004 discusses value-equivalent models for efficient planning, it does not address reward misspecification or reward hacking detection. Additionally, the hypothesis states that 'the policy's internal value model should align with the true environment dynamics under an unhackable proxy,' but ref-016 shows that unhackable proxies are only possible for deterministic policies or finite policy sets, which is not addressed in the hypothesis.",
+     "vague": "The evaluation section lacks specific details about the baseline methods for comparison. It mentions 'reward anomaly detection baselines' but does not name or describe them, making it impossible to reproduce the experiment. Additionally, the 'threshold (learned from safe trajectories)' is not defined in terms of how it is learned or what constitutes a 'safe trajectory.' The approach also mentions 'online inverse dynamics learning' without specifying the learning algorithm or update frequency.",
+     "already_done": "",
+     "suggestion": "Explicitly define the baseline methods for comparison (e.g., the anomaly detection methods from ref-008) and provide a concrete description of how the threshold for discrepancy detection is learned from safe trajectories. Additionally, clarify how the value-equivalent model accounts for the limitations of unhackable proxies (as discussed in ref-016) in the context of reward hacking detection."
+    },
+    "empirical": {
+     "unsupported": "The hypothesis claims: 'Value-equivalent models provide a formal basis for detecting when policies exploit reward misspecifications through divergent state-value predictions.' However, ref-004 does not support this claim. It states that value-equivalent models are 'directly useful for value-based planning' and 'can find simpler models without compromising performance,' but does not link them to reward misspecification detection. The gap claim 'Existing reward hacking detection relies on post-hoc monitoring or reward shaping, which may not generalize' is unsupported by ref-008, ref-016, or ref-019, as these references do not claim generalizability of post-hoc monitoring or reward shaping - they only document their use.",
+     "vague": "1) The evaluation lacks a baseline that isolates the value-equivalent model's role in detection. The 'reward anomaly detection baselines' are not described, so it's unclear if they use the same model architecture or only differ in the detection mechanism. 2) The 'threshold (learned from safe trajectories)' is not defined - no details are given on how it's learned, what constitutes a 'safe trajectory,' or how the threshold adapts to new scenarios. 3) The central claim (detecting reward gaming via value-equivalent model discrepancy) is not directly tested. The metrics (false positive rate, detection delay, collision prevention) measure system performance but not whether discrepancies actually correlate with reward hacking, as defined in ref-016.",
+     "already_done": "",
+     "suggestion": "Add an ablation study comparing detection performance when using a value-equivalent model vs. a standard maximum-likelihood model (as in ref-004) on the same task. This would isolate the value-equivalence principle's role in detection and test the core hypothesis that value-equivalent models are uniquely suited for this purpose."
+    },
+    "formal": {
+     "unsupported": "The hypothesis claims: 'Value-equivalent models provide a formal basis for detecting when policies exploit reward misspecifications through divergent state-value predictions.' However, ref-004 does not support this claim. ref-004 states that value-equivalent models 'yield the same Bellman updates' but does not link this property to reward misspecification detection. The paper focuses on model efficiency for value-based planning, not reward hacking. Additionally, the hypothesis claims: 'Our method identifies reward gaming through inconsistencies in the policy's internal value model, which should align with the true environment dynamics under an unhackable proxy.' ref-016 shows that 'unhackable' proxies are only possible for deterministic policies or finite policy sets, which the hypothesis does not address. The hypothesis also claims: 'Success requires >90% true positive rate with <5% false positives in adversarial scenarios.' No reference establishes this as a necessary or sufficient condition for reward hacking detection.",
+     "vague": "The evaluation section lacks: 1) a specific named dataset or CARLA environment configuration; 2) a baseline that isolates the value-equivalent model component (e.g., a non-value-equivalent model baseline); 3) a measure of 'detection delay' definition; 4) a description of how the 'threshold (learned from safe trajectories)' is determined. The approach section lacks: 1) a precise definition of 'divergent state-value predictions' (e.g., L2 distance, KL divergence); 2) a specification of how 'online inverse dynamics learning' is implemented. The central claim is not tested because: 1) the evaluation does not compare against a model that perfectly describes the environment (ref-004's 'single point' case) to verify if discrepancies are due to reward misspecification rather than model inaccuracy; 2) the evaluation does not test whether the method fails when the proxy is unhackable (ref-016's condition).",
+     "already_done": "",
+     "suggestion": "Formally define the relationship between value-equivalent model discrepancies and reward misspecification. ref-004's 'feasible solutions' analysis could be extended to show how model classes shrink under different reward misspecification levels, providing a theoretical basis for discrepancy thresholds. This would turn the informal 'inconsistencies' claim into a precise failure condition."
+    }
+   },
+   "refined": {
+    "title": "Reward-Gaming Detection via Value-Equivalent Model Discrepancy",
+    "summary": "We detect reward hacking in end-to-end driving policies by measuring discrepancies between value-equivalent model predictions and actual policy behavior. Our method identifies reward gaming through inconsistencies in the policy's internal value model, which should align with true dynamics under unhackable proxies for deterministic policies.",
+    "gap": "Existing reward hacking detection relies on post-hoc monitoring (ref-008, ref-019) or reward shaping, which may not generalize. Value-equivalent models (ref-004) provide a formal basis for detecting reward misspecifications through divergent state-value predictions, but this has not been applied to reward hacking detection. ref-016 shows unhackable proxies exist only for deterministic policies, a condition not addressed by current detection methods.",
+    "approach": "We train a value-equivalent model (ref-004) via Bellman update matching alongside the driving policy. During deployment, we compute L2 distance between the model's predicted state-values and the policy's trajectory values. Discrepancies exceeding a threshold (learned via Gaussian Process from safe trajectories in ref-008's environments) trigger alerts. The model is updated via inverse dynamics learning (ref-004) every 100 steps using trajectory batches.",
+    "evaluation": "We test on CARLA environments (ref-001, ref-005) with misspecified rewards (ref-008, ref-016). Metrics include true positive rate (TPR), false positive rate (FPR), and collision prevention rate. Baselines: (1) reward anomaly detection (ref-008) and (2) maximum-likelihood model (ref-004). Ablation: compare value-equivalent vs. maximum-likelihood models. Success requires TPR>90% with FPR<5% in adversarial scenarios.",
+    "support": [
+     "ref-001",
+     "ref-004",
+     "ref-005",
+     "ref-008",
+     "ref-016"
+    ]
+   },
+   "format_problems": [],
+   "refine_failed": false
+  }
+ ],
+ "scores": {
+  "s1-assumption": 5.0,
+  "s1-transfer": 4.5,
+  "s1-empirical": 1.0,
+  "s1-formal": 1.5,
+  "s2-assumption": 2.0,
+  "s2-transfer": 2.0,
+  "s2-empirical": 0.0,
+  "s3-assumption": 1.0,
+  "s3-transfer": 1.0
+ },
+ "rounds": {
+  "1": [
+   [
+    {
+     "a": "s1-empirical",
+     "b": "s1-transfer",
+     "points_a": 0.5,
+     "points_b": 1.5,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-empirical",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and more specific, coherent claims. It directly addresses the gap in existing end-to-end autonomous driving models by integrating value-equivalent model learning (ref-004) with bisimulation metrics (ref-002) for compact state abstraction, a challenge explicitly mentioned in the gap statement. The approach is technically precise, defining a loss function that minimizes the difference between bisimulation and value-equivalence distances, which aligns with ref-004's value equivalence principle and ref-002's metric formulation. The evaluation plan is comprehensive, comparing against six baselines (ref-005, ref-009, ref-012, ref-031) on CARLA Town06 Leaderboard metrics, including inference FPS—a critical factor for real-world deployment. This contrasts with Hypothesis A, which focuses on town transfer generalization but only evaluates against three baselines and lacks explicit efficiency metrics. Hypothesis B's support for its claims is more extensive, citing all six relevant references, while Hypothesis A references only three. The problem gap in B is more sharply defined, highlighting the lack of formal guarantees in existing models, whereas A's gap is broader and less directly tied to the references' technical contributions. B's approach also better captures the implied research direction of unifying value equivalence and bisimulation for efficient planning, as seen in ref-004 and ref-009, while A's focus on appearance variations (weather, time of day) is narrower and less central to the corpus's emphasis on dynamics and value preservation."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the integration of value-equivalent model learning (ref-004) with bisimulation metrics (ref-002) for compact state abstraction in autonomous driving, a gap explicitly identified in the references. The approach is more specific, detailing how bisimulation distances are matched to value-equivalence error bounds via a concrete loss function and teacher model rollouts. The evaluation plan is comprehensive, comparing against multiple state-of-the-art baselines (TransFuser, VAD, UniAD) on CARLA with both performance and efficiency metrics, while also isolating the value-equivalence contribution via comparison to ref-009. Hypothesis B, while valid, focuses narrowly on generalization via town transfer without directly engaging with the full set of driving baselines (ref-005, ref-012, ref-031) or providing the same level of technical specificity in its approach. A's emphasis on parameter efficiency (<50% parameters) and inference speed (FPS) better aligns with the efficiency themes in ref-004, ref-005, and ref-012."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap. It specifically addresses the integration of value equivalence (ref-004) with bisimulation metrics (ref-002, ref-009) for autonomous driving generalization, a gap explicitly identified in the references. The approach is more specific, detailing how the metric is constructed with both bisimulation and value equivalence constraints, and how the encoder is trained with dual losses. The evaluation plan directly compares against relevant baselines (ref-002, ref-009) and includes validation of value preservation through latent distance-value difference correlation. While Hypothesis B cites more references, it lacks the same level of specificity in connecting value equivalence to bisimulation metrics, and its evaluation focuses on performance metrics without directly validating the theoretical contributions. The gap in B is less clearly tied to the references, and the approach's technical details (e.g., teacher model dependency) introduce ambiguity not grounded in the corpus. A's focus on generalization across town layouts and traffic patterns aligns better with the references' emphasis on invariant representations and value preservation."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and clearer capture of the implied problem gap/contribution. It specifically addresses the integration of value-equivalent model learning (ref-004) with bisimulation metrics (ref-002) for compact state abstraction in autonomous driving, directly responding to the gap where prior work lacks formal guarantees about behavioral equivalence under value-based planning. The approach is more specific, detailing how the encoder is trained to minimize the difference between bisimulation metric distances and value-equivalence error bounds using a privileged teacher model, with concrete evaluation metrics (driving score, collision rate, FPS) and comparisons against state-of-the-art baselines (TransFuser, VAD, UniAD). Hypothesis B, while relevant, focuses more broadly on generalization across unseen scenarios without the same level of technical specificity in how value equivalence and bisimulation are integrated. It also lacks direct comparison with leading autonomous driving frameworks like VAD and UniAD, which are central to the problem context. Hypothesis A's evaluation plan better aligns with the references' emphasis on practical performance metrics and system integration."
+      }
+     ]
+    },
+    {
+     "a": "s1-formal",
+     "b": "s1-assumption",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s1-formal",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It demonstrates stronger grounding in the references by explicitly integrating both bisimulation metrics (ref-002, ref-009) and value equivalence (ref-004) to address safety-critical state distinctions in autonomous driving, a gap not fully covered by Hypothesis A. B's approach is more specific in combining these concepts to preserve safety-relevant value differences (e.g., braking actions) while discarding irrelevant details, directly supported by ref-009's focus on invariant representations and ref-004's value-equivalence principle. The evaluation plan in B is more comprehensive, testing invariance to weather/lighting (ref-009) and including ablations that isolate the contributions of bisimulation and value equivalence, which better captures the implied problem gap of preserving safety-critical distinctions. While both hypotheses reference TransFuser (ref-005), B additionally cites ref-022 (which reaffirms TransFuser's limitations) and EMMA (ref-003), showing a broader engagement with the corpus. B's focus on closed-loop collision rates and route completion aligns with the practical benchmarks emphasized in ref-003 and ref-005, making its claims more coherent with the corpus's emphasis on real-world driving performance."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly connects value-equivalent bisimulation metrics to safety-critical state distinctions in end-to-end autonomous driving, addressing a gap where existing models (ref-003, ref-005, ref-022) lack formal safety guarantees during abstraction. The approach integrates bisimulation (ref-002, ref-009) and value equivalence (ref-004) with a dual loss function that preserves both dynamics and safety-relevant Q-value differences, supported by specific evaluation metrics (collision rates, route completion) and ablations isolating each component. Hypothesis B focuses narrowly on sensor fusion efficiency but lacks the safety-centric framing and broader evaluation scope of A. While B correctly identifies geometric fusion limitations (ref-005), its gap statement is less specific about how value-equivalent fusion improves safety, and its evaluation omits key metrics like latent-space bisimulation distances for safety-critical states. A's support set also includes ref-022, which reinforces its focus on complex driving scenarios, whereas B's omission of this reference weakens its grounding in multi-modal fusion challenges."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly connects value-equivalent bisimulation metrics to safety-critical state distinctions in autonomous driving, addressing a gap where existing models (ref-005, ref-022, ref-003) lack formal safety guarantees during abstraction. The approach combines bisimulation (ref-002, ref-009) and value equivalence (ref-004) with a loss function that penalizes Q-value differences for safety-critical actions, a specific mechanism supported by the references. The evaluation plan is more comprehensive, testing invariance to weather/lighting (ref-009) and including ablations that isolate the contributions of bisimulation and value equivalence. While Hypothesis A introduces transformer-based fusion (ref-005), it does not leverage the full set of references (e.g., ref-003, ref-022) and focuses less on safety-critical distinctions. B’s emphasis on preserving safety-relevant state differences aligns with the research perspective of identifying unmeasured phenomena (e.g., safety guarantees in end-to-end models)."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly connects value-equivalent bisimulation metrics to safety-critical state distinctions in end-to-end autonomous driving, addressing a gap where existing models (ref-003, ref-005, ref-022) lack formal safety guarantees during abstraction. The approach integrates bisimulation (ref-002, ref-009) and value equivalence (ref-004) with a dual loss function that preserves both dynamics and safety-relevant Q-value differences, a more specific and coherent claim than B's focus on computational efficiency. Evaluation metrics (closed-loop collision rates, route completion, latent-space bisimulation distances) directly measure safety and invariance, supported by comprehensive ablations. While B correctly identifies geometric fusion limitations, its focus on computational overhead is less central to the latent research idea implied by the corpus, which emphasizes safety and representation learning. A's inclusion of nuScenes benchmarks and weather perturbation tests also better aligns with ref-003/009's emphasis on real-world generalization."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-assumption",
+     "b": "s1-transfer",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically addresses the safety-critical aspect of autonomous driving by integrating value-equivalent bisimulation metrics to preserve safety-relevant state distinctions (e.g., collision risk) while discarding task-irrelevant details. This aligns with ref-009's focus on invariant representations and ref-004's value equivalence principle, but extends them by explicitly constraining safety-critical action-value differences. The evaluation plan in A is more comprehensive, testing closed-loop collision rates, route completion, and latent-space bisimulation distances for safety-critical state pairs, which directly measures the claimed safety benefits. In contrast, Hypothesis B focuses on efficiency (inference FPS, parameter count) without explicitly addressing safety-critical state distinctions, and its evaluation lacks specific metrics for safety-relevant state preservation. While B references VAD and UniAD, it does not leverage their vectorized/planning-oriented insights in its approach. A's gap statement more precisely identifies the limitation of existing work (lack of formal safety constraints in abstraction) compared to B's broader efficiency focus."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It specifically addresses the integration of value-equivalent model learning (ref-004) with bisimulation metrics (ref-002) for compact state abstraction in end-to-end driving, a gap explicitly identified in the references. The approach is technically precise, defining a concrete loss function that minimizes the difference between bisimulation metric distances and value-equivalence error bounds, directly supported by ref-002 and ref-004. The evaluation plan is comprehensive, comparing against multiple baselines (TransFuser, VAD, UniAD) on standardized CARLA metrics while isolating the value-equivalence contribution via ablation studies. In contrast, Hypothesis B, while valid, is less specific in its technical formulation and evaluation. Its focus on 'safety-critical actions' introduces a novel dimension not directly grounded in the references, and its inclusion of EMMA (ref-003) is tangential since EMMA's language-model approach is not central to the bisimulation/value-equivalence core. Hypothesis A's tighter alignment with the references' technical focus and its more rigorous evaluation design make it the stronger candidate."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly addresses safety-critical state distinctions (ref-002, ref-009) and integrates value equivalence (ref-004) to constrain safety-relevant action-value differences, which directly responds to the gap identified in end-to-end driving models (ref-003, ref-005, ref-022). The evaluation plan includes specific safety metrics (closed-loop collision rates, pre/post-brake bisimulation distances) and targeted ablations that isolate the contributions of bisimulation and value-equivalence components. In contrast, Hypothesis B focuses on efficiency (inference FPS, parameter counts) without explicitly addressing safety-critical distinctions, and its evaluation lacks specific safety metrics. While B references VAD (ref-012) and UniAD (ref-031), these are not central to the core theoretical contribution of combining bisimulation with value equivalence. A's emphasis on preserving safety-relevant state distinctions aligns more directly with the latent research idea implied by the corpus, particularly ref-009's focus on invariant representations for safety and ref-004's value-equivalence principle for planning."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and clearer capture of the implied problem gap/contribution. It explicitly defines a novel integration of bisimulation metrics (ref-002) with value-equivalence principles (ref-004) through a precise mathematical objective (minimizing ||d_bisim - d_value||), which directly addresses the gap between ref-009's invariant representations and ref-004's value-based model learning. The evaluation plan includes specific metrics (driving score, collision rate, FPS), ablation studies on latent dimensionality, and direct comparisons with geometric-fusion baselines (ref-005, ref-012, ref-031), providing concrete criteria for success. Hypothesis B, while also relevant, focuses more broadly on 'safety-critical' distinctions without the same level of formal specificity in its objective function or evaluation metrics. Its inclusion of ref-003 (language models) and ref-022 (repeating ref-005's TransFuser) introduces less direct connections to the core technical contribution compared to A's focused reference set. A's emphasis on parameter efficiency (<50% parameters) and teacher model dependency also aligns better with the references' themes of efficient representation learning (ref-002, ref-004, ref-009)."
+      }
+     ]
+    },
+    {
+     "a": "s1-empirical",
+     "b": "s1-formal",
+     "points_a": 0.5,
+     "points_b": 1.5,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-empirical",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis B more strongly grounds its claims in the reference corpus by directly addressing the limitations of geometric sensor fusion (ref-005) while integrating value equivalence (ref-004) and bisimulation metrics (ref-002, ref-009) into a novel fusion framework. It clearly identifies the problem gap of computationally heavy geometric alignment in complex scenarios and proposes a solution that replaces it with value-equivalent fusion, a direction not explicitly explored in the references. The approach specifically leverages transformer architectures (ref-005) for cross-modal alignment under bisimulation constraints, creating a more coherent technical narrative supported by references. Evaluation metrics (collision rates, inference speed) directly tie to autonomous driving performance and computational efficiency, with an ablation study isolating the bisimulation loss's impact. While Hypothesis A addresses generalization, its focus on town transfer lacks the same level of technical specificity in connecting value equivalence to sensor fusion, a key differentiator in B's stronger grounding and problem framing."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the computational inefficiency and failure modes of geometric sensor fusion (ref-005) by proposing a value-equivalent bisimulation approach that combines ref-004's value equivalence with ref-009's bisimulation metrics. The approach specifically leverages transformer architectures (ref-005) for fusion while enforcing Bellman update preservation (ref-004), creating a coherent integration of all cited references. The evaluation plan is more specific, comparing against TransFuser (ref-005) and EMMA (ref-003) on CARLA metrics with an ablation isolating the bisimulation loss effect. Hypothesis B, while valid, focuses more narrowly on generalization through town transfer without directly addressing the sensor fusion inefficiencies highlighted in ref-005. Its approach lacks explicit transformer-based fusion mechanisms and focuses on variational autoencoders not prominently featured in the references. The problem gap in A better unifies the references around a specific technical challenge (computationally heavy geometric fusion) rather than the broader generalization challenge in B."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-empirical",
+       "winner": "s1-empirical",
+       "rationale": "Hypothesis A more strongly grounds its claims in the references by directly addressing the integration of bisimulation metrics (ref-002, ref-009) with value equivalence (ref-004) to solve a well-defined problem gap: generalizing autonomous driving policies across unseen urban scenarios. It clearly connects ref-009's limitation (highway tasks with appearance variations) to the need for value-equivalent bisimulation in complex dynamics, and ref-004's theoretical framework to practical policy learning. The approach specifies how ref-002's MDP distance and ref-004's value equivalence are combined into a variational autoencoder with concrete losses, supported by CARLA evaluations measuring both performance and latent space properties. Hypothesis B, while valid, focuses on sensor fusion (ref-005) as its primary contribution, which is less central to the core references' focus on state representation and value preservation. Its gap statement conflates geometric fusion limitations with the theoretical potential of value-equivalent bisimulation, making the connection to references weaker. The evaluation also prioritizes speed/memory metrics over the latent space's value-preserving properties emphasized in ref-002/ref-004/ref-009."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-formal",
+       "winner": "s1-formal",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap/contribution. It directly addresses the computational inefficiency and failure cases of geometric sensor fusion (ref-005) by proposing a value-equivalent bisimulation approach that combines ref-004's value equivalence with ref-009's bisimulation metrics. The approach specifically leverages transformer architectures (ref-005) for fusion while enforcing Bellman update preservation (ref-004), creating a novel integration not present in prior work. The evaluation plan is more concrete, comparing against relevant baselines (TransFuser, EMMA) on established CARLA metrics and including an ablation study isolating the bisimulation loss effect. Hypothesis B, while valid, focuses more narrowly on generalization via latent space metrics without directly tackling the sensor fusion problem's computational challenges. Its evaluation on town transfer scenarios is less directly tied to the core limitations of existing fusion methods highlighted in ref-005. A's claims are more specific to the intersection of sensor fusion and value equivalence, making it a better fit for the latent research idea implied by the corpus."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s1-assumption",
+     "b": "s1-empirical",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A better fits the latent research idea implied by the bibliography. It demonstrates stronger grounding in the references by explicitly addressing the integration of value-equivalent bisimulation metrics (ref-002, ref-004, ref-009) for safety-critical autonomous driving, a gap identified in existing end-to-end models (ref-003, ref-005, ref-022). The approach is more specific, detailing a loss function that combines bisimulation and value-equivalence constraints to preserve safety-relevant state distinctions while discarding task-irrelevant details. The evaluation plan is comprehensive, comparing against state-of-the-art models (TransFuser, EMMA) on relevant benchmarks (CARLA, nuScenes) with metrics directly tied to safety (collision rates, route completion). In contrast, Hypothesis B, while well-supported by ref-002, ref-004, and ref-009, focuses narrowly on generalization via town transfer without addressing the safety-critical abstraction gap in end-to-end driving models. Its evaluation lacks direct comparison with leading end-to-end models (ref-003, ref-005, ref-022) and does not explicitly target safety metrics. Hypothesis A's clearer capture of the problem gap (safety-relevant abstraction in end-to-end driving) and more specific, coherent claims supported by references make it the stronger candidate."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s1-empirical",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis B better fits the latent research idea implied by the bibliography. It demonstrates stronger grounding in the references by explicitly addressing the gap between end-to-end autonomous driving models (ref-003, ref-005, ref-022) and the theoretical foundations of bisimulation (ref-002, ref-009) and value equivalence (ref-004). B's gap statement clearly identifies how existing driving models lack formal safety constraints during abstraction, while ref-009's bisimulation approach does not integrate value equivalence for safety-critical actions. The approach is more specific, detailing how the loss function combines bisimulation and value-equivalence terms to preserve safety distinctions (e.g., braking Q-values). Evaluation metrics (closed-loop collision rates, safety-critical latent distances) directly measure the implied contribution of safer abstractions. B also includes more comprehensive baselines (TransFuser, EMMA) and ablation studies, better aligning with the multi-modal driving context of ref-003, ref-005, ref-022. While A focuses on town transfer, B's emphasis on safety-critical state preservation addresses a more pressing challenge in autonomous driving, as evidenced by the references' focus on collision reduction (ref-005, ref-022) and joint task learning (ref-003)."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-assumption",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap/contribution. It specifically addresses the integration of value-equivalent bisimulation metrics for safety-critical autonomous driving, directly referencing how existing works (ref-005, ref-022, ref-003, ref-009, ref-004) fail to formally preserve safety-relevant state distinctions. The approach is more specific, combining bisimulation metrics (ref-002, ref-009) with value-equivalence constraints (ref-004) to explicitly penalize Q-value differences for safety actions, which aligns with ref-004's value equivalence principle and ref-009's invariant representation learning. The evaluation plan is more comprehensive, comparing against state-of-the-art models (TransFuser, EMMA) on established benchmarks (CARLA, nuScenes) with safety-focused metrics (collision rates, route completion). Hypothesis B, while valid, is narrower in scope (town transfer generalization) and less directly tied to the safety-critical aspects emphasized in the references. It also omits key references (ref-003, ref-005, ref-022) that Hypothesis A effectively integrates, weakening its grounding in the full corpus."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s1-empirical",
+       "winner": "s1-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It explicitly addresses the integration of value-equivalent bisimulation metrics (ref-002, ref-004, ref-009) with safety-critical constraints for end-to-end autonomous driving, directly responding to the limitations of existing approaches (ref-003, ref-005, ref-022) that lack formal safety guarantees during state abstraction. The approach is more specific, combining bisimulation losses with value-equivalence terms that penalize Q-value differences for safety-critical actions (e.g., braking), which aligns with ref-004's value equivalence principle and ref-009's invariant representation learning. The evaluation plan is comprehensive, comparing against state-of-the-art baselines (TransFuser, EMMA) on established benchmarks (CARLA, nuScenes) while including targeted ablations and safety-specific metrics (collision rates, latent-space bisimulation distances for pre/post-brake states). Hypothesis A, while relevant, focuses narrowly on town transfer without explicitly addressing safety-critical distinctions or benchmarking against leading end-to-end driving models, making B's claims more coherent and directly supported by the references."
+      }
+     ]
+    },
+    {
+     "a": "s1-transfer",
+     "b": "s1-formal",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "assumption",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates value-equivalent model learning (ref-004) with bisimulation metrics (ref-002) to create compact, task-relevant state representations for end-to-end autonomous driving, addressing the gap where existing methods lack formal guarantees for behavioral equivalence under value-based planning. The approach is more specific, detailing how the encoder is trained to minimize the difference between bisimulation metric distances and value-equivalence error bounds, with a precise objective function and evaluation metrics. It also comprehensively compares against a broader set of baselines (TransFuser, VAD, UniAD) and includes ablations on latent space dimensionality and teacher model dependency, providing a more coherent and specific claim supported by references. Hypothesis B, while relevant, focuses narrowly on sensor fusion and lacks the broader integration of value equivalence with bisimulation for state abstraction, and its evaluation is less comprehensive, missing comparisons with VAD and UniAD. A’s approach better aligns with the latent research idea of combining value equivalence and bisimulation for efficient, guaranteed state representations in autonomous driving."
+      },
+      {
+       "judge": "assumption",
+       "shown_first": "s1-formal",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates both value-equivalence (ref-004) and bisimulation metrics (ref-002) into a unified framework for compact state abstraction, directly addressing the gap where prior work (ref-009, ref-004) separately applies these concepts without integration. The approach's mathematical formulation (minimizing ||d_bisim - d_value||) is more precisely anchored to the references than Hypothesis A's less formalized 'bisimulation loss' description. B's evaluation plan is more comprehensive, comparing against a broader set of baselines (VAD, UniAD) and including critical ablations on latent dimensionality and teacher dependency. While both hypotheses cite ref-005, B's focus on end-to-end driving aligns better with ref-012 and ref-031's emphasis on efficient vectorized representations and planning-oriented architectures. The gap statement in B more accurately reflects the latent research idea implied by the corpus: reconciling value-equivalence and bisimulation for efficient planning, rather than merely sensor fusion (A's narrower focus)."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-transfer",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis A provides stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates ref-002's bisimulation metrics with ref-004's value equivalence to create compact state representations for end-to-end driving, directly addressing the gap where prior work (ref-009, ref-004) separately addressed representation learning and model-based RL without combining them for autonomous driving. The approach details a concrete loss function minimizing the difference between bisimulation and value-equivalence distances, with evaluation against a broader set of baselines (TransFuser, VAD, UniAD) and ablations testing latent space dimensionality and teacher model dependency. Hypothesis B focuses narrowly on sensor fusion via transformer attention (ref-005) with bisimulation loss, but lacks the explicit connection to compact state abstraction for planning efficiency and omits key references (ref-012, ref-031) relevant to the driving task. A's evaluation also measures inference FPS and parameter efficiency, aligning with the references' emphasis on computational overhead reduction (ref-004, ref-005, ref-012)."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s1-formal",
+       "winner": "s1-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It explicitly integrates both value-equivalence (ref-004) and bisimulation metrics (ref-002) into a unified framework for compact state abstraction, directly addressing the gap where prior work (ref-009, ref-004) separately applied these concepts without integration. The approach is more specific, detailing how bisimulation distances are mathematically aligned with value-equivalence error bounds via a differentiable loss term, which is directly supported by ref-002 and ref-004. The evaluation plan is more comprehensive, comparing against a broader set of baselines (TransFuser, VAD, UniAD) and including critical ablations on latent dimensionality and teacher dependency. While Hypothesis A focuses on sensor fusion, B's emphasis on compact state abstraction for efficient planning better aligns with the latent research idea implied by the corpus, which emphasizes reducing computational overhead while preserving task-relevant dynamics (ref-004, ref-009, ref-012). B's support set also includes ref-012 and ref-031, which are relevant to efficient planning architectures, further strengthening its coherence with the corpus."
+      }
+     ]
+    }
+   ]
+  ],
+  "2": [
+   [
+    {
+     "a": "s2-assumption",
+     "b": "s2-empirical",
+     "points_a": 2.0,
+     "points_b": 0.0,
+     "ballots": [
+      {
+       "judge": "transfer",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap. It directly integrates ref-002's bisimulation metrics with ref-008's reward hacking phase transitions, addressing the specific gap of combining formal state similarity measures with anomaly detection for reward hacking. The approach is more specific, detailing how bisimulation distances are weighted by anomaly scores derived from reward misspecification patterns, which is directly supported by the cited references. Hypothesis B, while relevant, relies more on external assumptions (e.g., true reward availability in CARLA) not explicitly supported by the references. It also cites ref-005 (sensor fusion for autonomous driving), which is tangential to the core reward hacking problem. Hypothesis A's evaluation plan is more tightly coupled to the references (ref-008's environments), whereas Hypothesis B's CARLA benchmark is less directly tied to the cited reward hacking literature (ref-008/ref-016)."
+      },
+      {
+       "judge": "transfer",
+       "shown_first": "s2-empirical",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap. It directly integrates ref-002's bisimulation metrics with ref-008's reward hacking phase transition analysis, addressing the specific gap that existing anomaly detectors lack formal state similarity grounding. The approach is more specific, detailing how bisimulation distances are weighted by anomaly scores derived from reward misspecification patterns. Evaluation on ref-008's environments with AUC-ROC metrics directly tests the method's ability to detect phase transitions, aligning with the references' focus. Hypothesis A, while relevant, makes broader claims about gradient alignment without direct support from the references (ref-005 focuses on sensor fusion, not reward hacking mitigation). Its evaluation on CARLA's NoCrash benchmark is less directly tied to the theoretical foundations of reward hacking in ref-008/ref-016, which focus on controlled environments rather than autonomous driving."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-assumption",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap. It directly integrates ref-002's bisimulation metrics with ref-008's reward hacking phase transitions, addressing the specific gap of combining formal state similarity measures with anomaly detection for reward hacking. The approach is more specific, detailing how bisimulation distances are weighted by anomaly scores derived from reward misspecification patterns. The evaluation plan is tightly coupled to ref-008's environments and metrics, with a clear ablation study isolating the contribution of anomaly weighting. Hypothesis B, while relevant, relies more on external assumptions (e.g., true reward availability in CARLA) not directly supported by the references. Its gradient alignment approach extends ref-016's static framework but lacks the precise formal grounding in bisimulation metrics that A provides. A's focus on detection aligns better with the references' emphasis on measuring and characterizing reward hacking, while B's mitigation approach introduces new components (auxiliary critics, gradient penalties) with less direct support from the corpus."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-empirical",
+       "winner": "s2-assumption",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap. It directly integrates ref-002's bisimulation metrics with ref-008's reward hacking phase transitions, addressing the gap that existing anomaly detectors lack formal state similarity grounding. The approach is specific, proposing anomaly-weighted bisimulation distances that combine ref-002's state similarity framework with ref-008's reward misspecification analysis. The evaluation plan is well-aligned with the references, testing on ref-008's environments and comparing against its baseline detectors. In contrast, Hypothesis A's gradient alignment approach lacks direct support from the references—ref-016 focuses on static proxy design rather than dynamic gradient alignment, and ref-005 is about sensor fusion, not reward hacking. While Hypothesis A identifies a valid gap, its proposed solution introduces novel components (auxiliary critics, gradient penalties) not grounded in the provided corpus, making B the better-supported hypothesis."
+      }
+     ]
+    }
+   ],
+   [
+    {
+     "a": "s2-assumption",
+     "b": "s2-transfer",
+     "points_a": 0.0,
+     "points_b": 2.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s2-assumption",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the reference corpus and a clearer capture of the implied problem gap/contribution. It directly addresses the limitations of pseudo-simulation (ref-010) by integrating value-equivalence principles (ref-004) to better approximate closed-loop evaluation, a gap explicitly identified in ref-034. The approach is more specific, detailing how Bellman error weighting improves over proximity weighting while incorporating progress/collision metrics from ref-034 and ref-010. The evaluation plan is robust, comparing against established benchmarks (CARLA Leaderboard, NAVSIM) with concrete metrics (R², collision recovery rate) and an ablation study. Hypothesis A, while relevant to reward hacking (ref-008) and bisimulation (ref-002), proposes a narrower contribution focused on anomaly detection without directly addressing the broader evaluation paradigm gap central to the autonomous driving references. Its support is limited to two references compared to B's four, and its claims about phase transition detection lack the same level of methodological specificity and benchmark alignment as B's value-equivalent weighting framework."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It directly addresses the limitations of pseudo-simulation (ref-010) in capturing value-relevant dynamics by integrating value-equivalence principles (ref-004), which aligns with the broader goal of improving open-loop evaluation's correlation with closed-loop performance (ref-034). The approach is specific, proposing a concrete weighting mechanism based on Bellman error that builds upon existing pseudo-simulation frameworks (ref-010, ref-020). The evaluation plan is well-structured, comparing against established baselines (ref-010) and using relevant metrics (collision recovery, route completion) tied to the references. In contrast, Hypothesis B, while addressing an important problem (reward hacking detection), has a narrower scope and less direct connection to the autonomous driving context emphasized in most references. Its evaluation focuses on environments from ref-008, which are not directly tied to the driving benchmarks discussed in ref-010, ref-020, and ref-034. The anomaly-weighting mechanism, though novel, lacks the same level of specificity in how it integrates with existing simulation frameworks compared to Hypothesis A's clear extension of pseudo-simulation."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-assumption",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis B demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It integrates value-equivalent models (ref-004) with pseudo-simulation (ref-010) to address the specific challenge of aligning open-loop evaluation with closed-loop performance in autonomous driving, as highlighted in ref-034. The approach explicitly connects Bellman error weighting to value-relevant dynamics, directly addressing the gap where pseudo-simulation lacks value-awareness. The evaluation plan is well-supported by references, using NAVSIM (ref-020) for benchmarking and ref-034's adversarial scenarios to test collision recovery. In contrast, Hypothesis A's connection between bisimulation metrics (ref-002) and reward hacking detection (ref-008) is less directly supported by the references, as ref-002 focuses on state aggregation for value approximation rather than anomaly detection. While the gap is plausible, the references do not explicitly establish bisimulation as a foundation for reward hacking detection, making B's claims more specific and coherently supported."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s2-transfer",
+       "winner": "s2-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap/contribution. It integrates value-equivalent models (ref-004) with pseudo-simulation (ref-010) to address the specific challenge of bridging open-loop and closed-loop evaluation in autonomous driving, supported by NAVSIM (ref-020) and reward misspecification insights (ref-034). The approach explicitly defines how Bellman error weighting improves over proximity weighting, with concrete evaluation metrics (R² correlation, collision recovery rate) tied to references. Hypothesis B, while relevant to reward hacking (ref-008) and bisimulation (ref-002), lacks the same level of specificity in connecting its anomaly-weighted bisimulation to autonomous driving contexts or closed-loop evaluation benchmarks. Its evaluation focuses on detection accuracy in synthetic environments, which is narrower in scope compared to A's end-to-end simulation benchmarking. A's claims are more directly supported by the corpus and address a more coherent problem gap."
+      }
+     ]
+    }
+   ]
+  ],
+  "3": [
+   [
+    {
+     "a": "s3-transfer",
+     "b": "s3-assumption",
+     "points_a": 1.0,
+     "points_b": 1.0,
+     "ballots": [
+      {
+       "judge": "empirical",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and more specific claims supported by the corpus. It directly addresses the problem of reward hacking detection (ref-008, ref-016) by leveraging value-equivalent models (ref-004) to identify discrepancies between predicted and actual state-values, a mechanism not previously applied to reward hacking. The hypothesis explicitly connects ref-016's theoretical findings on unhackable proxies for deterministic policies to the detection method, filling a gap in current approaches that rely on post-hoc monitoring or reward shaping. The evaluation plan is comprehensive, targeting CARLA environments (ref-001, ref-005) with clear metrics (TPR, FPR) and baselines (ref-008, ref-004). In contrast, Hypothesis B, while innovative in combining value-equivalent models with world-on-rails imitation (ref-024), focuses on a narrower gap (non-reactive simulation constraints) and lacks the same level of theoretical grounding in reward misspecification. Its evaluation, though valid, does not address the broader safety-critical issue of reward hacking detection as directly as Hypothesis A."
+      },
+      {
+       "judge": "empirical",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and more clearly captures an implied problem gap/contribution. It directly integrates two key ideas from the corpus: (1) world-on-rails imitation learning (ref-024) and (2) value-equivalent dynamics modeling (ref-004), which have not been combined before. The approach specifically addresses the gap that world-on-rails methods lack Bellman update preservation, while value-equivalent models haven't been applied to non-reactive imitation. The evaluation plan is concrete, comparing against state-of-the-art baselines (ref-023, ref-024) with measurable metrics (success rate, infraction frequency, Bellman error). Hypothesis B, while innovative, relies on unsupported claims about 'inverse dynamics learning' (not mentioned in ref-004) and references ref-019 (not in the corpus). Its evaluation metrics (TPR/FPR) are less directly tied to the driving task's core challenges than A's focus on closed-loop performance. A's claims are more specific and coherently supported by the corpus."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-transfer",
+       "winner": "s3-transfer",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the references and a clearer capture of the implied problem gap. It directly addresses reward hacking detection (ref-008, ref-016) by leveraging value-equivalent models (ref-004) to identify discrepancies between predicted and actual policy behavior, a novel application not previously explored. The approach is well-supported by references showing that value-equivalent models can capture dynamics relevant to value-based planning (ref-004) and that unhackable proxies exist only for deterministic policies (ref-016). The evaluation plan is specific, with measurable metrics (TPR, FPR) and direct comparisons to baselines (ref-008, ref-004). In contrast, Hypothesis B, while innovative in combining world-on-rails imitation (ref-024) with value-equivalent modeling (ref-004), has a narrower scope focused on policy training rather than safety-critical detection. Its gap is less urgent compared to the systemic risk of reward hacking, and its evaluation lacks the same level of specificity in failure conditions or theoretical grounding in reward misspecification (ref-008, ref-016). Hypothesis A’s focus on detection aligns more directly with the latent research idea of identifying and mitigating reward gaming, a critical challenge highlighted across multiple references."
+      },
+      {
+       "judge": "formal",
+       "shown_first": "s3-assumption",
+       "winner": "s3-assumption",
+       "rationale": "Hypothesis A demonstrates stronger grounding in the provided references and a clearer capture of the implied problem gap/contribution. It directly integrates two key concepts from the corpus: (1) value-equivalent dynamics modeling (ref-004) and (2) world-on-rails imitation learning (ref-024), explicitly addressing the gap where these approaches have not been combined. The approach is specific, proposing a constrained dynamics model that preserves Bellman updates for policy training, with evaluation metrics (success rate, infraction frequency, Bellman error) directly tied to reference benchmarks (CARLA NoCrash, ref-023/024). Hypothesis B, while innovative, makes weaker connections to the corpus: its core idea (detecting reward hacking via value-equivalent discrepancies) lacks direct support in the references, which focus on reward hacking detection via anomaly monitoring (ref-008) or theoretical unhackability conditions (ref-016) rather than value-model discrepancies. B’s evaluation metrics (TPR/FPR) are less grounded in the driving-specific references (ref-001/005) than A’s driving-centric metrics. A’s claims are more coherent with the corpus’s emphasis on closed-loop driving performance improvements."
+      }
+     ]
+    }
+   ]
+  ]
+ },
+ "selection_log": [
+  {
+   "id": "s1-assumption",
+   "decision": "chosen"
+  },
+  {
+   "id": "s1-transfer",
+   "decision": "same_topic",
+   "detail": {
+    "with": "s1-assumption",
+    "reason": "Both hypotheses target integrating value-equivalent bisimulation metrics to learn safety-critical latent representations for end-to-end autonomous driving, differing only in secondary goals (safety vs. efficiency) and specific evaluation metrics."
+   }
+  },
+  {
+   "id": "s2-assumption",
+   "decision": "chosen"
+  },
+  {
+   "id": "s2-transfer",
+   "decision": "chosen"
+  }
+ ],
+ "chosen": [
+  "s1-assumption",
+  "s2-assumption",
+  "s2-transfer"
+ ],
+ "fallback": []
+}
